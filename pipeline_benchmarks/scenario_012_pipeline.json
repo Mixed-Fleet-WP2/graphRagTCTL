@@ -1,0 +1,1341 @@
+{
+  "id": "scenario_012",
+  "domain": "manufacturing",
+  "prompt": "A robotic arm assembles components while a vision robot checks alignment. The vision robot must verify after each assembly step. If misalignment > 2 mm, assembly halts until correction is confirmed.",
+  "robots": [
+    "ArmBot",
+    "VisionBot"
+  ],
+  "constraints": [
+    "VisionBot verifies alignment after each ArmBot assembly step",
+    "ArmBot stops if misalignment exceeds 2 mm",
+    "Assembly resumes after correction confirmation"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "classification": {
+            "step": "classification",
+            "timing": 2.2987771034240723,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"VisionBot\",\"ArmBot\",\"verifies alignment\",\"assembly step\",\"after each\"],\"cues\":[\"after\",\"each\",\"must\"],\"trigger_text\":\"after each ArmBot assembly step\",\"response_text\":\"VisionBot verifies alignment\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.608297109603882,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"ArmBot.assembly_step_done --> VisionBot.verifying_alignment\",\"explanation\":\"The natural language constraint says that whenever ArmBot completes an assembly step, VisionBot should (at some point afterward) verify alignment. This is a sequential workflow where one action eventually follows another, so we use the \\\"-->\\\" operator. The trigger event/state is modeled as ArmBot.assembly_step_done and the subsequent action as VisionBot.verifying_alignment, giving the UPPAAL query ArmBot.assembly_step_done --> VisionBot.verifying_alignment.\",\"confidence\":0.88,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "ArmBot.assembly_step_done --> VisionBot.verifying_alignment",
+              "explanation": "The natural language constraint says that whenever ArmBot completes an assembly step, VisionBot should (at some point afterward) verify alignment. This is a sequential workflow where one action eventually follows another, so we use the \"-->\" operator. The trigger event/state is modeled as ArmBot.assembly_step_done and the subsequent action as VisionBot.verifying_alignment, giving the UPPAAL query ArmBot.assembly_step_done --> VisionBot.verifying_alignment.",
+              "confidence": 0.88,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ArmBot.assembly_step_done --> VisionBot.verifying_alignment"
+          },
+          "total_time": 4.921107053756714,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8795278072357178,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"ArmBot\",\"stops\",\"misalignment\",\"exceeds\",\"2 mm\",\"threshold\",\"limit\",\"halt\"],\"cues\":[\">\",\"if\",\"stops\"],\"trigger_text\":\"misalignment exceeds 2 mm\",\"response_text\":\"ArmBot stops\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.8694939613342285,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (misalignment > 2 && ArmBot.stopped)\",\"explanation\":\"The constraint says that whenever misalignment exceeds 2 mm, ArmBot must be in the stopped state. Using a safety-style invariant, we encode this as a state condition that must always hold: if misalignment > 2, then ArmBot is stopped. This is expressed directly as the conjunction under A[], ensuring the system never reaches a state where misalignment > 2 and ArmBot is not stopped.\",\"confidence\":0.78,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] (misalignment > 2 && ArmBot.stopped)",
+              "explanation": "The constraint says that whenever misalignment exceeds 2 mm, ArmBot must be in the stopped state. Using a safety-style invariant, we encode this as a state condition that must always hold: if misalignment > 2, then ArmBot is stopped. This is expressed directly as the conjunction under A[], ensuring the system never reaches a state where misalignment > 2 and ArmBot is not stopped.",
+              "confidence": 0.78,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (misalignment > 2 && ArmBot.stopped)"
+          },
+          "total_time": 5.767451047897339,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Assembly resumes after correction confirmation",
+          "classification": {
+            "step": "classification",
+            "timing": 3.1165049076080322,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"assembly\",\"resumes\",\"after\",\"correction\",\"confirmation\",\"workflow\",\"sequence\",\"order\"],\"cues\":[\"after\"],\"trigger_text\":\"correction confirmation\",\"response_text\":\"assembly resumes\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.6636111736297607,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"System.correction_confirmation --> System.assembly_resumes\",\"explanation\":\"The constraint states that assembly should (eventually) resume after correction confirmation. The sequential_workflow pattern with the --> operator expresses that whenever the system reaches the state/event correction_confirmation, it will eventually reach the state/event assembly_resumes, allowing for possible delays between them.\",\"confidence\":0.86,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "System.correction_confirmation --> System.assembly_resumes",
+              "explanation": "The constraint states that assembly should (eventually) resume after correction confirmation. The sequential_workflow pattern with the --> operator expresses that whenever the system reaches the state/event correction_confirmation, it will eventually reach the state/event assembly_resumes, allowing for possible delays between them.",
+              "confidence": 0.86,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "System.correction_confirmation --> System.assembly_resumes"
+          },
+          "total_time": 5.797777891159058,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "classification": {
+            "step": "classification",
+            "timing": 8.148056983947754,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"VisionBot\",\"ArmBot\",\"verify\",\"verifies\",\"alignment\",\"assembly step\",\"after each\",\"check\"],\"cues\":[\"after\",\"each\",\"verifies\",\"alignment\",\"ArmBot\",\"VisionBot\"],\"trigger_text\":\"each ArmBot assembly step\",\"response_text\":\"VisionBot verifies alignment\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.2362329959869385,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"ArmBot.assembly_step_complete --> VisionBot.verify_alignment\",\n  \"explanation\": \"For every completed ArmBot assembly step (trigger), VisionBot must eventually perform the alignment verification (response). This uses the sequential_workflow operator '-->' to state that the verify_alignment event follows each assembly_step_complete event.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "ArmBot.assembly_step_complete --> VisionBot.verify_alignment",
+              "explanation": "For every completed ArmBot assembly step (trigger), VisionBot must eventually perform the alignment verification (response). This uses the sequential_workflow operator '-->' to state that the verify_alignment event follows each assembly_step_complete event.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ArmBot.assembly_step_complete --> VisionBot.verify_alignment"
+          },
+          "total_time": 12.402778148651123,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "classification": {
+            "step": "classification",
+            "timing": 5.589064836502075,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"misalignment\",\"2 mm\",\"stop\",\"stops\",\"exceeds\",\">\",\"halt\",\"safety\",\"immediate stop\"],\"cues\":[\"if\",\"when\",\"exceeds\",\">\",\"must\",\"stop\",\"immediately\"],\"trigger_text\":\"misalignment exceeds 2 mm\",\"response_text\":\"ArmBot stops\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.103083848953247,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)\",\n  \"explanation\": \"This is a safety immediate-response property: whenever the trigger condition 'misalignment > 2 mm' holds, the robot must be in the stopped state immediately. Using A[] with 'imply' enforces that in every reachable state where ArmBot.misalignment > 2, ArmBot.stopped is true.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)",
+              "explanation": "This is a safety immediate-response property: whenever the trigger condition 'misalignment > 2 mm' holds, the robot must be in the stopped state immediately. Using A[] with 'imply' enforces that in every reachable state where ArmBot.misalignment > 2, ArmBot.stopped is true.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)"
+          },
+          "total_time": 11.714247226715088,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Assembly resumes after correction confirmation",
+          "classification": {
+            "step": "classification",
+            "timing": 6.734888792037964,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"assembly\",\"resume\",\"resumes\",\"correction\",\"confirmation\",\"resume after correction\"],\"cues\":[\"after\",\"when\",\"then\",\"must\"],\"trigger_text\":\"correction confirmation\",\"response_text\":\"assembly resumes\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.9213361740112305,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(Correction.confirmation) --> (Assembly.resumed)\",\"explanation\":\"This encodes the conditional-response: whenever a correction confirmation occurs (Correction.confirmation), the system must eventually reach the state where assembly resumes (Assembly.resumed). The \\\"-->\\\" operator expresses the triggered eventual behavior (condition leads to response).\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(Correction.confirmation) --> (Assembly.resumed)",
+              "explanation": "This encodes the conditional-response: whenever a correction confirmation occurs (Correction.confirmation), the system must eventually reach the state where assembly resumes (Assembly.resumed). The \"-->\" operator expresses the triggered eventual behavior (condition leads to response).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(Correction.confirmation) --> (Assembly.resumed)"
+          },
+          "total_time": 12.688579797744751,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "classification": {
+            "step": "classification",
+            "timing": 12.375811100006104,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"VisionBot\",\"alignment\",\"verification\",\"ArmBot\",\"assembly\",\"step\",\"verification-after-step\",\"check\"],\"cues\":[\"after\",\"then\",\"must\",\"step\",\"each\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 28.467560052871704,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (ArmBot.assembly_step_completed --> A<> VisionBot.alignment_verified)\",\"explanation\":\"This encodes that after every ArmBot assembly step completes, VisionBot must eventually verify alignment, capturing the sequential_workflow constraint that alignment verification occurs after each step.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (ArmBot.assembly_step_completed --> A<> VisionBot.alignment_verified)",
+              "explanation": "This encodes that after every ArmBot assembly step completes, VisionBot must eventually verify alignment, capturing the sequential_workflow constraint that alignment verification occurs after each step.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (ArmBot.assembly_step_completed --> A<> VisionBot.alignment_verified)"
+          },
+          "total_time": 40.87021803855896,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "classification": {
+            "step": "classification",
+            "timing": 13.167860984802246,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"misalignment\",\"safety\",\"stop\",\"threshold\",\"2 mm\",\"ArmBot\"],\"cues\":[\"then\",\"must\",\" > \"],\"trigger_text\":\"misalignment exceeds 2 mm\",\"response_text\":\"ArmBot stops.\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.382022857666016,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (ArmBot.misalignment > 2 --> ArmBot.stopped)\",\"explanation\":\"Implements the safety_immediate_response template: if misalignment exceeds 2 mm, ArmBot must stop immediately (no delay).\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (ArmBot.misalignment > 2 --> ArmBot.stopped)",
+              "explanation": "Implements the safety_immediate_response template: if misalignment exceeds 2 mm, ArmBot must stop immediately (no delay).",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (ArmBot.misalignment > 2 --> ArmBot.stopped)"
+          },
+          "total_time": 33.5865318775177,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Assembly resumes after correction confirmation",
+          "classification": {
+            "step": "classification",
+            "timing": 10.14186978340149,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"assembly\", \"resume\", \"correction\", \"confirmation\", \"workflow\", \"sequence\", \"process\"],\n  \"cues\": [\"after\", \"then\", \"correction\", \"confirmation\"],\n  \"trigger_text\": \"Assembly resumes after correction confirmation\",\n  \"response_text\": \"continue assembly after confirmation\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.135975122451782,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Correction.confirmation --> Assembly.resumes\",\"explanation\":\"This constraint expresses that once correction confirmation occurs, assembly resumes later, which fits the sequential_workflow pattern: action1 --> action2. The left side is the correction confirmation location and the right side is the assembly resume location, representing a subsequent step in the process (with possible delays).\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Correction.confirmation --> Assembly.resumes",
+              "explanation": "This constraint expresses that once correction confirmation occurs, assembly resumes later, which fits the sequential_workflow pattern: action1 --> action2. The left side is the correction confirmation location and the right side is the assembly resume location, representing a subsequent step in the process (with possible delays).",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Correction.confirmation --> Assembly.resumes"
+          },
+          "total_time": 22.306675910949707,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "classification": {
+            "step": "classification",
+            "timing": 2.8866281509399414,
+            "tokens": 193,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"verifies\", \"alignment\", \"after\", \"assembly\", \"step\"],\n  \"cues\": [\"after\", \"each\"],\n  \"trigger_text\": \"ArmBot assembly step\",\n  \"response_text\": \"VisionBot verifies alignment\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.3841629028320312,
+            "tokens": 562,
+            "raw_text": "{\n  \"query\": \"ArmBot.assembly_step --> VisionBot.verifies_alignment\",\n  \"explanation\": \"The constraint specifies that VisionBot must verify alignment after each ArmBot assembly step, which fits the sequential_workflow pattern where one action eventually follows another. The '-->' operator is used to indicate this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "ArmBot.assembly_step --> VisionBot.verifies_alignment",
+              "explanation": "The constraint specifies that VisionBot must verify alignment after each ArmBot assembly step, which fits the sequential_workflow pattern where one action eventually follows another. The '-->' operator is used to indicate this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ArmBot.assembly_step --> VisionBot.verifies_alignment"
+          },
+          "total_time": 5.291759967803955,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9814939498901367,
+            "tokens": 169,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"stops\", \"misalignment\", \"exceeds\", \"2 mm\"],\n    \"cues\": [\"if\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.1656110286712646,
+            "tokens": 651,
+            "raw_text": "{\n  \"query\": \"A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)\",\n  \"explanation\": \"The query follows the 'safety_immediate_response' pattern, ensuring that if the misalignment exceeds 2 mm, the ArmBot must stop immediately. The 'imply' operator is used within 'A[]' to enforce an immediate response without delay.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)",
+              "explanation": "The query follows the 'safety_immediate_response' pattern, ensuring that if the misalignment exceeds 2 mm, the ArmBot must stop immediately. The 'imply' operator is used within 'A[]' to enforce an immediate response without delay.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)"
+          },
+          "total_time": 4.171706914901733,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Assembly resumes after correction confirmation",
+          "classification": {
+            "step": "classification",
+            "timing": 1.6152970790863037,
+            "tokens": 159,
+            "raw_text": "{\n    \"pattern\": \"conditional_response\",\n    \"keywords\": [\"resumes\", \"after\", \"correction\", \"confirmation\"],\n    \"cues\": [\"after\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.655000686645508,
+            "tokens": 548,
+            "raw_text": "{\n  \"query\": \"Correction.confirmed --> Assembly.resumes\",\n  \"explanation\": \"The constraint 'Assembly resumes after correction confirmation' fits the conditional_response pattern, where the confirmation of correction acts as the condition that eventually leads to the response of assembly resuming. The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Correction.confirmed --> Assembly.resumes",
+              "explanation": "The constraint 'Assembly resumes after correction confirmation' fits the conditional_response pattern, where the confirmation of correction acts as the condition that eventually leads to the response of assembly resuming. The '-->' operator is used to represent this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Correction.confirmed --> Assembly.resumes"
+          },
+          "total_time": 4.287397861480713,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "classification": {
+            "step": "classification",
+            "timing": 3.3559038639068604,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"VisionBot\", \"verifies\", \"alignment\", \"after\", \"each\", \"ArmBot\", \"assembly\", \"step\"],\n  \"cues\": [\"after\", \"each\"],\n  \"trigger_text\": \"ArmBot assembly step\",\n  \"response_text\": \"VisionBot verifies alignment\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.424278020858765,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"ArmBot.assembly_step --> VisionBot.verifying_alignment\",\n  \"explanation\": \"This query captures the sequential workflow where after each ArmBot assembly step completes, VisionBot will eventually verify alignment. The --> operator ensures that every time ArmBot completes an assembly step, VisionBot will eventually transition to verifying alignment, matching the 'after each' relationship in the constraint.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "ArmBot.assembly_step --> VisionBot.verifying_alignment",
+              "explanation": "This query captures the sequential workflow where after each ArmBot assembly step completes, VisionBot will eventually verify alignment. The --> operator ensures that every time ArmBot completes an assembly step, VisionBot will eventually transition to verifying alignment, matching the 'after each' relationship in the constraint.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ArmBot.assembly_step --> VisionBot.verifying_alignment"
+          },
+          "total_time": 7.800019025802612,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "classification": {
+            "step": "classification",
+            "timing": 3.8388001918792725,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"ArmBot\", \"stops\", \"misalignment\", \"exceeds\", \"2 mm\"],\n  \"cues\": [\"if\", \"exceeds\"],\n  \"trigger_text\": \"misalignment exceeds 2 mm\",\n  \"response_text\": \"ArmBot stops\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.000302076339722,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)\",\n  \"explanation\": \"This query ensures that whenever the ArmBot's misalignment exceeds 2 mm, it must be in a stopped state immediately. The A[] operator ensures this safety property holds in all reachable states, and 'imply' enforces the immediate response without any delay, matching the safety_immediate_response pattern.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)",
+              "explanation": "This query ensures that whenever the ArmBot's misalignment exceeds 2 mm, it must be in a stopped state immediately. The A[] operator ensures this safety property holds in all reachable states, and 'imply' enforces the immediate response without any delay, matching the safety_immediate_response pattern.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)"
+          },
+          "total_time": 8.863667964935303,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Assembly resumes after correction confirmation",
+          "classification": {
+            "step": "classification",
+            "timing": 3.777761697769165,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"assembly\", \"resumes\", \"after\", \"correction\", \"confirmation\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"correction confirmation\",\n  \"response_text\": \"assembly resumes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.659533977508545,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CorrectionUnit.correction_confirmed --> AssemblyUnit.resuming\",\n  \"explanation\": \"This query captures the sequential workflow where assembly resumes after correction confirmation is received. The --> operator ensures that eventually after the correction is confirmed, the assembly process will resume its operation.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "CorrectionUnit.correction_confirmed --> AssemblyUnit.resuming",
+              "explanation": "This query captures the sequential workflow where assembly resumes after correction confirmation is received. The --> operator ensures that eventually after the correction is confirmed, the assembly process will resume its operation.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CorrectionUnit.correction_confirmed --> AssemblyUnit.resuming"
+          },
+          "total_time": 7.4596240520477295,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "classification": {
+            "step": "classification",
+            "timing": 2.2359981536865234,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"verify\", \"alignment\", \"after\", \"assembly\", \"step\", \"each\"],\n  \"cues\": [\"after\", \"each\"],\n  \"trigger_text\": \"after each ArmBot assembly step\",\n  \"response_text\": \"VisionBot verifies alignment\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.820152997970581,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"ArmBot.assembly_step --> VisionBot.verifies_alignment\",\n  \"explanation\": \"The constraint describes a sequential workflow where VisionBot's verification action is triggered after each ArmBot assembly step completes. The 'after each' phrase indicates an eventual triggered behavior (not immediate), making the sequential workflow operator '-->' appropriate. This follows the template pattern where one action (assembly_step) leads to another action (verifies_alignment) with possible delays between them.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "ArmBot.assembly_step --> VisionBot.verifies_alignment",
+              "explanation": "The constraint describes a sequential workflow where VisionBot's verification action is triggered after each ArmBot assembly step completes. The 'after each' phrase indicates an eventual triggered behavior (not immediate), making the sequential workflow operator '-->' appropriate. This follows the template pattern where one action (assembly_step) leads to another action (verifies_alignment) with possible delays between them.",
+              "confidence": 0.92,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ArmBot.assembly_step --> VisionBot.verifies_alignment"
+          },
+          "total_time": 4.07228684425354,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0534780025482178,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stops\", \"misalignment\", \"threshold\", \"exceeds\"],\n  \"cues\": [\">\"],\n  \"trigger_text\": \"misalignment exceeds 2 mm\",\n  \"response_text\": \"ArmBot stops\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0051088333129883,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)\",\n  \"explanation\": \"The constraint requires an immediate safety response: when misalignment exceeds 2 mm (trigger condition), ArmBot must stop (safety action) right now with no delay. This matches the safety_immediate_response pattern using A[] (always/universal quantification) with imply (immediate consequence). The misalignment measurement is compared against the 2 mm threshold, and the stopped state must hold whenever this condition is true.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)",
+              "explanation": "The constraint requires an immediate safety response: when misalignment exceeds 2 mm (trigger condition), ArmBot must stop (safety action) right now with no delay. This matches the safety_immediate_response pattern using A[] (always/universal quantification) with imply (immediate consequence). The misalignment measurement is compared against the 2 mm threshold, and the stopped state must hold whenever this condition is true.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)"
+          },
+          "total_time": 3.078948974609375,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Assembly resumes after correction confirmation",
+          "classification": {
+            "step": "classification",
+            "timing": 1.115286111831665,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"assembly\", \"resumes\", \"correction\", \"confirmation\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"correction confirmation\",\n  \"response_text\": \"assembly resumes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0816049575805664,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CorrectionConfirmation.confirmed --> Assembly.resumes\",\n  \"explanation\": \"This constraint describes a conditional_response pattern where correction confirmation is the triggering condition that eventually leads to assembly resuming. The '-->' operator captures the sequential workflow: once correction confirmation occurs, assembly will resume. This matches the pattern template 'condition --> response' with correction confirmation as the condition and assembly resuming as the eventual response.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "CorrectionConfirmation.confirmed --> Assembly.resumes",
+              "explanation": "This constraint describes a conditional_response pattern where correction confirmation is the triggering condition that eventually leads to assembly resuming. The '-->' operator captures the sequential workflow: once correction confirmation occurs, assembly will resume. This matches the pattern template 'condition --> response' with correction confirmation as the condition and assembly resuming as the eventual response.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CorrectionConfirmation.confirmed --> Assembly.resumes"
+          },
+          "total_time": 3.217986822128296,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "classification": {
+            "step": "classification",
+            "timing": 16.839908123016357,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"verifies\", \"alignment\", \"assembly\", \"step\"], \"cues\": [\"after\"], \"trigger_text\": \"each ArmBot assembly step\", \"response_text\": \"VisionBot verifies alignment\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.282172203063965,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"ArmBot.assembly_step_completed --> VisionBot.verifies_alignment\", \"explanation\": \"The constraint describes a conditional response where after each ArmBot assembly step (condition), VisionBot eventually verifies alignment (response), fitting the eventual triggered behavior pattern.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "ArmBot.assembly_step_completed --> VisionBot.verifies_alignment",
+              "explanation": "The constraint describes a conditional response where after each ArmBot assembly step (condition), VisionBot eventually verifies alignment (response), fitting the eventual triggered behavior pattern.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ArmBot.assembly_step_completed --> VisionBot.verifies_alignment"
+          },
+          "total_time": 29.140267848968506,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "classification": {
+            "step": "classification",
+            "timing": 13.297908306121826,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"ArmBot\", \"stops\", \"misalignment\", \"exceeds\", \"2 mm\"], \"cues\": [\"if\"], \"trigger_text\": \"misalignment exceeds 2 mm\", \"response_text\": \"ArmBot stops\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.54175114631653,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)\",\"explanation\":\"The query uses the safety immediate response pattern with A[] to ensure that whenever misalignment exceeds 2 mm, ArmBot stops in the same state, providing an immediate safety response as required by the constraint.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)",
+              "explanation": "The query uses the safety immediate response pattern with A[] to ensure that whenever misalignment exceeds 2 mm, ArmBot stops in the same state, providing an immediate safety response as required by the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)"
+          },
+          "total_time": 32.85948896408081,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Assembly resumes after correction confirmation",
+          "classification": {
+            "step": "classification",
+            "timing": 10.599508047103882,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"assembly\", \"resumes\", \"after\", \"correction\", \"confirmation\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"correction confirmation\",\n  \"response_text\": \"Assembly resumes\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.15225887298584,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"CorrectionConfirmation.confirmation --> Assembly.assembly_resume\", \"explanation\": \"The constraint describes a sequential workflow where assembly resuming follows correction confirmation, using the '-->' operator to denote eventual triggered behavior as per the pattern template.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "CorrectionConfirmation.confirmation --> Assembly.assembly_resume",
+              "explanation": "The constraint describes a sequential workflow where assembly resuming follows correction confirmation, using the '-->' operator to denote eventual triggered behavior as per the pattern template.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CorrectionConfirmation.confirmation --> Assembly.assembly_resume"
+          },
+          "total_time": 21.774258852005005,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "classification": {
+            "step": "classification",
+            "timing": 7.850080966949463,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"verifies\", \"after\", \"arambot\", \"assembly\", \"step\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"ArmBot assembly step\",\n  \"response_text\": \"VisionBot verifies alignment\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.538392066955566,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"ArmBot.assembly_step --> VisionBot.verifying_alignment\",\n  \"explanation\": \"This query uses the --> operator to model that after each ArmBot assembly step, VisionBot will eventually verify the alignment, aligning with the sequential_workflow pattern where one action follows another.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "ArmBot.assembly_step --> VisionBot.verifying_alignment",
+              "explanation": "This query uses the --> operator to model that after each ArmBot assembly step, VisionBot will eventually verify the alignment, aligning with the sequential_workflow pattern where one action follows another.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ArmBot.assembly_step --> VisionBot.verifying_alignment"
+          },
+          "total_time": 17.41082787513733,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "classification": {
+            "step": "classification",
+            "timing": 7.298483848571777,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stops\", \"misalignment\", \"exceeds\"],\n  \"cues\": [\"if\", \">\"],\n  \"trigger_text\": \"misalignment exceeds 2 mm\",\n  \"response_text\": \"ArmBot stops\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.51208519935608,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (ArmBot.misalignment > 2 --> not ArmBot.moving)\",\n  \"explanation\": \"This query ensures that whenever misalignment exceeds 2 mm, ArmBot eventually stops, aligning with the safety_immediate_response pattern by using the specified operator for the response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (ArmBot.misalignment > 2 --> not ArmBot.moving)",
+              "explanation": "This query ensures that whenever misalignment exceeds 2 mm, ArmBot eventually stops, aligning with the safety_immediate_response pattern by using the specified operator for the response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (ArmBot.misalignment > 2 --> not ArmBot.moving)"
+          },
+          "total_time": 23.835736751556396,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Assembly resumes after correction confirmation",
+          "classification": {
+            "step": "classification",
+            "timing": 7.113697052001953,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"assembly\", \"resumes\", \"after\", \"correction\", \"confirmation\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"correction confirmation\",\n  \"response_text\": \"assembly resumes\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.767767667770386,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Correction.confirmation --> Assembly.resumes\",\n  \"explanation\": \"The query uses the --> operator to represent that the assembly resumes only after correction confirmation, aligning with the sequential_workflow pattern where one action eventually follows another, as indicated by the keyword 'after' in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Correction.confirmation --> Assembly.resumes",
+              "explanation": "The query uses the --> operator to represent that the assembly resumes only after correction confirmation, aligning with the sequential_workflow pattern where one action eventually follows another, as indicated by the keyword 'after' in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Correction.confirmation --> Assembly.resumes"
+          },
+          "total_time": 21.91109037399292,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "classification": {
+            "step": "classification",
+            "timing": 28.615551948547363,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"VisionBot\", \"verifies\", \"alignment\", \"ArmBot\", \"assembly\", \"step\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"after each ArmBot assembly step\",\n  \"response_text\": \"VisionBot verifies alignment\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 43.305896282196045,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"ArmBot.assembly_step_complete --> VisionBot.verifies_alignment\",\n  \"explanation\": \"This query matches the constraint because the natural language uses 'after', a cue for sequential_workflow, indicating that after each ArmBot assembly step, VisionBot eventually verifies alignment, fitting the pattern of one action eventually following another with possible delays.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "ArmBot.assembly_step_complete --> VisionBot.verifies_alignment",
+              "explanation": "This query matches the constraint because the natural language uses 'after', a cue for sequential_workflow, indicating that after each ArmBot assembly step, VisionBot eventually verifies alignment, fitting the pattern of one action eventually following another with possible delays.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ArmBot.assembly_step_complete --> VisionBot.verifies_alignment"
+          },
+          "total_time": 71.94901990890503,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "classification": {
+            "step": "classification",
+            "timing": 42.67770218849182,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"ArmBot\", \"stops\", \"misalignment\", \"exceeds\", \"2 mm\"],\n  \"cues\": [\"if\", \">\"],\n  \"trigger_text\": \"misalignment exceeds 2 mm\",\n  \"response_text\": \"ArmBot stops\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 48.026363134384155,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(ArmBot.misalignment > 2) --> ArmBot.stopped\",\n  \"explanation\": \"This query matches the conditional_response pattern where the condition 'misalignment exceeds 2 mm' (represented as ArmBot.misalignment > 2) eventually triggers the response 'ArmBot stops' (represented as ArmBot.stopped), using the '-->' operator for sequential or eventual triggered behavior as specified in the pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(ArmBot.misalignment > 2) --> ArmBot.stopped",
+              "explanation": "This query matches the conditional_response pattern where the condition 'misalignment exceeds 2 mm' (represented as ArmBot.misalignment > 2) eventually triggers the response 'ArmBot stops' (represented as ArmBot.stopped), using the '-->' operator for sequential or eventual triggered behavior as specified in the pattern.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(ArmBot.misalignment > 2) --> ArmBot.stopped"
+          },
+          "total_time": 90.72662401199341,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Assembly resumes after correction confirmation",
+          "classification": {
+            "step": "classification",
+            "timing": 36.84039497375488,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"assembly\", \"resumes\", \"correction\", \"confirmation\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"correction confirmation\",\n  \"response_text\": \"assembly resumes\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 67.55493187904358,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"correction_confirmation --> assembly_resumes\",\n  \"explanation\": \"The constraint uses 'after' to indicate a temporal sequence where correction confirmation must occur before assembly resumes, fitting the sequential_workflow pattern. The leadsto operator '-->' is used to model that correction confirmation eventually triggers assembly resuming, consistent with similar examples and the pattern's template.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "correction_confirmation --> assembly_resumes",
+              "explanation": "The constraint uses 'after' to indicate a temporal sequence where correction confirmation must occur before assembly resumes, fitting the sequential_workflow pattern. The leadsto operator '-->' is used to model that correction confirmation eventually triggers assembly resuming, consistent with similar examples and the pattern's template.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "correction_confirmation --> assembly_resumes"
+          },
+          "total_time": 104.44413995742798,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7077569961547852,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"assembly\", \"verification\", \"step\", \"alignment\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"ArmBot assembly step\",\n  \"response_text\": \"VisionBot verifies alignment\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.181260585784912,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"ArmBot.assembly_step --> VisionBot.verifies_alignment\",\n  \"explanation\": \"The constraint 'VisionBot verifies alignment after each ArmBot assembly step' indicates a sequential workflow where the assembly step of ArmBot leads to VisionBot verifying the alignment. The '-->' operator captures the eventual following action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "ArmBot.assembly_step --> VisionBot.verifies_alignment",
+              "explanation": "The constraint 'VisionBot verifies alignment after each ArmBot assembly step' indicates a sequential workflow where the assembly step of ArmBot leads to VisionBot verifying the alignment. The '-->' operator captures the eventual following action.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ArmBot.assembly_step --> VisionBot.verifies_alignment"
+          },
+          "total_time": 1.920478105545044,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0520720481872559,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stop\", \"misalignment\", \"exceeds\", \"ArmBot\", \"safety\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"misalignment exceeds 2 mm\",\n  \"response_text\": \"ArmBot stops\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0797920227050781,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)\",\n  \"explanation\": \"The constraint states that if the misalignment exceeds 2mm, the ArmBot must stop immediately. This perfectly fits the 'safety_immediate_response' pattern. The A[] operator ensures that the condition 'ArmBot.misalignment > 2' always implies 'ArmBot.stopped' in the same state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)",
+              "explanation": "The constraint states that if the misalignment exceeds 2mm, the ArmBot must stop immediately. This perfectly fits the 'safety_immediate_response' pattern. The A[] operator ensures that the condition 'ArmBot.misalignment > 2' always implies 'ArmBot.stopped' in the same state.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)"
+          },
+          "total_time": 2.156092882156372,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Assembly resumes after correction confirmation",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8418459892272949,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"assembly\", \"resumes\", \"correction\", \"confirmation\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"correction confirmation\",\n  \"response_text\": \"Assembly resumes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.208669900894165,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Assembly.correction_confirmation --> Assembly.resumes\",\n  \"explanation\": \"The constraint describes a sequential workflow where assembly resumes after correction confirmation.  The '-->' operator captures the 'after' relationship and the eventual resumption of assembly following the confirmation of the correction.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Assembly.correction_confirmation --> Assembly.resumes",
+              "explanation": "The constraint describes a sequential workflow where assembly resumes after correction confirmation.  The '-->' operator captures the 'after' relationship and the eventual resumption of assembly following the confirmation of the correction.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Assembly.correction_confirmation --> Assembly.resumes"
+          },
+          "total_time": 2.0625410079956055,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "classification": {
+            "step": "classification",
+            "timing": 10.995875835418701,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"VisionBot\",\n    \"verifies\",\n    \"alignment\",\n    \"ArmBot\",\n    \"assembly\"\n  ],\n  \"cues\": [\n    \"after\",\n    \"each\"\n  ],\n  \"trigger_text\": \"each ArmBot assembly step\",\n  \"response_text\": \"VisionBot verifies alignment\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.574937105178833,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"ArmBot.AssemblyComplete --> VisionBot.VerifyingAlignment\",\n  \"explanation\": \"This query models the 'conditional_response' pattern where a trigger leads to a response. The trigger, 'each ArmBot assembly step', is represented by the state `ArmBot.AssemblyComplete`. The response, 'VisionBot verifies alignment', is represented by the state `VisionBot.VerifyingAlignment`. The `-->` (leads to) operator enforces that *after* the assembly step is complete, the alignment verification must *eventually* occur, satisfying the constraint.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "ArmBot.AssemblyComplete --> VisionBot.VerifyingAlignment",
+              "explanation": "This query models the 'conditional_response' pattern where a trigger leads to a response. The trigger, 'each ArmBot assembly step', is represented by the state `ArmBot.AssemblyComplete`. The response, 'VisionBot verifies alignment', is represented by the state `VisionBot.VerifyingAlignment`. The `-->` (leads to) operator enforces that *after* the assembly step is complete, the alignment verification must *eventually* occur, satisfying the constraint.",
+              "confidence": 0.95,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ArmBot.AssemblyComplete --> VisionBot.VerifyingAlignment"
+          },
+          "total_time": 27.605149030685425,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "classification": {
+            "step": "classification",
+            "timing": 8.709563970565796,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"ArmBot\",\n    \"stops\",\n    \"misalignment\",\n    \"exceeds\"\n  ],\n  \"cues\": [\n    \"if\",\n    \"exceeds\"\n  ],\n  \"trigger_text\": \"misalignment exceeds 2 mm\",\n  \"response_text\": \"ArmBot stops\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.476481199264526,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)\",\n  \"explanation\": \"The query uses the safety operator `A[]` (always) to ensure the rule is never violated. The expression `ArmBot.misalignment > 2` directly models the trigger 'misalignment exceeds 2 mm'. The `imply` operator enforces an immediate consequence, mandating that if the misalignment is over 2, the system must be in the `ArmBot.stopped` state in that exact same instant.\",\n  \"confidence\": 0.98,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)",
+              "explanation": "The query uses the safety operator `A[]` (always) to ensure the rule is never violated. The expression `ArmBot.misalignment > 2` directly models the trigger 'misalignment exceeds 2 mm'. The `imply` operator enforces an immediate consequence, mandating that if the misalignment is over 2, the system must be in the `ArmBot.stopped` state in that exact same instant.",
+              "confidence": 0.98,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)"
+          },
+          "total_time": 29.218118906021118,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Assembly resumes after correction confirmation",
+          "classification": {
+            "step": "classification",
+            "timing": 7.932501316070557,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"assembly\",\n    \"resumes\",\n    \"correction\",\n    \"confirmation\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"correction confirmation\",\n  \"response_text\": \"Assembly resumes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.538913011550903,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Correction.Confirmation --> Assembly.Resuming\",\n  \"explanation\": \"The constraint 'Assembly resumes after correction confirmation' specifies a sequential workflow. The '-->' (leads to) operator is used to verify this property. It checks that whenever the system reaches a state where the correction is confirmed (represented by the location `Correction.Confirmation`), it must eventually transition to a state where the assembly process resumes (represented by `Assembly.Resuming`).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "Correction.Confirmation --> Assembly.Resuming",
+              "explanation": "The constraint 'Assembly resumes after correction confirmation' specifies a sequential workflow. The '-->' (leads to) operator is used to verify this property. It checks that whenever the system reaches a state where the correction is confirmed (represented by the location `Correction.Confirmation`), it must eventually transition to a state where the assembly process resumes (represented by `Assembly.Resuming`).",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Correction.Confirmation --> Assembly.Resuming"
+          },
+          "total_time": 22.496421813964844,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

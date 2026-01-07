@@ -1,0 +1,21 @@
+{
+  "id": "scenario_004",
+  "domain": "manufacturing",
+  "prompt": "An assembly robot welds metal frames while a quality inspection drone hovers to scan the joints. The drone can start scanning only after welding is complete. If temperature exceeds 90°C, welding must pause until it drops below 70°C.",
+  "robots": ["WelderBot", "InspectorDrone"],
+  "constraints": [
+    "InspectorDrone starts scanning only after WelderBot finishes welding",
+    "WelderBot pauses welding when temperature exceeds 90°C",
+    "WelderBot resumes welding when temperature drops below 70°C"
+  ],
+  "reference_properties": [
+    "WelderBot.welding_finished --> InspectorDrone.scanning_started",
+    "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
+    "(WelderBot.temperature < 70) --> WelderBot.welding"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10"
+  }
+}

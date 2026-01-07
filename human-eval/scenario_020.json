@@ -1,0 +1,391 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-07T13:06:37.749Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_020",
+      "domain": "space",
+      "prompt": "An external repair drone fixes solar panels, while an inspection bot verifies alignment. at some point repair drone have to to reach a safe shutdown state. If misalignment persists for over 60 seconds we must switch inspection bot to emergency stop.",
+      "gold_standard": {
+        "constraints": [
+          "At some point RepairDrone have to reach a safe shutdown state",
+          "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+                "query": "A<> RepairDrone.safe_shutdown",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+                "query": "A[] (InspectBot.misaligned && not InspectBot.emergency_stop imply misalignClock <= 60)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+                "query": "A<> RepairDrone.safe_shutdown",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+                "query": "A[] (InspectBot.misaligned && not InspectBot.emergency_stop imply misalign_clock <= 60)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+                "query": "A<> RepairDrone.safe_shutdown",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+                "query": "A[] (MisalignmentActive imply clock <= 60) --> EmergencyStopTriggered",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+                "query": "A<> RepairDrone.safe_shutdown",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+                "query": "A[] (Misalignment.persists --> clock <= 60)",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+                "query": "A<> RepairDrone.safe_shutdown",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+                "query": "A[] (InspectBot.misalignment && not InspectBot.emergency_stop imply clock <= 60)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+                "query": "A<> RepairDrone.safe_shutdown_state",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+                "query": "A[] (InspectBot.misalignment && clock >= 60 --> InspectBot.emergency_stop)",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+                "query": "A<> RepairDrone.safe_shutdown_state",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+                "query": "A[] (InspectBot.misaligned && clock >= 60 --> InspectBot.emergency_stop_triggered)",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+                "query": "E<> RepairDrone.in_safe_shutdown_state",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+                "query": "A[] (misalignment && clock >= 60 --> emergency_stop)",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+                "query": "A<> RepairDrone.safe_shutdown",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+                "query": "A[] (InspectBot.misalignment && !InspectBot.emergency_stop imply clock <= 60)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+                "query": "E<> RepairDrone.safeShutdown",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+                "query": "A[] (InspectBot.misalignment imply misalignment_clock <= 60)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+                "query": "A<> RepairDrone.SafeShutdownState",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+                "query": "(InspectBot.Misaligned and InspectBot.t >= 60) --> InspectBot.EmergencyStop",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 15,
+    "inferred": 0,
+    "hallucination": 7,
+    "unlabeled": 0,
+    "total": 22
+  },
+  "performance_metrics": {
+    "precision": 0.6818181818181818,
+    "recall": 7.5,
+    "f1": 1.25
+  }
+}

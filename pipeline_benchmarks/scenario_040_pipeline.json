@@ -1,0 +1,2598 @@
+{
+  "id": "scenario_040",
+  "domain": "urban_service",
+  "prompt": "A street cleaning robot patrols city sidewalks every night. pausing automatically when pedestrians are detected within 2 meters. If debris container is full, it must return to depot for unloading and then resume the same route. If weather sensors detect rain intensity above 30%, it suspends cleaning and waits under shelter. All routes must eventually be cleaned before sunrise.",
+  "robots": [
+    "CleanBot"
+  ],
+  "constraints": [
+    "CleanBot pauses when pedestrians < 2 m",
+    "CleanBot returns to depot when debris container full",
+    "CleanBot after unloading container at depot it resume in the same route",
+    "CleanBot suspends operation in rain > 30% intensity",
+    "CleanBot must wait under shelter when rain intensity above 30%",
+    "Eventually all routes cleaned "
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 3.6031768321990967,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"CleanBot\",\"pauses\",\"pedestrians\",\"distance\",\"2 m\",\"proximity\",\"stop\"],\"cues\":[\"when\",\"<\"],\"trigger_text\":\"pedestrians < 2 m\",\"response_text\":\"CleanBot pauses\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.7858779430389404,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(pedestrians < 2 && CleanBot.proximity_sensor_ok) --> CleanBot.paused\",\"explanation\":\"The natural-language constraint says that when pedestrians are closer than 2 meters, CleanBot eventually pauses. This is a conditional response pattern, so we use the \\\"-->\\\" operator: the condition (pedestrians < 2) triggers the eventual response (CleanBot.paused). I included a plausible state predicate CleanBot.paused as the response location and pedestrians < 2 as the trigger condition, matching the template condition --> response.\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(pedestrians < 2 && CleanBot.proximity_sensor_ok) --> CleanBot.paused",
+              "explanation": "The natural-language constraint says that when pedestrians are closer than 2 meters, CleanBot eventually pauses. This is a conditional response pattern, so we use the \"-->\" operator: the condition (pedestrians < 2) triggers the eventual response (CleanBot.paused). I included a plausible state predicate CleanBot.paused as the response location and pedestrians < 2 as the trigger condition, matching the template condition --> response.",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(pedestrians < 2 && CleanBot.proximity_sensor_ok) --> CleanBot.paused"
+          },
+          "total_time": 6.407894134521484,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CleanBot returns to depot when debris container full",
+          "classification": {
+            "step": "classification",
+            "timing": 3.5422091484069824,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"CleanBot\",\"returns to depot\",\"debris container full\",\"robot behavior\",\"dock\",\"autonomous\"],\"cues\":[\"when\"],\"trigger_text\":\"debris container full\",\"response_text\":\"CleanBot returns to depot\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.535413980484009,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(CleanBot.debris_full) --> CleanBot.at_depot\",\"explanation\":\"The natural language constraint says that when the debris container is full, CleanBot should (eventually) return to the depot. This is a conditional eventual-response property, so the conditional_response pattern with the --> operator is appropriate. The trigger condition is modeled as CleanBot.debris_full, and the required response state as CleanBot.at_depot. The query asserts that whenever the debris container becomes full, it will eventually lead to a state where CleanBot is at the depot.\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(CleanBot.debris_full) --> CleanBot.at_depot",
+              "explanation": "The natural language constraint says that when the debris container is full, CleanBot should (eventually) return to the depot. This is a conditional eventual-response property, so the conditional_response pattern with the --> operator is appropriate. The trigger condition is modeled as CleanBot.debris_full, and the required response state as CleanBot.at_depot. The query asserts that whenever the debris container becomes full, it will eventually lead to a state where CleanBot is at the depot.",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CleanBot.debris_full) --> CleanBot.at_depot"
+          },
+          "total_time": 6.095406770706177,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "classification": {
+            "step": "classification",
+            "timing": 2.6573612689971924,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"CleanBot\",\"unloading\",\"depot\",\"resume\",\"same route\",\"after\"],\"cues\":[\"after\"],\"trigger_text\":\"after unloading container at depot\",\"response_text\":\"it must resume in the same route\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.337280750274658,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> CleanBot.same_route_resumed\",\"explanation\":\"The constraint says that CleanBot must resume in the same route after unloading at the depot, which is a liveness requirement that the desired state (\\\"same route resumed\\\") must eventually be reached. Using the eventual_completion pattern, we express that in all executions it is always the case that eventually CleanBot reaches a state representing that it has resumed the same route, here modeled as the location or condition CleanBot.same_route_resumed.\",\"confidence\":0.82,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> CleanBot.same_route_resumed",
+              "explanation": "The constraint says that CleanBot must resume in the same route after unloading at the depot, which is a liveness requirement that the desired state (\"same route resumed\") must eventually be reached. Using the eventual_completion pattern, we express that in all executions it is always the case that eventually CleanBot reaches a state representing that it has resumed the same route, here modeled as the location or condition CleanBot.same_route_resumed.",
+              "confidence": 0.82,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CleanBot.same_route_resumed"
+          },
+          "total_time": 6.023713111877441,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "classification": {
+            "step": "classification",
+            "timing": 2.856841802597046,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"CleanBot\",\"suspends operation\",\"rain\",\"30% intensity\",\"weather threshold\",\"shutdown\"],\"cues\":[\">\",\"%\"],\"trigger_text\":\"rain > 30% intensity\",\"response_text\":\"CleanBot suspends operation\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.177434206008911,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (rain_intensity > 30 && CleanBot.operating)\",\"explanation\":\"The constraint means CleanBot must not be operating whenever rain intensity exceeds 30%. Using the forbidden_state pattern, we encode this as a globally forbidden combination of conditions: it is never the case (A[] not ...) that rain_intensity > 30 and CleanBot is operating at the same time.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (rain_intensity > 30 && CleanBot.operating)",
+              "explanation": "The constraint means CleanBot must not be operating whenever rain intensity exceeds 30%. Using the forbidden_state pattern, we encode this as a globally forbidden combination of conditions: it is never the case (A[] not ...) that rain_intensity > 30 and CleanBot is operating at the same time.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (rain_intensity > 30 && CleanBot.operating)"
+          },
+          "total_time": 5.072484731674194,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "classification": {
+            "step": "classification",
+            "timing": 3.018502950668335,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"CleanBot\",\"wait under shelter\",\"rain intensity\",\"above 30%\",\"must\"],\"cues\":[\"must\",\"when\",\">\",\"%\"],\"trigger_text\":\"rain intensity above 30%\",\"response_text\":\"CleanBot waits under shelter\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.3287789821624756,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (rain_intensity > 30 && CleanBot.outside_shelter)\",\"explanation\":\"The natural-language requirement says that whenever rain intensity is above 30%, CleanBot must be waiting under shelter. Equivalently, it must never be the case that rain intensity is above 30% while CleanBot is outside shelter. The forbidden_state pattern A[] not(...) captures this by forbidding the state where rain_intensity > 30 and CleanBot is not under shelter (modeled here as outside_shelter).\",\"confidence\":0.88,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (rain_intensity > 30 && CleanBot.outside_shelter)",
+              "explanation": "The natural-language requirement says that whenever rain intensity is above 30%, CleanBot must be waiting under shelter. Equivalently, it must never be the case that rain intensity is above 30% while CleanBot is outside shelter. The forbidden_state pattern A[] not(...) captures this by forbidding the state where rain_intensity > 30 and CleanBot is not under shelter (modeled here as outside_shelter).",
+              "confidence": 0.88,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (rain_intensity > 30 && CleanBot.outside_shelter)"
+          },
+          "total_time": 5.368851184844971,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all routes cleaned ",
+          "classification": {
+            "step": "classification",
+            "timing": 2.22416615486145,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"all routes\",\"cleaned\",\"eventual completion\",\"liveness\"],\"cues\":[\"eventually\",\"all\",\"must\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.2090020179748535,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> all_routes_cleaned\",\"explanation\":\"The constraint says that at some point in time, all routes must be cleaned. This is a global liveness requirement, so we use the eventuality operator A<> applied to a state predicate representing that all routes are cleaned, here modeled as all_routes_cleaned.\",\"confidence\":0.9,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> all_routes_cleaned",
+              "explanation": "The constraint says that at some point in time, all routes must be cleaned. This is a global liveness requirement, so we use the eventuality operator A<> applied to a state predicate representing that all routes are cleaned, here modeled as all_routes_cleaned.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_routes_cleaned"
+          },
+          "total_time": 4.453249931335449,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 9.173897981643677,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"pause\",\"pauses\",\"pedestrian\",\"pedestrians\",\"distance\",\"2 m\",\"<2 m\",\"safety\",\"proximity\",\"stop\",\"immediate\",\"halt\"],\"cues\":[\"when\",\"<\",\"pause\",\"pedestrians\",\"m\"],\"trigger_text\":\"pedestrians < 2 m\",\"response_text\":\"CleanBot pauses\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.559554100036621,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (CleanBot.pedestrians_distance < 2 imply CleanBot.paused)\",\n  \"explanation\": \"This encodes an immediate safety requirement: whenever the measured pedestrian distance is less than 2 meters, CleanBot must be in the paused state right away. A[] enforces the property globally and 'imply' ensures the pause holds immediately whenever the trigger condition is true.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (CleanBot.pedestrians_distance < 2 imply CleanBot.paused)",
+              "explanation": "This encodes an immediate safety requirement: whenever the measured pedestrian distance is less than 2 meters, CleanBot must be in the paused state right away. A[] enforces the property globally and 'imply' ensures the pause holds immediately whenever the trigger condition is true.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (CleanBot.pedestrians_distance < 2 imply CleanBot.paused)"
+          },
+          "total_time": 22.74956703186035,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CleanBot returns to depot when debris container full",
+          "classification": {
+            "step": "classification",
+            "timing": 7.25011682510376,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"CleanBot\",\"debris\",\"container\",\"full\",\"depot\",\"return\"],\"cues\":[\"when\",\"full\",\"depot\",\"return\"],\"trigger_text\":\"debris container full\",\"response_text\":\"returns to depot\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.766304969787598,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(CleanBot.debris_container_full) --> A<> CleanBot.at_depot\",\"explanation\":\"This conditional_response query states that when the CleanBot's debris container is full (the trigger condition), the CleanBot must eventually return to the depot (A<> CleanBot.at_depot). The --> operator captures the triggered eventual behavior required by the constraint.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(CleanBot.debris_container_full) --> A<> CleanBot.at_depot",
+              "explanation": "This conditional_response query states that when the CleanBot's debris container is full (the trigger condition), the CleanBot must eventually return to the depot (A<> CleanBot.at_depot). The --> operator captures the triggered eventual behavior required by the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "(CleanBot.debris_container_full) --> A<> CleanBot.at_depot"
+          },
+          "total_time": 19.02944803237915,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "classification": {
+            "step": "classification",
+            "timing": 10.126358032226562,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"CleanBot\",\"unloading\",\"container\",\"depot\",\"resume\",\"same route\",\"route\"],\"cues\":[\"after\",\"resume\",\"must\",\"same\",\"route\"],\"trigger_text\":\"unloading container at depot\",\"response_text\":\"resume in the same route\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.659458875656128,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(CleanBot.unloading && CleanBot.at_depot) --> (CleanBot.resumed && CleanBot.route == CleanBot.route_before_unload)\",\"explanation\":\"This conditional_response query states: whenever CleanBot is unloading a container at the depot (CleanBot.unloading && CleanBot.at_depot), it must eventually resume and be on the same route it was on before unloading (CleanBot.resumed && CleanBot.route == CleanBot.route_before_unload). It follows the pattern condition --> response to enforce the triggered eventual behavior.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(CleanBot.unloading && CleanBot.at_depot) --> (CleanBot.resumed && CleanBot.route == CleanBot.route_before_unload)",
+              "explanation": "This conditional_response query states: whenever CleanBot is unloading a container at the depot (CleanBot.unloading && CleanBot.at_depot), it must eventually resume and be on the same route it was on before unloading (CleanBot.resumed && CleanBot.route == CleanBot.route_before_unload). It follows the pattern condition --> response to enforce the triggered eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CleanBot.unloading && CleanBot.at_depot) --> (CleanBot.resumed && CleanBot.route == CleanBot.route_before_unload)"
+          },
+          "total_time": 21.81633687019348,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "classification": {
+            "step": "classification",
+            "timing": 8.979649066925049,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"rain\",\"intensity\",\"30%\",\"suspend\",\"suspends\",\"operation\",\"halt\",\"stop\"],\"cues\":[\"when\",\"if\",\">\",\"%\",\"in\",\"suspend\"],\"trigger_text\":\"rain > 30% intensity\",\"response_text\":\"CleanBot suspends operation\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.500163078308105,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(Environment.rain_intensity > 30) --> CleanBot.operation_suspended\",\n  \"explanation\": \"Maps 'rain > 30% intensity' to Environment.rain_intensity > 30 and 'CleanBot suspends operation' to CleanBot.operation_suspended. The '-->' operator encodes the conditional-response pattern: whenever the condition (rain intensity > 30) holds, the system must eventually reach the state where CleanBot has suspended operation.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}",
+            "uppaal_result": {
+              "query": "(Environment.rain_intensity > 30) --> CleanBot.operation_suspended",
+              "explanation": "Maps 'rain > 30% intensity' to Environment.rain_intensity > 30 and 'CleanBot suspends operation' to CleanBot.operation_suspended. The '-->' operator encodes the conditional-response pattern: whenever the condition (rain intensity > 30) holds, the system must eventually reach the state where CleanBot has suspended operation.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(Environment.rain_intensity > 30) --> CleanBot.operation_suspended"
+          },
+          "total_time": 18.50253915786743,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "classification": {
+            "step": "classification",
+            "timing": 5.9317710399627686,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"CleanBot\",\"wait\",\"shelter\",\"rain intensity\",\"above 30%\",\"rain\",\">30%\",\"must wait\",\"take shelter\"],\"cues\":[\"when\",\"must\",\">\",\"%\",\"above\"],\"trigger_text\":\"rain intensity above 30%\",\"response_text\":\"wait under shelter\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.240548133850098,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(Rain.intensity > 30) --> CleanBot.wait_under_shelter\",\"explanation\":\"This uses the conditional_response pattern: if the condition (Rain.intensity > 30) holds, then CleanBot must eventually be in the waiting-under-shelter state (CleanBot.wait_under_shelter). The '-->' operator captures the triggered eventual response required by the constraint.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(Rain.intensity > 30) --> CleanBot.wait_under_shelter",
+              "explanation": "This uses the conditional_response pattern: if the condition (Rain.intensity > 30) holds, then CleanBot must eventually be in the waiting-under-shelter state (CleanBot.wait_under_shelter). The '-->' operator captures the triggered eventual response required by the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(Rain.intensity > 30) --> CleanBot.wait_under_shelter"
+          },
+          "total_time": 21.19484305381775,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all routes cleaned ",
+          "classification": {
+            "step": "classification",
+            "timing": 13.18018889427185,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"all routes\",\"routes\",\"clean\",\"cleaned\",\"completion\"],\"cues\":[\"eventually\",\"all\",\"must\",\"cleaned\"],\"trigger_text\":null,\"response_text\":\"all routes cleaned\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.309219121932983,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> Routes.all_cleaned\",\n  \"explanation\": \"This is a liveness property using the eventual_completion pattern: A<> Routes.all_cleaned asserts that on all execution paths, eventually the state where all routes are cleaned will be reached, matching the natural-language constraint \\\"Eventually all routes cleaned.\\\"\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A<> Routes.all_cleaned",
+              "explanation": "This is a liveness property using the eventual_completion pattern: A<> Routes.all_cleaned asserts that on all execution paths, eventually the state where all routes are cleaned will be reached, matching the natural-language constraint \"Eventually all routes cleaned.\"",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Routes.all_cleaned"
+          },
+          "total_time": 22.50567078590393,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 8.170238971710205,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"pause\",\"pedestrians\",\"distance\",\"2 m\",\"safety\",\"conditional\"],\"cues\":[\"when\",\"<\"],\"trigger_text\":\"when pedestrians distance < 2 m\",\"response_text\":\"pause\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.903655052185059,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(pedestrians_distance < 2) --> CleanBot.pause\",\"explanation\":\"This uses the conditional_response pattern: when the condition pedestrians_distance < 2 is true, the system transitions to the Pause state (CleanBot.pause). It matches the NL constraint 'CleanBot pauses when pedestrians < 2 m' by modeling 'when condition -> response'.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(pedestrians_distance < 2) --> CleanBot.pause",
+              "explanation": "This uses the conditional_response pattern: when the condition pedestrians_distance < 2 is true, the system transitions to the Pause state (CleanBot.pause). It matches the NL constraint 'CleanBot pauses when pedestrians < 2 m' by modeling 'when condition -> response'.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(pedestrians_distance < 2) --> CleanBot.pause"
+          },
+          "total_time": 18.089399099349976,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CleanBot returns to depot when debris container full",
+          "classification": {
+            "step": "classification",
+            "timing": 9.288506031036377,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"return\",\"depot\",\"full\",\"debris\",\"conditional\"],\"cues\":[\"when\",\"then\",\"if\"],\"trigger_text\":\"when debris container is full\",\"response_text\":\"return to depot\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.229122877120972,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(DebrisContainer.full) --> CleanBot.return_to_depot\",\"explanation\":\"The natural language constraint is a conditional_response: when debris container is full, the robot eventually returns to the depot. This maps to a transition with a condition DebrisContainer.full and a subsequent action CleanBot.return_to_depot, using the '-->' operator.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(DebrisContainer.full) --> CleanBot.return_to_depot",
+              "explanation": "The natural language constraint is a conditional_response: when debris container is full, the robot eventually returns to the depot. This maps to a transition with a condition DebrisContainer.full and a subsequent action CleanBot.return_to_depot, using the '-->' operator.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(DebrisContainer.full) --> CleanBot.return_to_depot"
+          },
+          "total_time": 18.536966800689697,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "classification": {
+            "step": "classification",
+            "timing": 8.760233879089355,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"unloading\",\"depot\",\"resume\",\"same_route\",\"route\",\"CleanBot\"],\"cues\":[\"after\",\"then\"],\"trigger_text\":\"after unloading container at depot\",\"response_text\":\"resume on the same route\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.505306243896484,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"CleanBot.unloading_at_depot --> CleanBot.resume_same_route\",\"explanation\":\"Expresses a sequential workflow where after the unloading_at_depot action, the resume_same_route action follows later, matching the constraint that after unloading the container at the depot the Bot resumes the same route.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "CleanBot.unloading_at_depot --> CleanBot.resume_same_route",
+              "explanation": "Expresses a sequential workflow where after the unloading_at_depot action, the resume_same_route action follows later, matching the constraint that after unloading the container at the depot the Bot resumes the same route.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CleanBot.unloading_at_depot --> CleanBot.resume_same_route"
+          },
+          "total_time": 17.2859308719635,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "classification": {
+            "step": "classification",
+            "timing": 11.856802225112915,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"safety\",\"rain\",\"intensity\",\"threshold\",\"suspend\",\"operation\",\"conditional\"],\"cues\":[\">\",\"%\"],\"trigger_text\":\"rain intensity > 30%\",\"response_text\":\"suspend operation\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.938606977462769,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(rain_intensity > 30) --> CleanBot.suspend_operation\",\"explanation\":\"Follows the conditional_response pattern: when the condition (rain_intensity > 30) holds, the system eventually performs the response (suspend_operation).\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(rain_intensity > 30) --> CleanBot.suspend_operation",
+              "explanation": "Follows the conditional_response pattern: when the condition (rain_intensity > 30) holds, the system eventually performs the response (suspend_operation).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(rain_intensity > 30) --> CleanBot.suspend_operation"
+          },
+          "total_time": 26.81064510345459,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "classification": {
+            "step": "classification",
+            "timing": 18.026233911514282,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"rain\",\"rain intensity\",\"shelter\",\"wait\",\"conditional\"],\"cues\":[\"when\",\"above\",\"%\",\"must\"],\"trigger_text\":\"rain intensity above 30%\",\"response_text\":\"wait under shelter\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.899832248687744,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(Rain.intensity > 30) --> (CleanBot.at_shelter)\",\"explanation\":\"This encodes the NL constraint as a conditional response: if rain intensity exceeds 30%, CleanBot transitions to the shelter-wait state. It follows the conditional_response pattern, using the --> operator to indicate a triggered eventual state change.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(Rain.intensity > 30) --> (CleanBot.at_shelter)",
+              "explanation": "This encodes the NL constraint as a conditional response: if rain intensity exceeds 30%, CleanBot transitions to the shelter-wait state. It follows the conditional_response pattern, using the --> operator to indicate a triggered eventual state change.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(Rain.intensity > 30) --> (CleanBot.at_shelter)"
+          },
+          "total_time": 35.94184494018555,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all routes cleaned ",
+          "classification": {
+            "step": "classification",
+            "timing": 15.56708574295044,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventual_completion\",\"eventually\",\"cleanup\",\"routes\",\"all\",\"cleaned\"],\"cues\":[\"when\",\"after\",\"then\",\"eventually\",\"never\",\"must\",\"can\",\"<\",\">\",\"%\"],\"trigger_text\":\"Eventually all routes cleaned\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.17340898513794,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> AllRoutesCleaned\",\"explanation\":\"Uses the liveness form A<> to express that eventually the global predicate AllRoutesCleaned becomes true, meaning all routes are cleaned. This matches the 'eventual_completion' pattern for a must-eventually-happen property.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> AllRoutesCleaned",
+              "explanation": "Uses the liveness form A<> to express that eventually the global predicate AllRoutesCleaned becomes true, meaning all routes are cleaned. This matches the 'eventual_completion' pattern for a must-eventually-happen property.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> AllRoutesCleaned"
+          },
+          "total_time": 32.760358810424805,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0124671459197998,
+            "tokens": 202,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"pauses\", \"pedestrians\", \"<\", \"2 m\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text/response_text\": {\n    \"trigger_text\": \"pedestrians < 2 m\",\n    \"response_text\": \"CleanBot pauses\"\n  }\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.82651686668396,
+            "tokens": 644,
+            "raw_text": "{\n  \"query\": \"A[] (CleanBot.pedestrian_distance < 2 imply CleanBot.paused)\",\n  \"explanation\": \"The query follows the 'safety_immediate_response' pattern, ensuring that CleanBot pauses immediately when pedestrians are detected within 2 meters. The 'imply' operator is used to enforce an immediate response, as required by the pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (CleanBot.pedestrian_distance < 2 imply CleanBot.paused)",
+              "explanation": "The query follows the 'safety_immediate_response' pattern, ensuring that CleanBot pauses immediately when pedestrians are detected within 2 meters. The 'imply' operator is used to enforce an immediate response, as required by the pattern.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (CleanBot.pedestrian_distance < 2 imply CleanBot.paused)"
+          },
+          "total_time": 2.8642990589141846,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CleanBot returns to depot when debris container full",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8395037651062012,
+            "tokens": 187,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"returns\", \"depot\", \"debris container\", \"full\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"debris container full\",\n  \"response_text\": \"CleanBot returns to depot\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4835758209228516,
+            "tokens": 581,
+            "raw_text": "{\n  \"query\": \"DebrisContainer.full --> CleanBot.at_depot\",\n  \"explanation\": \"The constraint describes a conditional response where the CleanBot returns to the depot when the debris container is full. This matches the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The '-->' operator is appropriate here as it represents an eventual response to a condition being met.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DebrisContainer.full --> CleanBot.at_depot",
+              "explanation": "The constraint describes a conditional response where the CleanBot returns to the depot when the debris container is full. This matches the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The '-->' operator is appropriate here as it represents an eventual response to a condition being met.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DebrisContainer.full --> CleanBot.at_depot"
+          },
+          "total_time": 2.341791868209839,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7954971790313721,
+            "tokens": 165,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"after\", \"resume\", \"route\"],\n  \"cues\": [\"after\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2865052223205566,
+            "tokens": 562,
+            "raw_text": "{\n  \"query\": \"CleanBot.unloading_complete --> CleanBot.resume_route\",\n  \"explanation\": \"The constraint specifies that after CleanBot finishes unloading the container at the depot, it should resume in the same route. This follows the sequential_workflow pattern where one action eventually follows another, using the 'after' keyword as a cue. The '-->' operator is appropriate for this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "CleanBot.unloading_complete --> CleanBot.resume_route",
+              "explanation": "The constraint specifies that after CleanBot finishes unloading the container at the depot, it should resume in the same route. This follows the sequential_workflow pattern where one action eventually follows another, using the 'after' keyword as a cue. The '-->' operator is appropriate for this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CleanBot.unloading_complete --> CleanBot.resume_route"
+          },
+          "total_time": 2.097208023071289,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9435520172119141,
+            "tokens": 168,
+            "raw_text": "{\n    \"pattern\": \"forbidden_state\",\n    \"keywords\": [\"suspends\", \"operation\", \"rain\", \"intensity\"],\n    \"cues\": [\">\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2103021144866943,
+            "tokens": 574,
+            "raw_text": "{\n  \"query\": \"A[] not (rain_intensity > 30 && CleanBot.operating)\",\n  \"explanation\": \"This query ensures that the CleanBot never operates when the rain intensity is greater than 30%. It uses the forbidden_state pattern to prevent the dangerous state of operating in heavy rain.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (rain_intensity > 30 && CleanBot.operating)",
+              "explanation": "This query ensures that the CleanBot never operates when the rain intensity is greater than 30%. It uses the forbidden_state pattern to prevent the dangerous state of operating in heavy rain.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (rain_intensity > 30 && CleanBot.operating)"
+          },
+          "total_time": 2.174293041229248,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9118900299072266,
+            "tokens": 204,
+            "raw_text": "{\n    \"pattern\": \"conditional_response\",\n    \"keywords\": [\"wait\", \"shelter\", \"rain intensity\", \"above 30%\"],\n    \"cues\": [\"must\", \"when\", \"above\", \"%\"],\n    \"trigger_text\": \"rain intensity above 30%\",\n    \"response_text\": \"CleanBot must wait under shelter\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.205801010131836,
+            "tokens": 586,
+            "raw_text": "{\n  \"query\": \"(rain_intensity > 30) --> CleanBot.wait_under_shelter\",\n  \"explanation\": \"The query follows the conditional_response pattern where the condition 'rain intensity above 30%' triggers the eventual response 'CleanBot must wait under shelter'. The '-->' operator is used to represent the eventual triggered behavior as specified in the pattern context.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(rain_intensity > 30) --> CleanBot.wait_under_shelter",
+              "explanation": "The query follows the conditional_response pattern where the condition 'rain intensity above 30%' triggers the eventual response 'CleanBot must wait under shelter'. The '-->' operator is used to represent the eventual triggered behavior as specified in the pattern context.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(rain_intensity > 30) --> CleanBot.wait_under_shelter"
+          },
+          "total_time": 2.142545223236084,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all routes cleaned ",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7964191436767578,
+            "tokens": 157,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"all\", \"cleaned\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5067429542541504,
+            "tokens": 533,
+            "raw_text": "{\n  \"query\": \"A<> all_routes_cleaned\",\n  \"explanation\": \"The constraint 'Eventually all routes cleaned' indicates a liveness property where the system must eventually reach a state where all routes are cleaned. The pattern 'eventual_completion' is used for such liveness properties, and the operator A<> is appropriate as it specifies that something must eventually happen globally.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> all_routes_cleaned",
+              "explanation": "The constraint 'Eventually all routes cleaned' indicates a liveness property where the system must eventually reach a state where all routes are cleaned. The pattern 'eventual_completion' is used for such liveness properties, and the operator A<> is appropriate as it specifies that something must eventually happen globally.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_routes_cleaned"
+          },
+          "total_time": 2.318402051925659,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 3.283205032348633,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"CleanBot\", \"pauses\", \"pedestrians\", \"distance\", \"2 m\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"pedestrians < 2 m\",\n  \"response_text\": \"CleanBot pauses\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.5976080894470215,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(pedestrians < 2) --> CleanBot.paused\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that when pedestrians come within 2 meters (pedestrians < 2), the CleanBot will eventually reach its paused state. The --> operator is appropriate here because pausing is a triggered behavioral response that occurs after the distance condition is met.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(pedestrians < 2) --> CleanBot.paused",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that when pedestrians come within 2 meters (pedestrians < 2), the CleanBot will eventually reach its paused state. The --> operator is appropriate here because pausing is a triggered behavioral response that occurs after the distance condition is met.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(pedestrians < 2) --> CleanBot.paused"
+          },
+          "total_time": 7.899362087249756,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CleanBot returns to depot when debris container full",
+          "classification": {
+            "step": "classification",
+            "timing": 3.4576618671417236,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"returns\", \"depot\", \"debris\", \"container\", \"full\", \"CleanBot\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"debris container full\",\n  \"response_text\": \"CleanBot returns to depot\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.725636959075928,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CleanBot.container_full --> CleanBot.at_depot\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that when the debris container becomes full (trigger condition), CleanBot will eventually return to the depot (response). The --> operator is appropriate here because returning to depot is an eventual behavior triggered by the container being full, not an immediate same-state response.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "CleanBot.container_full --> CleanBot.at_depot",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that when the debris container becomes full (trigger condition), CleanBot will eventually return to the depot (response). The --> operator is appropriate here because returning to depot is an eventual behavior triggered by the container being full, not an immediate same-state response.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CleanBot.container_full --> CleanBot.at_depot"
+          },
+          "total_time": 8.20668911933899,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "classification": {
+            "step": "classification",
+            "timing": 3.0168440341949463,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"CleanBot\", \"unloading\", \"container\", \"depot\", \"resume\", \"same route\"],\n  \"cues\": [\"after\", \"it\"],\n  \"trigger_text\": \"unloading container at depot\",\n  \"response_text\": \"resume in the same route\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.703879356384277,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(CleanBot.unloading_at_depot) --> (CleanBot.resume_same_route)\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that after CleanBot unloads a container at the depot (trigger condition), it will eventually resume the same route (response behavior). The --> operator is appropriate here because this describes a sequential workflow where the unloading action triggers the eventual resumption of the same route.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(CleanBot.unloading_at_depot) --> (CleanBot.resume_same_route)",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that after CleanBot unloads a container at the depot (trigger condition), it will eventually resume the same route (response behavior). The --> operator is appropriate here because this describes a sequential workflow where the unloading action triggers the eventual resumption of the same route.",
+              "confidence": 0.88,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CleanBot.unloading_at_depot) --> (CleanBot.resume_same_route)"
+          },
+          "total_time": 7.739540100097656,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "classification": {
+            "step": "classification",
+            "timing": 2.905208110809326,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"CleanBot\", \"suspends\", \"operation\", \"rain\", \"intensity\", \"30%\"],\n  \"cues\": [\">\", \"%\"],\n  \"trigger_text\": \"rain > 30% intensity\",\n  \"response_text\": \"CleanBot suspends operation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.41849684715271,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(rain_intensity > 30) --> CleanBot.suspended\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that when rain intensity exceeds 30%, CleanBot will eventually enter a suspended state. The --> operator is appropriate here because suspending operation is an eventual triggered behavior rather than an immediate same-state response.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(rain_intensity > 30) --> CleanBot.suspended",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that when rain intensity exceeds 30%, CleanBot will eventually enter a suspended state. The --> operator is appropriate here because suspending operation is an eventual triggered behavior rather than an immediate same-state response.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(rain_intensity > 30) --> CleanBot.suspended"
+          },
+          "total_time": 7.353251695632935,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "classification": {
+            "step": "classification",
+            "timing": 3.357527017593384,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"CleanBot\", \"wait\", \"shelter\", \"rain intensity\", \"above\", \"30%\"],\n  \"cues\": [\"when\", \"above\", \">\", \"%\"],\n  \"trigger_text\": \"rain intensity above 30%\",\n  \"response_text\": \"CleanBot must wait under shelter\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.18616509437561,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(rain_intensity > 30) --> CleanBot.at_shelter\",\n  \"explanation\": \"When rain intensity exceeds 30%, CleanBot must eventually reach and wait at the shelter. The --> operator captures the eventual response behavior where the trigger condition (rain > 30%) leads to the robot moving to shelter.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(rain_intensity > 30) --> CleanBot.at_shelter",
+              "explanation": "When rain intensity exceeds 30%, CleanBot must eventually reach and wait at the shelter. The --> operator captures the eventual response behavior where the trigger condition (rain > 30%) leads to the robot moving to shelter.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(rain_intensity > 30) --> CleanBot.at_shelter"
+          },
+          "total_time": 7.564113140106201,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all routes cleaned ",
+          "classification": {
+            "step": "classification",
+            "timing": 2.9946439266204834,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"all\", \"routes\", \"cleaned\"],\n  \"cues\": [\"eventually\", \"all\"],\n  \"response_text\": \"all routes cleaned\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.2796311378479,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> all_routes_cleaned\",\n  \"explanation\": \"This query uses the A<> operator to express that eventually (in all paths) the system must reach a state where all routes are cleaned. The pattern matches eventual_completion where a task (cleaning all routes) must eventually complete.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> all_routes_cleaned",
+              "explanation": "This query uses the A<> operator to express that eventually (in all paths) the system must reach a state where all routes are cleaned. The pattern matches eventual_completion where a task (cleaning all routes) must eventually complete.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_routes_cleaned"
+          },
+          "total_time": 7.295770883560181,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0265209674835205,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"pauses\", \"pedestrians\", \"distance threshold\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"pedestrians < 2 m\",\n  \"response_text\": \"CleanBot pauses\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6986501216888428,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(pedestrians < 2) --> CleanBot.pauses\",\n  \"explanation\": \"This constraint describes a conditional response pattern where the condition 'pedestrians < 2 m' triggers the eventual response 'CleanBot pauses'. The '-->' operator captures the sequential workflow: when the distance threshold is violated, CleanBot should eventually pause. This is not an immediate response but rather an eventual behavior triggered by the condition, making '-->' the appropriate operator.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(pedestrians < 2) --> CleanBot.pauses",
+              "explanation": "This constraint describes a conditional response pattern where the condition 'pedestrians < 2 m' triggers the eventual response 'CleanBot pauses'. The '-->' operator captures the sequential workflow: when the distance threshold is violated, CleanBot should eventually pause. This is not an immediate response but rather an eventual behavior triggered by the condition, making '-->' the appropriate operator.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(pedestrians < 2) --> CleanBot.pauses"
+          },
+          "total_time": 2.7399699687957764,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CleanBot returns to depot when debris container full",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1332910060882568,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"returns\", \"depot\", \"debris container\", \"full\", \"condition-triggered action\"],\n  \"cues\": [\"when\", \"full\"],\n  \"trigger_text\": \"debris container full\",\n  \"response_text\": \"returns to depot\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0270299911499023,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(CleanBot.debris_container_full) --> (CleanBot.at_depot)\",\n  \"explanation\": \"This constraint describes a conditional_response pattern where the condition 'debris container full' triggers the eventual response 'returns to depot'. The --> operator is appropriate here because it represents a sequential workflow where the full container condition eventually leads to the robot returning to the depot, rather than an immediate state change. The condition is checked as a boolean state, and the response is verified as the robot reaching the depot location.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(CleanBot.debris_container_full) --> (CleanBot.at_depot)",
+              "explanation": "This constraint describes a conditional_response pattern where the condition 'debris container full' triggers the eventual response 'returns to depot'. The --> operator is appropriate here because it represents a sequential workflow where the full container condition eventually leads to the robot returning to the depot, rather than an immediate state change. The condition is checked as a boolean state, and the response is verified as the robot reaching the depot location.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CleanBot.debris_container_full) --> (CleanBot.at_depot)"
+          },
+          "total_time": 3.178501844406128,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0562031269073486,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"CleanBot\", \"unloading\", \"container\", \"depot\", \"resume\", \"route\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"after unloading container at depot\",\n  \"response_text\": \"resume in the same route\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7261247634887695,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CleanBot.unloading_complete --> CleanBot.resume_route\",\n  \"explanation\": \"The constraint describes a sequential workflow where CleanBot's action of unloading a container at the depot triggers a subsequent action of resuming the same route. The 'after' cue indicates eventual sequential behavior, not immediate response. The '-->' operator captures that resuming the route is a triggered behavior that eventually follows the completion of unloading.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "CleanBot.unloading_complete --> CleanBot.resume_route",
+              "explanation": "The constraint describes a sequential workflow where CleanBot's action of unloading a container at the depot triggers a subsequent action of resuming the same route. The 'after' cue indicates eventual sequential behavior, not immediate response. The '-->' operator captures that resuming the route is a triggered behavior that eventually follows the completion of unloading.",
+              "confidence": 0.92,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CleanBot.unloading_complete --> CleanBot.resume_route"
+          },
+          "total_time": 2.8008832931518555,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0112740993499756,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"suspends\", \"rain\", \"intensity\", \"condition\"],\n  \"cues\": [\">\"],\n  \"trigger_text\": \"rain > 30% intensity\",\n  \"response_text\": \"CleanBot suspends operation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.034641981124878,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (rain > 30 imply CleanBot.suspended)\",\n  \"explanation\": \"The constraint forbids CleanBot from operating when rain intensity exceeds 30%. Using the forbidden_state pattern with A[] (always) and imply (immediate response), this query ensures that whenever the condition 'rain > 30' becomes true, CleanBot must be in a suspended state. This prevents the bad state of operating in high rain intensity from ever occurring.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (rain > 30 imply CleanBot.suspended)",
+              "explanation": "The constraint forbids CleanBot from operating when rain intensity exceeds 30%. Using the forbidden_state pattern with A[] (always) and imply (immediate response), this query ensures that whenever the condition 'rain > 30' becomes true, CleanBot must be in a suspended state. This prevents the bad state of operating in high rain intensity from ever occurring.",
+              "confidence": 0.88,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (rain > 30 imply CleanBot.suspended)"
+          },
+          "total_time": 3.065222978591919,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1048669815063477,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"wait\", \"shelter\", \"rain intensity\", \"threshold\"],\n  \"cues\": [\">\", \"when\"],\n  \"trigger_text\": \"rain intensity above 30%\",\n  \"response_text\": \"must wait under shelter\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7062618732452393,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(rain_intensity > 30) --> CleanBot.at_shelter\",\n  \"explanation\": \"This constraint follows the conditional_response pattern where a condition (rain intensity above 30%) triggers an eventual response (CleanBot waits under shelter). The '-->' operator indicates that when the condition becomes true, CleanBot must eventually reach the 'at_shelter' state. This is sequential/eventual behavior rather than immediate, matching the template: condition --> response.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(rain_intensity > 30) --> CleanBot.at_shelter",
+              "explanation": "This constraint follows the conditional_response pattern where a condition (rain intensity above 30%) triggers an eventual response (CleanBot waits under shelter). The '-->' operator indicates that when the condition becomes true, CleanBot must eventually reach the 'at_shelter' state. This is sequential/eventual behavior rather than immediate, matching the template: condition --> response.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(rain_intensity > 30) --> CleanBot.at_shelter"
+          },
+          "total_time": 2.8303396701812744,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all routes cleaned ",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0233337879180908,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"routes\", \"cleaned\", \"completion\", \"all\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"all routes\",\n  \"response_text\": \"cleaned\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4411392211914062,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> System.all_routes_cleaned\",\n  \"explanation\": \"The constraint 'Eventually all routes cleaned' expresses a liveness property where the system must eventually reach a state where all routes are cleaned. This matches the eventual_completion pattern with the A<> operator, which is used for properties that MUST eventually happen globally. The trigger 'all routes' and response 'cleaned' combine into the final state condition.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> System.all_routes_cleaned",
+              "explanation": "The constraint 'Eventually all routes cleaned' expresses a liveness property where the system must eventually reach a state where all routes are cleaned. This matches the eventual_completion pattern with the A<> operator, which is used for properties that MUST eventually happen globally. The trigger 'all routes' and response 'cleaned' combine into the final state condition.",
+              "confidence": 0.92,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> System.all_routes_cleaned"
+          },
+          "total_time": 2.4851558208465576,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 9.423035144805908,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"pauses\",\"pedestrians\"],\"cues\":[\"when\",\"<\"],\"trigger_text\":\"pedestrians < 2 m\",\"response_text\":\"pauses\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 24.637298822402954,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (pedestrians < 2 imply CleanBot.pauses)\", \"explanation\": \"This query uses the safety_immediate_response pattern to ensure that whenever the trigger condition (pedestrians < 2 m) is true, CleanBot must immediately be in the pausing state, with no delay allowed, as required for instantaneous safety responses.\", \"confidence\": 0.85, \"pattern_used\": \"safety_immediate_response\", \"operator_used\": [\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (pedestrians < 2 imply CleanBot.pauses)",
+              "explanation": "This query uses the safety_immediate_response pattern to ensure that whenever the trigger condition (pedestrians < 2 m) is true, CleanBot must immediately be in the pausing state, with no delay allowed, as required for instantaneous safety responses.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (pedestrians < 2 imply CleanBot.pauses)"
+          },
+          "total_time": 34.07687211036682,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CleanBot returns to depot when debris container full",
+          "classification": {
+            "step": "classification",
+            "timing": 10.734828233718872,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"return\", \"depot\", \"debris\", \"container\", \"full\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"debris container full\",\n  \"response_text\": \"returns to depot\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.540831089019775,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(CleanBot.debris_container == full) --> CleanBot.at_depot\", \"explanation\": \"This query matches the conditional_response pattern, where the condition of the debris container being full triggers the eventual response of CleanBot returning to the depot, following the template condition --> response.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(CleanBot.debris_container == full) --> CleanBot.at_depot",
+              "explanation": "This query matches the conditional_response pattern, where the condition of the debris container being full triggers the eventual response of CleanBot returning to the depot, following the template condition --> response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CleanBot.debris_container == full) --> CleanBot.at_depot"
+          },
+          "total_time": 22.289002656936646,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "classification": {
+            "step": "classification",
+            "timing": 7.797303199768066,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"CleanBot\", \"unloading\", \"container\", \"depot\", \"resume\", \"route\"], \"cues\": [\"after\"], \"trigger_text\": \"unloading container at depot\", \"response_text\": \"resume in the same route\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.128243923187256,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"CleanBot.unloading_complete --> CleanBot.resuming_route\", \"explanation\": \"The constraint specifies that after unloading the container at the depot, the CleanBot will eventually resume in the same route, which fits the sequential_workflow pattern where one action (unloading) leads to another (resuming route).\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "CleanBot.unloading_complete --> CleanBot.resuming_route",
+              "explanation": "The constraint specifies that after unloading the container at the depot, the CleanBot will eventually resume in the same route, which fits the sequential_workflow pattern where one action (unloading) leads to another (resuming route).",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CleanBot.unloading_complete --> CleanBot.resuming_route"
+          },
+          "total_time": 17.944586277008057,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "classification": {
+            "step": "classification",
+            "timing": 6.9154112339019775,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"suspend\", \"operation\", \"rain\", \"intensity\"], \"cues\": [\">\"], \"trigger_text\": \"rain > 30% intensity\", \"response_text\": \"suspends operation\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.06855297088623,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(rain > 30) --> CleanBot.suspended\", \"explanation\": \"The query uses the --> operator for eventual response, matching the conditional_response pattern where rain intensity > 30% triggers CleanBot to eventually suspend operation.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(rain > 30) --> CleanBot.suspended",
+              "explanation": "The query uses the --> operator for eventual response, matching the conditional_response pattern where rain intensity > 30% triggers CleanBot to eventually suspend operation.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(rain > 30) --> CleanBot.suspended"
+          },
+          "total_time": 26.006086111068726,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "classification": {
+            "step": "classification",
+            "timing": 10.122115135192871,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"CleanBot\", \"wait\", \"shelter\", \"rain\", \"intensity\"], \"cues\": [\"when\", \"above\", \"30%\", \"must\"], \"trigger_text\": \"rain intensity above 30%\", \"response_text\": \"wait under shelter\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.830173015594482,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(rain_intensity > 30) --> CleanBot.wait_under_shelter\", \"explanation\": \"This query uses the conditional_response pattern where the condition (rain intensity above 30%) leads to the eventual response (CleanBot waiting under shelter), matching the template condition --> response and examples like ex[c012].\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(rain_intensity > 30) --> CleanBot.wait_under_shelter",
+              "explanation": "This query uses the conditional_response pattern where the condition (rain intensity above 30%) leads to the eventual response (CleanBot waiting under shelter), matching the template condition --> response and examples like ex[c012].",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(rain_intensity > 30) --> CleanBot.wait_under_shelter"
+          },
+          "total_time": 15.971808433532715,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all routes cleaned ",
+          "classification": {
+            "step": "classification",
+            "timing": 9.711781024932861,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"routes\", \"cleaned\"], \"cues\": [\"eventually\"]}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.743396997451782,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> all_routes_cleaned\", \"explanation\": \"The constraint 'Eventually all routes cleaned' requires a liveness property where the system must eventually reach a state where all routes are cleaned, which is captured by the A<> operator for eventual completion.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> all_routes_cleaned",
+              "explanation": "The constraint 'Eventually all routes cleaned' requires a liveness property where the system must eventually reach a state where all routes are cleaned, which is captured by the A<> operator for eventual completion.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_routes_cleaned"
+          },
+          "total_time": 27.47012186050415,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 6.595251083374023,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"pauses\", \"pedestrians\", \"less than\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"pedestrians < 2 m\",\n  \"response_text\": \"CleanBot pauses\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.569352865219116,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(pedestrians < 2) --> CleanBot.pauses\",\n  \"explanation\": \"This query matches the constraint because it uses the --> operator to indicate that when the condition 'pedestrians < 2' is met, CleanBot will eventually pause, directly following the conditional response pattern where a trigger leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(pedestrians < 2) --> CleanBot.pauses",
+              "explanation": "This query matches the constraint because it uses the --> operator to indicate that when the condition 'pedestrians < 2' is met, CleanBot will eventually pause, directly following the conditional response pattern where a trigger leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(pedestrians < 2) --> CleanBot.pauses"
+          },
+          "total_time": 18.186471939086914,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CleanBot returns to depot when debris container full",
+          "classification": {
+            "step": "classification",
+            "timing": 6.030588865280151,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"returns\", \"depot\", \"debris\", \"container\", \"full\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"debris container full\",\n  \"response_text\": \"CleanBot returns to depot\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.2140891551971436,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(CleanBot.container_full) --> (CleanBot.at_depot)\",\n  \"explanation\": \"This query uses the --> operator to indicate that when the debris container is full (trigger condition), CleanBot will eventually return to the depot (response), matching the conditional_response pattern as it represents a triggered eventual behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(CleanBot.container_full) --> (CleanBot.at_depot)",
+              "explanation": "This query uses the --> operator to indicate that when the debris container is full (trigger condition), CleanBot will eventually return to the depot (response), matching the conditional_response pattern as it represents a triggered eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CleanBot.container_full) --> (CleanBot.at_depot)"
+          },
+          "total_time": 11.259554624557495,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "classification": {
+            "step": "classification",
+            "timing": 5.725778102874756,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"after\", \"unloading\", \"resume\", \"route\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"after unloading container at depot\",\n  \"response_text\": \"it resume in the same route\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.231703042984009,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"CleanBot.unloading_complete --> CleanBot.resuming_route\",\n  \"explanation\": \"This query represents that after the CleanBot completes unloading the container at the depot, it will eventually resume its original route, aligning with the sequential workflow pattern indicated by the 'after' keyword in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "CleanBot.unloading_complete --> CleanBot.resuming_route",
+              "explanation": "This query represents that after the CleanBot completes unloading the container at the depot, it will eventually resume its original route, aligning with the sequential workflow pattern indicated by the 'after' keyword in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CleanBot.unloading_complete --> CleanBot.resuming_route"
+          },
+          "total_time": 11.978847980499268,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "classification": {
+            "step": "classification",
+            "timing": 6.021687030792236,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"rain\", \"suspends\", \"operation\", \"intensity\"],\n  \"cues\": [\">\"],\n  \"trigger_text\": \"rain > 30% intensity\",\n  \"response_text\": \"suspends operation\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.465475082397461,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(rain_intensity > 30) --> CleanBot.suspended\",\n  \"explanation\": \"This query matches the constraint because it uses the --> operator to indicate that if rain intensity exceeds 30, then eventually CleanBot will suspend its operation, aligning with the conditional_response pattern for triggered behaviors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(rain_intensity > 30) --> CleanBot.suspended",
+              "explanation": "This query matches the constraint because it uses the --> operator to indicate that if rain intensity exceeds 30, then eventually CleanBot will suspend its operation, aligning with the conditional_response pattern for triggered behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(rain_intensity > 30) --> CleanBot.suspended"
+          },
+          "total_time": 11.503113269805908,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "classification": {
+            "step": "classification",
+            "timing": 5.241024971008301,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"wait\", \"rain intensity\", \"above 30%\"],\n  \"cues\": [\"when\", \"must\", \"above\", \"%\"],\n  \"trigger_text\": \"when rain intensity above 30%\",\n  \"response_text\": \"wait under shelter\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.939397096633911,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(rain_intensity > 30) --> CleanBot.under_shelter\",\n  \"explanation\": \"The query matches the constraint by using the --> operator to indicate that when rain intensity exceeds 30%, CleanBot will eventually be under shelter, following the conditional_response pattern where a condition leads to an eventual response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(rain_intensity > 30) --> CleanBot.under_shelter",
+              "explanation": "The query matches the constraint by using the --> operator to indicate that when rain intensity exceeds 30%, CleanBot will eventually be under shelter, following the conditional_response pattern where a condition leads to an eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(rain_intensity > 30) --> CleanBot.under_shelter"
+          },
+          "total_time": 11.197051048278809,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all routes cleaned ",
+          "classification": {
+            "step": "classification",
+            "timing": 4.721782922744751,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"cleaned\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.047823905944824,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> all_routes_cleaned\",\n  \"explanation\": \"This query uses the A<> operator to ensure that the system eventually reaches a state where all routes are cleaned, aligning with the eventual_completion pattern for liveness properties.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> all_routes_cleaned",
+              "explanation": "This query uses the A<> operator to ensure that the system eventually reaches a state where all routes are cleaned, aligning with the eventual_completion pattern for liveness properties.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_routes_cleaned"
+          },
+          "total_time": 15.789622068405151,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 42.834638833999634,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"CleanBot\", \"pauses\", \"pedestrians\", \"2 m\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"pedestrians < 2 m\",\n  \"response_text\": \"CleanBot pauses\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 67.14976382255554,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(pedestrians < 2) --> CleanBot.paused\",\n  \"explanation\": \"This query translates the constraint 'CleanBot pauses when pedestrians < 2 m' by following the conditional_response pattern, where the condition (pedestrians distance less than 2 meters) eventually leads to the response (CleanBot enters a paused state). The operator '-->' is used as specified for triggered behaviors with eventual action, matching the pattern's template and similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(pedestrians < 2) --> CleanBot.paused",
+              "explanation": "This query translates the constraint 'CleanBot pauses when pedestrians < 2 m' by following the conditional_response pattern, where the condition (pedestrians distance less than 2 meters) eventually leads to the response (CleanBot enters a paused state). The operator '-->' is used as specified for triggered behaviors with eventual action, matching the pattern's template and similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(pedestrians < 2) --> CleanBot.paused"
+          },
+          "total_time": 110.01362109184265,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CleanBot returns to depot when debris container full",
+          "classification": {
+            "step": "classification",
+            "timing": 31.932641744613647,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"CleanBot\", \"returns\", \"depot\", \"debris container\", \"full\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"debris container full\",\n  \"response_text\": \"CleanBot returns to depot\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 62.920305252075195,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(debris_container_full) --> (CleanBot.at_depot)\",\n  \"explanation\": \"The constraint uses 'when' to indicate a conditional response where the condition (debris container full) triggers the eventual action (CleanBot returns to depot). This matches the conditional_response pattern, which uses the '-->' operator for sequential workflows and eventual triggered behaviors, as seen in similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(debris_container_full) --> (CleanBot.at_depot)",
+              "explanation": "The constraint uses 'when' to indicate a conditional response where the condition (debris container full) triggers the eventual action (CleanBot returns to depot). This matches the conditional_response pattern, which uses the '-->' operator for sequential workflows and eventual triggered behaviors, as seen in similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(debris_container_full) --> (CleanBot.at_depot)"
+          },
+          "total_time": 94.87554597854614,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "classification": {
+            "step": "classification",
+            "timing": 46.888999938964844,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"CleanBot\", \"unloading\", \"container\", \"depot\", \"resume\", \"route\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"after unloading container at depot\",\n  \"response_text\": \"resume in the same route\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 108.76703691482544,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(CleanBot.unloaded_at_depot) --> CleanBot.on_route\",\n  \"explanation\": \"The query uses the conditional_response pattern with the '-->' operator for eventual triggered behavior. The condition 'CleanBot.unloaded_at_depot' models the event of CleanBot unloading a container at the depot, as indicated by the trigger_text and keywords. The response 'CleanBot.on_route' models CleanBot resuming in the same route, matching the response_text. This follows the pattern template shape and similar examples where a condition leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(CleanBot.unloaded_at_depot) --> CleanBot.on_route",
+              "explanation": "The query uses the conditional_response pattern with the '-->' operator for eventual triggered behavior. The condition 'CleanBot.unloaded_at_depot' models the event of CleanBot unloading a container at the depot, as indicated by the trigger_text and keywords. The response 'CleanBot.on_route' models CleanBot resuming in the same route, matching the response_text. This follows the pattern template shape and similar examples where a condition leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CleanBot.unloaded_at_depot) --> CleanBot.on_route"
+          },
+          "total_time": 155.67923021316528,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "classification": {
+            "step": "classification",
+            "timing": 37.63857817649841,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"CleanBot\", \"suspends\", \"operation\", \"rain\", \"intensity\", \"30%\"],\n  \"cues\": [\">\", \"%\"],\n  \"trigger_text\": \"rain > 30% intensity\",\n  \"response_text\": \"CleanBot suspends operation\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 53.329832792282104,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(rain > 30) --> CleanBot.suspended\",\n  \"explanation\": \"This query follows the conditional_response pattern, where the condition 'rain > 30% intensity' (trigger_text) leads to the eventual response 'CleanBot suspends operation' (response_text), using the '-->' operator for triggered eventual behavior as specified in the pattern template and similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(rain > 30) --> CleanBot.suspended",
+              "explanation": "This query follows the conditional_response pattern, where the condition 'rain > 30% intensity' (trigger_text) leads to the eventual response 'CleanBot suspends operation' (response_text), using the '-->' operator for triggered eventual behavior as specified in the pattern template and similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(rain > 30) --> CleanBot.suspended"
+          },
+          "total_time": 90.99641799926758,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "classification": {
+            "step": "classification",
+            "timing": 43.28681516647339,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"CleanBot\", \"wait\", \"under shelter\", \"rain intensity\", \"30%\"],\n  \"cues\": [\"when\", \"must\", \"%\"],\n  \"trigger_text\": \"rain intensity above 30%\",\n  \"response_text\": \"wait under shelter\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 54.17517018318176,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(rain_intensity > 30) --> CleanBot.under_shelter\",\n  \"explanation\": \"This query matches the constraint by using the conditional_response pattern with the '-->' operator, which is specified for eventual triggered behaviors. The condition 'rain intensity above 30%' triggers the eventual response 'wait under shelter', ensuring that when rain intensity exceeds 30%, CleanBot must eventually be under shelter, as indicated by the keywords 'when' and 'must'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(rain_intensity > 30) --> CleanBot.under_shelter",
+              "explanation": "This query matches the constraint by using the conditional_response pattern with the '-->' operator, which is specified for eventual triggered behaviors. The condition 'rain intensity above 30%' triggers the eventual response 'wait under shelter', ensuring that when rain intensity exceeds 30%, CleanBot must eventually be under shelter, as indicated by the keywords 'when' and 'must'.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(rain_intensity > 30) --> CleanBot.under_shelter"
+          },
+          "total_time": 97.47568917274475,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all routes cleaned ",
+          "classification": {
+            "step": "classification",
+            "timing": 25.986326932907104,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"routes\", \"cleaned\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 76.39322280883789,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> routes_cleaned\",\n  \"explanation\": \"The constraint 'Eventually all routes cleaned' indicates a liveness property where the condition that all routes are cleaned must eventually hold. This matches the 'eventual_completion' pattern, which uses the A<> operator for global eventual occurrence, as seen in similar examples where A<> is applied to state conditions like 'System.stable' or 'InspectionBot.all_tasks_done'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> routes_cleaned",
+              "explanation": "The constraint 'Eventually all routes cleaned' indicates a liveness property where the condition that all routes are cleaned must eventually hold. This matches the 'eventual_completion' pattern, which uses the A<> operator for global eventual occurrence, as seen in similar examples where A<> is applied to state conditions like 'System.stable' or 'InspectionBot.all_tasks_done'.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> routes_cleaned"
+          },
+          "total_time": 102.40379309654236,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1025879383087158,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"CleanBot\", \"pause\", \"pedestrians\", \"distance\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"pedestrians < 2 m\",\n  \"response_text\": \"CleanBot pauses\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0159060955047607,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(pedestrians < 2) --> CleanBot.paused\",\n  \"explanation\": \"The constraint describes a conditional response where CleanBot pauses when the distance to pedestrians is less than 2 meters. The '-->' operator represents an eventual response pattern, indicating that when 'pedestrians < 2' becomes true, 'CleanBot.paused' will eventually become true.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(pedestrians < 2) --> CleanBot.paused",
+              "explanation": "The constraint describes a conditional response where CleanBot pauses when the distance to pedestrians is less than 2 meters. The '-->' operator represents an eventual response pattern, indicating that when 'pedestrians < 2' becomes true, 'CleanBot.paused' will eventually become true.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(pedestrians < 2) --> CleanBot.paused"
+          },
+          "total_time": 2.1405019760131836,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CleanBot returns to depot when debris container full",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8033699989318848,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"return\", \"depot\", \"debris\", \"container\", \"full\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"debris container full\",\n  \"response_text\": \"CleanBot returns to depot\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4447031021118164,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CleanBot.debris_container_full --> CleanBot.at_depot\",\n  \"explanation\": \"The constraint 'CleanBot returns to depot when debris container full' is a conditional response pattern. The '-->' operator signifies that when the 'debris container full' condition is met, the 'CleanBot returns to depot' state will eventually be reached.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "CleanBot.debris_container_full --> CleanBot.at_depot",
+              "explanation": "The constraint 'CleanBot returns to depot when debris container full' is a conditional response pattern. The '-->' operator signifies that when the 'debris container full' condition is met, the 'CleanBot returns to depot' state will eventually be reached.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CleanBot.debris_container_full --> CleanBot.at_depot"
+          },
+          "total_time": 2.2697689533233643,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9839422702789307,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"CleanBot\", \"unloading\", \"container\", \"depot\", \"resume\", \"route\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"unloading container at depot\",\n  \"response_text\": \"resume in the same route\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0941789150238037,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CleanBot.unloading_container_depot --> CleanBot.resume_same_route\",\n  \"explanation\": \"The constraint states that 'CleanBot after unloading container at depot it resume in the same route'. This aligns with the sequential_workflow pattern where one action (unloading) eventually leads to another (resuming the same route). The '-->' operator expresses this eventual transition. We assume that 'CleanBot.unloading_container_depot' and 'CleanBot.resume_same_route' are boolean variables representing the respective states of the CleanBot.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "CleanBot.unloading_container_depot --> CleanBot.resume_same_route",
+              "explanation": "The constraint states that 'CleanBot after unloading container at depot it resume in the same route'. This aligns with the sequential_workflow pattern where one action (unloading) eventually leads to another (resuming the same route). The '-->' operator expresses this eventual transition. We assume that 'CleanBot.unloading_container_depot' and 'CleanBot.resume_same_route' are boolean variables representing the respective states of the CleanBot.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CleanBot.unloading_container_depot --> CleanBot.resume_same_route"
+          },
+          "total_time": 2.098914861679077,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0122699737548828,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"cleanbot\", \"rain\", \"suspend\", \"operation\", \"intensity\"],\n  \"cues\": [\">\"],\n  \"trigger_text\": \"rain > 30% intensity\",\n  \"response_text\": \"CleanBot suspends operation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.9387879371643066,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(rain_intensity > 30) --> CleanBot.suspended\",\n  \"explanation\": \"The constraint describes a conditional response. When the rain intensity exceeds 30%, the CleanBot eventually suspends operation. The '-->' operator is used to represent the eventual triggered behavior. rain_intensity > 30 represents the condition, and CleanBot.suspended represents the eventual response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(rain_intensity > 30) --> CleanBot.suspended",
+              "explanation": "The constraint describes a conditional response. When the rain intensity exceeds 30%, the CleanBot eventually suspends operation. The '-->' operator is used to represent the eventual triggered behavior. rain_intensity > 30 represents the condition, and CleanBot.suspended represents the eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(rain_intensity > 30) --> CleanBot.suspended"
+          },
+          "total_time": 1.9748117923736572,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "classification": {
+            "step": "classification",
+            "timing": 0.890981912612915,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"wait\", \"shelter\", \"rain intensity\", \"above\", \"30%\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"rain intensity above 30%\",\n  \"response_text\": \"wait under shelter\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.620474100112915,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (RainIntensity > 30 imply CleanBot.under_shelter)\",\n  \"explanation\": \"The constraint \\\"CleanBot must wait under shelter when rain intensity above 30%\\\" describes a safety property. The query uses 'A[]' to specify that the condition inside must always be true. 'RainIntensity > 30' represents the triggering condition, and 'CleanBot.under_shelter' represents the desired state of the CleanBot. 'imply' connects them, indicating that whenever 'RainIntensity > 30' is true, 'CleanBot.under_shelter' must also be true immediately.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\", \"A[]\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (RainIntensity > 30 imply CleanBot.under_shelter)",
+              "explanation": "The constraint \"CleanBot must wait under shelter when rain intensity above 30%\" describes a safety property. The query uses 'A[]' to specify that the condition inside must always be true. 'RainIntensity > 30' represents the triggering condition, and 'CleanBot.under_shelter' represents the desired state of the CleanBot. 'imply' connects them, indicating that whenever 'RainIntensity > 30' is true, 'CleanBot.under_shelter' must also be true immediately.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply",
+                "A[]"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RainIntensity > 30 imply CleanBot.under_shelter)"
+          },
+          "total_time": 2.5284600257873535,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all routes cleaned ",
+          "classification": {
+            "step": "classification",
+            "timing": 0.6116302013397217,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"routes\", \"cleaned\"],\n  \"cues\": [\"eventually\"]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2131469249725342,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> all_routes_cleaned\",\n  \"explanation\": \"The constraint 'Eventually all routes cleaned' expresses a liveness property indicating that the system must eventually reach a state where all routes are cleaned. The 'eventual_completion' pattern with the A<> operator is used to express this requirement.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> all_routes_cleaned",
+              "explanation": "The constraint 'Eventually all routes cleaned' expresses a liveness property indicating that the system must eventually reach a state where all routes are cleaned. The 'eventual_completion' pattern with the A<> operator is used to express this requirement.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_routes_cleaned"
+          },
+          "total_time": 1.845822811126709,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 9.406333208084106,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"CleanBot\",\n    \"pauses\",\n    \"pedestrians\",\n    \"distance\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"<\"\n  ],\n  \"trigger_text\": \"pedestrians < 2 m\",\n  \"response_text\": \"CleanBot pauses\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.57703924179077,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (CleanBot.pedestrian_distance < 2 imply CleanBot.Paused)\",\n  \"explanation\": \"The query uses the safety operator A[] to state that a condition must always hold throughout the system's execution. The 'imply' operator enforces that whenever the trigger condition 'CleanBot.pedestrian_distance < 2' is true, the safety action 'CleanBot.Paused' must also be true in the exact same state. This correctly models the immediate, non-delayed response required by the keyword 'when'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (CleanBot.pedestrian_distance < 2 imply CleanBot.Paused)",
+              "explanation": "The query uses the safety operator A[] to state that a condition must always hold throughout the system's execution. The 'imply' operator enforces that whenever the trigger condition 'CleanBot.pedestrian_distance < 2' is true, the safety action 'CleanBot.Paused' must also be true in the exact same state. This correctly models the immediate, non-delayed response required by the keyword 'when'.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (CleanBot.pedestrian_distance < 2 imply CleanBot.Paused)"
+          },
+          "total_time": 26.002126932144165,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CleanBot returns to depot when debris container full",
+          "classification": {
+            "step": "classification",
+            "timing": 11.149838209152222,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"CleanBot\",\n    \"depot\",\n    \"container\",\n    \"full\"\n  ],\n  \"cues\": [\n    \"when\"\n  ],\n  \"trigger_text\": \"debris container full\",\n  \"response_text\": \"CleanBot returns to depot\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.516695976257324,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CleanBot.container_full --> CleanBot.at_depot\",\n  \"explanation\": \"This query uses the 'leads to' operator (-->) to formalize the conditional_response pattern. It asserts that whenever the condition 'CleanBot.container_full' is true, it is guaranteed that eventually the response 'CleanBot.at_depot' will also become true. This directly translates the rule that the bot returns to the depot *when* its container is full.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "CleanBot.container_full --> CleanBot.at_depot",
+              "explanation": "This query uses the 'leads to' operator (-->) to formalize the conditional_response pattern. It asserts that whenever the condition 'CleanBot.container_full' is true, it is guaranteed that eventually the response 'CleanBot.at_depot' will also become true. This directly translates the rule that the bot returns to the depot *when* its container is full.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CleanBot.container_full --> CleanBot.at_depot"
+          },
+          "total_time": 21.70764994621277,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "classification": {
+            "step": "classification",
+            "timing": 9.302351713180542,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"CleanBot\",\n    \"unloading\",\n    \"container\",\n    \"depot\",\n    \"resume\",\n    \"route\"\n  ],\n  \"cues\": [\n    \"after\",\n    \"it\",\n    \"resume\"\n  ],\n  \"trigger_text\": \"unloading container at depot\",\n  \"response_text\": \"resume in the same route\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.49976086616516,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CleanBot.UnloadingDone --> CleanBot.ResumingRoute\",\n  \"explanation\": \"The constraint describes a sequence where the 'CleanBot' first finishes 'unloading' and 'after' that, it must 'resume' its route. This maps directly to the sequential_workflow pattern. The '-->' (leads to) operator is used to verify that whenever the trigger state (finishing unloading, represented by 'CleanBot.UnloadingDone') is reached, the response state ('CleanBot.ResumingRoute') will eventually follow.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "CleanBot.UnloadingDone --> CleanBot.ResumingRoute",
+              "explanation": "The constraint describes a sequence where the 'CleanBot' first finishes 'unloading' and 'after' that, it must 'resume' its route. This maps directly to the sequential_workflow pattern. The '-->' (leads to) operator is used to verify that whenever the trigger state (finishing unloading, represented by 'CleanBot.UnloadingDone') is reached, the response state ('CleanBot.ResumingRoute') will eventually follow.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CleanBot.UnloadingDone --> CleanBot.ResumingRoute"
+          },
+          "total_time": 30.830540895462036,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "classification": {
+            "step": "classification",
+            "timing": 12.241577863693237,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"cleanbot\",\n    \"suspend\",\n    \"rain\",\n    \"intensity\"\n  ],\n  \"cues\": [\n    \"in\",\n    \">\"\n  ],\n  \"trigger_text\": \"rain > 30% intensity\",\n  \"response_text\": \"CleanBot suspends operation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.60784101486206,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(rain_intensity > 30) --> CleanBot.Suspended\",\n  \"explanation\": \"The constraint describes a conditional response: if the condition `rain > 30% intensity` is met, then the `CleanBot` must eventually suspend its operation. The `-->` (leads to) operator correctly models this 'if-then-eventually' relationship, verifying that whenever the `rain_intensity` variable exceeds 30, the system will eventually reach the `CleanBot.Suspended` state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(rain_intensity > 30) --> CleanBot.Suspended",
+              "explanation": "The constraint describes a conditional response: if the condition `rain > 30% intensity` is met, then the `CleanBot` must eventually suspend its operation. The `-->` (leads to) operator correctly models this 'if-then-eventually' relationship, verifying that whenever the `rain_intensity` variable exceeds 30, the system will eventually reach the `CleanBot.Suspended` state.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(rain_intensity > 30) --> CleanBot.Suspended"
+          },
+          "total_time": 22.88110089302063,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "classification": {
+            "step": "classification",
+            "timing": 14.406037092208862,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"CleanBot\",\n    \"wait\",\n    \"shelter\",\n    \"rain\",\n    \"intensity\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"must\",\n    \"above\",\n    \">\",\n    \"%\"\n  ],\n  \"trigger_text\": \"rain intensity above 30%\",\n  \"response_text\": \"CleanBot must wait under shelter\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.40059781074524,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(rain_intensity > 30) --> CleanBot.WaitingUnderShelter\",\n  \"explanation\": \"This query uses the 'leads to' (`-->`) operator to verify a conditional response. It checks that whenever the condition 'rain intensity above 30%' (represented by `rain_intensity > 30`) becomes true, it is always followed by the response 'CleanBot must wait under shelter' (represented by the state `CleanBot.WaitingUnderShelter`) eventually holding true.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(rain_intensity > 30) --> CleanBot.WaitingUnderShelter",
+              "explanation": "This query uses the 'leads to' (`-->`) operator to verify a conditional response. It checks that whenever the condition 'rain intensity above 30%' (represented by `rain_intensity > 30`) becomes true, it is always followed by the response 'CleanBot must wait under shelter' (represented by the state `CleanBot.WaitingUnderShelter`) eventually holding true.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(rain_intensity > 30) --> CleanBot.WaitingUnderShelter"
+          },
+          "total_time": 25.825361967086792,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all routes cleaned ",
+          "classification": {
+            "step": "classification",
+            "timing": 445.99785685539246,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"routes\",\n    \"cleaned\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.583072900772095,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> all_routes_cleaned\",\n  \"explanation\": \"The constraint specifies a liveness property: the system MUST eventually reach a state where 'all routes [are] cleaned'. The UPPAAL operator 'A<>' translates to 'for all possible paths, eventually...', which directly captures this requirement. The expression 'all_routes_cleaned' is assumed to be a boolean variable or a system state that becomes true when the condition is met.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> all_routes_cleaned",
+              "explanation": "The constraint specifies a liveness property: the system MUST eventually reach a state where 'all routes [are] cleaned'. The UPPAAL operator 'A<>' translates to 'for all possible paths, eventually...', which directly captures this requirement. The expression 'all_routes_cleaned' is assumed to be a boolean variable or a system state that becomes true when the condition is met.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_routes_cleaned"
+          },
+          "total_time": 463.6184298992157,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    }
+  ]
+}

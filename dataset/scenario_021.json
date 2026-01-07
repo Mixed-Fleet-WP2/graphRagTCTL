@@ -1,0 +1,22 @@
+{
+  "id": "scenario_021",
+  "domain": "marine",
+  "prompt": "Two underwater drones inspect ship hulls. They must always remain within communication range. Eventually, all sections must be inspected. If visibility < 30%, will both start returning to surface.",
+  "robots": ["SubDroneA", "SubDroneB"],
+  "constraints": [
+    "Both drones maintain communication range at all times",
+    "All sections eventually inspected",
+    "If visibility < 30%, both start returning to surface "
+  ],
+  "reference_properties": [
+    "A[] (CommRange(SubDroneA, SubDroneB) <= MaxRange)",
+    "A<> (SubDroneA.AllSectionsDone && SubDroneB.AllSectionsDone)",
+    "(Environment.visibility < 30) -->  (SubDroneA.returning && SubDroneB.returning)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-12"
+  
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "scenario_037",
+  "domain": "harbor",
+  "prompt": "A harbor inspection drone flies along dock sections capturing video of hulls and cranes. It must maintain altitude between 8 and 20 meters and avoid restricted air corridors. If strong magnetic interference is detected, it must ascend above 25 meters until interference clears. The drone uploads each section’s footage before starting the next and must always return to base at the end of its patrol.",
+  "robots": [
+    "HarborDrone"
+  ],
+  "constraints": [
+    "HarborDrone altitude between 8–20 m",
+    "HarborDrone avoids restricted corridors",
+    "HarborDrone ascends above 25 m when magnetic interference detected",
+    "HarborDrone uploads footage before moving to next section",
+    "Always returns to base at end of patrol"
+  ],
+  "reference_properties": [
+    "A[] ((HarborDrone.Altitude >= 8 && HarborDrone.Altitude <= 20) || MagInterference==true)",
+    "A[] not (HarborDrone.InRestrictedCorridor)",
+    "A[] (MagInterference) imply  (HarborDrone.Altitude >= 25)",
+    " HarborDrone.UploadDone --> HarborDrone.NextSectionStart",
+    "A<> HarborDrone.AtBase"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10",
+    "validation_status": "validated"
+  }
+}

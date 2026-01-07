@@ -1,0 +1,382 @@
+{
+  "id": "scenario_026",
+  "domain": "manufacturing",
+  "prompt": "An assembler robot mounts parts on the frame, a welder seals joints, a painter applies coating, and an inspector checks quality. Welding robot starts welding only after assembly completes. Painting robot begins painting after welding finishes, and inspection follows painting. Eventually, all robots must reach idle state.",
+  "robots": [
+    "AssemblerBot",
+    "WelderBot",
+    "PainterBot",
+    "InspectorBot"
+  ],
+  "constraints": [
+    "WelderBot starts only after AssemblerBot completes assembly",
+    "PainterBot starts only after WelderBot finishes welding",
+    "InspectorBot starts only after PainterBot finishes painting",
+    "Eventually all robots reach idle state"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.4237570762634277,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all robots reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 10.545368671417236,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "pattern_name": "sequential_workflow",
+          "template": "AssemblerBot_assembly_complete --> WelderBot_welding_start"
+        },
+        {
+          "index": 1,
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "WelderBot_welding_complete --> PainterBot_painting_start"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "pattern_name": "sequential_workflow",
+          "template": "PainterBot_painting_complete --> InspectorBot_inspection_start"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all robots reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> (AssemblerBot_idle & WelderBot_idle & PainterBot_idle & InspectorBot_idle)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 11.762022972106934,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all robots reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.3916230201721191,
+      "tokens": 801,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all robots reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 4.975437879562378,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all robots reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.9638159275054932,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all robots reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 12.394710063934326,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all robots reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 14.94695520401001,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all robots reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 51.71010780334473,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all robots reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.1627728939056396,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all robots reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 10.187329053878784,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all robots reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

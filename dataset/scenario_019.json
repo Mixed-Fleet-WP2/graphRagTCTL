@@ -1,0 +1,21 @@
+{
+  "id": "scenario_019",
+  "domain": "healthcare",
+  "prompt": "A medication robot delivers supplies across hospital floors. If elevator is busy, it waits; otherwise it proceeds. Every request should eventually be fulfilled, and the robot should always remain within safe areas.",
+  "robots": ["MediBot"],
+  "constraints": [
+    "MediBot waits if elevator busy",
+    "Each delivery request eventually fulfilled",
+    "MediBot never leaves safe areas"
+  ],
+  "reference_properties": [
+    "A[] (Environement.ElevatorBusy ) imply   (MediBot.WaitingForElevator)",
+    "A<> (MediBot.RequestFulfilled)",
+    "A[] MediBot.WithinSafeZone"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-12"
+  }
+}

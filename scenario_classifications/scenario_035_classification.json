@@ -1,0 +1,580 @@
+{
+  "id": "scenario_035",
+  "domain": "exploration",
+  "prompt": "An autonomous rover explores a volcanic terrain. It collects temperature and seismic data every 200 meters and must not approach closer than 5 meters to lava zones. If terrain slope exceeds 30\u00b0, it activates stabilizers before proceeding. If a data packet fails transmission three times, it must log the failure and continue. Eventually, all checkpoints must be reached and at least 90% of data successfully transmitted.",
+  "robots": [
+    "ExploroRover"
+  ],
+  "constraints": [
+    "ExploroRover collects data every 200 m",
+    "ExploroRover avoids lava zones by \u2265 5 m",
+    "ExploroRover activates stabilizers when slope > 30\u00b0",
+    "ExploroRover logs transmission failure after 3 retries",
+    "ExploroRover fails transmission three times, ExploroRover continues.",
+    "ExploroRover must eventually reach all checkpoints.",
+    "Eventually \u2265 90% data must be successfully transmitted "
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 4.319191217422485,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ExploroRover collects data every 200 m",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 13.157501935958862,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ExploroRover collects data every 200 m",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 27.582360982894897,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ExploroRover collects data every 200 m",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 2.073401689529419,
+      "tokens": 963,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ExploroRover collects data every 200 m",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 4.70419716835022,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ExploroRover collects data every 200 m",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 1,
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.6217560768127441,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ExploroRover collects data every 200 m",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 5,
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 33.588443756103516,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ExploroRover collects data every 200 m",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 17.05574679374695,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ExploroRover collects data every 200 m",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 80.23786187171936,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ExploroRover collects data every 200 m",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 2.1179230213165283,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ExploroRover collects data every 200 m",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 5,
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 14.53763723373413,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ExploroRover collects data every 200 m",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 5,
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

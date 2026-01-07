@@ -1,0 +1,24 @@
+{
+  "id": "scenario_028",
+  "domain": "agriculture",
+  "prompt": "A drone surveys fields, a sprayer drone follows to apply fertilizer, two ground rovers collect samples, and a transport AMR carries full sample boxes to base. SprayerDrone acts only after SurveyDrone marks zones as safe. SampleRover1 and SampleRover2 cannot operate in the same zone simultaneously. The TransportAMR moves only when both rovers finish their collection. It must always be possible to reach a state where all zones are fertilized and samples collected.",
+  "robots": ["SurveyDrone", "SprayerDrone", "SampleRover1", "SampleRover2", "TransportAMR"],
+  "constraints": [
+    "SprayerDrone starts only after SurveyDrone marks zone safe",
+    "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+    "TransportAMR starts only after both SampleRovers finish collecting",
+    "Always possible to reach a state where all zones are fertilized and samples collected"
+  ],
+  "reference_properties": [
+    "A[] (SprayerDrone.Spraying) imply ( SurveyDrone.ZoneSafe == true)",
+    "A[] not (SampleRover1.Zone == SampleRover2.Zone && SampleRover1.Active && SampleRover2.Active)",
+    "A[] (TransportAMR.Active) imply (SampleRover1.Done && SampleRover2.Done)",
+    "A<> (SprayerDrone.AllZonesFertilized && SampleRover1.AllDone && SampleRover2.AllDone)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10",
+    "validation_status": "validated"
+  }
+}

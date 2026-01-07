@@ -1,0 +1,900 @@
+{
+  "id": "scenario_015",
+  "domain": "harbor",
+  "prompt": "A loading robot stacks containers while a drone monitors alignment. The drone starts inspection after every 5 containers are stacked. If container tilt exceeds 3 degrees, stacking stops immediately.",
+  "robots": [
+    "LoaderBot",
+    "MonitorDrone"
+  ],
+  "constraints": [
+    "MonitorDrone inspects after every 5 containers stacked",
+    "LoaderBot stops stacking when tilt exceeds 3 degrees"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "classification": {
+            "step": "classification",
+            "timing": 24.840126991271973,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"MonitorDrone\",\"inspects\",\"after\",\"every 5 containers\",\"stacked\",\"periodic\",\"sequence\"],\"cues\":[\"after\",\"every\"],\"trigger_text\":\"every 5 containers stacked\",\"response_text\":\"MonitorDrone inspects\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.6821036338806152,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"ContainerYard.five_containers_stacked --> MonitorDrone.inspects\",\"explanation\":\"The constraint states that whenever the condition \\\"every 5 containers stacked\\\" occurs, it is followed (possibly after some delay) by the action \\\"MonitorDrone inspects\\\". Using the sequential_workflow pattern, we model this as an eventual response: once the system reaches a state where exactly five containers have been stacked (abstracted as the state or condition ContainerYard.five_containers_stacked), the MonitorDrone will eventually perform an inspection (MonitorDrone.inspects). The \\\"-->\\\" operator captures this triggered, non-immediate, sequential behavior.\",\"confidence\":0.86,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "ContainerYard.five_containers_stacked --> MonitorDrone.inspects",
+              "explanation": "The constraint states that whenever the condition \"every 5 containers stacked\" occurs, it is followed (possibly after some delay) by the action \"MonitorDrone inspects\". Using the sequential_workflow pattern, we model this as an eventual response: once the system reaches a state where exactly five containers have been stacked (abstracted as the state or condition ContainerYard.five_containers_stacked), the MonitorDrone will eventually perform an inspection (MonitorDrone.inspects). The \"-->\" operator captures this triggered, non-immediate, sequential behavior.",
+              "confidence": 0.86,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ContainerYard.five_containers_stacked --> MonitorDrone.inspects"
+          },
+          "total_time": 28.548892974853516,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "classification": {
+            "step": "classification",
+            "timing": 2.6066250801086426,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"LoaderBot\",\"stops stacking\",\"tilt exceeds 3 degrees\",\"safety limit\",\"tilt threshold\"],\"cues\":[\">\",\"exceeds\",\"when\",\"stops\"],\"trigger_text\":\"tilt exceeds 3 degrees\",\"response_text\":\"LoaderBot stops stacking\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7460758686065674,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (LoaderBot.tilt > 3 && LoaderBot.stacking)\",\"explanation\":\"The constraint is interpreted as a safety limit: the system must never be in a state where LoaderBot is still stacking while its tilt exceeds 3 degrees. Using the forbidden_state pattern, we encode this by forbidding the conjunction of tilt > 3 and the stacking activity, ensuring that crossing the tilt threshold and continuing to stack can never occur.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (LoaderBot.tilt > 3 && LoaderBot.stacking)",
+              "explanation": "The constraint is interpreted as a safety limit: the system must never be in a state where LoaderBot is still stacking while its tilt exceeds 3 degrees. Using the forbidden_state pattern, we encode this by forbidding the conjunction of tilt > 3 and the stacking activity, ensuring that crossing the tilt threshold and continuing to stack can never occur.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (LoaderBot.tilt > 3 && LoaderBot.stacking)"
+          },
+          "total_time": 4.386242151260376,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "classification": {
+            "step": "classification",
+            "timing": 10.059349060058594,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"MonitorDrone\",\"inspect\",\"inspect after\",\"every 5\",\"containers\",\"stacked\",\"inspection\"],\"cues\":[\"after\",\"every\",\"when\",\"must\"],\"trigger_text\":\"every 5 containers stacked\",\"response_text\":\"MonitorDrone inspects\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.365506172180176,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(Stack.containers % 5 == 0 && Stack.containers > 0) --> MonitorDrone.inspect\",\n  \"explanation\": \"This uses the conditional_response pattern: whenever the stacked container count is a positive multiple of 5 (i.e., after every 5 containers stacked), the MonitorDrone is required to eventually perform the inspect action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}",
+            "uppaal_result": {
+              "query": "(Stack.containers % 5 == 0 && Stack.containers > 0) --> MonitorDrone.inspect",
+              "explanation": "This uses the conditional_response pattern: whenever the stacked container count is a positive multiple of 5 (i.e., after every 5 containers stacked), the MonitorDrone is required to eventually perform the inspect action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(Stack.containers % 5 == 0 && Stack.containers > 0) --> MonitorDrone.inspect"
+          },
+          "total_time": 26.44385600090027,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "classification": {
+            "step": "classification",
+            "timing": 7.14637303352356,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"stop\",\"stops\",\"stacking\",\"tilt\",\"exceeds\",\"3 degrees\",\"safety\",\"immediate\",\"halt\"],\"cues\":[\"when\",\"exceeds\",\">\",\"stop\",\"must\"],\"trigger_text\":\"tilt exceeds 3 degrees\",\"response_text\":\"stops stacking\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.775362014770508,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (LoaderBot.tilt > 3 imply not LoaderBot.stacking)\",\"explanation\":\"This is an always-safety property that enforces an immediate response: whenever LoaderBot.tilt exceeds 3 degrees, LoaderBot must not be in the stacking state (i.e., it stops stacking). It follows the safety_immediate_response template using A[] and an implication to require the action instantaneously when the trigger holds.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (LoaderBot.tilt > 3 imply not LoaderBot.stacking)",
+              "explanation": "This is an always-safety property that enforces an immediate response: whenever LoaderBot.tilt exceeds 3 degrees, LoaderBot must not be in the stacking state (i.e., it stops stacking). It follows the safety_immediate_response template using A[] and an implication to require the action instantaneously when the trigger holds.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (LoaderBot.tilt > 3 imply not LoaderBot.stacking)"
+          },
+          "total_time": 22.951382875442505,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "classification": {
+            "step": "classification",
+            "timing": 13.435957193374634,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"monitor\",\"inspect\",\"after\",\"5\",\"containers\",\"stacked\",\"sequence\",\"check\"],\"cues\":[\"after\",\"then\",\"every\",\"stacked\"],\"trigger_text\":\"after every 5 containers stacked\",\"response_text\":\"inspect\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.701472997665405,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"five_containers_stacked --> MonitorDrone.inspect\",\"explanation\":\"Represents a sequential_workflow where the event 'five_containers_stacked' triggers the next action 'MonitorDrone.inspect', capturing the constraint 'after every 5 containers stacked'.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "five_containers_stacked --> MonitorDrone.inspect",
+              "explanation": "Represents a sequential_workflow where the event 'five_containers_stacked' triggers the next action 'MonitorDrone.inspect', capturing the constraint 'after every 5 containers stacked'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "five_containers_stacked --> MonitorDrone.inspect"
+          },
+          "total_time": 27.15933108329773,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "classification": {
+            "step": "classification",
+            "timing": 15.243617057800293,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"tilt\",\"3 degrees\",\"stop\",\"LoaderBot\",\"stacking\",\"safety\"],\"cues\":[\"when\",\"then\",\"exceeds\",\"degrees\"],\"trigger_text\":\"tilt exceeds 3 degrees\",\"response_text\":\"LoaderBot stops stacking\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.808559894561768,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (tilt > 3 imply LoaderBot.stops_stacking)\",\"explanation\":\"Encodes an immediate safety response: when tilt exceeds 3 degrees, LoaderBot stops stacking immediately (no delay). This matches the constraint and the safety_immediate_response pattern by using imply inside A[].\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (tilt > 3 imply LoaderBot.stops_stacking)",
+              "explanation": "Encodes an immediate safety response: when tilt exceeds 3 degrees, LoaderBot stops stacking immediately (no delay). This matches the constraint and the safety_immediate_response pattern by using imply inside A[].",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (tilt > 3 imply LoaderBot.stops_stacking)"
+          },
+          "total_time": 26.072706937789917,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "classification": {
+            "step": "classification",
+            "timing": 0.690403938293457,
+            "tokens": 169,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"inspects\", \"after\", \"containers\", \"stacked\"],\n  \"cues\": [\"after\", \"every\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.257131814956665,
+            "tokens": 563,
+            "raw_text": "{\n  \"query\": \"Containers.stacked_5 --> MonitorDrone.inspects\",\n  \"explanation\": \"The constraint specifies that the MonitorDrone inspects after every 5 containers are stacked. This aligns with the sequential_workflow pattern where one action follows another. The 'after' cue indicates a sequential relationship, and the use of '-->' operator is appropriate for eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Containers.stacked_5 --> MonitorDrone.inspects",
+              "explanation": "The constraint specifies that the MonitorDrone inspects after every 5 containers are stacked. This aligns with the sequential_workflow pattern where one action follows another. The 'after' cue indicates a sequential relationship, and the use of '-->' operator is appropriate for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Containers.stacked_5 --> MonitorDrone.inspects"
+          },
+          "total_time": 2.9821741580963135,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9114899635314941,
+            "tokens": 160,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"stops\", \"tilt exceeds\"],\n  \"cues\": [\"when\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.1210389137268066,
+            "tokens": 570,
+            "raw_text": "{\n  \"query\": \"A[] not (LoaderBot.stacking && LoaderBot.tilt > 3)\",\n  \"explanation\": \"This query ensures that the LoaderBot is never in a state where it is stacking while the tilt exceeds 3 degrees, which matches the constraint that stacking must stop when the tilt is too high.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (LoaderBot.stacking && LoaderBot.tilt > 3)",
+              "explanation": "This query ensures that the LoaderBot is never in a state where it is stacking while the tilt exceeds 3 degrees, which matches the constraint that stacking must stop when the tilt is too high.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (LoaderBot.stacking && LoaderBot.tilt > 3)"
+          },
+          "total_time": 3.0516159534454346,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "classification": {
+            "step": "classification",
+            "timing": 3.5895800590515137,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"MonitorDrone\", \"inspects\", \"containers\", \"stacked\", \"every\", \"5\"],\n  \"cues\": [\"after\", \"every\"],\n  \"trigger_text\": \"every 5 containers stacked\",\n  \"response_text\": \"MonitorDrone inspects\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.098997116088867,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(containers_stacked % 5 == 0 && containers_stacked > 0) --> MonitorDrone.inspecting\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that after every 5 containers are stacked (when the count is a multiple of 5), the MonitorDrone will eventually enter an inspecting state. The condition checks if containers_stacked is divisible by 5 and greater than 0, and the response is that MonitorDrone reaches its inspecting state.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(containers_stacked % 5 == 0 && containers_stacked > 0) --> MonitorDrone.inspecting",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that after every 5 containers are stacked (when the count is a multiple of 5), the MonitorDrone will eventually enter an inspecting state. The condition checks if containers_stacked is divisible by 5 and greater than 0, and the response is that MonitorDrone reaches its inspecting state.",
+              "confidence": 0.82,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(containers_stacked % 5 == 0 && containers_stacked > 0) --> MonitorDrone.inspecting"
+          },
+          "total_time": 8.709677934646606,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "classification": {
+            "step": "classification",
+            "timing": 3.0649726390838623,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"LoaderBot\", \"stops\", \"stacking\", \"tilt\", \"exceeds\", \"3 degrees\"],\n  \"cues\": [\"when\", \"exceeds\"],\n  \"trigger_text\": \"tilt exceeds 3 degrees\",\n  \"response_text\": \"LoaderBot stops stacking\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.533096075057983,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (tilt > 3.0 && LoaderBot.stacking)\",\n  \"explanation\": \"This query ensures that the system never allows LoaderBot to be in a stacking state when tilt exceeds 3 degrees. The forbidden_state pattern with A[] not(...) enforces that this dangerous combination of conditions can never occur, which effectively means LoaderBot must stop stacking whenever tilt exceeds 3 degrees.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (tilt > 3.0 && LoaderBot.stacking)",
+              "explanation": "This query ensures that the system never allows LoaderBot to be in a stacking state when tilt exceeds 3 degrees. The forbidden_state pattern with A[] not(...) enforces that this dangerous combination of conditions can never occur, which effectively means LoaderBot must stop stacking whenever tilt exceeds 3 degrees.",
+              "confidence": 0.92,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (tilt > 3.0 && LoaderBot.stacking)"
+          },
+          "total_time": 7.620887041091919,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2831947803497314,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"MonitorDrone\",\n    \"inspects\",\n    \"containers\",\n    \"stacked\",\n    \"after\",\n    \"every 5\"\n  ],\n  \"cues\": [\n    \"after\",\n    \"every\"\n  ],\n  \"trigger_text\": \"every 5 containers stacked\",\n  \"response_text\": \"MonitorDrone inspects\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4980888366699219,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Container.stacked_count >= 5 --> MonitorDrone.inspects\",\n  \"explanation\": \"The constraint describes a sequential workflow where MonitorDrone inspection is triggered after every 5 containers are stacked. The trigger condition (5 containers stacked) eventually leads to the response action (MonitorDrone inspects). This matches the sequential_workflow pattern where one action follows another, using the '-->' operator for eventual triggered behavior.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Container.stacked_count >= 5 --> MonitorDrone.inspects",
+              "explanation": "The constraint describes a sequential workflow where MonitorDrone inspection is triggered after every 5 containers are stacked. The trigger condition (5 containers stacked) eventually leads to the response action (MonitorDrone inspects). This matches the sequential_workflow pattern where one action follows another, using the '-->' operator for eventual triggered behavior.",
+              "confidence": 0.82,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Container.stacked_count >= 5 --> MonitorDrone.inspects"
+          },
+          "total_time": 2.808684825897217,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1123168468475342,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"stops\", \"stacking\", \"tilt\", \"exceeds\", \"threshold\"],\n  \"cues\": [\">\"],\n  \"trigger_text\": \"tilt exceeds 3 degrees\",\n  \"response_text\": \"LoaderBot stops stacking\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7103562355041504,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (LoaderBot.tilt > 3 imply LoaderBot.stacking == false)\",\n  \"explanation\": \"The constraint specifies that when tilt exceeds 3 degrees, LoaderBot must stop stacking. This is a forbidden state pattern where the system cannot be in a stacking state when tilt > 3 degrees. The 'imply' operator captures the immediate response: whenever the condition (tilt > 3) becomes true, the system must not be stacking. The A[] quantifier ensures this invariant holds at all times.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (LoaderBot.tilt > 3 imply LoaderBot.stacking == false)",
+              "explanation": "The constraint specifies that when tilt exceeds 3 degrees, LoaderBot must stop stacking. This is a forbidden state pattern where the system cannot be in a stacking state when tilt > 3 degrees. The 'imply' operator captures the immediate response: whenever the condition (tilt > 3) becomes true, the system must not be stacking. The A[] quantifier ensures this invariant holds at all times.",
+              "confidence": 0.92,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (LoaderBot.tilt > 3 imply LoaderBot.stacking == false)"
+          },
+          "total_time": 2.8424439430236816,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "classification": {
+            "step": "classification",
+            "timing": 8.302244901657104,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"inspects\", \"after\", \"every\", \"containers\", \"stacked\"],\n  \"cues\": [\"after\", \"every\"],\n  \"trigger_text\": \"every 5 containers stacked\",\n  \"response_text\": \"MonitorDrone inspects\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.305888891220093,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"ContainerStacker.containers_stacked_5 --> MonitorDrone.inspect\", \"explanation\": \"This query uses the sequential_workflow pattern to ensure that after every 5 containers are stacked (modeled as the ContainerStacker.containers_stacked_5 state), the MonitorDrone will eventually inspect, capturing the 'after every 5' trigger and response.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "ContainerStacker.containers_stacked_5 --> MonitorDrone.inspect",
+              "explanation": "This query uses the sequential_workflow pattern to ensure that after every 5 containers are stacked (modeled as the ContainerStacker.containers_stacked_5 state), the MonitorDrone will eventually inspect, capturing the 'after every 5' trigger and response.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ContainerStacker.containers_stacked_5 --> MonitorDrone.inspect"
+          },
+          "total_time": 24.632002115249634,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "classification": {
+            "step": "classification",
+            "timing": 14.391892433166504,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"stops\", \"stacking\", \"tilt\", \"exceeds\", \"3 degrees\"], \"cues\": [\"when\"], \"trigger_text\": \"tilt exceeds 3 degrees\", \"response_text\": \"stops stacking\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.057604789733887,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (LoaderBot.tilt > 3 imply not LoaderBot.stacking)\", \"explanation\": \"This query implements the safety_immediate_response pattern by ensuring that whenever the tilt exceeds 3 degrees, the LoaderBot immediately stops stacking, matching the constraint's requirement for an instantaneous response to the trigger condition.\", \"confidence\": 0.85, \"pattern_used\": \"safety_immediate_response\", \"operator_used\": [\"A[]\", \"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (LoaderBot.tilt > 3 imply not LoaderBot.stacking)",
+              "explanation": "This query implements the safety_immediate_response pattern by ensuring that whenever the tilt exceeds 3 degrees, the LoaderBot immediately stops stacking, matching the constraint's requirement for an instantaneous response to the trigger condition.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (LoaderBot.tilt > 3 imply not LoaderBot.stacking)"
+          },
+          "total_time": 34.47717809677124,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "classification": {
+            "step": "classification",
+            "timing": 6.736609935760498,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"MonitorDrone\", \"inspects\", \"containers\", \"stacked\", \"after\", \"every\", \"5\"],\n  \"cues\": [\"after\", \"every\"],\n  \"trigger_text\": \"after every 5 containers stacked\",\n  \"response_text\": \"MonitorDrone inspects\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.674574136734009,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(containers_stacked % 5 == 0) --> MonitorDrone.inspects\",\n  \"explanation\": \"This query matches the constraint because it uses the --> operator to specify that after every 5 containers stacked (when containers_stacked is a multiple of 5), the MonitorDrone will eventually perform the inspection, aligning with the conditional_response pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(containers_stacked % 5 == 0) --> MonitorDrone.inspects",
+              "explanation": "This query matches the constraint because it uses the --> operator to specify that after every 5 containers stacked (when containers_stacked is a multiple of 5), the MonitorDrone will eventually perform the inspection, aligning with the conditional_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(containers_stacked % 5 == 0) --> MonitorDrone.inspects"
+          },
+          "total_time": 15.445438861846924,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "classification": {
+            "step": "classification",
+            "timing": 6.441935777664185,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"stops\", \"when\", \"tilt\", \"exceeds\"],\n  \"cues\": [\"when\", \"exceeds\"],\n  \"trigger_text\": \"tilt exceeds 3 degrees\",\n  \"response_text\": \"stops stacking\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.88667106628418,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(LoaderBot.tilt > 3) --> (!LoaderBot.stacking)\",\n  \"explanation\": \"The query matches the constraint by using the --> operator to indicate that when the tilt exceeds 3 degrees, the LoaderBot eventually stops stacking, aligning with the conditional_response pattern where a condition leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(LoaderBot.tilt > 3) --> (!LoaderBot.stacking)",
+              "explanation": "The query matches the constraint by using the --> operator to indicate that when the tilt exceeds 3 degrees, the LoaderBot eventually stops stacking, aligning with the conditional_response pattern where a condition leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(LoaderBot.tilt > 3) --> (!LoaderBot.stacking)"
+          },
+          "total_time": 12.34475588798523,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "classification": {
+            "step": "classification",
+            "timing": 34.752187728881836,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"MonitorDrone\", \"inspects\", \"containers\", \"stacked\", \"after\", \"every\", \"5\"],\n  \"cues\": [\"after\", \"every\"],\n  \"trigger_text\": \"every 5 containers stacked\",\n  \"response_text\": \"MonitorDrone inspects\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 81.45799016952515,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(containers_stacked == 5) --> MonitorDrone.Inspecting\",\n  \"explanation\": \"The constraint 'MonitorDrone inspects after every 5 containers stacked' matches the conditional_response pattern, where the condition (every 5 containers stacked) triggers an eventual response (MonitorDrone inspects). The query uses 'containers_stacked == 5' to represent the condition and 'MonitorDrone.Inspecting' for the response, with the '-->' operator indicating that the condition leads to the eventual occurrence of the response, as per the pattern template and similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(containers_stacked == 5) --> MonitorDrone.Inspecting",
+              "explanation": "The constraint 'MonitorDrone inspects after every 5 containers stacked' matches the conditional_response pattern, where the condition (every 5 containers stacked) triggers an eventual response (MonitorDrone inspects). The query uses 'containers_stacked == 5' to represent the condition and 'MonitorDrone.Inspecting' for the response, with the '-->' operator indicating that the condition leads to the eventual occurrence of the response, as per the pattern template and similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(containers_stacked == 5) --> MonitorDrone.Inspecting"
+          },
+          "total_time": 116.23442912101746,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "classification": {
+            "step": "classification",
+            "timing": 51.22777318954468,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": \"loaderbot stops stacking tilt exceeds degrees\",\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"tilt exceeds 3 degrees\",\n  \"response_text\": \"stops stacking\"\n}"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 51.369426012039185,
+          "success": false,
+          "error": "GraphRAG retrieval failed: {neo4j_code: Neo.ClientError.Statement.SyntaxError} {message: Type mismatch for parameter 'keywords': expected List<T> but was String (line 4, column 63 (offset: 149))\n\"             size([kw IN coalesce(e.keywords, []) WHERE kw IN $keywords]) AS overlap\"\n                                                               ^} {gql_status: 22G03} {gql_status_description: error: data exception - invalid value type}",
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8786361217498779,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"monitor\", \"inspect\", \"containers\", \"stacked\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"every 5 containers stacked\",\n  \"response_text\": \"MonitorDrone inspects\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.98848295211792,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"ContainerStacker.stacked >= 5 --> MonitorDrone.inspecting\",\n  \"explanation\": \"The constraint specifies that after every 5 containers are stacked, the MonitorDrone inspects. This maps directly to the sequential_workflow pattern. The '-->' operator correctly represents the eventual transition from the container count condition being met to the MonitorDrone inspecting.  We use '>=' rather than '==' because the condition only needs to be met at some point before the MonitorDrone inspects; it does not need to be triggered exactly when the counter becomes 5. 'ContainerStacker.stacked' models the number of stacked containers and 'MonitorDrone.inspecting' the drone's inspection state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "ContainerStacker.stacked >= 5 --> MonitorDrone.inspecting",
+              "explanation": "The constraint specifies that after every 5 containers are stacked, the MonitorDrone inspects. This maps directly to the sequential_workflow pattern. The '-->' operator correctly represents the eventual transition from the container count condition being met to the MonitorDrone inspecting.  We use '>=' rather than '==' because the condition only needs to be met at some point before the MonitorDrone inspects; it does not need to be triggered exactly when the counter becomes 5. 'ContainerStacker.stacked' models the number of stacked containers and 'MonitorDrone.inspecting' the drone's inspection state.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ContainerStacker.stacked >= 5 --> MonitorDrone.inspecting"
+          },
+          "total_time": 2.9021549224853516,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7533881664276123,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"LoaderBot\", \"stacking\", \"tilt\", \"degrees\", \"stop\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"tilt exceeds 3 degrees\",\n  \"response_text\": \"LoaderBot stops stacking\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0916681289672852,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"LoaderBot.tilt > 3 imply LoaderBot.stacking == false\",\n  \"explanation\": \"The constraint states that when the tilt exceeds 3 degrees, the LoaderBot stops stacking.  This is an immediate response within the same state, so we use 'imply'. The query checks if 'LoaderBot.tilt > 3' implies 'LoaderBot.stacking == false'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "LoaderBot.tilt > 3 imply LoaderBot.stacking == false",
+              "explanation": "The constraint states that when the tilt exceeds 3 degrees, the LoaderBot stops stacking.  This is an immediate response within the same state, so we use 'imply'. The query checks if 'LoaderBot.tilt > 3' implies 'LoaderBot.stacking == false'.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "LoaderBot.tilt > 3 imply LoaderBot.stacking == false"
+          },
+          "total_time": 1.8766162395477295,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "classification": {
+            "step": "classification",
+            "timing": 8.071662902832031,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"monitor\",\n    \"drone\",\n    \"inspects\",\n    \"containers\",\n    \"stacked\"\n  ],\n  \"cues\": [\n    \"after\",\n    \"every\"\n  ],\n  \"trigger_text\": \"every 5 containers stacked\",\n  \"response_text\": \"MonitorDrone inspects\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.155122995376587,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(ContainerStack.num_stacked > 0 and ContainerStack.num_stacked % 5 == 0) --> MonitorDrone.Inspecting\",\n  \"explanation\": \"This query models a conditional response, as indicated by the pattern. The '-->' (leads to) operator is used for triggered eventual behaviors, matching the word 'after'. The condition `(ContainerStack.num_stacked > 0 and ContainerStack.num_stacked % 5 == 0)` represents the trigger 'every 5 containers stacked', becoming true when the container count is a positive multiple of 5. The response `MonitorDrone.Inspecting` represents the state where the drone performs its inspection.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(ContainerStack.num_stacked > 0 and ContainerStack.num_stacked % 5 == 0) --> MonitorDrone.Inspecting",
+              "explanation": "This query models a conditional response, as indicated by the pattern. The '-->' (leads to) operator is used for triggered eventual behaviors, matching the word 'after'. The condition `(ContainerStack.num_stacked > 0 and ContainerStack.num_stacked % 5 == 0)` represents the trigger 'every 5 containers stacked', becoming true when the container count is a positive multiple of 5. The response `MonitorDrone.Inspecting` represents the state where the drone performs its inspection.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(ContainerStack.num_stacked > 0 and ContainerStack.num_stacked % 5 == 0) --> MonitorDrone.Inspecting"
+          },
+          "total_time": 28.25607204437256,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "classification": {
+            "step": "classification",
+            "timing": 8.997024059295654,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"loaderbot\",\n    \"stops stacking\",\n    \"tilt\",\n    \"degrees\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"exceeds\",\n    \">\"\n  ],\n  \"trigger_text\": \"tilt exceeds 3 degrees\",\n  \"response_text\": \"LoaderBot stops stacking\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.459369897842407,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (LoaderBot.tilt > 3 imply not LoaderBot.Stacking)\",\n  \"explanation\": \"This query enforces a safety property that must always hold. It uses 'A[]' to check all reachable states. The 'imply' operator ensures that in any state where the trigger condition 'LoaderBot.tilt > 3' is true, the response 'not LoaderBot.Stacking' must also be true in the exact same state. This perfectly models the immediate reaction of stopping the stacking action when the tilt threshold is exceeded.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (LoaderBot.tilt > 3 imply not LoaderBot.Stacking)",
+              "explanation": "This query enforces a safety property that must always hold. It uses 'A[]' to check all reachable states. The 'imply' operator ensures that in any state where the trigger condition 'LoaderBot.tilt > 3' is true, the response 'not LoaderBot.Stacking' must also be true in the exact same state. This perfectly models the immediate reaction of stopping the stacking action when the tilt threshold is exceeded.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (LoaderBot.tilt > 3 imply not LoaderBot.Stacking)"
+          },
+          "total_time": 21.483226776123047,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    }
+  ]
+}

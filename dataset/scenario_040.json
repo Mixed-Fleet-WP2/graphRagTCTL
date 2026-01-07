@@ -1,0 +1,29 @@
+{
+  "id": "scenario_040",
+  "domain": "urban_service",
+  "prompt": "A street cleaning robot patrols city sidewalks every night. pausing automatically when pedestrians are detected within 2 meters. If debris container is full, it must return to depot for unloading and then resume the same route. If weather sensors detect rain intensity above 30%, it suspends cleaning and waits under shelter. All routes must eventually be cleaned before sunrise.",
+  "robots": ["CleanBot"],
+  "constraints": [
+    "CleanBot pauses when pedestrians < 2 m",
+    "CleanBot returns to depot when debris container full",
+    "CleanBot after unloading container at depot it resume in the same route",
+    "CleanBot suspends operation in rain > 30% intensity",
+    "CleanBot must wait under shelter when rain intensity above 30%",
+    "Eventually all routes cleaned "
+  ],
+  "reference_properties": [
+    "A[] (PedestrianDistance < 2 imply CleanBot.Pause)",
+    "A[] (CleanBot.ContainerFull imply CleanBot.ReturnDepot)",
+    "CleanBot.AtDepot && CleanBot.Unloaded --> CleanBot.ResumeRoute",
+    "A[] (RainIntensity > 30 imply CleanBot.Suspended)",
+    "A[] (RainIntensity > 30 imply CleanBot.AtShelter)",
+    "A<> CleanBot.AllRoutesCleaned"
+  ],
+  "llm_output_constraints": [],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10",
+    "validation_status": "validated"
+  }
+}

@@ -1,0 +1,480 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-02T08:14:36.910Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_004",
+      "domain": "manufacturing",
+      "prompt": "An assembly robot welds metal frames while a quality inspection drone hovers to scan the joints. The drone can start scanning only after welding is complete. If temperature exceeds 90°C, welding must pause until it drops below 70°C.",
+      "gold_standard": {
+        "constraints": [
+          "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "WelderBot pauses welding when temperature exceeds 90°C",
+          "WelderBot resumes welding when temperature drops below 70°C"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+                "query": "WelderBot.welding_finished --> InspectorDrone.scanning_started",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "query": "(temperature > 90) --> WelderBot.pausing_welding",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "query": "(temperature < 70) --> WelderBot.welding",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+                "query": "WelderBot.welding_finished --> InspectorDrone.scanning_start",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "query": "(WelderBot.temperature < 70) --> WelderBot.welding",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+                "query": "WelderBot.welding_complete --> InspectorDrone.scanning",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "query": "A[] (Welder.temperature > 90 --> Welder.paused)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "query": "(temperature < 70) --> WelderBot.resume_welding",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+                "query": "WelderBot.welding_complete --> InspectorDrone.scanning_start",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "query": "(temperature < 70) --> WelderBot.resumes_welding",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+                "query": "WelderBot.welding_finished --> InspectorDrone.scanning",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "query": "(temperature < 70) --> WelderBot.welding",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+                "query": "WelderBot.welding_complete --> InspectorDrone.scanning",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "query": "(WelderBot.temperature > 90) --> WelderBot.paused",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "query": "(WelderBot.temperature < 70) --> WelderBot.welding",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+                "query": "WelderBot.welding_complete --> InspectorDrone.scanning",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "query": "(temperature < 70) --> WelderBot.welding",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+                "query": "WelderBot.welding_finished --> InspectorDrone.scanning_started",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "query": "(temperature > 90) --> WelderBot.paused",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "query": "(temperature < 70) --> WelderBot.welding",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+                "query": "WelderBot.welding_finishes --> InspectorDrone.scanning_starts",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "query": "(temperature < 70) --> WelderBot.welding",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+                "query": "WelderBot.welding_complete --> InspectorDrone.scanning",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "query": "(temperature > 90) --> WelderBot.paused",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "query": "(temperature < 70) --> WelderBot.welding",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+                "query": "WelderBot.Welding_Complete --> InspectorDrone.Scanning",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "query": "(temperature < 70) --> WelderBot.Welding",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 28,
+    "inferred": 0,
+    "hallucination": 5,
+    "unlabeled": 0,
+    "total": 33
+  },
+  "performance_metrics": {
+    "precision": 0.8484848484848485,
+    "recall": 9.333333333333334,
+    "f1": 1.5555555555555556
+  }
+}

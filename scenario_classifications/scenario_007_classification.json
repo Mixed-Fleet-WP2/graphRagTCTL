@@ -1,0 +1,245 @@
+{
+  "id": "scenario_007",
+  "domain": "drone_inspection",
+  "prompt": "A UAV performs an inspection flight around a building. It must maintain a distance of at least 3 meters from any obstacle and return to the base after completing the inspection.",
+  "robots": [
+    "UAV"
+  ],
+  "constraints": [
+    "UAV must maintain a safe distance of 3 meters from obstacles",
+    "UAV must eventually return to base"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 3.373176097869873,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "UAV must eventually return to base",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 6.937104225158691,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "UAV must eventually return to base",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 7.175861835479736,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "UAV must eventually return to base",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.7192010879516602,
+      "tokens": 676,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "UAV must eventually return to base",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.470935106277466,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "UAV must eventually return to base",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.2908318042755127,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (distance_from_obstacle < 3_meters)"
+        },
+        {
+          "index": 1,
+          "constraint": "UAV must eventually return to base",
+          "pattern_name": "eventual_completion",
+          "template": "A<> returned_to_base"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 12.838297843933105,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "UAV must eventually return to base",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 8.078544855117798,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "UAV must eventually return to base",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 19.627100944519043,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "UAV must eventually return to base",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 0.8310518264770508,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "UAV must eventually return to base",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 12.91188669204712,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "UAV must eventually return to base",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

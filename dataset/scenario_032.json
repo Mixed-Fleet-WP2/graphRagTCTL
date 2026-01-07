@@ -1,0 +1,32 @@
+{
+  "id": "scenario_032",
+  "domain": "agriculture",
+  "prompt": "A high-altitude agricultural drone surveys crop zones for moisture and pest indicators. It divides fields into ten sub-zones, capturing spectral data for each. The drone must not descend below 40 meters except for calibration at designated points. If wind speed exceeds 35 km/h, it climbs to safe altitude and hovers until conditions stabilize. When battery capacity falls under 20%, it must return to base within 60 seconds. Eventually, all zones must be scanned and their data transmitted to the control center.",
+  "robots": [
+    "AgroDrone"
+  ],
+  "constraints": [
+    "AgroDrone maintains altitude ≥ 40 m except during calibration",
+    "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+    "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+    "AgroDrone when hovering, it resumes survey when wind speed ≤ 35 km/h",
+    "AgroDrone returns to base within 60 seconds when battery < 20%",
+    "Eventually all data transmitted to control center",
+    "Eventually AgroDrone must scan all ten sub-zones"
+  ],
+  "reference_properties": [
+    "not AgroDrone.Calibrating --> AgroDrone.Altitude >= 40",
+    "(Environement.WindSpeed > 35 --> AgroDrone.SafeAltitude)",
+    "Environement.WindSpeed > 35 && SafeAltitude --> AgroDrone.Hovering",
+    "AgroDrone.Hovering and Environement.WindSpeed <= 35 --> AgroDrone.Surveying",
+    "(AgroDrone.battery < 20 and t > 60 --> AgroDrone.AtBase)",
+    "A<> (AgroDrone.DataTransmitted)",
+    "A<> (AgroDrone.AllZonesScanned)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-12",
+    "validation_status": "validated"
+  }
+}

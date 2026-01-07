@@ -1,0 +1,19 @@
+{
+  "id": "scenario_005",
+  "domain": "logistics",
+  "prompt": "A forklift places boxes on a conveyor belt. The belt starts moving only when the forklift is Done placing. The mobile picker robot retrieves packages from the belt and must not operate if any human worker is within 2 meters.",
+  "robots": ["Forklift", "Conveyor", "PickerBot"],
+  "constraints": [
+    "Conveyor must start moving only when Forklift is done placing boxes",
+    "PickerBot operates only if no human is within 2 meters"
+  ],
+  "reference_properties": [
+    "A[] (Conveyor.Moving) imply (Forklift.Done)",
+    "A[] not (PickerBot.operating && Human.distance <= 2)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10"
+  }
+}

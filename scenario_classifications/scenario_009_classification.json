@@ -1,0 +1,313 @@
+{
+  "id": "scenario_009",
+  "domain": "construction",
+  "prompt": "A crane lifts steel beams while a ground robot bolts them in place. The ground robot begins only after crane placement is confirmed. If a human enters the safety zone, both robots must halt within 5 seconds.",
+  "robots": [
+    "CraneBot",
+    "GroundBot"
+  ],
+  "constraints": [
+    "GroundBot starts bolting after CraneBot confirms placement",
+    "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+    "If a human enters the safety zone, GroundBot  must halt within 5 seconds"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 1.8076670169830322,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 7.925655126571655,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 14.590481042861938,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.9702849388122559,
+      "tokens": 759,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.21747088432312,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.1463370323181152,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 12.252767086029053,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 14.970293998718262,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 44.81976509094238,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.4784491062164307,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 10.621556997299194,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

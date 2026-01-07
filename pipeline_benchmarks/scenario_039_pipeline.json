@@ -1,0 +1,2181 @@
+{
+  "id": "scenario_039",
+  "domain": "space",
+  "prompt": "An orbital maintenance robot services communication satellites. It must align within \u00b12\u00b0 before docking. If solar radiation spikes above threshold, it retreats to shield position until radiation returns to normal. After each maintenance operation, it performs diagnostics lasting at least 120 seconds. Docking must be completed within 300 seconds after alignment achieved, and all satellites must eventually be serviced.",
+  "robots": [
+    "OrbitalServicer"
+  ],
+  "constraints": [
+    "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+    "OrbitalServicer retreats to shield when radiation above threshold",
+    "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+    "Docking completes within 300 s after alignment",
+    "Eventually all satellites serviced"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "classification": {
+            "step": "classification",
+            "timing": 3.132122039794922,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"OrbitalServicer\",\"aligns\",\"docking\",\"\u00b12\u00b0\",\"alignment constraint\",\"precision\"],\"cues\":[\"before\",\"\u00b1\",\"must\"],\"trigger_text\":\"docking\",\"response_text\":\"OrbitalServicer alignment is within \u00b12\u00b0\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.8292672634124756,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (OrbitalServicer.docking && abs(OrbitalServicer.alignment) > 2)\",\"explanation\":\"The constraint says the OrbitalServicer must be aligned within \u00b12\u00b0 before (i.e., whenever) docking occurs, so any state where it is docking with misalignment greater than 2\u00b0 is forbidden. The query A[] not (OrbitalServicer.docking && abs(OrbitalServicer.alignment) > 2) encodes that such a state must never occur in any reachable execution.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (OrbitalServicer.docking && abs(OrbitalServicer.alignment) > 2)",
+              "explanation": "The constraint says the OrbitalServicer must be aligned within \u00b12\u00b0 before (i.e., whenever) docking occurs, so any state where it is docking with misalignment greater than 2\u00b0 is forbidden. The query A[] not (OrbitalServicer.docking && abs(OrbitalServicer.alignment) > 2) encodes that such a state must never occur in any reachable execution.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (OrbitalServicer.docking && abs(OrbitalServicer.alignment) > 2)"
+          },
+          "total_time": 5.979827880859375,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "classification": {
+            "step": "classification",
+            "timing": 2.081068992614746,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"OrbitalServicer\",\"retreats\",\"shield\",\"radiation\",\"above threshold\",\"protection\",\"environmental condition\"],\"cues\":[\"when\",\"above\"],\"trigger_text\":\"radiation above threshold\",\"response_text\":\"OrbitalServicer retreats to shield\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.483994245529175,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(radiation > threshold) --> OrbitalServicer.at_shield\",\"explanation\":\"The constraint states that when radiation is above a threshold, the OrbitalServicer must (eventually) retreat to a shielded location. Using the conditional response pattern, the trigger condition is modeled as (radiation > threshold) and the required eventual response as OrbitalServicer.at_shield, combined with the UPPAAL liveness operator '-->' to express that whenever the condition holds, the response will eventually follow.\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(radiation > threshold) --> OrbitalServicer.at_shield",
+              "explanation": "The constraint states that when radiation is above a threshold, the OrbitalServicer must (eventually) retreat to a shielded location. Using the conditional response pattern, the trigger condition is modeled as (radiation > threshold) and the required eventual response as OrbitalServicer.at_shield, combined with the UPPAAL liveness operator '-->' to express that whenever the condition holds, the response will eventually follow.",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(radiation > threshold) --> OrbitalServicer.at_shield"
+          },
+          "total_time": 5.587471008300781,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "classification": {
+            "step": "classification",
+            "timing": 2.1367650032043457,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"OrbitalServicer\",\"diagnostics\",\"maintenance\",\"\u2265 120 s\",\"at least 120 seconds\",\"time delay\",\"after\"],\"cues\":[\">\",\"\u2265\",\"after\"],\"trigger_text\":\"maintenance\",\"response_text\":\"performs diagnostics at least 120 seconds later\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.859344959259033,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (OrbitalServicer.maintenance_done imply OrbitalServicer.t_diag >= 120)\",\"explanation\":\"Uses a clock t_diag that measures time since maintenance was completed. The invariant A[] (OrbitalServicer.maintenance_done imply OrbitalServicer.t_diag >= 120) states that whenever the system is in the situation where diagnostics are (about to be) performed after maintenance, the corresponding clock value is at least 120 seconds, enforcing that diagnostics occur no earlier than 120 seconds after maintenance. This encodes the lower-bound time-bounded constraint (\u2265 120 s after).\",\"confidence\":0.7,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"A[]\",\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (OrbitalServicer.maintenance_done imply OrbitalServicer.t_diag >= 120)",
+              "explanation": "Uses a clock t_diag that measures time since maintenance was completed. The invariant A[] (OrbitalServicer.maintenance_done imply OrbitalServicer.t_diag >= 120) states that whenever the system is in the situation where diagnostics are (about to be) performed after maintenance, the corresponding clock value is at least 120 seconds, enforcing that diagnostics occur no earlier than 120 seconds after maintenance. This encodes the lower-bound time-bounded constraint (\u2265 120 s after).",
+              "confidence": 0.7,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (OrbitalServicer.maintenance_done imply OrbitalServicer.t_diag >= 120)"
+          },
+          "total_time": 5.011153697967529,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Docking completes within 300 s after alignment",
+          "classification": {
+            "step": "classification",
+            "timing": 2.030365228652954,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"docking\",\"completes\",\"within 300 s\",\"after alignment\",\"time bound\",\"deadline\"],\"cues\":[\"within\",\"after\",\"s\"],\"trigger_text\":\"alignment\",\"response_text\":\"docking completes within 300 s\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.7262699604034424,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Docking.alignment && not Docking.completed imply t <= 300)\",\"explanation\":\"This uses the time_bounded_constraint pattern: whenever the system is in the phase where alignment has been achieved but docking is not yet completed, the associated clock t must be \u2264 300. This enforces that from the moment alignment holds, docking cannot take more than 300 seconds, matching the requirement that docking completes within 300 s after alignment.\",\"confidence\":0.86,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"A[]\",\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (Docking.alignment && not Docking.completed imply t <= 300)",
+              "explanation": "This uses the time_bounded_constraint pattern: whenever the system is in the phase where alignment has been achieved but docking is not yet completed, the associated clock t must be \u2264 300. This enforces that from the moment alignment holds, docking cannot take more than 300 seconds, matching the requirement that docking completes within 300 s after alignment.",
+              "confidence": 0.86,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Docking.alignment && not Docking.completed imply t <= 300)"
+          },
+          "total_time": 4.770654916763306,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Eventually all satellites serviced",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8581650257110596,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"all\",\"satellites\",\"serviced\",\"liveness\",\"completion\"],\"cues\":[\"eventually\",\"all\"],\"trigger_text\":\"all satellites\",\"response_text\":\"serviced\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.04976224899292,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> all_satellites_serviced\",\"explanation\":\"The constraint states that eventually all satellites are serviced, which is a liveness requirement that something must happen at some point. Using the eventual_completion pattern, we express that in all possible executions (A), there exists a future state (<>) where the condition 'all_satellites_serviced' holds.\",\"confidence\":0.9,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> all_satellites_serviced",
+              "explanation": "The constraint states that eventually all satellites are serviced, which is a liveness requirement that something must happen at some point. Using the eventual_completion pattern, we express that in all possible executions (A), there exists a future state (<>) where the condition 'all_satellites_serviced' holds.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_satellites_serviced"
+          },
+          "total_time": 4.935054779052734,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "classification": {
+            "step": "classification",
+            "timing": 10.352402925491333,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"OrbitalServicer\",\"align\",\"alignment\",\"\u00b12\u00b0\",\"2\u00b0\",\"degrees\",\"docking\",\"before docking\",\"within\",\"tolerance\",\"must\"],\"cues\":[\"before\",\"within\",\"\u00b1\",\"\u00b0\",\"must\",\"docking\",\"align\",\"aligns\"],\"trigger_text\":\"docking\",\"response_text\":\"OrbitalServicer aligned within \u00b12\u00b0\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.26265001296997,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(OrbitalServicer.docking) --> A<>(OrbitalServicer.aligned_within_2deg)\",\"explanation\":\"Per the conditional_response pattern, this query states that whenever docking is triggered, the system must eventually reach a state where the OrbitalServicer is aligned within \u00b12\u00b0 (represented by the boolean/location OrbitalServicer.aligned_within_2deg). It uses '-->' to express the conditional eventual response (trigger docking --> required alignment). This assumes the model provides a predicate/location named aligned_within_2deg that is true when alignment is within \u00b12\u00b0.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(OrbitalServicer.docking) --> A<>(OrbitalServicer.aligned_within_2deg)",
+              "explanation": "Per the conditional_response pattern, this query states that whenever docking is triggered, the system must eventually reach a state where the OrbitalServicer is aligned within \u00b12\u00b0 (represented by the boolean/location OrbitalServicer.aligned_within_2deg). It uses '-->' to express the conditional eventual response (trigger docking --> required alignment). This assumes the model provides a predicate/location named aligned_within_2deg that is true when alignment is within \u00b12\u00b0.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "(OrbitalServicer.docking) --> A<>(OrbitalServicer.aligned_within_2deg)"
+          },
+          "total_time": 27.637027263641357,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "classification": {
+            "step": "classification",
+            "timing": 6.542943000793457,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"retreat\",\"shield\",\"radiation\",\"threshold\",\"protect\",\"orbital\",\"servicer\"],\"cues\":[\"when\",\"above\",\"threshold\",\"must\",\"retreat\",\"to\",\"shield\"],\"trigger_text\":\"radiation above threshold\",\"response_text\":\"OrbitalServicer retreats to shield\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.871969223022461,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(Radiation.level > THRESHOLD) --> OrbitalServicer.at_shield\",\"explanation\":\"This encodes the conditional-response: whenever measured radiation exceeds the threshold, the OrbitalServicer must eventually be in the shield location. The '-->' operator captures the triggered eventual behavior (condition leads to response).\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(Radiation.level > THRESHOLD) --> OrbitalServicer.at_shield",
+              "explanation": "This encodes the conditional-response: whenever measured radiation exceeds the threshold, the OrbitalServicer must eventually be in the shield location. The '-->' operator captures the triggered eventual behavior (condition leads to response).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(Radiation.level > THRESHOLD) --> OrbitalServicer.at_shield"
+          },
+          "total_time": 14.431547164916992,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "classification": {
+            "step": "classification",
+            "timing": 8.88939905166626,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"OrbitalServicer\",\"diagnostics\",\"maintenance\",\">= 120 s\",\"delay\",\"after\",\"perform\",\"wait 120 seconds\"],\"cues\":[\"after\",\">=\",\"120\",\"s\",\"must\",\"perform\",\"diagnostics\"],\"trigger_text\":\"maintenance\",\"response_text\":\"OrbitalServicer performs diagnostics \u2265 120 s after maintenance\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.609357118606567,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (OrbitalServicer.maintenance --> (OrbitalServicer.diagnostics && t_maint >= 120))\",\n  \"explanation\": \"This query states that whenever the OrbitalServicer completes the maintenance trigger, it is guaranteed that diagnostics will eventually occur and at that time the clock t_maint (which must be reset on maintenance) is at least 120. That enforces the requirement that diagnostics happen >= 120 seconds after maintenance.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (OrbitalServicer.maintenance --> (OrbitalServicer.diagnostics && t_maint >= 120))",
+              "explanation": "This query states that whenever the OrbitalServicer completes the maintenance trigger, it is guaranteed that diagnostics will eventually occur and at that time the clock t_maint (which must be reset on maintenance) is at least 120. That enforces the requirement that diagnostics happen >= 120 seconds after maintenance.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (OrbitalServicer.maintenance --> (OrbitalServicer.diagnostics && t_maint >= 120))"
+          },
+          "total_time": 24.52225613594055,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Docking completes within 300 s after alignment",
+          "classification": {
+            "step": "classification",
+            "timing": 6.362215995788574,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"docking\",\"completes\",\"within\",\"300\",\"s\",\"seconds\",\"after\",\"alignment\"],\"cues\":[\"after\",\"within\",\"s\",\"300\",\"must\",\"complete\"],\"trigger_text\":\"alignment\",\"response_text\":\"docking completes within 300 s\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.04231095314026,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (Alignment.aligned --> (<> (Docking.completed && t <= 300)))\",\n  \"explanation\": \"This query states that whenever the system is in the Alignment.aligned state, it must eventually reach the Docking.completed state and that completion must occur while the clock t is <= 300. It encodes the intended deadline 'docking completes within 300 s after alignment' assuming clock t is reset when alignment is entered.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}",
+            "uppaal_result": {
+              "query": "A[] (Alignment.aligned --> (<> (Docking.completed && t <= 300)))",
+              "explanation": "This query states that whenever the system is in the Alignment.aligned state, it must eventually reach the Docking.completed state and that completion must occur while the clock t is <= 300. It encodes the intended deadline 'docking completes within 300 s after alignment' assuming clock t is reset when alignment is entered.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Alignment.aligned --> (<> (Docking.completed && t <= 300)))"
+          },
+          "total_time": 23.428457975387573,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Eventually all satellites serviced",
+          "classification": {
+            "step": "classification",
+            "timing": 14.346913814544678,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"all\",\"satellites\",\"serviced\",\"service\",\"complete\",\"completion\"],\"cues\":[\"eventually\",\"all\",\"serviced\"],\"trigger_text\":null,\"response_text\":\"all satellites serviced\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3449.2960901260376,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> SatelliteManager.all_serviced\",\n  \"explanation\": \"This is a liveness property using A<> (eventually for all runs) asserting that a global predicate all_serviced in the SatelliteManager component becomes true \u2014 i.e. all satellites are serviced at some future point, matching the 'eventually all satellites serviced' constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A<> SatelliteManager.all_serviced",
+              "explanation": "This is a liveness property using A<> (eventually for all runs) asserting that a global predicate all_serviced in the SatelliteManager component becomes true \u2014 i.e. all satellites are serviced at some future point, matching the 'eventually all satellites serviced' constraint.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> SatelliteManager.all_serviced"
+          },
+          "total_time": 3463.6668298244476,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "classification": {
+            "step": "classification",
+            "timing": 19.61715292930603,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"alignment\",\"docking\",\"tolerance\",\"angle\",\"precondition\",\"docking_sequence\"],\"cues\":[\"before\",\"then\",\"must\",\"alignment\",\"docking\",\"<\",\">\",\"\u00b1\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 28217.8148021698,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"OrbitalServicer.alignment_within_2deg --> OrbitalServicer.docking\",\"explanation\":\"The constraint requires docking to occur after alignment that is within the \u00b12\u00b0 tolerance. This is a sequential workflow expressed as alignment_within_2deg --> docking.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "OrbitalServicer.alignment_within_2deg --> OrbitalServicer.docking",
+              "explanation": "The constraint requires docking to occur after alignment that is within the \u00b12\u00b0 tolerance. This is a sequential workflow expressed as alignment_within_2deg --> docking.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "OrbitalServicer.alignment_within_2deg --> OrbitalServicer.docking"
+          },
+          "total_time": 28237.48047184944,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "classification": {
+            "step": "classification",
+            "timing": 11.21366286277771,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"radiation\",\"threshold\",\"shield\",\"retreat\",\"orbital_servicer\"],\"cues\":[\"when\",\"then\",\"<\",\" >\",\"?>\"],\"trigger_text\":\"radiation above threshold\",\"response_text\":\"retreat to shield\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21897.342429876328,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(OrbitalServicer.radiation > threshold) --> OrbitalServicer.retreat_to_shield\",\"explanation\":\"Directly encodes the NL constraint as a conditional-response: if radiation exceeds the threshold, the OrbitalServicer retreats to shield. Uses the defined '->' (conditional response) pattern with radiation > threshold as the trigger and retreat_to_shield as the eventual action.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(OrbitalServicer.radiation > threshold) --> OrbitalServicer.retreat_to_shield",
+              "explanation": "Directly encodes the NL constraint as a conditional-response: if radiation exceeds the threshold, the OrbitalServicer retreats to shield. Uses the defined '->' (conditional response) pattern with radiation > threshold as the trigger and retreat_to_shield as the eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(OrbitalServicer.radiation > threshold) --> OrbitalServicer.retreat_to_shield"
+          },
+          "total_time": 21908.612879753113,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "classification": {
+            "step": "classification",
+            "timing": 11.29883599281311,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"diagnostics\",\"maintenance\",\"120 seconds\",\"delay\",\"OrbitalServicer\",\"after\"],\"cues\":[\"after\",\"maintenance\",\"120\",\"seconds\",\"\u2265\",\"=\",\"s\"],\"trigger_text\":\"after maintenance\",\"response_text\":\"Diagnostics are performed after at least 120 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 30.584579944610596,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (MaintenanceDone && not DiagnosticsDone --> clock <= 120)\",\"explanation\":\"This encodes a time-bounded constraint: once maintenance is completed and diagnostics have not yet been performed, the time since maintenance (clock) must not exceed 120 seconds, i.e., diagnostics must occur within 120 seconds after maintenance.\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (MaintenanceDone && not DiagnosticsDone --> clock <= 120)",
+              "explanation": "This encodes a time-bounded constraint: once maintenance is completed and diagnostics have not yet been performed, the time since maintenance (clock) must not exceed 120 seconds, i.e., diagnostics must occur within 120 seconds after maintenance.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (MaintenanceDone && not DiagnosticsDone --> clock <= 120)"
+          },
+          "total_time": 41.947203159332275,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Docking completes within 300 s after alignment",
+          "classification": {
+            "step": "classification",
+            "timing": 7.180463790893555,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"docking\",\"alignment\",\"time\",\"300\",\"seconds\",\"within\",\"after\"],\"cues\":[\"after\",\"within\",\"s\",\"300\",\"alignment\",\"Docking\"],\"trigger_text\":\"Docking completes within 300 s after alignment\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 33.36792182922363,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Alignment.aligned --> clock <= 300)\",\"explanation\":\"Enforces that after alignment occurs (Alignment.aligned), docking must complete within 300 seconds. The clock is constrained to not exceed 300 while alignment has occurred and docking is not yet completed, capturing the time-bounded constraint from the triggering condition (alignment) to the desired outcome (docking completion).\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (Alignment.aligned --> clock <= 300)",
+              "explanation": "Enforces that after alignment occurs (Alignment.aligned), docking must complete within 300 seconds. The clock is constrained to not exceed 300 while alignment has occurred and docking is not yet completed, capturing the time-bounded constraint from the triggering condition (alignment) to the desired outcome (docking completion).",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Alignment.aligned --> clock <= 300)"
+          },
+          "total_time": 40.56352496147156,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Eventually all satellites serviced",
+          "classification": {
+            "step": "classification",
+            "timing": 6.591708183288574,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"satellites\",\"serviced\"],\"cues\":[\"eventually\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.278379917144775,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> Satellites.all_serviced\",\"explanation\":\"This encodes that, in every possible run, eventually Satellites.all_serviced becomes true, i.e., all satellites are serviced. It uses a global liveness property (A<>) with a final_state representing that all satellites have been serviced.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> Satellites.all_serviced",
+              "explanation": "This encodes that, in every possible run, eventually Satellites.all_serviced becomes true, i.e., all satellites are serviced. It uses a global liveness property (A<>) with a final_state representing that all satellites have been serviced.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Satellites.all_serviced"
+          },
+          "total_time": 27.8888201713562,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4301986694335938,
+            "tokens": 194,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"aligns\", \"docking\"],\n  \"cues\": [\"before\"],\n  \"trigger_text/response_text\": {\n    \"trigger_text\": \"aligns within \u00b12\u00b0\",\n    \"response_text\": \"docking\"\n  }\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.4399120807647705,
+            "tokens": 572,
+            "raw_text": "{\n  \"query\": \"OrbitalServicer.aligned_within_2_degrees --> OrbitalServicer.docking\",\n  \"explanation\": \"The constraint specifies that the OrbitalServicer must align within \u00b12\u00b0 before docking, indicating a sequential workflow where alignment is a prerequisite for docking. The 'before' cue suggests a sequence, aligning with the 'sequential_workflow' pattern, which is represented by the '-->' operator in UPPAAL.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "OrbitalServicer.aligned_within_2_degrees --> OrbitalServicer.docking",
+              "explanation": "The constraint specifies that the OrbitalServicer must align within \u00b12\u00b0 before docking, indicating a sequential workflow where alignment is a prerequisite for docking. The 'before' cue suggests a sequence, aligning with the 'sequential_workflow' pattern, which is represented by the '-->' operator in UPPAAL.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "OrbitalServicer.aligned_within_2_degrees --> OrbitalServicer.docking"
+          },
+          "total_time": 3.8899641036987305,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "classification": {
+            "step": "classification",
+            "timing": 1.6177661418914795,
+            "tokens": 194,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"retreats\", \"shield\", \"radiation\", \"threshold\"],\n  \"cues\": [\"when\", \"above\"],\n  \"trigger_text\": \"radiation above threshold\",\n  \"response_text\": \"OrbitalServicer retreats to shield\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.5788118839263916,
+            "tokens": 617,
+            "raw_text": "{\n  \"query\": \"(radiation > threshold) --> OrbitalServicer.at_shield\",\n  \"explanation\": \"The constraint describes a conditional response where the OrbitalServicer retreats to the shield when radiation is above a certain threshold. This matches the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The 'when' cue indicates a condition that triggers a response, and the 'above' cue specifies a threshold condition. The '-->' operator is appropriate for eventual triggered behavior, aligning with the pattern's template.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(radiation > threshold) --> OrbitalServicer.at_shield",
+              "explanation": "The constraint describes a conditional response where the OrbitalServicer retreats to the shield when radiation is above a certain threshold. This matches the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The 'when' cue indicates a condition that triggers a response, and the 'above' cue specifies a threshold condition. The '-->' operator is appropriate for eventual triggered behavior, aligning with the pattern's template.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(radiation > threshold) --> OrbitalServicer.at_shield"
+          },
+          "total_time": 4.221627950668335,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "classification": {
+            "step": "classification",
+            "timing": 1.031752109527588,
+            "tokens": 198,
+            "raw_text": "{\n    \"pattern\": \"time_bounded_constraint\",\n    \"keywords\": [\"diagnostics\", \"maintenance\", \"\u2265\", \"after\"],\n    \"cues\": [\">=\", \"after\"],\n    \"trigger_text/response_text\": {\n        \"trigger_text\": \"maintenance\",\n        \"response_text\": \"diagnostics\"\n    }\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0971391201019287,
+            "tokens": 731,
+            "raw_text": "{\n  \"query\": \"A[] (Maintenance.completed --> OrbitalServicer.diagnostics && clock >= 120)\",\n  \"explanation\": \"The query ensures that the OrbitalServicer performs diagnostics at least 120 seconds after maintenance is completed. The 'imply' operator is not suitable here because the action is not immediate; instead, the '-->' operator is used to indicate that diagnostics must eventually occur after the specified time has passed.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Maintenance.completed --> OrbitalServicer.diagnostics && clock >= 120)",
+              "explanation": "The query ensures that the OrbitalServicer performs diagnostics at least 120 seconds after maintenance is completed. The 'imply' operator is not suitable here because the action is not immediate; instead, the '-->' operator is used to indicate that diagnostics must eventually occur after the specified time has passed.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Maintenance.completed --> OrbitalServicer.diagnostics && clock >= 120)"
+          },
+          "total_time": 3.159061908721924,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Docking completes within 300 s after alignment",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8886749744415283,
+            "tokens": 188,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"docking\", \"completes\", \"alignment\", \"300 s\"],\n  \"cues\": [\"within\", \"after\"],\n  \"trigger_text\": \"alignment\",\n  \"response_text\": \"docking completes\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4330508708953857,
+            "tokens": 717,
+            "raw_text": "{\n  \"query\": \"A[] (Alignment.completed --> Docking.completed && clock <= 300)\",\n  \"explanation\": \"The query ensures that once alignment is completed, docking must also complete within 300 seconds. The '-->' operator is used to indicate that docking completion is a sequential response to alignment completion, adhering to the time-bounded constraint pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Alignment.completed --> Docking.completed && clock <= 300)",
+              "explanation": "The query ensures that once alignment is completed, docking must also complete within 300 seconds. The '-->' operator is used to indicate that docking completion is a sequential response to alignment completion, adhering to the time-bounded constraint pattern.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Alignment.completed --> Docking.completed && clock <= 300)"
+          },
+          "total_time": 2.3397703170776367,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Eventually all satellites serviced",
+          "classification": {
+            "step": "classification",
+            "timing": 0.6729946136474609,
+            "tokens": 157,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"all\", \"serviced\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.233328104019165,
+            "tokens": 537,
+            "raw_text": "{\n  \"query\": \"A<> all_satellites_serviced\",\n  \"explanation\": \"The constraint 'Eventually all satellites serviced' indicates a liveness property where the servicing of all satellites must eventually happen. The pattern 'eventual_completion' is used here, which aligns with the requirement that something must eventually occur. The operator A<> is appropriate for expressing this type of global liveness property.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> all_satellites_serviced",
+              "explanation": "The constraint 'Eventually all satellites serviced' indicates a liveness property where the servicing of all satellites must eventually happen. The pattern 'eventual_completion' is used here, which aligns with the requirement that something must eventually occur. The operator A<> is appropriate for expressing this type of global liveness property.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_satellites_serviced"
+          },
+          "total_time": 2.9233789443969727,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "classification": {
+            "step": "classification",
+            "timing": 3.1529700756073,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"aligns\", \"before\", \"docking\", \"OrbitalServicer\", \"degree\", \"orientation\"],\n  \"cues\": [\"before\", \"\u00b1\"],\n  \"trigger_text\": \"docking\",\n  \"response_text\": \"OrbitalServicer aligns within \u00b12\u00b0\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.082859039306641,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"OrbitalServicer.aligned --> OrbitalServicer.docking\",\n  \"explanation\": \"This query enforces that the OrbitalServicer must achieve proper alignment (within \u00b12\u00b0) before transitioning to the docking state. The --> operator ensures sequential workflow where alignment eventually leads to docking, matching the 'before' temporal relationship in the constraint.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "OrbitalServicer.aligned --> OrbitalServicer.docking",
+              "explanation": "This query enforces that the OrbitalServicer must achieve proper alignment (within \u00b12\u00b0) before transitioning to the docking state. The --> operator ensures sequential workflow where alignment eventually leads to docking, matching the 'before' temporal relationship in the constraint.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "OrbitalServicer.aligned --> OrbitalServicer.docking"
+          },
+          "total_time": 7.255393028259277,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "classification": {
+            "step": "classification",
+            "timing": 3.2716779708862305,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"retreats\", \"shield\", \"radiation\", \"threshold\", \"above\"],\n  \"cues\": [\"when\", \"above\"],\n  \"trigger_text\": \"radiation above threshold\",\n  \"response_text\": \"OrbitalServicer retreats to shield\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.447612285614014,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(radiation > threshold) --> OrbitalServicer.shielded\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that when radiation exceeds the threshold, the OrbitalServicer must eventually reach the shielded state (retreat to shield). The --> operator is appropriate here because this is a triggered behavior where detecting high radiation leads to an eventual protective action.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(radiation > threshold) --> OrbitalServicer.shielded",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that when radiation exceeds the threshold, the OrbitalServicer must eventually reach the shielded state (retreat to shield). The --> operator is appropriate here because this is a triggered behavior where detecting high radiation leads to an eventual protective action.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(radiation > threshold) --> OrbitalServicer.shielded"
+          },
+          "total_time": 7.737323045730591,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "classification": {
+            "step": "classification",
+            "timing": 3.4982216358184814,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"OrbitalServicer\", \"diagnostics\", \"after\", \"maintenance\", \"120\"],\n  \"cues\": [\"after\", \"\u2265\"],\n  \"trigger_text\": \"maintenance\",\n  \"response_text\": \"performs diagnostics \u2265 120 s after\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.088670015335083,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"OrbitalServicer.maintenance --> (OrbitalServicer.diagnostics && (OrbitalServicer.clock >= 120))\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that after maintenance occurs, the system must eventually reach a state where diagnostics is performed and at least 120 time units have elapsed (measured by the servicer's clock). The --> operator captures the eventual response behavior where maintenance triggers diagnostics after the specified time constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "OrbitalServicer.maintenance --> (OrbitalServicer.diagnostics && (OrbitalServicer.clock >= 120))",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that after maintenance occurs, the system must eventually reach a state where diagnostics is performed and at least 120 time units have elapsed (measured by the servicer's clock). The --> operator captures the eventual response behavior where maintenance triggers diagnostics after the specified time constraint.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "OrbitalServicer.maintenance --> (OrbitalServicer.diagnostics && (OrbitalServicer.clock >= 120))"
+          },
+          "total_time": 8.625519037246704,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Docking completes within 300 s after alignment",
+          "classification": {
+            "step": "classification",
+            "timing": 2.9158308506011963,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"docking\", \"completes\", \"within\", \"300\", \"seconds\", \"after\", \"alignment\"],\n  \"cues\": [\"within\", \"after\"],\n  \"trigger_text\": \"alignment\",\n  \"response_text\": \"docking completes within 300 s\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.828109264373779,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (alignment && not docking_complete imply clock <= 300)\",\n  \"explanation\": \"This query enforces that once alignment occurs, if docking has not completed, the clock must not exceed 300 seconds. This matches the time_bounded_constraint pattern where docking must complete within 300 seconds after the alignment trigger. The A[] operator ensures this is always true, and 'imply' checks the immediate condition that the time bound is respected.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (alignment && not docking_complete imply clock <= 300)",
+              "explanation": "This query enforces that once alignment occurs, if docking has not completed, the clock must not exceed 300 seconds. This matches the time_bounded_constraint pattern where docking must complete within 300 seconds after the alignment trigger. The A[] operator ensures this is always true, and 'imply' checks the immediate condition that the time bound is respected.",
+              "confidence": 0.9,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (alignment && not docking_complete imply clock <= 300)"
+          },
+          "total_time": 7.7638068199157715,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Eventually all satellites serviced",
+          "classification": {
+            "step": "classification",
+            "timing": 3.0523457527160645,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"satellites\", \"serviced\", \"all\"],\n  \"cues\": [\"eventually\", \"all\"],\n  \"trigger_text\": null,\n  \"response_text\": \"all satellites serviced\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.771824836730957,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> all_satellites_serviced\",\n  \"explanation\": \"This query checks that eventually all satellites must be serviced. The A<> operator ensures this is a liveness property - the system must eventually reach a state where the condition all_satellites_serviced becomes true.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> all_satellites_serviced",
+              "explanation": "This query checks that eventually all satellites must be serviced. The A<> operator ensures this is a liveness property - the system must eventually reach a state where the condition all_satellites_serviced becomes true.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_satellites_serviced"
+          },
+          "total_time": 6.839751958847046,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4228541851043701,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"alignment\", \"docking\", \"tolerance\", \"before\", \"precondition\"],\n  \"cues\": [\"\u00b1\", \"before\"],\n  \"trigger_text\": \"docking\",\n  \"response_text\": \"aligns within \u00b12\u00b0\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8306021690368652,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"OrbitalServicer.aligned_within_tolerance --> OrbitalServicer.docking\",\n  \"explanation\": \"The constraint expresses a conditional_response pattern where alignment within \u00b12\u00b0 is a precondition that must be satisfied before docking occurs. The trigger is the alignment state (within \u00b12\u00b0), and the eventual response is the docking action. The '-->' operator captures the sequential workflow: first alignment must be achieved, then docking follows.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "OrbitalServicer.aligned_within_tolerance --> OrbitalServicer.docking",
+              "explanation": "The constraint expresses a conditional_response pattern where alignment within \u00b12\u00b0 is a precondition that must be satisfied before docking occurs. The trigger is the alignment state (within \u00b12\u00b0), and the eventual response is the docking action. The '-->' operator captures the sequential workflow: first alignment must be achieved, then docking follows.",
+              "confidence": 0.88,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "OrbitalServicer.aligned_within_tolerance --> OrbitalServicer.docking"
+          },
+          "total_time": 3.272186756134033,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0075597763061523,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"retreats\", \"shield\", \"radiation\", \"threshold\"],\n  \"cues\": [\"when\", \"above\"],\n  \"trigger_text\": \"radiation above threshold\",\n  \"response_text\": \"OrbitalServicer retreats to shield\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8195667266845703,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(radiation > threshold) --> OrbitalServicer.at_shield\",\n  \"explanation\": \"This constraint describes a conditional response pattern where the condition 'radiation above threshold' triggers an eventual response 'OrbitalServicer retreats to shield'. The '-->' operator captures this sequential workflow: when the trigger condition (radiation level exceeds threshold) becomes true, the system must eventually reach a state where OrbitalServicer is at the shield location. This is not an immediate same-state response, but rather an eventual behavior following the condition.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(radiation > threshold) --> OrbitalServicer.at_shield",
+              "explanation": "This constraint describes a conditional response pattern where the condition 'radiation above threshold' triggers an eventual response 'OrbitalServicer retreats to shield'. The '-->' operator captures this sequential workflow: when the trigger condition (radiation level exceeds threshold) becomes true, the system must eventually reach a state where OrbitalServicer is at the shield location. This is not an immediate same-state response, but rather an eventual behavior following the condition.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(radiation > threshold) --> OrbitalServicer.at_shield"
+          },
+          "total_time": 2.837796926498413,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0840260982513428,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"diagnostics\",\n    \"maintenance\",\n    \"delay\",\n    \"after\",\n    \"120 seconds\"\n  ],\n  \"cues\": [\n    \"after\",\n    \"\u2265\",\n    \"120 s\"\n  ],\n  \"trigger_text\": \"maintenance\",\n  \"response_text\": \"OrbitalServicer performs diagnostics\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8686771392822266,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (OrbitalServicer.maintenance imply OrbitalServicer.diagnostics_clock >= 120)\",\n  \"explanation\": \"The constraint requires diagnostics to occur at least 120 seconds after maintenance begins. This uses A[] (always) with imply to enforce that whenever maintenance state is active, the diagnostics clock must be >= 120s before diagnostics can execute. This enforces the minimum delay requirement between the trigger (maintenance) and the response (diagnostics).\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (OrbitalServicer.maintenance imply OrbitalServicer.diagnostics_clock >= 120)",
+              "explanation": "The constraint requires diagnostics to occur at least 120 seconds after maintenance begins. This uses A[] (always) with imply to enforce that whenever maintenance state is active, the diagnostics clock must be >= 120s before diagnostics can execute. This enforces the minimum delay requirement between the trigger (maintenance) and the response (diagnostics).",
+              "confidence": 0.82,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (OrbitalServicer.maintenance imply OrbitalServicer.diagnostics_clock >= 120)"
+          },
+          "total_time": 2.989000082015991,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Docking completes within 300 s after alignment",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3032629489898682,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"docking\",\n    \"completes\",\n    \"alignment\",\n    \"300 seconds\",\n    \"time limit\"\n  ],\n  \"cues\": [\n    \"within\",\n    \"after\",\n    \"<\"\n  ],\n  \"trigger_text\": \"after alignment\",\n  \"response_text\": \"docking completes within 300 s\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.828887939453125,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Docking.alignment imply Docking.completed || clock <= 300)\",\n  \"explanation\": \"This query enforces that after alignment is reached, docking must complete within 300 seconds. The implication uses A[] (always) to ensure this deadline is globally respected. Once alignment state is entered, either docking completes or the clock must not exceed 300 seconds, preventing deadline violations.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Docking.alignment imply Docking.completed || clock <= 300)",
+              "explanation": "This query enforces that after alignment is reached, docking must complete within 300 seconds. The implication uses A[] (always) to ensure this deadline is globally respected. Once alignment state is entered, either docking completes or the clock must not exceed 300 seconds, preventing deadline violations.",
+              "confidence": 0.92,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Docking.alignment imply Docking.completed || clock <= 300)"
+          },
+          "total_time": 3.153609037399292,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Eventually all satellites serviced",
+          "classification": {
+            "step": "classification",
+            "timing": 1.00233793258667,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"satellites\", \"serviced\", \"all\"],\n  \"cues\": [\"eventually\", \"all\"],\n  \"trigger_text\": null,\n  \"response_text\": \"satellites serviced\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9301390647888184,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> all_satellites_serviced\",\n  \"explanation\": \"The constraint 'Eventually all satellites serviced' is a liveness property expressing that a final state (all satellites being serviced) must eventually be reached. The pattern 'eventual_completion' with cue 'eventually' and keywords 'all satellites serviced' maps directly to the A<> operator, which asserts that something MUST eventually happen in all execution paths. The state 'all_satellites_serviced' represents the completion condition.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> all_satellites_serviced",
+              "explanation": "The constraint 'Eventually all satellites serviced' is a liveness property expressing that a final state (all satellites being serviced) must eventually be reached. The pattern 'eventual_completion' with cue 'eventually' and keywords 'all satellites serviced' maps directly to the A<> operator, which asserts that something MUST eventually happen in all execution paths. The state 'all_satellites_serviced' represents the completion condition.",
+              "confidence": 0.92,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_satellites_serviced"
+          },
+          "total_time": 2.9543161392211914,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "classification": {
+            "step": "classification",
+            "timing": 13.408255338668823,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"aligns\", \"before\", \"docking\"], \"cues\": [\"before\"], \"trigger_text\": \"docking\", \"response_text\": \"aligns within \u00b12\u00b0\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.87099814414978,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"OrbitalServicer.aligned --> OrbitalServicer.docking\", \"explanation\": \"The constraint specifies that alignment within \u00b12\u00b0 occurs before docking, fitting the sequential workflow pattern where one action (alignment completion) eventually leads to another (docking), using the --> operator for eventual triggered behavior.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "OrbitalServicer.aligned --> OrbitalServicer.docking",
+              "explanation": "The constraint specifies that alignment within \u00b12\u00b0 occurs before docking, fitting the sequential workflow pattern where one action (alignment completion) eventually leads to another (docking), using the --> operator for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "OrbitalServicer.aligned --> OrbitalServicer.docking"
+          },
+          "total_time": 25.29962706565857,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "classification": {
+            "step": "classification",
+            "timing": 11.858184099197388,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"radiation\", \"threshold\", \"retreats\", \"shield\"], \"cues\": [\"when\", \"above\"], \"trigger_text\": \"radiation above threshold\", \"response_text\": \"retreats to shield\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.215969800949097,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(radiation > threshold) --> OrbitalServicer.at_shield\", \"explanation\": \"The constraint specifies a conditional response where when radiation exceeds the threshold, the OrbitalServicer must eventually retreat to the shield, matching the conditional_response pattern with the --> operator for eventual behavior.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(radiation > threshold) --> OrbitalServicer.at_shield",
+              "explanation": "The constraint specifies a conditional response where when radiation exceeds the threshold, the OrbitalServicer must eventually retreat to the shield, matching the conditional_response pattern with the --> operator for eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(radiation > threshold) --> OrbitalServicer.at_shield"
+          },
+          "total_time": 21.094866037368774,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "classification": {
+            "step": "classification",
+            "timing": 8.905846118927002,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"diagnostics\", \"maintenance\", \"120 s\"],\n  \"cues\": [\"after\", \"\u2265\"],\n  \"trigger_text\": \"maintenance\",\n  \"response_text\": \"performs diagnostics\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.44583797454834,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (OrbitalServicer.maintenance --> not (OrbitalServicer.diagnostics && clock < 120))\", \"explanation\": \"This UPPAAL query enforces that after entering the maintenance state, the diagnostics state cannot occur until at least 120 seconds have passed, using the leadsto operator to specify the eventual behavior with a minimum time constraint.\", \"confidence\": 0.85, \"pattern_used\": \"time_bounded_constraint\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (OrbitalServicer.maintenance --> not (OrbitalServicer.diagnostics && clock < 120))",
+              "explanation": "This UPPAAL query enforces that after entering the maintenance state, the diagnostics state cannot occur until at least 120 seconds have passed, using the leadsto operator to specify the eventual behavior with a minimum time constraint.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (OrbitalServicer.maintenance --> not (OrbitalServicer.diagnostics && clock < 120))"
+          },
+          "total_time": 29.37129497528076,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Docking completes within 300 s after alignment",
+          "classification": {
+            "step": "classification",
+            "timing": 9.285712957382202,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"docking\", \"completes\", \"within\", \"after\", \"alignment\"],\n  \"cues\": [\"after\", \"within\"],\n  \"trigger_text\": \"alignment\",\n  \"response_text\": \"Docking completes\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 23.250640153884888,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (alignment && not docking_completed imply clock <= 300)\", \"explanation\": \"This query uses the time_bounded_constraint pattern to ensure that docking completes within 300 seconds after alignment starts, assuming the clock resets upon entering the alignment state. The A[] operator enforces that globally, if alignment is true and docking is not completed, the clock must be <= 300.\", \"confidence\": 0.85, \"pattern_used\": \"time_bounded_constraint\", \"operator_used\": [\"A[]\", \"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (alignment && not docking_completed imply clock <= 300)",
+              "explanation": "This query uses the time_bounded_constraint pattern to ensure that docking completes within 300 seconds after alignment starts, assuming the clock resets upon entering the alignment state. The A[] operator enforces that globally, if alignment is true and docking is not completed, the clock must be <= 300.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (alignment && not docking_completed imply clock <= 300)"
+          },
+          "total_time": 32.552167892456055,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Eventually all satellites serviced",
+          "classification": {
+            "step": "classification",
+            "timing": 9.174870014190674,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"eventually\", \"all\", \"satellites\", \"serviced\"], \"cues\": [\"eventually\"]}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.07008981704712,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> all_satellites_serviced\", \"explanation\": \"The constraint 'Eventually all satellites serviced' is a liveness property requiring that the system must eventually reach a state where all satellites are serviced. The UPPAAL query uses the A<> operator to check for eventual completion of this task, matching the eventual_completion pattern.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> all_satellites_serviced",
+              "explanation": "The constraint 'Eventually all satellites serviced' is a liveness property requiring that the system must eventually reach a state where all satellites are serviced. The UPPAAL query uses the A<> operator to check for eventual completion of this task, matching the eventual_completion pattern.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_satellites_serviced"
+          },
+          "total_time": 28.267961740493774,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "classification": {
+            "step": "classification",
+            "timing": 5.457508087158203,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"align\", \"within \u00b12\u00b0\", \"before\", \"docking\", \"OrbitalServicer\"],\n  \"cues\": [\"before\", \"\u00b1\", \"2\u00b0\"],\n  \"trigger_text\": \"aligns within \u00b12\u00b0\",\n  \"response_text\": \"docking\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.907205820083618,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"OrbitalServicer.aligned --> OrbitalServicer.docking\",\n  \"explanation\": \"The query uses the --> operator to represent a sequential workflow where the alignment state must eventually lead to the docking state, matching the constraint that alignment within \u00b12\u00b0 occurs before docking.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "OrbitalServicer.aligned --> OrbitalServicer.docking",
+              "explanation": "The query uses the --> operator to represent a sequential workflow where the alignment state must eventually lead to the docking state, matching the constraint that alignment within \u00b12\u00b0 occurs before docking.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "OrbitalServicer.aligned --> OrbitalServicer.docking"
+          },
+          "total_time": 12.386558055877686,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "classification": {
+            "step": "classification",
+            "timing": 5.928132057189941,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"radiation\", \"threshold\", \"retreats\", \"shield\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"radiation above threshold\",\n  \"response_text\": \"OrbitalServicer retreats to shield\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.638487100601196,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(radiation > threshold) --> OrbitalServicer.at_shield\",\n  \"explanation\": \"This query uses the --> operator to indicate that when radiation exceeds the threshold, the OrbitalServicer will eventually reach the shield, directly matching the conditional response pattern where a condition leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(radiation > threshold) --> OrbitalServicer.at_shield",
+              "explanation": "This query uses the --> operator to indicate that when radiation exceeds the threshold, the OrbitalServicer will eventually reach the shield, directly matching the conditional response pattern where a condition leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(radiation > threshold) --> OrbitalServicer.at_shield"
+          },
+          "total_time": 12.583931922912598,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "classification": {
+            "step": "classification",
+            "timing": 7.371856927871704,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"after\", \"diagnostics\", \"maintenance\", \"120 s\"],\n  \"cues\": [\"after\", \"\u2265\"],\n  \"trigger_text\": \"after maintenance\",\n  \"response_text\": \"performs diagnostics \u2265 120 s\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.141538143157959,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (after_maintenance imply clock >= 120 --> diagnostics)\",\n  \"explanation\": \"This query uses the time_bounded_constraint pattern to ensure that after maintenance, diagnostics will eventually be performed only after at least 120 seconds, aligning with the constraint's requirement for a minimum time delay.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (after_maintenance imply clock >= 120 --> diagnostics)",
+              "explanation": "This query uses the time_bounded_constraint pattern to ensure that after maintenance, diagnostics will eventually be performed only after at least 120 seconds, aligning with the constraint's requirement for a minimum time delay.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (after_maintenance imply clock >= 120 --> diagnostics)"
+          },
+          "total_time": 22.534175157546997,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Docking completes within 300 s after alignment",
+          "classification": {
+            "step": "classification",
+            "timing": 5.312960147857666,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"docking\", \"completes\", \"within\", \"after\", \"alignment\"],\n  \"cues\": [\"after\", \"within\"],\n  \"trigger_text\": \"after alignment\",\n  \"response_text\": \"docking completes within 300 s\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.263186931610107,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (aligned && not docking_completed imply clock <= 300)\",\n  \"explanation\": \"This query ensures that after the 'aligned' state is reached, if 'docking_completed' has not occurred, the clock must be less than or equal to 300, enforcing the time-bound constraint that docking completes within 300 seconds after alignment.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (aligned && not docking_completed imply clock <= 300)",
+              "explanation": "This query ensures that after the 'aligned' state is reached, if 'docking_completed' has not occurred, the clock must be less than or equal to 300, enforcing the time-bound constraint that docking completes within 300 seconds after alignment.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (aligned && not docking_completed imply clock <= 300)"
+          },
+          "total_time": 17.60022234916687,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Eventually all satellites serviced",
+          "classification": {
+            "step": "classification",
+            "timing": 6.858613967895508,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"all\", \"satellites\", \"serviced\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.431828022003174,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> all_satellites_serviced\",\n  \"explanation\": \"This query matches the constraint 'Eventually all satellites serviced' by using the A<> operator to ensure that the state where all satellites are serviced is inevitably reached, aligning with the eventual_completion pattern for global liveness properties.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> all_satellites_serviced",
+              "explanation": "This query matches the constraint 'Eventually all satellites serviced' by using the A<> operator to ensure that the state where all satellites are serviced is inevitably reached, aligning with the eventual_completion pattern for global liveness properties.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_satellites_serviced"
+          },
+          "total_time": 20.312472105026245,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "classification": {
+            "step": "classification",
+            "timing": 52.67191481590271,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"orbital servicer\", \"align\", \"within \u00b12\u00b0\", \"docking\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"aligns within \u00b12\u00b0\",\n  \"response_text\": \"docking\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 87.0445511341095,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(OrbitalServicer.alignment_angle <= 2 && OrbitalServicer.alignment_angle >= -2) --> OrbitalServicer.Docking\",\n  \"explanation\": \"The constraint uses 'before' to indicate that alignment within \u00b12\u00b0 is a condition that triggers the eventual response of docking, fitting the conditional_response pattern with the --> operator for sequential workflow and conditional eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(OrbitalServicer.alignment_angle <= 2 && OrbitalServicer.alignment_angle >= -2) --> OrbitalServicer.Docking",
+              "explanation": "The constraint uses 'before' to indicate that alignment within \u00b12\u00b0 is a condition that triggers the eventual response of docking, fitting the conditional_response pattern with the --> operator for sequential workflow and conditional eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(OrbitalServicer.alignment_angle <= 2 && OrbitalServicer.alignment_angle >= -2) --> OrbitalServicer.Docking"
+          },
+          "total_time": 139.74102187156677,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "classification": {
+            "step": "classification",
+            "timing": 30.70263671875,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"OrbitalServicer\", \"retreat\", \"shield\", \"radiation\", \"threshold\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"radiation above threshold\",\n  \"response_text\": \"retreats to shield\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 63.7821569442749,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(radiation > threshold) --> OrbitalServicer.at_shield\",\n  \"explanation\": \"The constraint uses 'when' to indicate a conditional response where the condition 'radiation above threshold' triggers the eventual action 'retreats to shield'. This matches the conditional_response pattern with the '-->' operator, which is designed for eventual triggered behaviors, as shown in similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(radiation > threshold) --> OrbitalServicer.at_shield",
+              "explanation": "The constraint uses 'when' to indicate a conditional response where the condition 'radiation above threshold' triggers the eventual action 'retreats to shield'. This matches the conditional_response pattern with the '-->' operator, which is designed for eventual triggered behaviors, as shown in similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(radiation > threshold) --> OrbitalServicer.at_shield"
+          },
+          "total_time": 94.5080099105835,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "classification": {
+            "step": "classification",
+            "timing": 58.89030909538269,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"OrbitalServicer\", \"diagnostics\", \"maintenance\", \"120 s\", \"after\"],\n  \"cues\": [\"after\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 122.09074211120605,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (OrbitalServicer.maintenance_done && not OrbitalServicer.diagnostics_done imply clock <= 120)\",\n  \"explanation\": \"The constraint 'OrbitalServicer performs diagnostics \u2265 120 s after maintenance' is interpreted as requiring diagnostics to be completed within 120 seconds after maintenance. This query uses the time_bounded_constraint pattern to enforce an upper time bound: whenever maintenance is done and diagnostics is not yet performed, the clock must be \u2264 120 seconds, ensuring the action occurs within the specified duration.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (OrbitalServicer.maintenance_done && not OrbitalServicer.diagnostics_done imply clock <= 120)",
+              "explanation": "The constraint 'OrbitalServicer performs diagnostics \u2265 120 s after maintenance' is interpreted as requiring diagnostics to be completed within 120 seconds after maintenance. This query uses the time_bounded_constraint pattern to enforce an upper time bound: whenever maintenance is done and diagnostics is not yet performed, the clock must be \u2264 120 seconds, ensuring the action occurs within the specified duration.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (OrbitalServicer.maintenance_done && not OrbitalServicer.diagnostics_done imply clock <= 120)"
+          },
+          "total_time": 181.01680183410645,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Docking completes within 300 s after alignment",
+          "classification": {
+            "step": "classification",
+            "timing": 58.524527072906494,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"docking\", \"alignment\", \"300 s\", \"within\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"after alignment\",\n  \"response_text\": \"docking completes\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 105.5118019580841,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (Robot.alignment && not Robot.docking_complete imply clock <= 300)\",\n  \"explanation\": \"This query matches the constraint by using the time_bounded_constraint pattern to enforce that whenever alignment is true (Robot.alignment) and docking is not complete (not Robot.docking_complete), the clock must be <= 300 seconds. This ensures docking completes within 300 seconds after alignment, as 'imply clock <= T' enforces an upper time bound, and A[] makes it a safety property that always holds.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Robot.alignment && not Robot.docking_complete imply clock <= 300)",
+              "explanation": "This query matches the constraint by using the time_bounded_constraint pattern to enforce that whenever alignment is true (Robot.alignment) and docking is not complete (not Robot.docking_complete), the clock must be <= 300 seconds. This ensures docking completes within 300 seconds after alignment, as 'imply clock <= T' enforces an upper time bound, and A[] makes it a safety property that always holds.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Robot.alignment && not Robot.docking_complete imply clock <= 300)"
+          },
+          "total_time": 164.06530594825745,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Eventually all satellites serviced",
+          "classification": {
+            "step": "classification",
+            "timing": 31.828530073165894,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"all\", \"satellites\", \"serviced\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 69.49640703201294,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> all_satellites_serviced\",\n  \"explanation\": \"The constraint 'Eventually all satellites serviced' uses the keyword 'eventually', indicating a liveness property where the condition must eventually hold true. This matches the 'eventual_completion' pattern, which uses the A<> operator to specify that something must eventually happen globally. The query A<> all_satellites_serviced follows the pattern template A<> final_state, assuming 'all_satellites_serviced' is a state or condition representing that all satellites have been serviced.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> all_satellites_serviced",
+              "explanation": "The constraint 'Eventually all satellites serviced' uses the keyword 'eventually', indicating a liveness property where the condition must eventually hold true. This matches the 'eventual_completion' pattern, which uses the A<> operator to specify that something must eventually happen globally. The query A<> all_satellites_serviced follows the pattern template A<> final_state, assuming 'all_satellites_serviced' is a state or condition representing that all satellites have been serviced.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_satellites_serviced"
+          },
+          "total_time": 101.35174298286438,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0196099281311035,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"alignment\", \"docking\", \"orbital servicer\", \"tolerance\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"OrbitalServicer\",\n  \"response_text\": \"aligns within \u00b12\u00b0\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4207549095153809,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"OrbitalServicer.alignment <= 2 --> OrbitalServicer.docked\",\n  \"explanation\": \"The constraint states that the OrbitalServicer aligns within \u00b12\u00b0 *before* docking. This translates to an eventual triggered behavior: If alignment is within the tolerance (<= 2), then eventually docking will happen. Therefore, we use the '-->' (leads to) operator to represent this sequential behavior. The reachability pattern is used to express the possibility of eventually reaching the 'docked' state *after* the alignment tolerance condition is met.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "OrbitalServicer.alignment <= 2 --> OrbitalServicer.docked",
+              "explanation": "The constraint states that the OrbitalServicer aligns within \u00b12\u00b0 *before* docking. This translates to an eventual triggered behavior: If alignment is within the tolerance (<= 2), then eventually docking will happen. Therefore, we use the '-->' (leads to) operator to represent this sequential behavior. The reachability pattern is used to express the possibility of eventually reaching the 'docked' state *after* the alignment tolerance condition is met.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "OrbitalServicer.alignment <= 2 --> OrbitalServicer.docked"
+          },
+          "total_time": 2.46093487739563,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7978880405426025,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"orbital servicer\", \"retreat\", \"shield\", \"radiation\", \"threshold\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"radiation above threshold\",\n  \"response_text\": \"OrbitalServicer retreats to shield\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.9798552989959717,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(radiation > threshold) --> OrbitalServicer.at_shield\",\n  \"explanation\": \"The constraint 'OrbitalServicer retreats to shield when radiation above threshold' fits the conditional_response pattern.  The 'when' keyword indicates a conditional trigger.  The query (radiation > threshold) --> OrbitalServicer.at_shield expresses that when radiation exceeds the threshold, the OrbitalServicer will eventually reach the shield location. The '-->' operator is appropriate for eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(radiation > threshold) --> OrbitalServicer.at_shield",
+              "explanation": "The constraint 'OrbitalServicer retreats to shield when radiation above threshold' fits the conditional_response pattern.  The 'when' keyword indicates a conditional trigger.  The query (radiation > threshold) --> OrbitalServicer.at_shield expresses that when radiation exceeds the threshold, the OrbitalServicer will eventually reach the shield location. The '-->' operator is appropriate for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(radiation > threshold) --> OrbitalServicer.at_shield"
+          },
+          "total_time": 1.8004810810089111,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1463780403137207,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"diagnostics\", \"maintenance\", \"OrbitalServicer\", \"time\", \"delay\"],\n  \"cues\": [\">\", \"after\"],\n  \"trigger_text\": \"maintenance\",\n  \"response_text\": \"OrbitalServicer performs diagnostics\",\n  \"time_duration\": \"120 s\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.1733729839324951,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"OrbitalServicer.maintenance --> clock >= 120\",\n  \"explanation\": \"The constraint states that diagnostics must be performed at least 120 seconds *after* maintenance. '-->' indicates eventual response, and 'clock >= 120' indicates that the time must be greater than or equal to 120 seconds after the maintenance action is initiated.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "OrbitalServicer.maintenance --> clock >= 120",
+              "explanation": "The constraint states that diagnostics must be performed at least 120 seconds *after* maintenance. '-->' indicates eventual response, and 'clock >= 120' indicates that the time must be greater than or equal to 120 seconds after the maintenance action is initiated.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "OrbitalServicer.maintenance --> clock >= 120"
+          },
+          "total_time": 2.3408150672912598,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Docking completes within 300 s after alignment",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7783360481262207,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"docking\", \"alignment\", \"time\", \"limit\", \"300 s\"],\n  \"cues\": [\"within\", \"after\"],\n  \"trigger_text\": \"alignment\",\n  \"response_text\": \"docking completes\",\n  \"time_limit\": \"300 s\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0812468528747559,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (alignment --> docking and clock <= 300)\",\n  \"explanation\": \"The constraint 'Docking completes within 300 s after alignment' specifies that docking must complete within 300 seconds of the alignment event. This is a time-bounded response, and the '-->' operator captures the eventual response (docking) to the trigger (alignment). The clock constraint enforces the 300s time limit.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (alignment --> docking and clock <= 300)",
+              "explanation": "The constraint 'Docking completes within 300 s after alignment' specifies that docking must complete within 300 seconds of the alignment event. This is a time-bounded response, and the '-->' operator captures the eventual response (docking) to the trigger (alignment). The clock constraint enforces the 300s time limit.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (alignment --> docking and clock <= 300)"
+          },
+          "total_time": 1.8795790672302246,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Eventually all satellites serviced",
+          "classification": {
+            "step": "classification",
+            "timing": 0.80442214012146,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"satellite\", \"serviced\", \"eventually\"],\n  \"cues\": [\"eventually\"]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2148208618164062,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> all_satellites_serviced\",\n  \"explanation\": \"The constraint states that all satellites must eventually be serviced. The 'eventual_completion' pattern indicates that a certain state must be reached.  'A<>' is the correct operator for expressing that something 'must eventually' happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> all_satellites_serviced",
+              "explanation": "The constraint states that all satellites must eventually be serviced. The 'eventual_completion' pattern indicates that a certain state must be reached.  'A<>' is the correct operator for expressing that something 'must eventually' happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_satellites_serviced"
+          },
+          "total_time": 2.0415689945220947,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "classification": {
+            "step": "classification",
+            "timing": 6.846574068069458,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"orbital servicer\",\n    \"aligns\",\n    \"docking\"\n  ],\n  \"cues\": [\n    \"before\",\n    \"\u00b1\",\n    \"\u00b0\"\n  ],\n  \"trigger_text\": \"OrbitalServicer aligns within \u00b12\u00b0\",\n  \"response_text\": \"docking\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.453379154205322,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"OrbitalServicer.Aligned --> OrbitalServicer.Docking\",\n  \"explanation\": \"The constraint specifies a sequential workflow where alignment must happen 'before' docking. This is translated using the 'leads to' operator (-->). The query `OrbitalServicer.Aligned --> OrbitalServicer.Docking` asserts that whenever the `OrbitalServicer.Aligned` state is reached, the system must eventually transition to the `OrbitalServicer.Docking` state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "OrbitalServicer.Aligned --> OrbitalServicer.Docking",
+              "explanation": "The constraint specifies a sequential workflow where alignment must happen 'before' docking. This is translated using the 'leads to' operator (-->). The query `OrbitalServicer.Aligned --> OrbitalServicer.Docking` asserts that whenever the `OrbitalServicer.Aligned` state is reached, the system must eventually transition to the `OrbitalServicer.Docking` state.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "OrbitalServicer.Aligned --> OrbitalServicer.Docking"
+          },
+          "total_time": 18.32130718231201,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "classification": {
+            "step": "classification",
+            "timing": 11.141247987747192,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"OrbitalServicer\",\n    \"retreats\",\n    \"shield\",\n    \"radiation\",\n    \"threshold\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"above\"\n  ],\n  \"trigger_text\": \"radiation above threshold\",\n  \"response_text\": \"OrbitalServicer retreats to shield\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.402159214019775,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (OrbitalServicer.radiation > threshold imply OrbitalServicer.Retreating)\",\n  \"explanation\": \"The query uses the `A[]` (always) operator to enforce a safety property. The `imply` operator ensures that whenever the trigger condition `OrbitalServicer.radiation > threshold` is true, the safety action `OrbitalServicer.Retreating` must also be true in the same state. This directly translates the immediate response requirement that 'when' a dangerous condition occurs, a safety response is mandatory without delay.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (OrbitalServicer.radiation > threshold imply OrbitalServicer.Retreating)",
+              "explanation": "The query uses the `A[]` (always) operator to enforce a safety property. The `imply` operator ensures that whenever the trigger condition `OrbitalServicer.radiation > threshold` is true, the safety action `OrbitalServicer.Retreating` must also be true in the same state. This directly translates the immediate response requirement that 'when' a dangerous condition occurs, a safety response is mandatory without delay.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (OrbitalServicer.radiation > threshold imply OrbitalServicer.Retreating)"
+          },
+          "total_time": 32.56332492828369,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "classification": {
+            "step": "classification",
+            "timing": 7.81212306022644,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"OrbitalServicer\",\n    \"diagnostics\",\n    \"maintenance\"\n  ],\n  \"cues\": [\n    \"\u2265\",\n    \"after\"\n  ],\n  \"trigger_text\": \"maintenance\",\n  \"response_text\": \"OrbitalServicer performs diagnostics\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 46.11888313293457,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"OrbitalServicer.maintenance --> (OrbitalServicer.diagnostics and OrbitalServicer.c >= 120)\",\n  \"explanation\": \"This query models the constraint as a delayed response property. The '-->' (leads to) operator checks that after the trigger event (entering the 'OrbitalServicer.maintenance' state), a response eventually occurs. The response is defined as reaching the 'OrbitalServicer.diagnostics' state, but only when a clock 'c' is greater than or equal to 120. This clock 'c' is assumed to be reset upon entering the 'maintenance' state, thus enforcing that at least 120 seconds have passed before diagnostics can be performed.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "OrbitalServicer.maintenance --> (OrbitalServicer.diagnostics and OrbitalServicer.c >= 120)",
+              "explanation": "This query models the constraint as a delayed response property. The '-->' (leads to) operator checks that after the trigger event (entering the 'OrbitalServicer.maintenance' state), a response eventually occurs. The response is defined as reaching the 'OrbitalServicer.diagnostics' state, but only when a clock 'c' is greater than or equal to 120. This clock 'c' is assumed to be reset upon entering the 'maintenance' state, thus enforcing that at least 120 seconds have passed before diagnostics can be performed.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "OrbitalServicer.maintenance --> (OrbitalServicer.diagnostics and OrbitalServicer.c >= 120)"
+          },
+          "total_time": 53.95181965827942,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Docking completes within 300 s after alignment",
+          "classification": {
+            "step": "classification",
+            "timing": 8.18616008758545,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"docking\",\n    \"completes\",\n    \"alignment\"\n  ],\n  \"cues\": [\n    \"within\",\n    \"after\"\n  ],\n  \"trigger_text\": \"alignment\",\n  \"response_text\": \"Docking completes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 49.23671221733093,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Process.Alignment and not Process.Docked imply clock <= 300)\",\n  \"explanation\": \"This query verifies a bounded response property. It states that it must always (`A[]`) be true that if the system is in the `Alignment` state but has not yet reached the `Docked` state, then a local clock (`clock`), which is assumed to reset upon entering `Alignment`, must not exceed 300. This enforces that the eventual response (Docking) to the trigger (Alignment) happens within the specified time limit.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Process.Alignment and not Process.Docked imply clock <= 300)",
+              "explanation": "This query verifies a bounded response property. It states that it must always (`A[]`) be true that if the system is in the `Alignment` state but has not yet reached the `Docked` state, then a local clock (`clock`), which is assumed to reset upon entering `Alignment`, must not exceed 300. This enforces that the eventual response (Docking) to the trigger (Alignment) happens within the specified time limit.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Process.Alignment and not Process.Docked imply clock <= 300)"
+          },
+          "total_time": 57.44409489631653,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Eventually all satellites serviced",
+          "classification": {
+            "step": "classification",
+            "timing": 11.489459037780762,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"eventually\",\n    \"all\",\n    \"satellites\",\n    \"serviced\",\n    \"completion\"\n  ],\n  \"cues\": [\n    \"Eventually\"\n  ],\n  \"response_text\": \"all satellites serviced\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.278782844543457,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> System.all_satellites_serviced\",\n  \"explanation\": \"The liveness property \\\"Eventually all satellites serviced\\\" requires that the system must, at some point in the future, reach a state where the servicing task is complete. This is directly translated using the UPPAAL temporal logic operator A<> (for all paths, eventually). The expression `System.all_satellites_serviced` represents the boolean condition that is true in the desired final state.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> System.all_satellites_serviced",
+              "explanation": "The liveness property \"Eventually all satellites serviced\" requires that the system must, at some point in the future, reach a state where the servicing task is complete. This is directly translated using the UPPAAL temporal logic operator A<> (for all paths, eventually). The expression `System.all_satellites_serviced` represents the boolean condition that is true in the desired final state.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> System.all_satellites_serviced"
+          },
+          "total_time": 27.792477130889893,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    }
+  ]
+}

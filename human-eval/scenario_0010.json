@@ -1,0 +1,480 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-02T14:24:52.099Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_0010",
+      "domain": "logistics",
+      "prompt": "A restocking AMR refills shelves while a drone verifies stock levels. The drone can only scan shelves when the AMR is idle. Both must stop if any obstacle is detected within 1 meters.",
+      "gold_standard": {
+        "constraints": [
+          "StockDrone scans only when RestockAMR is idle",
+          "Amr must stop if any obstacle is detected within 1 meters",
+          "Drone must stop if any obstacle is detected within 1 meters"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "StockDrone scans only when RestockAMR is idle",
+                "query": "(StockDrone.scanning) --> (RestockAMR.idle)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+                "query": "A[] not (Obstacle.distance < 1 && Amr.moving)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+                "query": "A[] not (ObstacleDetector.distance < 1 && Drone.moving)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "StockDrone scans only when RestockAMR is idle",
+                "query": "(RestockAMR.idle) --> StockDrone.scan",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (Drone.obstacle_detected && Drone.distance <= 1 imply Drone.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "StockDrone scans only when RestockAMR is idle",
+                "query": "RestockAMR.idle --> StockDrone.scans",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+                "query": "A[] ((Amr.obstacle_detected && Amr.distance_to_obstacle <= 1) imply Amr.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "StockDrone scans only when RestockAMR is idle",
+                "query": "RestockAMR.idle --> StockDrone.scans",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (Drone.obstacle_detected_within_1_meter imply Drone.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "StockDrone scans only when RestockAMR is idle",
+                "query": "A[] StockDrone.scanning imply RestockAMR.idle",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (Amr.obstacle_distance < 1 imply Amr.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "StockDrone scans only when RestockAMR is idle",
+                "query": "RestockAMR.idle --> StockDrone.scans",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (Amr.obstacle_detected imply Amr.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "StockDrone scans only when RestockAMR is idle",
+                "query": "(RestockAMR.idle) --> StockDrone.scans",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "StockDrone scans only when RestockAMR is idle",
+                "query": "(RestockAMR.is_idle) --> (StockDrone.is_scanning)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (obstacle_detected_within_1m imply Amr.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (obstacle_detected imply drone_stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "StockDrone scans only when RestockAMR is idle",
+                "query": "(RestockAMR.idle) --> (StockDrone.scans)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+                "query": "Drone.obstacle_detected_within_1m --> Drone.stopped",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "StockDrone scans only when RestockAMR is idle",
+                "query": "RestockAMR.idle --> StockDrone.scan",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (obstacle_detected imply Amr.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (obstacle_detected imply drone_stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "StockDrone scans only when RestockAMR is idle",
+                "query": "A[] (StockDrone.Scanning imply RestockAMR.Idle)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (Amr.obstacle_distance < 1 imply Amr.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+                "query": "A[] (Drone.obstacle_detected imply Drone.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 17,
+    "inferred": 0,
+    "hallucination": 16,
+    "unlabeled": 0,
+    "total": 33
+  },
+  "performance_metrics": {
+    "precision": 0.5151515151515151,
+    "recall": 5.666666666666667,
+    "f1": 0.9444444444444444
+  }
+}

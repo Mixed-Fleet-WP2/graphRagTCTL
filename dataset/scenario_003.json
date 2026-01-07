@@ -1,0 +1,34 @@
+{
+  "id": "scenario_003",
+  "domain": "manufacturing",
+  "prompt": "A mobile inspector robot navigates the factory floor scanning inventory. If battery drops below 20%, it must return to charging station. An AMR collector follows to pick up items, all robots maintain safe distance from humans and other robots. If path blocked, robots must find alternative routes within 30 seconds.",
+  "robots": [
+    "InspectorBot",
+    "CollectorAMR"
+  ],
+  "constraints": [
+    "InspectorBot returns to charging when battery below 20%",
+    "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+    "InspectorBot maintains safe distance from humans",
+    "InspectorBot maintains safe distance from robots",
+    "CollectorAMR maintains safe distance from humans",
+    "CollectorAMR maintains safe distance from robots",
+    "Inspector find alternative routes within 30 seconds",
+    "CollectorAMR find alternative routes within 30 seconds"
+  ],
+  "reference_properties": [
+    "(InspectorBot.Scanning && InspectorBot.battery_level <= 20) --> InspectorBot.Returning",
+    "A[] (CollectorAMR.Picking) imply (InspectorBot.Done)",
+    "A[] (CollectorAMR.Following || CollectorAMR.Collecting) imply distance_to_human >= safe_distance",
+    "A[] (CollectorAMR.Following || CollectorAMR.Collecting) imply distance_to_robot >= safe_distance",
+    "A[] (InspectorBot.Following || InspectorBot.Collecting) imply distance_to_human >= safe_distance",
+    "A[] (InspectorBot.Following || InspectorBot.Collecting) imply distance_to_robot >= safe_distance",
+    "(CollectorAMR.PathBlocked && CollectorAMR.reroute_timer >= 30) imply CollectorAMR.AlternbativeRouteFound",
+    "(InspectorBot.PathBlocked && InspectorBot.reroute_timer >= 30) imply InspectorBot.AlternbativeRouteFound"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-07"
+  }
+}

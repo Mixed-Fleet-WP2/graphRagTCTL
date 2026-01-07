@@ -1,0 +1,24 @@
+{
+  "id": "scenario_026",
+  "domain": "manufacturing",
+  "prompt": "An assembler robot mounts parts on the frame, a welder seals joints, a painter applies coating, and an inspector checks quality. Welding robot starts welding only after assembly completes. Painting robot begins painting after welding finishes, and inspection follows painting. Eventually, all robots must reach idle state.",
+  "robots": ["AssemblerBot", "WelderBot", "PainterBot", "InspectorBot"],
+  "constraints": [
+    "WelderBot starts only after AssemblerBot completes assembly",
+    "PainterBot starts only after WelderBot finishes welding",
+    "InspectorBot starts only after PainterBot finishes painting",
+    "Eventually all robots reach idle state"
+  ],
+  "reference_properties": [
+    "A[] (WelderBot.Active) imply (AssemblerBot.Done)",
+    "A[] (PainterBot.Active) imply (WelderBot.Done)",
+    "A[] (InspectorBot.Active) imply (PainterBot.Done)",
+    "A<> (AssemblerBot.Idle && WelderBot.Idle && PainterBot.Idle && InspectorBot.Idle)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-12",
+    "validation_status": "validated"
+  }
+}

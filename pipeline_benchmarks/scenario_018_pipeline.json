@@ -1,0 +1,1337 @@
+{
+  "id": "scenario_018",
+  "domain": "construction",
+  "prompt": "A drone delivers bricks to the upper floor, and a lifting robot waits to stack them. If the drone battery drops below 15%, it must land for charging, but there exists a possible sequence where delivery still completes successfully.",
+  "robots": [
+    "DeliveryDrone",
+    "LiftBot"
+  ],
+  "constraints": [
+    "LiftBot stacks only after DeliveryDrone arrives",
+    "DeliveryDrone lands when battery < 15%",
+    "Delivery eventually completes"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "classification": {
+            "step": "classification",
+            "timing": 1.5320770740509033,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"LiftBot\",\"stacks\",\"DeliveryDrone\",\"arrives\",\"only after\",\"sequence\",\"ordering\"],\"cues\":[\"only after\",\"after\"],\"trigger_text\":\"DeliveryDrone arrives\",\"response_text\":\"LiftBot stacks\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.5126960277557373,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"DeliveryDrone.arrives --> LiftBot.stacks\",\"explanation\":\"The query uses the sequential workflow operator `-->` to state that whenever the event/location `DeliveryDrone.arrives` occurs, it is eventually followed by `LiftBot.stacks`. This captures the intended ordering that stacking by LiftBot happens only after the DeliveryDrone has arrived, allowing for a delay between arrival and stacking.\",\"confidence\":0.89,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+              "explanation": "The query uses the sequential workflow operator `-->` to state that whenever the event/location `DeliveryDrone.arrives` occurs, it is eventually followed by `LiftBot.stacks`. This captures the intended ordering that stacking by LiftBot happens only after the DeliveryDrone has arrived, allowing for a delay between arrival and stacking.",
+              "confidence": 0.89,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DeliveryDrone.arrives --> LiftBot.stacks"
+          },
+          "total_time": 4.074174880981445,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.9053049087524414,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"DeliveryDrone\",\"lands\",\"battery\",\"< 15%\",\"low battery\",\"landing condition\"],\"cues\":[\"when\",\"<\",\"%\"],\"trigger_text\":\"battery < 15%\",\"response_text\":\"DeliveryDrone lands\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.7754669189453125,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(DeliveryDrone.battery < 15) --> DeliveryDrone.lands\",\"explanation\":\"The natural-language constraint says that when the drone\u2019s battery drops below 15%, this should trigger the drone to land. The conditional_response pattern captures this as a condition that eventually leads to a response, expressed with the --> operator from the battery condition to the landing state/action.\",\"confidence\":0.89,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.lands",
+              "explanation": "The natural-language constraint says that when the drone\u2019s battery drops below 15%, this should trigger the drone to land. The conditional_response pattern captures this as a condition that eventually leads to a response, expressed with the --> operator from the battery condition to the landing state/action.",
+              "confidence": 0.89,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.lands"
+          },
+          "total_time": 4.717940330505371,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Delivery eventually completes",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2497282028198242,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"delivery\",\"eventually\",\"completes\",\"completion\"],\"cues\":[\"eventually\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9728062152862549,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> Delivery.completed\",\"explanation\":\"The constraint states that the delivery eventually completes, which is a liveness requirement that something must eventually happen. The eventual_completion pattern maps this to the A<> operator, expressing that on all paths, at some future point, the system reaches a state where the delivery is completed (here modeled as location or condition Delivery.completed).\",\"confidence\":0.93,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> Delivery.completed",
+              "explanation": "The constraint states that the delivery eventually completes, which is a liveness requirement that something must eventually happen. The eventual_completion pattern maps this to the A<> operator, expressing that on all paths, at some future point, the system reaches a state where the delivery is completed (here modeled as location or condition Delivery.completed).",
+              "confidence": 0.93,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Delivery.completed"
+          },
+          "total_time": 3.245145082473755,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "classification": {
+            "step": "classification",
+            "timing": 6.995920181274414,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"only after\",\"after\",\"arrives\",\"stacks\",\"DeliveryDrone\",\"LiftBot\",\"only\"],\"cues\":[\"only\",\"after\",\"arrives\",\"stacks\",\"DeliveryDrone\",\"LiftBot\"],\"trigger_text\":\"DeliveryDrone arrives\",\"response_text\":\"LiftBot stacks\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.081382989883423,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"DeliveryDrone.arrives --> LiftBot.stacks\",\"explanation\":\"Using the sequential_workflow template (action1 --> action2): whenever DeliveryDrone.arrives occurs, LiftBot.stacks must eventually follow. This encodes the requirement that stacking happens after the drone's arrival (i.e., LiftBot stacks only after DeliveryDrone arrives) as a triggered eventual behavior.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+              "explanation": "Using the sequential_workflow template (action1 --> action2): whenever DeliveryDrone.arrives occurs, LiftBot.stacks must eventually follow. This encodes the requirement that stacking happens after the drone's arrival (i.e., LiftBot stacks only after DeliveryDrone arrives) as a triggered eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DeliveryDrone.arrives --> LiftBot.stacks"
+          },
+          "total_time": 17.102558135986328,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "classification": {
+            "step": "classification",
+            "timing": 6.81118106842041,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"battery\",\n    \"battery < 15%\",\n    \"low battery\",\n    \"critical battery\",\n    \"land\",\n    \"lands\",\n    \"DeliveryDrone\",\n    \"landing\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"<\",\n    \"%\",\n    \"then\"\n  ],\n  \"trigger_text\": \"battery < 15%\",\n  \"response_text\": \"DeliveryDrone lands\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.487460851669312,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (DeliveryDrone.battery < 15 imply DeliveryDrone.lands)\",\"explanation\":\"This is an immediate safety property: always (A[]), whenever the DeliveryDrone.battery < 15 holds the DeliveryDrone must be in the 'lands' state immediately (using imply). It follows the safety_immediate_response template requiring instantaneous landing on low battery.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (DeliveryDrone.battery < 15 imply DeliveryDrone.lands)",
+              "explanation": "This is an immediate safety property: always (A[]), whenever the DeliveryDrone.battery < 15 holds the DeliveryDrone must be in the 'lands' state immediately (using imply). It follows the safety_immediate_response template requiring instantaneous landing on low battery.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (DeliveryDrone.battery < 15 imply DeliveryDrone.lands)"
+          },
+          "total_time": 18.329577922821045,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Delivery eventually completes",
+          "classification": {
+            "step": "classification",
+            "timing": 8.12613296508789,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"delivery\", \"complete\", \"eventually\", \"finish\", \"terminate\", \"success\"],\n  \"cues\": [\"eventually\", \"must\", \"will\"],\n  \"trigger_text\": \"Delivery\",\n  \"response_text\": \"Delivery completes (eventually)\"\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.406271934509277,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> Delivery.completed\",\"explanation\":\"This A<> query asserts that on all executions the Delivery process will eventually reach the 'completed' state, matching the liveness constraint that the delivery must eventually complete.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> Delivery.completed",
+              "explanation": "This A<> query asserts that on all executions the Delivery process will eventually reach the 'completed' state, matching the liveness constraint that the delivery must eventually complete.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Delivery.completed"
+          },
+          "total_time": 14.558454036712646,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "classification": {
+            "step": "classification",
+            "timing": 8.473435163497925,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"LiftBot\",\"DeliveryDrone\",\"stacks\",\"arrives\",\"sequence\",\"order\",\"delivery\"],\"cues\":[\"after\",\"then\",\"arrives\",\"stacks\"],\"trigger_text\":\"DeliveryDrone arrives\",\"response_text\":\"LiftBot stacks\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.579729795455933,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"DeliveryDrone.arrives --> LiftBot.stacks\",\"explanation\":\"Matches the sequential_workflow pattern: the left action DeliveryDrone.arrives is followed (eventually) by the right action LiftBot.stacks, encoding that LiftBot stacks after DeliveryDrone arrives.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+              "explanation": "Matches the sequential_workflow pattern: the left action DeliveryDrone.arrives is followed (eventually) by the right action LiftBot.stacks, encoding that LiftBot stacks after DeliveryDrone arrives.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DeliveryDrone.arrives --> LiftBot.stacks"
+          },
+          "total_time": 20.081226110458374,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "classification": {
+            "step": "classification",
+            "timing": 9.496135950088501,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"battery\",\"landing\",\"safety\",\"threshold\",\"15%\"],\"cues\":[\"when\",\"<\",\"%\"],\"trigger_text\":\"battery < 15%\",\"response_text\":\"land immediately\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.735666990280151,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(DeliveryDrone.battery < 15) --> DeliveryDrone.land\",\"explanation\":\"Uses the conditional_response pattern: if the battery is below 15%, the model should eventually transition to the landing state DeliveryDrone.land using the '\u2192' style transition (-->) to represent a triggered response.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.land",
+              "explanation": "Uses the conditional_response pattern: if the battery is below 15%, the model should eventually transition to the landing state DeliveryDrone.land using the '\u2192' style transition (-->) to represent a triggered response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.land"
+          },
+          "total_time": 20.262516021728516,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Delivery eventually completes",
+          "classification": {
+            "step": "classification",
+            "timing": 13.493350982666016,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"delivery\",\"completion\",\"eventual\",\"process\",\"timeline\",\"task\"],\"cues\":[\"eventually\",\"after\",\"then\",\"when\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.962437868118286,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> Delivery.completed\",\"explanation\":\"The constraint 'Delivery eventually completes' is a liveness property requiring that, on every possible execution, the delivery process will eventually reach a state where Delivery.completed is true. Using A<> Delivery.completed asserts that from all reachable states, Delivery.completed will eventually hold.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> Delivery.completed",
+              "explanation": "The constraint 'Delivery eventually completes' is a liveness property requiring that, on every possible execution, the delivery process will eventually reach a state where Delivery.completed is true. Using A<> Delivery.completed asserts that from all reachable states, Delivery.completed will eventually hold.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Delivery.completed"
+          },
+          "total_time": 27.47963285446167,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0492758750915527,
+            "tokens": 178,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"stacks\", \"arrives\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DeliveryDrone arrives\",\n  \"response_text\": \"LiftBot stacks\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0477797985076904,
+            "tokens": 551,
+            "raw_text": "{\n  \"query\": \"DeliveryDrone.arrives --> LiftBot.stacks\",\n  \"explanation\": \"The query uses the 'sequential_workflow' pattern to express that the action of LiftBot stacking occurs only after the DeliveryDrone arrives. The '-->' operator is used to indicate that one action eventually follows another, which matches the constraint provided.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+              "explanation": "The query uses the 'sequential_workflow' pattern to express that the action of LiftBot stacking occurs only after the DeliveryDrone arrives. The '-->' operator is used to indicate that one action eventually follows another, which matches the constraint provided.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DeliveryDrone.arrives --> LiftBot.stacks"
+          },
+          "total_time": 3.113046169281006,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0996432304382324,
+            "tokens": 184,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"lands\", \"battery\", \"<\", \"%\"],\n  \"cues\": [\"when\", \"<\", \"%\"],\n  \"trigger_text\": \"battery < 15%\",\n  \"response_text\": \"DeliveryDrone lands\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4700140953063965,
+            "tokens": 566,
+            "raw_text": "{\n  \"query\": \"(DeliveryDrone.battery < 15) --> DeliveryDrone.lands\",\n  \"explanation\": \"The query follows the 'conditional_response' pattern where the condition 'battery < 15%' triggers the eventual response 'DeliveryDrone lands'. The '-->' operator is used to represent this eventual triggered behavior, aligning with the pattern's template for sequential workflows.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.lands",
+              "explanation": "The query follows the 'conditional_response' pattern where the condition 'battery < 15%' triggers the eventual response 'DeliveryDrone lands'. The '-->' operator is used to represent this eventual triggered behavior, aligning with the pattern's template for sequential workflows.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.lands"
+          },
+          "total_time": 2.583353042602539,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Delivery eventually completes",
+          "classification": {
+            "step": "classification",
+            "timing": 0.6848139762878418,
+            "tokens": 154,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"completes\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6016342639923096,
+            "tokens": 526,
+            "raw_text": "{\n  \"query\": \"A<> Delivery.complete\",\n  \"explanation\": \"The constraint 'Delivery eventually completes' matches the 'eventual_completion' pattern, which requires that a task must eventually complete. The UPPAAL query 'A<> Delivery.complete' ensures that the delivery task will eventually reach a state where it is complete, satisfying the liveness property.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> Delivery.complete",
+              "explanation": "The constraint 'Delivery eventually completes' matches the 'eventual_completion' pattern, which requires that a task must eventually complete. The UPPAAL query 'A<> Delivery.complete' ensures that the delivery task will eventually reach a state where it is complete, satisfying the liveness property.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Delivery.complete"
+          },
+          "total_time": 2.305570125579834,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "classification": {
+            "step": "classification",
+            "timing": 2.8448309898376465,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"LiftBot\", \"stacks\", \"after\", \"DeliveryDrone\", \"arrives\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DeliveryDrone arrives\",\n  \"response_text\": \"LiftBot stacks\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.489109754562378,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DeliveryDrone.arrives --> LiftBot.stacks\",\n  \"explanation\": \"This query captures the sequential workflow where LiftBot's stacking action must eventually follow after DeliveryDrone arrives. The --> operator ensures that whenever DeliveryDrone reaches the 'arrives' state, LiftBot will eventually reach the 'stacks' state, enforcing the temporal ordering specified in the constraint.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+              "explanation": "This query captures the sequential workflow where LiftBot's stacking action must eventually follow after DeliveryDrone arrives. The --> operator ensures that whenever DeliveryDrone reaches the 'arrives' state, LiftBot will eventually reach the 'stacks' state, enforcing the temporal ordering specified in the constraint.",
+              "confidence": 0.95,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DeliveryDrone.arrives --> LiftBot.stacks"
+          },
+          "total_time": 7.358375072479248,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "classification": {
+            "step": "classification",
+            "timing": 3.354909896850586,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"DeliveryDrone\", \"lands\", \"battery\", \"15%\", \"threshold\"],\n  \"cues\": [\"when\", \"<\", \"%\"],\n  \"trigger_text\": \"battery < 15%\",\n  \"response_text\": \"DeliveryDrone lands\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.1406090259552,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(DeliveryDrone.battery < 15) --> DeliveryDrone.landed\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that when the battery level drops below 15%, the DeliveryDrone must eventually reach a landed state. The trigger condition (battery < 15) leads to the eventual response (drone lands).\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.landed",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that when the battery level drops below 15%, the DeliveryDrone must eventually reach a landed state. The trigger condition (battery < 15) leads to the eventual response (drone lands).",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.landed"
+          },
+          "total_time": 7.524635076522827,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Delivery eventually completes",
+          "classification": {
+            "step": "classification",
+            "timing": 4.2715537548065186,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"delivery\", \"eventually\", \"completes\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"Delivery\",\n  \"response_text\": \"completes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.268561124801636,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> Delivery.complete\",\n  \"explanation\": \"This query uses the A<> operator to express that along all paths, the system must eventually reach a state where the Delivery process is in the 'complete' location. This matches the eventual_completion pattern for the liveness property that delivery must eventually finish.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> Delivery.complete",
+              "explanation": "This query uses the A<> operator to express that along all paths, the system must eventually reach a state where the Delivery process is in the 'complete' location. This matches the eventual_completion pattern for the liveness property that delivery must eventually finish.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Delivery.complete"
+          },
+          "total_time": 8.573880910873413,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2533249855041504,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"stacks\", \"after\", \"arrives\", \"LiftBot\", \"DeliveryDrone\"],\n  \"cues\": [\"after\", \"only\"],\n  \"trigger_text\": \"DeliveryDrone arrives\",\n  \"response_text\": \"LiftBot stacks\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.2610390186309814,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DeliveryDrone.arrived --> LiftBot.stacking\",\n  \"explanation\": \"The constraint 'LiftBot stacks only after DeliveryDrone arrives' is a conditional_response pattern where the arrival of DeliveryDrone is the trigger condition and LiftBot stacking is the eventual response. The word 'after' indicates sequential workflow, and 'only after' emphasizes that stacking must be preceded by arrival. The --> operator captures this eventual triggered behavior: once DeliveryDrone arrives, LiftBot will eventually stack.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "DeliveryDrone.arrived --> LiftBot.stacking",
+              "explanation": "The constraint 'LiftBot stacks only after DeliveryDrone arrives' is a conditional_response pattern where the arrival of DeliveryDrone is the trigger condition and LiftBot stacking is the eventual response. The word 'after' indicates sequential workflow, and 'only after' emphasizes that stacking must be preceded by arrival. The --> operator captures this eventual triggered behavior: once DeliveryDrone arrives, LiftBot will eventually stack.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DeliveryDrone.arrived --> LiftBot.stacking"
+          },
+          "total_time": 4.538542985916138,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "classification": {
+            "step": "classification",
+            "timing": 2.3309288024902344,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"lands\", \"battery\", \"threshold\", \"landing\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"battery < 15%\",\n  \"response_text\": \"DeliveryDrone lands\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.437587022781372,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(DeliveryDrone.battery < 15) --> DeliveryDrone.landed\",\n  \"explanation\": \"This constraint follows the conditional_response pattern where a condition (battery < 15%) triggers an eventual response (DeliveryDrone lands). The '-->' operator is appropriate here because landing is a sequential action that occurs as a result of the battery threshold being crossed, not an immediate state property. The condition is checked on the battery level, and the response is the drone reaching the landed state.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.landed",
+              "explanation": "This constraint follows the conditional_response pattern where a condition (battery < 15%) triggers an eventual response (DeliveryDrone lands). The '-->' operator is appropriate here because landing is a sequential action that occurs as a result of the battery threshold being crossed, not an immediate state property. The condition is checked on the battery level, and the response is the drone reaching the landed state.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.landed"
+          },
+          "total_time": 5.793370962142944,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Delivery eventually completes",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9410808086395264,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"delivery\", \"completes\", \"completion\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"Delivery\",\n  \"response_text\": \"completes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6061749458312988,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> Delivery.completes\",\n  \"explanation\": \"The constraint 'Delivery eventually completes' expresses a liveness property where the Delivery process must eventually reach a completion state. The A<> operator is appropriate because it specifies that in all possible paths, the system must eventually satisfy the condition (Delivery.completes). This matches the eventual_completion pattern which requires something to eventually happen.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> Delivery.completes",
+              "explanation": "The constraint 'Delivery eventually completes' expresses a liveness property where the Delivery process must eventually reach a completion state. The A<> operator is appropriate because it specifies that in all possible paths, the system must eventually satisfy the condition (Delivery.completes). This matches the eventual_completion pattern which requires something to eventually happen.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Delivery.completes"
+          },
+          "total_time": 2.5744011402130127,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "classification": {
+            "step": "classification",
+            "timing": 7.362565994262695,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"stacks\", \"after\", \"arrives\"], \"cues\": [\"after\"], \"trigger_text\": \"DeliveryDrone arrives\", \"response_text\": \"LiftBot stacks\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.37242078781128,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"DeliveryDrone.arrives --> LiftBot.stacks\", \"explanation\": \"The constraint specifies that LiftBot stacks only after DeliveryDrone arrives, which matches the sequential_workflow pattern where one action (DeliveryDrone arrives) triggers another (LiftBot stacks) eventually, as shown in similar examples like 'After inspection finishes, welder starts welding' using '-->' operator.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+              "explanation": "The constraint specifies that LiftBot stacks only after DeliveryDrone arrives, which matches the sequential_workflow pattern where one action (DeliveryDrone arrives) triggers another (LiftBot stacks) eventually, as shown in similar examples like 'After inspection finishes, welder starts welding' using '-->' operator.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DeliveryDrone.arrives --> LiftBot.stacks"
+          },
+          "total_time": 19.76163101196289,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "classification": {
+            "step": "classification",
+            "timing": 9.920798063278198,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"lands\",\"battery\"],\"cues\":[\"when\",\"<\",\"%\"],\"trigger_text\":\"battery < 15%\",\"response_text\":\"lands\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.598458051681519,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(DeliveryDrone.battery < 15) --> DeliveryDrone.lands\", \"explanation\": \"This query matches the conditional_response pattern, where the condition (battery < 15%) triggers the eventual response (lands), following the template condition --> response and similar to examples like (Robot.battery < 20) --> Robot.at_charging_station.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.lands",
+              "explanation": "This query matches the conditional_response pattern, where the condition (battery < 15%) triggers the eventual response (lands), following the template condition --> response and similar to examples like (Robot.battery < 20) --> Robot.at_charging_station.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.lands"
+          },
+          "total_time": 23.547672033309937,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Delivery eventually completes",
+          "classification": {
+            "step": "classification",
+            "timing": 10.622873783111572,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"delivery\", \"completes\"], \"cues\": [\"eventually\"]}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.164719820022583,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> delivery_completed\", \"explanation\": \"The constraint specifies that delivery must eventually complete, which aligns with the eventual_completion pattern for liveness properties. The A<> operator ensures that the system will eventually reach the delivery_completed state.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> delivery_completed",
+              "explanation": "The constraint specifies that delivery must eventually complete, which aligns with the eventual_completion pattern for liveness properties. The A<> operator ensures that the system will eventually reach the delivery_completed state.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> delivery_completed"
+          },
+          "total_time": 23.812867879867554,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "classification": {
+            "step": "classification",
+            "timing": 4.743170976638794,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"stacks\", \"after\", \"arrives\", \"DeliveryDrone\", \"LiftBot\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DeliveryDrone arrives\",\n  \"response_text\": \"LiftBot stacks\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.7500691413879395,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"DeliveryDrone.arrives --> LiftBot.stacks\",\n  \"explanation\": \"The query uses the --> operator to specify that the event 'DeliveryDrone arrives' must eventually lead to 'LiftBot stacks', aligning with the sequential_workflow pattern where one action follows another after a preceding event, as indicated by the keyword 'after' in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+              "explanation": "The query uses the --> operator to specify that the event 'DeliveryDrone arrives' must eventually lead to 'LiftBot stacks', aligning with the sequential_workflow pattern where one action follows another after a preceding event, as indicated by the keyword 'after' in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DeliveryDrone.arrives --> LiftBot.stacks"
+          },
+          "total_time": 9.50496220588684,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "classification": {
+            "step": "classification",
+            "timing": 5.272511959075928,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"battery\", \"lands\", \"15%\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"battery < 15%\",\n  \"response_text\": \"DeliveryDrone lands\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.797106027603149,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(DeliveryDrone.battery < 15) --> DeliveryDrone.lands\",\n  \"explanation\": \"The query matches the constraint by using the --> operator to represent an eventual response where the DeliveryDrone lands after the condition of battery being less than 15% is met, aligning with the conditional_response pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.lands",
+              "explanation": "The query matches the constraint by using the --> operator to represent an eventual response where the DeliveryDrone lands after the condition of battery being less than 15% is met, aligning with the conditional_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.lands"
+          },
+          "total_time": 11.096925020217896,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Delivery eventually completes",
+          "classification": {
+            "step": "classification",
+            "timing": 7.993305921554565,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"delivery\", \"eventually\", \"completes\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.078063726425171,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> delivery_complete\",\n  \"explanation\": \"This query uses the A<> operator to ensure that the delivery must eventually reach a complete state, aligning with the eventual_completion pattern for liveness properties where something must happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A<> delivery_complete",
+              "explanation": "This query uses the A<> operator to ensure that the delivery must eventually reach a complete state, aligning with the eventual_completion pattern for liveness properties where something must happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> delivery_complete"
+          },
+          "total_time": 16.09379291534424,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "classification": {
+            "step": "classification",
+            "timing": 56.812687158584595,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"stacks\", \"arrives\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"after DeliveryDrone arrives\",\n  \"response_text\": \"LiftBot stacks\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 50.05899500846863,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"DeliveryDrone.arrives --> LiftBot.stacks\",\n  \"explanation\": \"The constraint uses 'after' to indicate a sequential workflow where LiftBot stacks only after DeliveryDrone arrives, fitting the pattern's description of one action eventually following another, and the --> operator is used for such conditional eventual responses as per the pattern rules.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+              "explanation": "The constraint uses 'after' to indicate a sequential workflow where LiftBot stacks only after DeliveryDrone arrives, fitting the pattern's description of one action eventually following another, and the --> operator is used for such conditional eventual responses as per the pattern rules.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DeliveryDrone.arrives --> LiftBot.stacks"
+          },
+          "total_time": 106.90365076065063,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "classification": {
+            "step": "classification",
+            "timing": 30.598537921905518,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"DeliveryDrone\", \"lands\", \"battery\", \"15%\"],\n  \"cues\": [\"when\", \"<\", \"%\"],\n  \"trigger_text\": \"battery < 15%\",\n  \"response_text\": \"lands\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 63.357262134552,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(DeliveryDrone.battery < 15) --> DeliveryDrone.landed\",\n  \"explanation\": \"The constraint 'DeliveryDrone lands when battery < 15%' matches the conditional_response pattern with cues like 'when' and '< %', indicating a triggered behavior where the condition (battery < 15%) leads to the eventual response (lands). Using the template 'condition --> response' and operator '-->' for eventual triggered behavior aligns with similar examples, ensuring the query represents that if the battery drops below 15%, the drone will eventually land.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.landed",
+              "explanation": "The constraint 'DeliveryDrone lands when battery < 15%' matches the conditional_response pattern with cues like 'when' and '< %', indicating a triggered behavior where the condition (battery < 15%) leads to the eventual response (lands). Using the template 'condition --> response' and operator '-->' for eventual triggered behavior aligns with similar examples, ensuring the query represents that if the battery drops below 15%, the drone will eventually land.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.landed"
+          },
+          "total_time": 93.98727703094482,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Delivery eventually completes",
+          "classification": {
+            "step": "classification",
+            "timing": 24.445905923843384,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"delivery\", \"completes\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 80.5169370174408,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> delivery_complete\",\n  \"explanation\": \"The constraint 'Delivery eventually completes' matches the eventual_completion pattern, which requires that a task must eventually complete. The UPPAAL query uses the liveness operator A<> to specify that globally, the state 'delivery_complete' must eventually be reached, aligning with the pattern's template and the keyword 'eventually'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> delivery_complete",
+              "explanation": "The constraint 'Delivery eventually completes' matches the eventual_completion pattern, which requires that a task must eventually complete. The UPPAAL query uses the liveness operator A<> to specify that globally, the state 'delivery_complete' must eventually be reached, aligning with the pattern's template and the keyword 'eventually'.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> delivery_complete"
+          },
+          "total_time": 105.00158476829529,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "classification": {
+            "step": "classification",
+            "timing": 0.761066198348999,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"stacking\", \"LiftBot\", \"DeliveryDrone\", \"arrival\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DeliveryDrone arrives\",\n  \"response_text\": \"LiftBot stacks\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2189791202545166,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DeliveryDrone.arrived --> LiftBot.stacking\",\n  \"explanation\": \"The constraint specifies that 'LiftBot stacks only after DeliveryDrone arrives', which is a sequential workflow. We use the '-->' (eventually follows) operator to represent this. The query 'DeliveryDrone.arrived --> LiftBot.stacking' translates to 'if DeliveryDrone.arrived becomes true at some point, then eventually LiftBot.stacking will become true'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "DeliveryDrone.arrived --> LiftBot.stacking",
+              "explanation": "The constraint specifies that 'LiftBot stacks only after DeliveryDrone arrives', which is a sequential workflow. We use the '-->' (eventually follows) operator to represent this. The query 'DeliveryDrone.arrived --> LiftBot.stacking' translates to 'if DeliveryDrone.arrived becomes true at some point, then eventually LiftBot.stacking will become true'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DeliveryDrone.arrived --> LiftBot.stacking"
+          },
+          "total_time": 2.0025148391723633,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9106168746948242,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"delivery drone\",\n    \"landing\",\n    \"battery\",\n    \"threshold\",\n    \"low battery\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"<\"\n  ],\n  \"trigger_text\": \"battery < 15%\",\n  \"response_text\": \"DeliveryDrone lands\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0052568912506104,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(DeliveryDrone.battery < 15) --> DeliveryDrone.at_landing\",\n  \"explanation\": \"The constraint states that when the DeliveryDrone's battery is less than 15%, it eventually lands. This matches the conditional_response pattern, where the condition (battery < 15%) eventually leads to the response (DeliveryDrone lands). The '-->' operator is used because the landing is not immediate but an eventual behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.at_landing",
+              "explanation": "The constraint states that when the DeliveryDrone's battery is less than 15%, it eventually lands. This matches the conditional_response pattern, where the condition (battery < 15%) eventually leads to the response (DeliveryDrone lands). The '-->' operator is used because the landing is not immediate but an eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.at_landing"
+          },
+          "total_time": 1.939957857131958,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Delivery eventually completes",
+          "classification": {
+            "step": "classification",
+            "timing": 0.809514045715332,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"delivery\", \"complete\", \"eventually\"],\n  \"cues\": [\"eventually\"]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.3956458568572998,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> Delivery.complete\",\n  \"explanation\": \"The constraint states that 'Delivery eventually completes', which means that the Delivery process must eventually reach a state where it is complete. This is a liveness property that can be expressed using the 'A<>' operator (eventually). We assume the model has a location called 'complete' in the Delivery process.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> Delivery.complete",
+              "explanation": "The constraint states that 'Delivery eventually completes', which means that the Delivery process must eventually reach a state where it is complete. This is a liveness property that can be expressed using the 'A<>' operator (eventually). We assume the model has a location called 'complete' in the Delivery process.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Delivery.complete"
+          },
+          "total_time": 2.224297285079956,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "classification": {
+            "step": "classification",
+            "timing": 7.636676073074341,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"LiftBot\",\n    \"stacks\",\n    \"DeliveryDrone\",\n    \"arrives\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"DeliveryDrone arrives\",\n  \"response_text\": \"LiftBot stacks\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.376742362976074,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DeliveryDrone.arrives --> LiftBot.stacks\",\n  \"explanation\": \"The constraint 'LiftBot stacks only after DeliveryDrone arrives' describes a sequential workflow where one action follows another. The keyword 'after' indicates that the state 'DeliveryDrone.arrives' serves as a trigger for the subsequent state 'LiftBot.stacks'. The '-->' (leads to) operator is used to model this relationship, meaning that whenever the DeliveryDrone arrives, the LiftBot must eventually begin stacking.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+              "explanation": "The constraint 'LiftBot stacks only after DeliveryDrone arrives' describes a sequential workflow where one action follows another. The keyword 'after' indicates that the state 'DeliveryDrone.arrives' serves as a trigger for the subsequent state 'LiftBot.stacks'. The '-->' (leads to) operator is used to model this relationship, meaning that whenever the DeliveryDrone arrives, the LiftBot must eventually begin stacking.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DeliveryDrone.arrives --> LiftBot.stacks"
+          },
+          "total_time": 16.02733325958252,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "classification": {
+            "step": "classification",
+            "timing": 6.922100782394409,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"delivery drone\",\n    \"lands\",\n    \"battery\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"<\",\n    \"%\"\n  ],\n  \"trigger_text\": \"battery < 15%\",\n  \"response_text\": \"DeliveryDrone lands\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.619937181472778,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (DeliveryDrone.battery < 15 imply DeliveryDrone.Landing)\",\n  \"explanation\": \"The constraint \\\"when battery < 15%\\\" requires an immediate response, \\\"DeliveryDrone lands\\\". The `A[]` operator ensures this is a safety property that must always hold. The `imply` operator enforces that in any state where the trigger condition `DeliveryDrone.battery < 15` is true, the response (being in the `Landing` state) must also be true in that same state, satisfying the immediate nature of the requirement.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (DeliveryDrone.battery < 15 imply DeliveryDrone.Landing)",
+              "explanation": "The constraint \"when battery < 15%\" requires an immediate response, \"DeliveryDrone lands\". The `A[]` operator ensures this is a safety property that must always hold. The `imply` operator enforces that in any state where the trigger condition `DeliveryDrone.battery < 15` is true, the response (being in the `Landing` state) must also be true in that same state, satisfying the immediate nature of the requirement.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (DeliveryDrone.battery < 15 imply DeliveryDrone.Landing)"
+          },
+          "total_time": 21.57514977455139,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Delivery eventually completes",
+          "classification": {
+            "step": "classification",
+            "timing": 6.53680419921875,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"delivery\",\n    \"completes\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.1629638671875,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> Delivery.complete\",\n  \"explanation\": \"The constraint is a liveness property stating that something must eventually happen. The keyword 'eventually' directly maps to the temporal logic operator 'A<>' (for all paths, eventually). The state 'Delivery.complete' is used to represent the completion of the delivery task. Thus, the query asserts that in all possible system executions, the delivery process will eventually complete.\",\n  \"confidence\": 0.99,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> Delivery.complete",
+              "explanation": "The constraint is a liveness property stating that something must eventually happen. The keyword 'eventually' directly maps to the temporal logic operator 'A<>' (for all paths, eventually). The state 'Delivery.complete' is used to represent the completion of the delivery task. Thus, the query asserts that in all possible system executions, the delivery process will eventually complete.",
+              "confidence": 0.99,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Delivery.complete"
+          },
+          "total_time": 22.722201108932495,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

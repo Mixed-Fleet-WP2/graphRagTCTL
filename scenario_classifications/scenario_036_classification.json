@@ -1,0 +1,513 @@
+{
+  "id": "scenario_036",
+  "domain": "industrial",
+  "prompt": "A maintenance bot operates in a refrigerated warehouse maintaining conveyor motors. It must warm up sensors for 30 seconds before measurements. If temperature drops below \u221225\u00b0C, it enters standby mode until heating pads raise it above \u221215\u00b0C. The robot performs vibration analysis for each motor and logs anomalies. It is always possible for the bot to recover from standby to active operation.",
+  "robots": [
+    "FrostBot"
+  ],
+  "constraints": [
+    "FrostBot warms sensors for 30 s before measurements",
+    "FrostBot enters standby when temperature < \u221225\u00b0C",
+    "FrostBot resumes when temperature > \u221215\u00b0C",
+    "FrostBot performs vibration analysis for each motor",
+    "FrostBot logs anomalies for each motor",
+    "Always possible to recover from standby to active"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.851271867752075,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "FrostBot logs anomalies for each motor",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 5,
+          "constraint": "Always possible to recover from standby to active",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 10.692421913146973,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "FrostBot logs anomalies for each motor",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 5,
+          "constraint": "Always possible to recover from standby to active",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 32.31616997718811,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        },
+        {
+          "index": 4,
+          "constraint": "FrostBot logs anomalies for each motor",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        },
+        {
+          "index": 5,
+          "constraint": "Always possible to recover from standby to active",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 2.1121280193328857,
+      "tokens": 897,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "FrostBot logs anomalies for each motor",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 5,
+          "constraint": "Always possible to recover from standby to active",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.9764928817749023,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "FrostBot logs anomalies for each motor",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 5,
+          "constraint": "Always possible to recover from standby to active",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.3765168190002441,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "FrostBot logs anomalies for each motor",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 5,
+          "constraint": "Always possible to recover from standby to active",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 35.172443151474,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "FrostBot logs anomalies for each motor",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 5,
+          "constraint": "Always possible to recover from standby to active",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 12.686824083328247,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "FrostBot logs anomalies for each motor",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 5,
+          "constraint": "Always possible to recover from standby to active",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 55.40397500991821,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "FrostBot logs anomalies for each motor",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 5,
+          "constraint": "Always possible to recover from standby to active",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 2.1099491119384766,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "FrostBot logs anomalies for each motor",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 5,
+          "constraint": "Always possible to recover from standby to active",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 14.950202941894531,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "FrostBot logs anomalies for each motor",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Always possible to recover from standby to active",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

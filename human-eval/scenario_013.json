@@ -1,0 +1,480 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-05T10:07:26.240Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_013",
+      "domain": "harbor",
+      "prompt": "A drone monitors dock areas while patrol AGVs move containers. The drone must maintain altitude between 10 and 50 meters. If visibility < 50%, drone must land. Patrol AGVs must stop if the drone is landing nearby.",
+      "gold_standard": {
+        "constraints": [
+          "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "SurveillanceDrone lands when visibility below 50%",
+          "PatrolAGV stops when drone is landing nearby"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+                "query": "A[] (SurveillanceDrone.flying imply (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50))",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SurveillanceDrone lands when visibility below 50%",
+                "query": "(visibility < 50) --> SurveillanceDrone.landed",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "PatrolAGV stops when drone is landing nearby",
+                "query": "(drone.landing_nearby) --> (PatrolAGV.stopped)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+                "query": "A[] not (SurveillanceDrone.flying && (SurveillanceDrone.altitude < 10 || SurveillanceDrone.altitude > 50))",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SurveillanceDrone lands when visibility below 50%",
+                "query": "(SurveillanceDrone.visibility < 50) --> SurveillanceDrone.lands",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "PatrolAGV stops when drone is landing nearby",
+                "query": "A[] (Drone.landing_nearby imply PatrolAGV.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+                "query": "A[] not (Drone.flying && (Drone.altitude < 10 || Drone.altitude > 50))",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SurveillanceDrone lands when visibility below 50%",
+                "query": "(visibility < 50) --> SurveillanceDrone.lands",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "PatrolAGV stops when drone is landing nearby",
+                "query": "drone.landing_nearby --> PatrolAGV.stops",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+                "query": "A[] not (SurveillanceDrone.flying && (SurveillanceDrone.altitude < 10 || SurveillanceDrone.altitude > 50))",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SurveillanceDrone lands when visibility below 50%",
+                "query": "(visibility < 50) --> SurveillanceDrone.lands",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "PatrolAGV stops when drone is landing nearby",
+                "query": "A[] (Drone.landing_nearby imply PatrolAGV.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+                "query": "A[] SurveillanceDrone.flying imply (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SurveillanceDrone lands when visibility below 50%",
+                "query": "(visibility < 50) --> SurveillanceDrone.landed",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "PatrolAGV stops when drone is landing nearby",
+                "query": "(drone.landing && drone.nearby) --> PatrolAGV.stopped",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+                "query": "A[] (SurveillanceDrone.flying imply (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50))",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SurveillanceDrone lands when visibility below 50%",
+                "query": "(visibility < 50) --> SurveillanceDrone.lands",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "PatrolAGV stops when drone is landing nearby",
+                "query": "Drone.landing_nearby --> PatrolAGV.stopped",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+                "query": "A[] not (SurveillanceDrone.flying && (altitude < 10 || altitude > 50))",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SurveillanceDrone lands when visibility below 50%",
+                "query": "(visibility < 50) --> SurveillanceDrone.landed",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "PatrolAGV stops when drone is landing nearby",
+                "query": "A[] (drone.landing_nearby --> PatrolAGV.stopped)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+                "query": "A[] (flying --> (altitude >= 10 && altitude <= 50))",
+                "valid": false,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SurveillanceDrone lands when visibility below 50%",
+                "query": "(visibility < 50) --> SurveillanceDrone.lands",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "PatrolAGV stops when drone is landing nearby",
+                "query": "(drone_landing_nearby) --> PatrolAGV_stopped",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+                "query": "(SurveillanceDrone.flying) --> (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SurveillanceDrone lands when visibility below 50%",
+                "query": "(visibility < 50) --> SurveillanceDrone.landed",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "PatrolAGV stops when drone is landing nearby",
+                "query": "(drone.landing_nearby) --> (PatrolAGV.stopped)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+                "query": "A[] (SurveillanceDrone.flying --> SurveillanceDrone.altitude >= 10 and SurveillanceDrone.altitude <= 50)",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SurveillanceDrone lands when visibility below 50%",
+                "query": "(visibility < 50) --> SurveillanceDrone.lands",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "PatrolAGV stops when drone is landing nearby",
+                "query": "Drone.isLandingNearby --> PatrolAGV.isStopped",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+                "query": "A[] not (SurveillanceDrone.Flying && (SurveillanceDrone.altitude < 10 || SurveillanceDrone.altitude > 50))",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SurveillanceDrone lands when visibility below 50%",
+                "query": "A[] (visibility < 50 imply SurveillanceDrone.Landing)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "PatrolAGV stops when drone is landing nearby",
+                "query": "A[] (Drone.LandingNearby imply PatrolAGV.Stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 27,
+    "inferred": 0,
+    "hallucination": 6,
+    "unlabeled": 0,
+    "total": 33
+  },
+  "performance_metrics": {
+    "precision": 0.8181818181818182,
+    "recall": 9,
+    "f1": 1.5
+  }
+}

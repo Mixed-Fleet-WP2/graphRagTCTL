@@ -1,0 +1,446 @@
+{
+  "id": "scenario_037",
+  "domain": "harbor",
+  "prompt": "A harbor inspection drone flies along dock sections capturing video of hulls and cranes. It must maintain altitude between 8 and 20 meters and avoid restricted air corridors. If strong magnetic interference is detected, it must ascend above 25 meters until interference clears. The drone uploads each section\u2019s footage before starting the next and must always return to base at the end of its patrol.",
+  "robots": [
+    "HarborDrone"
+  ],
+  "constraints": [
+    "HarborDrone altitude between 8\u201320 m",
+    "HarborDrone avoids restricted corridors",
+    "HarborDrone ascends above 25 m when magnetic interference detected",
+    "HarborDrone uploads footage before moving to next section",
+    "Always returns to base at end of patrol"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 3.7964589595794678,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "HarborDrone avoids restricted corridors",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Always returns to base at end of patrol",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 10.938731908798218,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "HarborDrone avoids restricted corridors",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Always returns to base at end of patrol",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 22.821144104003906,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "HarborDrone avoids restricted corridors",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Always returns to base at end of patrol",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 2.1308910846710205,
+      "tokens": 879,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (altitude < 8 or altitude > 20)"
+        },
+        {
+          "index": 1,
+          "constraint": "HarborDrone avoids restricted corridors",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (enter_restricted_corridor)"
+        },
+        {
+          "index": 2,
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (magnetic_interference_detected imply ascend_above_25_m)"
+        },
+        {
+          "index": 3,
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "pattern_name": "sequential_workflow",
+          "template": "upload_footage --> move_to_next_section"
+        },
+        {
+          "index": 4,
+          "constraint": "Always returns to base at end of patrol",
+          "pattern_name": "eventual_completion",
+          "template": "A<> return_to_base"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 4.182729959487915,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "HarborDrone avoids restricted corridors",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Always returns to base at end of patrol",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.6006851196289062,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (altitude < 8 OR altitude > 20)"
+        },
+        {
+          "index": 1,
+          "constraint": "HarborDrone avoids restricted corridors",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (in_restricted_corridor)"
+        },
+        {
+          "index": 2,
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (magnetic_interference_detected imply ascend_above_25m)"
+        },
+        {
+          "index": 3,
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "pattern_name": "sequential_workflow",
+          "template": "upload_footage --> move_to_next_section"
+        },
+        {
+          "index": 4,
+          "constraint": "Always returns to base at end of patrol",
+          "pattern_name": "eventual_completion",
+          "template": "A<> at_base"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 13.54203200340271,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "HarborDrone avoids restricted corridors",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Always returns to base at end of patrol",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 8.184247016906738,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "HarborDrone avoids restricted corridors",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Always returns to base at end of patrol",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 60.216973066329956,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "HarborDrone avoids restricted corridors",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Always returns to base at end of patrol",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.821408987045288,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "HarborDrone avoids restricted corridors",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Always returns to base at end of patrol",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 17.19946002960205,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "HarborDrone avoids restricted corridors",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Always returns to base at end of patrol",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

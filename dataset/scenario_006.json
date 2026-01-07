@@ -1,0 +1,21 @@
+{
+  "id": "scenario_006",
+  "domain": "agriculture",
+  "prompt": "A drone sprays pesticide across fields while a ground rover monitors soil humidity. The drone must not spray if wind speed exceeds 25 km/h. The rover reports humidity every 10 minutes, and if humidity < 20%, the drone must pause spraying.",
+  "robots": ["SprayDrone", "SoilRover"],
+  "constraints": [
+    "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+    "SoilRover reports humidity every 10 minutes",
+    "SprayDrone pauses spraying if humidity below 20%"
+  ],
+  "reference_properties": [
+    "A[] not (wind_speed > 25 && SprayDrone.spraying)",
+    "A[] (SoilRover.reporting imply t <= 10)",
+    "A[] not (humidity < 20 && SprayDrone.spraying)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10"
+  }
+}

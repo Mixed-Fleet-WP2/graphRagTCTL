@@ -1,0 +1,448 @@
+{
+  "id": "scenario_016",
+  "domain": "logistics",
+  "prompt": "Two sorting robots coordinate on a conveyor. If a package is misaligned, SorterA stops the belt while SorterB repositions it. Once corrected, both return to normal operation. Belt must not stop for more than 10 seconds.",
+  "robots": [
+    "SorterA",
+    "SorterB",
+    "Conveyor"
+  ],
+  "constraints": [
+    "SorterA stops conveyor when misalignment detected",
+    "SorterB corrects package alignment before resuming",
+    "SorterA returns to normal operation once the package is corrected",
+    "SorterB returns to normal operation once the package is corrected",
+    "Conveyor must not stop for more than 10 seconds"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 3.024015188217163,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SorterB corrects package alignment before resuming",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 12.274349212646484,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SorterB corrects package alignment before resuming",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 11.724486827850342,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SorterB corrects package alignment before resuming",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.9931108951568604,
+      "tokens": 848,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SorterB corrects package alignment before resuming",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 4.189655065536499,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SorterB corrects package alignment before resuming",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 2.20320987701416,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (misalignment_detected imply conveyor_stops)"
+        },
+        {
+          "index": 1,
+          "constraint": "SorterB corrects package alignment before resuming",
+          "pattern_name": "sequential_workflow",
+          "template": "package_misaligned --> SorterB_corrects --> alignment_restored"
+        },
+        {
+          "index": 2,
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "pattern_name": "conditional_response",
+          "template": "package_corrected --> SorterA_returns_to_normal"
+        },
+        {
+          "index": 3,
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "pattern_name": "conditional_response",
+          "template": "package_corrected --> SorterB_returns_to_normal"
+        },
+        {
+          "index": 4,
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (conveyor_stopped_for_more_than_10_seconds)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 22.338651180267334,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SorterB corrects package alignment before resuming",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 10.257417917251587,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SorterB corrects package alignment before resuming",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 43.07718801498413,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SorterB corrects package alignment before resuming",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.6251468658447266,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SorterB corrects package alignment before resuming",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 15.869379043579102,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SorterB corrects package alignment before resuming",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

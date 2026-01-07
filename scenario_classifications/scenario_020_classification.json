@@ -1,0 +1,246 @@
+{
+  "id": "scenario_020",
+  "domain": "space",
+  "prompt": "An external repair drone fixes solar panels, while an inspection bot verifies alignment. at some point repair drone have to to reach a safe shutdown state. If misalignment persists for over 60 seconds we must switch inspection bot to emergency stop.",
+  "robots": [
+    "RepairDrone",
+    "InspectBot"
+  ],
+  "constraints": [
+    "At some point RepairDrone have to reach a safe shutdown state",
+    "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.347283363342285,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 1,
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 6.532382965087891,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 1,
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 10.422833919525146,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 1,
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.002854824066162,
+      "tokens": 698,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 1,
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.160125970840454,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 1,
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.0159289836883545,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 1,
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 12.077698707580566,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 1,
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 7.786306858062744,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 1,
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 32.558878898620605,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 1,
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.3158831596374512,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 1,
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 11.34120512008667,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 1,
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "scenario_015",
+  "domain": "harbor",
+  "prompt": "A loading robot stacks containers while a drone monitors alignment. The drone starts inspection after every 5 containers are stacked. If container tilt exceeds 3 degrees, stacking stops immediately.",
+  "robots": ["LoaderBot", "MonitorDrone"],
+  "constraints": [
+    "MonitorDrone inspects after every 5 containers stacked",
+    "LoaderBot stops stacking when tilt exceeds 3 degrees"
+  ],
+  "reference_properties": [
+    "(LoaderBot.StackCount % 5 == 0) --> (MonitorDrone.Inspect)",
+    "A[] (LoaderBot.ContainerTilt > 3) imply (LoaderBot.Stop)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10"
+  }
+}

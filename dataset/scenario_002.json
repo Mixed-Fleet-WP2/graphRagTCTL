@@ -1,0 +1,22 @@
+{
+  "id": "scenario_002",
+  "domain": "warehouse",
+  "prompt": "A camera scans pallet barcodes. After scanning, an Agv moves to pick the pallet. Once the AGV is loaded, the conveyor moves then the robot arm places the pallet onto a shelf.",
+  "robots": ["Camera", "Agv", "Conveyor", "RobotArm"],
+  "constraints": [
+    "AGV moves to pick the pallet after scanning.",
+    "Conveyor moves only after Agv is loaded",
+    "Conveyor must move before RobotArm places the pallet onto a shelf"
+  ],
+  "reference_properties": [
+    "AGV.scanning_done --> AGV.picking_pallet",
+    "AGV.loaded --> Conveyor.moving",
+    "Conveyor.moving --> RobotArm.placing_pallet_on_shelf"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza haoui",
+    "creation_date": "2025-11-07",
+    "validation_status": "validated"
+  }
+}

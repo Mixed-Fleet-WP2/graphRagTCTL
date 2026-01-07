@@ -1,0 +1,313 @@
+{
+  "id": "scenario_013",
+  "domain": "harbor",
+  "prompt": "A drone monitors dock areas while patrol AGVs move containers. The drone must maintain altitude between 10 and 50 meters. If visibility < 50%, drone must land. Patrol AGVs must stop if the drone is landing nearby.",
+  "robots": [
+    "SurveillanceDrone",
+    "PatrolAGV"
+  ],
+  "constraints": [
+    "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+    "SurveillanceDrone lands when visibility below 50%",
+    "PatrolAGV stops when drone is landing nearby"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.1323611736297607,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 11.553875923156738,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 13.980526208877563,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.9553701877593994,
+      "tokens": 752,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.7821669578552246,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.2079081535339355,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (altitude < 10 or altitude > 50)"
+        },
+        {
+          "index": 1,
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (visibility < 50% imply land)"
+        },
+        {
+          "index": 2,
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (drone_landing_nearby imply stop)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 15.375996112823486,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 8.807257890701294,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 63.7868869304657,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.3366057872772217,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 12.654670238494873,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

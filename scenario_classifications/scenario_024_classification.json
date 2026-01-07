@@ -1,0 +1,313 @@
+{
+  "id": "scenario_024",
+  "domain": "harbor",
+  "prompt": "Two cranes move heavy parts alternately. It must always be true that only one crane moves at a time. Eventually, both parts reach their target zones.",
+  "robots": [
+    "CraneA",
+    "CraneB"
+  ],
+  "constraints": [
+    "Only one crane moves at a time",
+    "Eventually CraneA reach target zones",
+    "Eventually CraneB reach target zones"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.997853994369507,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Only one crane moves at a time",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Eventually CraneA reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "Eventually CraneB reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 7.020829916000366,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Only one crane moves at a time",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Eventually CraneA reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "Eventually CraneB reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 9.556258916854858,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Only one crane moves at a time",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Eventually CraneA reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "Eventually CraneB reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 0.9455258846282959,
+      "tokens": 712,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Only one crane moves at a time",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Eventually CraneA reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "Eventually CraneB reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.65144681930542,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Only one crane moves at a time",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Eventually CraneA reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "Eventually CraneB reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.2616701126098633,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Only one crane moves at a time",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (CraneA_moving AND CraneB_moving)"
+        },
+        {
+          "index": 1,
+          "constraint": "Eventually CraneA reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> CraneA_at_target_zones"
+        },
+        {
+          "index": 2,
+          "constraint": "Eventually CraneB reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> CraneB_at_target_zones"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 10.845867156982422,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Only one crane moves at a time",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Eventually CraneA reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "Eventually CraneB reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 6.4013001918792725,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Only one crane moves at a time",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Eventually CraneA reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "Eventually CraneB reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 20.530410289764404,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Only one crane moves at a time",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Eventually CraneA reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "Eventually CraneB reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.4461290836334229,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Only one crane moves at a time",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Eventually CraneA reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "Eventually CraneB reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 10.454121112823486,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Only one crane moves at a time",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Eventually CraneA reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "Eventually CraneB reach target zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

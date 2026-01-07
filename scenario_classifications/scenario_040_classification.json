@@ -1,0 +1,513 @@
+{
+  "id": "scenario_040",
+  "domain": "urban_service",
+  "prompt": "A street cleaning robot patrols city sidewalks every night. pausing automatically when pedestrians are detected within 2 meters. If debris container is full, it must return to depot for unloading and then resume the same route. If weather sensors detect rain intensity above 30%, it suspends cleaning and waits under shelter. All routes must eventually be cleaned before sunrise.",
+  "robots": [
+    "CleanBot"
+  ],
+  "constraints": [
+    "CleanBot pauses when pedestrians < 2 m",
+    "CleanBot returns to depot when debris container full",
+    "CleanBot after unloading container at depot it resume in the same route",
+    "CleanBot suspends operation in rain > 30% intensity",
+    "CleanBot must wait under shelter when rain intensity above 30%",
+    "Eventually all routes cleaned "
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.649322032928467,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "CleanBot returns to depot when debris container full",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all routes cleaned ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 10.459110975265503,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "CleanBot returns to depot when debris container full",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all routes cleaned ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 40.10157823562622,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "CleanBot returns to depot when debris container full",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all routes cleaned ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 5.391252040863037,
+      "tokens": 903,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "CleanBot returns to depot when debris container full",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all routes cleaned ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 4.486242055892944,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "CleanBot returns to depot when debris container full",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all routes cleaned ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.784553050994873,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (pedestrians_within_2m imply pause)"
+        },
+        {
+          "index": 1,
+          "constraint": "CleanBot returns to depot when debris container full",
+          "pattern_name": "conditional_response",
+          "template": "debris_container_full --> return_to_depot"
+        },
+        {
+          "index": 2,
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "pattern_name": "sequential_workflow",
+          "template": "unload_container --> resume_same_route"
+        },
+        {
+          "index": 3,
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (rain_intensity_above_30% imply suspend_operation)"
+        },
+        {
+          "index": 4,
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "pattern_name": "conditional_response",
+          "template": "rain_intensity_above_30% --> wait_under_shelter"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all routes cleaned ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> all_routes_cleaned"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 12.433634996414185,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "CleanBot returns to depot when debris container full",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all routes cleaned ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 18.84491205215454,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "CleanBot returns to depot when debris container full",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all routes cleaned ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 62.35436201095581,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "CleanBot returns to depot when debris container full",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all routes cleaned ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 2.1253511905670166,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "CleanBot returns to depot when debris container full",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all routes cleaned ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 16.91541075706482,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "CleanBot returns to depot when debris container full",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all routes cleaned ",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

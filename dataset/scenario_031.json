@@ -1,0 +1,28 @@
+{
+  "id": "scenario_031",
+  "domain": "industrial_maintenance",
+  "prompt": "An autonomous maintenance rover patrols an underground facility inspecting power panels, pipes, and sensors. It must finish inspection of a zone before moving to the next. If gas concentration exceeds 3%, the rover immediately activates ventilation mode and halts movement until the level drops below 1%. If battery drops below 25%, it must head to the nearest charging dock. The rover records every anomaly before proceeding, and all inspection reports must eventually be uploaded to the central server.",
+  "robots": ["MaintenanceRover"],
+  "constraints": [
+    "MaintenanceRover completes zone inspection before moving to the next",
+    "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+    "MaintenanceRover resumes when gas concentration < 1%",
+    "MaintenanceRover heads to charging when battery < 25%",
+    "MaintenanceRover records every anomaly before proceeding",
+    "All inspection reports eventually uploaded"
+  ],
+  "reference_properties": [
+    "A[] (MaintenanceRover.MovingToNextZone) imply (MaintenanceRover.ZoneInspected)",
+    "A[] (GasLevel > 3) imply (MaintenanceRover.VentilationMode && !MaintenanceRover.Moving)",
+    "(GasLevel < 1 && MaintenanceRover.VentilationMode) --> MaintenanceRover.Resumes",
+    "A[] (MaintenanceRover.Battery < 25) imply MaintenanceRover.ReturnToDock",
+    "(MaintenanceRover.proceeding) imply (MaintenanceRover.RecodrdedAnomaly)",
+    "A<> (MaintenanceRover.ReportsUploaded)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-12",
+    "validation_status": "validated"
+  }
+}

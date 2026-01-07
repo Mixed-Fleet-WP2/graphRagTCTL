@@ -1,0 +1,2179 @@
+{
+  "id": "scenario_022",
+  "domain": "manufacturing",
+  "prompt": "Two robotic arms weld a car frame simultaneously. They must never weld the same section together. Eventually, both arms should complete their tasks and reach idle state.",
+  "robots": [
+    "ArmA",
+    "ArmB"
+  ],
+  "constraints": [
+    "ArmA and ArmB never weld the same section simultaneously",
+    "ArmA eventually completes its tasks",
+    "ArmB eventually completes its tasks",
+    "ArmA eventually reach idle state",
+    "ArmB eventually reach idle state"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "classification": {
+            "step": "classification",
+            "timing": 1.9361281394958496,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"ArmA\",\"ArmB\",\"never\",\"weld\",\"same section\",\"simultaneously\",\"mutual exclusion\",\"concurrency\"],\"cues\":[\"never\"],\"trigger_text\":\"ArmA and ArmB weld the same section simultaneously\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9519171714782715,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (ArmA.section == ArmB.section && ArmA.welding && ArmB.welding)\",\"explanation\":\"The query uses the forbidden-state pattern A[] not (...). It prohibits any reachable state where ArmA and ArmB are welding (ArmA.welding and ArmB.welding) while targeting the same section (ArmA.section == ArmB.section). This directly encodes that they must never weld the same section simultaneously.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (ArmA.section == ArmB.section && ArmA.welding && ArmB.welding)",
+              "explanation": "The query uses the forbidden-state pattern A[] not (...). It prohibits any reachable state where ArmA and ArmB are welding (ArmA.welding and ArmB.welding) while targeting the same section (ArmA.section == ArmB.section). This directly encodes that they must never weld the same section simultaneously.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ArmA.section == ArmB.section && ArmA.welding && ArmB.welding)"
+          },
+          "total_time": 3.903371572494507,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmA eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2717509269714355,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"ArmA\",\"eventually\",\"completes\",\"tasks\"],\"cues\":[\"eventually\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.955368995666504,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ArmA.tasks_complete\",\"explanation\":\"The constraint says that ArmA eventually completes its tasks, which is a liveness requirement that something must happen at some point. The eventual_completion pattern maps this to the UPPAAL liveness operator A<>, applied to the state or condition representing that ArmA has finished all tasks (here modeled as ArmA.tasks_complete).\",\"confidence\":0.94,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> ArmA.tasks_complete",
+              "explanation": "The constraint says that ArmA eventually completes its tasks, which is a liveness requirement that something must happen at some point. The eventual_completion pattern maps this to the UPPAAL liveness operator A<>, applied to the state or condition representing that ArmA has finished all tasks (here modeled as ArmA.tasks_complete).",
+              "confidence": 0.94,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.tasks_complete"
+          },
+          "total_time": 3.2489500045776367,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ArmB eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 1.472468376159668,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"ArmB\",\"eventually\",\"completes\",\"tasks\"],\"cues\":[\"eventually\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.541323184967041,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ArmB.tasks_complete\",\"explanation\":\"The constraint says that ArmB eventually completes its tasks, which is a liveness requirement that something must happen at some point. The pattern for this is eventual_completion, instantiated as an A<> formula. Here, ArmB.tasks_complete is the state or boolean variable indicating that ArmB has finished all its tasks, and A<> ArmB.tasks_complete asserts that in all executions, ArmB will eventually reach that completed state.\",\"confidence\":0.93,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> ArmB.tasks_complete",
+              "explanation": "The constraint says that ArmB eventually completes its tasks, which is a liveness requirement that something must happen at some point. The pattern for this is eventual_completion, instantiated as an A<> formula. Here, ArmB.tasks_complete is the state or boolean variable indicating that ArmB has finished all its tasks, and A<> ArmB.tasks_complete asserts that in all executions, ArmB will eventually reach that completed state.",
+              "confidence": 0.93,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.tasks_complete"
+          },
+          "total_time": 5.035942077636719,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ArmA eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 3.216063976287842,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"ArmA\",\"eventually\",\"reach\",\"idle state\"],\"cues\":[\"eventually\"],\"trigger_text\":\"ArmA\",\"response_text\":\"idle state\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9329171180725098,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ArmA.idle\",\"explanation\":\"The constraint says that ArmA must eventually reach its idle state. This is a liveness requirement that something must happen at some point, so the eventual_completion pattern with the universal eventuality operator A<> is appropriate. ArmA.idle names the target (idle) location of template/instance ArmA that must eventually be reached on all possible executions.\",\"confidence\":0.94,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> ArmA.idle",
+              "explanation": "The constraint says that ArmA must eventually reach its idle state. This is a liveness requirement that something must happen at some point, so the eventual_completion pattern with the universal eventuality operator A<> is appropriate. ArmA.idle names the target (idle) location of template/instance ArmA that must eventually be reached on all possible executions.",
+              "confidence": 0.94,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.idle"
+          },
+          "total_time": 5.17181921005249,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ArmB eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3903510570526123,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"ArmB\",\"eventually\",\"reach\",\"idle state\"],\"cues\":[\"eventually\"],\"trigger_text\":\"ArmB\",\"response_text\":\"ArmB reaches idle state\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.3616209030151367,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ArmB.idle\",\"explanation\":\"The constraint says that ArmB must eventually reach its idle state, which is a liveness requirement. The eventual_completion pattern uses the A<> operator to express that in all possible executions, ArmB will at some point be in location/state idle. Hence, A<> ArmB.idle directly encodes this requirement.\",\"confidence\":0.93,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> ArmB.idle",
+              "explanation": "The constraint says that ArmB must eventually reach its idle state, which is a liveness requirement. The eventual_completion pattern uses the A<> operator to express that in all possible executions, ArmB will at some point be in location/state idle. Hence, A<> ArmB.idle directly encodes this requirement.",
+              "confidence": 0.93,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.idle"
+          },
+          "total_time": 3.770177125930786,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "classification": {
+            "step": "classification",
+            "timing": 6.543539762496948,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"ArmA\",\"ArmB\",\"weld\",\"same section\",\"simultaneously\",\"never\",\"mutual exclusion\",\"concurrent\",\"conflict\"],\"cues\":[\"never\",\"simultaneously\",\"same\",\"weld\",\"and\",\"must not\",\"cannot\"],\"trigger_text\":\"ArmA and ArmB weld the same section simultaneously\",\"response_text\":\"This state is forbidden (they must not weld the same section at the same time)\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.749962091445923,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)\",\"explanation\":\"This safety property states it must always be true that ArmA and ArmB are not both welding the same section at the same time, matching the requirement that they never weld the same section simultaneously.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)",
+              "explanation": "This safety property states it must always be true that ArmA and ArmB are not both welding the same section at the same time, matching the requirement that they never weld the same section simultaneously.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)"
+          },
+          "total_time": 17.319911003112793,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmA eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 8.981353044509888,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"complete\",\"completes\",\"completion\",\"tasks\"],\"cues\":[\"eventually\",\"complete\",\"completes\",\"must\"],\"trigger_text\":\"ArmA starts or has tasks to perform\",\"response_text\":\"ArmA completes its tasks\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.5464489459991455,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ArmA.tasks_completed\",\"explanation\":\"Asserts as a liveness property that on all paths ArmA will eventually reach the state/condition 'tasks_completed', matching the requirement that ArmA eventually completes its tasks. Uses A<> to express that this must always eventually hold.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> ArmA.tasks_completed",
+              "explanation": "Asserts as a liveness property that on all paths ArmA will eventually reach the state/condition 'tasks_completed', matching the requirement that ArmA eventually completes its tasks. Uses A<> to express that this must always eventually hold.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.tasks_completed"
+          },
+          "total_time": 16.542729139328003,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ArmB eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 13.64055609703064,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"complete\",\"completes\",\"finish\",\"finished\"],\"cues\":[\"eventually\",\"must\",\"will\",\"complete\",\"finish\"],\"trigger_text\":null,\"response_text\":\"ArmB eventually completes its tasks\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.498287916183472,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ArmB.tasks_completed\",\"explanation\":\"This is a liveness requirement stating ArmB must eventually reach its tasks-completed state; the universal eventuality A<> ensures ArmB.tasks_completed will hold in all executions.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> ArmB.tasks_completed",
+              "explanation": "This is a liveness requirement stating ArmB must eventually reach its tasks-completed state; the universal eventuality A<> ensures ArmB.tasks_completed will hold in all executions.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.tasks_completed"
+          },
+          "total_time": 23.159440994262695,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ArmA eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 11.470917224884033,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"ArmA\",\"idle\",\"reach\",\"eventually\",\"idle state\",\"reachability\",\"completion\"],\"cues\":[\"eventually\",\"reach\",\"idle\",\"must\",\"then\"],\"trigger_text\":null,\"response_text\":\"ArmA eventually reaches idle state.\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.214296102523804,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ArmA.idle\",\"explanation\":\"This is a liveness property requiring that ArmA will eventually reach its idle location in all executions. The A<> operator expresses that the state ArmA.idle must be reached at some point on every path, matching the 'eventual completion' constraint.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> ArmA.idle",
+              "explanation": "This is a liveness property requiring that ArmA will eventually reach its idle location in all executions. The A<> operator expresses that the state ArmA.idle must be reached at some point on every path, matching the 'eventual completion' constraint.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.idle"
+          },
+          "total_time": 21.701033115386963,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ArmB eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 6.402099847793579,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"reach\",\"idle\",\"ArmB\"],\"cues\":[\"eventually\",\"reach\",\"idle\",\"ArmB\"],\"trigger_text\":null,\"response_text\":\"ArmB eventually reach idle state\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.476782083511353,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ArmB.idle\",\"explanation\":\"This is a liveness requirement: in all possible executions ArmB must eventually reach its idle state. The UPPAAL A<> modality expresses that the state ArmB.idle will be reached on every path, matching the 'eventually' / 'must complete' intent of the constraint.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> ArmB.idle",
+              "explanation": "This is a liveness requirement: in all possible executions ArmB must eventually reach its idle state. The UPPAAL A<> modality expresses that the state ArmB.idle will be reached on every path, matching the 'eventually' / 'must complete' intent of the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.idle"
+          },
+          "total_time": 16.900545120239258,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "classification": {
+            "step": "classification",
+            "timing": 12.040147066116333,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"ArmA\",\"ArmB\",\"weld\",\"section\",\"simultaneously\",\"safety\",\"constraint\"],\"cues\":[\"never\",\"simultaneously\",\"at\",\"the\",\"same\",\"time\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.307446956634521,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (ArmA.welding && ArmB.welding && ArmA.currentSection == ArmB.currentSection)\",\"explanation\":\"The constraint 'ArmA and ArmB never weld the same section simultaneously' is encoded as a global safety property. It forbids any reachable state where both arms are welding at the same time in the same section, i.e., ArmA.welding && ArmB.welding && ArmA.currentSection == ArmB.currentSection. The property A[] not (...) enforces this forbidden-state condition throughout the execution.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.currentSection == ArmB.currentSection)",
+              "explanation": "The constraint 'ArmA and ArmB never weld the same section simultaneously' is encoded as a global safety property. It forbids any reachable state where both arms are welding at the same time in the same section, i.e., ArmA.welding && ArmB.welding && ArmA.currentSection == ArmB.currentSection. The property A[] not (...) enforces this forbidden-state condition throughout the execution.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.currentSection == ArmB.currentSection)"
+          },
+          "total_time": 24.374624967575073,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmA eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 6.600297212600708,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"completion\",\"tasks\",\"ArmA\"],\"cues\":[\"eventually\"],\"trigger_text\":\"ArmA eventually completes its tasks\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.27044415473938,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ArmA.all_tasks_done\",\"explanation\":\"NL constraint maps to a global liveness property: ArmA must eventually reach a state where all tasks are completed. This matches the eventual_completion pattern (A<> ...).\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> ArmA.all_tasks_done",
+              "explanation": "NL constraint maps to a global liveness property: ArmA must eventually reach a state where all tasks are completed. This matches the eventual_completion pattern (A<> ...).",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.all_tasks_done"
+          },
+          "total_time": 18.891687870025635,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ArmB eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 5.625104904174805,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"completion\",\"eventually\",\"task\",\"ArmB\",\"finish\",\"end\"],\"cues\":[\"eventually\",\"after\",\"then\",\"must\",\"never\",\"when\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.442083835601807,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ArmB.all_tasks_done\",\"explanation\":\"This constraint states that ArmB must eventually reach a state where all its tasks are completed. It uses the eventuality operator A<> to express a liveness property consistent with the eventual_completion pattern.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> ArmB.all_tasks_done",
+              "explanation": "This constraint states that ArmB must eventually reach a state where all its tasks are completed. It uses the eventuality operator A<> to express a liveness property consistent with the eventual_completion pattern.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.all_tasks_done"
+          },
+          "total_time": 17.08934187889099,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ArmA eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 12.678216934204102,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"ArmA\",\"idle\",\"state\",\"eventually\",\"reach\"],\"cues\":[\"eventually\"],\"trigger_text\":\"ArmA eventually reach idle state\",\"response_text\":\"ArmA idle state reached\"}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.642844200134277,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"E<> ArmA.idle\",\"explanation\":\"The constraint states that ArmA can eventually reach the idle state. In UPPAAL this is a forward-looking reachability check for a specific target location, expressed as E<> ArmA.idle, which asks whether there exists a run in which ArmA visits the idle location at some future point.\",\"confidence\":0.85,\"pattern_used\":\"reachability\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "E<> ArmA.idle",
+              "explanation": "The constraint states that ArmA can eventually reach the idle state. In UPPAAL this is a forward-looking reachability check for a specific target location, expressed as E<> ArmA.idle, which asks whether there exists a run in which ArmA visits the idle location at some future point.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> ArmA.idle"
+          },
+          "total_time": 29.350605010986328,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ArmB eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 8.812504053115845,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"ArmB\",\"idle\",\"state\",\"eventually\",\"completion\"],\"cues\":[\"eventually\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.223421335220337,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ArmB.idle\",\"explanation\":\"This uses a global liveness property (A<>) asserting that ArmB will eventually reach the idle location; matches constraint 'ArmB eventually reach idle state'.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> ArmB.idle",
+              "explanation": "This uses a global liveness property (A<>) asserting that ArmB will eventually reach the idle location; matches constraint 'ArmB eventually reach idle state'.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.idle"
+          },
+          "total_time": 19.052047967910767,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9432151317596436,
+            "tokens": 173,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"never\", \"simultaneously\", \"weld\", \"same section\"],\n  \"cues\": [\"never\", \"simultaneously\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9050590991973877,
+            "tokens": 579,
+            "raw_text": "{\n  \"query\": \"A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)\",\n  \"explanation\": \"This query ensures that the states where ArmA and ArmB are welding the same section simultaneously are never reached. It uses the forbidden_state pattern to prevent this dangerous condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": []\n}",
+            "uppaal_result": {
+              "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)",
+              "explanation": "This query ensures that the states where ArmA and ArmB are welding the same section simultaneously are never reached. It uses the forbidden_state pattern to prevent this dangerous condition.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": []
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)"
+          },
+          "total_time": 2.868990898132324,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmA eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7937657833099365,
+            "tokens": 160,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"completes\", \"tasks\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7544817924499512,
+            "tokens": 529,
+            "raw_text": "{\n  \"query\": \"A<> ArmA.tasks_complete\",\n  \"explanation\": \"The constraint specifies that ArmA must eventually complete its tasks, which aligns with the 'eventual_completion' pattern. The 'A<>' operator is used for liveness properties where something must eventually happen, matching the requirement that ArmA eventually completes its tasks.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ArmA.tasks_complete",
+              "explanation": "The constraint specifies that ArmA must eventually complete its tasks, which aligns with the 'eventual_completion' pattern. The 'A<>' operator is used for liveness properties where something must eventually happen, matching the requirement that ArmA eventually completes its tasks.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.tasks_complete"
+          },
+          "total_time": 2.5740787982940674,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ArmB eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 0.5486457347869873,
+            "tokens": 160,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"completes\", \"tasks\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8313088417053223,
+            "tokens": 534,
+            "raw_text": "{\n  \"query\": \"A<> ArmB.tasks_complete\",\n  \"explanation\": \"The constraint 'ArmB eventually completes its tasks' matches the 'eventual_completion' pattern, which requires that a task must eventually complete. The UPPAAL query 'A<> ArmB.tasks_complete' ensures that the state where ArmB has completed its tasks will eventually be reached.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ArmB.tasks_complete",
+              "explanation": "The constraint 'ArmB eventually completes its tasks' matches the 'eventual_completion' pattern, which requires that a task must eventually complete. The UPPAAL query 'A<> ArmB.tasks_complete' ensures that the state where ArmB has completed its tasks will eventually be reached.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.tasks_complete"
+          },
+          "total_time": 2.4029579162597656,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ArmA eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7140059471130371,
+            "tokens": 159,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\", \"idle state\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5553030967712402,
+            "tokens": 537,
+            "raw_text": "{\n  \"query\": \"A<> ArmA.idle\",\n  \"explanation\": \"The constraint 'ArmA eventually reach idle state' matches the 'eventual_completion' pattern, which requires that a certain state must eventually be reached. The UPPAAL query 'A<> ArmA.idle' ensures that ArmA will eventually be in the idle state, satisfying the liveness property.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ArmA.idle",
+              "explanation": "The constraint 'ArmA eventually reach idle state' matches the 'eventual_completion' pattern, which requires that a certain state must eventually be reached. The UPPAAL query 'A<> ArmA.idle' ensures that ArmA will eventually be in the idle state, satisfying the liveness property.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.idle"
+          },
+          "total_time": 2.2921929359436035,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ArmB eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 0.6586322784423828,
+            "tokens": 159,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\", \"idle state\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.717188835144043,
+            "tokens": 532,
+            "raw_text": "{\n  \"query\": \"A<> ArmB.idle\",\n  \"explanation\": \"The constraint specifies that ArmB must eventually reach an idle state, which aligns with the 'eventual_completion' pattern. The UPPAAL query 'A<> ArmB.idle' captures this requirement by ensuring that the system will eventually reach a state where ArmB is idle.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ArmB.idle",
+              "explanation": "The constraint specifies that ArmB must eventually reach an idle state, which aligns with the 'eventual_completion' pattern. The UPPAAL query 'A<> ArmB.idle' captures this requirement by ensuring that the system will eventually reach a state where ArmB is idle.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.idle"
+          },
+          "total_time": 2.397321939468384,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "classification": {
+            "step": "classification",
+            "timing": 3.186553716659546,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"ArmA\", \"ArmB\", \"never\", \"weld\", \"same section\", \"simultaneously\"],\n  \"cues\": [\"never\", \"simultaneously\"],\n  \"trigger_text\": \"ArmA and ArmB weld the same section simultaneously\",\n  \"response_text\": null\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.877587080001831,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)\",\n  \"explanation\": \"This query ensures that it is never the case that both ArmA and ArmB are in a welding state while working on the same section. The A[] operator checks this property holds in all reachable states, and 'not' forbids the simultaneous condition where both arms weld the same section.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)",
+              "explanation": "This query ensures that it is never the case that both ArmA and ArmB are in a welding state while working on the same section. The A[] operator checks this property holds in all reachable states, and 'not' forbids the simultaneous condition where both arms weld the same section.",
+              "confidence": 0.92,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)"
+          },
+          "total_time": 8.081957817077637,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmA eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 2.9408059120178223,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"ArmA\", \"eventually\", \"completes\", \"tasks\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"ArmA tasks\",\n  \"response_text\": \"completes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.978403091430664,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmA.tasks_complete\",\n  \"explanation\": \"This query uses A<> (eventually always) to express that ArmA must eventually reach a state where its tasks are completed. The pattern matches eventual_completion where a task must eventually finish.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmA.tasks_complete",
+              "explanation": "This query uses A<> (eventually always) to express that ArmA must eventually reach a state where its tasks are completed. The pattern matches eventual_completion where a task must eventually finish.",
+              "confidence": 0.92,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.tasks_complete"
+          },
+          "total_time": 6.940064191818237,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ArmB eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 2.9612679481506348,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"ArmB\", \"eventually\", \"completes\", \"tasks\"],\n  \"cues\": [\"eventually\"],\n  \"response_text\": \"ArmB completes its tasks\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.080122947692871,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmB.tasks_complete\",\n  \"explanation\": \"This query uses A<> to express that ArmB must eventually reach a state where its tasks are complete. The pattern eventual_completion requires that something must eventually happen, and A<> is the correct operator for liveness properties guaranteeing eventual completion.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmB.tasks_complete",
+              "explanation": "This query uses A<> to express that ArmB must eventually reach a state where its tasks are complete. The pattern eventual_completion requires that something must eventually happen, and A<> is the correct operator for liveness properties guaranteeing eventual completion.",
+              "confidence": 0.92,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.tasks_complete"
+          },
+          "total_time": 7.060044050216675,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ArmA eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 3.051676034927368,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"ArmA\", \"eventually\", \"reach\", \"idle\", \"state\"],\n  \"cues\": [\"eventually\"],\n  \"response_text\": \"ArmA reach idle state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.8713481426239014,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmA.idle\",\n  \"explanation\": \"This query uses the A<> operator to express that ArmA must eventually reach the idle state. The pattern matches the eventual_completion template where a component must eventually reach a specific final state.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmA.idle",
+              "explanation": "This query uses the A<> operator to express that ArmA must eventually reach the idle state. The pattern matches the eventual_completion template where a component must eventually reach a specific final state.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.idle"
+          },
+          "total_time": 6.942936182022095,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ArmB eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 3.161406993865967,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"ArmB\", \"eventually\", \"reach\", \"idle\", \"state\"],\n  \"cues\": [\"eventually\"],\n  \"response_text\": \"ArmB reach idle state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.6690099239349365,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmB.idle\",\n  \"explanation\": \"This query uses the A<> operator to express that ArmB must eventually reach the idle state. The eventual_completion pattern is appropriate here since the constraint requires that ArmB will eventually reach the idle state, which is a liveness property expressing that something must eventually happen.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmB.idle",
+              "explanation": "This query uses the A<> operator to express that ArmB must eventually reach the idle state. The eventual_completion pattern is appropriate here since the constraint requires that ArmB will eventually reach the idle state, which is a liveness property expressing that something must eventually happen.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.idle"
+          },
+          "total_time": 6.853156089782715,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2277307510375977,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"never\", \"simultaneously\", \"same section\", \"ArmA\", \"ArmB\", \"weld\"],\n  \"cues\": [\"never\"],\n  \"trigger_text\": \"ArmA and ArmB welding the same section at the same time\",\n  \"response_text\": \"This state must be prevented\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.793597936630249,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)\",\n  \"explanation\": \"This query enforces that it is never allowed (A[]) for both ArmA and ArmB to be welding (welding == true) the same section simultaneously. The forbidden state is negated using 'not', preventing the unsafe condition where both arms weld identical sections at the same time.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)",
+              "explanation": "This query enforces that it is never allowed (A[]) for both ArmA and ArmB to be welding (welding == true) the same section simultaneously. The forbidden state is negated using 'not', preventing the unsafe condition where both arms weld identical sections at the same time.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)"
+          },
+          "total_time": 3.0430920124053955,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmA eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0231680870056152,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"ArmA\", \"completes\", \"tasks\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"ArmA\",\n  \"response_text\": \"completes its tasks\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6131489276885986,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmA.tasks_completed\",\n  \"explanation\": \"The constraint uses the cue word 'eventually' and requires that ArmA must reach a final state where its tasks are completed. This is a liveness property expressing that something must eventually happen. The A<> operator is appropriate for expressing this 'must eventually' requirement.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmA.tasks_completed",
+              "explanation": "The constraint uses the cue word 'eventually' and requires that ArmA must reach a final state where its tasks are completed. This is a liveness property expressing that something must eventually happen. The A<> operator is appropriate for expressing this 'must eventually' requirement.",
+              "confidence": 0.92,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.tasks_completed"
+          },
+          "total_time": 2.657473087310791,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ArmB eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4952523708343506,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"ArmB\", \"completes\", \"tasks\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"ArmB\",\n  \"response_text\": \"completes its tasks\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.630955696105957,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmB.tasks_completed\",\n  \"explanation\": \"The constraint uses 'eventually' which indicates a liveness property where ArmB must reach a state where its tasks are completed. The A<> operator is appropriate here because it expresses that all possible execution paths must eventually lead to ArmB completing its tasks. This matches the eventual_completion pattern template.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmB.tasks_completed",
+              "explanation": "The constraint uses 'eventually' which indicates a liveness property where ArmB must reach a state where its tasks are completed. The A<> operator is appropriate here because it expresses that all possible execution paths must eventually lead to ArmB completing its tasks. This matches the eventual_completion pattern template.",
+              "confidence": 0.92,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.tasks_completed"
+          },
+          "total_time": 3.163347005844116,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ArmA eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 1.023660659790039,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"ArmA\", \"idle state\", \"reach\", \"eventually\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"ArmA\",\n  \"response_text\": \"reach idle state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6987180709838867,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmA.idle\",\n  \"explanation\": \"The constraint uses the keyword 'eventually' which indicates a liveness property where something must happen. ArmA must eventually reach the idle state. The A<> operator is appropriate here because it expresses that from all possible paths, the system must eventually reach a state where ArmA is idle. This matches the eventual_completion pattern template.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmA.idle",
+              "explanation": "The constraint uses the keyword 'eventually' which indicates a liveness property where something must happen. ArmA must eventually reach the idle state. The A<> operator is appropriate here because it expresses that from all possible paths, the system must eventually reach a state where ArmA is idle. This matches the eventual_completion pattern template.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.idle"
+          },
+          "total_time": 2.7392220497131348,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ArmB eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 1.017388105392456,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\", \"idle\", \"state\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"ArmB\",\n  \"response_text\": \"reach idle state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6458649635314941,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmB.idle\",\n  \"explanation\": \"The constraint uses the keyword 'eventually' which indicates a liveness property where ArmB must eventually reach the idle state. The A<> operator is appropriate here as it specifies that on all paths, ArmB will eventually reach the idle state. This matches the eventual_completion pattern template: A<> final_state.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmB.idle",
+              "explanation": "The constraint uses the keyword 'eventually' which indicates a liveness property where ArmB must eventually reach the idle state. The A<> operator is appropriate here as it specifies that on all paths, ArmB will eventually reach the idle state. This matches the eventual_completion pattern template: A<> final_state.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.idle"
+          },
+          "total_time": 2.6784849166870117,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "classification": {
+            "step": "classification",
+            "timing": 8.475908279418945,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"never\",\"weld\",\"same\",\"section\",\"simultaneously\"],\"cues\":[\"never\"]}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.974200010299683,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)\", \"explanation\": \"This query uses the forbidden_state pattern with A[] not to ensure that the state where both ArmA and ArmB are welding the same section simultaneously never occurs, directly matching the constraint's requirement.\", \"confidence\": 0.85, \"pattern_used\": \"forbidden_state\", \"operator_used\": [\"A[]\", \"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)",
+              "explanation": "This query uses the forbidden_state pattern with A[] not to ensure that the state where both ArmA and ArmB are welding the same section simultaneously never occurs, directly matching the constraint's requirement.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)"
+          },
+          "total_time": 23.477545022964478,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmA eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 7.010808229446411,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"completes\"],\"cues\":[\"eventually\"]}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.319063663482666,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> ArmA.tasks_complete\", \"explanation\": \"The constraint 'ArmA eventually completes its tasks' requires a liveness property where ArmA must eventually reach a state indicating task completion. The A<> operator checks that this happens eventually in all paths.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> ArmA.tasks_complete",
+              "explanation": "The constraint 'ArmA eventually completes its tasks' requires a liveness property where ArmA must eventually reach a state indicating task completion. The A<> operator checks that this happens eventually in all paths.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.tasks_complete"
+          },
+          "total_time": 21.353923082351685,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ArmB eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 11.191951036453247,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"eventually\", \"completes\", \"tasks\"], \"cues\": [\"eventually\"], \"trigger_text\": \"ArmB starts tasks\", \"response_text\": \"completes its tasks\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.067664861679077,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"ArmB.starts_tasks --> ArmB.tasks_completed\", \"explanation\": \"The constraint specifies that ArmB eventually completes its tasks after starting them, matching the eventual_completion pattern with a trigger-response structure using the --> operator for sequential workflow.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "ArmB.starts_tasks --> ArmB.tasks_completed",
+              "explanation": "The constraint specifies that ArmB eventually completes its tasks after starting them, matching the eventual_completion pattern with a trigger-response structure using the --> operator for sequential workflow.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ArmB.starts_tasks --> ArmB.tasks_completed"
+          },
+          "total_time": 28.28251314163208,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ArmA eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 8.771822929382324,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"idle state\"], \"cues\": [\"eventually\"], \"trigger_text/response_text\": \"ArmA reach idle state\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.549934148788452,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> ArmA.idle\", \"explanation\": \"The constraint 'ArmA eventually reach idle state' requires that ArmA must eventually enter the idle state in all possible executions, which is a liveness property verified by the A<> operator in UPPAAL.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> ArmA.idle",
+              "explanation": "The constraint 'ArmA eventually reach idle state' requires that ArmA must eventually enter the idle state in all possible executions, which is a liveness property verified by the A<> operator in UPPAAL.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.idle"
+          },
+          "total_time": 22.354993104934692,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ArmB eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 10.681895017623901,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"eventually\", \"reach\", \"idle state\"], \"cues\": [\"eventually\"]}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.899691104888916,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> ArmB.idle\", \"explanation\": \"The natural-language constraint 'ArmB eventually reach idle state' indicates a liveness property where ArmB must eventually reach the idle state, matching the eventual_completion pattern and using the A<> operator for global liveness in UPPAAL.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> ArmB.idle",
+              "explanation": "The natural-language constraint 'ArmB eventually reach idle state' indicates a liveness property where ArmB must eventually reach the idle state, matching the eventual_completion pattern and using the A<> operator for global liveness in UPPAAL.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.idle"
+          },
+          "total_time": 26.596243143081665,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "classification": {
+            "step": "classification",
+            "timing": 7.310210227966309,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"never\", \"simultaneously\", \"weld\", \"same section\"],\n  \"cues\": [\"never\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.629020929336548,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)\",\n  \"explanation\": \"This query ensures that the state where both ArmA and ArmB are welding the same section simultaneously never occurs, aligning with the forbidden_state pattern as it prevents a specific unsafe condition based on the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)",
+              "explanation": "This query ensures that the state where both ArmA and ArmB are welding the same section simultaneously never occurs, aligning with the forbidden_state pattern as it prevents a specific unsafe condition based on the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)"
+          },
+          "total_time": 16.96157479286194,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmA eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 6.415114879608154,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"ArmA\", \"eventually\", \"completes\", \"tasks\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.153279066085815,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> ArmA.tasks_complete\",\n  \"explanation\": \"The query A<> ArmA.tasks_complete ensures that ArmA will inevitably reach a state where its tasks are completed, directly matching the eventual_completion pattern for liveness properties.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ArmA.tasks_complete",
+              "explanation": "The query A<> ArmA.tasks_complete ensures that ArmA will inevitably reach a state where its tasks are completed, directly matching the eventual_completion pattern for liveness properties.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.tasks_complete"
+          },
+          "total_time": 16.588183641433716,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ArmB eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 8.930535793304443,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"ArmB\", \"eventually\", \"completes\", \"tasks\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.605268955230713,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> ArmB.tasks_completed\",\n  \"explanation\": \"The query A<> ArmB.tasks_completed ensures that ArmB will inevitably reach a state where its tasks are completed, directly matching the eventual_completion pattern which requires something to eventually happen as indicated by keywords like 'eventually' and 'completes'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ArmB.tasks_completed",
+              "explanation": "The query A<> ArmB.tasks_completed ensures that ArmB will inevitably reach a state where its tasks are completed, directly matching the eventual_completion pattern which requires something to eventually happen as indicated by keywords like 'eventually' and 'completes'.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.tasks_completed"
+          },
+          "total_time": 22.558148860931396,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ArmA eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 6.787136793136597,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\", \"idle state\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.576722145080566,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> ArmA.idle\",\n  \"explanation\": \"The query A<> ArmA.idle ensures that ArmA will inevitably reach the idle state eventually, aligning with the eventual_completion pattern which requires something to happen globally.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ArmA.idle",
+              "explanation": "The query A<> ArmA.idle ensures that ArmA will inevitably reach the idle state eventually, aligning with the eventual_completion pattern which requires something to happen globally.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.idle"
+          },
+          "total_time": 16.388142108917236,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ArmB eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 11.205755949020386,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"ArmB\", \"eventually\", \"reach\", \"idle\", \"state\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"ArmB eventually reach idle state\"\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.47267770767212,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> ArmB.idle\",\n  \"explanation\": \"The query A<> ArmB.idle matches the constraint 'ArmB eventually reach idle state' by using the eventual_completion pattern, which ensures that ArmB must eventually enter the idle state as a global liveness property.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ArmB.idle",
+              "explanation": "The query A<> ArmB.idle matches the constraint 'ArmB eventually reach idle state' by using the eventual_completion pattern, which ensures that ArmB must eventually enter the idle state as a global liveness property.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.idle"
+          },
+          "total_time": 20.70141291618347,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "classification": {
+            "step": "classification",
+            "timing": 37.309937953948975,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"ArmA\", \"ArmB\", \"weld\", \"same section\", \"simultaneously\"],\n  \"cues\": [\"never\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 120.89113879203796,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)\",\n  \"explanation\": \"This query uses the forbidden_state pattern with A[] not(...) to ensure that the bad state where both ArmA and ArmB are welding the same section simultaneously never occurs, directly translating the constraint 'never weld the same section simultaneously.'\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)",
+              "explanation": "This query uses the forbidden_state pattern with A[] not(...) to ensure that the bad state where both ArmA and ArmB are welding the same section simultaneously never occurs, directly translating the constraint 'never weld the same section simultaneously.'",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ArmA.welding && ArmB.welding && ArmA.section == ArmB.section)"
+          },
+          "total_time": 158.22476410865784,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmA eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 48.262738943099976,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"ArmA\", \"completes\", \"tasks\", \"eventually\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 77.0639340877533,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> ArmA.tasks_completed\",\n  \"explanation\": \"The constraint 'ArmA eventually completes its tasks' uses the keyword 'eventually', which indicates a liveness property where ArmA must eventually complete its tasks. This aligns with the eventual_completion pattern, which is translated to the UPPAAL query A<> final_state, where final_state is ArmA.tasks_completed, representing the state where all tasks are done.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ArmA.tasks_completed",
+              "explanation": "The constraint 'ArmA eventually completes its tasks' uses the keyword 'eventually', which indicates a liveness property where ArmA must eventually complete its tasks. This aligns with the eventual_completion pattern, which is translated to the UPPAAL query A<> final_state, where final_state is ArmA.tasks_completed, representing the state where all tasks are done.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.tasks_completed"
+          },
+          "total_time": 125.3507080078125,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ArmB eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 30.528226137161255,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"ArmB\", \"completes\", \"tasks\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 74.27643704414368,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> ArmB.tasks_complete\",\n  \"explanation\": \"The constraint 'ArmB eventually completes its tasks' includes the cue 'eventually', which corresponds to a liveness property where the task completion must eventually occur. This matches the eventual_completion pattern, and the UPPAAL query uses the A<> operator to assert that for all paths, the state ArmB.tasks_complete will eventually hold.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ArmB.tasks_complete",
+              "explanation": "The constraint 'ArmB eventually completes its tasks' includes the cue 'eventually', which corresponds to a liveness property where the task completion must eventually occur. This matches the eventual_completion pattern, and the UPPAAL query uses the A<> operator to assert that for all paths, the state ArmB.tasks_complete will eventually hold.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.tasks_complete"
+          },
+          "total_time": 104.82769513130188,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ArmA eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 39.33655095100403,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\", \"idle state\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 48.71555972099304,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> ArmA.idle_state\",\n  \"explanation\": \"The constraint 'ArmA eventually reach idle state' uses the keyword 'eventually', which indicates a liveness property where ArmA must eventually reach the idle state. This matches the 'eventual_completion' pattern template 'A<> final_state', with 'ArmA.idle_state' as the final state to be reached.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ArmA.idle_state",
+              "explanation": "The constraint 'ArmA eventually reach idle state' uses the keyword 'eventually', which indicates a liveness property where ArmA must eventually reach the idle state. This matches the 'eventual_completion' pattern template 'A<> final_state', with 'ArmA.idle_state' as the final state to be reached.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.idle_state"
+          },
+          "total_time": 88.0859808921814,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ArmB eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 27.307268142700195,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"ArmB\", \"reach\", \"idle state\", \"eventually\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 81.42118501663208,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> ArmB.idle\",\n  \"explanation\": \"The constraint 'ArmB eventually reach idle state' is a liveness property where ArmB must eventually be in an idle state. The pattern 'eventual_completion' uses the A<> operator to assert that something must eventually happen, so this query directly translates the constraint by checking that eventually ArmB reaches the idle state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ArmB.idle",
+              "explanation": "The constraint 'ArmB eventually reach idle state' is a liveness property where ArmB must eventually be in an idle state. The pattern 'eventual_completion' uses the A<> operator to assert that something must eventually happen, so this query directly translates the constraint by checking that eventually ArmB reaches the idle state.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.idle"
+          },
+          "total_time": 108.74662280082703,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0030021667480469,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"weld\",\n    \"simultaneously\",\n    \"never\",\n    \"ArmA\",\n    \"ArmB\"\n  ],\n  \"cues\": [\n    \"never\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6172239780426025,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (ArmA.welding == true and ArmB.welding == true and ArmA.section == ArmB.section)\",\n  \"explanation\": \"This query uses the forbidden_state pattern with the 'A[] not' operator to express that it is never the case that both ArmA and ArmB are welding the same section at the same time.  The condition `ArmA.welding == true and ArmB.welding == true and ArmA.section == ArmB.section` describes the forbidden state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (ArmA.welding == true and ArmB.welding == true and ArmA.section == ArmB.section)",
+              "explanation": "This query uses the forbidden_state pattern with the 'A[] not' operator to express that it is never the case that both ArmA and ArmB are welding the same section at the same time.  The condition `ArmA.welding == true and ArmB.welding == true and ArmA.section == ArmB.section` describes the forbidden state.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ArmA.welding == true and ArmB.welding == true and ArmA.section == ArmB.section)"
+          },
+          "total_time": 2.6490888595581055,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmA eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9219410419464111,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"eventual completion\",\n    \"ArmA\",\n    \"tasks\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ],\n  \"trigger_text\": \"ArmA\",\n  \"response_text\": \"completes its tasks\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.993553876876831,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmA.tasks_completed\",\n  \"explanation\": \"The constraint states that ArmA eventually completes its tasks. This matches the 'eventual_completion' pattern, where the system must eventually reach a state where the task is completed. The A<> operator is used to express that ArmA.tasks_completed must eventually be true.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmA.tasks_completed",
+              "explanation": "The constraint states that ArmA eventually completes its tasks. This matches the 'eventual_completion' pattern, where the system must eventually reach a state where the task is completed. The A<> operator is used to express that ArmA.tasks_completed must eventually be true.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.tasks_completed"
+          },
+          "total_time": 1.939857006072998,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ArmB eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7002041339874268,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"completion\", \"eventually\", \"tasks\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"ArmB\",\n  \"response_text\": \"completes its tasks\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4229779243469238,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmB.tasks_completed\",\n  \"explanation\": \"The constraint states that ArmB eventually completes its tasks, indicating a liveness property that must eventually hold. The 'eventual_completion' pattern with the 'A<>' operator is appropriate for this. We replace 'final_state' in the template with 'ArmB.tasks_completed' which we assume is a boolean variable or a state in the ArmB automaton that signifies the completion of its tasks.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmB.tasks_completed",
+              "explanation": "The constraint states that ArmB eventually completes its tasks, indicating a liveness property that must eventually hold. The 'eventual_completion' pattern with the 'A<>' operator is appropriate for this. We replace 'final_state' in the template with 'ArmB.tasks_completed' which we assume is a boolean variable or a state in the ArmB automaton that signifies the completion of its tasks.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.tasks_completed"
+          },
+          "total_time": 2.140153169631958,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ArmA eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 0.617189884185791,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\", \"idle\", \"state\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"ArmA\",\n  \"response_text\": \"idle state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5078699588775635,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmA.idle\",\n  \"explanation\": \"The constraint 'ArmA eventually reach idle state' requires that the ArmA system must eventually reach the idle state. The 'eventual_completion' pattern and the 'A<>' operator indicate a liveness property, where the system MUST eventually reach the specified state. The UPPAAL query 'A<> ArmA.idle' expresses that eventually, the ArmA system's location/state 'idle' must be reached.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmA.idle",
+              "explanation": "The constraint 'ArmA eventually reach idle state' requires that the ArmA system must eventually reach the idle state. The 'eventual_completion' pattern and the 'A<>' operator indicate a liveness property, where the system MUST eventually reach the specified state. The UPPAAL query 'A<> ArmA.idle' expresses that eventually, the ArmA system's location/state 'idle' must be reached.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.idle"
+          },
+          "total_time": 2.148519992828369,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ArmB eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1995508670806885,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"ArmB\",\n    \"idle\",\n    \"eventually\",\n    \"reach\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ],\n  \"trigger_text\": \"ArmB\",\n  \"response_text\": \"idle state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.9563579559326172,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmB.idle\",\n  \"explanation\": \"The constraint states that ArmB must eventually reach the idle state, which matches the 'eventual_completion' pattern.  The UPPAAL query 'A<> ArmB.idle' expresses this, where A<> means 'eventually' and ArmB.idle represents ArmB being in the idle state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmB.idle",
+              "explanation": "The constraint states that ArmB must eventually reach the idle state, which matches the 'eventual_completion' pattern.  The UPPAAL query 'A<> ArmB.idle' expresses this, where A<> means 'eventually' and ArmB.idle represents ArmB being in the idle state.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.idle"
+          },
+          "total_time": 2.1659798622131348,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "classification": {
+            "step": "classification",
+            "timing": 7.955452919006348,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"ArmA\",\n    \"ArmB\",\n    \"weld\",\n    \"section\",\n    \"simultaneously\"\n  ],\n  \"cues\": [\n    \"never\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.805330991744995,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (ArmA.Welding and ArmB.Welding and ArmA.section == ArmB.section)\",\n  \"explanation\": \"The query enforces a global safety property using 'A[] not', which asserts that the condition in the parentheses must never become true. The condition `ArmA.Welding and ArmB.Welding and ArmA.section == ArmB.section` describes the forbidden state where both ArmA and ArmB are in their 'Welding' location and their 'section' variables are identical, thus preventing them from welding the same section simultaneously.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (ArmA.Welding and ArmB.Welding and ArmA.section == ArmB.section)",
+              "explanation": "The query enforces a global safety property using 'A[] not', which asserts that the condition in the parentheses must never become true. The condition `ArmA.Welding and ArmB.Welding and ArmA.section == ArmB.section` describes the forbidden state where both ArmA and ArmB are in their 'Welding' location and their 'section' variables are identical, thus preventing them from welding the same section simultaneously.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ArmA.Welding and ArmB.Welding and ArmA.section == ArmB.section)"
+          },
+          "total_time": 22.785511016845703,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmA eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 9.047323226928711,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"ArmA\",\n    \"completes\",\n    \"tasks\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.633121013641357,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmA.tasks_complete\",\n  \"explanation\": \"The constraint requires that 'ArmA' must eventually reach a state where its tasks are completed. This is a classic liveness property. The UPPAAL operator 'A<>' means 'Always Eventually', which checks that for all possible execution paths, the specified state is eventually reached. 'ArmA.tasks_complete' is the boolean expression or state location representing that the agent has completed its tasks.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmA.tasks_complete",
+              "explanation": "The constraint requires that 'ArmA' must eventually reach a state where its tasks are completed. This is a classic liveness property. The UPPAAL operator 'A<>' means 'Always Eventually', which checks that for all possible execution paths, the specified state is eventually reached. 'ArmA.tasks_complete' is the boolean expression or state location representing that the agent has completed its tasks.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.tasks_complete"
+          },
+          "total_time": 21.70958685874939,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ArmB eventually completes its tasks",
+          "classification": {
+            "step": "classification",
+            "timing": 7.991200923919678,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"ArmB\",\n    \"completes\",\n    \"tasks\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ],\n  \"response_text\": \"completes its tasks\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 26.753052711486816,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmB.tasks_complete\",\n  \"explanation\": \"The 'A<>' operator stands for 'always eventually', verifying a liveness property. It checks that for all possible execution paths, the system will inevitably reach a state where the condition is true. 'ArmB.tasks_complete' represents the state where ArmB has finished its tasks. Thus, the query formally verifies the constraint that ArmB must eventually complete its tasks.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmB.tasks_complete",
+              "explanation": "The 'A<>' operator stands for 'always eventually', verifying a liveness property. It checks that for all possible execution paths, the system will inevitably reach a state where the condition is true. 'ArmB.tasks_complete' represents the state where ArmB has finished its tasks. Thus, the query formally verifies the constraint that ArmB must eventually complete its tasks.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmB.tasks_complete"
+          },
+          "total_time": 34.761481046676636,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ArmA eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 9.146407127380371,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"ArmA\",\n    \"reach\",\n    \"idle state\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.599370241165161,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ArmA.idle\",\n  \"explanation\": \"The query uses the A<> operator, which stands for 'Always Eventually'. This correctly captures the liveness property specified by the keyword 'eventually' in the constraint, ensuring that the process 'ArmA' must inevitably reach its 'idle' state in all possible execution paths.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ArmA.idle",
+              "explanation": "The query uses the A<> operator, which stands for 'Always Eventually'. This correctly captures the liveness property specified by the keyword 'eventually' in the constraint, ensuring that the process 'ArmA' must inevitably reach its 'idle' state in all possible execution paths.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ArmA.idle"
+          },
+          "total_time": 20.768172025680542,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ArmB eventually reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 14.801536798477173,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\n    \"ArmB\",\n    \"reach\",\n    \"idle state\"\n  ],\n  \"cues\": [\n    \"eventually\",\n    \"reach\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.532243967056274,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"E<> ArmB.idle\",\n  \"explanation\": \"The constraint asks if it is possible for \\\"ArmB\\\" to \\\"eventually reach\\\" its \\\"idle state\\\". The `E<>` (exists eventually) operator is used to check for reachability, verifying that at least one execution path exists where the target state is reached. `ArmB.idle` represents the 'ArmB' process being in the 'idle' location. Therefore, `E<> ArmB.idle` correctly formalizes this possibility check.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "E<> ArmB.idle",
+              "explanation": "The constraint asks if it is possible for \"ArmB\" to \"eventually reach\" its \"idle state\". The `E<>` (exists eventually) operator is used to check for reachability, verifying that at least one execution path exists where the target state is reached. `ArmB.idle` represents the 'ArmB' process being in the 'idle' location. Therefore, `E<> ArmB.idle` correctly formalizes this possibility check.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> ArmB.idle"
+          },
+          "total_time": 29.368489980697632,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    }
+  ]
+}

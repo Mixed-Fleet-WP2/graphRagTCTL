@@ -1,0 +1,480 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-05T12:24:07.026Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_017",
+      "domain": "agriculture",
+      "prompt": "A drone surveys crop zones while a rover collects soil samples. Every zone must be inspected at least once. The rover begins sampling only after the drone finishes the zone. If communication is lost, both must halt.",
+      "gold_standard": {
+        "constraints": [
+          "Drone inspects all zones eventually",
+          "Rover samples only after drone finishes scanning zone",
+          "AgriDrone and SoilRover halt if communication lost"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Drone inspects all zones eventually",
+                "query": "A<> Drone.all_zones_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Rover samples only after drone finishes scanning zone",
+                "query": "Drone.scanning_done --> Rover.sampling",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "AgriDrone and SoilRover halt if communication lost",
+                "query": "A[] not (communication_lost && (!AgriDrone.halted || !SoilRover.halted))",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Drone inspects all zones eventually",
+                "query": "A<> Drone.all_zones_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Rover samples only after drone finishes scanning zone",
+                "query": "Drone.scanning_done --> Rover.sampling",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "AgriDrone and SoilRover halt if communication lost",
+                "query": "Communication.lost --> (AgriDrone.halt && SoilRover.halt)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Drone inspects all zones eventually",
+                "query": "A<> Drone.all_zones_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Rover samples only after drone finishes scanning zone",
+                "query": "Drone.scanning_done --> Rover.sampling",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "AgriDrone and SoilRover halt if communication lost",
+                "query": "(communication_lost) --> (AgriDrone.halt && SoilRover.halt)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Drone inspects all zones eventually",
+                "query": "A<> Drone.all_zones_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Rover samples only after drone finishes scanning zone",
+                "query": "Drone.scanning_zone_complete --> Rover.sampling",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "AgriDrone and SoilRover halt if communication lost",
+                "query": "A[] not (communication_lost && (AgriDrone.halt || SoilRover.halt))",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Drone inspects all zones eventually",
+                "query": "A<> Drone.all_zones_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Rover samples only after drone finishes scanning zone",
+                "query": "Drone.scanning_done --> Rover.sampling",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "AgriDrone and SoilRover halt if communication lost",
+                "query": "A[] (communication_lost imply (AgriDrone.halted && SoilRover.halted))",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Drone inspects all zones eventually",
+                "query": "A<> Drone.inspects_all_zones",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Rover samples only after drone finishes scanning zone",
+                "query": "Drone.scanning_zone_complete --> Rover.sampling",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "AgriDrone and SoilRover halt if communication lost",
+                "query": "A[] (communication_lost imply (AgriDrone.halted and SoilRover.halted))",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Drone inspects all zones eventually",
+                "query": "A<> Drone.all_zones_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Rover samples only after drone finishes scanning zone",
+                "query": "Drone.scanning_zone_done --> Rover.sampling",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "AgriDrone and SoilRover halt if communication lost",
+                "query": "A[] (communication_lost imply (AgriDrone.halted and SoilRover.halted))",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Drone inspects all zones eventually",
+                "query": "A<> Drone.all_zones_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Rover samples only after drone finishes scanning zone",
+                "query": "drone.zone_scanned --> rover.sampling",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "AgriDrone and SoilRover halt if communication lost",
+                "query": "A[] (communication_lost imply (AgriDrone.halted and SoilRover.halted))",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Drone inspects all zones eventually",
+                "query": "A<> Drone.all_zones_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Rover samples only after drone finishes scanning zone",
+                "query": "Drone.scan_complete --> Rover.sampling",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "AgriDrone and SoilRover halt if communication lost",
+                "query": "(communication_lost) --> (AgriDrone.halted && SoilRover.halted)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Drone inspects all zones eventually",
+                "query": "A<> Drone.all_zones_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Rover samples only after drone finishes scanning zone",
+                "query": "Drone.scanning_done --> Rover.sampling",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "AgriDrone and SoilRover halt if communication lost",
+                "query": "A[] (communication_lost imply AgriDrone.halt and SoilRover.halt)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Drone inspects all zones eventually",
+                "query": "A<> Drone.all_zones_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Rover samples only after drone finishes scanning zone",
+                "query": "Drone.ScanComplete --> Rover.Sampling",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "AgriDrone and SoilRover halt if communication lost",
+                "query": "A[] (communication_lost imply AgriDrone.Halted and SoilRover.Halted)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 31,
+    "inferred": 0,
+    "hallucination": 2,
+    "unlabeled": 0,
+    "total": 33
+  },
+  "performance_metrics": {
+    "precision": 0.9393939393939394,
+    "recall": 10.333333333333334,
+    "f1": 1.7222222222222223
+  }
+}

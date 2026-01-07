@@ -1,0 +1,1339 @@
+{
+  "id": "scenario_004",
+  "domain": "manufacturing",
+  "prompt": "An assembly robot welds metal frames while a quality inspection drone hovers to scan the joints. The drone can start scanning only after welding is complete. If temperature exceeds 90\u00b0C, welding must pause until it drops below 70\u00b0C.",
+  "robots": [
+    "WelderBot",
+    "InspectorDrone"
+  ],
+  "constraints": [
+    "InspectorDrone starts scanning only after WelderBot finishes welding",
+    "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+    "WelderBot resumes welding when temperature drops below 70\u00b0C"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 4.397328853607178,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"InspectorDrone\",\"WelderBot\",\"starts scanning\",\"finishes welding\",\"only after\",\"ordering\",\"sequence\"],\"cues\":[\"only after\",\"after\"],\"trigger_text\":\"WelderBot finishes welding\",\"response_text\":\"InspectorDrone starts scanning\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.731743097305298,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"WelderBot.welding_finished --> InspectorDrone.scanning_started\",\"explanation\":\"The constraint says InspectorDrone may start scanning only after WelderBot finishes welding. Using the sequential workflow pattern action1 --> action2, we model that whenever WelderBot.welding_finished occurs, it is eventually followed by InspectorDrone.scanning_started. This captures the required ordering that welding completion precedes scanning start, matching the 'after/only after' semantics.\",\"confidence\":0.9,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "WelderBot.welding_finished --> InspectorDrone.scanning_started",
+              "explanation": "The constraint says InspectorDrone may start scanning only after WelderBot finishes welding. Using the sequential workflow pattern action1 --> action2, we model that whenever WelderBot.welding_finished occurs, it is eventually followed by InspectorDrone.scanning_started. This captures the required ordering that welding completion precedes scanning start, matching the 'after/only after' semantics.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_finished --> InspectorDrone.scanning_started"
+          },
+          "total_time": 8.147861957550049,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 3.8402020931243896,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"WelderBot\",\"pauses\",\"welding\",\"temperature\",\"exceeds\",\"90\u00b0C\"],\"cues\":[\"when\",\">\"],\"trigger_text\":\"temperature exceeds 90\u00b0C\",\"response_text\":\"WelderBot pauses welding\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.9043309688568115,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(temperature > 90) --> WelderBot.pausing_welding\",\"explanation\":\"The constraint says that when the temperature exceeds 90\u00b0C, WelderBot should (eventually) pause welding. This is a conditional-response property, so we use the pattern condition --> response. Here, the condition is temperature > 90 (temperature exceeds 90\u00b0C), and the response is WelderBot.pausing_welding (WelderBot pauses welding). The --> operator captures that whenever the condition becomes true, the response must eventually hold.\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(temperature > 90) --> WelderBot.pausing_welding",
+              "explanation": "The constraint says that when the temperature exceeds 90\u00b0C, WelderBot should (eventually) pause welding. This is a conditional-response property, so we use the pattern condition --> response. Here, the condition is temperature > 90 (temperature exceeds 90\u00b0C), and the response is WelderBot.pausing_welding (WelderBot pauses welding). The --> operator captures that whenever the condition becomes true, the response must eventually hold.",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 90) --> WelderBot.pausing_welding"
+          },
+          "total_time": 7.769907236099243,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 2.867027997970581,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"WelderBot\",\"resumes welding\",\"temperature drops\",\"below 70\u00b0C\",\"thermostat\",\"condition-action\"],\"cues\":[\"when\",\"below\",\"<\"],\"trigger_text\":\"temperature drops below 70\u00b0C\",\"response_text\":\"WelderBot resumes welding\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.7003748416900635,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(temperature < 70) --> WelderBot.welding\",\"explanation\":\"The constraint says that when the temperature condition (drops below 70\u00b0C) holds, WelderBot should (eventually) resume welding. This is a conditional eventual response, so the conditional_response pattern with the --> operator is appropriate. The left side models the trigger condition (temperature < 70), and the right side models the required eventual response state (WelderBot.welding).\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(temperature < 70) --> WelderBot.welding",
+              "explanation": "The constraint says that when the temperature condition (drops below 70\u00b0C) holds, WelderBot should (eventually) resume welding. This is a conditional eventual response, so the conditional_response pattern with the --> operator is appropriate. The left side models the trigger condition (temperature < 70), and the right side models the required eventual response state (WelderBot.welding).",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < 70) --> WelderBot.welding"
+          },
+          "total_time": 6.5951738357543945,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 6.997173070907593,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"InspectorDrone\",\"WelderBot\",\"starts scanning\",\"finishes welding\",\"only after\",\"after\",\"sequence\",\"ordered\"],\"cues\":[\"after\",\"only\",\"starts\",\"finishes\",\"must\"],\"trigger_text\":\"WelderBot finishes welding\",\"response_text\":\"InspectorDrone starts scanning\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.757118225097656,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"WelderBot.welding_finished --> InspectorDrone.scanning_start\",\"explanation\":\"Using the sequential_workflow pattern, this query says that when WelderBot finishes welding (welding_finished) then InspectorDrone will eventually start scanning (scanning_start). It captures the 'only after' ordering by making the InspectorDrone start dependent on the WelderBot finish via the --> operator.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "WelderBot.welding_finished --> InspectorDrone.scanning_start",
+              "explanation": "Using the sequential_workflow pattern, this query says that when WelderBot finishes welding (welding_finished) then InspectorDrone will eventually start scanning (scanning_start). It captures the 'only after' ordering by making the InspectorDrone start dependent on the WelderBot finish via the --> operator.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_finished --> InspectorDrone.scanning_start"
+          },
+          "total_time": 14.7830491065979,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 8.274220705032349,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"temperature\",\"90\u00b0C\",\"exceeds\",\">\",\"pause\",\"pauses\",\"welding\",\"overheat\",\"threshold\"],\"cues\":[\"when\",\"if\",\"exceeds\",\">\",\"pause\",\"pauses\",\"must\"],\"trigger_text\":\"temperature exceeds 90\u00b0C\",\"response_text\":\"WelderBot pauses welding\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.972234010696411,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (WelderBot.temperature > 90 imply WelderBot.paused)\",\"explanation\":\"This is a safety immediate-response property: it uses a global invariant A[] with an implication so that whenever WelderBot.temperature exceeds 90 the model must immediately satisfy the state WelderBot.paused (i.e., welding is paused). This enforces no delay between the trigger and the pause action.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
+              "explanation": "This is a safety immediate-response property: it uses a global invariant A[] with an implication so that whenever WelderBot.temperature exceeds 90 the model must immediately satisfy the state WelderBot.paused (i.e., welding is paused). This enforces no delay between the trigger and the pause action.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)"
+          },
+          "total_time": 20.26514482498169,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 7.233400106430054,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"WelderBot\",\"resume\",\"resumes\",\"welding\",\"temperature\",\"below\",\"70\u00b0C\",\"drops\",\"when\"],\"cues\":[\"when\",\"below\",\"<\",\"drops\",\"resume\",\"resumes\",\"temperature\"],\"trigger_text\":\"temperature drops below 70\u00b0C\",\"response_text\":\"WelderBot resumes welding\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.1278769969940186,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(WelderBot.temperature < 70) --> WelderBot.welding\",\"explanation\":\"This uses the conditional_response pattern: when the condition WelderBot.temperature < 70 holds (temperature drops below 70\u00b0C), the model must eventually reach the response state WelderBot.welding (WelderBot resumes welding). The '-->' operator expresses that the response should follow the trigger eventually.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(WelderBot.temperature < 70) --> WelderBot.welding",
+              "explanation": "This uses the conditional_response pattern: when the condition WelderBot.temperature < 70 holds (temperature drops below 70\u00b0C), the model must eventually reach the response state WelderBot.welding (WelderBot resumes welding). The '-->' operator expresses that the response should follow the trigger eventually.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(WelderBot.temperature < 70) --> WelderBot.welding"
+          },
+          "total_time": 13.380505800247192,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 8.398429870605469,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"WelderBot\",\"InspectorDrone\",\"welding\",\"scanning\",\"finishes\",\"starts\"],\"cues\":[\"after\",\"then\",\"finishes\",\"starts\"],\"trigger_text\":\"InspectorDrone starts scanning after WelderBot finishes welding.\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.578974962234497,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"WelderBot.welding_complete --> InspectorDrone.scanning\",\"explanation\":\"Follows the sequential_workflow pattern: after WelderBot finishes welding (welding_complete), InspectorDrone starts scanning (scanning).\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "WelderBot.welding_complete --> InspectorDrone.scanning",
+              "explanation": "Follows the sequential_workflow pattern: after WelderBot finishes welding (welding_complete), InspectorDrone starts scanning (scanning).",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_complete --> InspectorDrone.scanning"
+          },
+          "total_time": 20.996246814727783,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 12.935517072677612,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"temperature\",\"threshold\",\"welding\",\"WelderBot\",\"safety\",\"pause\"],\"cues\":[\"when\",\"then\",\"<\",\">\"],\"trigger_text\":\"temperature exceeds 90\u00b0C\",\"response_text\":\"WelderBot pauses welding\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 23.5260488986969,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Welder.temperature > 90 --> Welder.paused)\",\"explanation\":\"This encodes an immediate safety response: on all paths, if Welder.temperature exceeds 90\u00b0C, Welder.paused must hold immediately (A[]). It matches the safety_immediate_response pattern by enforcing a trigger_condition -> immediate_safety_action relationship.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (Welder.temperature > 90 --> Welder.paused)",
+              "explanation": "This encodes an immediate safety response: on all paths, if Welder.temperature exceeds 90\u00b0C, Welder.paused must hold immediately (A[]). It matches the safety_immediate_response pattern by enforcing a trigger_condition -> immediate_safety_action relationship.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Welder.temperature > 90 --> Welder.paused)"
+          },
+          "total_time": 36.485867738723755,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 10.284924030303955,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"temperature\",\"below\",\"70\u00b0C\",\"welding\",\"resume\",\"condition\",\"trigger\"],\"cues\":[\"when\",\"below\",\"<\",\"70\u00b0C\",\"temperature\",\"welding\",\"then\"],\"trigger_text\":\"temperature drops below 70\u00b0C\",\"response_text\":\"resume welding\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.23477816581726,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(temperature < 70) --> WelderBot.resume_welding\",\"explanation\":\"This follows the conditional_response pattern: when the condition (temperature drops below 70) holds, the system triggers the eventual action WelderBot.resume_welding. It uses the event-then-action style with the '-->' operator to denote a triggered transition from the condition to the response.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(temperature < 70) --> WelderBot.resume_welding",
+              "explanation": "This follows the conditional_response pattern: when the condition (temperature drops below 70) holds, the system triggers the eventual action WelderBot.resume_welding. It uses the event-then-action style with the '-->' operator to denote a triggered transition from the condition to the response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < 70) --> WelderBot.resume_welding"
+          },
+          "total_time": 25.54910182952881,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 3.6738431453704834,
+            "tokens": 189,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finishes\"],\n  \"cues\": [\"after\", \"only\"],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"InspectorDrone starts scanning\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.5308051109313965,
+            "tokens": 560,
+            "raw_text": "{\n  \"query\": \"WelderBot.welding_complete --> InspectorDrone.scanning_start\",\n  \"explanation\": \"The constraint specifies that InspectorDrone starts scanning only after WelderBot finishes welding. This aligns with the sequential_workflow pattern where one action eventually follows another. The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "WelderBot.welding_complete --> InspectorDrone.scanning_start",
+              "explanation": "The constraint specifies that InspectorDrone starts scanning only after WelderBot finishes welding. This aligns with the sequential_workflow pattern where one action eventually follows another. The '-->' operator is used to represent this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_complete --> InspectorDrone.scanning_start"
+          },
+          "total_time": 6.229068040847778,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 2.1311089992523193,
+            "tokens": 197,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"pauses\", \"exceeds\", \"temperature\", \"90\u00b0C\"],\n    \"cues\": [\"when\", \"exceeds\"],\n    \"trigger_text\": \"temperature exceeds 90\u00b0C\",\n    \"response_text\": \"WelderBot pauses welding\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.1845109462738037,
+            "tokens": 681,
+            "raw_text": "{\n  \"query\": \"A[] (WelderBot.temperature > 90 imply WelderBot.paused)\",\n  \"explanation\": \"The query follows the 'safety_immediate_response' pattern, which requires an immediate response to a dangerous condition. The condition 'temperature exceeds 90\u00b0C' triggers the immediate action 'WelderBot pauses welding'. The 'imply' operator is used within 'A[]' to ensure the response is instantaneous, with no delay allowed.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
+              "explanation": "The query follows the 'safety_immediate_response' pattern, which requires an immediate response to a dangerous condition. The condition 'temperature exceeds 90\u00b0C' triggers the immediate action 'WelderBot pauses welding'. The 'imply' operator is used within 'A[]' to ensure the response is instantaneous, with no delay allowed.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)"
+          },
+          "total_time": 4.341588973999023,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3686449527740479,
+            "tokens": 193,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"resumes\", \"temperature\", \"drops\", \"below\"],\n  \"cues\": [\"when\", \"below\"],\n  \"trigger_text\": \"temperature drops below 70\u00b0C\",\n  \"response_text\": \"WelderBot resumes welding\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.1472129821777344,
+            "tokens": 575,
+            "raw_text": "{\n  \"query\": \"(temperature < 70) --> WelderBot.resumes_welding\",\n  \"explanation\": \"The query matches the constraint by using the 'conditional_response' pattern, where the condition 'temperature drops below 70\u00b0C' triggers the eventual response 'WelderBot resumes welding'. The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature < 70) --> WelderBot.resumes_welding",
+              "explanation": "The query matches the constraint by using the 'conditional_response' pattern, where the condition 'temperature drops below 70\u00b0C' triggers the eventual response 'WelderBot resumes welding'. The '-->' operator is used to represent this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < 70) --> WelderBot.resumes_welding"
+          },
+          "total_time": 3.543002128601074,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 3.097001791000366,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"InspectorDrone\", \"starts\", \"scanning\", \"after\", \"WelderBot\", \"finishes\", \"welding\"],\n  \"cues\": [\"after\", \"only after\"],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"InspectorDrone starts scanning\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.433157205581665,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"WelderBot.welding_finished --> InspectorDrone.scanning\",\n  \"explanation\": \"This query ensures that InspectorDrone starts scanning only after WelderBot finishes welding. The --> operator expresses the sequential workflow where the completion of welding (trigger) eventually leads to the start of scanning (response), matching the 'only after' constraint.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "WelderBot.welding_finished --> InspectorDrone.scanning",
+              "explanation": "This query ensures that InspectorDrone starts scanning only after WelderBot finishes welding. The --> operator expresses the sequential workflow where the completion of welding (trigger) eventually leads to the start of scanning (response), matching the 'only after' constraint.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_finished --> InspectorDrone.scanning"
+          },
+          "total_time": 7.552648067474365,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 3.146268129348755,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"WelderBot\", \"pauses\", \"welding\", \"temperature\", \"exceeds\", \"90\u00b0C\"],\n  \"cues\": [\"when\", \"exceeds\"],\n  \"trigger_text\": \"temperature exceeds 90\u00b0C\",\n  \"response_text\": \"pauses welding\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.196083068847656,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (WelderBot.temperature > 90 imply WelderBot.paused)\",\n  \"explanation\": \"This query ensures that whenever WelderBot's temperature exceeds 90\u00b0C, it must immediately be in a paused state. The A[] operator checks this property globally across all states, and 'imply' enforces the immediate response requirement - if the temperature condition is true, the paused state must be true in the same state.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
+              "explanation": "This query ensures that whenever WelderBot's temperature exceeds 90\u00b0C, it must immediately be in a paused state. The A[] operator checks this property globally across all states, and 'imply' enforces the immediate response requirement - if the temperature condition is true, the paused state must be true in the same state.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)"
+          },
+          "total_time": 8.379257917404175,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 3.345604181289673,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"WelderBot\", \"resumes\", \"welding\", \"temperature\", \"drops\", \"below\", \"70\u00b0C\"],\n  \"cues\": [\"when\", \"below\"],\n  \"trigger_text\": \"temperature drops below 70\u00b0C\",\n  \"response_text\": \"WelderBot resumes welding\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.3715009689331055,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature < 70) --> WelderBot.welding\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that when the temperature drops below 70\u00b0C (the trigger condition), WelderBot will eventually resume welding (the response). The --> operator is appropriate here because it captures the eventual behavior where the temperature condition leads to the robot resuming its welding state.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature < 70) --> WelderBot.welding",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that when the temperature drops below 70\u00b0C (the trigger condition), WelderBot will eventually resume welding (the response). The --> operator is appropriate here because it captures the eventual behavior where the temperature condition leads to the robot resuming its welding state.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < 70) --> WelderBot.welding"
+          },
+          "total_time": 7.764085054397583,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2066988945007324,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"InspectorDrone\", \"scanning\", \"WelderBot\", \"welding\", \"starts after finishes\"],\n  \"cues\": [\"after\", \"only after\"],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"InspectorDrone starts scanning\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5140061378479004,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"WelderBot.welding_complete --> InspectorDrone.scanning\",\n  \"explanation\": \"This query captures the sequential workflow where InspectorDrone's scanning is triggered only after WelderBot finishes welding. The --> operator expresses that scanning is an eventual response to the completion of welding, allowing for potential delays between the two actions while enforcing the ordering constraint.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "WelderBot.welding_complete --> InspectorDrone.scanning",
+              "explanation": "This query captures the sequential workflow where InspectorDrone's scanning is triggered only after WelderBot finishes welding. The --> operator expresses that scanning is an eventual response to the completion of welding, allowing for potential delays between the two actions while enforcing the ordering constraint.",
+              "confidence": 0.92,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_complete --> InspectorDrone.scanning"
+          },
+          "total_time": 2.7485098838806152,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 1.083956003189087,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"pauses\", \"welding\", \"temperature\", \"exceeds\", \"90\u00b0C\"],\n  \"cues\": [\">\"],\n  \"trigger_text\": \"temperature exceeds 90\u00b0C\",\n  \"response_text\": \"pauses welding\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.2031590938568115,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(WelderBot.temperature > 90) --> WelderBot.paused\",\n  \"explanation\": \"This constraint describes a conditional response pattern where a condition (temperature exceeds 90\u00b0C) triggers an eventual response (pauses welding). The '-->' operator captures the sequential workflow where the temperature threshold breach leads to the welding pause state. The condition 'temperature > 90' is checked against WelderBot's temperature variable, and the response is represented as WelderBot entering a paused state.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(WelderBot.temperature > 90) --> WelderBot.paused",
+              "explanation": "This constraint describes a conditional response pattern where a condition (temperature exceeds 90\u00b0C) triggers an eventual response (pauses welding). The '-->' operator captures the sequential workflow where the temperature threshold breach leads to the welding pause state. The condition 'temperature > 90' is checked against WelderBot's temperature variable, and the response is represented as WelderBot entering a paused state.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(WelderBot.temperature > 90) --> WelderBot.paused"
+          },
+          "total_time": 3.3080520629882812,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0600731372833252,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"resumes\", \"welding\", \"temperature\", \"drops\", \"below\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"temperature drops below 70\u00b0C\",\n  \"response_text\": \"WelderBot resumes welding\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8593299388885498,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(WelderBot.temperature < 70) --> WelderBot.welding\",\n  \"explanation\": \"The constraint describes a conditional response where the trigger is 'temperature drops below 70\u00b0C' and the response is 'WelderBot resumes welding'. This matches the conditional_response pattern (condition --> eventual response). The --> operator is appropriate because this is a sequential workflow where the temperature condition eventually leads to the welding resumption behavior, not an immediate same-state implication.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(WelderBot.temperature < 70) --> WelderBot.welding",
+              "explanation": "The constraint describes a conditional response where the trigger is 'temperature drops below 70\u00b0C' and the response is 'WelderBot resumes welding'. This matches the conditional_response pattern (condition --> eventual response). The --> operator is appropriate because this is a sequential workflow where the temperature condition eventually leads to the welding resumption behavior, not an immediate same-state implication.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(WelderBot.temperature < 70) --> WelderBot.welding"
+          },
+          "total_time": 2.9564430713653564,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 13.988425970077515,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"only after\", \"finishes\"],\n  \"cues\": [\"only\", \"after\"],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"InspectorDrone starts scanning\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.878319025039673,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"WelderBot.welding_complete --> InspectorDrone.scanning\", \"explanation\": \"The constraint specifies that InspectorDrone starts scanning only after WelderBot finishes welding, which fits the sequential_workflow pattern where one action (welding completion) triggers another (scanning start) eventually, using the --> operator as in the provided examples.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "WelderBot.welding_complete --> InspectorDrone.scanning",
+              "explanation": "The constraint specifies that InspectorDrone starts scanning only after WelderBot finishes welding, which fits the sequential_workflow pattern where one action (welding completion) triggers another (scanning start) eventually, using the --> operator as in the provided examples.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_complete --> InspectorDrone.scanning"
+          },
+          "total_time": 28.89054799079895,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 19.164215087890625,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"pauses\", \"welding\", \"temperature\", \"exceeds\"], \"cues\": [\"when\", \">\"], \"trigger_text\": \"temperature exceeds 90\u00b0C\", \"response_text\": \"pauses welding\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.34311294555664,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (WelderBot.temperature > 90 imply WelderBot.paused)\", \"explanation\": \"The constraint requires an immediate pause in welding when temperature exceeds 90\u00b0C, which fits the safety_immediate_response pattern using A[] and imply for same-state response.\", \"confidence\": 0.85, \"pattern_used\": \"safety_immediate_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
+              "explanation": "The constraint requires an immediate pause in welding when temperature exceeds 90\u00b0C, which fits the safety_immediate_response pattern using A[] and imply for same-state response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)"
+          },
+          "total_time": 36.543334007263184,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 12.05108904838562,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"resumes\", \"when\"], \"cues\": [\"when\"], \"trigger_text\": \"temperature drops below 70\u00b0C\", \"response_text\": \"resumes welding\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.84948992729187,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(temperature < 70) --> WelderBot.welding\", \"explanation\": \"This query represents the conditional_response pattern where the condition (temperature drops below 70\u00b0C) eventually leads to the response (WelderBot resumes welding, assumed to be in a welding state).\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(temperature < 70) --> WelderBot.welding",
+              "explanation": "This query represents the conditional_response pattern where the condition (temperature drops below 70\u00b0C) eventually leads to the response (WelderBot resumes welding, assumed to be in a welding state).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < 70) --> WelderBot.welding"
+          },
+          "total_time": 23.927021980285645,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 6.321827173233032,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"after\", \"finishes\", \"starts\", \"scanning\", \"welding\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"InspectorDrone starts scanning\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.456840991973877,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"WelderBot.welding_finished --> InspectorDrone.scanning_started\",\n  \"explanation\": \"The query uses the --> operator to ensure that InspectorDrone starts scanning only after WelderBot finishes welding, aligning with the sequential_workflow pattern where one action eventually follows another.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "WelderBot.welding_finished --> InspectorDrone.scanning_started",
+              "explanation": "The query uses the --> operator to ensure that InspectorDrone starts scanning only after WelderBot finishes welding, aligning with the sequential_workflow pattern where one action eventually follows another.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_finished --> InspectorDrone.scanning_started"
+          },
+          "total_time": 12.808611154556274,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 15.964173793792725,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"pauses\", \"welding\", \"temperature\", \"exceeds\", \"90\u00b0C\"],\n  \"cues\": [\"when\", \"exceeds\"],\n  \"trigger_text\": \"temperature exceeds 90\u00b0C\",\n  \"response_text\": \"pauses welding\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.408324003219604,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(temperature > 90) --> WelderBot.paused\",\n  \"explanation\": \"The query matches the constraint by using eventual implication to indicate that when the temperature exceeds 90\u00b0C, WelderBot will eventually enter a paused state, reflecting the conditional response pattern where the condition triggers the action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature > 90) --> WelderBot.paused",
+              "explanation": "The query matches the constraint by using eventual implication to indicate that when the temperature exceeds 90\u00b0C, WelderBot will eventually enter a paused state, reflecting the conditional response pattern where the condition triggers the action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 90) --> WelderBot.paused"
+          },
+          "total_time": 25.401839017868042,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 7.132307052612305,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"resumes\", \"welding\", \"temperature\", \"drops\", \"below\", \"70\u00b0C\"],\n  \"cues\": [\"when\", \"below\"],\n  \"trigger_text\": \"temperature drops below 70\u00b0C\",\n  \"response_text\": \"WelderBot resumes welding\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.222904205322266,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(temperature < 70) --> WelderBot.welding\",\n  \"explanation\": \"This query matches the constraint because it uses the leads-to operator to specify that when the temperature drops below 70\u00b0C, WelderBot will eventually resume welding, aligning with the conditional_response pattern where a condition triggers an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature < 70) --> WelderBot.welding",
+              "explanation": "This query matches the constraint because it uses the leads-to operator to specify that when the temperature drops below 70\u00b0C, WelderBot will eventually resume welding, aligning with the conditional_response pattern where a condition triggers an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < 70) --> WelderBot.welding"
+          },
+          "total_time": 16.379534006118774,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 33.141398906707764,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"only after\", \"starts\", \"finishes\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"InspectorDrone starts scanning\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 77.90686917304993,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"WelderBot.welding_finishes --> InspectorDrone.scanning_starts\",\n  \"explanation\": \"The constraint specifies that scanning starts only after welding finishes, which aligns with the sequential_workflow pattern where one action eventually follows another with possible delays. The '-->' operator is used to represent this eventual triggered behavior, similar to provided examples.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "WelderBot.welding_finishes --> InspectorDrone.scanning_starts",
+              "explanation": "The constraint specifies that scanning starts only after welding finishes, which aligns with the sequential_workflow pattern where one action eventually follows another with possible delays. The '-->' operator is used to represent this eventual triggered behavior, similar to provided examples.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_finishes --> InspectorDrone.scanning_starts"
+          },
+          "total_time": 111.07854533195496,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 36.10099387168884,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"welderbot\", \"pauses\", \"welding\", \"temperature\", \"exceeds\", \"90\u00b0C\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"temperature exceeds 90\u00b0C\",\n  \"response_text\": \"pauses welding\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 76.10037183761597,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (WelderBot.temperature > 90 imply WelderBot.paused)\",\n  \"explanation\": \"This query matches the constraint using the safety_immediate_response pattern, which requires an instantaneous response with no delay. The trigger condition 'temperature exceeds 90\u00b0C' is modeled as WelderBot.temperature > 90, and the safety action 'pauses welding' as WelderBot.paused. The use of A[] ensures the property always holds, and imply enforces that the action must be true immediately when the condition is true, aligning with the 'when' cue and immediate response requirement.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
+              "explanation": "This query matches the constraint using the safety_immediate_response pattern, which requires an instantaneous response with no delay. The trigger condition 'temperature exceeds 90\u00b0C' is modeled as WelderBot.temperature > 90, and the safety action 'pauses welding' as WelderBot.paused. The use of A[] ensures the property always holds, and imply enforces that the action must be true immediately when the condition is true, aligning with the 'when' cue and immediate response requirement.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)"
+          },
+          "total_time": 112.22177696228027,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 32.71923303604126,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"welderbot\", \"welding\", \"temperature\", \"70\u00b0C\", \"resumes\", \"drops below\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"temperature drops below 70\u00b0C\",\n  \"response_text\": \"WelderBot resumes welding\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 63.292572259902954,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(temperature < 70) --> WelderBot.welding\",\n  \"explanation\": \"This constraint matches the conditional_response pattern, where a condition triggers an eventual response. The trigger 'temperature drops below 70\u00b0C' is expressed as (temperature < 70), and the response 'WelderBot resumes welding' is represented as WelderBot.welding, indicating the eventual state. The '-->' operator is used to denote that the condition leads to the response over time, consistent with similar examples like (visibility < 30) --> (DroneA.at_surface && DroneB.at_surface).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature < 70) --> WelderBot.welding",
+              "explanation": "This constraint matches the conditional_response pattern, where a condition triggers an eventual response. The trigger 'temperature drops below 70\u00b0C' is expressed as (temperature < 70), and the response 'WelderBot resumes welding' is represented as WelderBot.welding, indicating the eventual state. The '-->' operator is used to denote that the condition leads to the response over time, consistent with similar examples like (visibility < 30) --> (DroneA.at_surface && DroneB.at_surface).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < 70) --> WelderBot.welding"
+          },
+          "total_time": 96.04339027404785,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 1.5336182117462158,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"starts\",\n    \"after\",\n    \"welding\",\n    \"scanning\",\n    \"sequence\",\n    \"order\",\n    \"precedence\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"InspectorDrone starts scanning\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.3875501155853271,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"WelderBot.welding_complete --> InspectorDrone.scanning\",\n  \"explanation\": \"The constraint 'InspectorDrone starts scanning only after WelderBot finishes welding' translates to a sequential workflow where WelderBot finishing welding precedes InspectorDrone starting scanning. The '-->' operator represents this eventual sequential relationship. 'WelderBot.welding_complete' represents the event of WelderBot finishing welding, and 'InspectorDrone.scanning' represents InspectorDrone starting scanning.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "WelderBot.welding_complete --> InspectorDrone.scanning",
+              "explanation": "The constraint 'InspectorDrone starts scanning only after WelderBot finishes welding' translates to a sequential workflow where WelderBot finishing welding precedes InspectorDrone starting scanning. The '-->' operator represents this eventual sequential relationship. 'WelderBot.welding_complete' represents the event of WelderBot finishing welding, and 'InspectorDrone.scanning' represents InspectorDrone starting scanning.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_complete --> InspectorDrone.scanning"
+          },
+          "total_time": 2.9492392539978027,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8315730094909668,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"welding\", \"temperature\", \"pause\", \"exceeds\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"temperature exceeds 90\u00b0C\",\n  \"response_text\": \"WelderBot pauses welding\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5479068756103516,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature > 90) --> WelderBot.paused\",\n  \"explanation\": \"The constraint 'WelderBot pauses welding when temperature exceeds 90\u00b0C' describes a conditional response pattern. The temperature exceeding 90 degrees eventually leads to the WelderBot pausing. This matches the template 'condition --> response'. 'WelderBot.paused' represents the welder bot being in a paused state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature > 90) --> WelderBot.paused",
+              "explanation": "The constraint 'WelderBot pauses welding when temperature exceeds 90\u00b0C' describes a conditional response pattern. The temperature exceeding 90 degrees eventually leads to the WelderBot pausing. This matches the template 'condition --> response'. 'WelderBot.paused' represents the welder bot being in a paused state.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 90) --> WelderBot.paused"
+          },
+          "total_time": 2.4072160720825195,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 1.287574052810669,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"welding\", \"temperature\", \"resume\", \"below\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"temperature drops below 70\u00b0C\",\n  \"response_text\": \"WelderBot resumes welding\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.026350736618042,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature < 70) --> WelderBot.welding\",\n  \"explanation\": \"The constraint specifies that when the temperature drops below 70\u00b0C, the WelderBot eventually resumes welding. This aligns with the 'conditional_response' pattern, where a condition (temperature < 70) leads to an eventual response (WelderBot.welding). The '-->' operator is used to represent this eventual response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature < 70) --> WelderBot.welding",
+              "explanation": "The constraint specifies that when the temperature drops below 70\u00b0C, the WelderBot eventually resumes welding. This aligns with the 'conditional_response' pattern, where a condition (temperature < 70) leads to an eventual response (WelderBot.welding). The '-->' operator is used to represent this eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < 70) --> WelderBot.welding"
+          },
+          "total_time": 2.342334032058716,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 6.239866733551025,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"InspectorDrone\",\n    \"scanning\",\n    \"WelderBot\",\n    \"welding\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"InspectorDrone starts scanning\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 22.126171827316284,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"WelderBot.Welding_Complete --> InspectorDrone.Scanning\",\n  \"explanation\": \"The constraint \\\"only after\\\" describes a sequential workflow where one action follows another. The `-->` (leads to) operator is used to specify that if the trigger condition (`WelderBot` completing its welding, represented by the state `WelderBot.Welding_Complete`) becomes true, then the response action (`InspectorDrone` starting to scan, represented by the state `InspectorDrone.Scanning`) must eventually happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "WelderBot.Welding_Complete --> InspectorDrone.Scanning",
+              "explanation": "The constraint \"only after\" describes a sequential workflow where one action follows another. The `-->` (leads to) operator is used to specify that if the trigger condition (`WelderBot` completing its welding, represented by the state `WelderBot.Welding_Complete`) becomes true, then the response action (`InspectorDrone` starting to scan, represented by the state `InspectorDrone.Scanning`) must eventually happen.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.Welding_Complete --> InspectorDrone.Scanning"
+          },
+          "total_time": 28.39752197265625,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 8.772250175476074,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"welder\",\n    \"robot\",\n    \"pause\",\n    \"welding\",\n    \"temperature\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"exceeds\"\n  ],\n  \"trigger_text\": \"temperature exceeds 90\u00b0C\",\n  \"response_text\": \"WelderBot pauses welding\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.2408549785614,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (WelderBot.temperature > 90 imply WelderBot.paused)\",\n  \"explanation\": \"The query uses the 'A[]' (always) operator to enforce a safety property that must hold true in all reachable states. The 'imply' operator ensures an immediate, same-state consequence: whenever the condition 'WelderBot.temperature > 90' is true, the condition 'WelderBot.paused' must also be true. This directly models the constraint that the welder must be paused at the very instant its temperature exceeds the threshold.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
+              "explanation": "The query uses the 'A[]' (always) operator to enforce a safety property that must hold true in all reachable states. The 'imply' operator ensures an immediate, same-state consequence: whenever the condition 'WelderBot.temperature > 90' is true, the condition 'WelderBot.paused' must also be true. This directly models the constraint that the welder must be paused at the very instant its temperature exceeds the threshold.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)"
+          },
+          "total_time": 28.038497924804688,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 5.89704704284668,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"welderbot\",\n    \"resumes\",\n    \"welding\",\n    \"temperature\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"below\",\n    \"<\"\n  ],\n  \"trigger_text\": \"temperature drops below 70\u00b0C\",\n  \"response_text\": \"WelderBot resumes welding\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.078336000442505,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature < 70) --> WelderBot.Welding\",\n  \"explanation\": \"The constraint describes a conditional response: if a condition is met (temperature drops below 70\u00b0C), then a response must eventually follow (WelderBot resumes welding). The `-->` (leads to) operator correctly models this relationship, verifying that any state where `temperature < 70` is eventually followed by a state where the `WelderBot` is in its `Welding` location.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature < 70) --> WelderBot.Welding",
+              "explanation": "The constraint describes a conditional response: if a condition is met (temperature drops below 70\u00b0C), then a response must eventually follow (WelderBot resumes welding). The `-->` (leads to) operator correctly models this relationship, verifying that any state where `temperature < 70` is eventually followed by a state where the `WelderBot` is in its `Welding` location.",
+              "confidence": 0.95,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < 70) --> WelderBot.Welding"
+          },
+          "total_time": 19.009615898132324,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "scenario_035",
+  "domain": "exploration",
+  "prompt": "An autonomous rover explores a volcanic terrain. It collects temperature and seismic data every 200 meters and must not approach closer than 5 meters to lava zones. If terrain slope exceeds 30°, it activates stabilizers before proceeding. If a data packet fails transmission three times, it must log the failure and continue. Eventually, all checkpoints must be reached and at least 90% of data successfully transmitted.",
+  "robots": ["ExploroRover"],
+  "constraints": [
+    "ExploroRover collects data every 200 m",
+    "ExploroRover avoids lava zones by ≥ 5 m",
+    "ExploroRover activates stabilizers when slope > 30°",
+    "ExploroRover logs transmission failure after 3 retries",
+    "ExploroRover fails transmission three times, ExploroRover continues.",
+    "ExploroRover must eventually reach all checkpoints.",
+    "Eventually ≥ 90% data must be successfully transmitted "
+  ],
+  "reference_properties": [
+    "A[] (ExploroRover.CollectData imply ExploroRover.DistanceSinceLastSample >= 200)",
+    "A[] not (ExploroRover.DistanceToLava < 5)",
+    "A[] (Slope > 30 imply ExploroRover.StabilizersOn)",
+    "A[] (ExploroRover.TransmissionRetries == 3) imply (ExploroRover.LogFailure)",
+    "(ExploroRover.TransmissionRetries == 3) --> (ExploroRover.Continue)",
+    "A<> (ExploroRover.AllCheckpointsReached)",
+    "A<> (ExploroRover.CheckpointsReached && ExploroRover.DataSuccessRate >= 0.9)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10",
+    "validation_status": "validated"
+  }
+}

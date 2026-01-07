@@ -1,0 +1,23 @@
+{
+  "id": "scenario_025",
+  "domain": "harbor",
+  "prompt": "Three AMRs operate at a dock. At any time, at least one must be charging. Eventually, they can operate again after recharging.",
+  "robots": ["DockAMR1", "DockAMR2", "DockAMR3"],
+  "constraints": [
+    "At least one AMR must always be charging",
+    "DockAMR1 can operate after DockAMR1 has recharged",
+    "DockAMR2 can operate after DockAMR2 has recharged",
+    "DockAMR3 can operate after DockAMR3 has recharged"
+  ],
+  "reference_properties": [
+    "A[] (DockAMR1.Charging || DockAMR2.Charging || DockAMR3.Charging)",
+    "DockAMR1.Charging --> DockAMR1.Operating",
+    "DockAMR2.Charging --> DockAMR2.Operating",
+    "DockAMR3.Charging --> DockAMR3.Operating"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10"
+  }
+}

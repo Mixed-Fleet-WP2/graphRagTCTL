@@ -1,0 +1,246 @@
+{
+  "id": "scenario_015",
+  "domain": "harbor",
+  "prompt": "A loading robot stacks containers while a drone monitors alignment. The drone starts inspection after every 5 containers are stacked. If container tilt exceeds 3 degrees, stacking stops immediately.",
+  "robots": [
+    "LoaderBot",
+    "MonitorDrone"
+  ],
+  "constraints": [
+    "MonitorDrone inspects after every 5 containers stacked",
+    "LoaderBot stops stacking when tilt exceeds 3 degrees"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 1.8471450805664062,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 7.252104997634888,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 18.828264951705933,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.0004839897155762,
+      "tokens": 689,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.0566771030426025,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.2136850357055664,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 15.667845010757446,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 13.04408597946167,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 17.828309059143066,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.1564009189605713,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 13.852261066436768,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

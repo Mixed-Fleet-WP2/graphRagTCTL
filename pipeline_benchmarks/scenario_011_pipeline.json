@@ -1,0 +1,1767 @@
+{
+  "id": "scenario_011",
+  "domain": "agriculture",
+  "prompt": "A harvester collects crops while a trailer follows to gather the load. The trailer must stay within 5 meters of the harvester. If distance exceeds 10 meters, both must stop and resynchronize within 15 seconds.",
+  "robots": [
+    "Harvester",
+    "TrailerBot"
+  ],
+  "constraints": [
+    "TrailerBot maintains distance \u2264 5 meters from Harvester",
+    "If distance > 10 meters, Harvester stop",
+    "If distance > 10 meters, TrailerBot stop",
+    "Harvester and TrailerBot must resynchronize within 15 seconds of stopping"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "classification": {
+            "step": "classification",
+            "timing": 2.4326117038726807,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"distance\",\"\u2264 5 meters\",\"maintains distance\",\"TrailerBot\",\"Harvester\"],\"cues\":[\"\u2264\",\"distance\",\"maintains\"],\"trigger_text\":\"TrailerBot is more than 5 meters away from Harvester\",\"response_text\":\"Adjust TrailerBot position to be within 5 meters of Harvester\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.2379870414733887,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (distance(TrailerBot, Harvester) > 5)\",\"explanation\":\"The constraint says the TrailerBot must maintain a distance less than or equal to 5 meters from the Harvester. This is equivalent to forbidding any state where the distance exceeds 5 meters. Using the forbidden_state pattern, we express this by requiring that in all reachable states (A[]), it is never the case (not) that the distance between TrailerBot and Harvester is greater than 5 meters.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (distance(TrailerBot, Harvester) > 5)",
+              "explanation": "The constraint says the TrailerBot must maintain a distance less than or equal to 5 meters from the Harvester. This is equivalent to forbidding any state where the distance exceeds 5 meters. Using the forbidden_state pattern, we express this by requiring that in all reachable states (A[]), it is never the case (not) that the distance between TrailerBot and Harvester is greater than 5 meters.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (distance(TrailerBot, Harvester) > 5)"
+          },
+          "total_time": 4.6911940574646,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "classification": {
+            "step": "classification",
+            "timing": 2.240455150604248,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"distance\",\"10 meters\",\"Harvester\",\"stop\",\"if-then\"],\"cues\":[\">\",\"if\"],\"trigger_text\":\"distance > 10 meters\",\"response_text\":\"Harvester stop\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.3374810218811035,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(distance > 10) --> Harvester.stop\",\"explanation\":\"The condition 'distance > 10 meters' is modeled as the trigger on the left side, and the required reaction 'Harvester stop' is modeled on the right side. Using the conditional response operator '-->' encodes that whenever the distance becomes greater than 10 meters, the Harvester will eventually reach the stopping condition/state.\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(distance > 10) --> Harvester.stop",
+              "explanation": "The condition 'distance > 10 meters' is modeled as the trigger on the left side, and the required reaction 'Harvester stop' is modeled on the right side. Using the conditional response operator '-->' encodes that whenever the distance becomes greater than 10 meters, the Harvester will eventually reach the stopping condition/state.",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> Harvester.stop"
+          },
+          "total_time": 4.602471113204956,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "classification": {
+            "step": "classification",
+            "timing": 3.051215887069702,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"distance > 10 meters\",\"TrailerBot\",\"stop\",\"safety\",\"limit\"],\"cues\":[\">\",\"if\",\"then\",\"must\"],\"trigger_text\":\"distance > 10 meters\",\"response_text\":\"TrailerBot stop\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.6372039318084717,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (distance > 10 && TrailerBot.stop)\",\"explanation\":\"The constraint says that whenever the distance is greater than 10 meters, TrailerBot must be in the stop state. Modeling this as a forbidden state means we must never allow a state where distance > 10 and TrailerBot is not stopped. Equivalently, we require that in all reachable states, if distance > 10 then TrailerBot.stop holds. The query enforces this by requiring that for all paths and all times (A[]), the system is only in states where (distance > 10) implies TrailerBot.stop, expressed here as the conjunction that must hold whenever distance > 10.\",\"confidence\":0.86,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] (distance > 10 && TrailerBot.stop)",
+              "explanation": "The constraint says that whenever the distance is greater than 10 meters, TrailerBot must be in the stop state. Modeling this as a forbidden state means we must never allow a state where distance > 10 and TrailerBot is not stopped. Equivalently, we require that in all reachable states, if distance > 10 then TrailerBot.stop holds. The query enforces this by requiring that for all paths and all times (A[]), the system is only in states where (distance > 10) implies TrailerBot.stop, expressed here as the conjunction that must hold whenever distance > 10.",
+              "confidence": 0.86,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (distance > 10 && TrailerBot.stop)"
+          },
+          "total_time": 5.710107803344727,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "classification": {
+            "step": "classification",
+            "timing": 2.5540711879730225,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"Harvester\",\"TrailerBot\",\"resynchronize\",\"15 seconds\",\"stopping\",\"time bound\",\"deadline\"],\"cues\":[\"within\",\"15\",\"seconds\",\"must\"],\"trigger_text\":\"stopping\",\"response_text\":\"resynchronize within 15 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.4320590496063232,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (System.stopped && not System.resynced imply syncClock <= 15)\",\"explanation\":\"This encodes that whenever the Harvester and TrailerBot are in the stopped condition and have not yet resynchronized, the synchronization clock (syncClock) is constrained to be at most 15 seconds. Typically, syncClock should be reset to 0 when stopping occurs. The formula uses the time-bounded constraint pattern A[] (state && not target_state imply clock <= T), matching the requirement that they must resynchronize within 15 seconds of stopping.\",\"confidence\":0.86,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"A[]\",\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (System.stopped && not System.resynced imply syncClock <= 15)",
+              "explanation": "This encodes that whenever the Harvester and TrailerBot are in the stopped condition and have not yet resynchronized, the synchronization clock (syncClock) is constrained to be at most 15 seconds. Typically, syncClock should be reset to 0 when stopping occurs. The formula uses the time-bounded constraint pattern A[] (state && not target_state imply clock <= T), matching the requirement that they must resynchronize within 15 seconds of stopping.",
+              "confidence": 0.86,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (System.stopped && not System.resynced imply syncClock <= 15)"
+          },
+          "total_time": 5.00941801071167,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "classification": {
+            "step": "classification",
+            "timing": 9.20563006401062,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"distance\",\"TrailerBot\",\"Harvester\",\"maintain\",\"<=5m\",\"proximity\",\"follow\",\"invariant\"],\"cues\":[\"must\",\"maintains\",\"distance\",\"\u2264\",\"meters\",\"never\",\"always\",\"<\",\">\"],\"trigger_text\":\"distance > 5 meters\",\"response_text\":\"reduce distance so distance \u2264 5 meters\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.417687177658081,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (distance(TrailerBot, Harvester) > 5)\",\"explanation\":\"This is a forbidden-state safety property: it globally forbids any system state where the distance between TrailerBot and Harvester exceeds 5 meters, thereby enforcing that TrailerBot always maintains distance \u2264 5 m from the Harvester. The query follows the A[] not(...) template for states that must never occur.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (distance(TrailerBot, Harvester) > 5)",
+              "explanation": "This is a forbidden-state safety property: it globally forbids any system state where the distance between TrailerBot and Harvester exceeds 5 meters, thereby enforcing that TrailerBot always maintains distance \u2264 5 m from the Harvester. The query follows the A[] not(...) template for states that must never occur.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (distance(TrailerBot, Harvester) > 5)"
+          },
+          "total_time": 21.64747405052185,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "classification": {
+            "step": "classification",
+            "timing": 10.280658960342407,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"distance\",\n    \"10 meters\",\n    \"harvester\",\n    \"stop\",\n    \"if\",\n    \">\",\n    \"greater than\"\n  ],\n  \"cues\": [\n    \"if\",\n    \"when\",\n    \">\",\n    \"stop\"\n  ],\n  \"trigger_text\": \"distance > 10 meters\",\n  \"response_text\": \"Harvester stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.295799970626831,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(distance > 10) --> Harvester.stop\",\"explanation\":\"This follows the conditional_response template: when the variable distance is greater than 10 meters, the Harvester automaton is required to eventually reach its 'stop' location. The '-->' operator denotes the triggered eventual response (condition --> response).\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(distance > 10) --> Harvester.stop",
+              "explanation": "This follows the conditional_response template: when the variable distance is greater than 10 meters, the Harvester automaton is required to eventually reach its 'stop' location. The '-->' operator denotes the triggered eventual response (condition --> response).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> Harvester.stop"
+          },
+          "total_time": 19.600263833999634,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "classification": {
+            "step": "classification",
+            "timing": 25.075408220291138,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"distance\",\"10 meters\",\"stop\",\"TrailerBot\",\"threshold\",\"greater than\",\"safety\"],\"cues\":[\"if\",\">\",\"when\",\"then\",\"must\"],\"trigger_text\":\"distance > 10 meters\",\"response_text\":\"TrailerBot stop\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.093603134155273,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(distance > 10) --> TrailerBot.stop\",\"explanation\":\"This encodes the conditional-response pattern: whenever the condition (distance > 10) holds, it must eventually lead to the response TrailerBot.stop. The '-->' operator denotes that the response should follow the trigger (eventual/causal behavior).\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(distance > 10) --> TrailerBot.stop",
+              "explanation": "This encodes the conditional-response pattern: whenever the condition (distance > 10) holds, it must eventually lead to the response TrailerBot.stop. The '-->' operator denotes that the response should follow the trigger (eventual/causal behavior).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> TrailerBot.stop"
+          },
+          "total_time": 34.18847918510437,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "classification": {
+            "step": "classification",
+            "timing": 6.535200119018555,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"must\",\"resynchronize\",\"within\",\"15 seconds\",\"stopping\",\"Harvester\",\"TrailerBot\",\"resync\"],\"cues\":[\"must\",\"within\",\"seconds\",\"stop\",\"stopping\",\"resynchronize\"],\"trigger_text\":\"stopping\",\"response_text\":\"resynchronize within 15 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.905932188034058,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] ((Harvester.stopping --> (Harvester.resynchronized && Harvester.syncClock <= 15)) && (TrailerBot.stopping --> (TrailerBot.resynchronized && TrailerBot.syncClock <= 15)))\",\n  \"explanation\": \"For both Harvester and TrailerBot, whenever the component enters the stopping state, the query requires that it reaches the resynchronized state within 15 seconds (each component has its own sync clock that should be reset when stopping begins). This enforces the time-bounded resynchronization requirement.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] ((Harvester.stopping --> (Harvester.resynchronized && Harvester.syncClock <= 15)) && (TrailerBot.stopping --> (TrailerBot.resynchronized && TrailerBot.syncClock <= 15)))",
+              "explanation": "For both Harvester and TrailerBot, whenever the component enters the stopping state, the query requires that it reaches the resynchronized state within 15 seconds (each component has its own sync clock that should be reset when stopping begins). This enforces the time-bounded resynchronization requirement.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] ((Harvester.stopping --> (Harvester.resynchronized && Harvester.syncClock <= 15)) && (TrailerBot.stopping --> (TrailerBot.resynchronized && TrailerBot.syncClock <= 15)))"
+          },
+          "total_time": 20.465886116027832,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "classification": {
+            "step": "classification",
+            "timing": 16.589701890945435,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"distance\",\"Harvester\",\"TrailerBot\",\"safety\"],\"cues\":[\"must\",\"<\",\"distance\",\"Harvester\",\"TrailerBot\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 29.764451026916504,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (TrailerBot.distance_to_Harvester > 5 --> false)\",\"explanation\":\"Encodes the forbidden-state constraint by using an implication to false: if the distance to the Harvester ever exceeds 5, the implication would violate the property, i.e., A[] not (distance > 5). This satisfies the 'forbidden_state' pattern and explicitly uses the '-->' form for the implication.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (TrailerBot.distance_to_Harvester > 5 --> false)",
+              "explanation": "Encodes the forbidden-state constraint by using an implication to false: if the distance to the Harvester ever exceeds 5, the implication would violate the property, i.e., A[] not (distance > 5). This satisfies the 'forbidden_state' pattern and explicitly uses the '-->' form for the implication.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (TrailerBot.distance_to_Harvester > 5 --> false)"
+          },
+          "total_time": 46.380650997161865,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "classification": {
+            "step": "classification",
+            "timing": 9.345730066299438,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"distance\",\"threshold\",\"Harvester\",\"stop\",\"safety\",\"conditional\"],\"cues\":[\"If\",\"distance\",\" > \",\"meters\",\"then\",\"Harvester\",\"stop\"],\"trigger_text\":\"If distance > 10 meters\",\"response_text\":\"Harvester stop\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.1358380317688,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(distance > 10) --> Harvester.stop\",\"explanation\":\"Maps the natural-language constraint to a UPPAAL conditional-response: if the distance > 10, then the Harvester reaches the stop state. This uses the template condition --> response per the conditional_response pattern.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(distance > 10) --> Harvester.stop",
+              "explanation": "Maps the natural-language constraint to a UPPAAL conditional-response: if the distance > 10, then the Harvester reaches the stop state. This uses the template condition --> response per the conditional_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> Harvester.stop"
+          },
+          "total_time": 26.520575046539307,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "classification": {
+            "step": "classification",
+            "timing": 529.2500422000885,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"distance\",\"TrailerBot\",\"stop\",\"meters\"],\"cues\":[\"then\",\" >\"],\"trigger_text\":\"If distance > 10 meters\",\"response_text\":\"TrailerBot stop\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.451519966125488,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(distance > 10) --> TrailerBot.stop\",\"explanation\":\"This translates the NL constraint to a conditional_response UPPAAL pattern: if the condition distance > 10 holds, an eventual action TrailerBot.stop is triggered, using the --> operator to express a triggered, sequential response.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(distance > 10) --> TrailerBot.stop",
+              "explanation": "This translates the NL constraint to a conditional_response UPPAAL pattern: if the condition distance > 10 holds, an eventual action TrailerBot.stop is triggered, using the --> operator to express a triggered, sequential response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> TrailerBot.stop"
+          },
+          "total_time": 540.7737519741058,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "classification": {
+            "step": "classification",
+            "timing": 10.060143232345581,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"resynchronize\",\"15 seconds\",\"stopping\",\"Harvester\",\"TrailerBot\",\"time window\",\"timeout\",\"synchronization\"],\"cues\":[\"within\",\"after\",\"then\",\"must\",\"stop\",\"resynchronize\",\"15\"],\"trigger_text\":\"Harvester and TrailerBot must resynchronize within 15 seconds of stopping\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 35.14375281333923,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Harvester.stopped --> Harvester.clock <= 15) && A[] (TrailerBot.stopped --> TrailerBot.clock <= 15)\", \"explanation\":\"Two time-bounded constraints ensure that each agent (Harvester and TrailerBot) must resynchronize within 15 seconds after entering the 'stopped' state; the clocks reset on stop and must not exceed 15 seconds before a resync occurs.\", \"confidence\":0.85, \"pattern_used\":\"time_bounded_constraint\", \"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (Harvester.stopped --> Harvester.clock <= 15) && A[] (TrailerBot.stopped --> TrailerBot.clock <= 15)",
+              "explanation": "Two time-bounded constraints ensure that each agent (Harvester and TrailerBot) must resynchronize within 15 seconds after entering the 'stopped' state; the clocks reset on stop and must not exceed 15 seconds before a resync occurs.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Harvester.stopped --> Harvester.clock <= 15) && A[] (TrailerBot.stopped --> TrailerBot.clock <= 15)"
+          },
+          "total_time": 45.22431302070618,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1930017471313477,
+            "tokens": 161,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"distance\", \"\u2264\", \"meters\"],\n  \"cues\": [\"\u2264\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.323029041290283,
+            "tokens": 592,
+            "raw_text": "{\n  \"query\": \"A[] not (TrailerBot.distance > 5)\",\n  \"explanation\": \"This query ensures that the TrailerBot never exceeds a distance of 5 meters from the Harvester, which aligns with the constraint that the distance must be maintained at 5 meters or less. The 'A[] not' operator is used to specify that this condition must always be true, preventing the forbidden state of exceeding the distance.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (TrailerBot.distance > 5)",
+              "explanation": "This query ensures that the TrailerBot never exceeds a distance of 5 meters from the Harvester, which aligns with the constraint that the distance must be maintained at 5 meters or less. The 'A[] not' operator is used to specify that this condition must always be true, preventing the forbidden state of exceeding the distance.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (TrailerBot.distance > 5)"
+          },
+          "total_time": 4.533761739730835,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "classification": {
+            "step": "classification",
+            "timing": 1.597710132598877,
+            "tokens": 166,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"distance\", \"meters\", \"Harvester\", \"stop\"],\n  \"cues\": [\">\", \"if\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.309664011001587,
+            "tokens": 555,
+            "raw_text": "{\n  \"query\": \"(distance > 10) --> Harvester.stop\",\n  \"explanation\": \"The constraint specifies a conditional response pattern where the condition 'distance > 10 meters' leads to the eventual action 'Harvester stop'. The '-->' operator is used to represent this eventual triggered behavior, aligning with the conditional_response pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(distance > 10) --> Harvester.stop",
+              "explanation": "The constraint specifies a conditional response pattern where the condition 'distance > 10 meters' leads to the eventual action 'Harvester stop'. The '-->' operator is used to represent this eventual triggered behavior, aligning with the conditional_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> Harvester.stop"
+          },
+          "total_time": 3.9278712272644043,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "classification": {
+            "step": "classification",
+            "timing": 2.0867919921875,
+            "tokens": 166,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"distance\", \"meters\", \"TrailerBot\", \"stop\"],\n  \"cues\": [\">\", \"if\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.2310829162597656,
+            "tokens": 567,
+            "raw_text": "{\n  \"query\": \"(distance > 10) --> TrailerBot.stop\",\n  \"explanation\": \"The constraint specifies a conditional response where if the distance is greater than 10 meters, the TrailerBot should eventually stop. This matches the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The '-->' operator is appropriate for this sequential workflow.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(distance > 10) --> TrailerBot.stop",
+              "explanation": "The constraint specifies a conditional response where if the distance is greater than 10 meters, the TrailerBot should eventually stop. This matches the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The '-->' operator is appropriate for this sequential workflow.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> TrailerBot.stop"
+          },
+          "total_time": 5.354557275772095,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3080379962921143,
+            "tokens": 174,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"resynchronize\", \"15 seconds\", \"stopping\"],\n  \"cues\": [\"must\", \"within\", \"seconds\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.280264139175415,
+            "tokens": 733,
+            "raw_text": "{\n  \"query\": \"A[] (Harvester.stopped && TrailerBot.stopped && not resynchronized imply clock <= 15)\",\n  \"explanation\": \"This query ensures that once both the Harvester and TrailerBot have stopped, they must resynchronize within 15 seconds. The 'imply clock <= 15' enforces the time-bounded constraint that the resynchronization must occur within the specified time limit.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Harvester.stopped && TrailerBot.stopped && not resynchronized imply clock <= 15)",
+              "explanation": "This query ensures that once both the Harvester and TrailerBot have stopped, they must resynchronize within 15 seconds. The 'imply clock <= 15' enforces the time-bounded constraint that the resynchronization must occur within the specified time limit.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Harvester.stopped && TrailerBot.stopped && not resynchronized imply clock <= 15)"
+          },
+          "total_time": 4.610649108886719,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "classification": {
+            "step": "classification",
+            "timing": 3.538902997970581,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"TrailerBot\", \"distance\", \"meters\", \"Harvester\", \"maintains\"],\n  \"cues\": [\"\u2264\", \"maintains\"],\n  \"trigger_text\": \"TrailerBot position relative to Harvester\",\n  \"response_text\": \"distance \u2264 5 meters\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.990042209625244,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (TrailerBot.moving imply TrailerBot.distance_to_Harvester <= 5)\",\n  \"explanation\": \"This query ensures that whenever TrailerBot is in motion, it maintains a distance of 5 meters or less from the Harvester. The A[] operator enforces this as a safety property that must always hold, and the imply operator checks the immediate condition that the distance constraint is satisfied whenever TrailerBot is moving.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (TrailerBot.moving imply TrailerBot.distance_to_Harvester <= 5)",
+              "explanation": "This query ensures that whenever TrailerBot is in motion, it maintains a distance of 5 meters or less from the Harvester. The A[] operator enforces this as a safety property that must always hold, and the imply operator checks the immediate condition that the distance constraint is satisfied whenever TrailerBot is moving.",
+              "confidence": 0.82,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (TrailerBot.moving imply TrailerBot.distance_to_Harvester <= 5)"
+          },
+          "total_time": 8.552711963653564,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "classification": {
+            "step": "classification",
+            "timing": 4.042694091796875,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"distance\", \"10 meters\", \"Harvester\", \"stop\"],\n  \"cues\": [\">\", \"If\"],\n  \"trigger_text\": \"distance > 10 meters\",\n  \"response_text\": \"Harvester stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.162766933441162,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(distance > 10) --> Harvester.stop\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that when the distance exceeds 10 meters, the Harvester will eventually reach a stop state. The --> operator is appropriate here because it captures the triggered behavior where the condition (distance > 10) leads to an eventual response (Harvester stopping).\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(distance > 10) --> Harvester.stop",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that when the distance exceeds 10 meters, the Harvester will eventually reach a stop state. The --> operator is appropriate here because it captures the triggered behavior where the condition (distance > 10) leads to an eventual response (Harvester stopping).",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> Harvester.stop"
+          },
+          "total_time": 9.227330207824707,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "classification": {
+            "step": "classification",
+            "timing": 3.655768871307373,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"distance\", \"10 meters\", \"TrailerBot\", \"stop\"],\n  \"cues\": [\">\", \"if\"],\n  \"trigger_text\": \"distance > 10 meters\",\n  \"response_text\": \"TrailerBot stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.706351280212402,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(distance > 10) --> TrailerBot.stopped\",\n  \"explanation\": \"This query uses the conditional_response pattern with the leads-to operator (-->). When the condition 'distance > 10 meters' becomes true, it will eventually trigger TrailerBot to reach the 'stopped' state. The --> operator is appropriate here for eventual triggered behavior rather than immediate response.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(distance > 10) --> TrailerBot.stopped",
+              "explanation": "This query uses the conditional_response pattern with the leads-to operator (-->). When the condition 'distance > 10 meters' becomes true, it will eventually trigger TrailerBot to reach the 'stopped' state. The --> operator is appropriate here for eventual triggered behavior rather than immediate response.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> TrailerBot.stopped"
+          },
+          "total_time": 8.379209995269775,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "classification": {
+            "step": "classification",
+            "timing": 3.957782030105591,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"harvester\", \"trailerbot\", \"resynchronize\", \"15 seconds\", \"stopping\", \"within\"],\n  \"cues\": [\"within\", \"must\"],\n  \"trigger_text\": \"stopping\",\n  \"response_text\": \"resynchronize within 15 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.567028999328613,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Harvester.stopped && TrailerBot.stopped && not resynchronized imply clock <= 15)\",\n  \"explanation\": \"This query enforces that when both Harvester and TrailerBot are in the stopped state and have not yet resynchronized, the clock must not exceed 15 seconds. This ensures resynchronization must occur within 15 seconds of stopping, matching the time_bounded_constraint pattern where a response must happen within a specific time bound.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Harvester.stopped && TrailerBot.stopped && not resynchronized imply clock <= 15)",
+              "explanation": "This query enforces that when both Harvester and TrailerBot are in the stopped state and have not yet resynchronized, the clock must not exceed 15 seconds. This ensures resynchronization must occur within 15 seconds of stopping, matching the time_bounded_constraint pattern where a response must happen within a specific time bound.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Harvester.stopped && TrailerBot.stopped && not resynchronized imply clock <= 15)"
+          },
+          "total_time": 8.547215223312378,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "classification": {
+            "step": "classification",
+            "timing": 3.486335039138794,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"distance\", \"maintains\", \"constraint\", \"maximum\"],\n  \"cues\": [\"\u2264\"],\n  \"trigger_text\": \"TrailerBot distance from Harvester\",\n  \"response_text\": \"must be \u2264 5 meters\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8217229843139648,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (distance(TrailerBot, Harvester) > 5)\",\n  \"explanation\": \"The constraint requires TrailerBot to maintain distance \u2264 5 meters from Harvester at all times. This is a forbidden_state pattern where the bad state is 'distance > 5 meters'. Using A[] not(...) ensures this condition is never violated throughout the system execution. The negation of '> 5' is equivalent to '\u2264 5', enforcing the maximum distance constraint continuously.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (distance(TrailerBot, Harvester) > 5)",
+              "explanation": "The constraint requires TrailerBot to maintain distance \u2264 5 meters from Harvester at all times. This is a forbidden_state pattern where the bad state is 'distance > 5 meters'. Using A[] not(...) ensures this condition is never violated throughout the system execution. The negation of '> 5' is equivalent to '\u2264 5', enforcing the maximum distance constraint continuously.",
+              "confidence": 0.92,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (distance(TrailerBot, Harvester) > 5)"
+          },
+          "total_time": 5.336356163024902,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2807540893554688,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"distance\",\n    \"threshold\",\n    \"stop\",\n    \"condition\"\n  ],\n  \"cues\": [\n    \"If\",\n    \">\",\n    \"stop\"\n  ],\n  \"trigger_text\": \"distance > 10 meters\",\n  \"response_text\": \"Harvester stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.1657629013061523,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(distance > 10) --> Harvester.stop\",\n  \"explanation\": \"This constraint follows the conditional_response pattern: when the condition 'distance > 10 meters' is true, it triggers an eventual response where the Harvester stops. The '-->' operator is appropriate here because it represents a sequential workflow where the condition leads to eventual action (not an immediate same-state response). This matches the template 'condition --> response' and is similar to example c012 where a condition triggers a state change.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(distance > 10) --> Harvester.stop",
+              "explanation": "This constraint follows the conditional_response pattern: when the condition 'distance > 10 meters' is true, it triggers an eventual response where the Harvester stops. The '-->' operator is appropriate here because it represents a sequential workflow where the condition leads to eventual action (not an immediate same-state response). This matches the template 'condition --> response' and is similar to example c012 where a condition triggers a state change.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> Harvester.stop"
+          },
+          "total_time": 3.4727771282196045,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4577620029449463,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"distance\", \"threshold\", \"stop\", \"condition\"],\n  \"cues\": [\">\", \"if\"],\n  \"trigger_text\": \"distance > 10 meters\",\n  \"response_text\": \"TrailerBot stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.23494815826416,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(distance > 10) --> TrailerBot.stopped\",\n  \"explanation\": \"This constraint follows the conditional_response pattern where a condition (distance > 10 meters) triggers an eventual response (TrailerBot stops). The '-->' operator represents the sequential workflow: when the distance exceeds 10 meters, TrailerBot will eventually enter a stopped state. This is not an immediate response, so '-->' is appropriate rather than A[] imply.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(distance > 10) --> TrailerBot.stopped",
+              "explanation": "This constraint follows the conditional_response pattern where a condition (distance > 10 meters) triggers an eventual response (TrailerBot stops). The '-->' operator represents the sequential workflow: when the distance exceeds 10 meters, TrailerBot will eventually enter a stopped state. This is not an immediate response, so '-->' is appropriate rather than A[] imply.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> TrailerBot.stopped"
+          },
+          "total_time": 5.719221115112305,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8534328937530518,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"resynchronize\",\n    \"within 15 seconds\",\n    \"stopping\",\n    \"Harvester\",\n    \"TrailerBot\"\n  ],\n  \"cues\": [\n    \"within\",\n    \"<\",\n    \"15 seconds\"\n  ],\n  \"trigger_text\": \"stopping\",\n  \"response_text\": \"must resynchronize within 15 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9750299453735352,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Harvester.stopped && TrailerBot.stopped && not Harvester.resynchronized imply clock <= 15)\",\n  \"explanation\": \"This query enforces that when both Harvester and TrailerBot enter the stopped state, they must resynchronize within 15 seconds. The A[] operator ensures this is always true (safety property), and 'imply clock <= 15' enforces the maximum time bound of 15 seconds. The clock resets when the stopping condition is detected, and the constraint fails if resynchronization hasn't occurred by the deadline.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Harvester.stopped && TrailerBot.stopped && not Harvester.resynchronized imply clock <= 15)",
+              "explanation": "This query enforces that when both Harvester and TrailerBot enter the stopped state, they must resynchronize within 15 seconds. The A[] operator ensures this is always true (safety property), and 'imply clock <= 15' enforces the maximum time bound of 15 seconds. The clock resets when the stopping condition is detected, and the constraint fails if resynchronization hasn't occurred by the deadline.",
+              "confidence": 0.88,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Harvester.stopped && TrailerBot.stopped && not Harvester.resynchronized imply clock <= 15)"
+          },
+          "total_time": 3.842439889907837,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "classification": {
+            "step": "classification",
+            "timing": 9.781564950942993,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"maintains\",\"distance\",\"\u2264\",\"5 meters\"],\"cues\":[\"\u2264\"],\"trigger_text\":\"distance > 5 meters\",\"response_text\":\"corrective action to maintain \u2264 5 meters\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 29.537849187850952,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] not (distance > 5)\", \"explanation\": \"The constraint specifies that TrailerBot must maintain a distance of \u2264 5 meters from Harvester, meaning the state where distance exceeds 5 meters must never occur. This matches the forbidden_state pattern, using A[] not (bad_state) where bad_state is distance > 5, ensuring the bad state is always avoided.\", \"confidence\": 0.85, \"pattern_used\": \"forbidden_state\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (distance > 5)",
+              "explanation": "The constraint specifies that TrailerBot must maintain a distance of \u2264 5 meters from Harvester, meaning the state where distance exceeds 5 meters must never occur. This matches the forbidden_state pattern, using A[] not (bad_state) where bad_state is distance > 5, ensuring the bad state is always avoided.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (distance > 5)"
+          },
+          "total_time": 39.35431504249573,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "classification": {
+            "step": "classification",
+            "timing": 10.919641971588135,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"distance\", \"meters\", \"Harvester\", \"stop\"], \"cues\": [\"If\", \">\"], \"trigger_text\": \"distance > 10 meters\", \"response_text\": \"Harvester stop\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.714051008224487,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(distance > 10) --> Harvester.stop\", \"explanation\": \"The constraint specifies a conditional response where if the distance exceeds 10 meters, the Harvester must eventually stop. This matches the conditional_response pattern using the --> operator for eventual triggered behavior, as seen in similar examples like (Robot.battery < 20) --> Robot.at_charging_station.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(distance > 10) --> Harvester.stop",
+              "explanation": "The constraint specifies a conditional response where if the distance exceeds 10 meters, the Harvester must eventually stop. This matches the conditional_response pattern using the --> operator for eventual triggered behavior, as seen in similar examples like (Robot.battery < 20) --> Robot.at_charging_station.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> Harvester.stop"
+          },
+          "total_time": 23.656754970550537,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "classification": {
+            "step": "classification",
+            "timing": 11.246163129806519,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"distance\", \"stop\", \"meters\"], \"cues\": [\"if\", \">\"], \"trigger_text\": \"distance > 10 meters\", \"response_text\": \"TrailerBot stop\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.1657772064209,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(distance > 10) --> TrailerBot.stop\", \"explanation\": \"This query uses the leads-to operator --> to specify that if the distance exceeds 10 meters, the TrailerBot must eventually stop, aligning with the conditional_response pattern for triggered eventual behaviors.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(distance > 10) --> TrailerBot.stop",
+              "explanation": "This query uses the leads-to operator --> to specify that if the distance exceeds 10 meters, the TrailerBot must eventually stop, aligning with the conditional_response pattern for triggered eventual behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> TrailerBot.stop"
+          },
+          "total_time": 27.43712306022644,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "classification": {
+            "step": "classification",
+            "timing": 14.670185327529907,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"Harvester\",\"TrailerBot\",\"resynchronize\",\"within\",\"15\",\"seconds\",\"stopping\"],\"cues\":[\"must\",\"within\"],\"trigger_text\":\"stopping\",\"response_text\":\"resynchronize\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.93975806236267,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (stopping && not resynchronized imply clock <= 15)\", \"explanation\": \"This query enforces that once stopping occurs, resynchronization must happen within 15 seconds, matching the time_bounded_constraint pattern where the state is stopping and the target state is resynchronized.\", \"confidence\": 0.85, \"pattern_used\": \"time_bounded_constraint\", \"operator_used\": [\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (stopping && not resynchronized imply clock <= 15)",
+              "explanation": "This query enforces that once stopping occurs, resynchronization must happen within 15 seconds, matching the time_bounded_constraint pattern where the state is stopping and the target state is resynchronized.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (stopping && not resynchronized imply clock <= 15)"
+          },
+          "total_time": 31.635836839675903,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "classification": {
+            "step": "classification",
+            "timing": 10.494311809539795,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"TrailerBot\", \"maintains\", \"distance\", \"\u2264 5 meters\", \"Harvester\"],\n  \"cues\": [\"\u2264\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.684473037719727,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (TrailerBot.distance_to_Harvester > 5)\",\n  \"explanation\": \"This query matches the constraint by using the forbidden_state pattern to ensure that the distance between TrailerBot and Harvester never exceeds 5 meters, preventing the bad state where the distance is greater than 5 meters.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (TrailerBot.distance_to_Harvester > 5)",
+              "explanation": "This query matches the constraint by using the forbidden_state pattern to ensure that the distance between TrailerBot and Harvester never exceeds 5 meters, preventing the bad state where the distance is greater than 5 meters.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (TrailerBot.distance_to_Harvester > 5)"
+          },
+          "total_time": 26.208078145980835,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "classification": {
+            "step": "classification",
+            "timing": 7.26050877571106,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"distance\", \"stop\", \">\"],\n  \"cues\": [\"If\", \">\"],\n  \"trigger_text\": \"distance > 10 meters\",\n  \"response_text\": \"Harvester stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.516942262649536,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (distance > 10 imply Harvester.stop)\",\n  \"explanation\": \"This query matches the constraint by using the safety_immediate_response pattern, ensuring that whenever the distance exceeds 10 meters, the Harvester must stop immediately, as 'imply' enforces the response in the same state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (distance > 10 imply Harvester.stop)",
+              "explanation": "This query matches the constraint by using the safety_immediate_response pattern, ensuring that whenever the distance exceeds 10 meters, the Harvester must stop immediately, as 'imply' enforces the response in the same state.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (distance > 10 imply Harvester.stop)"
+          },
+          "total_time": 20.79539680480957,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "classification": {
+            "step": "classification",
+            "timing": 8.375957012176514,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"distance\", \"stop\", \"meters\", \">\"],\n  \"cues\": [\"If\", \">\"],\n  \"trigger_text\": \"distance > 10 meters\",\n  \"response_text\": \"TrailerBot stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.07438611984253,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(distance > 10) --> TrailerBot.stop\",\n  \"explanation\": \"This query matches the constraint by using the --> operator to represent that if the condition 'distance > 10' is true, then eventually 'TrailerBot stop' will occur, aligning with the conditional_response pattern for triggered behaviors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(distance > 10) --> TrailerBot.stop",
+              "explanation": "This query matches the constraint by using the --> operator to represent that if the condition 'distance > 10' is true, then eventually 'TrailerBot stop' will occur, aligning with the conditional_response pattern for triggered behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> TrailerBot.stop"
+          },
+          "total_time": 16.476906061172485,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "classification": {
+            "step": "classification",
+            "timing": 6.950373888015747,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"resynchronize\", \"within 15 seconds\", \"stopping\"],\n  \"cues\": [\"must\", \"within\"],\n  \"trigger_text\": \"stopping\",\n  \"response_text\": \"resynchronize within 15 seconds\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.518679141998291,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (stopped && not resynchronized imply clock <= 15)\",\n  \"explanation\": \"This query uses the time_bounded_constraint pattern to ensure that when the system is in the stopped state and not yet resynchronized, the clock does not exceed 15 seconds, enforcing that resynchronization must occur within 15 seconds of stopping, as per the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (stopped && not resynchronized imply clock <= 15)",
+              "explanation": "This query uses the time_bounded_constraint pattern to ensure that when the system is in the stopped state and not yet resynchronized, the clock does not exceed 15 seconds, enforcing that resynchronization must occur within 15 seconds of stopping, as per the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (stopped && not resynchronized imply clock <= 15)"
+          },
+          "total_time": 21.501129150390625,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "classification": {
+            "step": "classification",
+            "timing": 49.32603478431702,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"TrailerBot\", \"maintains\", \"distance\", \"5 meters\", \"Harvester\"],\n  \"cues\": [\"\u2264\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 86.20746183395386,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (distance > 5)\",\n  \"explanation\": \"This query uses the forbidden_state pattern to ensure that the state where the distance between TrailerBot and Harvester exceeds 5 meters never occurs, directly translating the constraint that TrailerBot must maintain distance \u2264 5 meters from Harvester, with '\u2264' implying the forbidden state is distance > 5.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (distance > 5)",
+              "explanation": "This query uses the forbidden_state pattern to ensure that the state where the distance between TrailerBot and Harvester exceeds 5 meters never occurs, directly translating the constraint that TrailerBot must maintain distance \u2264 5 meters from Harvester, with '\u2264' implying the forbidden state is distance > 5.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (distance > 5)"
+          },
+          "total_time": 135.56825923919678,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "classification": {
+            "step": "classification",
+            "timing": 30.61122488975525,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"distance\", \"harvester\", \"stop\"],\n  \"cues\": [\"if\", \">\"],\n  \"trigger_text\": \"distance > 10 meters\",\n  \"response_text\": \"Harvester stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 61.62349581718445,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(distance > 10) --> Harvester.stopped\",\n  \"explanation\": \"This query uses the conditional_response pattern where the condition 'distance > 10 meters' triggers the eventual action 'Harvester stop', matching the natural language constraint. The operator '-->' is specified for eventual triggered behaviors in the pattern context, as seen in similar examples like (visibility < 30) --> (DroneA.at_surface && DroneB.at_surface). The condition and response are directly translated into UPPAAL-style expressions.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(distance > 10) --> Harvester.stopped",
+              "explanation": "This query uses the conditional_response pattern where the condition 'distance > 10 meters' triggers the eventual action 'Harvester stop', matching the natural language constraint. The operator '-->' is specified for eventual triggered behaviors in the pattern context, as seen in similar examples like (visibility < 30) --> (DroneA.at_surface && DroneB.at_surface). The condition and response are directly translated into UPPAAL-style expressions.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> Harvester.stopped"
+          },
+          "total_time": 92.26356506347656,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "classification": {
+            "step": "classification",
+            "timing": 40.144397020339966,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"distance\", \"10 meters\", \"stop\", \"TrailerBot\"],\n  \"cues\": [\"if\", \">\"],\n  \"trigger_text\": \"distance > 10 meters\",\n  \"response_text\": \"TrailerBot stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 51.63843512535095,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(distance > 10) --> TrailerBot.stopped\",\n  \"explanation\": \"The constraint 'If distance > 10 meters, TrailerBot stop' follows the conditional_response pattern with keywords 'if' and a condition leading to an action. The --> operator is used for eventual triggered behavior, ensuring that when distance exceeds 10, TrailerBot will eventually stop, aligning with the pattern template and similar examples provided.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(distance > 10) --> TrailerBot.stopped",
+              "explanation": "The constraint 'If distance > 10 meters, TrailerBot stop' follows the conditional_response pattern with keywords 'if' and a condition leading to an action. The --> operator is used for eventual triggered behavior, ensuring that when distance exceeds 10, TrailerBot will eventually stop, aligning with the pattern template and similar examples provided.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> TrailerBot.stopped"
+          },
+          "total_time": 91.81530785560608,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "classification": {
+            "step": "classification",
+            "timing": 50.81512784957886,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"resynchronize\", \"15 seconds\", \"stopping\"],\n  \"cues\": [\"must\", \"within\"],\n  \"trigger_text\": \"stopping\",\n  \"response_text\": \"resynchronize within 15 seconds\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 100.9991340637207,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] ((Harvester.stopped && TrailerBot.stopped) && not (Harvester.resynchronized && TrailerBot.resynchronized) imply clock <= 15)\",\n  \"explanation\": \"This query uses the time_bounded_constraint pattern to enforce that within 15 seconds after both Harvester and TrailerBot have stopped, they must be resynchronized. The condition 'stopped && not resynchronized' represents the triggering state, and 'imply clock <= 15' ensures the maximum time bound is not exceeded, matching the constraint's requirement for immediate response within the deadline.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] ((Harvester.stopped && TrailerBot.stopped) && not (Harvester.resynchronized && TrailerBot.resynchronized) imply clock <= 15)",
+              "explanation": "This query uses the time_bounded_constraint pattern to enforce that within 15 seconds after both Harvester and TrailerBot have stopped, they must be resynchronized. The condition 'stopped && not resynchronized' represents the triggering state, and 'imply clock <= 15' ensures the maximum time bound is not exceeded, matching the constraint's requirement for immediate response within the deadline.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] ((Harvester.stopped && TrailerBot.stopped) && not (Harvester.resynchronized && TrailerBot.resynchronized) imply clock <= 15)"
+          },
+          "total_time": 151.83386087417603,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "classification": {
+            "step": "classification",
+            "timing": 1.535200834274292,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"distance\", \"trailerbot\", \"harvester\", \"maintain\", \"meters\"],\n  \"cues\": [\"\u2264\"],\n  \"trigger_text\": \"TrailerBot\",\n  \"response_text\": \"maintains distance \u2264 5 meters from Harvester\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4610350131988525,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (TrailerBot.maintaining_distance imply distance_clock <= 5)\",\n  \"explanation\": \"The constraint states that the TrailerBot must maintain a certain distance from the Harvester. This can be represented as a time-bounded constraint where 'maintaining_distance' is a state and 'distance_clock' is a clock that measures the duration for which the TrailerBot maintains this state. The query uses 'A[]' to ensure this condition is always true. 'imply' checks that while TrailerBot is maintaining distance, the 'distance_clock' (which needs to be defined to update while the bot maintains distance and reset if it doesn't) is always less than or equal to 5, enforcing the 5 meter limit.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (TrailerBot.maintaining_distance imply distance_clock <= 5)",
+              "explanation": "The constraint states that the TrailerBot must maintain a certain distance from the Harvester. This can be represented as a time-bounded constraint where 'maintaining_distance' is a state and 'distance_clock' is a clock that measures the duration for which the TrailerBot maintains this state. The query uses 'A[]' to ensure this condition is always true. 'imply' checks that while TrailerBot is maintaining distance, the 'distance_clock' (which needs to be defined to update while the bot maintains distance and reset if it doesn't) is always less than or equal to 5, enforcing the 5 meter limit.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (TrailerBot.maintaining_distance imply distance_clock <= 5)"
+          },
+          "total_time": 3.0394270420074463,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7384870052337646,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"distance\", \"harvester\", \"stop\", \"greater than\"],\n  \"cues\": [\">\", \"if\"],\n  \"trigger_text\": \"distance > 10 meters\",\n  \"response_text\": \"Harvester stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.3630540370941162,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(distance > 10) --> Harvester.stop\",\n  \"explanation\": \"The constraint describes a conditional response pattern: if the distance is greater than 10 meters, then the Harvester eventually stops. The '-->' operator is used to express this eventual response behavior. 'distance > 10' is the condition, and 'Harvester.stop' is the eventual response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(distance > 10) --> Harvester.stop",
+              "explanation": "The constraint describes a conditional response pattern: if the distance is greater than 10 meters, then the Harvester eventually stops. The '-->' operator is used to express this eventual response behavior. 'distance > 10' is the condition, and 'Harvester.stop' is the eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> Harvester.stop"
+          },
+          "total_time": 2.131805896759033,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7542200088500977,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"distance\", \"stop\", \"trailerbot\", \"meters\"],\n  \"cues\": [\"if\", \">\"],\n  \"trigger_text\": \"distance > 10 meters\",\n  \"response_text\": \"TrailerBot stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4952449798583984,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"distance > 10 --> TrailerBot.stop\",\n  \"explanation\": \"The constraint describes a conditional response: if the distance is greater than 10 meters, then the TrailerBot eventually stops.  The '-->' operator captures the eventual behavior of the TrailerBot stopping when the distance condition becomes true. The template 'condition --> response' maps directly to 'distance > 10 --> TrailerBot.stop'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "distance > 10 --> TrailerBot.stop",
+              "explanation": "The constraint describes a conditional response: if the distance is greater than 10 meters, then the TrailerBot eventually stops.  The '-->' operator captures the eventual behavior of the TrailerBot stopping when the distance condition becomes true. The template 'condition --> response' maps directly to 'distance > 10 --> TrailerBot.stop'.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "distance > 10 --> TrailerBot.stop"
+          },
+          "total_time": 2.274984121322632,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "classification": {
+            "step": "classification",
+            "timing": 0.777501106262207,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"synchronize\", \"harvester\", \"trailerbot\", \"time\", \"seconds\"],\n  \"cues\": [\"within\"],\n  \"trigger_text\": \"Harvester and TrailerBot stopping\",\n  \"response_text\": \"resynchronize within 15 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.620413064956665,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Harvester.state == Stopped && TrailerBot.state == Stopped --> resynchronized within 15)\",\n  \"explanation\": \"This query checks that if both the Harvester and TrailerBot are in the Stopped state, they will eventually resynchronize within 15 time units.  The '-->' operator signifies that the resynchronization must happen eventually after both robots stop. The 'within 15' is shorthand within UPPAAL for 'resynchronization clock <= 15'\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Harvester.state == Stopped && TrailerBot.state == Stopped --> resynchronized within 15)",
+              "explanation": "This query checks that if both the Harvester and TrailerBot are in the Stopped state, they will eventually resynchronize within 15 time units.  The '-->' operator signifies that the resynchronization must happen eventually after both robots stop. The 'within 15' is shorthand within UPPAAL for 'resynchronization clock <= 15'",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Harvester.state == Stopped && TrailerBot.state == Stopped --> resynchronized within 15)"
+          },
+          "total_time": 2.4264960289001465,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "classification": {
+            "step": "classification",
+            "timing": 9.200961112976074,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"distance\",\n    \"maintain\",\n    \"less than or equal to\"\n  ],\n  \"cues\": [\n    \"maintains\",\n    \"\u2264\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.264345169067383,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (TrailerBot.distance > 5)\",\n  \"explanation\": \"The constraint 'maintains distance \u2264 5 meters' is a safety property, meaning a specific bad state must never be reached. The query uses the 'A[] not (...)' pattern for forbidden states. The bad state is the logical opposite of the requirement, which is 'TrailerBot.distance > 5'. Therefore, the query verifies that for all reachable states, the distance from the TrailerBot to the Harvester never exceeds 5.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (TrailerBot.distance > 5)",
+              "explanation": "The constraint 'maintains distance \u2264 5 meters' is a safety property, meaning a specific bad state must never be reached. The query uses the 'A[] not (...)' pattern for forbidden states. The bad state is the logical opposite of the requirement, which is 'TrailerBot.distance > 5'. Therefore, the query verifies that for all reachable states, the distance from the TrailerBot to the Harvester never exceeds 5.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (TrailerBot.distance > 5)"
+          },
+          "total_time": 25.49197793006897,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "classification": {
+            "step": "classification",
+            "timing": 10.03075385093689,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"distance\",\n    \"harvester\",\n    \"stop\"\n  ],\n  \"cues\": [\n    \"If\",\n    \">\"\n  ],\n  \"trigger_text\": \"distance > 10 meters\",\n  \"response_text\": \"Harvester stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 24.243146657943726,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (distance > 10 imply Harvester.Stopped)\",\n  \"explanation\": \"This query enforces a safety property that must always hold. The 'A[]' operator ensures the check is global. The 'imply' operator creates an immediate requirement: in any state where the trigger condition 'distance > 10' is true, the response 'Harvester.Stopped' must also be true in that very same state. This precisely models the instantaneous stop action.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (distance > 10 imply Harvester.Stopped)",
+              "explanation": "This query enforces a safety property that must always hold. The 'A[]' operator ensures the check is global. The 'imply' operator creates an immediate requirement: in any state where the trigger condition 'distance > 10' is true, the response 'Harvester.Stopped' must also be true in that very same state. This precisely models the instantaneous stop action.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (distance > 10 imply Harvester.Stopped)"
+          },
+          "total_time": 34.289875745773315,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "classification": {
+            "step": "classification",
+            "timing": 8.27017617225647,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"distance\",\n    \"TrailerBot\",\n    \"stop\"\n  ],\n  \"cues\": [\n    \"If\",\n    \">\"\n  ],\n  \"trigger_text\": \"distance > 10 meters\",\n  \"response_text\": \"TrailerBot stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.872422933578491,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(distance > 10) --> TrailerBot.Stop\",\n  \"explanation\": \"The constraint \\\"If distance > 10 meters, TrailerBot stop\\\" is a conditional response. The `-->` (leads to) operator correctly models this relationship, verifying that whenever the condition `distance > 10` becomes true, the system must eventually transition to a state where `TrailerBot` is in its `Stop` location.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(distance > 10) --> TrailerBot.Stop",
+              "explanation": "The constraint \"If distance > 10 meters, TrailerBot stop\" is a conditional response. The `-->` (leads to) operator correctly models this relationship, verifying that whenever the condition `distance > 10` becomes true, the system must eventually transition to a state where `TrailerBot` is in its `Stop` location.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(distance > 10) --> TrailerBot.Stop"
+          },
+          "total_time": 20.174283742904663,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "classification": {
+            "step": "classification",
+            "timing": 8.013185024261475,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"resynchronize\",\n    \"harvester\",\n    \"trailerbot\",\n    \"stopping\"\n  ],\n  \"cues\": [\n    \"must\",\n    \"within\",\n    \"seconds\",\n    \"of\"\n  ],\n  \"trigger_text\": \"stopping\",\n  \"response_text\": \"Harvester and TrailerBot must resynchronize\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 34.64380693435669,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(Harvester.Stopped and TrailerBot.Stopped) --> (System.Resynchronized and t_stop <= 15)\",\n  \"explanation\": \"This query models a bounded response property using the 'leads to' (-->) operator. It specifies that whenever the trigger condition `(Harvester.Stopped and TrailerBot.Stopped)` is met, it must inevitably be followed by the response condition `(System.Resynchronized and t_stop <= 15)`. This ensures that the system reaches the `Resynchronized` state and does so within the 15-second time limit, as measured by a clock `t_stop` that is reset when the stopping condition begins.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(Harvester.Stopped and TrailerBot.Stopped) --> (System.Resynchronized and t_stop <= 15)",
+              "explanation": "This query models a bounded response property using the 'leads to' (-->) operator. It specifies that whenever the trigger condition `(Harvester.Stopped and TrailerBot.Stopped)` is met, it must inevitably be followed by the response condition `(System.Resynchronized and t_stop <= 15)`. This ensures that the system reaches the `Resynchronized` state and does so within the 15-second time limit, as measured by a clock `t_stop` that is reset when the stopping condition begins.",
+              "confidence": 0.9,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(Harvester.Stopped and TrailerBot.Stopped) --> (System.Resynchronized and t_stop <= 15)"
+          },
+          "total_time": 42.68821883201599,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    }
+  ]
+}

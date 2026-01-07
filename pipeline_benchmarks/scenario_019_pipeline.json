@@ -1,0 +1,1345 @@
+{
+  "id": "scenario_019",
+  "domain": "healthcare",
+  "prompt": "A medication robot delivers supplies across hospital floors. If elevator is busy, it waits; otherwise it proceeds. Every request should eventually be fulfilled, and the robot should always remain within safe areas.",
+  "robots": [
+    "MediBot"
+  ],
+  "constraints": [
+    "MediBot waits if elevator busy",
+    "Each delivery request eventually fulfilled",
+    "MediBot never leaves safe areas"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "MediBot waits if elevator busy",
+          "classification": {
+            "step": "classification",
+            "timing": 2.9546759128570557,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"MediBot\",\"waits\",\"elevator\",\"busy\",\"no moving while busy\",\"forbid entering busy elevator\"],\"cues\":[\"if\"],\"trigger_text\":\"elevator busy\",\"response_text\":\"MediBot waits\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0845890045166016,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (Elevator.busy && MediBot.moving)\",\"explanation\":\"The natural-language constraint means MediBot must not move when the elevator is busy. Using the forbidden_state pattern, we specify that the state where the elevator is busy and MediBot is moving must never occur, hence A[] not (Elevator.busy && MediBot.moving).\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (Elevator.busy && MediBot.moving)",
+              "explanation": "The natural-language constraint means MediBot must not move when the elevator is busy. Using the forbidden_state pattern, we specify that the state where the elevator is busy and MediBot is moving must never occur, hence A[] not (Elevator.busy && MediBot.moving).",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Elevator.busy && MediBot.moving)"
+          },
+          "total_time": 5.064307928085327,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Each delivery request eventually fulfilled",
+          "classification": {
+            "step": "classification",
+            "timing": 1.5601389408111572,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"delivery\",\"request\",\"fulfilled\",\"eventually\",\"completion\"],\"cues\":[\"eventually\",\"must\"],\"trigger_text\":\"delivery request\",\"response_text\":\"fulfilled\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.644529104232788,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> delivery_fulfilled\",\"explanation\":\"The constraint states that each delivery request must eventually be fulfilled. This is a liveness requirement that something (fulfillment) must happen eventually, so the eventual_completion pattern with the A<> operator is appropriate. The atomic proposition `delivery_fulfilled` represents that all (each) delivery request has been fulfilled, and `A<> delivery_fulfilled` expresses that on all paths, the system will eventually reach a state where every delivery request is fulfilled.\",\"confidence\":0.86,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> delivery_fulfilled",
+              "explanation": "The constraint states that each delivery request must eventually be fulfilled. This is a liveness requirement that something (fulfillment) must happen eventually, so the eventual_completion pattern with the A<> operator is appropriate. The atomic proposition `delivery_fulfilled` represents that all (each) delivery request has been fulfilled, and `A<> delivery_fulfilled` expresses that on all paths, the system will eventually reach a state where every delivery request is fulfilled.",
+              "confidence": 0.86,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> delivery_fulfilled"
+          },
+          "total_time": 4.2254478931427,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MediBot never leaves safe areas",
+          "classification": {
+            "step": "classification",
+            "timing": 2.0321500301361084,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"MediBot\",\"never\",\"leaves\",\"safe areas\",\"safety\",\"forbidden\"],\"cues\":[\"never\"],\"trigger_text\":\"MediBot leaves safe areas\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.030641794204712,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (MediBot.leavesSafeArea)\",\"explanation\":\"The natural-language constraint says that the situation where MediBot leaves safe areas must never occur. Using the forbidden_state pattern, we express this by universally requiring that in all reachable states (A[]), the predicate representing MediBot being outside safe areas (here modeled as MediBot.leavesSafeArea) is never true, hence A[] not (MediBot.leavesSafeArea).\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (MediBot.leavesSafeArea)",
+              "explanation": "The natural-language constraint says that the situation where MediBot leaves safe areas must never occur. Using the forbidden_state pattern, we express this by universally requiring that in all reachable states (A[]), the predicate representing MediBot being outside safe areas (here modeled as MediBot.leavesSafeArea) is never true, hence A[] not (MediBot.leavesSafeArea).",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MediBot.leavesSafeArea)"
+          },
+          "total_time": 4.086090087890625,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "MediBot waits if elevator busy",
+          "classification": {
+            "step": "classification",
+            "timing": 5.234147071838379,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"wait\",\"waits\",\"elevator busy\",\"busy\",\"pause\",\"hold\",\"suspend\"],\"cues\":[\"if\",\"when\",\"busy\",\"waits\",\"must\",\"then\"],\"trigger_text\":\"elevator busy\",\"response_text\":\"MediBot waits\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.080832958221436,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(Elevator.busy) --> (MediBot.waits)\",\"explanation\":\"Represents the conditional-response constraint: whenever the condition Elevator.busy holds, it leads eventually to the response state MediBot.waits (if elevator is busy then MediBot waits).\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(Elevator.busy) --> (MediBot.waits)",
+              "explanation": "Represents the conditional-response constraint: whenever the condition Elevator.busy holds, it leads eventually to the response state MediBot.waits (if elevator is busy then MediBot waits).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(Elevator.busy) --> (MediBot.waits)"
+          },
+          "total_time": 15.341706037521362,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Each delivery request eventually fulfilled",
+          "classification": {
+            "step": "classification",
+            "timing": 5.625147819519043,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"fulfilled\",\"delivery request\",\"completion\",\"liveness\",\"each request\",\"must be completed\"],\"cues\":[\"each\",\"every\",\"eventually\",\"must\",\"fulfilled\",\"delivery\",\"request\"],\"trigger_text\":\"each delivery request\",\"response_text\":\"fulfilled\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.5501549243927,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> forall (i : int[0..N-1]) DeliveryRequest[i].fulfilled\",\"explanation\":\"Asserts a global liveness property: for every delivery request instance i (0..N-1), the state/property DeliveryRequest[i].fulfilled will eventually hold. This matches the natural-language constraint that each delivery request must eventually be fulfilled (eventual_completion).\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> forall (i : int[0..N-1]) DeliveryRequest[i].fulfilled",
+              "explanation": "Asserts a global liveness property: for every delivery request instance i (0..N-1), the state/property DeliveryRequest[i].fulfilled will eventually hold. This matches the natural-language constraint that each delivery request must eventually be fulfilled (eventual_completion).",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A<> forall (i : int[0..N-1]) DeliveryRequest[i].fulfilled"
+          },
+          "total_time": 12.198462963104248,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MediBot never leaves safe areas",
+          "classification": {
+            "step": "classification",
+            "timing": 7.134204149246216,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"MediBot\",\"never\",\"leave\",\"safe areas\",\"stay\",\"forbidden\",\"outside\"],\"cues\":[\"never\",\"must not\",\"cannot\",\"not\",\"leave\",\"outside\",\"forbidden\"],\"trigger_text\":null,\"response_text\":\"MediBot must not leave safe areas (MediBot shall always remain within designated safe areas)\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.584851741790771,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (MediBot.inSafeArea == false)\",\"explanation\":\"The forbidden-state property asserts that the bad state 'MediBot.inSafeArea == false' (i.e., MediBot is outside designated safe areas) must never occur. This enforces that MediBot always remains within safe areas, matching the natural-language constraint.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (MediBot.inSafeArea == false)",
+              "explanation": "The forbidden-state property asserts that the bad state 'MediBot.inSafeArea == false' (i.e., MediBot is outside designated safe areas) must never occur. This enforces that MediBot always remains within safe areas, matching the natural-language constraint.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MediBot.inSafeArea == false)"
+          },
+          "total_time": 15.742806196212769,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "MediBot waits if elevator busy",
+          "classification": {
+            "step": "classification",
+            "timing": 10.26820993423462,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"wait\",\"elevator_busy\",\"conditional\",\"MediBot\"],\"cues\":[\"when\",\"then\"],\"trigger_text\":\"elevator busy\",\"response_text\":\"MediBot waits\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.747469902038574,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"UPPAAL=(elevator_busy) --> MediBot.wait\",\"explanation\":\"This encodes a conditional_response: if the condition elevator_busy holds, MediBot enters the waiting state (MediBot.wait). It directly translates the NL constraint 'MediBot waits if elevator busy' into a UPPAAL imply-style pattern with an eventual response.\", \"confidence\":0.85, \"pattern_used\":\"conditional_response\", \"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "UPPAAL=(elevator_busy) --> MediBot.wait",
+              "explanation": "This encodes a conditional_response: if the condition elevator_busy holds, MediBot enters the waiting state (MediBot.wait). It directly translates the NL constraint 'MediBot waits if elevator busy' into a UPPAAL imply-style pattern with an eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "UPPAAL=(elevator_busy) --> MediBot.wait"
+          },
+          "total_time": 28.035850048065186,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Each delivery request eventually fulfilled",
+          "classification": {
+            "step": "classification",
+            "timing": 8.941541194915771,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"delivery\",\"request\",\"fulfillment\",\"completion\",\"eventually\"],\"cues\":[\"eventually\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.998403072357178,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> DeliveryRequest.all_fulfilled\",\"explanation\":\"The property asserts that on every possible execution path, eventually the condition 'all delivery requests are fulfilled' becomes true (a liveness property). This matches the NL constraint 'Each delivery request eventually fulfilled'.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> DeliveryRequest.all_fulfilled",
+              "explanation": "The property asserts that on every possible execution path, eventually the condition 'all delivery requests are fulfilled' becomes true (a liveness property). This matches the NL constraint 'Each delivery request eventually fulfilled'.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> DeliveryRequest.all_fulfilled"
+          },
+          "total_time": 22.963822841644287,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MediBot never leaves safe areas",
+          "classification": {
+            "step": "classification",
+            "timing": 10.69465708732605,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"never\",\"leave\",\"safe areas\",\"MediBot\",\"forbidden_state\"],\"cues\":[\"never\",\"leave\",\"safe\",\"areas\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.620516777038574,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (MediBot.leftSafeArea)\",\"explanation\":\"The property forbids the state where MediBot has left a safe area. This uses the forbidden_state pattern by asserting that the condition 'leftSafeArea' never becomes true, i.e., MediBot always stays in safe areas.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (MediBot.leftSafeArea)",
+              "explanation": "The property forbids the state where MediBot has left a safe area. This uses the forbidden_state pattern by asserting that the condition 'leftSafeArea' never becomes true, i.e., MediBot always stays in safe areas.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MediBot.leftSafeArea)"
+          },
+          "total_time": 25.33696222305298,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "MediBot waits if elevator busy",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1141152381896973,
+            "tokens": 186,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"waits\", \"busy\"],\n  \"cues\": [\"if\"],\n  \"trigger_text/response_text\": {\n    \"trigger_text\": \"elevator busy\",\n    \"response_text\": \"MediBot waits\"\n  }\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5290839672088623,
+            "tokens": 545,
+            "raw_text": "{\n  \"query\": \"Elevator.busy --> MediBot.waits\",\n  \"explanation\": \"The constraint 'MediBot waits if elevator busy' fits the conditional_response pattern where the condition 'elevator busy' leads to the eventual response 'MediBot waits'. The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Elevator.busy --> MediBot.waits",
+              "explanation": "The constraint 'MediBot waits if elevator busy' fits the conditional_response pattern where the condition 'elevator busy' leads to the eventual response 'MediBot waits'. The '-->' operator is used to represent this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Elevator.busy --> MediBot.waits"
+          },
+          "total_time": 2.655155897140503,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Each delivery request eventually fulfilled",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7867691516876221,
+            "tokens": 154,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"fulfilled\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.549253225326538,
+            "tokens": 504,
+            "raw_text": "{\n  \"query\": \"A<> DeliveryRequest.fulfilled\",\n  \"explanation\": \"The query uses the 'eventual_completion' pattern to ensure that each delivery request is eventually fulfilled, which aligns with the liveness property that something must eventually happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> DeliveryRequest.fulfilled",
+              "explanation": "The query uses the 'eventual_completion' pattern to ensure that each delivery request is eventually fulfilled, which aligns with the liveness property that something must eventually happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> DeliveryRequest.fulfilled"
+          },
+          "total_time": 2.3597970008850098,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MediBot never leaves safe areas",
+          "classification": {
+            "step": "classification",
+            "timing": 0.826279878616333,
+            "tokens": 155,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"never\", \"safe areas\"],\n  \"cues\": [\"never\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8017468452453613,
+            "tokens": 576,
+            "raw_text": "{\n  \"query\": \"A[] not (MediBot.outside_safe_area)\",\n  \"explanation\": \"The query uses the forbidden_state pattern to ensure that the MediBot never enters a state where it is outside the safe areas. The 'A[] not' operator is used to specify that this condition must always be true, meaning the MediBot must never leave the safe areas.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (MediBot.outside_safe_area)",
+              "explanation": "The query uses the forbidden_state pattern to ensure that the MediBot never enters a state where it is outside the safe areas. The 'A[] not' operator is used to specify that this condition must always be true, meaning the MediBot must never leave the safe areas.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MediBot.outside_safe_area)"
+          },
+          "total_time": 2.6445870399475098,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "MediBot waits if elevator busy",
+          "classification": {
+            "step": "classification",
+            "timing": 3.1939079761505127,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"MediBot\", \"waits\", \"elevator\", \"busy\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"elevator busy\",\n  \"response_text\": \"MediBot waits\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.362904071807861,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"elevator.busy --> MediBot.waiting\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that when the elevator is busy (trigger condition), MediBot will eventually enter a waiting state (response). The --> operator is appropriate here because waiting is an eventual behavioral response to the elevator being busy, not an immediate same-state property.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "elevator.busy --> MediBot.waiting",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that when the elevator is busy (trigger condition), MediBot will eventually enter a waiting state (response). The --> operator is appropriate here because waiting is an eventual behavioral response to the elevator being busy, not an immediate same-state property.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "elevator.busy --> MediBot.waiting"
+          },
+          "total_time": 7.580643177032471,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Each delivery request eventually fulfilled",
+          "classification": {
+            "step": "classification",
+            "timing": 3.649930953979492,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"delivery\", \"request\", \"eventually\", \"fulfilled\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"delivery request\",\n  \"response_text\": \"fulfilled\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.06666898727417,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> DeliverySystem.all_requests_fulfilled\",\n  \"explanation\": \"This query ensures that the system must eventually reach a state where all delivery requests are fulfilled. The A<> operator guarantees liveness - that this completion state will eventually be reached for all paths.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> DeliverySystem.all_requests_fulfilled",
+              "explanation": "This query ensures that the system must eventually reach a state where all delivery requests are fulfilled. The A<> operator guarantees liveness - that this completion state will eventually be reached for all paths.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> DeliverySystem.all_requests_fulfilled"
+          },
+          "total_time": 7.738886117935181,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MediBot never leaves safe areas",
+          "classification": {
+            "step": "classification",
+            "timing": 3.2953500747680664,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"MediBot\", \"never\", \"leaves\", \"safe areas\"],\n  \"cues\": [\"never\"],\n  \"trigger_text\": \"MediBot leaves safe areas\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.058555841445923,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (MediBot.location != safe_area)\",\n  \"explanation\": \"This query uses the forbidden_state pattern with A[] not(...) to ensure MediBot never leaves safe areas. The condition checks that MediBot's location is never different from safe_area, which directly enforces that the robot must always remain within designated safe zones.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (MediBot.location != safe_area)",
+              "explanation": "This query uses the forbidden_state pattern with A[] not(...) to ensure MediBot never leaves safe areas. The condition checks that MediBot's location is never different from safe_area, which directly enforces that the robot must always remain within designated safe zones.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MediBot.location != safe_area)"
+          },
+          "total_time": 7.372030973434448,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "MediBot waits if elevator busy",
+          "classification": {
+            "step": "classification",
+            "timing": 1.000108003616333,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"waits\", \"if\", \"busy\", \"elevator\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"elevator busy\",\n  \"response_text\": \"MediBot waits\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7233607769012451,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Elevator.busy --> MediBot.waiting\",\n  \"explanation\": \"This constraint follows the conditional_response pattern where 'elevator busy' is the condition/trigger and 'MediBot waits' is the eventual response. The --> operator captures the sequential workflow: when the elevator becomes busy, MediBot eventually enters a waiting state. This is not an immediate implication within the same state, but rather an eventual behavioral response to a condition.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Elevator.busy --> MediBot.waiting",
+              "explanation": "This constraint follows the conditional_response pattern where 'elevator busy' is the condition/trigger and 'MediBot waits' is the eventual response. The --> operator captures the sequential workflow: when the elevator becomes busy, MediBot eventually enters a waiting state. This is not an immediate implication within the same state, but rather an eventual behavioral response to a condition.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Elevator.busy --> MediBot.waiting"
+          },
+          "total_time": 2.74941086769104,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Each delivery request eventually fulfilled",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2269892692565918,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"delivery\", \"request\", \"fulfilled\", \"eventually\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"delivery request\",\n  \"response_text\": \"fulfilled\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.539154052734375,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (DeliveryRequest.received --> DeliveryRequest.fulfilled)\",\n  \"explanation\": \"The constraint states that each delivery request must eventually be fulfilled. This is a liveness property where a trigger (delivery request) leads to an eventual response (fulfilled). The A<> operator ensures this must eventually happen on all paths, and the --> captures the causal relationship between request and fulfillment.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\", \"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (DeliveryRequest.received --> DeliveryRequest.fulfilled)",
+              "explanation": "The constraint states that each delivery request must eventually be fulfilled. This is a liveness property where a trigger (delivery request) leads to an eventual response (fulfilled). The A<> operator ensures this must eventually happen on all paths, and the --> captures the causal relationship between request and fulfillment.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>",
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A<> (DeliveryRequest.received --> DeliveryRequest.fulfilled)"
+          },
+          "total_time": 2.791849374771118,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MediBot never leaves safe areas",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3309710025787354,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"never\", \"safe areas\", \"MediBot\", \"leaves\"],\n  \"cues\": [\"never\"],\n  \"trigger_text\": \"MediBot leaves safe areas\",\n  \"response_text\": \"forbidden\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.850543737411499,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (MediBot.location == unsafe_area)\",\n  \"explanation\": \"This query enforces the forbidden_state pattern using the A[] (always) operator with negation to ensure MediBot's location is never in an unsafe area. The constraint 'never leaves safe areas' means MediBot must always remain in safe areas, equivalently, it must never be in unsafe areas. This matches the template A[] not (bad_state) where the bad_state is MediBot being in an unsafe location.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (MediBot.location == unsafe_area)",
+              "explanation": "This query enforces the forbidden_state pattern using the A[] (always) operator with negation to ensure MediBot's location is never in an unsafe area. The constraint 'never leaves safe areas' means MediBot must always remain in safe areas, equivalently, it must never be in unsafe areas. This matches the template A[] not (bad_state) where the bad_state is MediBot being in an unsafe location.",
+              "confidence": 0.92,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MediBot.location == unsafe_area)"
+          },
+          "total_time": 3.2212352752685547,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "MediBot waits if elevator busy",
+          "classification": {
+            "step": "classification",
+            "timing": 8.280183792114258,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"waits\", \"if\"], \"cues\": [\"if\"], \"trigger_text\": \"elevator busy\", \"response_text\": \"MediBot waits\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.42756724357605,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Elevator.busy --> MediBot.waits\",\"explanation\":\"The constraint 'MediBot waits if elevator busy' fits the conditional_response pattern, where the condition (elevator busy) triggers an eventual response (MediBot waits). The --> operator indicates that when Elevator.busy holds, eventually MediBot.waits must occur.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Elevator.busy --> MediBot.waits",
+              "explanation": "The constraint 'MediBot waits if elevator busy' fits the conditional_response pattern, where the condition (elevator busy) triggers an eventual response (MediBot waits). The --> operator indicates that when Elevator.busy holds, eventually MediBot.waits must occur.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Elevator.busy --> MediBot.waits"
+          },
+          "total_time": 17.731621742248535,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Each delivery request eventually fulfilled",
+          "classification": {
+            "step": "classification",
+            "timing": 9.583626985549927,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"eventually\", \"fulfilled\"], \"cues\": [\"eventually\"], \"trigger_text\": \"delivery request\", \"response_text\": \"fulfilled\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.855417251586914,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (delivery_request --> fulfilled)\",\"explanation\":\"The constraint specifies that each delivery request must eventually be fulfilled, which aligns with a leads-to property where the trigger (delivery_request) implies eventual fulfillment (fulfilled). This uses the '-->' operator for sequential eventual response, ensuring liveness for each occurrence.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (delivery_request --> fulfilled)",
+              "explanation": "The constraint specifies that each delivery request must eventually be fulfilled, which aligns with a leads-to property where the trigger (delivery_request) implies eventual fulfillment (fulfilled). This uses the '-->' operator for sequential eventual response, ensuring liveness for each occurrence.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (delivery_request --> fulfilled)"
+          },
+          "total_time": 21.460909128189087,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MediBot never leaves safe areas",
+          "classification": {
+            "step": "classification",
+            "timing": 10.84323263168335,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"forbidden_state\", \"keywords\": [\"MediBot\", \"never\", \"leaves\", \"safe areas\"], \"cues\": [\"never\"]}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.875548124313354,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] not (MediBot.leaves_safe_areas)\", \"explanation\": \"The constraint specifies that MediBot must never leave safe areas, which aligns with the forbidden_state pattern where the bad state is MediBot leaving safe areas. The UPPAAL query A[] not (MediBot.leaves_safe_areas) ensures this state never occurs.\", \"confidence\": 0.85, \"pattern_used\": \"forbidden_state\", \"operator_used\": [\"A[]\", \"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (MediBot.leaves_safe_areas)",
+              "explanation": "The constraint specifies that MediBot must never leave safe areas, which aligns with the forbidden_state pattern where the bad state is MediBot leaving safe areas. The UPPAAL query A[] not (MediBot.leaves_safe_areas) ensures this state never occurs.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MediBot.leaves_safe_areas)"
+          },
+          "total_time": 26.738983154296875,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "MediBot waits if elevator busy",
+          "classification": {
+            "step": "classification",
+            "timing": 5.936959981918335,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"waits\", \"elevator\", \"busy\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"elevator busy\",\n  \"response_text\": \"MediBot waits\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.5014002323150635,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(elevator.busy) --> MediBot.waiting\",\n  \"explanation\": \"The query matches the constraint by using the --> operator to indicate that if the elevator is busy (condition), then eventually MediBot will be in a waiting state (response), following the conditional_response pattern for triggered behaviors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(elevator.busy) --> MediBot.waiting",
+              "explanation": "The query matches the constraint by using the --> operator to indicate that if the elevator is busy (condition), then eventually MediBot will be in a waiting state (response), following the conditional_response pattern for triggered behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(elevator.busy) --> MediBot.waiting"
+          },
+          "total_time": 12.464043855667114,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Each delivery request eventually fulfilled",
+          "classification": {
+            "step": "classification",
+            "timing": 6.394593715667725,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"fulfilled\", \"delivery\", \"request\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"Each delivery request\",\n  \"response_text\": \"fulfilled\"\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.164982080459595,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> Request.fulfilled\",\n  \"explanation\": \"This query uses the A<> operator to ensure that eventually, the delivery request reaches a fulfilled state, directly matching the eventual_completion pattern for the constraint 'Each delivery request eventually fulfilled'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A<> Request.fulfilled",
+              "explanation": "This query uses the A<> operator to ensure that eventually, the delivery request reaches a fulfilled state, directly matching the eventual_completion pattern for the constraint 'Each delivery request eventually fulfilled'.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Request.fulfilled"
+          },
+          "total_time": 15.584939002990723,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MediBot never leaves safe areas",
+          "classification": {
+            "step": "classification",
+            "timing": 6.169858932495117,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"never\", \"leaves safe areas\"],\n  \"cues\": [\"never\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.552826881408691,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (MediBot.in_unsafe_area)\",\n  \"explanation\": \"This query uses the A[] operator to ensure that the forbidden state, where MediBot is in an unsafe area, never occurs, directly aligning with the constraint that MediBot never leaves safe areas.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (MediBot.in_unsafe_area)",
+              "explanation": "This query uses the A[] operator to ensure that the forbidden state, where MediBot is in an unsafe area, never occurs, directly aligning with the constraint that MediBot never leaves safe areas.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MediBot.in_unsafe_area)"
+          },
+          "total_time": 15.741138935089111,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "MediBot waits if elevator busy",
+          "classification": {
+            "step": "classification",
+            "timing": 39.0270619392395,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"MediBot\", \"waits\", \"elevator\", \"busy\", \"if\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"elevator busy\",\n  \"response_text\": \"waits\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 54.6604220867157,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(elevator.busy) --> (MediBot.waiting)\",\n  \"explanation\": \"This UPPAAL query matches the constraint 'MediBot waits if elevator busy' by using the conditional_response pattern, where the condition 'elevator busy' triggers the eventual response 'MediBot waits'. The operator '-->' is used to express that after the elevator becomes busy, MediBot will eventually wait, as indicated in similar examples like 'If error detected, system enters recovery mode' translated to System.error_detected --> System.recovery_mode.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(elevator.busy) --> (MediBot.waiting)",
+              "explanation": "This UPPAAL query matches the constraint 'MediBot waits if elevator busy' by using the conditional_response pattern, where the condition 'elevator busy' triggers the eventual response 'MediBot waits'. The operator '-->' is used to express that after the elevator becomes busy, MediBot will eventually wait, as indicated in similar examples like 'If error detected, system enters recovery mode' translated to System.error_detected --> System.recovery_mode.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(elevator.busy) --> (MediBot.waiting)"
+          },
+          "total_time": 93.7230429649353,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Each delivery request eventually fulfilled",
+          "classification": {
+            "step": "classification",
+            "timing": 37.57584095001221,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"delivery\", \"request\", \"fulfilled\", \"eventually\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 96.29255604743958,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> request_fulfilled\",\n  \"explanation\": \"The constraint 'Each delivery request eventually fulfilled' contains the keyword 'eventually', indicating a liveness property where fulfillment must eventually occur for all delivery requests. The pattern 'eventual_completion' is designed for such cases, using the operator A<> to assert that the state or condition 'request_fulfilled' (representing fulfillment of a delivery request) must eventually be true on all paths, which directly matches the intent of the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> request_fulfilled",
+              "explanation": "The constraint 'Each delivery request eventually fulfilled' contains the keyword 'eventually', indicating a liveness property where fulfillment must eventually occur for all delivery requests. The pattern 'eventual_completion' is designed for such cases, using the operator A<> to assert that the state or condition 'request_fulfilled' (representing fulfillment of a delivery request) must eventually be true on all paths, which directly matches the intent of the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> request_fulfilled"
+          },
+          "total_time": 133.91896390914917,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MediBot never leaves safe areas",
+          "classification": {
+            "step": "classification",
+            "timing": 33.33654570579529,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"never\", \"leaves safe areas\"],\n  \"cues\": [\"never\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 108.3278820514679,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (MediBot.outsideSafeArea)\",\n  \"explanation\": \"The constraint 'MediBot never leaves safe areas' specifies a forbidden state that must never occur, matching the 'forbidden_state' pattern. The UPPAAL query A[] not (MediBot.outsideSafeArea) uses the temporal operator A[] to assert that globally, it is always not the case that MediBot is outside safe areas, ensuring the state never happens as required.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (MediBot.outsideSafeArea)",
+              "explanation": "The constraint 'MediBot never leaves safe areas' specifies a forbidden state that must never occur, matching the 'forbidden_state' pattern. The UPPAAL query A[] not (MediBot.outsideSafeArea) uses the temporal operator A[] to assert that globally, it is always not the case that MediBot is outside safe areas, ensuring the state never happens as required.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MediBot.outsideSafeArea)"
+          },
+          "total_time": 141.71160006523132,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "MediBot waits if elevator busy",
+          "classification": {
+            "step": "classification",
+            "timing": 0.723128080368042,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"wait\", \"elevator\", \"busy\", \"if\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"elevator busy\",\n  \"response_text\": \"MediBot waits\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.9939899444580078,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Elevator.busy --> MediBot.waiting\",\n  \"explanation\": \"The constraint \\\"MediBot waits if elevator busy\\\" follows the conditional_response pattern. The 'if' indicates a condition (Elevator.busy) that eventually leads to a response (MediBot.waiting). The '-->' operator captures this eventual response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Elevator.busy --> MediBot.waiting",
+              "explanation": "The constraint \"MediBot waits if elevator busy\" follows the conditional_response pattern. The 'if' indicates a condition (Elevator.busy) that eventually leads to a response (MediBot.waiting). The '-->' operator captures this eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Elevator.busy --> MediBot.waiting"
+          },
+          "total_time": 1.7502450942993164,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Each delivery request eventually fulfilled",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8273370265960693,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"delivery\", \"request\", \"fulfilled\", \"eventually\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"delivery request\",\n  \"response_text\": \"fulfilled\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2002980709075928,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> fulfilled\",\n  \"explanation\": \"The constraint states that each delivery request is eventually fulfilled. This is a liveness property, indicating something MUST eventually happen. The 'eventual_completion' pattern is applicable, and the 'A<>' operator signifies that 'fulfilled' must eventually be true.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> fulfilled",
+              "explanation": "The constraint states that each delivery request is eventually fulfilled. This is a liveness property, indicating something MUST eventually happen. The 'eventual_completion' pattern is applicable, and the 'A<>' operator signifies that 'fulfilled' must eventually be true.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> fulfilled"
+          },
+          "total_time": 2.052388906478882,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MediBot never leaves safe areas",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7011229991912842,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"MediBot\", \"safe areas\", \"never\", \"forbidden\"],\n  \"cues\": [\"never\"],\n  \"trigger_text\": \"MediBot\",\n  \"response_text\": \"leaves safe areas\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5189831256866455,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not MediBot.unsafe\",\n  \"explanation\": \"The constraint 'MediBot never leaves safe areas' is an instance of the forbidden_state pattern. The UPPAAL query `A[] not MediBot.unsafe` ensures that the MediBot's state where it is in an unsafe area (leaves safe areas) is never reachable. We assume that `MediBot.unsafe` is a boolean variable or a state within the MediBot automaton that indicates that the MediBot is in an unsafe area.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not MediBot.unsafe",
+              "explanation": "The constraint 'MediBot never leaves safe areas' is an instance of the forbidden_state pattern. The UPPAAL query `A[] not MediBot.unsafe` ensures that the MediBot's state where it is in an unsafe area (leaves safe areas) is never reachable. We assume that `MediBot.unsafe` is a boolean variable or a state within the MediBot automaton that indicates that the MediBot is in an unsafe area.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not MediBot.unsafe"
+          },
+          "total_time": 2.2395007610321045,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "MediBot waits if elevator busy",
+          "classification": {
+            "step": "classification",
+            "timing": 12.692436933517456,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"MediBot\",\n    \"wait\",\n    \"elevator\",\n    \"busy\"\n  ],\n  \"cues\": [\n    \"if\"\n  ],\n  \"trigger_text\": \"elevator busy\",\n  \"response_text\": \"MediBot waits\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.244901895523071,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Elevator.Busy --> MediBot.Waiting\",\n  \"explanation\": \"The constraint specifies a conditional response: the trigger 'if elevator busy' (represented by the state `Elevator.Busy`) must eventually lead to the response 'MediBot waits' (represented by the state `MediBot.Waiting`). The 'leads to' operator (-->) is used to formally express this relationship, ensuring that whenever the system is in the `Elevator.Busy` state, it must eventually transition to the `MediBot.Waiting` state.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "Elevator.Busy --> MediBot.Waiting",
+              "explanation": "The constraint specifies a conditional response: the trigger 'if elevator busy' (represented by the state `Elevator.Busy`) must eventually lead to the response 'MediBot waits' (represented by the state `MediBot.Waiting`). The 'leads to' operator (-->) is used to formally express this relationship, ensuring that whenever the system is in the `Elevator.Busy` state, it must eventually transition to the `MediBot.Waiting` state.",
+              "confidence": 0.95,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Elevator.Busy --> MediBot.Waiting"
+          },
+          "total_time": 24.96351432800293,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Each delivery request eventually fulfilled",
+          "classification": {
+            "step": "classification",
+            "timing": 10.413853883743286,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"delivery\",\n    \"request\",\n    \"fulfilled\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ],\n  \"trigger_text\": \"delivery request\",\n  \"response_text\": \"fulfilled\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.666788101196289,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Delivery.Requested --> Delivery.Fulfilled)\",\n  \"explanation\": \"This query uses the leads-to operator (`-->`), which is standard for response properties. It asserts that for all paths (`A[]`), whenever a `Delivery.Requested` state is reached, it is guaranteed that a `Delivery.Fulfilled` state will eventually follow. This directly models the requirement that 'each delivery request' must be 'eventually fulfilled'.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Delivery.Requested --> Delivery.Fulfilled)",
+              "explanation": "This query uses the leads-to operator (`-->`), which is standard for response properties. It asserts that for all paths (`A[]`), whenever a `Delivery.Requested` state is reached, it is guaranteed that a `Delivery.Fulfilled` state will eventually follow. This directly models the requirement that 'each delivery request' must be 'eventually fulfilled'.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Delivery.Requested --> Delivery.Fulfilled)"
+          },
+          "total_time": 25.110036849975586,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MediBot never leaves safe areas",
+          "classification": {
+            "step": "classification",
+            "timing": 8.896345853805542,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"MediBot\",\n    \"leaves\",\n    \"safe areas\"\n  ],\n  \"cues\": [\n    \"never\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 18.608211040496826,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (MediBot.UnsafeArea)\",\n  \"explanation\": \"The constraint 'MediBot never leaves safe areas' is a safety property stating that a bad state must never be reached. The `A[] not (...)` structure directly translates the keyword 'never'. `MediBot.UnsafeArea` represents the forbidden state where the robot is outside the designated safe zones. The query ensures that the system is never in this state.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (MediBot.UnsafeArea)",
+              "explanation": "The constraint 'MediBot never leaves safe areas' is a safety property stating that a bad state must never be reached. The `A[] not (...)` structure directly translates the keyword 'never'. `MediBot.UnsafeArea` represents the forbidden state where the robot is outside the designated safe zones. The query ensures that the system is never in this state.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MediBot.UnsafeArea)"
+          },
+          "total_time": 27.53729224205017,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

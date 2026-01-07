@@ -1,0 +1,380 @@
+{
+  "id": "scenario_011",
+  "domain": "agriculture",
+  "prompt": "A harvester collects crops while a trailer follows to gather the load. The trailer must stay within 5 meters of the harvester. If distance exceeds 10 meters, both must stop and resynchronize within 15 seconds.",
+  "robots": [
+    "Harvester",
+    "TrailerBot"
+  ],
+  "constraints": [
+    "TrailerBot maintains distance \u2264 5 meters from Harvester",
+    "If distance > 10 meters, Harvester stop",
+    "If distance > 10 meters, TrailerBot stop",
+    "Harvester and TrailerBot must resynchronize within 15 seconds of stopping"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.3214030265808105,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 11.815128803253174,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 29.853150844573975,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.8399760723114014,
+      "tokens": 796,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.5683820247650146,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.4174959659576416,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (distance > 5)"
+        },
+        {
+          "index": 1,
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (distance > 10 imply Harvester_stop)"
+        },
+        {
+          "index": 2,
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (distance > 10 imply TrailerBot_stop)"
+        },
+        {
+          "index": 3,
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "pattern_name": "conditional_response",
+          "template": "stopped --> resynchronize_within_15s"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 18.01241707801819,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 9.064637899398804,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 66.92894577980042,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.5104162693023682,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 19.20089077949524,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

@@ -1,0 +1,480 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-02T09:41:11.790Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_006",
+      "domain": "agriculture",
+      "prompt": "A drone sprays pesticide across fields while a ground rover monitors soil humidity. The drone must not spray if wind speed exceeds 25 km/h. The rover reports humidity every 10 minutes, and if humidity < 20%, the drone must pause spraying.",
+      "gold_standard": {
+        "constraints": [
+          "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "SoilRover reports humidity every 10 minutes",
+          "SprayDrone pauses spraying if humidity below 20%"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+                "query": "A[] not (wind_speed > 25 && SprayDrone.spraying)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SoilRover reports humidity every 10 minutes",
+                "query": "A[] (SoilRover.reporting imply t <= 10)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "SprayDrone pauses spraying if humidity below 20%",
+                "query": "A[] not (humidity < 20 && SprayDrone.spraying)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+                "query": "A[] (SprayDrone.wind_speed > 25 imply not SprayDrone.spraying)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SoilRover reports humidity every 10 minutes",
+                "query": "A[] (SoilRover.operational && not SoilRover.reportedHumidity imply reportClock <= 10)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "SprayDrone pauses spraying if humidity below 20%",
+                "query": "(SprayDrone.humidity < 20) --> SprayDrone.paused",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+                "query": "A[] (wind_speed > 25_km_h imply SprayDrone.stop_spraying)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SoilRover reports humidity every 10 minutes",
+                "query": "A[] (SoilRover.waiting_for_humidity_report --> clock <= 10)",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "SprayDrone pauses spraying if humidity below 20%",
+                "query": "(humidity < 20) --> SprayDrone.pause_spraying",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 3,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+                "query": "A[] (SprayDrone.wind_speed > 25 imply not SprayDrone.spraying)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SoilRover reports humidity every 10 minutes",
+                "query": "A[] (SoilRover.reporting --> clock <= 10)",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "SprayDrone pauses spraying if humidity below 20%",
+                "query": "(humidity < 20) --> SprayDrone.pauses_spraying",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+                "query": "(SprayDrone.wind_speed > 25) --> SprayDrone.spraying == false",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SoilRover reports humidity every 10 minutes",
+                "query": "A[] (SoilRover.report_trigger --> SoilRover.reporting_humidity)",
+                "valid": false,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "SprayDrone pauses spraying if humidity below 20%",
+                "query": "(humidity < 20) --> SprayDrone.paused",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 3,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+                "query": "A[] (SprayDrone.wind_speed > 25 imply not SprayDrone.spraying)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SoilRover reports humidity every 10 minutes",
+                "query": "A[] (clock >= 10 --> SoilRover.reports_humidity)",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "SprayDrone pauses spraying if humidity below 20%",
+                "query": "(humidity < 20) --> SprayDrone.pauses_spraying",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+                "query": "(wind_speed > 25) --> (!SprayDrone.spraying)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SoilRover reports humidity every 10 minutes",
+                "query": "A[] (SoilRover.needs_report imply clock <= 10)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "SprayDrone pauses spraying if humidity below 20%",
+                "query": "(humidity < 20) --> (!SprayDrone.is_spraying)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+                "query": "(wind_speed > 25) --> (SprayDrone.spraying == false)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SoilRover reports humidity every 10 minutes",
+                "query": "A[] (SoilRover.idle imply clock <= 10)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "SprayDrone pauses spraying if humidity below 20%",
+                "query": "(humidity < 20) --> SprayDrone.pauses_spraying",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+                "query": "(windSpeed > 25) --> SprayDrone.spraying == false",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SoilRover reports humidity every 10 minutes",
+                "query": "A[] SoilRover.reporting --> SoilRover.humidity_reported",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "SprayDrone pauses spraying if humidity below 20%",
+                "query": "(humidity < 20) --> SprayDrone.spraying == false",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 3,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+                "query": "A[] (wind_speed > 25 imply not SprayDrone.Spraying)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SoilRover reports humidity every 10 minutes",
+                "query": "A[] (SoilRover.Waiting imply SoilRover.report_timer <= 10)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "SprayDrone pauses spraying if humidity below 20%",
+                "query": "(humidity < 20) --> SprayDrone.Paused",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+                "query": "",
+                "valid": false,
+                "pattern": "",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SoilRover reports humidity every 10 minutes",
+                "query": "A[] (SoilRover.active && not SoilRover.reporting imply clock <= 10)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "SprayDrone pauses spraying if humidity below 20%",
+                "query": "",
+                "valid": false,
+                "pattern": "",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 12,
+    "inferred": 0,
+    "hallucination": 21,
+    "unlabeled": 0,
+    "total": 33
+  },
+  "performance_metrics": {
+    "precision": 0.36363636363636365,
+    "recall": 4,
+    "f1": 0.6666666666666667
+  }
+}

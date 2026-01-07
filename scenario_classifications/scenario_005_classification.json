@@ -1,0 +1,247 @@
+{
+  "id": "scenario_005",
+  "domain": "logistics",
+  "prompt": "A forklift places boxes on a conveyor belt. The belt starts moving only when the forklift is Done placing. The mobile picker robot retrieves packages from the belt and must not operate if any human worker is within 2 meters.",
+  "robots": [
+    "Forklift",
+    "Conveyor",
+    "PickerBot"
+  ],
+  "constraints": [
+    "Conveyor must start moving only when Forklift is done placing boxes",
+    "PickerBot operates only if no human is within 2 meters"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 1.9640231132507324,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 6.2984161376953125,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 27.67267107963562,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 2.1235642433166504,
+      "tokens": 700,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.3959968090057373,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.048015832901001,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 13.25269103050232,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 11.047973871231079,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 331.18542432785034,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.252094030380249,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 34.97808384895325,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

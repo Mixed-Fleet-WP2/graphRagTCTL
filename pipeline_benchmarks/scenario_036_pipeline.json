@@ -1,0 +1,2574 @@
+{
+  "id": "scenario_036",
+  "domain": "industrial",
+  "prompt": "A maintenance bot operates in a refrigerated warehouse maintaining conveyor motors. It must warm up sensors for 30 seconds before measurements. If temperature drops below \u221225\u00b0C, it enters standby mode until heating pads raise it above \u221215\u00b0C. The robot performs vibration analysis for each motor and logs anomalies. It is always possible for the bot to recover from standby to active operation.",
+  "robots": [
+    "FrostBot"
+  ],
+  "constraints": [
+    "FrostBot warms sensors for 30 s before measurements",
+    "FrostBot enters standby when temperature < \u221225\u00b0C",
+    "FrostBot resumes when temperature > \u221215\u00b0C",
+    "FrostBot performs vibration analysis for each motor",
+    "FrostBot logs anomalies for each motor",
+    "Always possible to recover from standby to active"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "classification": {
+            "step": "classification",
+            "timing": 2.4621310234069824,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"FrostBot\",\"warms sensors\",\"30 s\",\"before measurements\",\"warmup time\",\"duration\"],\"cues\":[\"for\",\"before\",\"30\",\"s\"],\"trigger_text\":\"before measurements\",\"response_text\":\"warms sensors for 30 s\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.736186981201172,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (FrostBot.measuring imply FrostBot.warmup_time >= 30)\",\"explanation\":\"Model a clock warmup_time that is reset when FrostBot starts warming its sensors. The query requires that whenever FrostBot is in the measuring state, the elapsed warmup_time is at least 30 seconds, ensuring sensors have been warmed for 30 s before any measurements occur.\",\"confidence\":0.86,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"A[]\",\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (FrostBot.measuring imply FrostBot.warmup_time >= 30)",
+              "explanation": "Model a clock warmup_time that is reset when FrostBot starts warming its sensors. The query requires that whenever FrostBot is in the measuring state, the elapsed warmup_time is at least 30 seconds, ensuring sensors have been warmed for 30 s before any measurements occur.",
+              "confidence": 0.86,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (FrostBot.measuring imply FrostBot.warmup_time >= 30)"
+          },
+          "total_time": 5.2182159423828125,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 2.189840078353882,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"FrostBot\",\"enters standby\",\"temperature\",\"< -25\u00b0C\",\"standby mode\"],\"cues\":[\"when\",\"<\"],\"trigger_text\":\"temperature < \u221225\u00b0C\",\"response_text\":\"FrostBot enters standby\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.226609945297241,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(temperature < -25) --> FrostBot.standby_mode\",\"explanation\":\"The constraint says that when the temperature drops below \u221225\u00b0C, FrostBot should (eventually) be in standby. This is a conditional eventual response, so the conditional_response pattern with the --> operator is appropriate. The left side encodes the condition on temperature, and the right side encodes the required standby state of FrostBot.\",\"confidence\":0.9,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(temperature < -25) --> FrostBot.standby_mode",
+              "explanation": "The constraint says that when the temperature drops below \u221225\u00b0C, FrostBot should (eventually) be in standby. This is a conditional eventual response, so the conditional_response pattern with the --> operator is appropriate. The left side encodes the condition on temperature, and the right side encodes the required standby state of FrostBot.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < -25) --> FrostBot.standby_mode"
+          },
+          "total_time": 5.434223175048828,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 2.0371320247650146,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"FrostBot\",\"resumes\",\"temperature > \u221215\u00b0C\",\"resume condition\"],\"cues\":[\">\",\"when\"],\"trigger_text\":\"temperature > \u221215\u00b0C\",\"response_text\":\"FrostBot resumes\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9224960803985596,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(temperature > -15) --> FrostBot.resumed\",\"explanation\":\"The natural-language constraint says that whenever the temperature is higher than \u221215\u00b0C, FrostBot should (eventually) resume. This is a conditional eventual response, so the conditional_response pattern with the --> operator is appropriate. The left side encodes the trigger condition (temperature > -15), and the right side encodes the response state/action (FrostBot.resumed), meaning that once the temperature exceeds \u221215\u00b0C, FrostBot will eventually be in its resumed state.\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(temperature > -15) --> FrostBot.resumed",
+              "explanation": "The natural-language constraint says that whenever the temperature is higher than \u221215\u00b0C, FrostBot should (eventually) resume. This is a conditional eventual response, so the conditional_response pattern with the --> operator is appropriate. The left side encodes the trigger condition (temperature > -15), and the right side encodes the response state/action (FrostBot.resumed), meaning that once the temperature exceeds \u221215\u00b0C, FrostBot will eventually be in its resumed state.",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > -15) --> FrostBot.resumed"
+          },
+          "total_time": 3.983013868331909,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 2.6863858699798584,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"FrostBot\",\"performs\",\"vibration analysis\",\"each motor\",\"coverage\",\"per-motor\"],\"cues\":[\"for\",\"each\"],\"trigger_text\":\"each motor\",\"response_text\":\"FrostBot performs vibration analysis\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0607099533081055,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> FrostBot.vibration_analysis_done_for_all_motors\",\"explanation\":\"The constraint says that FrostBot must perform vibration analysis for each motor, which is a liveness/coverage requirement. Using the eventual_completion pattern, we express that the system must eventually reach a state where vibration analysis has been completed for all motors. This is captured by a global completion flag or state such as FrostBot.vibration_analysis_done_for_all_motors.\",\"confidence\":0.86,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> FrostBot.vibration_analysis_done_for_all_motors",
+              "explanation": "The constraint says that FrostBot must perform vibration analysis for each motor, which is a liveness/coverage requirement. Using the eventual_completion pattern, we express that the system must eventually reach a state where vibration analysis has been completed for all motors. This is captured by a global completion flag or state such as FrostBot.vibration_analysis_done_for_all_motors.",
+              "confidence": 0.86,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> FrostBot.vibration_analysis_done_for_all_motors"
+          },
+          "total_time": 4.773163080215454,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "FrostBot logs anomalies for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 1.824770212173462,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"FrostBot\",\"logs\",\"anomalies\",\"each motor\",\"monitoring\",\"recording\"],\"cues\":[\"for\",\"each\",\"logs\"],\"trigger_text\":\"anomalies for each motor occur or are detected\",\"response_text\":\"FrostBot logs the anomalies\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.594311237335205,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> FrostBot.all_motor_anomalies_logged\",\"explanation\":\"The constraint states that FrostBot logs anomalies for each motor, which is a liveness requirement that all anomaly-logging tasks for all motors must eventually be completed. Using the eventual_completion pattern, the query A<> FrostBot.all_motor_anomalies_logged asserts that in all executions the system will eventually reach a state where FrostBot has logged the anomalies for every motor.\",\"confidence\":0.86,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> FrostBot.all_motor_anomalies_logged",
+              "explanation": "The constraint states that FrostBot logs anomalies for each motor, which is a liveness requirement that all anomaly-logging tasks for all motors must eventually be completed. Using the eventual_completion pattern, the query A<> FrostBot.all_motor_anomalies_logged asserts that in all executions the system will eventually reach a state where FrostBot has logged the anomalies for every motor.",
+              "confidence": 0.86,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> FrostBot.all_motor_anomalies_logged"
+          },
+          "total_time": 5.441097974777222,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Always possible to recover from standby to active",
+          "classification": {
+            "step": "classification",
+            "timing": 1.9703137874603271,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"always possible\",\"recover\",\"standby\",\"active\",\"reachability\",\"liveness\"],\"cues\":[\"always\",\"possible\",\"to\"],\"trigger_text\":\"standby\",\"response_text\":\"active\"}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.455838918685913,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"E<> (standby && active)\",\"explanation\":\"The constraint uses the cue phrase \\\"always possible\\\" and asks whether recovery from standby to active is possible. Under the reachability pattern, we use E<> to express that there exists an execution where the target condition can be reached. Assuming standby and active are modeled as system-state predicates or locations, E<> (standby && active) encodes that there is at least one path where the system can be in a configuration representing recovery from standby to active. This matches the intent of checking possibility rather than necessity.\",\"confidence\":0.62,\"pattern_used\":\"reachability\",\"operator_used\":[\"E<>\"]}",
+            "uppaal_result": {
+              "query": "E<> (standby && active)",
+              "explanation": "The constraint uses the cue phrase \"always possible\" and asks whether recovery from standby to active is possible. Under the reachability pattern, we use E<> to express that there exists an execution where the target condition can be reached. Assuming standby and active are modeled as system-state predicates or locations, E<> (standby && active) encodes that there is at least one path where the system can be in a configuration representing recovery from standby to active. This matches the intent of checking possibility rather than necessity.",
+              "confidence": 0.62,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> (standby && active)"
+          },
+          "total_time": 4.444390296936035,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "classification": {
+            "step": "classification",
+            "timing": 12.72785496711731,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"warm\",\"sensors\",\"warm up\",\"30 s\",\"30 seconds\",\"before measurements\",\"preheat\",\"FrostBot\"],\"cues\":[\"before\",\"for\",\"30\",\"s\",\"seconds\",\"measurements\",\"warm\"],\"trigger_text\":\"measurements\",\"response_text\":\"warm sensors for 30 s before taking measurements\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 35.47819185256958,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (FrostBot.taking_measurements imply warm_clock >= 30)\",\"explanation\":\"This safety property enforces that whenever the FrostBot is in the taking_measurements state, the warmup clock warm_clock must have reached at least 30 seconds \u2014 i.e. sensors have been warmed for 30 s before measurements start. It relies on warm_clock being reset when warming begins so the predicate ensures the required 30s warm period prior to measurements.\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (FrostBot.taking_measurements imply warm_clock >= 30)",
+              "explanation": "This safety property enforces that whenever the FrostBot is in the taking_measurements state, the warmup clock warm_clock must have reached at least 30 seconds \u2014 i.e. sensors have been warmed for 30 s before measurements start. It relies on warm_clock being reset when warming begins so the predicate ensures the required 30s warm period prior to measurements.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (FrostBot.taking_measurements imply warm_clock >= 30)"
+          },
+          "total_time": 48.220733880996704,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 31.00791907310486,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"FrostBot\",\"standby\",\"enter standby\",\"temperature\",\"-25\u00b0C\",\"<\"],\"cues\":[\"when\",\"<\",\"-25\u00b0C\"],\"trigger_text\":\"temperature < -25\u00b0C\",\"response_text\":\"FrostBot enters standby\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.360899925231934,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(temperature < -25) --> FrostBot.standby\",\"explanation\":\"This encodes the conditional_response pattern: whenever the condition (temperature < -25) holds, it must eventually lead to the response that FrostBot enters its standby state. The '-->' operator denotes that the response is an eventual consequence of the trigger.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(temperature < -25) --> FrostBot.standby",
+              "explanation": "This encodes the conditional_response pattern: whenever the condition (temperature < -25) holds, it must eventually lead to the response that FrostBot enters its standby state. The '-->' operator denotes that the response is an eventual consequence of the trigger.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < -25) --> FrostBot.standby"
+          },
+          "total_time": 43.393157958984375,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 11.088229894638062,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"FrostBot\",\"resumes\",\"temperature\",\"> -15\u00b0C\",\"resume\"],\"cues\":[\"when\",\">\",\"resumes\",\"temperature\"],\"trigger_text\":\"temperature > \u221215\u00b0C\",\"response_text\":\"FrostBot resumes\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.003626108169556,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(temperature > -15) --> FrostBot.resumes\",\n  \"explanation\": \"Using the conditional_response template: when the condition temperature > -15\u00b0C holds, the '-->' operator requires that the system will eventually reach the state FrostBot.resumes. This asserts that whenever the temperature exceeds -15\u00b0C, FrostBot will resume.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature > -15) --> FrostBot.resumes",
+              "explanation": "Using the conditional_response template: when the condition temperature > -15\u00b0C holds, the '-->' operator requires that the system will eventually reach the state FrostBot.resumes. This asserts that whenever the temperature exceeds -15\u00b0C, FrostBot will resume.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > -15) --> FrostBot.resumes"
+          },
+          "total_time": 25.127827167510986,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 14.782735824584961,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"vibration\",\"analysis\",\"motor\",\"each\",\"every\",\"FrostBot\",\"perform\"],\"cues\":[\"for\",\"each\",\"every\",\"perform\",\"must\",\"eventually\"],\"trigger_text\":\"each motor\",\"response_text\":\"FrostBot performs vibration analysis\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 24.836052894592285,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> FrostBot.all_motors_vibration_done\",\"explanation\":\"The query asserts a liveness property: eventually (A<>) FrostBot reaches a state where vibration analysis for every motor is completed (modeled as the boolean/all-state FrostBot.all_motors_vibration_done). This matches the natural-language constraint that FrostBot must perform vibration analysis for each motor.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> FrostBot.all_motors_vibration_done",
+              "explanation": "The query asserts a liveness property: eventually (A<>) FrostBot reaches a state where vibration analysis for every motor is completed (modeled as the boolean/all-state FrostBot.all_motors_vibration_done). This matches the natural-language constraint that FrostBot must perform vibration analysis for each motor.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> FrostBot.all_motors_vibration_done"
+          },
+          "total_time": 39.6425199508667,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "FrostBot logs anomalies for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 12.336656093597412,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"anomaly\",\"log\",\"logs\",\"motor\",\"each motor\",\"FrostBot\",\"record\",\"report\"],\"cues\":[\"for each\",\"logs\",\"anomalies\",\"when\",\"if\",\"must\",\"each\",\"every\"],\"trigger_text\":\"anomaly detected on a motor\",\"response_text\":\"FrostBot logs the anomaly for that motor\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.91661286354065,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"forall (i : int[0..MOTORS-1]) (Motor[i].anomaly_detected) --> FrostBot.logged_anomaly[i]\",\n  \"explanation\": \"For every motor index i, if an anomaly is detected on Motor[i] then eventually FrostBot will log the anomaly for that same motor. This uses the conditional_response pattern (trigger --> response) with a universal quantifier to enforce the requirement for each motor.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}",
+            "uppaal_result": {
+              "query": "forall (i : int[0..MOTORS-1]) (Motor[i].anomaly_detected) --> FrostBot.logged_anomaly[i]",
+              "explanation": "For every motor index i, if an anomaly is detected on Motor[i] then eventually FrostBot will log the anomaly for that same motor. This uses the conditional_response pattern (trigger --> response) with a universal quantifier to enforce the requirement for each motor.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "forall (i : int[0..MOTORS-1]) (Motor[i].anomaly_detected) --> FrostBot.logged_anomaly[i]"
+          },
+          "total_time": 29.278729915618896,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Always possible to recover from standby to active",
+          "classification": {
+            "step": "classification",
+            "timing": 12.961892127990723,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"recover\",\"standby\",\"active\",\"reachable\",\"recoverable\",\"restore\",\"resume\",\"from standby to active\",\"always possible\"],\"cues\":[\"always\",\"possible\",\"recover\",\"standby\",\"active\",\"from\",\"to\",\"must\",\"can\",\"reach\",\"reachable\"],\"trigger_text\":\"standby\",\"response_text\":\"active\"}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 26.974592924118042,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Standby imply E<> Active)\",\"explanation\":\"This query states that in all reachable states (A[]), whenever the system is in Standby, there exists some execution path that eventually reaches Active (E<> Active). It therefore checks that it is always possible to recover from standby to active.\",\"confidence\":0.85,\"pattern_used\":\"reachability\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (Standby imply E<> Active)",
+              "explanation": "This query states that in all reachable states (A[]), whenever the system is in Standby, there exists some execution path that eventually reaches Active (E<> Active). It therefore checks that it is always possible to recover from standby to active.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Standby imply E<> Active)"
+          },
+          "total_time": 39.96159100532532,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "classification": {
+            "step": "classification",
+            "timing": 18.36011004447937,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"warming\",\"sensors\",\"30s\",\"measurements\",\"sequence\",\"before\"],\"cues\":[\"before\",\"then\",\"after\",\"when\",\"eventually\",\"never\",\"must\",\"can\",\"<\",\">\",\"%\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 30.4246928691864,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"FrostBot.warming_complete --> FrostBot.measurements\",\"explanation\":\"The constraint requires warming of sensors for 30 seconds to complete before measurements begin. This is a sequential_workflow relation: warming_complete (end of the 30s warming) followed by measurements. The edge FrostBot.warming_complete --> FrostBot.measurements encodes that the second action occurs after the first.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "FrostBot.warming_complete --> FrostBot.measurements",
+              "explanation": "The constraint requires warming of sensors for 30 seconds to complete before measurements begin. This is a sequential_workflow relation: warming_complete (end of the 30s warming) followed by measurements. The edge FrostBot.warming_complete --> FrostBot.measurements encodes that the second action occurs after the first.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "FrostBot.warming_complete --> FrostBot.measurements"
+          },
+          "total_time": 48.80234622955322,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 11.731272220611572,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"standby\",\"temperature\",\"threshold\",\"-25\u00b0C\",\"conditional\"],\"cues\":[\"when\",\"then\",\"<\"],\"trigger_text\":\"temperature < -25\u00b0C\",\"response_text\":\"FrostBot enters standby\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.869630813598633,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"UPPAAL=(temperature < -25) --> FrostBot.in_standby\",\"explanation\":\"This matches the conditional_response pattern: if the trigger condition (temperature < -25) holds, the system leads to an eventual response, FrostBot.in_standby (standby state).\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "UPPAAL=(temperature < -25) --> FrostBot.in_standby",
+              "explanation": "This matches the conditional_response pattern: if the trigger condition (temperature < -25) holds, the system leads to an eventual response, FrostBot.in_standby (standby state).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "UPPAAL=(temperature < -25) --> FrostBot.in_standby"
+          },
+          "total_time": 31.633009910583496,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 19.901510000228882,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"FrostBot\",\"temperature\",\"resume\",\"threshold\",\"\u221215\u00b0C\",\"when\"],\"cues\":[\"when\",\">\"],\"trigger_text\":\"when temperature > \u221215\u00b0C\",\"response_text\":\"FrostBot resumes\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.291766881942749,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(FrostBot.temperature > -15) --> FrostBot.resumes\",\"explanation\":\"This uses the conditional_response pattern: when the temperature exceeds -15\u00b0C, FrostBot resumes. The condition (FrostBot.temperature > -15) triggers the eventual action FrostBot.resumes via the --> operator.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(FrostBot.temperature > -15) --> FrostBot.resumes",
+              "explanation": "This uses the conditional_response pattern: when the temperature exceeds -15\u00b0C, FrostBot resumes. The condition (FrostBot.temperature > -15) triggers the eventual action FrostBot.resumes via the --> operator.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(FrostBot.temperature > -15) --> FrostBot.resumes"
+          },
+          "total_time": 31.246336936950684,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 16.72928524017334,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"vibration analysis\",\"motor\",\"FrostBot\"],\"cues\":[\"eventually\",\"must\",\"then\",\"when\",\"per\",\"each\",\"for\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 22.753854990005493,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> (FrostBot.all_motors_vibration_done)\",\"explanation\":\"The constraint requires that vibration analysis for every FrostBot motor eventually occurs. This is a global liveness property, expressed as a must-eventually-happen condition over the predicate all_motors_vibration_done.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> (FrostBot.all_motors_vibration_done)",
+              "explanation": "The constraint requires that vibration analysis for every FrostBot motor eventually occurs. This is a global liveness property, expressed as a must-eventually-happen condition over the predicate all_motors_vibration_done.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (FrostBot.all_motors_vibration_done)"
+          },
+          "total_time": 39.51460409164429,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "FrostBot logs anomalies for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 22.50577473640442,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"log\",\"anomalies\",\"motor\",\"FrostBot\"],\"cues\":[\"for\",\"each\",\"motor\",\"log\",\"anomalies\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.68943214416504,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> FrostBot.all_motors_anomalies_logged\",\"explanation\":\"The NL constraint says FrostBot logs anomalies for each motor. The UPPAAL query A<> FrostBot.all_motors_anomalies_logged expresses a global liveness property that, on all possible runs, eventually all motors' anomaly-logging status becomes true.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> FrostBot.all_motors_anomalies_logged",
+              "explanation": "The NL constraint says FrostBot logs anomalies for each motor. The UPPAAL query A<> FrostBot.all_motors_anomalies_logged expresses a global liveness property that, on all possible runs, eventually all motors' anomaly-logging status becomes true.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> FrostBot.all_motors_anomalies_logged"
+          },
+          "total_time": 44.24333381652832,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Always possible to recover from standby to active",
+          "classification": {
+            "step": "classification",
+            "timing": 11.10490894317627,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"standby\",\"active\",\"recover\",\"state\",\"transition\"],\"cues\":[\"standby\",\"active\",\"recover\",\"reachable\",\"when\",\"after\",\"then\",\"always\",\"must\",\"can\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 27.94537901878357,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (standby --> E<> active)\", \"explanation\":\"The property states that in all reachable states, if the system is in standby, there exists a path to an active state, i.e., it is always possible to eventually recover from standby to active. This uses E<> to express possible reachability and A[] to enforce it globally, matching the reachability pattern.\", \"confidence\":0.85, \"pattern_used\":\"reachability\", \"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (standby --> E<> active)",
+              "explanation": "The property states that in all reachable states, if the system is in standby, there exists a path to an active state, i.e., it is always possible to eventually recover from standby to active. This uses E<> to express possible reachability and A[] to enforce it globally, matching the reachability pattern.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (standby --> E<> active)"
+          },
+          "total_time": 39.07474207878113,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "classification": {
+            "step": "classification",
+            "timing": 2.4273228645324707,
+            "tokens": 198,
+            "raw_text": "{\n    \"pattern\": \"sequential_workflow\",\n    \"keywords\": [\"warms\", \"before\", \"measurements\"],\n    \"cues\": [\"before\"],\n    \"trigger_text/response_text\": {\n        \"trigger_text\": \"warms sensors for 30 s\",\n        \"response_text\": \"measurements\"\n    }\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.589287042617798,
+            "tokens": 574,
+            "raw_text": "{\n  \"query\": \"FrostBot.warming_complete --> FrostBot.measurements\",\n  \"explanation\": \"The constraint specifies that the FrostBot must warm the sensors for 30 seconds before taking measurements. This indicates a sequential workflow where the warming action must complete before the measurement action can occur. The 'before' keyword suggests a sequence, aligning with the 'sequential_workflow' pattern, and the '-->' operator is used to represent this eventual sequence.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "FrostBot.warming_complete --> FrostBot.measurements",
+              "explanation": "The constraint specifies that the FrostBot must warm the sensors for 30 seconds before taking measurements. This indicates a sequential workflow where the warming action must complete before the measurement action can occur. The 'before' keyword suggests a sequence, aligning with the 'sequential_workflow' pattern, and the '-->' operator is used to represent this eventual sequence.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "FrostBot.warming_complete --> FrostBot.measurements"
+          },
+          "total_time": 5.037703275680542,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 1.5801920890808105,
+            "tokens": 189,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"enters standby\", \"temperature < \u221225\u00b0C\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"temperature < \u221225\u00b0C\",\n  \"response_text\": \"FrostBot enters standby\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.665393829345703,
+            "tokens": 571,
+            "raw_text": "{\n  \"query\": \"(temperature < -25) --> FrostBot.enters_standby\",\n  \"explanation\": \"The query matches the constraint by using the 'conditional_response' pattern, where the condition 'temperature < -25\u00b0C' leads to the eventual response 'FrostBot enters standby'. The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature < -25) --> FrostBot.enters_standby",
+              "explanation": "The query matches the constraint by using the 'conditional_response' pattern, where the condition 'temperature < -25\u00b0C' leads to the eventual response 'FrostBot enters standby'. The '-->' operator is used to represent this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < -25) --> FrostBot.enters_standby"
+          },
+          "total_time": 4.268983602523804,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 2.2355098724365234,
+            "tokens": 185,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"resumes\", \"temperature\", \">\"],\n  \"cues\": [\">\", \"when\"],\n  \"trigger_text\": \"temperature > \u221215\u00b0C\",\n  \"response_text\": \"FrostBot resumes\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.5429561138153076,
+            "tokens": 570,
+            "raw_text": "{\n  \"query\": \"(temperature > -15) --> FrostBot.resumes\",\n  \"explanation\": \"The constraint 'FrostBot resumes when temperature > \u221215\u00b0C' fits the 'conditional_response' pattern, where a condition (temperature > \u221215\u00b0C) leads to an eventual response (FrostBot resumes). The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature > -15) --> FrostBot.resumes",
+              "explanation": "The constraint 'FrostBot resumes when temperature > \u221215\u00b0C' fits the 'conditional_response' pattern, where a condition (temperature > \u221215\u00b0C) leads to an eventual response (FrostBot resumes). The '-->' operator is used to represent this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > -15) --> FrostBot.resumes"
+          },
+          "total_time": 4.8014726638793945,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 2.4914727210998535,
+            "tokens": 184,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"performs\", \"analysis\", \"for each\"],\n  \"cues\": [\"for\", \"each\"],\n  \"trigger_text/response_text\": \"FrostBot performs vibration analysis for each motor\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.7152676582336426,
+            "tokens": 566,
+            "raw_text": "{\n  \"query\": \"FrostBot.performing --> VibrationAnalysis.analyzing\",\n  \"explanation\": \"The constraint 'FrostBot performs vibration analysis for each motor' suggests a sequential workflow where the action of performing by FrostBot eventually leads to the action of analyzing by VibrationAnalysis. The 'for each' cue indicates a repeated sequential process, aligning with the pattern of one action eventually following another.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "FrostBot.performing --> VibrationAnalysis.analyzing",
+              "explanation": "The constraint 'FrostBot performs vibration analysis for each motor' suggests a sequential workflow where the action of performing by FrostBot eventually leads to the action of analyzing by VibrationAnalysis. The 'for each' cue indicates a repeated sequential process, aligning with the pattern of one action eventually following another.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "FrostBot.performing --> VibrationAnalysis.analyzing"
+          },
+          "total_time": 5.229959011077881,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "FrostBot logs anomalies for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2174022197723389,
+            "tokens": 163,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"logs\", \"anomalies\", \"motor\"],\n  \"cues\": [\"for\", \"each\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.0600240230560303,
+            "tokens": 561,
+            "raw_text": "{\n  \"query\": \"A<> FrostBot.all_motors_anomalies_logged\",\n  \"explanation\": \"The constraint 'FrostBot logs anomalies for each motor' implies that the system must eventually reach a state where anomalies for all motors are logged. This aligns with the 'eventual_completion' pattern, which is used for liveness properties where something must eventually happen. The A<> operator is appropriate here as it ensures that the logging of anomalies for each motor will eventually occur.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> FrostBot.all_motors_anomalies_logged",
+              "explanation": "The constraint 'FrostBot logs anomalies for each motor' implies that the system must eventually reach a state where anomalies for all motors are logged. This aligns with the 'eventual_completion' pattern, which is used for liveness properties where something must eventually happen. The A<> operator is appropriate here as it ensures that the logging of anomalies for each motor will eventually occur.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> FrostBot.all_motors_anomalies_logged"
+          },
+          "total_time": 4.297010183334351,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Always possible to recover from standby to active",
+          "classification": {
+            "step": "classification",
+            "timing": 1.317950963973999,
+            "tokens": 161,
+            "raw_text": "{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"recover\", \"standby\", \"active\"],\n  \"cues\": [\"always\", \"possible\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8144466876983643,
+            "tokens": 504,
+            "raw_text": "{\n  \"query\": \"E<> (Standby --> Active)\",\n  \"explanation\": \"The query checks if it is possible to transition from the 'Standby' state to the 'Active' state, which aligns with the constraint that it should always be possible to recover from standby to active.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "E<> (Standby --> Active)",
+              "explanation": "The query checks if it is possible to transition from the 'Standby' state to the 'Active' state, which aligns with the constraint that it should always be possible to recover from standby to active.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "E<> (Standby --> Active)"
+          },
+          "total_time": 3.153111219406128,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "classification": {
+            "step": "classification",
+            "timing": 3.6602439880371094,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"warms\", \"sensors\", \"before\", \"measurements\", \"30 s\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"warms sensors for 30 s\",\n  \"response_text\": \"measurements\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.538433074951172,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"FrostBot.warming_complete --> FrostBot.measuring\",\n  \"explanation\": \"This query captures the sequential workflow where FrostBot must complete the 30-second sensor warming phase before measurements can begin. The --> operator ensures that measurements eventually follow after warming is complete, matching the 'before' relationship in the constraint.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "FrostBot.warming_complete --> FrostBot.measuring",
+              "explanation": "This query captures the sequential workflow where FrostBot must complete the 30-second sensor warming phase before measurements can begin. The --> operator ensures that measurements eventually follow after warming is complete, matching the 'before' relationship in the constraint.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "FrostBot.warming_complete --> FrostBot.measuring"
+          },
+          "total_time": 8.22449517250061,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 3.876495122909546,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"FrostBot\", \"standby\", \"temperature\", \"less than\", \"-25\u00b0C\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"temperature < \u221225\u00b0C\",\n  \"response_text\": \"FrostBot enters standby\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.9798929691314697,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature < -25) --> FrostBot.standby\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that when the temperature drops below -25\u00b0C, FrostBot will eventually enter standby mode. The --> operator is appropriate here because it represents a triggered behavior where the condition (temperature < -25) leads to an eventual response (entering standby state).\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature < -25) --> FrostBot.standby",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that when the temperature drops below -25\u00b0C, FrostBot will eventually enter standby mode. The --> operator is appropriate here because it represents a triggered behavior where the condition (temperature < -25) leads to an eventual response (entering standby state).",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < -25) --> FrostBot.standby"
+          },
+          "total_time": 7.881328105926514,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 3.731722831726074,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"FrostBot\", \"resumes\", \"temperature\", \"greater than\", \"-15\u00b0C\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"temperature > \u221215\u00b0C\",\n  \"response_text\": \"FrostBot resumes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.264494180679321,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature > -15) --> FrostBot.resumed\",\n  \"explanation\": \"This query uses the conditional_response pattern with the leads-to operator (-->) to express that when the temperature rises above -15\u00b0C, FrostBot will eventually resume operation. The trigger condition (temperature > -15) leads to the eventual response state (FrostBot.resumed).\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature > -15) --> FrostBot.resumed",
+              "explanation": "This query uses the conditional_response pattern with the leads-to operator (-->) to express that when the temperature rises above -15\u00b0C, FrostBot will eventually resume operation. The trigger condition (temperature > -15) leads to the eventual response state (FrostBot.resumed).",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > -15) --> FrostBot.resumed"
+          },
+          "total_time": 8.015838861465454,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 3.653815984725952,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"FrostBot\", \"performs\", \"vibration analysis\", \"each motor\"],\n  \"cues\": [\"for each\"],\n  \"trigger_text\": \"motor exists\",\n  \"response_text\": \"FrostBot performs vibration analysis\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.366425037384033,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (FrostBot.vibration_analysis_complete)\",\n  \"explanation\": \"This query ensures that FrostBot must eventually complete vibration analysis for all motors. The A<> operator expresses the liveness property that vibration analysis will eventually be performed and completed, matching the 'for each motor' requirement by checking a state where all analysis is done.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (FrostBot.vibration_analysis_complete)",
+              "explanation": "This query ensures that FrostBot must eventually complete vibration analysis for all motors. The A<> operator expresses the liveness property that vibration analysis will eventually be performed and completed, matching the 'for each motor' requirement by checking a state where all analysis is done.",
+              "confidence": 0.82,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (FrostBot.vibration_analysis_complete)"
+          },
+          "total_time": 9.050624132156372,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "FrostBot logs anomalies for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 3.8511531352996826,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"logs\", \"anomalies\", \"motor\", \"each\"],\n  \"cues\": [\"for each\"],\n  \"trigger_text\": \"anomaly detected in motor\",\n  \"response_text\": \"FrostBot logs anomaly\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.545758008956909,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (FrostBot.motor1_logged && FrostBot.motor2_logged && FrostBot.motor3_logged && FrostBot.motor4_logged)\",\n  \"explanation\": \"This query verifies that FrostBot eventually logs anomalies for each motor. The A<> operator ensures that in all paths, a state is eventually reached where all motors (motor1 through motor4) have had their anomalies logged. This matches the eventual_completion pattern where the logging task for all motors must eventually complete.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (FrostBot.motor1_logged && FrostBot.motor2_logged && FrostBot.motor3_logged && FrostBot.motor4_logged)",
+              "explanation": "This query verifies that FrostBot eventually logs anomalies for each motor. The A<> operator ensures that in all paths, a state is eventually reached where all motors (motor1 through motor4) have had their anomalies logged. This matches the eventual_completion pattern where the logging task for all motors must eventually complete.",
+              "confidence": 0.82,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (FrostBot.motor1_logged && FrostBot.motor2_logged && FrostBot.motor3_logged && FrostBot.motor4_logged)"
+          },
+          "total_time": 8.416424989700317,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Always possible to recover from standby to active",
+          "classification": {
+            "step": "classification",
+            "timing": 3.531262159347534,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"possible\", \"recover\", \"standby\", \"active\", \"always\"],\n  \"cues\": [\"always\", \"possible\"],\n  \"trigger_text\": \"standby\",\n  \"response_text\": \"active\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.827940940856934,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (standby imply E<> active)\",\n  \"explanation\": \"This query verifies that at all times (A[]), whenever the system is in standby state, it is possible (E<>) to reach the active state. This captures 'always possible to recover from standby to active' by ensuring the reachability from standby to active is maintained throughout execution.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"A[]\", \"imply\", \"E<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (standby imply E<> active)",
+              "explanation": "This query verifies that at all times (A[]), whenever the system is in standby state, it is possible (E<>) to reach the active state. This captures 'always possible to recover from standby to active' by ensuring the reachability from standby to active is maintained throughout execution.",
+              "confidence": 0.92,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "A[]",
+                "imply",
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (standby imply E<> active)"
+          },
+          "total_time": 8.375105857849121,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1716461181640625,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"warm\", \"sensors\", \"before\", \"measurements\", \"30 seconds\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"measurements\",\n  \"response_text\": \"warms sensors for 30 s\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.840714931488037,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"FrostBot.warming --> FrostBot.measuring\",\n  \"explanation\": \"The constraint describes a sequential workflow where warming sensors (30s duration) must occur before measurements begin. This is a classic eventual sequencing pattern where one action (warming) triggers the next action (measuring). The 'before' keyword indicates temporal ordering, and the sequential_workflow pattern with the '-->' operator captures that warming must eventually lead to measuring.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "FrostBot.warming --> FrostBot.measuring",
+              "explanation": "The constraint describes a sequential workflow where warming sensors (30s duration) must occur before measurements begin. This is a classic eventual sequencing pattern where one action (warming) triggers the next action (measuring). The 'before' keyword indicates temporal ordering, and the sequential_workflow pattern with the '-->' operator captures that warming must eventually lead to measuring.",
+              "confidence": 0.88,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "FrostBot.warming --> FrostBot.measuring"
+          },
+          "total_time": 3.037871837615967,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2676057815551758,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"standby\", \"temperature\", \"threshold\", \"enters\"],\n  \"cues\": [\"<\", \"when\"],\n  \"trigger_text\": \"temperature < \u221225\u00b0C\",\n  \"response_text\": \"FrostBot enters standby\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6725828647613525,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature < -25) --> FrostBot.standby\",\n  \"explanation\": \"This constraint describes a conditional response pattern where a temperature condition (trigger) eventually leads to FrostBot entering standby mode (response). The '-->' operator is appropriate for sequential/eventual behavior triggered by a condition. When temperature drops below -25\u00b0C, FrostBot will eventually enter standby state.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature < -25) --> FrostBot.standby",
+              "explanation": "This constraint describes a conditional response pattern where a temperature condition (trigger) eventually leads to FrostBot entering standby mode (response). The '-->' operator is appropriate for sequential/eventual behavior triggered by a condition. When temperature drops below -25\u00b0C, FrostBot will eventually enter standby state.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < -25) --> FrostBot.standby"
+          },
+          "total_time": 2.9541499614715576,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 2.5164220333099365,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"resumes\", \"temperature\", \"threshold\"],\n  \"cues\": [\">\"],\n  \"trigger_text\": \"temperature > \u221215\u00b0C\",\n  \"response_text\": \"FrostBot resumes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.725222110748291,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature > -15) --> FrostBot.resumes\",\n  \"explanation\": \"This matches the conditional_response pattern where the condition 'temperature > -15\u00b0C' triggers the eventual response 'FrostBot resumes'. The --> operator captures the sequential workflow: when the temperature threshold is exceeded, FrostBot eventually resumes operation. This is not an immediate response but a triggered behavior dependent on the condition.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature > -15) --> FrostBot.resumes",
+              "explanation": "This matches the conditional_response pattern where the condition 'temperature > -15\u00b0C' triggers the eventual response 'FrostBot resumes'. The --> operator captures the sequential workflow: when the temperature threshold is exceeded, FrostBot eventually resumes operation. This is not an immediate response but a triggered behavior dependent on the condition.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > -15) --> FrostBot.resumes"
+          },
+          "total_time": 4.260657072067261,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8883888721466064,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"performs\", \"analysis\", \"each\", \"motor\", \"vibration\"],\n  \"cues\": [\"performs\", \"for each\"],\n  \"trigger_text\": \"FrostBot\",\n  \"response_text\": \"performs vibration analysis for each motor\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8186180591583252,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"FrostBot.vibration_analysis --> FrostBot.vibration_analysis\",\n  \"explanation\": \"The constraint describes FrostBot performing vibration analysis sequentially for each motor. This is a repetitive sequential workflow where the vibration analysis action is triggered repeatedly for each motor in sequence. The --> operator captures that one analysis execution eventually leads to the next analysis for the subsequent motor.\",\n  \"confidence\": 0.72,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "FrostBot.vibration_analysis --> FrostBot.vibration_analysis",
+              "explanation": "The constraint describes FrostBot performing vibration analysis sequentially for each motor. This is a repetitive sequential workflow where the vibration analysis action is triggered repeatedly for each motor in sequence. The --> operator captures that one analysis execution eventually leads to the next analysis for the subsequent motor.",
+              "confidence": 0.72,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "FrostBot.vibration_analysis --> FrostBot.vibration_analysis"
+          },
+          "total_time": 3.725123882293701,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "FrostBot logs anomalies for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0197551250457764,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"logs\", \"anomalies\", \"motor\", \"FrostBot\"],\n  \"cues\": [],\n  \"trigger_text\": \"anomalies detected in each motor\",\n  \"response_text\": \"FrostBot logs anomalies\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8697741031646729,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Motor.anomaly_detected --> FrostBot.logging_anomaly\",\n  \"explanation\": \"The constraint describes a sequential workflow where anomaly detection in a motor triggers FrostBot to log those anomalies. This is a classic eventual sequential response (one action leads to another), matching the pattern template 'action1 --> action2'. The '-->' operator captures that logging follows detection, allowing for possible delays between the two events.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Motor.anomaly_detected --> FrostBot.logging_anomaly",
+              "explanation": "The constraint describes a sequential workflow where anomaly detection in a motor triggers FrostBot to log those anomalies. This is a classic eventual sequential response (one action leads to another), matching the pattern template 'action1 --> action2'. The '-->' operator captures that logging follows detection, allowing for possible delays between the two events.",
+              "confidence": 0.88,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Motor.anomaly_detected --> FrostBot.logging_anomaly"
+          },
+          "total_time": 2.9009110927581787,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Always possible to recover from standby to active",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0034523010253906,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"recover\", \"standby\", \"active\", \"possible\"],\n  \"cues\": [\"always\", \"possible\", \"to\"],\n  \"trigger_text\": \"from standby\",\n  \"response_text\": \"to active\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7095091342926025,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"E<> (System.standby --> System.active)\",\n  \"explanation\": \"The constraint states it's 'always possible to recover from standby to active', meaning there exists a path where the system can transition from the standby state to the active state. This is a reachability check using E<> (exists a path) with --> (eventual transition) to verify that reaching the active state from standby is possible.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\", \"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "E<> (System.standby --> System.active)",
+              "explanation": "The constraint states it's 'always possible to recover from standby to active', meaning there exists a path where the system can transition from the standby state to the active state. This is a reachability check using E<> (exists a path) with --> (eventual transition) to verify that reaching the active state from standby is possible.",
+              "confidence": 0.82,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>",
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "E<> (System.standby --> System.active)"
+          },
+          "total_time": 2.728321075439453,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "classification": {
+            "step": "classification",
+            "timing": 10.974341869354248,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"time_bounded_constraint\", \"keywords\": [\"warms\", \"sensors\", \"measurements\"], \"cues\": [\"for\", \"30 s\", \"before\"], \"trigger_text\": \"warms sensors\", \"response_text\": \"measurements\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 27.546011686325073,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"FrostBot.warming --> (clock >= 30 && FrostBot.measuring)\", \"explanation\": \"The constraint specifies that FrostBot warms sensors for 30 seconds before taking measurements, implying that warming triggers measurements after exactly 30 seconds, which is modeled using the leads-to operator for eventual triggered behavior with a time condition.\", \"confidence\": 0.85, \"pattern_used\": \"time_bounded_constraint\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "FrostBot.warming --> (clock >= 30 && FrostBot.measuring)",
+              "explanation": "The constraint specifies that FrostBot warms sensors for 30 seconds before taking measurements, implying that warming triggers measurements after exactly 30 seconds, which is modeled using the leads-to operator for eventual triggered behavior with a time condition.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "FrostBot.warming --> (clock >= 30 && FrostBot.measuring)"
+          },
+          "total_time": 38.54577088356018,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 5.862963914871216,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"temperature\",\"standby\",\"enters\"],\"cues\":[\"when\",\"<\"],\"trigger_text\":\"temperature < \u221225\u00b0C\",\"response_text\":\"enters standby\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.10020899772644,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(temperature < -25) --> FrostBot.standby\", \"explanation\": \"The constraint specifies that FrostBot enters standby when temperature drops below -25\u00b0C, which is a conditional eventual response where the condition triggers a state change, matching the conditional_response pattern using the --> operator for eventual behavior.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(temperature < -25) --> FrostBot.standby",
+              "explanation": "The constraint specifies that FrostBot enters standby when temperature drops below -25\u00b0C, which is a conditional eventual response where the condition triggers a state change, matching the conditional_response pattern using the --> operator for eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < -25) --> FrostBot.standby"
+          },
+          "total_time": 15.991853713989258,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 10.310272932052612,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"resumes\", \"temperature\"], \"cues\": [\"when\", \">\"], \"trigger_text\": \"temperature > \u221215\u00b0C\", \"response_text\": \"FrostBot resumes\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.949461936950684,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(temperature > -15) --> FrostBot.resumes\", \"explanation\": \"The constraint describes a triggered behavior where the condition 'temperature > -15\u00b0C' leads to the eventual response 'FrostBot resumes', matching the conditional_response pattern with the --> operator for eventual triggered behavior.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(temperature > -15) --> FrostBot.resumes",
+              "explanation": "The constraint describes a triggered behavior where the condition 'temperature > -15\u00b0C' leads to the eventual response 'FrostBot resumes', matching the conditional_response pattern with the --> operator for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > -15) --> FrostBot.resumes"
+          },
+          "total_time": 20.281983852386475,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 13.097255945205688,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"performs\", \"vibration analysis\", \"each motor\"], \"cues\": [], \"trigger_text\": \"for each motor\", \"response_text\": \"performs vibration analysis\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.892943143844604,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"FrostBot.for_each_motor --> FrostBot.performing_vibration_analysis\",\"explanation\":\"The constraint 'FrostBot performs vibration analysis for each motor' indicates a sequential workflow where the action of handling each motor triggers the eventual performance of vibration analysis, matching the sequential_workflow pattern template action1 --> action2, similar to examples like charging completion leading to operation resumption.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "FrostBot.for_each_motor --> FrostBot.performing_vibration_analysis",
+              "explanation": "The constraint 'FrostBot performs vibration analysis for each motor' indicates a sequential workflow where the action of handling each motor triggers the eventual performance of vibration analysis, matching the sequential_workflow pattern template action1 --> action2, similar to examples like charging completion leading to operation resumption.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "FrostBot.for_each_motor --> FrostBot.performing_vibration_analysis"
+          },
+          "total_time": 29.006205797195435,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "FrostBot logs anomalies for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 13.188780069351196,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"logs\", \"anomalies\", \"motor\"], \"cues\": [], \"trigger_text\": \"anomalies for each motor\", \"response_text\": \"logs\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.527333736419678,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"anomalies_for_each_motor --> logs\", \"explanation\": \"The constraint indicates that anomalies for each motor must trigger eventual logging, matching the eventual_completion pattern with the --> operator for conditional eventual response.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "anomalies_for_each_motor --> logs",
+              "explanation": "The constraint indicates that anomalies for each motor must trigger eventual logging, matching the eventual_completion pattern with the --> operator for conditional eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "anomalies_for_each_motor --> logs"
+          },
+          "total_time": 29.739384651184082,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Always possible to recover from standby to active",
+          "classification": {
+            "step": "classification",
+            "timing": 11.792797088623047,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"reachability\", \"keywords\": \"recover, standby, active\", \"cues\": [\"always\", \"possible\", \"from\", \"to\"], \"trigger_text\": \"recover from standby\", \"response_text\": \"to active\"}"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 11.849904775619507,
+          "success": false,
+          "error": "GraphRAG retrieval failed: {neo4j_code: Neo.ClientError.Statement.SyntaxError} {message: Type mismatch for parameter 'keywords': expected List<T> but was String (line 4, column 63 (offset: 149))\n\"             size([kw IN coalesce(e.keywords, []) WHERE kw IN $keywords]) AS overlap\"\n                                                               ^} {gql_status: 22G03} {gql_status_description: error: data exception - invalid value type}",
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "classification": {
+            "step": "classification",
+            "timing": 9.42221999168396,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"FrostBot\", \"warms\", \"sensors\", \"before\", \"measurements\", \"30\", \"s\"],\n  \"cues\": [\"before\", \"for\"],\n  \"trigger_text\": \"before measurements\",\n  \"response_text\": \"FrostBot warms sensors for 30 s\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.464736938476562,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"FrostBot.warming_sensors --> measurements\",\n  \"explanation\": \"This query uses the --> operator to model the sequential workflow where FrostBot's warming of sensors eventually leads to measurements, as specified in the constraint that warming occurs before measurements.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "FrostBot.warming_sensors --> measurements",
+              "explanation": "This query uses the --> operator to model the sequential workflow where FrostBot's warming of sensors eventually leads to measurements, as specified in the constraint that warming occurs before measurements.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "FrostBot.warming_sensors --> measurements"
+          },
+          "total_time": 19.913715839385986,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 7.09426212310791,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"enters standby\", \"temperature\", \"< -25\u00b0C\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"temperature < \u221225\u00b0C\",\n  \"response_text\": \"FrostBot enters standby\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.754994869232178,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(temperature < -25) --> FrostBot.in_standby\",\n  \"explanation\": \"This query matches the constraint because it uses the --> operator to represent that when the condition 'temperature < -25\u00b0C' is true, FrostBot will eventually enter standby mode, aligning with the conditional_response pattern where a trigger leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature < -25) --> FrostBot.in_standby",
+              "explanation": "This query matches the constraint because it uses the --> operator to represent that when the condition 'temperature < -25\u00b0C' is true, FrostBot will eventually enter standby mode, aligning with the conditional_response pattern where a trigger leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < -25) --> FrostBot.in_standby"
+          },
+          "total_time": 14.867463111877441,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 7.342761993408203,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"resumes\", \"temperature\", \"\u221215\u00b0C\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"temperature > \u221215\u00b0C\",\n  \"response_text\": \"FrostBot resumes\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.861413240432739,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(temperature > -15) --> FrostBot.resumes\",\n  \"explanation\": \"This query matches the constraint because it uses the --> operator to represent an eventual response where, when the temperature exceeds -15\u00b0C, FrostBot resumes, aligning with the conditional_response pattern as seen in similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature > -15) --> FrostBot.resumes",
+              "explanation": "This query matches the constraint because it uses the --> operator to represent an eventual response where, when the temperature exceeds -15\u00b0C, FrostBot resumes, aligning with the conditional_response pattern as seen in similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > -15) --> FrostBot.resumes"
+          },
+          "total_time": 14.233700275421143,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 11.53675889968872,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"performs\", \"vibration\", \"analysis\", \"each\", \"motor\"],\n  \"cues\": []\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.166353940963745,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> FrostBot.vibration_analysis_for_all_motors\",\n  \"explanation\": \"The constraint 'FrostBot performs vibration analysis for each motor' implies that this action must eventually happen for all motors, aligning with the eventual completion pattern, which uses A<> to ensure global liveness.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> FrostBot.vibration_analysis_for_all_motors",
+              "explanation": "The constraint 'FrostBot performs vibration analysis for each motor' implies that this action must eventually happen for all motors, aligning with the eventual completion pattern, which uses A<> to ensure global liveness.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> FrostBot.vibration_analysis_for_all_motors"
+          },
+          "total_time": 23.740984201431274,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "FrostBot logs anomalies for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 15.985376834869385,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"logs\", \"anomalies\", \"motor\"],\n  \"cues\": [],\n  \"trigger_text\": \"anomalies for each motor\",\n  \"response_text\": \"logs\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.572599649429321,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(anomalies_for_motor) --> FrostBot.logs_anomalies\",\n  \"explanation\": \"The constraint 'FrostBot logs anomalies for each motor' implies that when anomalies are detected for a motor, FrostBot eventually logs them, matching the conditional_response pattern where a condition (anomalies) leads to a response (logging).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(anomalies_for_motor) --> FrostBot.logs_anomalies",
+              "explanation": "The constraint 'FrostBot logs anomalies for each motor' implies that when anomalies are detected for a motor, FrostBot eventually logs them, matching the conditional_response pattern where a condition (anomalies) leads to a response (logging).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(anomalies_for_motor) --> FrostBot.logs_anomalies"
+          },
+          "total_time": 27.581645727157593,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Always possible to recover from standby to active",
+          "classification": {
+            "step": "classification",
+            "timing": 9.171072006225586,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"recover\", \"standby\", \"active\", \"always\", \"possible\"],\n  \"cues\": [\"always\", \"possible\"],\n  \"trigger_text\": \"from standby to active\"\n}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.493080854415894,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"E<> active\",\n  \"explanation\": \"The query E<> active checks if it is possible to reach the active state, which aligns with the constraint 'Always possible to recover from standby to active' by verifying the possibility as per the reachability pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}",
+            "uppaal_result": {
+              "query": "E<> active",
+              "explanation": "The query E<> active checks if it is possible to reach the active state, which aligns with the constraint 'Always possible to recover from standby to active' by verifying the possibility as per the reachability pattern.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> active"
+          },
+          "total_time": 23.68381690979004,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "classification": {
+            "step": "classification",
+            "timing": 41.935845136642456,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"FrostBot\", \"warms sensors\", \"30 seconds\", \"before measurements\"],\n  \"cues\": [\"before\", \"30\", \"s\"],\n  \"trigger_text\": \"before measurements\",\n  \"response_text\": \"warms sensors for 30 seconds\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 110.74014806747437,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (FrostBot.measuring --> clock >= 30)\",\n  \"explanation\": \"This query models the constraint by ensuring that whenever FrostBot is in the measuring state, it implies that at least 30 seconds have passed since warming sensors started (assuming clock resets at the start of warming). It uses the '-->' operator for eventual behavior, matching the sequential nature of 'before measurements', and enforces the 30-second warming duration as a time-bounded constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (FrostBot.measuring --> clock >= 30)",
+              "explanation": "This query models the constraint by ensuring that whenever FrostBot is in the measuring state, it implies that at least 30 seconds have passed since warming sensors started (assuming clock resets at the start of warming). It uses the '-->' operator for eventual behavior, matching the sequential nature of 'before measurements', and enforces the 30-second warming duration as a time-bounded constraint.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (FrostBot.measuring --> clock >= 30)"
+          },
+          "total_time": 152.70210790634155,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 27.484912872314453,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"FrostBot\", \"standby\", \"temperature\", \"-25\u00b0C\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"temperature < \u221225\u00b0C\",\n  \"response_text\": \"FrostBot enters standby\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 54.70410490036011,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(temperature < -25) --> FrostBot.standby\",\n  \"explanation\": \"The constraint describes a triggered behavior where temperature below -25\u00b0C causes FrostBot to eventually enter standby, matching the conditional_response pattern with the '-->' operator for eventual response, as seen in similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature < -25) --> FrostBot.standby",
+              "explanation": "The constraint describes a triggered behavior where temperature below -25\u00b0C causes FrostBot to eventually enter standby, matching the conditional_response pattern with the '-->' operator for eventual response, as seen in similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < -25) --> FrostBot.standby"
+          },
+          "total_time": 82.22038984298706,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 27.05002474784851,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"FrostBot\", \"resumes\", \"temperature\", \"-15\u00b0C\", \"when\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"temperature > \\u221215\\u00b0C\",\n  \"response_text\": \"FrostBot resumes\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 43.878998041152954,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(temperature > -15) --> FrostBot.resumes\",\n  \"explanation\": \"This query matches the constraint by following the conditional_response pattern, where the condition 'temperature > -15\u00b0C' triggers the eventual response 'FrostBot resumes', using the '-->' operator for sequential workflows and eventual triggered behavior as specified in the pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature > -15) --> FrostBot.resumes",
+              "explanation": "This query matches the constraint by following the conditional_response pattern, where the condition 'temperature > -15\u00b0C' triggers the eventual response 'FrostBot resumes', using the '-->' operator for sequential workflows and eventual triggered behavior as specified in the pattern.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > -15) --> FrostBot.resumes"
+          },
+          "total_time": 70.95950388908386,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 32.62890005111694,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"FrostBot\", \"vibration analysis\", \"motor\"],\n  \"cues\": []\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 74.71809506416321,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> (forall (m: Motor) FrostBot.has_analyzed(m))\",\n  \"explanation\": \"The constraint 'FrostBot performs vibration analysis for each motor' implies that for every motor, FrostBot must eventually complete the vibration analysis, which is a liveness property. The eventual_completion pattern with A<> operator is used to assert that this condition eventually holds true, matching the pattern's template A<> final_state where final_state represents completion for all motors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (forall (m: Motor) FrostBot.has_analyzed(m))",
+              "explanation": "The constraint 'FrostBot performs vibration analysis for each motor' implies that for every motor, FrostBot must eventually complete the vibration analysis, which is a liveness property. The eventual_completion pattern with A<> operator is used to assert that this condition eventually holds true, matching the pattern's template A<> final_state where final_state represents completion for all motors.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A<> (forall (m: Motor) FrostBot.has_analyzed(m))"
+          },
+          "total_time": 107.37138795852661,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "FrostBot logs anomalies for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 47.946585178375244,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"logs\", \"anomalies\", \"motor\"],\n  \"cues\": [],\n  \"trigger_text\": \"anomaly for a motor\",\n  \"response_text\": \"FrostBot logs the anomaly\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 72.97717618942261,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(Motor.anomalyDetected) --> FrostBot.loggedAnomaly\",\n  \"explanation\": \"The constraint 'FrostBot logs anomalies for each motor' implies a triggered behavior where the detection of an anomaly in any motor (condition) leads to FrostBot eventually logging that anomaly (response). This aligns with the conditional_response pattern, using the '-->' operator to represent the eventual action following the condition, as specified in the pattern template and similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(Motor.anomalyDetected) --> FrostBot.loggedAnomaly",
+              "explanation": "The constraint 'FrostBot logs anomalies for each motor' implies a triggered behavior where the detection of an anomaly in any motor (condition) leads to FrostBot eventually logging that anomaly (response). This aligns with the conditional_response pattern, using the '-->' operator to represent the eventual action following the condition, as specified in the pattern template and similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(Motor.anomalyDetected) --> FrostBot.loggedAnomaly"
+          },
+          "total_time": 120.9342429637909,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Always possible to recover from standby to active",
+          "classification": {
+            "step": "classification",
+            "timing": 55.71151614189148,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"recover\", \"standby\", \"active\", \"possible\"],\n  \"cues\": [\"always\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 71.57250785827637,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"E<> active\",\n  \"explanation\": \"The constraint 'Always possible to recover from standby to active' focuses on checking if the active state is reachable, which aligns with the reachability pattern. The keyword 'possible' and the pattern template indicate using E<> to verify that the state 'active' can be achieved, as per similar examples and decision rules.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}",
+            "uppaal_result": {
+              "query": "E<> active",
+              "explanation": "The constraint 'Always possible to recover from standby to active' focuses on checking if the active state is reachable, which aligns with the reachability pattern. The keyword 'possible' and the pattern template indicate using E<> to verify that the state 'active' can be achieved, as per similar examples and decision rules.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> active"
+          },
+          "total_time": 127.31054210662842,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1242001056671143,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"frostbot\",\n    \"sensors\",\n    \"warm\",\n    \"measurements\",\n    \"time\",\n    \"duration\"\n  ],\n  \"cues\": [\n    \"before\"\n  ],\n  \"trigger_text\": \"measurements\",\n  \"response_text\": \"FrostBot warms sensors for 30 s\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2256219387054443,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (FrostBot.warming_sensors --> clock <= 30)\",\n  \"explanation\": \"The constraint 'FrostBot warms sensors for 30 s before measurements' describes a time-bounded response. The system MUST start the measurement process within 30 seconds of starting to warm up the sensors. 'A[]' ensures it always happens, 'FrostBot.warming_sensors' is the state of warming sensors, and 'clock <= 30' sets the upper time bound for the duration.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (FrostBot.warming_sensors --> clock <= 30)",
+              "explanation": "The constraint 'FrostBot warms sensors for 30 s before measurements' describes a time-bounded response. The system MUST start the measurement process within 30 seconds of starting to warm up the sensors. 'A[]' ensures it always happens, 'FrostBot.warming_sensors' is the state of warming sensors, and 'clock <= 30' sets the upper time bound for the duration.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (FrostBot.warming_sensors --> clock <= 30)"
+          },
+          "total_time": 2.369434118270874,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9415478706359863,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"temperature\", \"standby\", \"FrostBot\", \"conditional\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"temperature < \u221225\u00b0C\",\n  \"response_text\": \"FrostBot enters standby\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.1683151721954346,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature < -25) --> FrostBot.standby\",\n  \"explanation\": \"The constraint specifies that when the temperature is less than -25\u00b0C, the FrostBot eventually enters standby. This matches the 'conditional_response' pattern, where the temperature condition triggers the eventual response of the FrostBot entering the standby state. The '-->' operator is appropriate because it represents an eventual response, not an immediate one.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature < -25) --> FrostBot.standby",
+              "explanation": "The constraint specifies that when the temperature is less than -25\u00b0C, the FrostBot eventually enters standby. This matches the 'conditional_response' pattern, where the temperature condition triggers the eventual response of the FrostBot entering the standby state. The '-->' operator is appropriate because it represents an eventual response, not an immediate one.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < -25) --> FrostBot.standby"
+          },
+          "total_time": 2.1349668502807617,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7262380123138428,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"FrostBot\", \"resume\", \"temperature\", \"greater than\"],\n  \"cues\": [\">\", \"when\"],\n  \"trigger_text\": \"temperature > \u221215\u00b0C\",\n  \"response_text\": \"FrostBot resumes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2294111251831055,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature > -15) --> FrostBot.resumes\",\n  \"explanation\": \"The constraint 'FrostBot resumes when temperature > \u221215\u00b0C' matches the 'conditional_response' pattern where a condition (temperature > -15) leads to an eventual response (FrostBot resumes). The '-->' operator captures the eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature > -15) --> FrostBot.resumes",
+              "explanation": "The constraint 'FrostBot resumes when temperature > \u221215\u00b0C' matches the 'conditional_response' pattern where a condition (temperature > -15) leads to an eventual response (FrostBot resumes). The '-->' operator captures the eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > -15) --> FrostBot.resumes"
+          },
+          "total_time": 1.9821078777313232,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7780652046203613,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"vibration analysis\",\n    \"motor\",\n    \"FrostBot\",\n    \"perform\"\n  ],\n  \"cues\": [\n    \"each\"\n  ],\n  \"trigger_text\": \"motor\",\n  \"response_text\": \"vibration analysis\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4651153087615967,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> FrostBot.vibrationAnalysisDone\",\n  \"explanation\": \"The constraint 'FrostBot performs vibration analysis for each motor' indicates that vibration analysis must eventually be performed. This aligns with the 'eventual_completion' pattern, suggesting the use of A<> to denote that 'FrostBot.vibrationAnalysisDone' must eventually become true.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> FrostBot.vibrationAnalysisDone",
+              "explanation": "The constraint 'FrostBot performs vibration analysis for each motor' indicates that vibration analysis must eventually be performed. This aligns with the 'eventual_completion' pattern, suggesting the use of A<> to denote that 'FrostBot.vibrationAnalysisDone' must eventually become true.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> FrostBot.vibrationAnalysisDone"
+          },
+          "total_time": 2.260312080383301,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "FrostBot logs anomalies for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1595299243927002,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"log\", \"anomalies\", \"FrostBot\", \"motor\"],\n  \"cues\": [\"for each\"],\n  \"trigger_text\": \"motor\",\n  \"response_text\": \"FrostBot logs anomalies\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4036509990692139,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> FrostBot.log_anomalies\",\n  \"explanation\": \"The constraint states that 'FrostBot logs anomalies' must eventually happen for each motor. The 'eventual_completion' pattern with the A<> operator captures the requirement that 'FrostBot.log_anomalies' will eventually be true. Because there is only one possible outcome and it must happen, this query accurately represents the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> FrostBot.log_anomalies",
+              "explanation": "The constraint states that 'FrostBot logs anomalies' must eventually happen for each motor. The 'eventual_completion' pattern with the A<> operator captures the requirement that 'FrostBot.log_anomalies' will eventually be true. Because there is only one possible outcome and it must happen, this query accurately represents the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> FrostBot.log_anomalies"
+          },
+          "total_time": 2.5864977836608887,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Always possible to recover from standby to active",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0271806716918945,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"recover\", \"standby\", \"active\", \"possible\"],\n  \"cues\": [\"always\"],\n  \"trigger_text\": \"standby\",\n  \"response_text\": \"active\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.011688232421875,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] standby imply E<> active\",\n  \"explanation\": \"The constraint states that it is 'always possible' to recover from 'standby' to 'active'. 'Always' maps to A[]. The 'possible' part maps to E<>. 'Recover from standby to active' can be expressed using the 'imply' operator, meaning that if we are in standby state, then it is possible to eventually reach active state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] standby imply E<> active",
+              "explanation": "The constraint states that it is 'always possible' to recover from 'standby' to 'active'. 'Always' maps to A[]. The 'possible' part maps to E<>. 'Recover from standby to active' can be expressed using the 'imply' operator, meaning that if we are in standby state, then it is possible to eventually reach active state.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] standby imply E<> active"
+          },
+          "total_time": 2.0573978424072266,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "classification": {
+            "step": "classification",
+            "timing": 7.500266075134277,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"FrostBot\",\n    \"warms\",\n    \"sensors\",\n    \"measurements\"\n  ],\n  \"cues\": [\n    \"for\",\n    \"s\",\n    \"before\"\n  ],\n  \"trigger_text\": \"measurements\",\n  \"response_text\": \"FrostBot warms sensors for 30 s\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.419655084609985,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"FrostBot.warming --> FrostBot.taking_measurements\",\n  \"explanation\": \"The constraint \\\"FrostBot warms sensors for 30 s before measurements\\\" describes a sequential workflow. The action 'warming' must be followed by the action 'taking_measurements'. The `-->` (leads to) operator correctly models this relationship, ensuring that whenever the system is in the `FrostBot.warming` state, it must eventually transition to the `FrostBot.taking_measurements` state. The 30s duration is a property of the warming state itself, which would be modeled in the automaton, while the query verifies the sequence.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "FrostBot.warming --> FrostBot.taking_measurements",
+              "explanation": "The constraint \"FrostBot warms sensors for 30 s before measurements\" describes a sequential workflow. The action 'warming' must be followed by the action 'taking_measurements'. The `-->` (leads to) operator correctly models this relationship, ensuring that whenever the system is in the `FrostBot.warming` state, it must eventually transition to the `FrostBot.taking_measurements` state. The 30s duration is a property of the warming state itself, which would be modeled in the automaton, while the query verifies the sequence.",
+              "confidence": 0.95,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "FrostBot.warming --> FrostBot.taking_measurements"
+          },
+          "total_time": 21.946261882781982,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 6.162385940551758,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"FrostBot\",\n    \"standby\",\n    \"temperature\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"<\"\n  ],\n  \"trigger_text\": \"temperature < \u221225\u00b0C\",\n  \"response_text\": \"FrostBot enters standby\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.767853021621704,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature < -25) --> FrostBot.standby\",\n  \"explanation\": \"The constraint describes a conditional response: when a condition is met (temperature < -25\u00b0C), an eventual action must occur (FrostBot enters standby). The '-->' (leads to) operator correctly models this relationship, verifying that if the system is ever in a state where 'temperature < -25' is true, it must eventually reach a state where 'FrostBot.standby' is true.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature < -25) --> FrostBot.standby",
+              "explanation": "The constraint describes a conditional response: when a condition is met (temperature < -25\u00b0C), an eventual action must occur (FrostBot enters standby). The '-->' (leads to) operator correctly models this relationship, verifying that if the system is ever in a state where 'temperature < -25' is true, it must eventually reach a state where 'FrostBot.standby' is true.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature < -25) --> FrostBot.standby"
+          },
+          "total_time": 20.947089910507202,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 6.829626798629761,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"FrostBot\",\n    \"resumes\",\n    \"temperature\"\n  ],\n  \"cues\": [\n    \"when\",\n    \">\"\n  ],\n  \"trigger_text\": \"temperature > \u221215\u00b0C\",\n  \"response_text\": \"FrostBot resumes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.070107221603394,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature > -15) --> FrostBot.Resumed\",\n  \"explanation\": \"This query uses the 'leads-to' operator (-->) to model the conditional response. It verifies that whenever the condition 'temperature > -15' becomes true, it is inevitably followed by the system reaching a state where 'FrostBot.Resumed' is true, capturing the causal relationship described.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature > -15) --> FrostBot.Resumed",
+              "explanation": "This query uses the 'leads-to' operator (-->) to model the conditional response. It verifies that whenever the condition 'temperature > -15' becomes true, it is inevitably followed by the system reaching a state where 'FrostBot.Resumed' is true, capturing the causal relationship described.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > -15) --> FrostBot.Resumed"
+          },
+          "total_time": 16.92917227745056,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 7.812785863876343,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"vibration analysis\",\n    \"motor\",\n    \"for each\"\n  ],\n  \"cues\": [\n    \"for each\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.859940767288208,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> FrostBot.VibrationAnalysisComplete\",\n  \"explanation\": \"The constraint \\\"FrostBot performs vibration analysis for each motor\\\" is a liveness property, requiring that a task must eventually finish. The `A<>` (Always Eventually) operator correctly checks that on all possible execution paths, the system will eventually reach the state `FrostBot.VibrationAnalysisComplete`, which represents the successful completion of the analysis for all motors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> FrostBot.VibrationAnalysisComplete",
+              "explanation": "The constraint \"FrostBot performs vibration analysis for each motor\" is a liveness property, requiring that a task must eventually finish. The `A<>` (Always Eventually) operator correctly checks that on all possible execution paths, the system will eventually reach the state `FrostBot.VibrationAnalysisComplete`, which represents the successful completion of the analysis for all motors.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> FrostBot.VibrationAnalysisComplete"
+          },
+          "total_time": 20.703155994415283,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "FrostBot logs anomalies for each motor",
+          "classification": {
+            "step": "classification",
+            "timing": 14.321010828018188,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"logs\",\n    \"anomalies\",\n    \"motor\"\n  ],\n  \"cues\": [],\n  \"trigger_text\": \"anomalies for each motor\",\n  \"response_text\": \"FrostBot logs\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 30.222838163375854,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Motor.AnomalyDetected --> FrostBot.Logging\",\n  \"explanation\": \"This query uses the 'leads to' operator (-->) to verify that whenever a motor signals an anomaly (e.g., enters the `Motor.AnomalyDetected` state), the FrostBot must eventually handle it (e.g., enter the `FrostBot.Logging` state). This enforces the eventual completion of the logging task in response to a detected anomaly.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "Motor.AnomalyDetected --> FrostBot.Logging",
+              "explanation": "This query uses the 'leads to' operator (-->) to verify that whenever a motor signals an anomaly (e.g., enters the `Motor.AnomalyDetected` state), the FrostBot must eventually handle it (e.g., enter the `FrostBot.Logging` state). This enforces the eventual completion of the logging task in response to a detected anomaly.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Motor.AnomalyDetected --> FrostBot.Logging"
+          },
+          "total_time": 44.570083141326904,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Always possible to recover from standby to active",
+          "classification": {
+            "step": "classification",
+            "timing": 11.943063020706177,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\n    \"possible\",\n    \"recover\",\n    \"standby\",\n    \"active\"\n  ],\n  \"cues\": [\n    \"always\",\n    \"possible\"\n  ],\n  \"trigger_text\": \"from standby\",\n  \"response_text\": \"recover to active\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.079949140548706,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (System.Standby --> E<> System.Active)\",\n  \"explanation\": \"This query checks that it is always (`A[]`) the case that if the system is in the `Standby` state, then (`-->`) it is possible (`E<>`) to eventually reach the `Active` state. This structure directly models the conditional reachability requirement 'Always possible to recover from standby to active'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (System.Standby --> E<> System.Active)",
+              "explanation": "This query checks that it is always (`A[]`) the case that if the system is in the `Standby` state, then (`-->`) it is possible (`E<>`) to eventually reach the `Active` state. This structure directly models the conditional reachability requirement 'Always possible to recover from standby to active'.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (System.Standby --> E<> System.Active)"
+          },
+          "total_time": 29.062420129776,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,313 @@
+{
+  "id": "scenario_014",
+  "domain": "construction",
+  "prompt": "A maintenance drone inspects bridge cables while a repair robot seals cracks. The repair robot must wait until the inspection of the cable segment is completed. Both must stop if vibration exceeds threshold 5.0 g.",
+  "robots": [
+    "InspectionDrone",
+    "RepairBot"
+  ],
+  "constraints": [
+    "RepairBot starts after InspectionDrone finishes inspection",
+    "InspectionDrone stop when vibration exceeds 5 g",
+    "RepairBot stop when vibration exceeds 5 g"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.7940540313720703,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 7.14936900138855,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 12.595922946929932,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.9375150203704834,
+      "tokens": 746,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.124830961227417,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.5370171070098877,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 21.55536389350891,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 9.780267000198364,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 81.88409495353699,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.351975917816162,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 9.601786851882935,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

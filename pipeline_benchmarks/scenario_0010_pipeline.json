@@ -1,0 +1,1347 @@
+{
+  "id": "scenario_0010",
+  "domain": "logistics",
+  "prompt": "A restocking AMR refills shelves while a drone verifies stock levels. The drone can only scan shelves when the AMR is idle. Both must stop if any obstacle is detected within 1 meters.",
+  "robots": [
+    "Amr",
+    "Drone"
+  ],
+  "constraints": [
+    "StockDrone scans only when RestockAMR is idle",
+    "Amr must stop if any obstacle is detected within 1 meters",
+    "Drone must stop if any obstacle is detected within 1 meters"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "classification": {
+            "step": "classification",
+            "timing": 1.6616182327270508,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"StockDrone\",\"RestockAMR\",\"scans\",\"idle\",\"only when\",\"coordination\",\"dependency\"],\"cues\":[\"only\",\"when\"],\"trigger_text\":\"RestockAMR is idle\",\"response_text\":\"StockDrone scans\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.239811658859253,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(StockDrone.scanning) --> (RestockAMR.idle)\",\"explanation\":\"The constraint says that whenever StockDrone scans, RestockAMR must be idle at that time. Interpreting this under the provided conditional_response template, we treat the (possibly recurring) condition of StockDrone being in a scanning state as the trigger, and require that the corresponding RestockAMR.idle condition holds whenever that trigger occurs. The query uses the same pattern form condition --> response, aligning with the given pattern instructions and examples.\",\"confidence\":0.7,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(StockDrone.scanning) --> (RestockAMR.idle)",
+              "explanation": "The constraint says that whenever StockDrone scans, RestockAMR must be idle at that time. Interpreting this under the provided conditional_response template, we treat the (possibly recurring) condition of StockDrone being in a scanning state as the trigger, and require that the corresponding RestockAMR.idle condition holds whenever that trigger occurs. The query uses the same pattern form condition --> response, aligning with the given pattern instructions and examples.",
+              "confidence": 0.7,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(StockDrone.scanning) --> (RestockAMR.idle)"
+          },
+          "total_time": 3.9180479049682617,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 2.0020880699157715,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"stop\",\"obstacle\",\"detected\",\"within 1 meters\",\"safety\",\"must\"],\"cues\":[\"must\",\"if\",\"within\",\"<\"],\"trigger_text\":\"any obstacle is detected within 1 meters\",\"response_text\":\"Amr must stop\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.339815855026245,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (Obstacle.distance < 1 && Amr.moving)\",\"explanation\":\"The constraint says Amr must not be moving when any obstacle is detected within 1 meter. Using the forbidden_state pattern, we forbid the state where an obstacle is closer than 1 meter and Amr is still moving. This is expressed as a safety property that is always true with A[] and a negated conjunction of the unsafe conditions.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\",\"&&\",\"<\"]}",
+            "uppaal_result": {
+              "query": "A[] not (Obstacle.distance < 1 && Amr.moving)",
+              "explanation": "The constraint says Amr must not be moving when any obstacle is detected within 1 meter. Using the forbidden_state pattern, we forbid the state where an obstacle is closer than 1 meter and Amr is still moving. This is expressed as a safety property that is always true with A[] and a negated conjunction of the unsafe conditions.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not",
+                "&&",
+                "<"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Obstacle.distance < 1 && Amr.moving)"
+          },
+          "total_time": 4.361246109008789,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 2.502629041671753,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"drone\",\"stop\",\"obstacle\",\"detected\",\"within 1 meters\",\"collision avoidance\",\"safety\"],\"cues\":[\"must\",\"if\",\"within\",\"<\"],\"trigger_text\":\"any obstacle is detected within 1 meters\",\"response_text\":\"drone stops\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.0142858028411865,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (ObstacleDetector.distance < 1 && Drone.moving)\",\"explanation\":\"The constraint says the drone must not be moving whenever an obstacle is detected within 1 meter. This is modeled as a forbidden state: it is never allowed that the obstacle distance is less than 1 while the drone is moving. The query `A[] not (ObstacleDetector.distance < 1 && Drone.moving)` expresses that in all reachable states, this combination (obstacle closer than 1m AND drone moving) must never occur.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (ObstacleDetector.distance < 1 && Drone.moving)",
+              "explanation": "The constraint says the drone must not be moving whenever an obstacle is detected within 1 meter. This is modeled as a forbidden state: it is never allowed that the obstacle distance is less than 1 while the drone is moving. The query `A[] not (ObstacleDetector.distance < 1 && Drone.moving)` expresses that in all reachable states, this combination (obstacle closer than 1m AND drone moving) must never occur.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ObstacleDetector.distance < 1 && Drone.moving)"
+          },
+          "total_time": 5.549729108810425,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "classification": {
+            "step": "classification",
+            "timing": 9.196556091308594,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"StockDrone\",\"RestockAMR\",\"idle\",\"scan\",\"only when\",\"only\",\"when\",\"if\",\"allowed\"],\"cues\":[\"when\",\"only\",\"idle\",\"scan\",\"if\",\"never\"],\"trigger_text\":\"RestockAMR is idle\",\"response_text\":\"StockDrone may scan\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.138028621673584,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(RestockAMR.idle) --> StockDrone.scan\",\n  \"explanation\": \"Follows the conditional_response pattern: when the trigger condition 'RestockAMR is idle' holds, the query states the eventual allowed response 'StockDrone.scan'. This encodes that RestockAMR being idle enables (triggers) StockDrone to perform a scan.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(RestockAMR.idle) --> StockDrone.scan",
+              "explanation": "Follows the conditional_response pattern: when the trigger condition 'RestockAMR is idle' holds, the query states the eventual allowed response 'StockDrone.scan'. This encodes that RestockAMR being idle enables (triggers) StockDrone to perform a scan.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(RestockAMR.idle) --> StockDrone.scan"
+          },
+          "total_time": 24.358994960784912,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 7.353469133377075,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"stop\",\"obstacle\",\"detected\",\"within\",\"1\",\"meter\",\"meters\",\"must\",\"if\",\"Amr\"],\"cues\":[\"if\",\"must\",\"within\",\"1\",\"meters\",\"obstacle\",\"stop\"],\"trigger_text\":\"obstacle is detected within 1 meters\",\"response_text\":\"Amr must stop\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.209131002426147,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)\",\"explanation\":\"This encodes: whenever an obstacle is detected within 1 meter of Amr (Amr.obstacle_detected_within_1m), Amr must be in the stopped state immediately. A[] enforces the property globally, and 'imply' requires the safety action (Amr.stopped) to hold in the same state as the trigger.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)",
+              "explanation": "This encodes: whenever an obstacle is detected within 1 meter of Amr (Amr.obstacle_detected_within_1m), Amr must be in the stopped state immediately. A[] enforces the property globally, and 'imply' requires the safety action (Amr.stopped) to hold in the same state as the trigger.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)"
+          },
+          "total_time": 17.585602045059204,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 8.087262153625488,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"stop\",\"obstacle\",\"detected\",\"within 1 meter\",\"must\",\"distance\",\"1 m\"],\"cues\":[\"if\",\"when\",\"must\",\"stop\",\"within\",\"meter\",\"meters\",\"detected\",\"<\",\"<=\"],\"trigger_text\":\"any obstacle is detected within 1 meters\",\"response_text\":\"Drone must stop\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.911303997039795,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Drone.obstacle_detected && Drone.distance <= 1 imply Drone.stopped)\",\"explanation\":\"This is a safety immediate-response property: always (A[]) if any obstacle is detected and its distance is <= 1 meter, then the Drone must be in the stopped state immediately (imply). It enforces an instantaneous stop when the trigger condition holds.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (Drone.obstacle_detected && Drone.distance <= 1 imply Drone.stopped)",
+              "explanation": "This is a safety immediate-response property: always (A[]) if any obstacle is detected and its distance is <= 1 meter, then the Drone must be in the stopped state immediately (imply). It enforces an instantaneous stop when the trigger condition holds.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Drone.obstacle_detected && Drone.distance <= 1 imply Drone.stopped)"
+          },
+          "total_time": 18.024569749832153,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "classification": {
+            "step": "classification",
+            "timing": 14.831415891647339,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"StockDrone\",\"scans\",\"RestockAMR\",\"idle\",\"conditional\",\"precondition\"],\"cues\":[\"when\"],\"trigger_text\":\"StockDrone scans only when RestockAMR is idle\",\"response_text\":\"StockDrone scans\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 22.610844135284424,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"RestockAMR.idle --> StockDrone.scans\",\"explanation\":\"The constraint states that StockDrone scans only when RestockAMR is idle, i.e., whenever RestockAMR is idle, StockDrone performs the scans (eventually). This is modeled as RestockAMR.idle implying the eventual StockDrone.scans.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "RestockAMR.idle --> StockDrone.scans",
+              "explanation": "The constraint states that StockDrone scans only when RestockAMR is idle, i.e., whenever RestockAMR is idle, StockDrone performs the scans (eventually). This is modeled as RestockAMR.idle implying the eventual StockDrone.scans.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "RestockAMR.idle --> StockDrone.scans"
+          },
+          "total_time": 37.468185901641846,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 13.39070200920105,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"safety\",\"stop\",\"obstacle\",\"sensor\",\"distance\",\"1 meter\",\"immediate\"],\"cues\":[\"if\",\"when\",\"then\",\"within\",\"meters\",\"must\",\"stop\",\"immediately\",\"detect\",\"obstacle\"],\"trigger_text\":\"if obstacle detected within 1 meter\",\"response_text\":\"stop immediately\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 24.03759479522705,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] ((Amr.obstacle_detected && Amr.distance_to_obstacle <= 1) imply Amr.stopped)\",\"explanation\":\"Maps 'Amr must stop if any obstacle is detected within 1 meter' to a universal property with an immediate implication: whenever the trigger (obstacle detected within 1 m) is true, the action (stopped) must be true now. Uses A[] and imply as in the safety_immediate_response pattern.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] ((Amr.obstacle_detected && Amr.distance_to_obstacle <= 1) imply Amr.stopped)",
+              "explanation": "Maps 'Amr must stop if any obstacle is detected within 1 meter' to a universal property with an immediate implication: whenever the trigger (obstacle detected within 1 m) is true, the action (stopped) must be true now. Uses A[] and imply as in the safety_immediate_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] ((Amr.obstacle_detected && Amr.distance_to_obstacle <= 1) imply Amr.stopped)"
+          },
+          "total_time": 37.45751190185547,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 10.53589129447937,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"drone\",\"obstacle\",\"stop\",\"immediate\",\"distance\",\"sensor\",\"safety\"],\"cues\":[\"must\",\"if\",\"within\",\"meters\",\"obstacle\",\"stop\"],\"trigger_text\":\"if obstacle detected within 1 meters\",\"response_text\":\"stop the drone immediately\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.39225125312805,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)\",\"explanation\":\"Encodes an immediate safety rule: when an obstacle is detected within 1 meter, the drone must stop immediately. It follows the template A[] (trigger_condition imply safety_action) for the safety_immediate_response pattern.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)",
+              "explanation": "Encodes an immediate safety rule: when an obstacle is detected within 1 meter, the drone must stop immediately. It follows the template A[] (trigger_condition imply safety_action) for the safety_immediate_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)"
+          },
+          "total_time": 29.950302839279175,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8057479858398438,
+            "tokens": 193,
+            "raw_text": "{\n    \"pattern\": \"conditional_response\",\n    \"keywords\": [\"scans\", \"idle\"],\n    \"cues\": [\"only when\"],\n    \"trigger_text/response_text\": {\n        \"trigger_text\": \"RestockAMR is idle\",\n        \"response_text\": \"StockDrone scans\"\n    }\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.0383670330047607,
+            "tokens": 569,
+            "raw_text": "{\n  \"query\": \"RestockAMR.idle --> StockDrone.scans\",\n  \"explanation\": \"The constraint 'StockDrone scans only when RestockAMR is idle' fits the conditional_response pattern, where the condition is RestockAMR being idle, and the eventual response is StockDrone performing scans. The '-->' operator is used to represent this eventual triggered behavior, aligning with the pattern's template for sequential workflows.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "RestockAMR.idle --> StockDrone.scans",
+              "explanation": "The constraint 'StockDrone scans only when RestockAMR is idle' fits the conditional_response pattern, where the condition is RestockAMR being idle, and the eventual response is StockDrone performing scans. The '-->' operator is used to represent this eventual triggered behavior, aligning with the pattern's template for sequential workflows.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "RestockAMR.idle --> StockDrone.scans"
+          },
+          "total_time": 4.8699939250946045,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 2.7250149250030518,
+            "tokens": 176,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"stop\", \"obstacle\", \"detected\", \"within\", \"meters\"],\n    \"cues\": [\"must\", \"if\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.845258951187134,
+            "tokens": 679,
+            "raw_text": "{\n  \"query\": \"A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)\",\n  \"explanation\": \"The query follows the 'safety_immediate_response' pattern, which requires an immediate action when a trigger condition is met. Here, the condition is the detection of an obstacle within 1 meter, and the immediate response is for Amr to stop. The 'imply' operator is used to ensure that the response is instantaneous, as required by the pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)",
+              "explanation": "The query follows the 'safety_immediate_response' pattern, which requires an immediate action when a trigger condition is met. Here, the condition is the detection of an obstacle within 1 meter, and the immediate response is for Amr to stop. The 'imply' operator is used to ensure that the response is instantaneous, as required by the pattern.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)"
+          },
+          "total_time": 5.591504096984863,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 1.470555067062378,
+            "tokens": 175,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stop\", \"obstacle\", \"detected\", \"within 1 meters\"],\n  \"cues\": [\"must\", \"if\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5589728355407715,
+            "tokens": 654,
+            "raw_text": "{\n  \"query\": \"A[] (Drone.obstacle_detected_within_1_meter imply Drone.stopped)\",\n  \"explanation\": \"The query follows the 'safety_immediate_response' pattern, ensuring that if an obstacle is detected within 1 meter, the drone must stop immediately. The 'imply' operator is used to enforce an immediate response, as required by the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Drone.obstacle_detected_within_1_meter imply Drone.stopped)",
+              "explanation": "The query follows the 'safety_immediate_response' pattern, ensuring that if an obstacle is detected within 1 meter, the drone must stop immediately. The 'imply' operator is used to enforce an immediate response, as required by the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Drone.obstacle_detected_within_1_meter imply Drone.stopped)"
+          },
+          "total_time": 3.0738139152526855,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "classification": {
+            "step": "classification",
+            "timing": 4.379525899887085,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"StockDrone\", \"scans\", \"RestockAMR\", \"idle\", \"only when\"],\n  \"cues\": [\"only\", \"when\"],\n  \"trigger_text\": \"RestockAMR is idle\",\n  \"response_text\": \"StockDrone scans\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.4099509716033936,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] StockDrone.scanning imply RestockAMR.idle\",\n  \"explanation\": \"The constraint 'only when' means StockDrone can scan if and only if RestockAMR is idle. This is a same-state condition requiring immediate verification, so we use A[] with imply rather than -->. Whenever StockDrone is in scanning state, RestockAMR must be in idle state.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] StockDrone.scanning imply RestockAMR.idle",
+              "explanation": "The constraint 'only when' means StockDrone can scan if and only if RestockAMR is idle. This is a same-state condition requiring immediate verification, so we use A[] with imply rather than -->. Whenever StockDrone is in scanning state, RestockAMR must be in idle state.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] StockDrone.scanning imply RestockAMR.idle"
+          },
+          "total_time": 10.807605028152466,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 3.4162209033966064,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stop\", \"obstacle\", \"detected\", \"within\", \"meters\"],\n  \"cues\": [\"must\", \"if\", \"within\", \"<\"],\n  \"trigger_text\": \"obstacle is detected within 1 meters\",\n  \"response_text\": \"Amr must stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.771070957183838,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Amr.obstacle_distance < 1 imply Amr.stopped)\",\n  \"explanation\": \"This query ensures that whenever an obstacle is detected within 1 meter (obstacle_distance < 1), the Amr must be in a stopped state immediately. The A[] operator checks this property holds in all reachable states, and 'imply' enforces the immediate response without any delay, matching the safety requirement.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Amr.obstacle_distance < 1 imply Amr.stopped)",
+              "explanation": "This query ensures that whenever an obstacle is detected within 1 meter (obstacle_distance < 1), the Amr must be in a stopped state immediately. The A[] operator checks this property holds in all reachable states, and 'imply' enforces the immediate response without any delay, matching the safety requirement.",
+              "confidence": 0.9,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Amr.obstacle_distance < 1 imply Amr.stopped)"
+          },
+          "total_time": 8.213582754135132,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 3.450050115585327,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"drone\", \"stop\", \"obstacle\", \"detected\", \"within\", \"1 meters\"],\n  \"cues\": [\"must\", \"if\", \"within\"],\n  \"trigger_text\": \"obstacle is detected within 1 meters\",\n  \"response_text\": \"drone must stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.4785590171813965,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)\",\n  \"explanation\": \"This query uses the safety_immediate_response pattern to ensure that whenever an obstacle is detected within 1 meter (trigger condition), the drone must immediately be in a stopped state (safety action). The A[] operator ensures this property holds in all states, and 'imply' enforces the immediate same-state response with no delay allowed.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)",
+              "explanation": "This query uses the safety_immediate_response pattern to ensure that whenever an obstacle is detected within 1 meter (trigger condition), the drone must immediately be in a stopped state (safety action). The A[] operator ensures this property holds in all states, and 'imply' enforces the immediate same-state response with no delay allowed.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)"
+          },
+          "total_time": 7.951037168502808,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "classification": {
+            "step": "classification",
+            "timing": 1.330920934677124,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"scans\",\n    \"idle\",\n    \"only when\",\n    \"conditional activation\"\n  ],\n  \"cues\": [\n    \"only when\"\n  ],\n  \"trigger_text\": \"RestockAMR is idle\",\n  \"response_text\": \"StockDrone scans\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.97953200340271,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"RestockAMR.idle --> StockDrone.scans\",\n  \"explanation\": \"The constraint 'StockDrone scans only when RestockAMR is idle' expresses a conditional response pattern where the idle state of RestockAMR is the condition that triggers the scanning behavior of StockDrone. The '-->' operator captures the sequential/eventual relationship: when RestockAMR becomes idle, StockDrone will eventually scan. This matches the conditional_response pattern where a condition leads to an eventual response.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "RestockAMR.idle --> StockDrone.scans",
+              "explanation": "The constraint 'StockDrone scans only when RestockAMR is idle' expresses a conditional response pattern where the idle state of RestockAMR is the condition that triggers the scanning behavior of StockDrone. The '-->' operator captures the sequential/eventual relationship: when RestockAMR becomes idle, StockDrone will eventually scan. This matches the conditional_response pattern where a condition leads to an eventual response.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "RestockAMR.idle --> StockDrone.scans"
+          },
+          "total_time": 5.334212064743042,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 2.536781072616577,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stop\", \"obstacle\", \"detected\", \"immediate\"],\n  \"cues\": [\"must\", \"if\", \"within\"],\n  \"trigger_text\": \"any obstacle is detected within 1 meters\",\n  \"response_text\": \"must stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9287328720092773,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Amr.obstacle_detected imply Amr.stopped)\",\n  \"explanation\": \"The constraint requires an immediate stop response when an obstacle is detected within 1 meter. This is a safety_immediate_response pattern where the trigger (obstacle_detected) must immediately cause the response (stopped) in the same state. The A[] operator ensures this safety property holds at all times, and 'imply' captures the immediate causality with no delay allowed.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Amr.obstacle_detected imply Amr.stopped)",
+              "explanation": "The constraint requires an immediate stop response when an obstacle is detected within 1 meter. This is a safety_immediate_response pattern where the trigger (obstacle_detected) must immediately cause the response (stopped) in the same state. The A[] operator ensures this safety property holds at all times, and 'imply' captures the immediate causality with no delay allowed.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Amr.obstacle_detected imply Amr.stopped)"
+          },
+          "total_time": 4.490483999252319,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3616609573364258,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stop\", \"obstacle\", \"detected\", \"must\"],\n  \"cues\": [\"must\", \"if\", \"within\"],\n  \"trigger_text\": \"any obstacle is detected within 1 meters\",\n  \"response_text\": \"Drone must stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.703951120376587,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)\",\n  \"explanation\": \"The constraint requires immediate stopping when an obstacle is detected within 1 meter. This is a safety property that must always hold\u2014whenever the trigger condition (obstacle detected within 1m) becomes true, the response (drone stopped) must be true in the same state. The A[] operator ensures this holds universally across all states, and 'imply' enforces the immediate (synchronous) relationship required by the 'must stop if' phrasing.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)",
+              "explanation": "The constraint requires immediate stopping when an obstacle is detected within 1 meter. This is a safety property that must always hold\u2014whenever the trigger condition (obstacle detected within 1m) becomes true, the response (drone stopped) must be true in the same state. The A[] operator ensures this holds universally across all states, and 'imply' enforces the immediate (synchronous) relationship required by the 'must stop if' phrasing.",
+              "confidence": 0.92,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)"
+          },
+          "total_time": 4.083069324493408,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "classification": {
+            "step": "classification",
+            "timing": 8.814920902252197,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"scans\", \"idle\"], \"cues\": [\"only\", \"when\"], \"trigger_text\": \"RestockAMR is idle\", \"response_text\": \"StockDrone scans\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.96613097190857,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(RestockAMR.idle) --> StockDrone.scans\", \"explanation\": \"The constraint specifies that StockDrone scans only when RestockAMR is idle, which matches the conditional_response pattern where the condition (RestockAMR.idle) leads to the eventual response (StockDrone.scans) using the --> operator.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(RestockAMR.idle) --> StockDrone.scans",
+              "explanation": "The constraint specifies that StockDrone scans only when RestockAMR is idle, which matches the conditional_response pattern where the condition (RestockAMR.idle) leads to the eventual response (StockDrone.scans) using the --> operator.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(RestockAMR.idle) --> StockDrone.scans"
+          },
+          "total_time": 21.8032488822937,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 13.513871669769287,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"stop\", \"obstacle\", \"detected\"], \"cues\": [\"must\", \"if\"], \"trigger_text\": \"any obstacle is detected within 1 meters\", \"response_text\": \"Amr must stop\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.153456211090088,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)\", \"explanation\": \"The query uses the safety_immediate_response pattern to ensure that whenever an obstacle is detected within 1 meter, Amr is immediately stopped, as required by the constraint.\", \"confidence\": 0.85, \"pattern_used\": \"safety_immediate_response\", \"operator_used\": [\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)",
+              "explanation": "The query uses the safety_immediate_response pattern to ensure that whenever an obstacle is detected within 1 meter, Amr is immediately stopped, as required by the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)"
+          },
+          "total_time": 32.69127082824707,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 12.53736400604248,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"drone\", \"stop\", \"obstacle\", \"detected\", \"meters\"], \"cues\": [\"must\", \"if\"], \"trigger_text\": \"any obstacle is detected within 1 meters\", \"response_text\": \"Drone must stop\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.265432834625244,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)\", \"explanation\": \"The query uses the safety_immediate_response pattern with A[] and imply to ensure that if an obstacle is detected within 1 meter, the drone stops immediately in the same state, matching the constraint's requirement for an immediate safety response.\", \"confidence\": 0.85, \"pattern_used\": \"safety_immediate_response\", \"operator_used\": [\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)",
+              "explanation": "The query uses the safety_immediate_response pattern with A[] and imply to ensure that if an obstacle is detected within 1 meter, the drone stops immediately in the same state, matching the constraint's requirement for an immediate safety response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)"
+          },
+          "total_time": 27.829665899276733,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "classification": {
+            "step": "classification",
+            "timing": 6.919503211975098,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"scans\", \"idle\", \"when\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"RestockAMR is idle\",\n  \"response_text\": \"StockDrone scans\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.68690800666809,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(RestockAMR.is_idle) --> (StockDrone.is_scanning)\",\n  \"explanation\": \"The query matches the constraint by using the --> operator to specify that when RestockAMR is idle, StockDrone will eventually scan, following the conditional_response pattern where a condition leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(RestockAMR.is_idle) --> (StockDrone.is_scanning)",
+              "explanation": "The query matches the constraint by using the --> operator to specify that when RestockAMR is idle, StockDrone will eventually scan, following the conditional_response pattern where a condition leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(RestockAMR.is_idle) --> (StockDrone.is_scanning)"
+          },
+          "total_time": 18.630462408065796,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 8.186309814453125,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stop\", \"obstacle\", \"detected\", \"within\"],\n  \"cues\": [\"if\", \"must\", \"within\", \"1\", \"meters\"],\n  \"trigger_text\": \"any obstacle is detected within 1 meters\",\n  \"response_text\": \"Amr must stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.089967012405396,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (obstacle_detected_within_1m imply Amr.stopped)\",\n  \"explanation\": \"This query uses the safety_immediate_response pattern to ensure that whenever an obstacle is detected within 1 meters, the AMR must stop immediately, as specified in the constraint, by using A[] and imply for an instantaneous response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (obstacle_detected_within_1m imply Amr.stopped)",
+              "explanation": "This query uses the safety_immediate_response pattern to ensure that whenever an obstacle is detected within 1 meters, the AMR must stop immediately, as specified in the constraint, by using A[] and imply for an instantaneous response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (obstacle_detected_within_1m imply Amr.stopped)"
+          },
+          "total_time": 21.3002290725708,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 9.000964879989624,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"drone\", \"stop\", \"obstacle\", \"detected\", \"within\"],\n  \"cues\": [\"if\", \"must\", \"within\"],\n  \"trigger_text\": \"any obstacle is detected within 1 meters\",\n  \"response_text\": \"Drone must stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.789815187454224,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (obstacle_detected imply drone_stopped)\",\n  \"explanation\": \"The query uses the A[] operator with 'imply' to ensure that whenever an obstacle is detected, the drone stops immediately, directly matching the safety_immediate_response pattern for instantaneous response as per the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (obstacle_detected imply drone_stopped)",
+              "explanation": "The query uses the A[] operator with 'imply' to ensure that whenever an obstacle is detected, the drone stops immediately, directly matching the safety_immediate_response pattern for instantaneous response as per the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (obstacle_detected imply drone_stopped)"
+          },
+          "total_time": 26.829384803771973,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "classification": {
+            "step": "classification",
+            "timing": 29.689250946044922,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"StockDrone\", \"scans\", \"RestockAMR\", \"idle\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"RestockAMR is idle\",\n  \"response_text\": \"StockDrone scans\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 45.548643827438354,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(RestockAMR.idle) --> (StockDrone.scans)\",\n  \"explanation\": \"The constraint 'StockDrone scans only when RestockAMR is idle' is interpreted as a conditional response where the condition (RestockAMR is idle) triggers the eventual action (StockDrone scans). This matches the 'conditional_response' pattern, using the '-->' operator for sequential workflows and eventual triggered behavior, as seen in similar examples like 'When battery is low, robot goes to charging station'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(RestockAMR.idle) --> (StockDrone.scans)",
+              "explanation": "The constraint 'StockDrone scans only when RestockAMR is idle' is interpreted as a conditional response where the condition (RestockAMR is idle) triggers the eventual action (StockDrone scans). This matches the 'conditional_response' pattern, using the '-->' operator for sequential workflows and eventual triggered behavior, as seen in similar examples like 'When battery is low, robot goes to charging station'.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(RestockAMR.idle) --> (StockDrone.scans)"
+          },
+          "total_time": 75.25865483283997,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 35.213566303253174,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stop\", \"obstacle\", \"detected\", \"1 meters\"],\n  \"cues\": [\"must\"],\n  \"trigger_text\": \"if any obstacle is detected within 1 meters\",\n  \"response_text\": \"Amr must stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 79.81673812866211,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)\",\n  \"explanation\": \"This query matches the constraint because it uses the safety_immediate_response pattern with A[] to ensure that whenever an obstacle is detected within 1 meter (trigger_condition), Amr must stop immediately (safety_action), with no delay allowed, as indicated by the 'imply' operator for same-state response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)",
+              "explanation": "This query matches the constraint because it uses the safety_immediate_response pattern with A[] to ensure that whenever an obstacle is detected within 1 meter (trigger_condition), Amr must stop immediately (safety_action), with no delay allowed, as indicated by the 'imply' operator for same-state response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Amr.obstacle_detected_within_1m imply Amr.stopped)"
+          },
+          "total_time": 115.05675196647644,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 53.88690423965454,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"drone\", \"stop\", \"obstacle\", \"detected\", \"1 meters\", \"must\", \"if\"],\n  \"cues\": [\"must\", \"if\"],\n  \"trigger_text\": \"any obstacle is detected within 1 meters\",\n  \"response_text\": \"stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 70.83880925178528,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Drone.obstacle_detected_within_1m --> Drone.stopped\",\n  \"explanation\": \"This query translates the constraint by modeling 'any obstacle is detected within 1 meters' as the condition Drone.obstacle_detected_within_1m and 'drone must stop' as the response Drone.stopped. It uses the '-->' operator to specify that whenever the condition holds, the response will eventually occur, which aligns with the conditional_response pattern for eventual triggered behavior, as indicated by the cues 'if' and 'must'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Drone.obstacle_detected_within_1m --> Drone.stopped",
+              "explanation": "This query translates the constraint by modeling 'any obstacle is detected within 1 meters' as the condition Drone.obstacle_detected_within_1m and 'drone must stop' as the response Drone.stopped. It uses the '-->' operator to specify that whenever the condition holds, the response will eventually occur, which aligns with the conditional_response pattern for eventual triggered behavior, as indicated by the cues 'if' and 'must'.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.obstacle_detected_within_1m --> Drone.stopped"
+          },
+          "total_time": 124.7498209476471,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8137621879577637,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"stockdrone\", \"restockamr\", \"idle\", \"scan\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"RestockAMR is idle\",\n  \"response_text\": \"StockDrone scans\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0145690441131592,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"RestockAMR.idle --> StockDrone.scan\",\n  \"explanation\": \"The constraint 'StockDrone scans only when RestockAMR is idle' is translated using the 'conditional_response' pattern. The '-->' operator signifies that if RestockAMR is idle, then eventually, StockDrone scans. This addresses the requirement that scanning happens only *after* the AMR becomes idle.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "RestockAMR.idle --> StockDrone.scan",
+              "explanation": "The constraint 'StockDrone scans only when RestockAMR is idle' is translated using the 'conditional_response' pattern. The '-->' operator signifies that if RestockAMR is idle, then eventually, StockDrone scans. This addresses the requirement that scanning happens only *after* the AMR becomes idle.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "RestockAMR.idle --> StockDrone.scan"
+          },
+          "total_time": 1.8525283336639404,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1066031455993652,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stop\", \"obstacle\", \"detect\", \"meters\", \"amr\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"any obstacle is detected within 1 meters\",\n  \"response_text\": \"Amr must stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.3368310928344727,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (obstacle_detected imply Amr.stopped)\",\n  \"explanation\": \"This query uses the 'safety_immediate_response' pattern with the 'A[]' and 'imply' operators. It states that globally (A[]), if 'obstacle_detected' is true, then 'Amr.stopped' must be true immediately ('imply'). This directly translates to 'Amr must stop if any obstacle is detected within 1 meters'.  The 'within 1 meters' part is assumed to be part of the obstacle detection logic itself, represented by the boolean variable `obstacle_detected`.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (obstacle_detected imply Amr.stopped)",
+              "explanation": "This query uses the 'safety_immediate_response' pattern with the 'A[]' and 'imply' operators. It states that globally (A[]), if 'obstacle_detected' is true, then 'Amr.stopped' must be true immediately ('imply'). This directly translates to 'Amr must stop if any obstacle is detected within 1 meters'.  The 'within 1 meters' part is assumed to be part of the obstacle detection logic itself, represented by the boolean variable `obstacle_detected`.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (obstacle_detected imply Amr.stopped)"
+          },
+          "total_time": 2.469187021255493,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1921231746673584,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"obstacle detection\", \"drone\", \"stop\", \"safety\", \"immediate\"],\n  \"cues\": [\"must\", \"if\"],\n  \"trigger_text\": \"any obstacle is detected within 1 meters\",\n  \"response_text\": \"stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2459259033203125,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (obstacle_detected imply drone_stopped)\",\n  \"explanation\": \"The constraint states that the drone must stop immediately if an obstacle is detected. This matches the 'safety_immediate_response' pattern where a trigger condition ('obstacle_detected') leads to an immediate safety action ('drone_stopped'). The A[] operator ensures this property holds globally, and 'imply' enforces the immediate response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (obstacle_detected imply drone_stopped)",
+              "explanation": "The constraint states that the drone must stop immediately if an obstacle is detected. This matches the 'safety_immediate_response' pattern where a trigger condition ('obstacle_detected') leads to an immediate safety action ('drone_stopped'). The A[] operator ensures this property holds globally, and 'imply' enforces the immediate response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (obstacle_detected imply drone_stopped)"
+          },
+          "total_time": 2.4570441246032715,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "classification": {
+            "step": "classification",
+            "timing": 7.6400768756866455,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"StockDrone\",\n    \"scans\",\n    \"RestockAMR\",\n    \"idle\"\n  ],\n  \"cues\": [\n    \"when\"\n  ],\n  \"trigger_text\": \"RestockAMR is idle\",\n  \"response_text\": \"StockDrone scans\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 34.517168045043945,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (StockDrone.Scanning imply RestockAMR.Idle)\",\n  \"explanation\": \"This query formalizes a safety property. The phrase 'only when' translates to a logical implication ('imply') that must hold true in all reachable states ('A[]'). It asserts that for any state where the 'StockDrone' is 'Scanning', the 'RestockAMR' must concurrently be 'Idle'. This is an immediate, same-state requirement, correctly captured by 'imply' rather than the eventual response operator '-->'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (StockDrone.Scanning imply RestockAMR.Idle)",
+              "explanation": "This query formalizes a safety property. The phrase 'only when' translates to a logical implication ('imply') that must hold true in all reachable states ('A[]'). It asserts that for any state where the 'StockDrone' is 'Scanning', the 'RestockAMR' must concurrently be 'Idle'. This is an immediate, same-state requirement, correctly captured by 'imply' rather than the eventual response operator '-->'.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (StockDrone.Scanning imply RestockAMR.Idle)"
+          },
+          "total_time": 42.253539085388184,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 8.696012020111084,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"stop\",\n    \"obstacle\",\n    \"detected\"\n  ],\n  \"cues\": [\n    \"if\",\n    \"must\",\n    \"<\"\n  ],\n  \"trigger_text\": \"any obstacle is detected within 1 meters\",\n  \"response_text\": \"Amr must stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.736595869064331,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Amr.obstacle_distance < 1 imply Amr.stopped)\",\n  \"explanation\": \"This query formalizes a safety property using the `A[]` (always) operator. It mandates that in any state, if the condition `Amr.obstacle_distance < 1` (representing an obstacle detected within 1 meter) is true, then the AMR must instantaneously be in a stopped state (`Amr.stopped` must also be true). The `imply` operator enforces this immediate, same-state response, directly matching the 'safety_immediate_response' pattern.\",\n  \"confidence\": 0.98,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Amr.obstacle_distance < 1 imply Amr.stopped)",
+              "explanation": "This query formalizes a safety property using the `A[]` (always) operator. It mandates that in any state, if the condition `Amr.obstacle_distance < 1` (representing an obstacle detected within 1 meter) is true, then the AMR must instantaneously be in a stopped state (`Amr.stopped` must also be true). The `imply` operator enforces this immediate, same-state response, directly matching the 'safety_immediate_response' pattern.",
+              "confidence": 0.98,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Amr.obstacle_distance < 1 imply Amr.stopped)"
+          },
+          "total_time": 24.464550971984863,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 7.4608681201934814,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"drone\",\n    \"stop\",\n    \"obstacle\",\n    \"detected\"\n  ],\n  \"cues\": [\n    \"must\",\n    \"if\",\n    \"within\",\n    \"<\"\n  ],\n  \"trigger_text\": \"any obstacle is detected within 1 meters\",\n  \"response_text\": \"Drone must stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.514769315719604,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Drone.obstacle_detected imply Drone.stopped)\",\n  \"explanation\": \"This query enforces a global safety property. The 'A[]' (always) operator ensures the condition is checked in every state of the system. The 'imply' operator creates an immediate requirement: if the antecedent 'Drone.obstacle_detected' (representing an obstacle being within 1 meter) is true, then the consequent 'Drone.stopped' must also be true in the exact same state. This perfectly models the 'must stop if' constraint.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Drone.obstacle_detected imply Drone.stopped)",
+              "explanation": "This query enforces a global safety property. The 'A[]' (always) operator ensures the condition is checked in every state of the system. The 'imply' operator creates an immediate requirement: if the antecedent 'Drone.obstacle_detected' (representing an obstacle being within 1 meter) is true, then the consequent 'Drone.stopped' must also be true in the exact same state. This perfectly models the 'must stop if' constraint.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Drone.obstacle_detected imply Drone.stopped)"
+          },
+          "total_time": 24.997233152389526,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

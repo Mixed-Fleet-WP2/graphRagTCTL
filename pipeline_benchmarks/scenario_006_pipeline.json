@@ -1,0 +1,1300 @@
+{
+  "id": "scenario_006",
+  "domain": "agriculture",
+  "prompt": "A drone sprays pesticide across fields while a ground rover monitors soil humidity. The drone must not spray if wind speed exceeds 25 km/h. The rover reports humidity every 10 minutes, and if humidity < 20%, the drone must pause spraying.",
+  "robots": [
+    "SprayDrone",
+    "SoilRover"
+  ],
+  "constraints": [
+    "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+    "SoilRover reports humidity every 10 minutes",
+    "SprayDrone pauses spraying if humidity below 20%"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 2.0017940998077393,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"SprayDrone\",\"stops spraying\",\"wind speed\",\"exceeds 25 km/h\",\"safety\"],\"cues\":[\"when\",\">\"],\"trigger_text\":\"wind speed exceeds 25 km/h\",\"response_text\":\"SprayDrone stops spraying\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.556391954421997,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (wind_speed > 25 && SprayDrone.spraying)\",\"explanation\":\"The constraint requires that the system must never be in a state where the wind speed exceeds 25 km/h while the SprayDrone is still spraying. Using the forbidden_state pattern, we express this as a global invariant that such a combination of conditions is not allowed in any reachable state.\",\"confidence\":0.89,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (wind_speed > 25 && SprayDrone.spraying)",
+              "explanation": "The constraint requires that the system must never be in a state where the wind speed exceeds 25 km/h while the SprayDrone is still spraying. Using the forbidden_state pattern, we express this as a global invariant that such a combination of conditions is not allowed in any reachable state.",
+              "confidence": 0.89,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (wind_speed > 25 && SprayDrone.spraying)"
+          },
+          "total_time": 4.583045244216919,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "classification": {
+            "step": "classification",
+            "timing": 3.0643739700317383,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"SoilRover\",\"reports\",\"humidity\",\"every 10 minutes\",\"periodic\",\"time interval\"],\"cues\":[\"every\",\"10\",\"minutes\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.211113929748535,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (SoilRover.reporting imply t <= 10)\",\"explanation\":\"The natural-language constraint says SoilRover must report humidity every 10 minutes, which is modeled as an upper time bound on how long it can go without (or while) reporting. Using the time-bounded constraint pattern, we assume a clock t that is reset on entering the reporting cycle, and enforce that whenever SoilRover is in the reporting phase, the elapsed time t cannot exceed 10 minutes. This matches the idea that each reporting interval is at most 10 minutes long.\",\"confidence\":0.78,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"A[]\",\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (SoilRover.reporting imply t <= 10)",
+              "explanation": "The natural-language constraint says SoilRover must report humidity every 10 minutes, which is modeled as an upper time bound on how long it can go without (or while) reporting. Using the time-bounded constraint pattern, we assume a clock t that is reset on entering the reporting cycle, and enforce that whenever SoilRover is in the reporting phase, the elapsed time t cannot exceed 10 minutes. This matches the idea that each reporting interval is at most 10 minutes long.",
+              "confidence": 0.78,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SoilRover.reporting imply t <= 10)"
+          },
+          "total_time": 5.302525758743286,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8096189498901367,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"SprayDrone\",\"pauses spraying\",\"humidity below 20%\",\"safety\",\"environment condition\"],\"cues\":[\"if\",\"below\",\"%\"],\"trigger_text\":\"humidity below 20%\",\"response_text\":\"SprayDrone pauses spraying\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.009713888168335,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (humidity < 20 && SprayDrone.spraying)\",\"explanation\":\"The constraint means the drone must not be spraying whenever the humidity is below 20%. Modeling this as a forbidden state: it is never allowed that (humidity < 20) and the drone is in its spraying state simultaneously. The query A[] not (humidity < 20 && SprayDrone.spraying) enforces that such a combination of conditions can never occur in any reachable state of the system.\",\"confidence\":0.86,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (humidity < 20 && SprayDrone.spraying)",
+              "explanation": "The constraint means the drone must not be spraying whenever the humidity is below 20%. Modeling this as a forbidden state: it is never allowed that (humidity < 20) and the drone is in its spraying state simultaneously. The query A[] not (humidity < 20 && SprayDrone.spraying) enforces that such a combination of conditions can never occur in any reachable state of the system.",
+              "confidence": 0.86,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (humidity < 20 && SprayDrone.spraying)"
+          },
+          "total_time": 3.8476758003234863,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 5.260645866394043,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"SprayDrone\",\"spray\",\"spraying\",\"stop\",\"stops\",\"wind\",\"wind speed\",\"exceeds\",\"25\",\"25 km/h\",\"km/h\"],\"cues\":[\"when\",\"exceeds\",\">\",\"km/h\"],\"trigger_text\":\"wind speed exceeds 25 km/h\",\"response_text\":\"SprayDrone stops spraying\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.965957164764404,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (SprayDrone.wind_speed > 25 imply not SprayDrone.spraying)\",\"explanation\":\"This is a safety immediate-response property: whenever the SprayDrone's measured wind_speed is greater than 25 (km/h), it must immediately not be spraying. The A[] ensures the condition must always hold; the implication enforces the immediate stop of spraying when the trigger is true.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (SprayDrone.wind_speed > 25 imply not SprayDrone.spraying)",
+              "explanation": "This is a safety immediate-response property: whenever the SprayDrone's measured wind_speed is greater than 25 (km/h), it must immediately not be spraying. The A[] ensures the condition must always hold; the implication enforces the immediate stop of spraying when the trigger is true.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SprayDrone.wind_speed > 25 imply not SprayDrone.spraying)"
+          },
+          "total_time": 13.250763177871704,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "classification": {
+            "step": "classification",
+            "timing": 5.8215930461883545,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"SoilRover\",\n    \"report\",\n    \"reports\",\n    \"humidity\",\n    \"every\",\n    \"10\",\n    \"minutes\",\n    \"interval\",\n    \"periodic\",\n    \"must\"\n  ],\n  \"cues\": [\n    \"every\",\n    \"minutes\",\n    \"reports\",\n    \"SoilRover\",\n    \"10\",\n    \"interval\",\n    \"periodic\"\n  ],\n  \"trigger_text\": \"every 10 minutes\",\n  \"response_text\": \"SoilRover reports humidity\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.637719869613647,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (SoilRover.operational && not SoilRover.reportedHumidity imply reportClock <= 10)\",\"explanation\":\"This enforces the time-bounded constraint: whenever the SoilRover is operational and has not yet reported humidity, the reportClock must never exceed 10 (minutes), ensuring a humidity report occurs at least every 10 minutes. The clock (reportClock) is expected to be reset when the SoilRover sends its humidity report.\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (SoilRover.operational && not SoilRover.reportedHumidity imply reportClock <= 10)",
+              "explanation": "This enforces the time-bounded constraint: whenever the SoilRover is operational and has not yet reported humidity, the reportClock must never exceed 10 (minutes), ensuring a humidity report occurs at least every 10 minutes. The clock (reportClock) is expected to be reset when the SoilRover sends its humidity report.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SoilRover.operational && not SoilRover.reportedHumidity imply reportClock <= 10)"
+          },
+          "total_time": 21.493578910827637,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "classification": {
+            "step": "classification",
+            "timing": 3.7836310863494873,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"pause\",\"pauses\",\"spraying\",\"spray\",\"humidity\",\"below\",\"20%\",\"<20%\"],\"cues\":[\"if\",\"below\",\"<\",\"when\",\"pauses\",\"must\"],\"trigger_text\":\"humidity below 20%\",\"response_text\":\"pause spraying\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.576688051223755,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(SprayDrone.humidity < 20) --> SprayDrone.paused\",\"explanation\":\"If the SprayDrone's humidity sensor reads below 20%, the model must eventually reach the state where spraying is paused. This uses the conditional_response pattern (condition --> response) to express the triggered eventual behavior.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(SprayDrone.humidity < 20) --> SprayDrone.paused",
+              "explanation": "If the SprayDrone's humidity sensor reads below 20%, the model must eventually reach the state where spraying is paused. This uses the conditional_response pattern (condition --> response) to express the triggered eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(SprayDrone.humidity < 20) --> SprayDrone.paused"
+          },
+          "total_time": 12.378824949264526,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 14.72878384590149,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"wind_speed\",\"threshold\",\"25_km_h\",\"stop_spraying\",\"drone\",\"safety\"],\"cues\":[\"when\",\"then\",\"<\",\">\",\"%\",\"must\",\"can\"],\"trigger_text\":\"wind speed exceeds 25 km/h\",\"response_text\":\"stop spraying\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.369245767593384,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (wind_speed > 25_km_h imply SprayDrone.stop_spraying)\",\"explanation\":\"This encodes an immediate safety rule: in all states, whenever wind_speed exceeds 25_km_h, SprayDrone.stop_spraying must hold right away. It follows the safety_immediate_response pattern A[] (trigger imply action).\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (wind_speed > 25_km_h imply SprayDrone.stop_spraying)",
+              "explanation": "This encodes an immediate safety rule: in all states, whenever wind_speed exceeds 25_km_h, SprayDrone.stop_spraying must hold right away. It follows the safety_immediate_response pattern A[] (trigger imply action).",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (wind_speed > 25_km_h imply SprayDrone.stop_spraying)"
+          },
+          "total_time": 32.12318825721741,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "classification": {
+            "step": "classification",
+            "timing": 12.184195041656494,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"humidity\",\"report\",\"every_10_minutes\",\"periodic\",\"interval\"],\"cues\":[\"every\",\"10\",\"minutes\",\"periodic\",\"interval\",\"report\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 35.01163196563721,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (SoilRover.waiting_for_humidity_report --> clock <= 10)\",\"explanation\":\"Enforces a 10-minute deadline for humidity reporting in every period. When the system enters the waiting-for-humidity-report state (i.e., start of a new reporting window), the clock must be <= 10; if not, the constraint is violated. After a report is produced and the waiting state is re-entered, the clock is reset for the next 10-minute window, ensuring periodic reports every 10 minutes.\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (SoilRover.waiting_for_humidity_report --> clock <= 10)",
+              "explanation": "Enforces a 10-minute deadline for humidity reporting in every period. When the system enters the waiting-for-humidity-report state (i.e., start of a new reporting window), the clock must be <= 10; if not, the constraint is violated. After a report is produced and the waiting state is re-entered, the clock is reset for the next 10-minute window, ensuring periodic reports every 10 minutes.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (SoilRover.waiting_for_humidity_report --> clock <= 10)"
+          },
+          "total_time": 47.21423602104187,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "classification": {
+            "step": "classification",
+            "timing": 12.981600999832153,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"spray\",\"drone\",\"humidity\",\"20%\",\"pause\",\"spraying\",\"sensor\",\"threshold\"],\"cues\":[\"if\",\"below\",\"20%\",\"humidity\",\"pause\",\"spraying\",\"then\"],\"trigger_text\":\"humidity below 20%\",\"response_text\":\"pause spraying\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.725871086120605,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(humidity < 20) --> SprayDrone.pause_spraying\",\"explanation\":\"The constraint states that if humidity is below 20%, the system should transition to a paused spraying state. This maps to the conditional_response pattern where the condition humidity < 20 triggers the eventual response SprayDrone.pause_spraying.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(humidity < 20) --> SprayDrone.pause_spraying",
+              "explanation": "The constraint states that if humidity is below 20%, the system should transition to a paused spraying state. This maps to the conditional_response pattern where the condition humidity < 20 triggers the eventual response SprayDrone.pause_spraying.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(humidity < 20) --> SprayDrone.pause_spraying"
+          },
+          "total_time": 27.73813486099243,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 2.1080400943756104,
+            "tokens": 194,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stops\", \"exceeds\"],\n  \"cues\": [\"when\", \"exceeds\"],\n  \"trigger_text\": \"wind speed exceeds 25 km/h\",\n  \"response_text\": \"SprayDrone stops spraying\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.109787940979004,
+            "tokens": 697,
+            "raw_text": "{\n  \"query\": \"A[] (SprayDrone.wind_speed > 25 imply not SprayDrone.spraying)\",\n  \"explanation\": \"This query matches the constraint because it uses the 'safety_immediate_response' pattern, which requires an immediate action when a condition is met. The condition here is 'wind speed exceeds 25 km/h', and the immediate action is 'SprayDrone stops spraying'. The 'imply' operator is used to ensure that as soon as the wind speed exceeds 25 km/h, the SprayDrone must stop spraying immediately.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (SprayDrone.wind_speed > 25 imply not SprayDrone.spraying)",
+              "explanation": "This query matches the constraint because it uses the 'safety_immediate_response' pattern, which requires an immediate action when a condition is met. The condition here is 'wind speed exceeds 25 km/h', and the immediate action is 'SprayDrone stops spraying'. The 'imply' operator is used to ensure that as soon as the wind speed exceeds 25 km/h, the SprayDrone must stop spraying immediately.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SprayDrone.wind_speed > 25 imply not SprayDrone.spraying)"
+          },
+          "total_time": 7.251298189163208,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "classification": {
+            "step": "classification",
+            "timing": 2.2429988384246826,
+            "tokens": 164,
+            "raw_text": "{\n    \"pattern\": \"time_bounded_constraint\",\n    \"keywords\": [\"reports\", \"every\", \"minutes\"],\n    \"cues\": [\"every\", \"10\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.0698370933532715,
+            "tokens": 712,
+            "raw_text": "{\n  \"query\": \"A[] (SoilRover.reporting --> clock <= 10)\",\n  \"explanation\": \"The query ensures that the SoilRover reports humidity within every 10 minutes. The 'A[]' operator is used to enforce that this condition must always be true, and the '-->' operator is used to indicate that the reporting action must occur within the specified time bound of 10 minutes.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (SoilRover.reporting --> clock <= 10)",
+              "explanation": "The query ensures that the SoilRover reports humidity within every 10 minutes. The 'A[]' operator is used to enforce that this condition must always be true, and the '-->' operator is used to indicate that the reporting action must occur within the specified time bound of 10 minutes.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (SoilRover.reporting --> clock <= 10)"
+          },
+          "total_time": 5.333207607269287,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7104172706604004,
+            "tokens": 185,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"pauses\", \"if\", \"below\"],\n  \"cues\": [\"if\", \"below\"],\n  \"trigger_text\": \"humidity below 20%\",\n  \"response_text\": \"pauses spraying\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.848742961883545,
+            "tokens": 587,
+            "raw_text": "{\n  \"query\": \"(humidity < 20) --> SprayDrone.pauses_spraying\",\n  \"explanation\": \"The constraint describes a conditional response where the action of the SprayDrone pausing its spraying is triggered by the condition of humidity being below 20%. This matches the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The '-->' operator is appropriate here as it represents an eventual response to a condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(humidity < 20) --> SprayDrone.pauses_spraying",
+              "explanation": "The constraint describes a conditional response where the action of the SprayDrone pausing its spraying is triggered by the condition of humidity being below 20%. This matches the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The '-->' operator is appropriate here as it represents an eventual response to a condition.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(humidity < 20) --> SprayDrone.pauses_spraying"
+          },
+          "total_time": 4.586566209793091,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1688477993011475,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"stops spraying\", \"wind speed exceeds\", \"threshold\"],\n  \"cues\": [\">\", \"when\"],\n  \"trigger_text\": \"wind speed exceeds 25 km/h\",\n  \"response_text\": \"SprayDrone stops spraying\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9443881511688232,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(SprayDrone.wind_speed > 25) --> SprayDrone.spraying == false\",\n  \"explanation\": \"This query captures the conditional_response pattern where the trigger condition 'wind speed exceeds 25 km/h' leads to the eventual response 'SprayDrone stops spraying'. The --> operator is appropriate here because it represents a sequential, triggered behavior: when the wind speed condition becomes true, the system should eventually transition to a state where spraying is disabled. This is not an immediate logical implication but rather an eventual behavioral response.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(SprayDrone.wind_speed > 25) --> SprayDrone.spraying == false",
+              "explanation": "This query captures the conditional_response pattern where the trigger condition 'wind speed exceeds 25 km/h' leads to the eventual response 'SprayDrone stops spraying'. The --> operator is appropriate here because it represents a sequential, triggered behavior: when the wind speed condition becomes true, the system should eventually transition to a state where spraying is disabled. This is not an immediate logical implication but rather an eventual behavioral response.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(SprayDrone.wind_speed > 25) --> SprayDrone.spraying == false"
+          },
+          "total_time": 3.1529130935668945,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0644750595092773,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"reports\", \"humidity\", \"every 10 minutes\", \"periodic\", \"interval\"],\n  \"cues\": [\"every\"],\n  \"trigger_text\": \"every 10 minutes\",\n  \"response_text\": \"SoilRover reports humidity\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.434544801712036,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (SoilRover.report_trigger --> SoilRover.reporting_humidity)\",\n  \"explanation\": \"The constraint describes a periodic behavior where SoilRover must report humidity every 10 minutes. This is modeled as a sequential workflow where a trigger event (the 10-minute interval) leads to the reporting action. The A[] ensures this happens globally and repeatedly, while --> captures the eventual sequential relationship between trigger and response.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (SoilRover.report_trigger --> SoilRover.reporting_humidity)",
+              "explanation": "The constraint describes a periodic behavior where SoilRover must report humidity every 10 minutes. This is modeled as a sequential workflow where a trigger event (the 10-minute interval) leads to the reporting action. The A[] ensures this happens globally and repeatedly, while --> captures the eventual sequential relationship between trigger and response.",
+              "confidence": 0.82,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (SoilRover.report_trigger --> SoilRover.reporting_humidity)"
+          },
+          "total_time": 3.522860050201416,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0041370391845703,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"pause\", \"spraying\", \"humidity\", \"threshold\"],\n  \"cues\": [\"%\", \"if\"],\n  \"trigger_text\": \"humidity below 20%\",\n  \"response_text\": \"pauses spraying\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8173906803131104,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(humidity < 20) --> SprayDrone.paused\",\n  \"explanation\": \"This constraint describes a conditional response where the condition 'humidity below 20%' triggers the eventual response 'pauses spraying'. The '-->' operator is appropriate here because it represents a sequential workflow where detecting low humidity (< 20%) leads to the drone entering a paused state. This is not an immediate same-state implication, but rather an eventual behavioral change triggered by the condition.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(humidity < 20) --> SprayDrone.paused",
+              "explanation": "This constraint describes a conditional response where the condition 'humidity below 20%' triggers the eventual response 'pauses spraying'. The '-->' operator is appropriate here because it represents a sequential workflow where detecting low humidity (< 20%) leads to the drone entering a paused state. This is not an immediate same-state implication, but rather an eventual behavioral change triggered by the condition.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(humidity < 20) --> SprayDrone.paused"
+          },
+          "total_time": 2.8542962074279785,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 12.382031679153442,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"spray\", \"wind speed\"], \"cues\": [\"when\", \"exceeds\"], \"trigger_text\": \"wind speed exceeds 25 km/h\", \"response_text\": \"stops spraying\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 26.809865951538086,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (SprayDrone.wind_speed > 25 imply not SprayDrone.spraying)\",\"explanation\":\"This query matches the safety_immediate_response pattern, ensuring that whenever the wind speed exceeds 25 km/h, the SprayDrone immediately stops spraying, as required by the constraint for an instantaneous response to dangerous conditions.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"A[]\",\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (SprayDrone.wind_speed > 25 imply not SprayDrone.spraying)",
+              "explanation": "This query matches the safety_immediate_response pattern, ensuring that whenever the wind speed exceeds 25 km/h, the SprayDrone immediately stops spraying, as required by the constraint for an instantaneous response to dangerous conditions.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SprayDrone.wind_speed > 25 imply not SprayDrone.spraying)"
+          },
+          "total_time": 39.21683621406555,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "classification": {
+            "step": "classification",
+            "timing": 12.530823945999146,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"time_bounded_constraint\", \"keywords\": [\"SoilRover\", \"reports\", \"humidity\", \"every\", \"10\", \"minutes\"], \"cues\": [\"every\"], \"trigger_text\": \"every 10 minutes\", \"response_text\": \"reports humidity\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.289471864700317,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (clock >= 10 --> SoilRover.reports_humidity)\", \"explanation\": \"The constraint 'SoilRover reports humidity every 10 minutes' requires periodic reporting at 10-minute intervals. The UPPAAL query ensures that when the global clock reaches 10 minutes, the SoilRover must eventually report humidity, assuming the clock resets upon reporting to enforce the cycle.\", \"confidence\": 0.85, \"pattern_used\": \"time_bounded_constraint\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (clock >= 10 --> SoilRover.reports_humidity)",
+              "explanation": "The constraint 'SoilRover reports humidity every 10 minutes' requires periodic reporting at 10-minute intervals. The UPPAAL query ensures that when the global clock reaches 10 minutes, the SoilRover must eventually report humidity, assuming the clock resets upon reporting to enforce the cycle.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (clock >= 10 --> SoilRover.reports_humidity)"
+          },
+          "total_time": 31.845630407333374,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "classification": {
+            "step": "classification",
+            "timing": 11.761631965637207,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"pauses\",\"if\",\"below\"],\"cues\":[\"if\",\"below\"],\"trigger_text\":\"humidity below 20%\",\"response_text\":\"pauses spraying\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.467501163482666,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(humidity < 20) --> SprayDrone.pauses_spraying\", \"explanation\": \"The query uses the '-->' operator to model the eventual response where, if humidity is below 20%, the SprayDrone must eventually pause spraying, aligning with the conditional_response pattern for triggered behaviors.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(humidity < 20) --> SprayDrone.pauses_spraying",
+              "explanation": "The query uses the '-->' operator to model the eventual response where, if humidity is below 20%, the SprayDrone must eventually pause spraying, aligning with the conditional_response pattern for triggered behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(humidity < 20) --> SprayDrone.pauses_spraying"
+          },
+          "total_time": 28.249860048294067,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 9.728081226348877,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"stops\", \"spraying\", \"wind\", \"speed\", \"exceeds\"],\n  \"cues\": [\"when\", \"exceeds\"],\n  \"trigger_text\": \"wind speed exceeds 25 km/h\",\n  \"response_text\": \"SprayDrone stops spraying\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.755445957183838,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(wind_speed > 25) --> (!SprayDrone.spraying)\",\n  \"explanation\": \"This query matches the constraint because it uses the --> operator to indicate that when the wind speed exceeds 25 km/h, the SprayDrone will eventually stop spraying, following the conditional_response pattern where a condition leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(wind_speed > 25) --> (!SprayDrone.spraying)",
+              "explanation": "This query matches the constraint because it uses the --> operator to indicate that when the wind speed exceeds 25 km/h, the SprayDrone will eventually stop spraying, following the conditional_response pattern where a condition leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(wind_speed > 25) --> (!SprayDrone.spraying)"
+          },
+          "total_time": 17.51630711555481,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "classification": {
+            "step": "classification",
+            "timing": 7.931830883026123,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"reports\", \"humidity\", \"every\", \"10\", \"minutes\"],\n  \"cues\": [\"every\", \"10\", \"minutes\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 25.738576889038086,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (SoilRover.needs_report imply clock <= 10)\",\n  \"explanation\": \"This query ensures that when the SoilRover is in a state where it needs to report humidity, the reporting occurs within 10 minutes, aligning with the constraint of reporting every 10 minutes by enforcing a time bound on the reporting state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (SoilRover.needs_report imply clock <= 10)",
+              "explanation": "This query ensures that when the SoilRover is in a state where it needs to report humidity, the reporting occurs within 10 minutes, aligning with the constraint of reporting every 10 minutes by enforcing a time bound on the reporting state.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SoilRover.needs_report imply clock <= 10)"
+          },
+          "total_time": 33.68990516662598,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "classification": {
+            "step": "classification",
+            "timing": 7.051797866821289,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"pauses\", \"spraying\", \"humidity\", \"below\", \"20%\"],\n  \"cues\": [\"if\", \"below\"],\n  \"trigger_text\": \"humidity below 20%\",\n  \"response_text\": \"pauses spraying\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.793578863143921,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(humidity < 20) --> (!SprayDrone.is_spraying)\",\n  \"explanation\": \"The query matches the constraint by using the --> operator to indicate that if the humidity level is below 20%, then eventually the SprayDrone will pause spraying, aligning with the conditional response pattern where a condition leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(humidity < 20) --> (!SprayDrone.is_spraying)",
+              "explanation": "The query matches the constraint by using the --> operator to indicate that if the humidity level is below 20%, then eventually the SprayDrone will pause spraying, aligning with the conditional response pattern where a condition leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(humidity < 20) --> (!SprayDrone.is_spraying)"
+          },
+          "total_time": 15.873558759689331,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 38.07033920288086,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"SprayDrone\", \"stops spraying\", \"wind speed\", \"exceeds 25 km/h\"],\n  \"cues\": [\"when\", \"exceeds\"],\n  \"trigger_text\": \"wind speed exceeds 25 km/h\",\n  \"response_text\": \"SprayDrone stops spraying\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 64.03569006919861,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(wind_speed > 25) --> (SprayDrone.spraying == false)\",\n  \"explanation\": \"This query translates the constraint 'SprayDrone stops spraying when wind speed exceeds 25 km/h' into the conditional_response pattern: the condition 'wind speed exceeds 25 km/h' becomes (wind_speed > 25), and the response 'SprayDrone stops spraying' becomes (SprayDrone.spraying == false). The '-->' operator is used to indicate that when the condition holds, the response eventually occurs, matching the triggered behavior described in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(wind_speed > 25) --> (SprayDrone.spraying == false)",
+              "explanation": "This query translates the constraint 'SprayDrone stops spraying when wind speed exceeds 25 km/h' into the conditional_response pattern: the condition 'wind speed exceeds 25 km/h' becomes (wind_speed > 25), and the response 'SprayDrone stops spraying' becomes (SprayDrone.spraying == false). The '-->' operator is used to indicate that when the condition holds, the response eventually occurs, matching the triggered behavior described in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(wind_speed > 25) --> (SprayDrone.spraying == false)"
+          },
+          "total_time": 102.12571811676025,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "classification": {
+            "step": "classification",
+            "timing": 61.96615386009216,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"SoilRover\", \"humidity\", \"report\", \"every 10 minutes\"],\n  \"cues\": [\"every\"],\n  \"trigger_text\": \"every 10 minutes\",\n  \"response_text\": \"reports humidity\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 137.88883781433105,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (SoilRover.idle imply clock <= 10)\",\n  \"explanation\": \"This query uses the time_bounded_constraint pattern to enforce that whenever SoilRover is in the 'idle' state (meaning not reporting humidity), the clock must not exceed 10 minutes, ensuring reports occur at least every 10 minutes by imposing a maximum duration in the idle state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (SoilRover.idle imply clock <= 10)",
+              "explanation": "This query uses the time_bounded_constraint pattern to enforce that whenever SoilRover is in the 'idle' state (meaning not reporting humidity), the clock must not exceed 10 minutes, ensuring reports occur at least every 10 minutes by imposing a maximum duration in the idle state.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SoilRover.idle imply clock <= 10)"
+          },
+          "total_time": 199.88683891296387,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "classification": {
+            "step": "classification",
+            "timing": 30.954095125198364,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"SprayDrone\", \"pauses\", \"spraying\", \"humidity\", \"20%\", \"below\"],\n  \"cues\": [\"if\", \"%\"],\n  \"trigger_text\": \"humidity below 20%\",\n  \"response_text\": \"SprayDrone pauses spraying\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 48.171595096588135,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(humidity < 20) --> SprayDrone.pauses_spraying\",\n  \"explanation\": \"This query matches the constraint 'SprayDrone pauses spraying if humidity below 20%' by following the conditional_response pattern, where the condition (humidity < 20) triggers the eventual response (SprayDrone.pauses_spraying) using the '-->' operator for sequential workflow and triggered behaviors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(humidity < 20) --> SprayDrone.pauses_spraying",
+              "explanation": "This query matches the constraint 'SprayDrone pauses spraying if humidity below 20%' by following the conditional_response pattern, where the condition (humidity < 20) triggers the eventual response (SprayDrone.pauses_spraying) using the '-->' operator for sequential workflow and triggered behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(humidity < 20) --> SprayDrone.pauses_spraying"
+          },
+          "total_time": 79.17355585098267,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8374061584472656,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"spraydrone\", \"spraying\", \"wind speed\", \"stop\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"wind speed exceeds 25 km/h\",\n  \"response_text\": \"SprayDrone stops spraying\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5093591213226318,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(windSpeed > 25) --> SprayDrone.spraying == false\",\n  \"explanation\": \"The constraint describes a conditional response: when the wind speed exceeds 25 km/h, the SprayDrone eventually stops spraying. This is captured by the '-->' (leads to) operator. SprayDrone.spraying == false indicates the drone is not spraying.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(windSpeed > 25) --> SprayDrone.spraying == false",
+              "explanation": "The constraint describes a conditional response: when the wind speed exceeds 25 km/h, the SprayDrone eventually stops spraying. This is captured by the '-->' (leads to) operator. SprayDrone.spraying == false indicates the drone is not spraying.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(windSpeed > 25) --> SprayDrone.spraying == false"
+          },
+          "total_time": 2.383296012878418,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0119359493255615,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"report\", \"humidity\", \"SoilRover\", \"minutes\", \"frequency\", \"periodic\"],\n  \"cues\": [\"every\"],\n  \"trigger_text\": \"SoilRover\",\n  \"response_text\": \"reports humidity\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5003740787506104,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] SoilRover.reporting --> SoilRover.humidity_reported\",\n  \"explanation\": \"The constraint 'SoilRover reports humidity every 10 minutes' implies that whenever SoilRover starts reporting, it must eventually report humidity. However, the time constraint is missing. The provided templates do not fit the 'every' pattern well in the sense of a strictly enforced duration. '-->', indicating a conditional response, is the most suitable operator here to represent the eventual reporting. But to add the time constraint, we might add a clock variable, assuming the system starts reporting at time 0. However, without more context, I will go with the eventual reporting.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] SoilRover.reporting --> SoilRover.humidity_reported",
+              "explanation": "The constraint 'SoilRover reports humidity every 10 minutes' implies that whenever SoilRover starts reporting, it must eventually report humidity. However, the time constraint is missing. The provided templates do not fit the 'every' pattern well in the sense of a strictly enforced duration. '-->', indicating a conditional response, is the most suitable operator here to represent the eventual reporting. But to add the time constraint, we might add a clock variable, assuming the system starts reporting at time 0. However, without more context, I will go with the eventual reporting.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] SoilRover.reporting --> SoilRover.humidity_reported"
+          },
+          "total_time": 2.5549352169036865,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8064539432525635,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"spraydrone\", \"spraying\", \"humidity\", \"pause\", \"condition\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"humidity below 20%\",\n  \"response_text\": \"pauses spraying\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.9121830463409424,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(humidity < 20) --> SprayDrone.spraying == false\",\n  \"explanation\": \"The constraint states that if humidity is below 20%, the SprayDrone eventually pauses spraying (spraying becomes false). The '-->' operator represents the eventual response to the condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(humidity < 20) --> SprayDrone.spraying == false",
+              "explanation": "The constraint states that if humidity is below 20%, the SprayDrone eventually pauses spraying (spraying becomes false). The '-->' operator represents the eventual response to the condition.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(humidity < 20) --> SprayDrone.spraying == false"
+          },
+          "total_time": 1.7390179634094238,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 9.917119979858398,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"SprayDrone\",\n    \"spraying\",\n    \"wind speed\",\n    \"stop\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"exceeds\"\n  ],\n  \"trigger_text\": \"wind speed exceeds 25 km/h\",\n  \"response_text\": \"SprayDrone stops spraying\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.973478078842163,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (wind_speed > 25 imply not SprayDrone.Spraying)\",\n  \"explanation\": \"The query uses A[] (globally) to enforce a safety property. It states that in any state, if the trigger condition `wind_speed > 25` is true, it implies that the safety action `not SprayDrone.Spraying` must also be true in that same state. This ensures the drone immediately stops spraying (is not in the Spraying state) the moment the wind speed exceeds the limit.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (wind_speed > 25 imply not SprayDrone.Spraying)",
+              "explanation": "The query uses A[] (globally) to enforce a safety property. It states that in any state, if the trigger condition `wind_speed > 25` is true, it implies that the safety action `not SprayDrone.Spraying` must also be true in that same state. This ensures the drone immediately stops spraying (is not in the Spraying state) the moment the wind speed exceeds the limit.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (wind_speed > 25 imply not SprayDrone.Spraying)"
+          },
+          "total_time": 30.912698984146118,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "classification": {
+            "step": "classification",
+            "timing": 9.212301015853882,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"SoilRover\",\n    \"humidity\",\n    \"reports\",\n    \"periodic\"\n  ],\n  \"cues\": [\n    \"every\",\n    \"10 minutes\"\n  ],\n  \"trigger_text\": \"every 10 minutes\",\n  \"response_text\": \"SoilRover reports humidity\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 37.183743953704834,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (SoilRover.Waiting imply SoilRover.report_timer <= 10)\",\n  \"explanation\": \"The constraint 'every 10 minutes' establishes a maximum time limit for the interval between consecutive humidity reports. This is a time-bounded safety property. The query asserts that it is always (`A[]`) true that if the `SoilRover` is in a `Waiting` state (between reports), its dedicated `report_timer` clock (which is assumed to reset after each report) must be less than or equal to 10.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (SoilRover.Waiting imply SoilRover.report_timer <= 10)",
+              "explanation": "The constraint 'every 10 minutes' establishes a maximum time limit for the interval between consecutive humidity reports. This is a time-bounded safety property. The query asserts that it is always (`A[]`) true that if the `SoilRover` is in a `Waiting` state (between reports), its dedicated `report_timer` clock (which is assumed to reset after each report) must be less than or equal to 10.",
+              "confidence": 0.95,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SoilRover.Waiting imply SoilRover.report_timer <= 10)"
+          },
+          "total_time": 46.416743755340576,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "classification": {
+            "step": "classification",
+            "timing": 10.201932907104492,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"drone\",\n    \"spray\",\n    \"pause\",\n    \"humidity\"\n  ],\n  \"cues\": [\n    \"if\",\n    \"<\",\n    \"%\"\n  ],\n  \"trigger_text\": \"humidity below 20%\",\n  \"response_text\": \"SprayDrone pauses spraying\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.602134227752686,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(humidity < 20) --> SprayDrone.Paused\",\n  \"explanation\": \"This query models a conditional response. The '-->' (leads to) operator checks that if the condition 'humidity < 20' becomes true, then eventually the system must reach a state where the response 'SprayDrone.Paused' is also true. This directly translates the 'if humidity is low, then the drone pauses' logic.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(humidity < 20) --> SprayDrone.Paused",
+              "explanation": "This query models a conditional response. The '-->' (leads to) operator checks that if the condition 'humidity < 20' becomes true, then eventually the system must reach a state where the response 'SprayDrone.Paused' is also true. This directly translates the 'if humidity is low, then the drone pauses' logic.",
+              "confidence": 0.95,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(humidity < 20) --> SprayDrone.Paused"
+          },
+          "total_time": 21.83675765991211,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 3.4199647903442383,
+            "tokens": 0,
+            "raw_text": "",
+            "error": "Failed to parse JSON"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 3.41999888420105,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "classification": {
+            "step": "classification",
+            "timing": 3.428489923477173,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"SoilRover\", \"reports\", \"humidity\", \"10 minutes\", \"every\", \"periodic\"],\n  \"cues\": [\"every\"],\n  \"trigger_text\": \"SoilRover active\",\n  \"response_text\": \"reports humidity every 10 minutes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.593425035476685,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (SoilRover.active && not SoilRover.reporting imply clock <= 10)\",\n  \"explanation\": \"This query enforces that whenever SoilRover is active and not currently reporting humidity, the time elapsed (tracked by clock) must not exceed 10 minutes. This ensures humidity reports occur at least every 10 minutes during active operation, matching the periodic reporting requirement.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (SoilRover.active && not SoilRover.reporting imply clock <= 10)",
+              "explanation": "This query enforces that whenever SoilRover is active and not currently reporting humidity, the time elapsed (tracked by clock) must not exceed 10 minutes. This ensures humidity reports occur at least every 10 minutes during active operation, matching the periodic reporting requirement.",
+              "confidence": 0.88,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SoilRover.active && not SoilRover.reporting imply clock <= 10)"
+          },
+          "total_time": 8.078528881072998,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "classification": {
+            "step": "classification",
+            "timing": 3.080687999725342,
+            "tokens": 0,
+            "raw_text": "",
+            "error": "Failed to parse JSON"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 3.0807149410247803,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

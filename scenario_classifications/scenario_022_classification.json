@@ -1,0 +1,447 @@
+{
+  "id": "scenario_022",
+  "domain": "manufacturing",
+  "prompt": "Two robotic arms weld a car frame simultaneously. They must never weld the same section together. Eventually, both arms should complete their tasks and reach idle state.",
+  "robots": [
+    "ArmA",
+    "ArmB"
+  ],
+  "constraints": [
+    "ArmA and ArmB never weld the same section simultaneously",
+    "ArmA eventually completes its tasks",
+    "ArmB eventually completes its tasks",
+    "ArmA eventually reach idle state",
+    "ArmB eventually reach idle state"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.5442676544189453,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmA eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "ArmB eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 3,
+          "constraint": "ArmA eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "ArmB eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 5.56129002571106,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmA eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "ArmB eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 3,
+          "constraint": "ArmA eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "ArmB eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 22.24822998046875,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmA eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "ArmB eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 3,
+          "constraint": "ArmA eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "ArmB eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 2.744872808456421,
+      "tokens": 800,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmA eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "ArmB eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 3,
+          "constraint": "ArmA eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "ArmB eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.873072862625122,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmA eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "ArmB eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 3,
+          "constraint": "ArmA eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "ArmB eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.679136037826538,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (ArmA_welding_section AND ArmB_welding_same_section)"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmA eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> ArmA_tasks_completed"
+        },
+        {
+          "index": 2,
+          "constraint": "ArmB eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> ArmB_tasks_completed"
+        },
+        {
+          "index": 3,
+          "constraint": "ArmA eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> ArmA_idle_state"
+        },
+        {
+          "index": 4,
+          "constraint": "ArmB eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> ArmB_idle_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 12.935628175735474,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmA eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "ArmB eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 3,
+          "constraint": "ArmA eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "ArmB eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 7.277148008346558,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmA eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "ArmB eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 3,
+          "constraint": "ArmA eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "ArmB eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 27.937389135360718,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmA eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "ArmB eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 3,
+          "constraint": "ArmA eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "ArmB eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.8410401344299316,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmA eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "ArmB eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 3,
+          "constraint": "ArmA eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "ArmB eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 11.308815240859985,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmA eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "ArmB eventually completes its tasks",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 3,
+          "constraint": "ArmA eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 4,
+          "constraint": "ArmB eventually reach idle state",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

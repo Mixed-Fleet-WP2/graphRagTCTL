@@ -1,0 +1,580 @@
+{
+  "id": "scenario_034",
+  "domain": "logistics",
+  "prompt": "A mobile manipulator robot performs order picking in a warehouse. It identifies shelves via QR codes and must verify the item before grasping. If weight exceeds its maximum capacity, it must abort the pick and notify the supervisor. When humans are detected within 2 meters, speed is reduced to 0.3 m/s. If obstacle blocking persists longer than 10 seconds, the robot must request assistance. Eventually, all orders should be completed and reported.",
+  "robots": [
+    "PickerBot"
+  ],
+  "constraints": [
+    "PickerBot verifies item via QR before grasping",
+    "PickerBot aborts pick  when load exceeds limit",
+    "when load exceeds limit PickerBot notifies supervisor",
+    "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+    "PickerBot requests help if obstacle persists > 10 s",
+    "Eventually all orders completed",
+    "Eventually all orders reported"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 3.489626169204712,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all orders completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually all orders reported",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 12.657518863677979,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all orders completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually all orders reported",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 24.307161808013916,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all orders completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually all orders reported",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 2.500148057937622,
+      "tokens": 961,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all orders completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually all orders reported",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 4.584188938140869,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all orders completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually all orders reported",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 3.0665111541748047,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all orders completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually all orders reported",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 39.62820219993591,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all orders completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually all orders reported",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 16.132810831069946,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all orders completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually all orders reported",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 43.04431200027466,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all orders completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually all orders reported",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.8297531604766846,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all orders completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually all orders reported",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 36.55959606170654,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all orders completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually all orders reported",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

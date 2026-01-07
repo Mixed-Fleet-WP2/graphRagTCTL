@@ -1,0 +1,3018 @@
+{
+  "id": "scenario_035",
+  "domain": "exploration",
+  "prompt": "An autonomous rover explores a volcanic terrain. It collects temperature and seismic data every 200 meters and must not approach closer than 5 meters to lava zones. If terrain slope exceeds 30\u00b0, it activates stabilizers before proceeding. If a data packet fails transmission three times, it must log the failure and continue. Eventually, all checkpoints must be reached and at least 90% of data successfully transmitted.",
+  "robots": [
+    "ExploroRover"
+  ],
+  "constraints": [
+    "ExploroRover collects data every 200 m",
+    "ExploroRover avoids lava zones by \u2265 5 m",
+    "ExploroRover activates stabilizers when slope > 30\u00b0",
+    "ExploroRover logs transmission failure after 3 retries",
+    "ExploroRover fails transmission three times, ExploroRover continues.",
+    "ExploroRover must eventually reach all checkpoints.",
+    "Eventually \u2265 90% data must be successfully transmitted "
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "ExploroRover collects data every 200 m",
+          "classification": {
+            "step": "classification",
+            "timing": 3.355509042739868,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"ExploroRover\",\"collects data\",\"every 200 m\",\"periodic\",\"sampling\",\"distance interval\"],\"cues\":[\"every\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.865419864654541,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ExploroRover.data_collected\",\"explanation\":\"The natural-language constraint is interpreted as a liveness guarantee that the rover does perform data collection (i.e., the data collection task must eventually complete, and then repeat every 200 m in the model\u2019s dynamics). The eventual_completion pattern fits this by asserting that the system must eventually reach a state where data has been collected, captured here by the location or condition ExploroRover.data_collected. The periodic \u201cevery 200 m\u201d aspect would be modeled in the automaton (e.g., via distance-tracking and loops), while the UPPAAL query checks that the data collection action indeed occurs (at least once, and in a recurring-cycle model).\",\"confidence\":0.72,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> ExploroRover.data_collected",
+              "explanation": "The natural-language constraint is interpreted as a liveness guarantee that the rover does perform data collection (i.e., the data collection task must eventually complete, and then repeat every 200 m in the model\u2019s dynamics). The eventual_completion pattern fits this by asserting that the system must eventually reach a state where data has been collected, captured here by the location or condition ExploroRover.data_collected. The periodic \u201cevery 200 m\u201d aspect would be modeled in the automaton (e.g., via distance-tracking and loops), while the UPPAAL query checks that the data collection action indeed occurs (at least once, and in a recurring-cycle model).",
+              "confidence": 0.72,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ExploroRover.data_collected"
+          },
+          "total_time": 7.234397888183594,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "classification": {
+            "step": "classification",
+            "timing": 2.126595973968506,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"ExploroRover\",\"lava zones\",\"avoid\",\"\u2265 5 m\",\"distance\",\"safety margin\"],\"cues\":[\">=\",\"by\",\"avoid\"],\"trigger_text\":\"ExploroRover is within 5 m of a lava zone\",\"response_text\":\"ExploroRover must increase its distance so it is at least 5 m away from the lava zone\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.4293859004974365,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (ExploroRover.distToLava < 5)\",\"explanation\":\"The constraint says the rover must avoid lava zones by at least 5 m, meaning it must never be closer than 5 m. Using the forbidden_state pattern, we forbid any state where the distance to a lava zone is less than 5 m, so the query asserts that such a state never occurs in any execution.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (ExploroRover.distToLava < 5)",
+              "explanation": "The constraint says the rover must avoid lava zones by at least 5 m, meaning it must never be closer than 5 m. Using the forbidden_state pattern, we forbid any state where the distance to a lava zone is less than 5 m, so the query asserts that such a state never occurs in any execution.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ExploroRover.distToLava < 5)"
+          },
+          "total_time": 5.574769020080566,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "classification": {
+            "step": "classification",
+            "timing": 2.632991313934326,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"ExploroRover\",\"activates\",\"stabilizers\",\"slope > 30\u00b0\",\"slope\",\"greater than 30 degrees\",\"activation condition\"],\"cues\":[\">\",\"when\"],\"trigger_text\":\"slope > 30\u00b0\",\"response_text\":\"ExploroRover activates stabilizers\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.239271879196167,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(slope > 30) --> ExploroRover.stabilizers_activated\",\"explanation\":\"The constraint says that when the slope exceeds 30\u00b0, ExploroRover must (eventually) activate its stabilizers. This is a conditional eventual response, so the conditional_response pattern with the --> operator is appropriate. The left side models the trigger condition (slope > 30), and the right side models the required eventual state where the rover\u2019s stabilizers are activated.\",\"confidence\":0.93,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(slope > 30) --> ExploroRover.stabilizers_activated",
+              "explanation": "The constraint says that when the slope exceeds 30\u00b0, ExploroRover must (eventually) activate its stabilizers. This is a conditional eventual response, so the conditional_response pattern with the --> operator is appropriate. The left side models the trigger condition (slope > 30), and the right side models the required eventual state where the rover\u2019s stabilizers are activated.",
+              "confidence": 0.93,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(slope > 30) --> ExploroRover.stabilizers_activated"
+          },
+          "total_time": 4.893693923950195,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8524038791656494,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"ExploroRover\",\"logs\",\"transmission failure\",\"after 3 retries\",\"retries\"],\"cues\":[\"after\"],\"trigger_text\":\"3 retries have been attempted without success\",\"response_text\":\"log a transmission failure\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.449047088623047,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ExploroRover.transmission_failure_logged\",\"explanation\":\"The constraint says that ExploroRover logs a transmission failure after 3 retries, which we interpret as a liveness requirement that the failure log must eventually occur. Following the eventual_completion pattern template A<> final_state, we represent the required eventual condition as the system reaching a state where the rover has logged the transmission failure, modeled here as ExploroRover.transmission_failure_logged.\",\"confidence\":0.86,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> ExploroRover.transmission_failure_logged",
+              "explanation": "The constraint says that ExploroRover logs a transmission failure after 3 retries, which we interpret as a liveness requirement that the failure log must eventually occur. Following the eventual_completion pattern template A<> final_state, we represent the required eventual condition as the system reaching a state where the rover has logged the transmission failure, modeled here as ExploroRover.transmission_failure_logged.",
+              "confidence": 0.86,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ExploroRover.transmission_failure_logged"
+          },
+          "total_time": 4.335687160491943,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7599589824676514,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"fails transmission\",\"three times\",\"continues\",\"ExploroRover\"],\"cues\":[\"fails\",\"three\",\"times\",\"continues\"],\"trigger_text\":\"ExploroRover fails transmission three times\",\"response_text\":\"ExploroRover continues\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.2997748851776123,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (ExploroRover.failedTransmissions >= 3 && ExploroRover.continues)\",\"explanation\":\"The constraint says that whenever ExploroRover has failed transmission three times, it must not continue. This is a forbidden combination of conditions. The query uses the forbidden_state pattern A[] not(...) to state that in all reachable states it is never the case that ExploroRover has at least three failed transmissions and is continuing operation.\",\"confidence\":0.88,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (ExploroRover.failedTransmissions >= 3 && ExploroRover.continues)",
+              "explanation": "The constraint says that whenever ExploroRover has failed transmission three times, it must not continue. This is a forbidden combination of conditions. The query uses the forbidden_state pattern A[] not(...) to state that in all reachable states it is never the case that ExploroRover has at least three failed transmissions and is continuing operation.",
+              "confidence": 0.88,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ExploroRover.failedTransmissions >= 3 && ExploroRover.continues)"
+          },
+          "total_time": 5.083899021148682,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.454575777053833,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"ExploroRover\",\"eventually\",\"reach\",\"all checkpoints\",\"coverage\",\"visit\"],\"cues\":[\"eventually\",\"must\"],\"trigger_text\":\"ExploroRover\",\"response_text\":\"must eventually reach all checkpoints\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.567214012145996,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ExploroRover.all_checkpoints_reached\",\"explanation\":\"The constraint says that ExploroRover must eventually reach all checkpoints, which is a liveness requirement. Using the eventual_completion pattern, we express that in all possible executions (A), there is some future point (<>) where the proposition \\\"all checkpoints are reached\\\" holds. The atomic proposition ExploroRover.all_checkpoints_reached stands for the condition that every checkpoint has been visited by the rover.\",\"confidence\":0.93,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> ExploroRover.all_checkpoints_reached",
+              "explanation": "The constraint says that ExploroRover must eventually reach all checkpoints, which is a liveness requirement. Using the eventual_completion pattern, we express that in all possible executions (A), there is some future point (<>) where the proposition \"all checkpoints are reached\" holds. The atomic proposition ExploroRover.all_checkpoints_reached stands for the condition that every checkpoint has been visited by the rover.",
+              "confidence": 0.93,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ExploroRover.all_checkpoints_reached"
+          },
+          "total_time": 4.043311834335327,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "classification": {
+            "step": "classification",
+            "timing": 1.5886638164520264,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\">=\", \"90%\", \"data\", \"successfully transmitted\",\"quality threshold\",\"completion\"],\"cues\":[\"eventually\",\">=\",\"%\",\"must\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.5771329402923584,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> DataTransmitter.success_ratio_ge_90\",\"explanation\":\"The constraint says that at some point in time the system must reach a condition where at least 90% of the data has been successfully transmitted. This is a liveness property, so we use the eventuality operator A<> with a state or condition representing that the success ratio is at least 90%. The query A<> DataTransmitter.success_ratio_ge_90 asserts that on all paths the system will eventually reach a state where the data transmission success ratio is \u2265 90%.\",\"confidence\":0.86,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> DataTransmitter.success_ratio_ge_90",
+              "explanation": "The constraint says that at some point in time the system must reach a condition where at least 90% of the data has been successfully transmitted. This is a liveness property, so we use the eventuality operator A<> with a state or condition representing that the success ratio is at least 90%. The query A<> DataTransmitter.success_ratio_ge_90 asserts that on all paths the system will eventually reach a state where the data transmission success ratio is \u2265 90%.",
+              "confidence": 0.86,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> DataTransmitter.success_ratio_ge_90"
+          },
+          "total_time": 4.187103271484375,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "ExploroRover collects data every 200 m",
+          "classification": {
+            "step": "classification",
+            "timing": 8.081571102142334,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"every 200 m\",\"every 200 meters\",\"collects data\",\"periodic\",\"sampling interval\",\"distance-based\"],\"cues\":[\"every\",\"200\",\"m\",\"meters\",\"collect\",\"data\"],\"trigger_text\":\"every 200 m\",\"response_text\":\"collects data\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.70439386367798,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (ExploroRover.moving && not ExploroRover.data_collected imply d <= 200)\",\"explanation\":\"This enforces that while the rover is moving and data has not yet been collected since the last reset, the distance clock d (measuring meters since the last collection and reset when data is collected) must never exceed 200. Thus the rover will collect data at least once every 200 m.\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (ExploroRover.moving && not ExploroRover.data_collected imply d <= 200)",
+              "explanation": "This enforces that while the rover is moving and data has not yet been collected since the last reset, the distance clock d (measuring meters since the last collection and reset when data is collected) must never exceed 200. Thus the rover will collect data at least once every 200 m.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (ExploroRover.moving && not ExploroRover.data_collected imply d <= 200)"
+          },
+          "total_time": 25.80659294128418,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "classification": {
+            "step": "classification",
+            "timing": 12.149382829666138,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"avoid\",\"lava\",\"lava zone\",\"hazard\",\"distance\",\">=5 m\",\"\u22655 m\",\"keep distance\",\"stay away\",\"safe distance\"],\"cues\":[\"avoid\",\"\u2265\",\"=>\",\">=\",\"<\",\"must\",\"never\",\"stay\",\"keep\",\"distance\",\"m\",\"lava\"],\"trigger_text\":\"being within less than 5 m of a lava zone\",\"response_text\":\"maintain distance of at least 5 m from lava zones (do not enter <5 m)\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.328008890151978,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (ExploroRover.dist_to_lava < 5)\",\"explanation\":\"This enforces that the rover is never in a state where its distance to a lava zone is less than 5 meters. Using the forbidden_state pattern, the safety property A[] not(...) guarantees that ExploroRover.dist_to_lava < 5 cannot occur at any time (maintains distance \u2265 5 m). Here dist_to_lava is the model variable representing the current distance (in meters) to the nearest lava zone.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (ExploroRover.dist_to_lava < 5)",
+              "explanation": "This enforces that the rover is never in a state where its distance to a lava zone is less than 5 meters. Using the forbidden_state pattern, the safety property A[] not(...) guarantees that ExploroRover.dist_to_lava < 5 cannot occur at any time (maintains distance \u2265 5 m). Here dist_to_lava is the model variable representing the current distance (in meters) to the nearest lava zone.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ExploroRover.dist_to_lava < 5)"
+          },
+          "total_time": 21.504634857177734,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "classification": {
+            "step": "classification",
+            "timing": 7.602502107620239,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"ExploroRover\",\"stabilizers\",\"slope\",\"activate\",\"30\u00b0\"],\"cues\":[\"when\",\">\",\"30\u00b0\",\"activate\",\"slope\"],\"trigger_text\":\"slope > 30\u00b0\",\"response_text\":\"activates stabilizers\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.07276701927185,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(ExploroRover.slope > 30) --> ExploroRover.stabilizers_active\",\n  \"explanation\": \"This uses the conditional_response pattern: when the rover's slope measurement exceeds 30 degrees (ExploroRover.slope > 30), it must eventually activate its stabilizers (ExploroRover.stabilizers_active). The '-->' operator denotes that the response should occur after the trigger condition holds.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(ExploroRover.slope > 30) --> ExploroRover.stabilizers_active",
+              "explanation": "This uses the conditional_response pattern: when the rover's slope measurement exceeds 30 degrees (ExploroRover.slope > 30), it must eventually activate its stabilizers (ExploroRover.stabilizers_active). The '-->' operator denotes that the response should occur after the trigger condition holds.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(ExploroRover.slope > 30) --> ExploroRover.stabilizers_active"
+          },
+          "total_time": 15.693205118179321,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "classification": {
+            "step": "classification",
+            "timing": 10.707457065582275,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"ExploroRover\",\"transmission failure\",\"transmission\",\"failure\",\"retry\",\"retries\",\"3\",\"log\",\"logs\",\"record\",\"after 3 retries\"],\"cues\":[\"after\",\"when\",\"then\",\"must\",\"retries\",\"retry\",\"3\"],\"trigger_text\":\"after 3 retries\",\"response_text\":\"logs transmission failure\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.979260921478271,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(ExploroRover.retries >= 3 && ExploroRover.transmission_failure) --> A<> ExploroRover.logs_transmission_failure\",\"explanation\":\"This uses the conditional_response pattern: when the trigger condition (ExploroRover has reached 3 or more retries and a transmission failure occurred) holds, then the system must eventually log the transmission failure. The '-->' indicates the conditional eventual response and A<> on the RHS enforces that logging will necessarily eventually occur.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(ExploroRover.retries >= 3 && ExploroRover.transmission_failure) --> A<> ExploroRover.logs_transmission_failure",
+              "explanation": "This uses the conditional_response pattern: when the trigger condition (ExploroRover has reached 3 or more retries and a transmission failure occurred) holds, then the system must eventually log the transmission failure. The '-->' indicates the conditional eventual response and A<> on the RHS enforces that logging will necessarily eventually occur.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "(ExploroRover.retries >= 3 && ExploroRover.transmission_failure) --> A<> ExploroRover.logs_transmission_failure"
+          },
+          "total_time": 19.710731983184814,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "classification": {
+            "step": "classification",
+            "timing": 7.340543985366821,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"fail\",\"failure\",\"transmission\",\"transmission failure\",\"continue\",\"continues\",\"three\",\"3\",\"retry\",\"recover\"],\"cues\":[\"after\",\"when\",\"then\",\"three\",\"fails\",\"continue\"],\"trigger_text\":\"ExploroRover fails transmission three times\",\"response_text\":\"ExploroRover continues.\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.379743099212646,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(ExploroRover.transmission_failures == 3) --> ExploroRover.continues\",\"explanation\":\"The left side encodes the trigger condition 'ExploroRover fails transmission three times' as transmission_failures == 3; the right side encodes the required eventual response 'ExploroRover continues'. The '-->' operator captures the conditional eventual-response pattern (if the condition occurs then the response must follow).\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(ExploroRover.transmission_failures == 3) --> ExploroRover.continues",
+              "explanation": "The left side encodes the trigger condition 'ExploroRover fails transmission three times' as transmission_failures == 3; the right side encodes the required eventual response 'ExploroRover continues'. The '-->' operator captures the conditional eventual-response pattern (if the condition occurs then the response must follow).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(ExploroRover.transmission_failures == 3) --> ExploroRover.continues"
+          },
+          "total_time": 16.737802028656006,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "classification": {
+            "step": "classification",
+            "timing": 7.360020875930786,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"reach\",\"all checkpoints\",\"ExploroRover\",\"must\",\"complete\",\"reachability\"],\"cues\":[\"eventually\",\"must\",\"reach\",\"all\",\"checkpoints\"],\"trigger_text\":null,\"response_text\":\"ExploroRover eventually reaches all checkpoints.\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.544411897659302,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> ExploroRover.all_checkpoints_reached\",\n  \"explanation\": \"This liveness query asserts that in all executions the system will eventually reach a state where the ExploroRover has reached all checkpoints (represented by the boolean/location property ExploroRover.all_checkpoints_reached), matching the requirement that the rover must eventually reach all checkpoints.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ExploroRover.all_checkpoints_reached",
+              "explanation": "This liveness query asserts that in all executions the system will eventually reach a state where the ExploroRover has reached all checkpoints (represented by the boolean/location property ExploroRover.all_checkpoints_reached), matching the requirement that the rover must eventually reach all checkpoints.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ExploroRover.all_checkpoints_reached"
+          },
+          "total_time": 21.93325161933899,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "classification": {
+            "step": "classification",
+            "timing": 8.381694078445435,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\">= 90%\",\"90%\",\"successfully transmitted\",\"data\",\"must\"],\"cues\":[\"eventually\",\">=\",\"\u2265\",\"%\",\"must\",\"data\",\"transmitted\"],\"trigger_text\":null,\"response_text\":\"Eventually at least 90% of the data must be successfully transmitted.\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.582863807678223,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> (data_transmitted * 100 >= 90 * data_total)\",\"explanation\":\"This liveness query uses A<> to assert that on all executions the system eventually reaches a state where at least 90% of data is successfully transmitted. The integer comparison multiplies to avoid floating-point arithmetic (data_transmitted * 100 >= 90 * data_total).\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> (data_transmitted * 100 >= 90 * data_total)",
+              "explanation": "This liveness query uses A<> to assert that on all executions the system eventually reaches a state where at least 90% of data is successfully transmitted. The integer comparison multiplies to avoid floating-point arithmetic (data_transmitted * 100 >= 90 * data_total).",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (data_transmitted * 100 >= 90 * data_total)"
+          },
+          "total_time": 19.990905046463013,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "ExploroRover collects data every 200 m",
+          "classification": {
+            "step": "classification",
+            "timing": 12.549010038375854,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"data collection\",\"cadence\",\"distance-based\",\"sampling\",\"200 m\",\"ExploroRover\"],\"cues\":[\"every\",\"collects\",\"distance\",\"m\",\"then\",\"after\",\"must\",\"can\",\"<\",\">\",\"%\"],\"trigger_text\":\"collects data every 200 m\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 46.53695321083069,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (ExploroRover.distance_since_last_sample >= 200 imply t <= T_sample)\",\"explanation\":\"This property enforces a distance-based cadence: once the rover has traveled 200 m since the last data collection, the time since the last sample (clock t) must not exceed T_sample. Thus data collection must occur within T_sample after reaching 200 m, ensuring a data collection every 200 m.\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (ExploroRover.distance_since_last_sample >= 200 imply t <= T_sample)",
+              "explanation": "This property enforces a distance-based cadence: once the rover has traveled 200 m since the last data collection, the time since the last sample (clock t) must not exceed T_sample. Thus data collection must occur within T_sample after reaching 200 m, ensuring a data collection every 200 m.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (ExploroRover.distance_since_last_sample >= 200 imply t <= T_sample)"
+          },
+          "total_time": 59.1100378036499,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "classification": {
+            "step": "classification",
+            "timing": 17.232728004455566,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"lava\",\"distance\",\"safety\",\"minimum distance\",\"5 m\",\"avoid\"],\"cues\":[\"must\",\"\u2265\"],\"trigger_text\":\"lava proximity < 5 m\",\"response_text\":\"maintain distance of at least 5 m from lava zones\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.524405002593994,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (lava_proximity < 5)\",\"explanation\":\"The constraint requires that the distance to lava be never less than 5 m. The bad state is lava_proximity < 5; using A[] not (...) forbids this state forever.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (lava_proximity < 5)",
+              "explanation": "The constraint requires that the distance to lava be never less than 5 m. The bad state is lava_proximity < 5; using A[] not (...) forbids this state forever.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (lava_proximity < 5)"
+          },
+          "total_time": 31.78313970565796,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "classification": {
+            "step": "classification",
+            "timing": 16.339082956314087,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"conditional_response\",\"slope\",\"stabilizers\",\"activate\",\"threshold\",\"30\u00b0\"],\"cues\":[\"when\",\"then\",\">\",\"\u00b0\"],\"trigger_text\":\"slope > 30\u00b0\",\"response_text\":\"activate stabilizers\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 22.4252347946167,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(slope > 30) --> Stabilizers.activated\",\"explanation\":\"This uses the conditional_response pattern: when the condition slope > 30 is true, the system eventually transitions to the Stabilizers.activated state, reflecting the constraint 'activate stabilizers when slope > 30\u00b0'.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(slope > 30) --> Stabilizers.activated",
+              "explanation": "This uses the conditional_response pattern: when the condition slope > 30 is true, the system eventually transitions to the Stabilizers.activated state, reflecting the constraint 'activate stabilizers when slope > 30\u00b0'.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(slope > 30) --> Stabilizers.activated"
+          },
+          "total_time": 38.78570890426636,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "classification": {
+            "step": "classification",
+            "timing": 15.28684115409851,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"retries\",\"transmission\",\"log\",\"failure\"],\"cues\":[\"after\",\"then\"],\"trigger_text\":\"after 3 retries\",\"response_text\":\"transmission failure logged\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 30.93720507621765,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (ExploroRover.retries >= 3 --> ExploroRover.transmissionFailureLogged)\",\"explanation\":\"Encodes the constraint: after the system has performed 3 or more retries, it must log a transmission failure. The --> arrow expresses sequential/conditional response: the log occurs after the 3rd retry.\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (ExploroRover.retries >= 3 --> ExploroRover.transmissionFailureLogged)",
+              "explanation": "Encodes the constraint: after the system has performed 3 or more retries, it must log a transmission failure. The --> arrow expresses sequential/conditional response: the log occurs after the 3rd retry.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (ExploroRover.retries >= 3 --> ExploroRover.transmissionFailureLogged)"
+          },
+          "total_time": 46.26758098602295,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "classification": {
+            "step": "classification",
+            "timing": 13.64419412612915,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"transmission_failure\",\"three_times\",\"continue\",\"ExploroRover\"],\"cues\":[\"then\",\"three\",\"times\"],\"trigger_text\":\"if transmission fails three times\",\"response_text\":\"ExploroRover continues\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.675441026687622,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(transmission_failure == 3) --> ExploroRover.continues\",\"explanation\":\"This captures the NL constraint as a conditional response: when the transmission fails exactly three times, ExploroRover continues. It follows the conditional_response pattern using --> to denote a triggered, eventual action on the right-hand side.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(transmission_failure == 3) --> ExploroRover.continues",
+              "explanation": "This captures the NL constraint as a conditional response: when the transmission fails exactly three times, ExploroRover continues. It follows the conditional_response pattern using --> to denote a triggered, eventual action on the right-hand side.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(transmission_failure == 3) --> ExploroRover.continues"
+          },
+          "total_time": 34.34318923950195,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "classification": {
+            "step": "classification",
+            "timing": 14.27515196800232,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"checkpoints\",\"reach\",\"eventual\",\"ExploroRover\",\"goal\",\"completion\"],\"cues\":[\"eventually\",\"must\",\"reach\",\"checkpoints\"],\"trigger_text\":\"ExploroRover must eventually reach all checkpoints.\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 25.75995707511902,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> ExploroRover.all_checkpoints_reached\",\"explanation\":\"This encodes a liveness property: on all possible executions, the system must eventually reach a state where all checkpoints have been reached (i.e., the predicate all_checkpoints_reached becomes true). It uses A<> to express that something must eventually happen globally.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> ExploroRover.all_checkpoints_reached",
+              "explanation": "This encodes a liveness property: on all possible executions, the system must eventually reach a state where all checkpoints have been reached (i.e., the predicate all_checkpoints_reached becomes true). It uses A<> to express that something must eventually happen globally.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ExploroRover.all_checkpoints_reached"
+          },
+          "total_time": 40.05635905265808,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "classification": {
+            "step": "classification",
+            "timing": 11.134073257446289,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"data\",\"transmission\",\"reliability\",\"threshold\",\"percentage\",\"eventual\"],\"cues\":[\"eventually\",\"%\",\"must\",\"transmitted\",\"data\"],\"trigger_text\":\"Eventually \u2265 90% data must be successfully transmitted\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 24.963905096054077,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> (total > 0 && transmitted * 10 >= total * 9)\",\"explanation\":\"A<> models that eventually the system achieves a state where at least 90% of the original data has been transmitted (transmitted*10 >= total*9). It uses the eventuality operator for liveness.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> (total > 0 && transmitted * 10 >= total * 9)",
+              "explanation": "A<> models that eventually the system achieves a state where at least 90% of the original data has been transmitted (transmitted*10 >= total*9). It uses the eventuality operator for liveness.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (total > 0 && transmitted * 10 >= total * 9)"
+          },
+          "total_time": 36.12063002586365,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "ExploroRover collects data every 200 m",
+          "classification": {
+            "step": "classification",
+            "timing": 1.6690168380737305,
+            "tokens": 163,
+            "raw_text": "{\n    \"pattern\": \"time_bounded_constraint\",\n    \"keywords\": [\"collects data\", \"every 200 m\"],\n    \"cues\": [\"every\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.464806079864502,
+            "tokens": 727,
+            "raw_text": "{\n  \"query\": \"A[] (ExploroRover.moving && not ExploroRover.data_collected --> ExploroRover.distance >= 200)\",\n  \"explanation\": \"The query ensures that the ExploroRover collects data every 200 meters. The use of '-->' indicates that once the ExploroRover is moving and has not yet collected data, it must eventually reach a distance of 200 meters to trigger data collection.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (ExploroRover.moving && not ExploroRover.data_collected --> ExploroRover.distance >= 200)",
+              "explanation": "The query ensures that the ExploroRover collects data every 200 meters. The use of '-->' indicates that once the ExploroRover is moving and has not yet collected data, it must eventually reach a distance of 200 meters to trigger data collection.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (ExploroRover.moving && not ExploroRover.data_collected --> ExploroRover.distance >= 200)"
+          },
+          "total_time": 5.149559736251831,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2823529243469238,
+            "tokens": 170,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"avoid\", \"lava zones\", \"\u2265 5 m\"],\n  \"cues\": [\"avoids\", \"\u2265\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.716308832168579,
+            "tokens": 600,
+            "raw_text": "{\n  \"query\": \"A[] not (ExploroRover.distance_to_lava < 5)\",\n  \"explanation\": \"This query ensures that the ExploroRover is never within 5 meters of a lava zone, which matches the constraint of avoiding lava zones by at least 5 meters. The 'A[] not' operator is used to specify that this state must never occur, aligning with the forbidden_state pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (ExploroRover.distance_to_lava < 5)",
+              "explanation": "This query ensures that the ExploroRover is never within 5 meters of a lava zone, which matches the constraint of avoiding lava zones by at least 5 meters. The 'A[] not' operator is used to specify that this state must never occur, aligning with the forbidden_state pattern.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ExploroRover.distance_to_lava < 5)"
+          },
+          "total_time": 4.016940116882324,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "classification": {
+            "step": "classification",
+            "timing": 2.2425248622894287,
+            "tokens": 205,
+            "raw_text": "{\n    \"pattern\": \"conditional_response\",\n    \"keywords\": [\"activates\", \"stabilizers\", \"slope\", \">\"],\n    \"cues\": [\"when\", \">\"],\n    \"trigger_text/response_text\": {\n        \"trigger_text\": \"slope > 30\u00b0\",\n        \"response_text\": \"activates stabilizers\"\n    }\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.6334068775177,
+            "tokens": 568,
+            "raw_text": "{\n  \"query\": \"(slope > 30) --> ExploroRover.activates_stabilizers\",\n  \"explanation\": \"This query matches the constraint because it follows the conditional_response pattern where the condition 'slope > 30' leads to the eventual response 'ExploroRover activates stabilizers'. The '-->' operator is used to represent the eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(slope > 30) --> ExploroRover.activates_stabilizers",
+              "explanation": "This query matches the constraint because it follows the conditional_response pattern where the condition 'slope > 30' leads to the eventual response 'ExploroRover activates stabilizers'. The '-->' operator is used to represent the eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(slope > 30) --> ExploroRover.activates_stabilizers"
+          },
+          "total_time": 4.89872407913208,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "classification": {
+            "step": "classification",
+            "timing": 1.152268886566162,
+            "tokens": 166,
+            "raw_text": "{\n    \"pattern\": \"eventual_completion\",\n    \"keywords\": [\"transmission\", \"failure\", \"retries\"],\n    \"cues\": [\"after\", \"3\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.9777090549468994,
+            "tokens": 530,
+            "raw_text": "{\n  \"query\": \"A<> (ExploroRover.transmission_failure && ExploroRover.retries == 3)\",\n  \"explanation\": \"The query ensures that the ExploroRover will eventually log a transmission failure after exactly 3 retries, matching the eventual_completion pattern where a task must eventually complete.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (ExploroRover.transmission_failure && ExploroRover.retries == 3)",
+              "explanation": "The query ensures that the ExploroRover will eventually log a transmission failure after exactly 3 retries, matching the eventual_completion pattern where a task must eventually complete.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (ExploroRover.transmission_failure && ExploroRover.retries == 3)"
+          },
+          "total_time": 4.152119159698486,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3359379768371582,
+            "tokens": 172,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"fails\", \"transmission\", \"continues\"],\n  \"cues\": [\"three times\", \"continues\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.202479124069214,
+            "tokens": 568,
+            "raw_text": "{\n  \"query\": \"A[] (ExploroRover.fails_transmission >= 3 --> A<> ExploroRover.continues)\",\n  \"explanation\": \"The query captures the constraint that if ExploroRover fails transmission three times, it must eventually continue. The 'A[]' operator ensures that whenever the condition of failing transmission three times is met, the 'A<>' operator ensures that ExploroRover will eventually continue, aligning with the eventual_completion pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (ExploroRover.fails_transmission >= 3 --> A<> ExploroRover.continues)",
+              "explanation": "The query captures the constraint that if ExploroRover fails transmission three times, it must eventually continue. The 'A[]' operator ensures that whenever the condition of failing transmission three times is met, the 'A<>' operator ensures that ExploroRover will eventually continue, aligning with the eventual_completion pattern.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (ExploroRover.fails_transmission >= 3 --> A<> ExploroRover.continues)"
+          },
+          "total_time": 4.561523914337158,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.6918139457702637,
+            "tokens": 198,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\", \"checkpoints\"],\n  \"cues\": [\"eventually\", \"must\"],\n  \"trigger_text/response_text\": {\n    \"trigger_text\": \"ExploroRover\",\n    \"response_text\": \"reach all checkpoints\"\n  }\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.8328380584716797,
+            "tokens": 533,
+            "raw_text": "{\n  \"query\": \"A<> ExploroRover.all_checkpoints_reached\",\n  \"explanation\": \"The constraint specifies that ExploroRover must eventually reach all checkpoints, which aligns with the 'eventual_completion' pattern. The A<> operator is used to express that this is a liveness property where something must eventually happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ExploroRover.all_checkpoints_reached",
+              "explanation": "The constraint specifies that ExploroRover must eventually reach all checkpoints, which aligns with the 'eventual_completion' pattern. The A<> operator is used to express that this is a liveness property where something must eventually happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ExploroRover.all_checkpoints_reached"
+          },
+          "total_time": 4.552896976470947,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0613019466400146,
+            "tokens": 168,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"data\", \"successfully transmitted\"],\n  \"cues\": [\"eventually\", \"must\", \"\u2265\", \"%\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.3905298709869385,
+            "tokens": 546,
+            "raw_text": "{\n  \"query\": \"A<> DataTransmission.successful >= 0.9 * DataTransmission.total\",\n  \"explanation\": \"The query uses the A<> operator to express that it is a liveness property where at least 90% of the data must eventually be successfully transmitted. This aligns with the 'eventual_completion' pattern, which is used for tasks that must eventually complete.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> DataTransmission.successful >= 0.9 * DataTransmission.total",
+              "explanation": "The query uses the A<> operator to express that it is a liveness property where at least 90% of the data must eventually be successfully transmitted. This aligns with the 'eventual_completion' pattern, which is used for tasks that must eventually complete.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> DataTransmission.successful >= 0.9 * DataTransmission.total"
+          },
+          "total_time": 4.4700539112091064,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "ExploroRover collects data every 200 m",
+          "classification": {
+            "step": "classification",
+            "timing": 3.358858108520508,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"ExploroRover\", \"collects\", \"data\", \"every\", \"200 m\", \"periodic\", \"interval\"],\n  \"cues\": [\"every\"],\n  \"trigger_text\": \"ExploroRover travels 200 m\",\n  \"response_text\": \"collects data\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.998055934906006,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"ExploroRover.traveled_200m --> ExploroRover.collecting_data\",\n  \"explanation\": \"This query captures the periodic behavior where every time ExploroRover travels 200m (trigger), it eventually collects data (response). The --> operator ensures that after each 200m travel event, the data collection action will eventually follow, matching the sequential workflow pattern for the periodic constraint.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "ExploroRover.traveled_200m --> ExploroRover.collecting_data",
+              "explanation": "This query captures the periodic behavior where every time ExploroRover travels 200m (trigger), it eventually collects data (response). The --> operator ensures that after each 200m travel event, the data collection action will eventually follow, matching the sequential workflow pattern for the periodic constraint.",
+              "confidence": 0.82,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ExploroRover.traveled_200m --> ExploroRover.collecting_data"
+          },
+          "total_time": 8.38928484916687,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "classification": {
+            "step": "classification",
+            "timing": 3.4406089782714844,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"avoids\", \"lava zones\", \"distance\", \"5 m\", \"ExploroRover\"],\n  \"cues\": [\"avoids\", \"\u2265\"],\n  \"trigger_text\": \"ExploroRover in lava zone with distance < 5m\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.479338884353638,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (ExploroRover.distance_to_lava < 5)\",\n  \"explanation\": \"This query ensures ExploroRover never enters a state where its distance to lava zones is less than 5 meters. The forbidden_state pattern with A[] not(...) prevents the dangerous condition from ever occurring, matching the constraint that the rover must avoid lava zones by at least 5m.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (ExploroRover.distance_to_lava < 5)",
+              "explanation": "This query ensures ExploroRover never enters a state where its distance to lava zones is less than 5 meters. The forbidden_state pattern with A[] not(...) prevents the dangerous condition from ever occurring, matching the constraint that the rover must avoid lava zones by at least 5m.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ExploroRover.distance_to_lava < 5)"
+          },
+          "total_time": 8.943145990371704,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "classification": {
+            "step": "classification",
+            "timing": 3.346966028213501,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"ExploroRover\", \"activates\", \"stabilizers\", \"slope\", \"30\u00b0\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"slope > 30\u00b0\",\n  \"response_text\": \"ExploroRover activates stabilizers\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.966126918792725,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(slope > 30) --> ExploroRover.stabilizers_active\",\n  \"explanation\": \"This query uses the conditional response pattern with the --> operator to express that when the slope exceeds 30 degrees, the ExploroRover will eventually activate its stabilizers. The --> operator is appropriate here because it represents a triggered behavior where the condition (slope > 30) leads to an eventual response (stabilizers being activated).\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(slope > 30) --> ExploroRover.stabilizers_active",
+              "explanation": "This query uses the conditional response pattern with the --> operator to express that when the slope exceeds 30 degrees, the ExploroRover will eventually activate its stabilizers. The --> operator is appropriate here because it represents a triggered behavior where the condition (slope > 30) leads to an eventual response (stabilizers being activated).",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(slope > 30) --> ExploroRover.stabilizers_active"
+          },
+          "total_time": 8.335861921310425,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "classification": {
+            "step": "classification",
+            "timing": 3.6162166595458984,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"logs\", \"transmission\", \"failure\", \"retries\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"3 retries\",\n  \"response_text\": \"logs transmission failure\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.432084083557129,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"ExploroRover.retry_count_3 --> ExploroRover.logging_failure\",\n  \"explanation\": \"This query captures the sequential workflow where after 3 retries are reached (state retry_count_3), the ExploroRover eventually logs the transmission failure (state logging_failure). The --> operator ensures that once the retry threshold is met, the logging action will eventually follow.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "ExploroRover.retry_count_3 --> ExploroRover.logging_failure",
+              "explanation": "This query captures the sequential workflow where after 3 retries are reached (state retry_count_3), the ExploroRover eventually logs the transmission failure (state logging_failure). The --> operator ensures that once the retry threshold is met, the logging action will eventually follow.",
+              "confidence": 0.88,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ExploroRover.retry_count_3 --> ExploroRover.logging_failure"
+          },
+          "total_time": 8.063945055007935,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "classification": {
+            "step": "classification",
+            "timing": 2.9206111431121826,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"ExploroRover\", \"fails\", \"transmission\", \"three times\", \"continues\"],\n  \"cues\": [\"three times\", \"continues\"],\n  \"trigger_text\": \"ExploroRover fails transmission three times\",\n  \"response_text\": \"ExploroRover continues\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.4318132400512695,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(ExploroRover.transmission_failures >= 3) --> ExploroRover.continues\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that when ExploroRover fails transmission three times (transmission_failures >= 3), it will eventually continue operating. The --> operator is appropriate here because it captures the eventual response behavior where reaching the failure threshold triggers the continuation action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(ExploroRover.transmission_failures >= 3) --> ExploroRover.continues",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that when ExploroRover fails transmission three times (transmission_failures >= 3), it will eventually continue operating. The --> operator is appropriate here because it captures the eventual response behavior where reaching the failure threshold triggers the continuation action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(ExploroRover.transmission_failures >= 3) --> ExploroRover.continues"
+          },
+          "total_time": 7.374138116836548,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "classification": {
+            "step": "classification",
+            "timing": 3.5814709663391113,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"ExploroRover\", \"eventually\", \"reach\", \"all\", \"checkpoints\"],\n  \"cues\": [\"must\", \"eventually\", \"all\"],\n  \"trigger_text\": \"ExploroRover\",\n  \"response_text\": \"reach all checkpoints\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.682872295379639,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ExploroRover.all_checkpoints_reached\",\n  \"explanation\": \"This query uses the A<> operator to express that ExploroRover must eventually reach a state where all checkpoints have been reached. The A<> (inevitably) operator ensures that along all paths, the system will eventually reach the state where all_checkpoints_reached is true, matching the 'must eventually' requirement in the constraint.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ExploroRover.all_checkpoints_reached",
+              "explanation": "This query uses the A<> operator to express that ExploroRover must eventually reach a state where all checkpoints have been reached. The A<> (inevitably) operator ensures that along all paths, the system will eventually reach the state where all_checkpoints_reached is true, matching the 'must eventually' requirement in the constraint.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ExploroRover.all_checkpoints_reached"
+          },
+          "total_time": 8.286359786987305,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "classification": {
+            "step": "classification",
+            "timing": 3.7255117893218994,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"data\", \"transmitted\", \"successfully\", \"90%\"],\n  \"cues\": [\"Eventually\", \"\u2265\", \"%\", \"must\"],\n  \"response_text\": \"\u2265 90% data must be successfully transmitted\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.693580150604248,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (transmitted_data >= 0.9 * total_data)\",\n  \"explanation\": \"This query uses A<> to verify that eventually at least 90% of the data must be successfully transmitted. The expression compares transmitted_data against 90% of total_data, ensuring the completion requirement is met in all paths.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (transmitted_data >= 0.9 * total_data)",
+              "explanation": "This query uses A<> to verify that eventually at least 90% of the data must be successfully transmitted. The expression compares transmitted_data against 90% of total_data, ensuring the completion requirement is met in all paths.",
+              "confidence": 0.88,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (transmitted_data >= 0.9 * total_data)"
+          },
+          "total_time": 8.445287227630615,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "ExploroRover collects data every 200 m",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9756028652191162,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"collects\", \"data\", \"every\", \"distance\", \"interval\", \"periodic\"],\n  \"cues\": [\"every\"],\n  \"trigger_text\": \"every 200 m\",\n  \"response_text\": \"collects data\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.089056968688965,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"ExploroRover.distance_traveled_200m --> ExploroRover.collecting_data\",\n  \"explanation\": \"The constraint describes a periodic sequential workflow where data collection is triggered every 200m of distance traveled. The trigger event (reaching 200m interval) eventually leads to the response action (collecting data), matching the sequential_workflow pattern. The '-->' operator captures this eventual triggered behavior where the distance milestone triggers the data collection action.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "ExploroRover.distance_traveled_200m --> ExploroRover.collecting_data",
+              "explanation": "The constraint describes a periodic sequential workflow where data collection is triggered every 200m of distance traveled. The trigger event (reaching 200m interval) eventually leads to the response action (collecting data), matching the sequential_workflow pattern. The '-->' operator captures this eventual triggered behavior where the distance milestone triggers the data collection action.",
+              "confidence": 0.82,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ExploroRover.distance_traveled_200m --> ExploroRover.collecting_data"
+          },
+          "total_time": 3.087371587753296,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "classification": {
+            "step": "classification",
+            "timing": 1.16196870803833,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"avoids\", \"lava zones\", \"distance threshold\", \"safety buffer\"],\n  \"cues\": [\"avoids\", \"\u2265\"],\n  \"trigger_text\": \"lava zones\",\n  \"response_text\": \"maintain distance of \u2265 5 m\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7336580753326416,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (ExploroRover.position.distance_to_lava < 5)\",\n  \"explanation\": \"The constraint requires ExploroRover to maintain a distance of at least 5 meters from lava zones at all times. This is a forbidden_state pattern where the bad state is being too close to lava (distance < 5m). The A[] operator ensures this condition is never violated globally, and 'not' negates the forbidden proximity condition.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (ExploroRover.position.distance_to_lava < 5)",
+              "explanation": "The constraint requires ExploroRover to maintain a distance of at least 5 meters from lava zones at all times. This is a forbidden_state pattern where the bad state is being too close to lava (distance < 5m). The A[] operator ensures this condition is never violated globally, and 'not' negates the forbidden proximity condition.",
+              "confidence": 0.92,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ExploroRover.position.distance_to_lava < 5)"
+          },
+          "total_time": 2.927395820617676,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0059881210327148,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"activates\", \"stabilizers\", \"slope\", \"threshold\"],\n  \"cues\": [\">\"],\n  \"trigger_text\": \"slope > 30\u00b0\",\n  \"response_text\": \"activates stabilizers\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8906688690185547,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(ExploroRover.slope > 30) --> ExploroRover.stabilizers_active\",\n  \"explanation\": \"This constraint describes a conditional response pattern where a condition (slope > 30\u00b0) triggers an eventual response (activates stabilizers). The '-->' operator captures the sequential workflow: when the slope exceeds 30 degrees, the rover will eventually activate its stabilizers. This is not an immediate response but rather an eventual action triggered by the condition, making '-->' the appropriate operator.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(ExploroRover.slope > 30) --> ExploroRover.stabilizers_active",
+              "explanation": "This constraint describes a conditional response pattern where a condition (slope > 30\u00b0) triggers an eventual response (activates stabilizers). The '-->' operator captures the sequential workflow: when the slope exceeds 30 degrees, the rover will eventually activate its stabilizers. This is not an immediate response but rather an eventual action triggered by the condition, making '-->' the appropriate operator.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(ExploroRover.slope > 30) --> ExploroRover.stabilizers_active"
+          },
+          "total_time": 2.9189460277557373,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7661428451538086,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"logs\", \"transmission\", \"failure\", \"retries\", \"after\"],\n  \"cues\": [\"after\", \"3\"],\n  \"trigger_text\": \"3 retries attempted\",\n  \"response_text\": \"logs transmission failure\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.2190439701080322,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"ExploroRover.retries >= 3 --> ExploroRover.transmission_failure_logged\",\n  \"explanation\": \"The constraint describes a sequential workflow where after 3 retries are attempted, a failure is logged. This is a conditional response (eventual triggered behavior) rather than a pure liveness property. The '-->' operator captures the causal relationship: when retries reach 3, then transmission failure logging occurs. While 'eventual_completion' was suggested by the classifier, the actual pattern is sequential_workflow/conditional_response, which uses '-->' to show that logging failure is triggered after the retry condition is met.\",\n  \"confidence\": 0.78,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "ExploroRover.retries >= 3 --> ExploroRover.transmission_failure_logged",
+              "explanation": "The constraint describes a sequential workflow where after 3 retries are attempted, a failure is logged. This is a conditional response (eventual triggered behavior) rather than a pure liveness property. The '-->' operator captures the causal relationship: when retries reach 3, then transmission failure logging occurs. While 'eventual_completion' was suggested by the classifier, the actual pattern is sequential_workflow/conditional_response, which uses '-->' to show that logging failure is triggered after the retry condition is met.",
+              "confidence": 0.78,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ExploroRover.retries >= 3 --> ExploroRover.transmission_failure_logged"
+          },
+          "total_time": 3.9969401359558105,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9874517917633057,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"fails\", \"transmission\", \"three times\", \"continues\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"ExploroRover fails transmission three times\",\n  \"response_text\": \"ExploroRover continues\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9830787181854248,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(ExploroRover.transmission_failures == 3) --> ExploroRover.continues\",\n  \"explanation\": \"The constraint follows a conditional_response pattern where the condition is 'ExploroRover fails transmission three times' (represented as transmission_failures counter reaching 3) and the response is 'ExploroRover continues'. The '-->' operator is appropriate here because it represents an eventual triggered behavior: once the transmission fails three times, the rover should eventually continue operating. This is a sequential workflow where the failure count triggers a continuation action.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(ExploroRover.transmission_failures == 3) --> ExploroRover.continues",
+              "explanation": "The constraint follows a conditional_response pattern where the condition is 'ExploroRover fails transmission three times' (represented as transmission_failures counter reaching 3) and the response is 'ExploroRover continues'. The '-->' operator is appropriate here because it represents an eventual triggered behavior: once the transmission fails three times, the rover should eventually continue operating. This is a sequential workflow where the failure count triggers a continuation action.",
+              "confidence": 0.82,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(ExploroRover.transmission_failures == 3) --> ExploroRover.continues"
+          },
+          "total_time": 2.9848668575286865,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4487249851226807,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"reach\", \"checkpoints\", \"all\", \"eventually\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"ExploroRover must eventually reach all checkpoints\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.4123101234436035,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (ExploroRover.checkpoint1 && ExploroRover.checkpoint2 && ExploroRover.checkpoint3)\",\n  \"explanation\": \"The constraint uses 'must eventually reach all checkpoints', which is a mandatory liveness property. The keyword 'must' combined with 'eventually' indicates that ExploroRover is required to visit all checkpoints - this is not optional or possible, but necessary. Therefore, A<> (for 'all paths eventually') is the correct operator. The query checks that along all execution paths, ExploroRover eventually reaches a state where all checkpoints have been visited.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (ExploroRover.checkpoint1 && ExploroRover.checkpoint2 && ExploroRover.checkpoint3)",
+              "explanation": "The constraint uses 'must eventually reach all checkpoints', which is a mandatory liveness property. The keyword 'must' combined with 'eventually' indicates that ExploroRover is required to visit all checkpoints - this is not optional or possible, but necessary. Therefore, A<> (for 'all paths eventually') is the correct operator. The query checks that along all execution paths, ExploroRover eventually reaches a state where all checkpoints have been visited.",
+              "confidence": 0.92,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (ExploroRover.checkpoint1 && ExploroRover.checkpoint2 && ExploroRover.checkpoint3)"
+          },
+          "total_time": 3.8836281299591064,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "classification": {
+            "step": "classification",
+            "timing": 1.315805196762085,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"data transmission\", \"success rate\", \"percentage threshold\", \"eventually\"],\n  \"cues\": [\"Eventually\", \"\u2265\", \"%\"],\n  \"trigger_text\": \"data transmission process\",\n  \"response_text\": \"\u2265 90% data must be successfully transmitted\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.2438621520996094,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (data_transmission.complete && transmission_success_rate >= 90)\",\n  \"explanation\": \"The constraint uses 'Eventually' (liveness indicator) combined with a success rate threshold of \u226590%. This maps to the eventual_completion pattern requiring A<> (must eventually happen globally). The query captures that the data transmission process must eventually complete with at least 90% success rate. The compound condition checks both completion and the percentage threshold being satisfied.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (data_transmission.complete && transmission_success_rate >= 90)",
+              "explanation": "The constraint uses 'Eventually' (liveness indicator) combined with a success rate threshold of \u226590%. This maps to the eventual_completion pattern requiring A<> (must eventually happen globally). The query captures that the data transmission process must eventually complete with at least 90% success rate. The compound condition checks both completion and the percentage threshold being satisfied.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (data_transmission.complete && transmission_success_rate >= 90)"
+          },
+          "total_time": 3.578727960586548,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "ExploroRover collects data every 200 m",
+          "classification": {
+            "step": "classification",
+            "timing": 15.225339889526367,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"collects\", \"data\", \"every\", \"200\", \"m\"], \"cues\": [\"every\"], \"trigger_text\": \"every 200 m\", \"response_text\": \"collects data\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 28.763206243515015,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] ((ExploroRover.distance % 200 == 0) --> ExploroRover.collects_data)\", \"explanation\": \"The conditional_response pattern applies here, where 'every 200 m' (interpreted as whenever distance is a multiple of 200) triggers the eventual response of 'collects data'. The UPPAAL query uses the leads-to operator to ensure that whenever the distance condition holds, the rover eventually enters the collects_data state.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] ((ExploroRover.distance % 200 == 0) --> ExploroRover.collects_data)",
+              "explanation": "The conditional_response pattern applies here, where 'every 200 m' (interpreted as whenever distance is a multiple of 200) triggers the eventual response of 'collects data'. The UPPAAL query uses the leads-to operator to ensure that whenever the distance condition holds, the rover eventually enters the collects_data state.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] ((ExploroRover.distance % 200 == 0) --> ExploroRover.collects_data)"
+          },
+          "total_time": 44.04730486869812,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "classification": {
+            "step": "classification",
+            "timing": 11.775306940078735,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"forbidden_state\", \"keywords\": [\"avoids\", \"lava zones\", \"5 m\"], \"cues\": [\"avoids\", \"\u2265\"]}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 28.832084894180298,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] not (ExploroRover.distance_to_lava < 5)\", \"explanation\": \"The natural-language constraint requires that the ExploroRover never comes within 5 meters of lava zones, which corresponds to a forbidden state where the condition 'distance_to_lava < 5' must never be true. This matches the forbidden_state pattern using A[] not (bad_state).\", \"confidence\": 0.85, \"pattern_used\": \"forbidden_state\", \"operator_used\": [\"A[]\", \"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (ExploroRover.distance_to_lava < 5)",
+              "explanation": "The natural-language constraint requires that the ExploroRover never comes within 5 meters of lava zones, which corresponds to a forbidden state where the condition 'distance_to_lava < 5' must never be true. This matches the forbidden_state pattern using A[] not (bad_state).",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ExploroRover.distance_to_lava < 5)"
+          },
+          "total_time": 40.63230919837952,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "classification": {
+            "step": "classification",
+            "timing": 9.34974193572998,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"activates\", \"stabilizers\", \"slope\"], \"cues\": [\"when\", \">\"], \"trigger_text\": \"slope > 30\u00b0\", \"response_text\": \"activates stabilizers\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.164200067520142,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(slope > 30) --> ExploroRover.stabilizers_activated\", \"explanation\": \"The query uses the --> operator to specify that whenever the slope exceeds 30 degrees, the ExploroRover will eventually activate its stabilizers, aligning with the conditional_response pattern for triggered eventual behaviors.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(slope > 30) --> ExploroRover.stabilizers_activated",
+              "explanation": "The query uses the --> operator to specify that whenever the slope exceeds 30 degrees, the ExploroRover will eventually activate its stabilizers, aligning with the conditional_response pattern for triggered eventual behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(slope > 30) --> ExploroRover.stabilizers_activated"
+          },
+          "total_time": 20.541269063949585,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "classification": {
+            "step": "classification",
+            "timing": 15.735528230667114,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"logs\",\"transmission\",\"failure\",\"after\",\"retries\"],\"cues\":[\"after\"],\"trigger_text\":\"3 retries\",\"response_text\":\"logs transmission failure\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.982418298721313,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(ExploroRover.retries == 3) --> ExploroRover.logs_transmission_failure\", \"explanation\": \"The constraint specifies that after 3 retries, the ExploroRover will eventually log a transmission failure, fitting the conditional_response pattern where a condition triggers an eventual response, using the --> operator for sequential eventual behavior as seen in similar examples.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(ExploroRover.retries == 3) --> ExploroRover.logs_transmission_failure",
+              "explanation": "The constraint specifies that after 3 retries, the ExploroRover will eventually log a transmission failure, fitting the conditional_response pattern where a condition triggers an eventual response, using the --> operator for sequential eventual behavior as seen in similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(ExploroRover.retries == 3) --> ExploroRover.logs_transmission_failure"
+          },
+          "total_time": 26.735536813735962,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "classification": {
+            "step": "classification",
+            "timing": 15.947304964065552,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"fails\",\"continues\"],\"cues\":[\"three\"],\"trigger_text\":\"fails transmission three times\",\"response_text\":\"continues\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.676593780517578,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(ExploroRover.transmission_failures == 3) --> ExploroRover.continues\", \"explanation\": \"This query follows the conditional_response pattern, where the condition of ExploroRover failing transmission three times triggers the eventual response of ExploroRover continuing its operation.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(ExploroRover.transmission_failures == 3) --> ExploroRover.continues",
+              "explanation": "This query follows the conditional_response pattern, where the condition of ExploroRover failing transmission three times triggers the eventual response of ExploroRover continuing its operation.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(ExploroRover.transmission_failures == 3) --> ExploroRover.continues"
+          },
+          "total_time": 28.634814023971558,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "classification": {
+            "step": "classification",
+            "timing": 11.830138921737671,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"reach\",\"checkpoints\"],\"cues\":[\"eventually\",\"must\"]}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.028105020523071,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> ExploroRover.all_checkpoints_reached\", \"explanation\": \"The constraint 'ExploroRover must eventually reach all checkpoints' indicates a liveness property where the system must eventually achieve a state of having reached all checkpoints, which aligns with the eventual_completion pattern using the A<> operator for global liveness.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> ExploroRover.all_checkpoints_reached",
+              "explanation": "The constraint 'ExploroRover must eventually reach all checkpoints' indicates a liveness property where the system must eventually achieve a state of having reached all checkpoints, which aligns with the eventual_completion pattern using the A<> operator for global liveness.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ExploroRover.all_checkpoints_reached"
+          },
+          "total_time": 25.87857675552368,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "classification": {
+            "step": "classification",
+            "timing": 12.049553871154785,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"data\", \"transmitted\", \"successfully\"], \"cues\": [\"eventually\", \"\u2265\", \"%\", \"must\"]}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.462579011917114,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> (data_transmitted >= 90)\", \"explanation\": \"The constraint specifies that eventually, at least 90% of the data must be successfully transmitted, which aligns with the eventual_completion pattern for liveness properties. The A<> operator ensures that the system will eventually reach a state where data_transmitted is at least 90.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> (data_transmitted >= 90)",
+              "explanation": "The constraint specifies that eventually, at least 90% of the data must be successfully transmitted, which aligns with the eventual_completion pattern for liveness properties. The A<> operator ensures that the system will eventually reach a state where data_transmitted is at least 90.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (data_transmitted >= 90)"
+          },
+          "total_time": 32.535457134246826,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "ExploroRover collects data every 200 m",
+          "classification": {
+            "step": "classification",
+            "timing": 8.64698076248169,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"collects\", \"every\", \"200 m\", \"data\"],\n  \"cues\": [\"every\"],\n  \"trigger_text\": \"every 200 m\",\n  \"response_text\": \"collects data\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.760864973068237,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (rover.needs_data_collection imply clock <= 200)\",\n  \"explanation\": \"This query ensures that when the rover needs to collect data (interpreted as the state for every 200 m), the action occurs within 200 time units, aligning with the time_bounded_constraint pattern by enforcing a maximum duration.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (rover.needs_data_collection imply clock <= 200)",
+              "explanation": "This query ensures that when the rover needs to collect data (interpreted as the state for every 200 m), the action occurs within 200 time units, aligning with the time_bounded_constraint pattern by enforcing a maximum duration.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (rover.needs_data_collection imply clock <= 200)"
+          },
+          "total_time": 29.4288330078125,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "classification": {
+            "step": "classification",
+            "timing": 6.603128910064697,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"avoids\", \"lava zones\", \"\u2265 5 m\"],\n  \"cues\": [\"\u2265\"],\n  \"trigger_text\": \"ExploroRover avoids lava zones by \u2265 5 m\"\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.52978515625,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (ExploroRover.distance_to_lava <= 5)\",\n  \"explanation\": \"This query ensures that the ExploroRover never enters a state where its distance to lava zones is less than or equal to 5 meters, directly matching the constraint that it must avoid lava zones by at least 5 meters, using the forbidden_state pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (ExploroRover.distance_to_lava <= 5)",
+              "explanation": "This query ensures that the ExploroRover never enters a state where its distance to lava zones is less than or equal to 5 meters, directly matching the constraint that it must avoid lava zones by at least 5 meters, using the forbidden_state pattern.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ExploroRover.distance_to_lava <= 5)"
+          },
+          "total_time": 23.15555500984192,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "classification": {
+            "step": "classification",
+            "timing": 8.531195878982544,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"activates\", \"stabilizers\", \"slope\", \"30\u00b0\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"slope > 30\u00b0\",\n  \"response_text\": \"activates stabilizers\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.661882162094116,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(slope > 30) --> ExploroRover.stabilizers_active\",\n  \"explanation\": \"The query matches the constraint by using the --> operator to represent that when the condition 'slope > 30\u00b0' is true, the ExploroRover will eventually activate its stabilizers, aligning with the conditional_response pattern for eventual triggered behaviors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(slope > 30) --> ExploroRover.stabilizers_active",
+              "explanation": "The query matches the constraint by using the --> operator to represent that when the condition 'slope > 30\u00b0' is true, the ExploroRover will eventually activate its stabilizers, aligning with the conditional_response pattern for eventual triggered behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(slope > 30) --> ExploroRover.stabilizers_active"
+          },
+          "total_time": 16.21900486946106,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "classification": {
+            "step": "classification",
+            "timing": 7.702981233596802,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"logs\", \"transmission\", \"failure\", \"after\", \"retries\", \"3\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"after 3 retries\",\n  \"response_text\": \"logs transmission failure\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.386986255645752,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(retries == 3) --> ExploroRover.logs_transmission_failure\",\n  \"explanation\": \"This query matches the constraint because it uses the conditional_response pattern to indicate that after the condition of reaching 3 retries is met, the system will eventually log the transmission failure, reflecting the sequential workflow described.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(retries == 3) --> ExploroRover.logs_transmission_failure",
+              "explanation": "This query matches the constraint because it uses the conditional_response pattern to indicate that after the condition of reaching 3 retries is met, the system will eventually log the transmission failure, reflecting the sequential workflow described.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(retries == 3) --> ExploroRover.logs_transmission_failure"
+          },
+          "total_time": 17.119478940963745,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "classification": {
+            "step": "classification",
+            "timing": 10.213833093643188,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"fails\", \"transmission\", \"continues\", \"three times\"],\n  \"cues\": [\"times\"],\n  \"trigger_text\": \"ExploroRover fails transmission three times\",\n  \"response_text\": \"ExploroRover continues\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.476935863494873,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(transmissionFailures >= 3) --> roverContinues\",\n  \"explanation\": \"This query matches the constraint because it uses the conditional_response pattern to indicate that after the ExploroRover has failed transmission three times (represented by transmissionFailures >= 3), it eventually continues (represented by roverContinues), following the template of condition --> response for eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(transmissionFailures >= 3) --> roverContinues",
+              "explanation": "This query matches the constraint because it uses the conditional_response pattern to indicate that after the ExploroRover has failed transmission three times (represented by transmissionFailures >= 3), it eventually continues (represented by roverContinues), following the template of condition --> response for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(transmissionFailures >= 3) --> roverContinues"
+          },
+          "total_time": 20.71059823036194,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "classification": {
+            "step": "classification",
+            "timing": 8.234600067138672,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\", \"checkpoints\"],\n  \"cues\": [\"eventually\", \"must\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.457190990447998,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> ExploroRover.all_checkpoints_reached\",\n  \"explanation\": \"This query matches the constraint because it uses the A<> operator to ensure that the ExploroRover will inevitably reach a state where all checkpoints are reached, reflecting the eventual completion pattern for liveness properties.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ExploroRover.all_checkpoints_reached",
+              "explanation": "This query matches the constraint because it uses the A<> operator to ensure that the ExploroRover will inevitably reach a state where all checkpoints are reached, reflecting the eventual completion pattern for liveness properties.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ExploroRover.all_checkpoints_reached"
+          },
+          "total_time": 23.725127935409546,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "classification": {
+            "step": "classification",
+            "timing": 7.183149814605713,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"must\", \"successfully\", \"transmitted\", \"90%\"],\n  \"cues\": [\"eventually\", \"\u2265\", \"%\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.79567289352417,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> (transmitted_data >= 90)\",\n  \"explanation\": \"This query uses the A<> operator to ensure that eventually, the condition of at least 90% data being successfully transmitted is met, aligning with the eventual_completion pattern for liveness properties.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (transmitted_data >= 90)",
+              "explanation": "This query uses the A<> operator to ensure that eventually, the condition of at least 90% data being successfully transmitted is met, aligning with the eventual_completion pattern for liveness properties.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (transmitted_data >= 90)"
+          },
+          "total_time": 22.999313354492188,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "ExploroRover collects data every 200 m",
+          "classification": {
+            "step": "classification",
+            "timing": 62.76213598251343,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"collects\", \"data\", \"every\", \"200 m\"],\n  \"cues\": [\"every\"],\n  \"trigger_text\": \"every 200 m\",\n  \"response_text\": \"collects data\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 93.00871515274048,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(ExploroRover.distance % 200 == 0) --> ExploroRover.data_collected\",\n  \"explanation\": \"The constraint 'collects data every 200 m' indicates that reaching a distance multiple of 200 meters (condition) triggers the eventual action of data collection (response). This aligns with the conditional_response pattern, where a condition leads to an eventual response, using the '-->' operator for triggered sequential behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(ExploroRover.distance % 200 == 0) --> ExploroRover.data_collected",
+              "explanation": "The constraint 'collects data every 200 m' indicates that reaching a distance multiple of 200 meters (condition) triggers the eventual action of data collection (response). This aligns with the conditional_response pattern, where a condition leads to an eventual response, using the '-->' operator for triggered sequential behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(ExploroRover.distance % 200 == 0) --> ExploroRover.data_collected"
+          },
+          "total_time": 155.78785276412964,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "classification": {
+            "step": "classification",
+            "timing": 52.046980142593384,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"avoids\", \"lava zones\", \"minimum distance 5 meters\", \"safety avoidance\"],\n  \"cues\": [\"avoids\", \"\u2265\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 66.13829112052917,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (distance_to_lava < 5)\",\n  \"explanation\": \"This query translates the constraint 'ExploroRover avoids lava zones by \u2265 5 m' into UPPAAL by using the forbidden_state pattern. It ensures that the state where the rover is within 5 meters of lava zones never occurs, which corresponds directly to the requirement of maintaining a minimum distance of 5 meters for safety avoidance. The pattern matches keywords like 'avoids' and cues like '\u2265', and follows the template A[] not(bad_state).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (distance_to_lava < 5)",
+              "explanation": "This query translates the constraint 'ExploroRover avoids lava zones by \u2265 5 m' into UPPAAL by using the forbidden_state pattern. It ensures that the state where the rover is within 5 meters of lava zones never occurs, which corresponds directly to the requirement of maintaining a minimum distance of 5 meters for safety avoidance. The pattern matches keywords like 'avoids' and cues like '\u2265', and follows the template A[] not(bad_state).",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (distance_to_lava < 5)"
+          },
+          "total_time": 118.21192336082458,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "classification": {
+            "step": "classification",
+            "timing": 23.70018720626831,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"stabilizers\", \"slope\", \"activate\", \"30 degrees\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"slope > 30\u00b0\",\n  \"response_text\": \"activates stabilizers\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 35.16157102584839,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(slope > 30) --> ExploroRover.activates_stabilizers\",\n  \"explanation\": \"The constraint specifies that when the slope exceeds 30 degrees, the ExploroRover eventually activates its stabilizers, which aligns with the 'conditional_response' pattern for triggered behaviors leading to eventual action. The '-->' operator is used to model this sequential workflow where the condition (slope > 30) leads to the response (activates stabilizers).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(slope > 30) --> ExploroRover.activates_stabilizers",
+              "explanation": "The constraint specifies that when the slope exceeds 30 degrees, the ExploroRover eventually activates its stabilizers, which aligns with the 'conditional_response' pattern for triggered behaviors leading to eventual action. The '-->' operator is used to model this sequential workflow where the condition (slope > 30) leads to the response (activates stabilizers).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(slope > 30) --> ExploroRover.activates_stabilizers"
+          },
+          "total_time": 58.87847018241882,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "classification": {
+            "step": "classification",
+            "timing": 36.52247905731201,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"transmission failure\", \"retries\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"transmission failure after 3 retries\",\n  \"response_text\": \"logs transmission failure\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 89.37395906448364,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(ExploroRover.retries == 3 && ExploroRover.transmission_failure_detected) --> ExploroRover.logs_failure\",\n  \"explanation\": \"The constraint 'ExploroRover logs transmission failure after 3 retries' fits the conditional_response pattern, where a condition triggers an eventual action. Here, the condition 'transmission failure after 3 retries' is modeled as (retries == 3 && transmission_failure_detected), and the response 'logs transmission failure' as logs_failure. The '-->' operator is used for eventual triggered behavior, consistent with the pattern and similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(ExploroRover.retries == 3 && ExploroRover.transmission_failure_detected) --> ExploroRover.logs_failure",
+              "explanation": "The constraint 'ExploroRover logs transmission failure after 3 retries' fits the conditional_response pattern, where a condition triggers an eventual action. Here, the condition 'transmission failure after 3 retries' is modeled as (retries == 3 && transmission_failure_detected), and the response 'logs transmission failure' as logs_failure. The '-->' operator is used for eventual triggered behavior, consistent with the pattern and similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(ExploroRover.retries == 3 && ExploroRover.transmission_failure_detected) --> ExploroRover.logs_failure"
+          },
+          "total_time": 125.92518091201782,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "classification": {
+            "step": "classification",
+            "timing": 30.707978010177612,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"ExploroRover\", \"fails\", \"transmission\", \"three times\", \"continues\"],\n  \"cues\": [],\n  \"trigger_text\": \"ExploroRover fails transmission three times\",\n  \"response_text\": \"ExploroRover continues\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 77.42308902740479,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(ExploroRover.fail_count == 3) --> ExploroRover.active\",\n  \"explanation\": \"This query matches the constraint 'ExploroRover fails transmission three times, ExploroRover continues' by using the conditional_response pattern. The condition 'fails transmission three times' is modeled as the transmission failure count reaching three (ExploroRover.fail_count == 3), and the response 'continues' is modeled as the rover remaining active (ExploroRover.active). The '-->' operator is appropriate for eventual triggered behavior, ensuring that after the condition holds, the response will eventually occur, as seen in similar examples like 'Visibility below 30% causes both drones to surface'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(ExploroRover.fail_count == 3) --> ExploroRover.active",
+              "explanation": "This query matches the constraint 'ExploroRover fails transmission three times, ExploroRover continues' by using the conditional_response pattern. The condition 'fails transmission three times' is modeled as the transmission failure count reaching three (ExploroRover.fail_count == 3), and the response 'continues' is modeled as the rover remaining active (ExploroRover.active). The '-->' operator is appropriate for eventual triggered behavior, ensuring that after the condition holds, the response will eventually occur, as seen in similar examples like 'Visibility below 30% causes both drones to surface'.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(ExploroRover.fail_count == 3) --> ExploroRover.active"
+          },
+          "total_time": 108.15788173675537,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "classification": {
+            "step": "classification",
+            "timing": 26.236334085464478,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\", \"checkpoints\"],\n  \"cues\": [\"must\", \"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 57.251460790634155,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> ExploroRover.all_checkpoints_reached\",\n  \"explanation\": \"The constraint 'ExploroRover must eventually reach all checkpoints' is a liveness property requiring eventual completion, matching the 'eventual_completion' pattern. The A<> operator in UPPAAL checks if a state eventually holds globally, which directly corresponds to 'must eventually' by ensuring that the condition 'ExploroRover.all_checkpoints_reached' becomes true in some future state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> ExploroRover.all_checkpoints_reached",
+              "explanation": "The constraint 'ExploroRover must eventually reach all checkpoints' is a liveness property requiring eventual completion, matching the 'eventual_completion' pattern. The A<> operator in UPPAAL checks if a state eventually holds globally, which directly corresponds to 'must eventually' by ensuring that the condition 'ExploroRover.all_checkpoints_reached' becomes true in some future state.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ExploroRover.all_checkpoints_reached"
+          },
+          "total_time": 83.51123404502869,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "classification": {
+            "step": "classification",
+            "timing": 61.12257504463196,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"90%\", \"data\", \"transmitted\", \"successfully\"],\n  \"cues\": [\"eventually\", \"must\", \"%\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 86.1735270023346,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> (transmitted_data * 100 >= 90 * total_data)\",\n  \"explanation\": \"The constraint 'Eventually \u2265 90% data must be successfully transmitted' matches the eventual_completion pattern for liveness properties, using A<> to express that eventually a state where at least 90% of data is transmitted successfully must be reached, as indicated by keywords 'eventually' and 'must'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (transmitted_data * 100 >= 90 * total_data)",
+              "explanation": "The constraint 'Eventually \u2265 90% data must be successfully transmitted' matches the eventual_completion pattern for liveness properties, using A<> to express that eventually a state where at least 90% of data is transmitted successfully must be reached, as indicated by keywords 'eventually' and 'must'.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (transmitted_data * 100 >= 90 * total_data)"
+          },
+          "total_time": 147.3278510570526,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "ExploroRover collects data every 200 m",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8179330825805664,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"data collection\", \"interval\", \"distance\", \"ExploroRover\"],\n  \"cues\": [\"every\"],\n  \"trigger_text\": \"ExploroRover\",\n  \"response_text\": \"collects data\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.940704107284546,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] ExploroRover.collecting_data --> distance <= 200\",\n  \"explanation\": \"The constraint states that the ExploroRover collects data every 200 meters. This means that whenever the rover is collecting data, the distance traveled must be less than or equal to 200 meters since the last data collection. The '-->' operator represents the eventual trigger. We assume 'ExploroRover.collecting_data' represents the state where the rover is collecting data, and 'distance' is a variable representing the distance traveled. The constraint enforces that a state transition eventually brings the distance to less than or equal to 200, ensuring data collection occurs within every 200 meter interval.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] ExploroRover.collecting_data --> distance <= 200",
+              "explanation": "The constraint states that the ExploroRover collects data every 200 meters. This means that whenever the rover is collecting data, the distance traveled must be less than or equal to 200 meters since the last data collection. The '-->' operator represents the eventual trigger. We assume 'ExploroRover.collecting_data' represents the state where the rover is collecting data, and 'distance' is a variable representing the distance traveled. The constraint enforces that a state transition eventually brings the distance to less than or equal to 200, ensuring data collection occurs within every 200 meter interval.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] ExploroRover.collecting_data --> distance <= 200"
+          },
+          "total_time": 2.7826640605926514,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7592971324920654,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"avoid\",\n    \"lava zones\",\n    \"distance\",\n    \"ExploroRover\"\n  ],\n  \"cues\": [\n    \"avoids\",\n    \"\u2265\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2242958545684814,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] ExploroRover.distanceToLava >= 5\",\n  \"explanation\": \"The constraint states that the ExploroRover must always avoid lava zones by a distance greater than or equal to 5 meters.  The `A[]` operator ensures that the condition `ExploroRover.distanceToLava >= 5` is always true. This aligns with the 'forbidden_state' pattern, where we define a condition that must always hold to avoid a 'bad' state (being too close to lava).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] ExploroRover.distanceToLava >= 5",
+              "explanation": "The constraint states that the ExploroRover must always avoid lava zones by a distance greater than or equal to 5 meters.  The `A[]` operator ensures that the condition `ExploroRover.distanceToLava >= 5` is always true. This aligns with the 'forbidden_state' pattern, where we define a condition that must always hold to avoid a 'bad' state (being too close to lava).",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] ExploroRover.distanceToLava >= 5"
+          },
+          "total_time": 2.009148120880127,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0758230686187744,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"ExploroRover\", \"stabilizers\", \"slope\", \"activate\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"slope > 30\u00b0\",\n  \"response_text\": \"ExploroRover activates stabilizers\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.030791997909546,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(ExploroRover.slope > 30) --> ExploroRover.stabilizers_active\",\n  \"explanation\": \"The constraint states that when the slope is greater than 30 degrees, the ExploroRover activates its stabilizers. This matches the 'conditional_response' pattern where a condition (slope > 30) eventually leads to a response (stabilizers active). The '-->' operator signifies eventual response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(ExploroRover.slope > 30) --> ExploroRover.stabilizers_active",
+              "explanation": "The constraint states that when the slope is greater than 30 degrees, the ExploroRover activates its stabilizers. This matches the 'conditional_response' pattern where a condition (slope > 30) eventually leads to a response (stabilizers active). The '-->' operator signifies eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(ExploroRover.slope > 30) --> ExploroRover.stabilizers_active"
+          },
+          "total_time": 2.125307321548462,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8041000366210938,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"transmission\", \"failure\", \"retries\", \"log\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"3 retries\",\n  \"response_text\": \"ExploroRover logs transmission failure\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.072861909866333,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"ExploroRover.retries >= 3 --> ExploroRover.log_failure\",\n  \"explanation\": \"The constraint states that after 3 retries, ExploroRover logs transmission failure. This is a conditional response where one state change triggers another. The '-->' operator represents eventual implication: If the number of retries is greater than or equal to 3, then eventually the log_failure state will be reached.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "ExploroRover.retries >= 3 --> ExploroRover.log_failure",
+              "explanation": "The constraint states that after 3 retries, ExploroRover logs transmission failure. This is a conditional response where one state change triggers another. The '-->' operator represents eventual implication: If the number of retries is greater than or equal to 3, then eventually the log_failure state will be reached.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ExploroRover.retries >= 3 --> ExploroRover.log_failure"
+          },
+          "total_time": 1.9013781547546387,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0434308052062988,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"continue\", \"fail\", \"transmission\", \"times\"],\n  \"cues\": [],\n  \"trigger_text\": \"ExploroRover fails transmission three times\",\n  \"response_text\": \"ExploroRover continues\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5605387687683105,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"ExploroRover.fail_count >= 3 --> ExploroRover.continues\",\n  \"explanation\": \"The constraint states that if ExploroRover fails transmission three times, then ExploroRover eventually continues. This is a conditional response, where the failure event triggers a subsequent continuation. Therefore, the '-->' (leads to) operator is used. 'ExploroRover.fail_count >= 3' represents the condition of failing three times, and 'ExploroRover.continues' indicates that the continuation event happens.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "ExploroRover.fail_count >= 3 --> ExploroRover.continues",
+              "explanation": "The constraint states that if ExploroRover fails transmission three times, then ExploroRover eventually continues. This is a conditional response, where the failure event triggers a subsequent continuation. Therefore, the '-->' (leads to) operator is used. 'ExploroRover.fail_count >= 3' represents the condition of failing three times, and 'ExploroRover.continues' indicates that the continuation event happens.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ExploroRover.fail_count >= 3 --> ExploroRover.continues"
+          },
+          "total_time": 2.628204107284546,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9681169986724854,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"reach\", \"all\", \"checkpoints\", \"eventually\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"ExploroRover\",\n  \"response_text\": \"must eventually reach all checkpoints\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.1670050621032715,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ExploroRover.all_checkpoints_reached\",\n  \"explanation\": \"The constraint states that 'ExploroRover must eventually reach all checkpoints'. This matches the 'eventual_completion' pattern which uses the 'A<>' (eventually) operator. We assume 'all_checkpoints_reached' is a boolean variable in the 'ExploroRover' automaton that becomes true when all checkpoints are reached.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ExploroRover.all_checkpoints_reached",
+              "explanation": "The constraint states that 'ExploroRover must eventually reach all checkpoints'. This matches the 'eventual_completion' pattern which uses the 'A<>' (eventually) operator. We assume 'all_checkpoints_reached' is a boolean variable in the 'ExploroRover' automaton that becomes true when all checkpoints are reached.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ExploroRover.all_checkpoints_reached"
+          },
+          "total_time": 2.1674067974090576,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1922328472137451,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"data\",\n    \"transmission\",\n    \"success\",\n    \"eventually\",\n    \"percentage\"\n  ],\n  \"cues\": [\n    \"eventually\",\n    \"\u2265\",\n    \"%\"\n  ],\n  \"trigger_text\": \"data\",\n  \"response_text\": \"transmitted\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7385990619659424,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> data_transmitted >= 90\",\n  \"explanation\": \"The constraint states that eventually, at least 90% of the data must be successfully transmitted.  The `A<>` operator from the 'eventual_completion' pattern ensures that the system *must eventually* reach a state where the condition `data_transmitted >= 90` is true. We assume `data_transmitted` is a variable representing the percentage of successfully transmitted data.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> data_transmitted >= 90",
+              "explanation": "The constraint states that eventually, at least 90% of the data must be successfully transmitted.  The `A<>` operator from the 'eventual_completion' pattern ensures that the system *must eventually* reach a state where the condition `data_transmitted >= 90` is true. We assume `data_transmitted` is a variable representing the percentage of successfully transmitted data.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> data_transmitted >= 90"
+          },
+          "total_time": 2.9507431983947754,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "ExploroRover collects data every 200 m",
+          "classification": {
+            "step": "classification",
+            "timing": 7.983250856399536,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"ExploroRover\",\n    \"collects data\",\n    \"every\",\n    \"200 m\"\n  ],\n  \"cues\": [\n    \"every\"\n  ],\n  \"trigger_text\": \"travels 200 m\",\n  \"response_text\": \"collects data\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.753448963165283,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"ExploroRover.Traveled200m --> ExploroRover.CollectingData\",\n  \"explanation\": \"This query uses the 'leads to' operator (-->) to verify that whenever the condition 'ExploroRover.Traveled200m' is met, the response 'ExploroRover.CollectingData' must eventually occur. This directly translates the rule that every time the rover travels 200 meters, it is followed by a data collection event.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "ExploroRover.Traveled200m --> ExploroRover.CollectingData",
+              "explanation": "This query uses the 'leads to' operator (-->) to verify that whenever the condition 'ExploroRover.Traveled200m' is met, the response 'ExploroRover.CollectingData' must eventually occur. This directly translates the rule that every time the rover travels 200 meters, it is followed by a data collection event.",
+              "confidence": 0.95,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ExploroRover.Traveled200m --> ExploroRover.CollectingData"
+          },
+          "total_time": 27.75932502746582,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "classification": {
+            "step": "classification",
+            "timing": 8.334002017974854,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"ExploroRover\",\n    \"avoids\",\n    \"lava zones\",\n    \"distance\"\n  ],\n  \"cues\": [\n    \"avoids\",\n    \"\u2265\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.50205111503601,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (ExploroRover.distance_to_lava < 5)\",\n  \"explanation\": \"The query uses the `A[] not (...)` structure, which defines a forbidden state that must never occur. The `A[]` operator ensures this property is checked globally in all reachable states. The forbidden state is `ExploroRover.distance_to_lava < 5`, which directly represents the rover violating the safety distance. By asserting this state must never happen, the query enforces the constraint that the rover always avoids lava zones by a distance of 5 meters or more.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[] not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (ExploroRover.distance_to_lava < 5)",
+              "explanation": "The query uses the `A[] not (...)` structure, which defines a forbidden state that must never occur. The `A[]` operator ensures this property is checked globally in all reachable states. The forbidden state is `ExploroRover.distance_to_lava < 5`, which directly represents the rover violating the safety distance. By asserting this state must never happen, the query enforces the constraint that the rover always avoids lava zones by a distance of 5 meters or more.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[] not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (ExploroRover.distance_to_lava < 5)"
+          },
+          "total_time": 25.85993194580078,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "classification": {
+            "step": "classification",
+            "timing": 9.726469993591309,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"rover\",\n    \"stabilizers\",\n    \"slope\"\n  ],\n  \"cues\": [\n    \"when\",\n    \">\"\n  ],\n  \"trigger_text\": \"slope > 30\u00b0\",\n  \"response_text\": \"ExploroRover activates stabilizers\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 26.723479986190796,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (ExploroRover.slope > 30 imply ExploroRover.stabilizers_active)\",\n  \"explanation\": \"This query enforces an invariant safety property using A[] ('always'). It asserts that in any state where the trigger condition `ExploroRover.slope > 30` is true, the response `ExploroRover.stabilizers_active` must also be true. The `imply` operator ensures this is an immediate, same-state consequence, directly matching the 'when... then...' safety pattern.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (ExploroRover.slope > 30 imply ExploroRover.stabilizers_active)",
+              "explanation": "This query enforces an invariant safety property using A[] ('always'). It asserts that in any state where the trigger condition `ExploroRover.slope > 30` is true, the response `ExploroRover.stabilizers_active` must also be true. The `imply` operator ensures this is an immediate, same-state consequence, directly matching the 'when... then...' safety pattern.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (ExploroRover.slope > 30 imply ExploroRover.stabilizers_active)"
+          },
+          "total_time": 36.474244117736816,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "classification": {
+            "step": "classification",
+            "timing": 8.370338916778564,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"logs\",\n    \"transmission\",\n    \"failure\",\n    \"retries\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"after 3 retries\",\n  \"response_text\": \"ExploroRover logs transmission failure\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.144493818283081,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"ExploroRover.retries == 3 --> ExploroRover.TransmissionFailureLogged\",\n  \"explanation\": \"This query checks if the condition 'ExploroRover.retries == 3' (representing 'after 3 retries') eventually leads to the response 'ExploroRover.TransmissionFailureLogged' (representing 'logs transmission failure'). The '-->' operator correctly models the 'after...then' sequential and conditional nature of the constraint.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "ExploroRover.retries == 3 --> ExploroRover.TransmissionFailureLogged",
+              "explanation": "This query checks if the condition 'ExploroRover.retries == 3' (representing 'after 3 retries') eventually leads to the response 'ExploroRover.TransmissionFailureLogged' (representing 'logs transmission failure'). The '-->' operator correctly models the 'after...then' sequential and conditional nature of the constraint.",
+              "confidence": 0.95,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ExploroRover.retries == 3 --> ExploroRover.TransmissionFailureLogged"
+          },
+          "total_time": 21.532795190811157,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "classification": {
+            "step": "classification",
+            "timing": 7.983392000198364,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"ExploroRover\",\n    \"fails\",\n    \"transmission\",\n    \"three times\",\n    \"continues\"\n  ],\n  \"cues\": [],\n  \"trigger_text\": \"ExploroRover fails transmission three times\",\n  \"response_text\": \"ExploroRover continues\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.44078803062439,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"ExploroRover.transmission_failures == 3 --> ExploroRover.Continuing\",\n  \"explanation\": \"The constraint specifies that a condition (failing transmission three times) must lead to an eventual response (continuing operation). The '-->' operator is used to model this relationship, where `ExploroRover.transmission_failures == 3` represents the trigger condition, and `ExploroRover.Continuing` represents the resulting state that must eventually be reached.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "ExploroRover.transmission_failures == 3 --> ExploroRover.Continuing",
+              "explanation": "The constraint specifies that a condition (failing transmission three times) must lead to an eventual response (continuing operation). The '-->' operator is used to model this relationship, where `ExploroRover.transmission_failures == 3` represents the trigger condition, and `ExploroRover.Continuing` represents the resulting state that must eventually be reached.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "ExploroRover.transmission_failures == 3 --> ExploroRover.Continuing"
+          },
+          "total_time": 17.437766790390015,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "classification": {
+            "step": "classification",
+            "timing": 7.1346917152404785,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"ExploroRover\",\n    \"reach\",\n    \"checkpoints\"\n  ],\n  \"cues\": [\n    \"must\",\n    \"eventually\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 30.91639804840088,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> ExploroRover.all_checkpoints_reached\",\n  \"explanation\": \"The constraint 'must eventually' is a global liveness property. The `A<>` operator is used to verify that for All possible paths (A), the state `ExploroRover.all_checkpoints_reached` is eventually (<>) reached, fulfilling the requirement.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> ExploroRover.all_checkpoints_reached",
+              "explanation": "The constraint 'must eventually' is a global liveness property. The `A<>` operator is used to verify that for All possible paths (A), the state `ExploroRover.all_checkpoints_reached` is eventually (<>) reached, fulfilling the requirement.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> ExploroRover.all_checkpoints_reached"
+          },
+          "total_time": 38.07686972618103,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "classification": {
+            "step": "classification",
+            "timing": 7.846372127532959,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"data\",\n    \"transmitted\",\n    \"successfully\",\n    \"90%\"\n  ],\n  \"cues\": [\n    \"eventually\",\n    \"must\",\n    \"\u2265\",\n    \"%\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.15346097946167,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> System.data_transmitted_percent >= 90\",\n  \"explanation\": \"The query checks if for all possible futures (A<>), a state is eventually reached where the condition `System.data_transmitted_percent >= 90` is true. This directly models the constraint 'Eventually \u2265 90% data must be successfully transmitted'. The `A<>` operator captures the liveness property ('Eventually must'), and the expression models the required state. This assumes a variable `data_transmitted_percent` exists within a `System` process to track this metric.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> System.data_transmitted_percent >= 90",
+              "explanation": "The query checks if for all possible futures (A<>), a state is eventually reached where the condition `System.data_transmitted_percent >= 90` is true. This directly models the constraint 'Eventually \u2265 90% data must be successfully transmitted'. The `A<>` operator captures the liveness property ('Eventually must'), and the expression models the required state. This assumes a variable `data_transmitted_percent` exists within a `System` process to track this metric.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> System.data_transmitted_percent >= 90"
+          },
+          "total_time": 22.018664836883545,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    }
+  ]
+}

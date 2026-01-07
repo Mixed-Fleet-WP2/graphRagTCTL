@@ -1,0 +1,246 @@
+{
+  "id": "scenario_023",
+  "domain": "disaster_response",
+  "prompt": "A drone scans for survivors and a ground robot delivers medical kits. It\u2019s always possible to reach a state where both have completed their missions. If battery < 10%, drone must return to base within 20 seconds.",
+  "robots": [
+    "RescueDrone",
+    "MedicBot"
+  ],
+  "constraints": [
+    "Always possible for both to complete missions",
+    "RescueDrone returns to base within 20 seconds when battery < 10%"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.504124164581299,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Always possible for both to complete missions",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        },
+        {
+          "index": 1,
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 7.152600049972534,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Always possible for both to complete missions",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        },
+        {
+          "index": 1,
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 17.598818063735962,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Always possible for both to complete missions",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        },
+        {
+          "index": 1,
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.5202560424804688,
+      "tokens": 700,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Always possible for both to complete missions",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        },
+        {
+          "index": 1,
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.439624071121216,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Always possible for both to complete missions",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        },
+        {
+          "index": 1,
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.4210870265960693,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Always possible for both to complete missions",
+          "pattern_name": "reachability",
+          "template": "E<> (RescueDrone.mission_complete AND MedicBot.mission_complete)"
+        },
+        {
+          "index": 1,
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (RescueDrone.battery < 10% imply RescueDrone.return_to_base_within_20s)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 12.49128007888794,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Always possible for both to complete missions",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        },
+        {
+          "index": 1,
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 10.954153299331665,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Always possible for both to complete missions",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        },
+        {
+          "index": 1,
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 74.65769290924072,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Always possible for both to complete missions",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        },
+        {
+          "index": 1,
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 0.9077610969543457,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Always possible for both to complete missions",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        },
+        {
+          "index": 1,
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 9.525384187698364,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Always possible for both to complete missions",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        },
+        {
+          "index": 1,
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

@@ -1,0 +1,648 @@
+{
+  "id": "scenario_003",
+  "domain": "manufacturing",
+  "prompt": "A mobile inspector robot navigates the factory floor scanning inventory. If battery drops below 20%, it must return to charging station. An AMR collector follows to pick up items, all robots maintain safe distance from humans and other robots. If path blocked, robots must find alternative routes within 30 seconds.",
+  "robots": [
+    "InspectorBot",
+    "CollectorAMR"
+  ],
+  "constraints": [
+    "InspectorBot returns to charging when battery below 20%",
+    "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+    "InspectorBot maintains safe distance from humans",
+    "InspectorBot maintains safe distance from robots",
+    "CollectorAMR maintains safe distance from humans",
+    "CollectorAMR maintains safe distance from robots",
+    "Inspector find alternative routes within 30 seconds",
+    "CollectorAMR find alternative routes within 30 seconds"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.8513660430908203,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorBot returns to charging when battery below 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "InspectorBot maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 4,
+          "constraint": "CollectorAMR maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 5,
+          "constraint": "CollectorAMR maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 6,
+          "constraint": "Inspector find alternative routes within 30 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 7,
+          "constraint": "CollectorAMR find alternative routes within 30 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 17.80814290046692,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorBot returns to charging when battery below 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "InspectorBot maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 4,
+          "constraint": "CollectorAMR maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 5,
+          "constraint": "CollectorAMR maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 6,
+          "constraint": "Inspector find alternative routes within 30 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 7,
+          "constraint": "CollectorAMR find alternative routes within 30 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 29.980659008026123,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorBot returns to charging when battery below 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "InspectorBot maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 4,
+          "constraint": "CollectorAMR maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 5,
+          "constraint": "CollectorAMR maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 6,
+          "constraint": "Inspector find alternative routes within 30 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 7,
+          "constraint": "CollectorAMR find alternative routes within 30 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 3.3633320331573486,
+      "tokens": 987,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorBot returns to charging when battery below 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "InspectorBot maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 4,
+          "constraint": "CollectorAMR maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 5,
+          "constraint": "CollectorAMR maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 6,
+          "constraint": "Inspector find alternative routes within 30 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 7,
+          "constraint": "CollectorAMR find alternative routes within 30 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 5.004720211029053,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorBot returns to charging when battery below 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "InspectorBot maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 4,
+          "constraint": "CollectorAMR maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 5,
+          "constraint": "CollectorAMR maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 6,
+          "constraint": "Inspector find alternative routes within 30 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 7,
+          "constraint": "CollectorAMR find alternative routes within 30 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.9269959926605225,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorBot returns to charging when battery below 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "InspectorBot maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 4,
+          "constraint": "CollectorAMR maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 5,
+          "constraint": "CollectorAMR maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 6,
+          "constraint": "Inspector find alternative routes within 30 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 7,
+          "constraint": "CollectorAMR find alternative routes within 30 seconds",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 16.589783906936646,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorBot returns to charging when battery below 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "InspectorBot maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 4,
+          "constraint": "CollectorAMR maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 5,
+          "constraint": "CollectorAMR maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 6,
+          "constraint": "Inspector find alternative routes within 30 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 7,
+          "constraint": "CollectorAMR find alternative routes within 30 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 18.696210861206055,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorBot returns to charging when battery below 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "InspectorBot maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 4,
+          "constraint": "CollectorAMR maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 5,
+          "constraint": "CollectorAMR maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 6,
+          "constraint": "Inspector find alternative routes within 30 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 7,
+          "constraint": "CollectorAMR find alternative routes within 30 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 53.65444469451904,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorBot returns to charging when battery below 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "InspectorBot maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 4,
+          "constraint": "CollectorAMR maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 5,
+          "constraint": "CollectorAMR maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 6,
+          "constraint": "Inspector find alternative routes within 30 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 7,
+          "constraint": "CollectorAMR find alternative routes within 30 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.9939830303192139,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorBot returns to charging when battery below 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "InspectorBot maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 4,
+          "constraint": "CollectorAMR maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 5,
+          "constraint": "CollectorAMR maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 6,
+          "constraint": "Inspector find alternative routes within 30 seconds",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 7,
+          "constraint": "CollectorAMR find alternative routes within 30 seconds",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 10.830570936203003,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorBot returns to charging when battery below 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "InspectorBot maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "InspectorBot maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 4,
+          "constraint": "CollectorAMR maintains safe distance from humans",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 5,
+          "constraint": "CollectorAMR maintains safe distance from robots",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 6,
+          "constraint": "Inspector find alternative routes within 30 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 7,
+          "constraint": "CollectorAMR find alternative routes within 30 seconds",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "scenario_009",
+  "domain": "construction",
+  "prompt": "A crane lifts steel beams while a ground robot bolts them in place. The ground robot begins only after crane placement is confirmed. If a human enters the safety zone, both robots must halt within 5 seconds.",
+  "robots": ["CraneBot", "GroundBot"],
+  "constraints": [
+    "GroundBot starts bolting after CraneBot confirms placement",
+    "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+    "If a human enters the safety zone, GroundBot  must halt within 5 seconds"
+  ],
+  "reference_properties": [
+    "A[] (GroundBot.Working) imply (CraneBot.PlacementConfirmed)",
+    "A[] (CraneBot.Active ) && (HumanInSafetyZone) ) imply ( MissionEventsClock <= 5  && CraneBot.Stopped )",
+    "A[] (GroundBot.Active ) && (HumanInSafetyZone) ) imply ( MissionEventsClock <= 5  && GroundBot.Stopped )"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10",
+    "validation_status": "validated"
+  }
+}

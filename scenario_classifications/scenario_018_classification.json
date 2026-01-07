@@ -1,0 +1,313 @@
+{
+  "id": "scenario_018",
+  "domain": "construction",
+  "prompt": "A drone delivers bricks to the upper floor, and a lifting robot waits to stack them. If the drone battery drops below 15%, it must land for charging, but there exists a possible sequence where delivery still completes successfully.",
+  "robots": [
+    "DeliveryDrone",
+    "LiftBot"
+  ],
+  "constraints": [
+    "LiftBot stacks only after DeliveryDrone arrives",
+    "DeliveryDrone lands when battery < 15%",
+    "Delivery eventually completes"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 1.5224578380584717,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Delivery eventually completes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 8.887100219726562,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "pattern_name": "sequential_workflow",
+          "template": "DeliveryDrone.arrives --> LiftBot.stacks"
+        },
+        {
+          "index": 1,
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (DeliveryDrone.battery < 15 => DeliveryDrone.lands)"
+        },
+        {
+          "index": 2,
+          "constraint": "Delivery eventually completes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> DeliveryDrone.delivery_completed"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 13.294928073883057,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "Delivery eventually completes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 2.3525049686431885,
+      "tokens": 736,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Delivery eventually completes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.5307891368865967,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Delivery eventually completes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 0.941735029220581,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "Delivery eventually completes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 23.348081827163696,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "pattern_name": "conditional_response",
+          "template": "DeliveryDrone arrives --> LiftBot stacks"
+        },
+        {
+          "index": 1,
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (battery < 15% imply DeliveryDrone lands)"
+        },
+        {
+          "index": 2,
+          "constraint": "Delivery eventually completes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> delivery completes"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 7.983537912368774,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Delivery eventually completes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 17.555372953414917,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Delivery eventually completes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.3826582431793213,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "Delivery eventually completes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 15.465744018554688,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Delivery eventually completes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

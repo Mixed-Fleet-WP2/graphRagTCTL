@@ -1,0 +1,1345 @@
+{
+  "id": "scenario_024",
+  "domain": "harbor",
+  "prompt": "Two cranes move heavy parts alternately. It must always be true that only one crane moves at a time. Eventually, both parts reach their target zones.",
+  "robots": [
+    "CraneA",
+    "CraneB"
+  ],
+  "constraints": [
+    "Only one crane moves at a time",
+    "Eventually CraneA reach target zones",
+    "Eventually CraneB reach target zones"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "Only one crane moves at a time",
+          "classification": {
+            "step": "classification",
+            "timing": 2.0910027027130127,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"only one\",\"crane\",\"moves\",\"at a time\",\"mutual exclusion\",\"concurrent movement forbidden\"],\"cues\":[\"only\",\"one\",\"at a time\",\"never\",\"must\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0610768795013428,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (Crane1.moving && Crane2.moving)\",\"explanation\":\"The constraint says that only one crane may move at any time, so the forbidden state is that two cranes are moving simultaneously. The query A[] not (Crane1.moving && Crane2.moving) asserts that in all reachable states, it is never the case that both Crane1 and Crane2 are moving at the same time, thus enforcing mutual exclusion on movement.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (Crane1.moving && Crane2.moving)",
+              "explanation": "The constraint says that only one crane may move at any time, so the forbidden state is that two cranes are moving simultaneously. The query A[] not (Crane1.moving && Crane2.moving) asserts that in all reachable states, it is never the case that both Crane1 and Crane2 are moving at the same time, thus enforcing mutual exclusion on movement.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Crane1.moving && Crane2.moving)"
+          },
+          "total_time": 4.1771299839019775,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Eventually CraneA reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2589848041534424,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"CraneA\",\"reach\",\"target zones\",\"eventually\",\"eventual_completion\"],\"cues\":[\"Eventually\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.083031177520752,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> CraneA.target_zones_reached\",\"explanation\":\"The constraint says that eventually CraneA must reach the target zones, which is a liveness requirement. Using the eventual_completion pattern, we express that in all possible executions it will eventually be the case that CraneA is in a state indicating it has reached the target zones (here modeled as the state or condition `CraneA.target_zones_reached`).\",\"confidence\":0.9,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> CraneA.target_zones_reached",
+              "explanation": "The constraint says that eventually CraneA must reach the target zones, which is a liveness requirement. Using the eventual_completion pattern, we express that in all possible executions it will eventually be the case that CraneA is in a state indicating it has reached the target zones (here modeled as the state or condition `CraneA.target_zones_reached`).",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneA.target_zones_reached"
+          },
+          "total_time": 3.3653481006622314,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Eventually CraneB reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 1.519373893737793,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"CraneB\",\"reach\",\"target zones\"],\"cues\":[\"eventually\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.2358410358428955,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> CraneB.target_zones\",\"explanation\":\"The constraint says that CraneB must eventually reach the target zones, which is a global liveness requirement. The eventual_completion pattern maps directly to the UPPAAL liveness operator A<>. We represent the condition of CraneB having reached the target zones as the state/formula CraneB.target_zones, and assert that on all paths this state is eventually reached: A<> CraneB.target_zones.\",\"confidence\":0.9,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> CraneB.target_zones",
+              "explanation": "The constraint says that CraneB must eventually reach the target zones, which is a global liveness requirement. The eventual_completion pattern maps directly to the UPPAAL liveness operator A<>. We represent the condition of CraneB having reached the target zones as the state/formula CraneB.target_zones, and assert that on all paths this state is eventually reached: A<> CraneB.target_zones.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneB.target_zones"
+          },
+          "total_time": 3.7757718563079834,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "Only one crane moves at a time",
+          "classification": {
+            "step": "classification",
+            "timing": 7.2172558307647705,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"only\",\"one\",\"single\",\"crane\",\"move\",\"moves\",\"moving\",\"simultaneous\",\"simultaneously\",\"mutual exclusion\",\"concurrent\"],\"cues\":[\"only\",\"one\",\"at a time\",\"never\",\"must not\",\"simultaneous\",\"more than one\"],\"trigger_text\":null,\"response_text\":\"No more than one crane may be moving at any time (states with multiple cranes moving are forbidden).\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.037590026855469,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (Crane1.moving && Crane2.moving)\",\"explanation\":\"Forbids any system state where two cranes are moving at the same time. The A[] not(...) safety property ensures it is never the case that Crane1 and Crane2 are simultaneously in their 'moving' locations. (For models with more than two cranes, add the necessary pairwise conjunctions or an indexed formulation.)\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (Crane1.moving && Crane2.moving)",
+              "explanation": "Forbids any system state where two cranes are moving at the same time. The A[] not(...) safety property ensures it is never the case that Crane1 and Crane2 are simultaneously in their 'moving' locations. (For models with more than two cranes, add the necessary pairwise conjunctions or an indexed formulation.)",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Crane1.moving && Crane2.moving)"
+          },
+          "total_time": 21.285248041152954,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Eventually CraneA reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 6.493185043334961,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"eventually\",\n    \"reach\",\n    \"CraneA\",\n    \"target zone\",\n    \"target zones\"\n  ],\n  \"cues\": [\n    \"eventually\",\n    \"reach\",\n    \"CraneA\",\n    \"target\",\n    \"zones\"\n  ],\n  \"trigger_text\": null,\n  \"response_text\": \"CraneA reaches target zones\"\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.435312032699585,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> CraneA.at_target_zones\",\"explanation\":\"This A<> (universal liveness) query asserts that on all executions CraneA will eventually reach the state/property 'at_target_zones', matching the 'eventual_completion' pattern requiring CraneA to eventually reach the target zones.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> CraneA.at_target_zones",
+              "explanation": "This A<> (universal liveness) query asserts that on all executions CraneA will eventually reach the state/property 'at_target_zones', matching the 'eventual_completion' pattern requiring CraneA to eventually reach the target zones.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneA.at_target_zones"
+          },
+          "total_time": 18.961971044540405,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Eventually CraneB reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 6.388091802597046,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"eventually\",\"reach\",\"target zones\",\"CraneB\",\"reachability\",\"target\"],\"cues\":[\"eventually\",\"reach\",\"target\",\"must\",\"will\"],\"trigger_text\":null,\"response_text\":\"CraneB eventually reaches the target zones\"}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.592656135559082,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"E<> CraneB.at_target_zones\",\"explanation\":\"Reachability query that checks there exists an execution where CraneB reaches (is in) the target zones; uses E<> to assert the state CraneB.at_target_zones is reachable.\",\"confidence\":0.85,\"pattern_used\":\"reachability\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "E<> CraneB.at_target_zones",
+              "explanation": "Reachability query that checks there exists an execution where CraneB reaches (is in) the target zones; uses E<> to assert the state CraneB.at_target_zones is reachable.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> CraneB.at_target_zones"
+          },
+          "total_time": 13.005295276641846,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "Only one crane moves at a time",
+          "classification": {
+            "step": "classification",
+            "timing": 9.054028034210205,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"concurrency\",\"mutual_exclusion\",\"crane\",\"movement\",\"safety\"],\"cues\":[\"only\",\"one\",\"at\",\"a\",\"time\",\"must\",\"never\",\"move\",\"two\",\"cranes\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.673802852630615,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (Crane[0].moving && Crane[1].moving)\",\"explanation\":\"This forbids the state where both crane 0 and crane 1 are moving at the same time, capturing the constraint that only one crane may move concurrently (mutual exclusion). For models with more cranes, additional pairs would be needed.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (Crane[0].moving && Crane[1].moving)",
+              "explanation": "This forbids the state where both crane 0 and crane 1 are moving at the same time, capturing the constraint that only one crane may move concurrently (mutual exclusion). For models with more cranes, additional pairs would be needed.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (Crane[0].moving && Crane[1].moving)"
+          },
+          "total_time": 25.754915952682495,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Eventually CraneA reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 8.65827202796936,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"CraneA\",\"target zones\",\"reach\",\"eventually\",\"goal\",\"completion\"],\"cues\":[\"eventually\",\"after\",\"then\",\"never\",\"must\",\"can\",\"when\",\"<\",\">\",\"%\"],\"trigger_text\":\"Eventually CraneA reach target zones\",\"response_text\":\"CraneA will eventually reach target zones\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.906803131103516,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> CraneA.target_zones_reached\",\"explanation\":\"Translates 'Eventually CraneA reach target zones' into a global liveness property: on all executions CraneA eventually reaches the predicate target_zones_reached.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> CraneA.target_zones_reached",
+              "explanation": "Translates 'Eventually CraneA reach target zones' into a global liveness property: on all executions CraneA eventually reaches the predicate target_zones_reached.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneA.target_zones_reached"
+          },
+          "total_time": 21.58969283103943,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Eventually CraneB reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 7.96033501625061,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"reach\",\"target zones\",\"craneB\"],\"cues\":[\"eventually\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.290619134902954,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> CraneB.targetZonesReached\",\"explanation\":\"This specifies a liveness property: CraneB will eventually reach its target zones. It matches the 'eventual_completion' pattern by using the A<> operator to require that CraneB reaches its target zones at some future state.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> CraneB.targetZonesReached",
+              "explanation": "This specifies a liveness property: CraneB will eventually reach its target zones. It matches the 'eventual_completion' pattern by using the A<> operator to require that CraneB reaches its target zones at some future state.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneB.targetZonesReached"
+          },
+          "total_time": 19.272873163223267,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "Only one crane moves at a time",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9668710231781006,
+            "tokens": 167,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"one\", \"at a time\", \"only\"],\n  \"cues\": [\"only\", \"one\", \"at a time\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6063439846038818,
+            "tokens": 573,
+            "raw_text": "{\n  \"query\": \"A[] not (Crane1.moving && Crane2.moving)\",\n  \"explanation\": \"The query ensures that both cranes are not moving simultaneously, which aligns with the constraint that only one crane can move at a time. This prevents the forbidden state of both cranes moving together.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (Crane1.moving && Crane2.moving)",
+              "explanation": "The query ensures that both cranes are not moving simultaneously, which aligns with the constraint that only one crane can move at a time. This prevents the forbidden state of both cranes moving together.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Crane1.moving && Crane2.moving)"
+          },
+          "total_time": 2.609581708908081,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Eventually CraneA reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7507750988006592,
+            "tokens": 159,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\", \"target zones\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.777514934539795,
+            "tokens": 524,
+            "raw_text": "{\n  \"query\": \"A<> CraneA.target_zones_reached\",\n  \"explanation\": \"The constraint specifies that CraneA must eventually reach the target zones, which aligns with the 'eventual_completion' pattern. The A<> operator is used to express that this is a liveness property where something must eventually happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> CraneA.target_zones_reached",
+              "explanation": "The constraint specifies that CraneA must eventually reach the target zones, which aligns with the 'eventual_completion' pattern. The A<> operator is used to express that this is a liveness property where something must eventually happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneA.target_zones_reached"
+          },
+          "total_time": 2.552058696746826,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Eventually CraneB reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7048850059509277,
+            "tokens": 159,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\", \"target zones\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6740038394927979,
+            "tokens": 524,
+            "raw_text": "{\n  \"query\": \"A<> CraneB.target_zones_reached\",\n  \"explanation\": \"The constraint specifies that CraneB must eventually reach the target zones, which aligns with the 'eventual_completion' pattern. The A<> operator is used to express that this is a liveness property where something must eventually happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> CraneB.target_zones_reached",
+              "explanation": "The constraint specifies that CraneB must eventually reach the target zones, which aligns with the 'eventual_completion' pattern. The A<> operator is used to express that this is a liveness property where something must eventually happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneB.target_zones_reached"
+          },
+          "total_time": 2.3998467922210693,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "Only one crane moves at a time",
+          "classification": {
+            "step": "classification",
+            "timing": 3.39180588722229,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"one\", \"crane\", \"moves\", \"time\", \"only\"],\n  \"cues\": [\"only\", \"one\", \"at a time\"],\n  \"trigger_text\": \"multiple cranes moving simultaneously\",\n  \"response_text\": \"forbidden\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.65496301651001,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (exists(i:crane_t, j:crane_t) i != j && Crane(i).moving && Crane(j).moving)\",\n  \"explanation\": \"This query forbids the state where two different cranes are moving simultaneously. It uses the forbidden_state pattern with A[] not to ensure that at no point in time can multiple cranes be in the moving state at once. The exists quantifiers check all pairs of distinct cranes, and the condition is negated to prevent this from ever occurring.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (exists(i:crane_t, j:crane_t) i != j && Crane(i).moving && Crane(j).moving)",
+              "explanation": "This query forbids the state where two different cranes are moving simultaneously. It uses the forbidden_state pattern with A[] not to ensure that at no point in time can multiple cranes be in the moving state at once. The exists quantifiers check all pairs of distinct cranes, and the condition is negated to prevent this from ever occurring.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (exists(i:crane_t, j:crane_t) i != j && Crane(i).moving && Crane(j).moving)"
+          },
+          "total_time": 9.071368932723999,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Eventually CraneA reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 3.528697967529297,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"CraneA\", \"reach\", \"target\", \"zones\"],\n  \"cues\": [\"eventually\"],\n  \"response_text\": \"CraneA reach target zones\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.695693016052246,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> CraneA.target_zones\",\n  \"explanation\": \"This query uses the A<> operator to express that eventually CraneA must reach the target_zones state. The A<> (inevitably) operator ensures that in all paths, the system will eventually reach a state where CraneA is in target_zones, matching the liveness requirement of the constraint.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> CraneA.target_zones",
+              "explanation": "This query uses the A<> operator to express that eventually CraneA must reach the target_zones state. The A<> (inevitably) operator ensures that in all paths, the system will eventually reach a state where CraneA is in target_zones, matching the liveness requirement of the constraint.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneA.target_zones"
+          },
+          "total_time": 8.245690107345581,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Eventually CraneB reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 3.461919069290161,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"CraneB\", \"reach\", \"target\", \"zones\"],\n  \"cues\": [\"eventually\"],\n  \"response_text\": \"CraneB reach target zones\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.473358869552612,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> CraneB.target_zones\",\n  \"explanation\": \"This query uses the eventual_completion pattern with A<> operator to express that CraneB must eventually reach the target_zones state. The A<> operator ensures that in all paths, the system will eventually reach a state where CraneB is in target_zones.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> CraneB.target_zones",
+              "explanation": "This query uses the eventual_completion pattern with A<> operator to express that CraneB must eventually reach the target_zones state. The A<> operator ensures that in all paths, the system will eventually reach a state where CraneB is in target_zones.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneB.target_zones"
+          },
+          "total_time": 7.971836805343628,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "Only one crane moves at a time",
+          "classification": {
+            "step": "classification",
+            "timing": 1.6380059719085693,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"crane\", \"moves\", \"one at a time\", \"mutual exclusion\", \"concurrency\"],\n  \"cues\": [\"only\", \"at a time\"],\n  \"trigger_text\": \"crane moves\",\n  \"response_text\": \"other cranes must not move simultaneously\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.319398880004883,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (Crane1.moving && Crane2.moving) && A[] not (Crane1.moving && Crane3.moving) && A[] not (Crane2.moving && Crane3.moving)\",\n  \"explanation\": \"The constraint 'only one crane moves at a time' is a mutual exclusion requirement (forbidden_state pattern). It forbids any state where two or more cranes are moving simultaneously. The query uses A[] not to assert that it is NEVER allowed for any pair of cranes to move at the same time. This covers all possible combinations of concurrent crane movements.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (Crane1.moving && Crane2.moving) && A[] not (Crane1.moving && Crane3.moving) && A[] not (Crane2.moving && Crane3.moving)",
+              "explanation": "The constraint 'only one crane moves at a time' is a mutual exclusion requirement (forbidden_state pattern). It forbids any state where two or more cranes are moving simultaneously. The query uses A[] not to assert that it is NEVER allowed for any pair of cranes to move at the same time. This covers all possible combinations of concurrent crane movements.",
+              "confidence": 0.92,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (Crane1.moving && Crane2.moving) && A[] not (Crane1.moving && Crane3.moving) && A[] not (Crane2.moving && Crane3.moving)"
+          },
+          "total_time": 3.978925943374634,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Eventually CraneA reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9782106876373291,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"CraneA\", \"target zones\", \"reach\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"CraneA\",\n  \"response_text\": \"reach target zones\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9196100234985352,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"E<> CraneA.reach_target_zones\",\n  \"explanation\": \"The constraint 'Eventually CraneA reach target zones' uses the keyword 'eventually' which indicates a reachability check. The cue 'eventually' combined with 'can/will happen' semantics maps to the E<> operator (existential eventually). This checks if it's POSSIBLE for CraneA to reach target zones. The state CraneA.reach_target_zones represents the target state we want to verify is reachable.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "E<> CraneA.reach_target_zones",
+              "explanation": "The constraint 'Eventually CraneA reach target zones' uses the keyword 'eventually' which indicates a reachability check. The cue 'eventually' combined with 'can/will happen' semantics maps to the E<> operator (existential eventually). This checks if it's POSSIBLE for CraneA to reach target zones. The state CraneA.reach_target_zones represents the target state we want to verify is reachable.",
+              "confidence": 0.92,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> CraneA.reach_target_zones"
+          },
+          "total_time": 2.921031951904297,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Eventually CraneB reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 1.546834945678711,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"CraneB\", \"target zones\", \"reach\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"CraneB reach target zones\",\n  \"response_text\": null\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8310010433197021,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"E<> CraneB.target_zones\",\n  \"explanation\": \"The constraint 'Eventually CraneB reach target zones' expresses that it is POSSIBLE for CraneB to reach the target zones. The keyword 'eventually' combined with the reachability pattern indicates we should check if this state CAN happen (not that it MUST happen). The E<> operator is appropriate here as it checks for existential reachability - whether there exists a path where CraneB reaches the target zones. The trigger_text identifies CraneB and target zones as the relevant components.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "E<> CraneB.target_zones",
+              "explanation": "The constraint 'Eventually CraneB reach target zones' expresses that it is POSSIBLE for CraneB to reach the target zones. The keyword 'eventually' combined with the reachability pattern indicates we should check if this state CAN happen (not that it MUST happen). The E<> operator is appropriate here as it checks for existential reachability - whether there exists a path where CraneB reaches the target zones. The trigger_text identifies CraneB and target zones as the relevant components.",
+              "confidence": 0.9,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> CraneB.target_zones"
+          },
+          "total_time": 3.3969290256500244,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "Only one crane moves at a time",
+          "classification": {
+            "step": "classification",
+            "timing": 11.46205997467041,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"forbidden_state\", \"keywords\": [\"only\", \"one\", \"crane\", \"moves\", \"at\", \"a\", \"time\"], \"cues\": []}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 34.33618903160095,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] not (Crane1.moving && Crane2.moving)\", \"explanation\": \"This UPPAAL query uses the 'forbidden_state' pattern with the 'A[] not' operator to ensure that the state where both Crane1 and Crane2 are moving never occurs, thereby enforcing that only one crane moves at a time.\", \"confidence\": 0.85, \"pattern_used\": \"forbidden_state\", \"operator_used\": [\"A[]\", \"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (Crane1.moving && Crane2.moving)",
+              "explanation": "This UPPAAL query uses the 'forbidden_state' pattern with the 'A[] not' operator to ensure that the state where both Crane1 and Crane2 are moving never occurs, thereby enforcing that only one crane moves at a time.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Crane1.moving && Crane2.moving)"
+          },
+          "total_time": 45.82014989852905,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Eventually CraneA reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 10.97423791885376,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"CraneA\", \"reach\", \"target zones\"], \"cues\": [\"eventually\"]}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.609251022338867,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> CraneA.reach_target_zones\", \"explanation\": \"The constraint 'Eventually CraneA reach target zones' indicates a liveness property where CraneA must eventually reach the target zones, matching the eventual_completion pattern that uses A<> for global liveness.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> CraneA.reach_target_zones",
+              "explanation": "The constraint 'Eventually CraneA reach target zones' indicates a liveness property where CraneA must eventually reach the target zones, matching the eventual_completion pattern that uses A<> for global liveness.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneA.reach_target_zones"
+          },
+          "total_time": 25.62819004058838,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Eventually CraneB reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 6.803434133529663,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"reach\", \"target zones\"], \"cues\": [\"eventually\"]}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.236390829086304,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> CraneB.target_zones_reached\", \"explanation\": \"The constraint 'Eventually CraneB reach target zones' indicates a liveness property where CraneB must eventually reach the target zones. This matches the eventual_completion pattern, using the A<> operator to verify that the state CraneB.target_zones_reached is eventually reached in all paths.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> CraneB.target_zones_reached",
+              "explanation": "The constraint 'Eventually CraneB reach target zones' indicates a liveness property where CraneB must eventually reach the target zones. This matches the eventual_completion pattern, using the A<> operator to verify that the state CraneB.target_zones_reached is eventually reached in all paths.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneB.target_zones_reached"
+          },
+          "total_time": 23.061929941177368,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "Only one crane moves at a time",
+          "classification": {
+            "step": "classification",
+            "timing": 6.131039142608643,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"only\", \"one\", \"crane\", \"moves\", \"at a time\"],\n  \"cues\": [\"only\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.886231184005737,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (Crane1.moving && Crane2.moving)\",\n  \"explanation\": \"This query uses the forbidden_state pattern to ensure that the state where more than one crane is moving never occurs, directly matching the constraint that only one crane moves at a time by preventing simultaneous movement.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (Crane1.moving && Crane2.moving)",
+              "explanation": "This query uses the forbidden_state pattern to ensure that the state where more than one crane is moving never occurs, directly matching the constraint that only one crane moves at a time by preventing simultaneous movement.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Crane1.moving && Crane2.moving)"
+          },
+          "total_time": 20.041016101837158,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Eventually CraneA reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 6.057692050933838,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.378563165664673,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> CraneA.at_target_zones\",\n  \"explanation\": \"This query matches the constraint because it uses the A<> operator to ensure that CraneA will inevitably reach the target zones, directly aligning with the eventual_completion pattern that requires something to eventually happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> CraneA.at_target_zones",
+              "explanation": "This query matches the constraint because it uses the A<> operator to ensure that CraneA will inevitably reach the target zones, directly aligning with the eventual_completion pattern that requires something to eventually happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneA.at_target_zones"
+          },
+          "total_time": 18.454232931137085,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Eventually CraneB reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 9.799525260925293,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"Eventually\", \"CraneB\", \"reach\", \"target zones\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.927891254425049,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> CraneB.at_target_zones\",\n  \"explanation\": \"The query A<> CraneB.at_target_zones ensures that eventually, CraneB will reach the target zones, aligning with the eventual_completion pattern for global liveness properties where something must happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A<> CraneB.at_target_zones",
+              "explanation": "The query A<> CraneB.at_target_zones ensures that eventually, CraneB will reach the target zones, aligning with the eventual_completion pattern for global liveness properties where something must happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneB.at_target_zones"
+          },
+          "total_time": 18.740990161895752,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "Only one crane moves at a time",
+          "classification": {
+            "step": "classification",
+            "timing": 50.777297019958496,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"only\", \"one\", \"crane\", \"moves\", \"time\"],\n  \"cues\": []\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 83.99750018119812,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (Crane1.moving && Crane2.moving)\",\n  \"explanation\": \"This query follows the forbidden state pattern to ensure that the state where more than one crane is moving simultaneously never occurs, directly translating the constraint 'Only one crane moves at a time' into a safety property that must always hold.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (Crane1.moving && Crane2.moving)",
+              "explanation": "This query follows the forbidden state pattern to ensure that the state where more than one crane is moving simultaneously never occurs, directly translating the constraint 'Only one crane moves at a time' into a safety property that must always hold.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Crane1.moving && Crane2.moving)"
+          },
+          "total_time": 134.7972321510315,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Eventually CraneA reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 37.058669090270996,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"CraneA\", \"reach\", \"target zones\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 92.54949903488159,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> CraneA.target_zones_reached\",\n  \"explanation\": \"The constraint 'Eventually CraneA reach target zones' uses the cue 'eventually', indicating a liveness property where CraneA must eventually reach the target zones. Following the 'eventual_completion' pattern with the A<> operator ensures this condition holds globally, as demonstrated in similar examples like A<> System.stable.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> CraneA.target_zones_reached",
+              "explanation": "The constraint 'Eventually CraneA reach target zones' uses the cue 'eventually', indicating a liveness property where CraneA must eventually reach the target zones. Following the 'eventual_completion' pattern with the A<> operator ensures this condition holds globally, as demonstrated in similar examples like A<> System.stable.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneA.target_zones_reached"
+          },
+          "total_time": 129.62478303909302,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Eventually CraneB reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 39.02289819717407,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"Eventually\", \"CraneB\", \"reach\", \"target zones\"],\n  \"cues\": [\"Eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 72.44113492965698,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> CraneB.target_zones_reached\",\n  \"explanation\": \"The constraint 'Eventually CraneB reach target zones' uses the keyword 'Eventually' to express a liveness property where CraneB must eventually achieve the state of reaching its target zones. This aligns with the 'eventual_completion' pattern, which uses the A<> operator to assert that something must eventually happen globally.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> CraneB.target_zones_reached",
+              "explanation": "The constraint 'Eventually CraneB reach target zones' uses the keyword 'Eventually' to express a liveness property where CraneB must eventually achieve the state of reaching its target zones. This aligns with the 'eventual_completion' pattern, which uses the A<> operator to assert that something must eventually happen globally.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneB.target_zones_reached"
+          },
+          "total_time": 111.48292803764343,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "Only one crane moves at a time",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1073987483978271,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"crane\", \"move\", \"simultaneously\", \"conflict\", \"resource allocation\"],\n  \"cues\": [\"only\"],\n  \"trigger_text\": \"multiple cranes moving\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.117008924484253,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (Crane1.moving and Crane2.moving)\",\n  \"explanation\": \"The constraint \\\"Only one crane moves at a time\\\" means that multiple cranes must never move simultaneously. This is a forbidden state scenario. The 'forbidden_state' pattern with A[] not (...) is suitable. 'Crane1.moving and Crane2.moving' represents the undesired state where both cranes are moving.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (Crane1.moving and Crane2.moving)",
+              "explanation": "The constraint \"Only one crane moves at a time\" means that multiple cranes must never move simultaneously. This is a forbidden state scenario. The 'forbidden_state' pattern with A[] not (...) is suitable. 'Crane1.moving and Crane2.moving' represents the undesired state where both cranes are moving.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Crane1.moving and Crane2.moving)"
+          },
+          "total_time": 2.237107038497925,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Eventually CraneA reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8151471614837646,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\", \"target\", \"completion\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"CraneA\",\n  \"response_text\": \"reach target zones\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.316467046737671,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> CraneA.target_zones\",\n  \"explanation\": \"The constraint 'Eventually CraneA reach target zones' implies a liveness property where CraneA must eventually reach the target zones. The 'eventual_completion' pattern with the 'A<>' operator is used to express this, where 'CraneA.target_zones' represents the state where CraneA has reached the target zones.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> CraneA.target_zones",
+              "explanation": "The constraint 'Eventually CraneA reach target zones' implies a liveness property where CraneA must eventually reach the target zones. The 'eventual_completion' pattern with the 'A<>' operator is used to express this, where 'CraneA.target_zones' represents the state where CraneA has reached the target zones.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneA.target_zones"
+          },
+          "total_time": 2.1480629444122314,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Eventually CraneB reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0197622776031494,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\", \"target\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"CraneB\",\n  \"response_text\": \"reach target zones\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.8757100105285645,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> CraneB.target\",\n  \"explanation\": \"The constraint states that CraneB must eventually reach target zones. The 'eventual_completion' pattern with the A<> operator is appropriate for expressing this liveness property.  I am assuming that 'CraneB.target' becomes true when CraneB reaches the target zones.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> CraneB.target",
+              "explanation": "The constraint states that CraneB must eventually reach target zones. The 'eventual_completion' pattern with the A<> operator is appropriate for expressing this liveness property.  I am assuming that 'CraneB.target' becomes true when CraneB reaches the target zones.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneB.target"
+          },
+          "total_time": 1.912217140197754,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "Only one crane moves at a time",
+          "classification": {
+            "step": "classification",
+            "timing": 6.212204217910767,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"crane\",\n    \"moves\",\n    \"one at a time\",\n    \"mutual exclusion\"\n  ],\n  \"cues\": [\n    \"Only\",\n    \"one ... at a time\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 24.623420238494873,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (Crane1.Moving and Crane2.Moving)\",\n  \"explanation\": \"This query enforces a safety property based on the 'forbidden_state' pattern. The constraint 'Only one crane moves at a time' means that a state where two or more cranes are moving is forbidden. The query uses `A[]` (globally) to assert that for all reachable states, the following condition is `not` true: `Crane1.Moving and Crane2.Moving`. This models mutual exclusion, ensuring the system never enters a state where both cranes are simultaneously in their respective 'Moving' states/locations.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (Crane1.Moving and Crane2.Moving)",
+              "explanation": "This query enforces a safety property based on the 'forbidden_state' pattern. The constraint 'Only one crane moves at a time' means that a state where two or more cranes are moving is forbidden. The query uses `A[]` (globally) to assert that for all reachable states, the following condition is `not` true: `Crane1.Moving and Crane2.Moving`. This models mutual exclusion, ensuring the system never enters a state where both cranes are simultaneously in their respective 'Moving' states/locations.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Crane1.Moving and Crane2.Moving)"
+          },
+          "total_time": 30.85063099861145,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Eventually CraneA reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 7.36889910697937,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"crane\",\n    \"reach\",\n    \"target zones\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ],\n  \"trigger_text\": null,\n  \"response_text\": \"CraneA reach target zones\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 18.63164710998535,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> CraneA.TargetZone\",\n  \"explanation\": \"The query checks if for all possible execution paths (A), it is eventually true (<>) that the process 'CraneA' is in the state 'TargetZone'. This directly translates the liveness requirement 'Eventually CraneA reach target zones'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> CraneA.TargetZone",
+              "explanation": "The query checks if for all possible execution paths (A), it is eventually true (<>) that the process 'CraneA' is in the state 'TargetZone'. This directly translates the liveness requirement 'Eventually CraneA reach target zones'.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneA.TargetZone"
+          },
+          "total_time": 26.01408290863037,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Eventually CraneB reach target zones",
+          "classification": {
+            "step": "classification",
+            "timing": 7.268834114074707,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"CraneB\",\n    \"reach\",\n    \"target zones\"\n  ],\n  \"cues\": [\n    \"Eventually\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.639822721481323,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> CraneB.TargetZones\",\n  \"explanation\": \"The constraint is a liveness property, stating that something must eventually happen. The keyword 'Eventually' directly maps to the UPPAAL temporal logic operator 'A<>' (always eventually). This query checks that for all possible execution paths, the process 'CraneB' will invariably reach the state 'TargetZones'.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> CraneB.TargetZones",
+              "explanation": "The constraint is a liveness property, stating that something must eventually happen. The keyword 'Eventually' directly maps to the UPPAAL temporal logic operator 'A<>' (always eventually). This query checks that for all possible execution paths, the process 'CraneB' will invariably reach the state 'TargetZones'.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> CraneB.TargetZones"
+          },
+          "total_time": 22.933045148849487,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

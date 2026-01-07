@@ -1,0 +1,383 @@
+{
+  "id": "scenario_027",
+  "domain": "harbor",
+  "prompt": "A crane unloads containers onto AGV1 and AGV2. A drone supervises from above, and a forklift transports the containers to storage. Both AGVs wait until crane signals unloading complete. Forklift starts after any AGV reaches the transfer zone. Drone must maintain 20 m distance from crane at all times. Eventually, all containers must be in storage.",
+  "robots": [
+    "CraneBot",
+    "AGV1",
+    "AGV2",
+    "Forklift",
+    "DroneSupervisor"
+  ],
+  "constraints": [
+    "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+    "Forklift starts only after at least one AGV reaches transfer zone",
+    "DroneSupervisor maintains at least 20 m distance from CraneBot",
+    "Eventually all containers reach storage area"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 3.7602081298828125,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "Forklift starts only after at least one AGV reaches transfer zone",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all containers reach storage area",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 10.033697605133057,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Forklift starts only after at least one AGV reaches transfer zone",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all containers reach storage area",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 13.818176984786987,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Forklift starts only after at least one AGV reaches transfer zone",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all containers reach storage area",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.4344630241394043,
+      "tokens": 826,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Forklift starts only after at least one AGV reaches transfer zone",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all containers reach storage area",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.461536169052124,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Forklift starts only after at least one AGV reaches transfer zone",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all containers reach storage area",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.1852872371673584,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Forklift starts only after at least one AGV reaches transfer zone",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all containers reach storage area",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 17.966161966323853,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+          "pattern_name": "conditional_response",
+          "template": "CraneBot_signals_unloading_complete --> AGVs_proceed"
+        },
+        {
+          "index": 1,
+          "constraint": "Forklift starts only after at least one AGV reaches transfer zone",
+          "pattern_name": "sequential_workflow",
+          "template": "AGV_reaches_transfer_zone --> Forklift_starts"
+        },
+        {
+          "index": 2,
+          "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (DroneSupervisor_distance < 20m_from_CraneBot)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all containers reach storage area",
+          "pattern_name": "eventual_completion",
+          "template": "A<> all_containers_in_storage"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 9.908996820449829,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "Forklift starts only after at least one AGV reaches transfer zone",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all containers reach storage area",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 33.582133054733276,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "Forklift starts only after at least one AGV reaches transfer zone",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all containers reach storage area",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.7137420177459717,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Forklift starts only after at least one AGV reaches transfer zone",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all containers reach storage area",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 11.881314039230347,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "Forklift starts only after at least one AGV reaches transfer zone",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all containers reach storage area",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

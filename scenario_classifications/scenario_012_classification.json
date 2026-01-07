@@ -1,0 +1,313 @@
+{
+  "id": "scenario_012",
+  "domain": "manufacturing",
+  "prompt": "A robotic arm assembles components while a vision robot checks alignment. The vision robot must verify after each assembly step. If misalignment > 2 mm, assembly halts until correction is confirmed.",
+  "robots": [
+    "ArmBot",
+    "VisionBot"
+  ],
+  "constraints": [
+    "VisionBot verifies alignment after each ArmBot assembly step",
+    "ArmBot stops if misalignment exceeds 2 mm",
+    "Assembly resumes after correction confirmation"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 3.1434590816497803,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Assembly resumes after correction confirmation",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 8.588660955429077,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Assembly resumes after correction confirmation",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 10.432101011276245,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Assembly resumes after correction confirmation",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 3.119680166244507,
+      "tokens": 738,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Assembly resumes after correction confirmation",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.168030261993408,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Assembly resumes after correction confirmation",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.2425310611724854,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Assembly resumes after correction confirmation",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 18.741859674453735,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Assembly resumes after correction confirmation",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 10.036037921905518,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Assembly resumes after correction confirmation",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 55.71523976325989,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Assembly resumes after correction confirmation",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.302156925201416,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Assembly resumes after correction confirmation",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 15.462872982025146,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Assembly resumes after correction confirmation",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

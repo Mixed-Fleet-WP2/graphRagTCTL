@@ -1,0 +1,3018 @@
+{
+  "id": "scenario_034",
+  "domain": "logistics",
+  "prompt": "A mobile manipulator robot performs order picking in a warehouse. It identifies shelves via QR codes and must verify the item before grasping. If weight exceeds its maximum capacity, it must abort the pick and notify the supervisor. When humans are detected within 2 meters, speed is reduced to 0.3 m/s. If obstacle blocking persists longer than 10 seconds, the robot must request assistance. Eventually, all orders should be completed and reported.",
+  "robots": [
+    "PickerBot"
+  ],
+  "constraints": [
+    "PickerBot verifies item via QR before grasping",
+    "PickerBot aborts pick  when load exceeds limit",
+    "when load exceeds limit PickerBot notifies supervisor",
+    "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+    "PickerBot requests help if obstacle persists > 10 s",
+    "Eventually all orders completed",
+    "Eventually all orders reported"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "classification": {
+            "step": "classification",
+            "timing": 3.5860166549682617,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"PickerBot\",\"verifies\",\"item\",\"QR\",\"before\",\"grasping\",\"verification\",\"scan\"],\"cues\":[\"before\",\"must\"],\"trigger_text\":\"PickerBot verifies item via QR\",\"response_text\":\"grasping\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.526142120361328,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"PickerBot.verifying_QR --> PickerBot.grasping\",\"explanation\":\"The constraint says grasping must happen after (and thus be preceded by) QR verification. Using the sequential workflow pattern, we model this as a transition from a state/location representing QR verification (PickerBot.verifying_QR) to a later state/location representing grasping (PickerBot.grasping), expressed with the eventual-follow operator '-->'.\",\"confidence\":0.83,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "PickerBot.verifying_QR --> PickerBot.grasping",
+              "explanation": "The constraint says grasping must happen after (and thus be preceded by) QR verification. Using the sequential workflow pattern, we model this as a transition from a state/location representing QR verification (PickerBot.verifying_QR) to a later state/location representing grasping (PickerBot.grasping), expressed with the eventual-follow operator '-->'.",
+              "confidence": 0.83,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PickerBot.verifying_QR --> PickerBot.grasping"
+          },
+          "total_time": 6.130367994308472,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "classification": {
+            "step": "classification",
+            "timing": 3.0333199501037598,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"PickerBot\",\"abort\",\"pick\",\"load exceeds limit\",\"overload\",\"safety cutoff\"],\"cues\":[\"when\"],\"trigger_text\":\"load exceeds limit\",\"response_text\":\"PickerBot aborts pick\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.0574660301208496,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (PickerBot.load_exceeds_limit && PickerBot.picking && !PickerBot.aborting)\",\"explanation\":\"The constraint is interpreted as forbidding any state where the load exceeds the limit and the robot continues the pick instead of aborting. Using the forbidden_state pattern, we express that it must never be the case that (1) load exceeds limit, (2) PickerBot is performing a pick, and (3) it is not in the aborting state. This matches the intent that whenever the load exceeds the limit, a non-aborted pick state must not be reachable.\",\"confidence\":0.86,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (PickerBot.load_exceeds_limit && PickerBot.picking && !PickerBot.aborting)",
+              "explanation": "The constraint is interpreted as forbidding any state where the load exceeds the limit and the robot continues the pick instead of aborting. Using the forbidden_state pattern, we express that it must never be the case that (1) load exceeds limit, (2) PickerBot is performing a pick, and (3) it is not in the aborting state. This matches the intent that whenever the load exceeds the limit, a non-aborted pick state must not be reachable.",
+              "confidence": 0.86,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (PickerBot.load_exceeds_limit && PickerBot.picking && !PickerBot.aborting)"
+          },
+          "total_time": 6.110460042953491,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "classification": {
+            "step": "classification",
+            "timing": 2.026237964630127,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"load exceeds limit\",\"PickerBot\",\"notifies supervisor\",\"threshold\",\"alert\"],\"cues\":[\"when\"],\"trigger_text\":\"load exceeds limit\",\"response_text\":\"PickerBot notifies supervisor\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.8606820106506348,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(load > limit) --> PickerBot.notifies_supervisor\",\"explanation\":\"The constraint states that when the load exceeds a specified limit, PickerBot must eventually notify the supervisor. This is a conditional response: a triggering condition (load > limit) should lead to a subsequent action (PickerBot.notifies_supervisor). The UPPAAL query uses the conditional response pattern with the --> operator to express that whenever the condition becomes true, the response will eventually occur.\",\"confidence\":0.9,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(load > limit) --> PickerBot.notifies_supervisor",
+              "explanation": "The constraint states that when the load exceeds a specified limit, PickerBot must eventually notify the supervisor. This is a conditional response: a triggering condition (load > limit) should lead to a subsequent action (PickerBot.notifies_supervisor). The UPPAAL query uses the conditional response pattern with the --> operator to express that whenever the condition becomes true, the response will eventually occur.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(load > limit) --> PickerBot.notifies_supervisor"
+          },
+          "total_time": 4.9057958126068115,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 2.0418519973754883,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"PickerBot\",\"reduces speed\",\"0.3 m/s\",\"human\",\"distance\",\"2 m\",\"safety\"],\"cues\":[\"when\",\"<\",\"must\",\"can\"],\"trigger_text\":\"human distance < 2 m\",\"response_text\":\"PickerBot speed is reduced to 0.3 m/s\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.0401878356933594,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(human.distance < 2) --> (PickerBot.speed == 0_3)\",\"explanation\":\"The condition \\\"human < 2 m\\\" is modeled as human.distance < 2, and the required reaction \\\"PickerBot reduces speed to 0.3 m/s\\\" is modeled as PickerBot.speed == 0_3. The conditional_response pattern uses the --> operator to state that whenever the distance condition becomes true, it must eventually lead to the PickerBot having speed 0.3 m/s.\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(human.distance < 2) --> (PickerBot.speed == 0_3)",
+              "explanation": "The condition \"human < 2 m\" is modeled as human.distance < 2, and the required reaction \"PickerBot reduces speed to 0.3 m/s\" is modeled as PickerBot.speed == 0_3. The conditional_response pattern uses the --> operator to state that whenever the distance condition becomes true, it must eventually lead to the PickerBot having speed 0.3 m/s.",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "(human.distance < 2) --> (PickerBot.speed == 0_3)"
+          },
+          "total_time": 5.101861000061035,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "classification": {
+            "step": "classification",
+            "timing": 2.0325088500976562,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"PickerBot\",\"requests help\",\"obstacle persists\",\"greater than 10 seconds\",\"timeout\"],\"cues\":[\">\",\"if\",\"persists\",\"10 s\"],\"trigger_text\":\"obstacle persists > 10 s\",\"response_text\":\"PickerBot requests help\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.034402847290039,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Obstacle.persistent && not PickerBot.requested_help imply t <= 10)\",\"explanation\":\"The English constraint means the system must not stay in a situation with a persisting obstacle for more than 10 seconds without PickerBot having requested help. Using the time-bounded constraint pattern, we model a state where the obstacle is persistent (Obstacle.persistent) and the help has not yet been requested (not PickerBot.requested_help), and constrain the associated clock t to never exceed 10 in that situation. The A[] operator enforces this invariant globally, and the implication ensures that whenever the condition holds, the elapsed time t is at most 10 seconds, meaning help must be requested by then.\",\"confidence\":0.86,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"A[]\",\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (Obstacle.persistent && not PickerBot.requested_help imply t <= 10)",
+              "explanation": "The English constraint means the system must not stay in a situation with a persisting obstacle for more than 10 seconds without PickerBot having requested help. Using the time-bounded constraint pattern, we model a state where the obstacle is persistent (Obstacle.persistent) and the help has not yet been requested (not PickerBot.requested_help), and constrain the associated clock t to never exceed 10 in that situation. The A[] operator enforces this invariant globally, and the implication ensures that whenever the condition holds, the elapsed time t is at most 10 seconds, meaning help must be requested by then.",
+              "confidence": 0.86,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Obstacle.persistent && not PickerBot.requested_help imply t <= 10)"
+          },
+          "total_time": 6.085438013076782,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all orders completed",
+          "classification": {
+            "step": "classification",
+            "timing": 1.873661756515503,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"all orders\",\"completed\",\"liveness\",\"eventual completion\"],\"cues\":[\"eventually\",\"all\"],\"trigger_text\":\"orders\",\"response_text\":\"completed\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9378578662872314,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> all_orders_completed\",\"explanation\":\"The constraint states that all orders must eventually be completed, which is a global liveness requirement. The A<> operator expresses that in all possible executions, the system will at some point reach a state where the proposition all_orders_completed holds.\",\"confidence\":0.96,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> all_orders_completed",
+              "explanation": "The constraint states that all orders must eventually be completed, which is a global liveness requirement. The A<> operator expresses that in all possible executions, the system will at some point reach a state where the proposition all_orders_completed holds.",
+              "confidence": 0.96,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_orders_completed"
+          },
+          "total_time": 3.8321547508239746,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually all orders reported",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7984492778778076,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"all orders\",\"reported\",\"eventual completion\"],\"cues\":[\"Eventually\",\"all\"],\"trigger_text\":\"orders\",\"response_text\":\"reported\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.8696341514587402,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> all_orders_reported\",\"explanation\":\"The constraint says that at some point in time, all orders must be reported. This is a global liveness requirement, so the eventual_completion pattern with the A<> operator is appropriate. The atomic proposition all_orders_reported represents the state where every order has been reported, and A<> all_orders_reported asserts that in all possible executions the system will eventually reach such a state.\",\"confidence\":0.9,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> all_orders_reported",
+              "explanation": "The constraint says that at some point in time, all orders must be reported. This is a global liveness requirement, so the eventual_completion pattern with the A<> operator is appropriate. The atomic proposition all_orders_reported represents the state where every order has been reported, and A<> all_orders_reported asserts that in all possible executions the system will eventually reach such a state.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_orders_reported"
+          },
+          "total_time": 4.692394018173218,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "classification": {
+            "step": "classification",
+            "timing": 9.50800609588623,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"verify\",\"verification\",\"QR\",\"scan\",\"check\",\"validate\",\"grasp\",\"pick\",\"pickerbot\",\"item\",\"before\"],\"cues\":[\"before\",\"must\",\"verify\",\"scan\",\"QR\",\"then\"],\"trigger_text\":\"grasping the item\",\"response_text\":\"verify the item via QR code\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.000723123550415,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"PickerBot.qr_verified --> PickerBot.grasping\",\"explanation\":\"Using the sequential_workflow operator (-->) this query states that a QR verification event by PickerBot (qr_verified) is followed eventually by the grasping action (grasping), capturing the required ordering that the item is verified via QR before the robot performs the grasp.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "PickerBot.qr_verified --> PickerBot.grasping",
+              "explanation": "Using the sequential_workflow operator (-->) this query states that a QR verification event by PickerBot (qr_verified) is followed eventually by the grasping action (grasping), capturing the required ordering that the item is verified via QR before the robot performs the grasp.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PickerBot.qr_verified --> PickerBot.grasping"
+          },
+          "total_time": 19.548966884613037,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "classification": {
+            "step": "classification",
+            "timing": 7.352985858917236,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"abort\",\"abort pick\",\"PickerBot\",\"load exceeds limit\",\"load limit\",\"overload\",\"stop picking\"],\"cues\":[\"when\",\"exceeds\",\">\",\"abort\",\"stop\",\"must\"],\"trigger_text\":\"load exceeds limit\",\"response_text\":\"abort pick\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.205714225769043,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (PickerBot.load > limit imply not PickerBot.picking)\",\"explanation\":\"This is a safety (immediate response) property: always (A[]) if the PickerBot's load exceeds the limit, then it must not be in the picking state (abort pick) immediately. It uses the 'imply' form to enforce the same-state instantaneous response required by the constraint.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (PickerBot.load > limit imply not PickerBot.picking)",
+              "explanation": "This is a safety (immediate response) property: always (A[]) if the PickerBot's load exceeds the limit, then it must not be in the picking state (abort pick) immediately. It uses the 'imply' form to enforce the same-state instantaneous response required by the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (PickerBot.load > limit imply not PickerBot.picking)"
+          },
+          "total_time": 19.588590145111084,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "classification": {
+            "step": "classification",
+            "timing": 9.66771674156189,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"load\",\"exceeds\",\"limit\",\"pickerbot\",\"notifies\",\"supervisor\",\"notify\",\"threshold\",\"overload\"],\"cues\":[\"when\",\"exceeds\",\"notifies\"],\"trigger_text\":\"load exceeds limit\",\"response_text\":\"PickerBot notifies supervisor\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.839315891265869,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(PickerBot.load > PickerBot.limit) --> PickerBot.notifies_supervisor\",\n  \"explanation\": \"This uses the conditional_response pattern: when the PickerBot's load value exceeds its limit (PickerBot.load > PickerBot.limit) then eventually PickerBot.notifies_supervisor must hold. The '-->' operator expresses the required eventual response to the triggered condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(PickerBot.load > PickerBot.limit) --> PickerBot.notifies_supervisor",
+              "explanation": "This uses the conditional_response pattern: when the PickerBot's load value exceeds its limit (PickerBot.load > PickerBot.limit) then eventually PickerBot.notifies_supervisor must hold. The '-->' operator expresses the required eventual response to the triggered condition.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(PickerBot.load > PickerBot.limit) --> PickerBot.notifies_supervisor"
+          },
+          "total_time": 16.527467966079712,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 10.534763097763062,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"PickerBot\",\"speed\",\"reduce\",\"0.3 m/s\",\"human\",\"distance\",\"2 m\",\"proximity\",\"slow down\"],\"cues\":[\"when\",\"<\",\"human\",\"2\",\"m\",\"reduces\",\"speed\",\"0.3\",\"m/s\",\"must\"],\"trigger_text\":\"human < 2 m\",\"response_text\":\"reduce speed to 0.3 m/s\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.114284038543701,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (human.distance < 2 imply PickerBot.speed <= 0.3)\",\n  \"explanation\": \"This encodes an immediate safety response: whenever a human is closer than 2 m (human.distance < 2) the PickerBot must be at or below 0.3 m/s immediately. Using A[] with 'imply' enforces the same-state (no-delay) requirement from the safety_immediate_response pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (human.distance < 2 imply PickerBot.speed <= 0.3)",
+              "explanation": "This encodes an immediate safety response: whenever a human is closer than 2 m (human.distance < 2) the PickerBot must be at or below 0.3 m/s immediately. Using A[] with 'imply' enforces the same-state (no-delay) requirement from the safety_immediate_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (human.distance < 2 imply PickerBot.speed <= 0.3)"
+          },
+          "total_time": 24.670084953308105,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "classification": {
+            "step": "classification",
+            "timing": 11.965412139892578,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"obstacle\",\"help\",\"request\",\"persists\",\"timeout\",\"10 s\",\"seconds\",\"PickerBot\"],\"cues\":[\"if\",\"after\",\"persists\",\">\",\"10\",\"s\",\"then\",\"must\",\"requests\",\"help\"],\"trigger_text\":\"obstacle persists > 10 s\",\"response_text\":\"PickerBot requests help\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.225325107574463,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (PickerBot.obstacle_persist && not PickerBot.request_help imply obst_timer <= 10)\",\n  \"explanation\": \"This enforces that whenever the PickerBot is in the obstacle-persisting condition and has not yet requested help, the local clock (obst_timer) must remain <= 10 seconds \u2014 i.e. the bot must request help within 10 s of the obstacle persisting. This matches the time_bounded_constraint pattern by bounding the maximum allowed time before the help-request action occurs.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}",
+            "uppaal_result": {
+              "query": "A[] (PickerBot.obstacle_persist && not PickerBot.request_help imply obst_timer <= 10)",
+              "explanation": "This enforces that whenever the PickerBot is in the obstacle-persisting condition and has not yet requested help, the local clock (obst_timer) must remain <= 10 seconds \u2014 i.e. the bot must request help within 10 s of the obstacle persisting. This matches the time_bounded_constraint pattern by bounding the maximum allowed time before the help-request action occurs.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (PickerBot.obstacle_persist && not PickerBot.request_help imply obst_timer <= 10)"
+          },
+          "total_time": 26.210458040237427,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all orders completed",
+          "classification": {
+            "step": "classification",
+            "timing": 5.9415953159332275,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"all\",\"orders\",\"completed\",\"complete\",\"finish\",\"finished\"],\"cues\":[\"eventually\",\"all\",\"every\",\"completed\",\"finished\",\"must\",\"finally\"],\"trigger_text\":\"orders\",\"response_text\":\"completed\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.120733976364136,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> Orders.all_completed\",\"explanation\":\"This liveness query asserts that on all execution paths the system will eventually reach a state where the Orders component indicates all orders are completed (Orders.all_completed), matching the requirement that eventually all orders are completed.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> Orders.all_completed",
+              "explanation": "This liveness query asserts that on all execution paths the system will eventually reach a state where the Orders component indicates all orders are completed (Orders.all_completed), matching the requirement that eventually all orders are completed.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Orders.all_completed"
+          },
+          "total_time": 14.084473133087158,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually all orders reported",
+          "classification": {
+            "step": "classification",
+            "timing": 11.591512203216553,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"all orders\",\"orders\",\"reported\",\"report\",\"eventual\",\"complete\",\"liveness\"],\"cues\":[\"eventually\",\"all\",\"orders\",\"reported\",\"must\"],\"trigger_text\":\"order exists\",\"response_text\":\"order is reported eventually\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.538053035736084,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> Orders.all_reported\",\"explanation\":\"This is a global liveness property (eventual_completion): it asserts that on all execution paths the system will eventually reach the state Orders.all_reported, i.e., all orders become reported, which matches the natural-language constraint.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> Orders.all_reported",
+              "explanation": "This is a global liveness property (eventual_completion): it asserts that on all execution paths the system will eventually reach the state Orders.all_reported, i.e., all orders become reported, which matches the natural-language constraint.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Orders.all_reported"
+          },
+          "total_time": 23.14960217475891,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "classification": {
+            "step": "classification",
+            "timing": 13.293808698654175,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"QR_verification\",\"verification\",\"grasping\",\"PickerBot\",\"item\",\"QR\"],\"cues\":[\"then\",\"must\"],\"trigger_text\":\"verify item via QR before grasping\",\"response_text\":\"grasp item after successful QR verification\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.345952033996582,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"PickerBot.qr_verification_complete --> PickerBot.grasp_item\",\"explanation\":\"Maps the NL constraint to a sequential workflow: QR verification must complete before grasping. The query expresses that after the QR verification step (qr_verification_complete), the grasp action (grasp_item) can occur.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "PickerBot.qr_verification_complete --> PickerBot.grasp_item",
+              "explanation": "Maps the NL constraint to a sequential workflow: QR verification must complete before grasping. The query expresses that after the QR verification step (qr_verification_complete), the grasp action (grasp_item) can occur.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PickerBot.qr_verification_complete --> PickerBot.grasp_item"
+          },
+          "total_time": 28.66147518157959,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "classification": {
+            "step": "classification",
+            "timing": 13.70173692703247,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"load\",\"limit\",\"abort\",\"PickerBot\",\"conditional\"],\"cues\":[\"when\",\"exceeds\",\"limit\",\"abort\"],\"trigger_text\":\"load exceeds limit\",\"response_text\":\"abort pick\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.306775093078613,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(load > limit) --> PickerBot.abort_pick\",\"explanation\":\"Maps the natural-language constraint 'PickerBot aborts pick when load exceeds limit' to a UPPAAL conditional-response: condition (load > limit) leads to an eventual action PickerBot.abort_pick, using --> to denote the triggered response.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(load > limit) --> PickerBot.abort_pick",
+              "explanation": "Maps the natural-language constraint 'PickerBot aborts pick when load exceeds limit' to a UPPAAL conditional-response: condition (load > limit) leads to an eventual action PickerBot.abort_pick, using --> to denote the triggered response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(load > limit) --> PickerBot.abort_pick"
+          },
+          "total_time": 25.052783012390137,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "classification": {
+            "step": "classification",
+            "timing": 16.991983890533447,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"load\",\"limit\",\"notify\",\"supervisor\",\"PickerBot\"],\"cues\":[\"when\",\">\"],\"trigger_text\":\"when load exceeds limit\",\"response_text\":\"PickerBot notifies supervisor\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.89724588394165,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(load > limit) --> PickerBot.notifies_supervisor\",\"explanation\":\"Maps the NL constraint 'when load exceeds limit PickerBot notifies supervisor' to a UPPAAL conditional_response: if (load > limit) then eventually PickerBot.notifies_supervisor. It uses '-->' to denote the eventual action in the conditional pattern.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(load > limit) --> PickerBot.notifies_supervisor",
+              "explanation": "Maps the NL constraint 'when load exceeds limit PickerBot notifies supervisor' to a UPPAAL conditional_response: if (load > limit) then eventually PickerBot.notifies_supervisor. It uses '-->' to denote the eventual action in the conditional pattern.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(load > limit) --> PickerBot.notifies_supervisor"
+          },
+          "total_time": 25.91153597831726,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 11.16981291770935,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"speed\",\"safety\",\"proximity\",\"distance\",\"reduce_speed\",\"conditional\"],\"cues\":[\"when\",\"<\",\"then\"],\"trigger_text\":\"when human < 2 m\",\"response_text\":\"reduce speed to 0.3 m/s\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.22481894493103,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"UPPAAL=(human < 2) --> (PickerBot.speed = 0.3)\",\"explanation\":\"Matches the conditional_response pattern: a guard (human < 2) triggers an eventual response, assigning the PickerBot's speed to 0.3 m/s as the consequence.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "UPPAAL=(human < 2) --> (PickerBot.speed = 0.3)",
+              "explanation": "Matches the conditional_response pattern: a guard (human < 2) triggers an eventual response, assigning the PickerBot's speed to 0.3 m/s as the consequence.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "UPPAAL=(human < 2) --> (PickerBot.speed = 0.3)"
+          },
+          "total_time": 32.41709804534912,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "classification": {
+            "step": "classification",
+            "timing": 9.430516004562378,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"timer\",\"timeout\",\"duration\",\"obstacle\",\"help\",\"response\",\"persistence\",\"10s\"],\"cues\":[\"after\",\"then\",\">\",\"10s\",\"seconds\",\"obstacle\",\"persist\",\"timeout\",\"if\"],\"trigger_text\":\"obstacle persists > 10 s\",\"response_text\":\"PickerBot requests help\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 29.273022890090942,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (ObstaclePersisting && not HelpRequested imply clock <= 10)\",\"explanation\":\"Encodes the time-bounded constraint: while the obstacle persists and help has not yet been requested, the timer must remain at or below 10 seconds. This enforces that if the obstacle persists for more than 10 seconds without help, the system must trigger the HelpRequested state (PickerBot requests help).\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (ObstaclePersisting && not HelpRequested imply clock <= 10)",
+              "explanation": "Encodes the time-bounded constraint: while the obstacle persists and help has not yet been requested, the timer must remain at or below 10 seconds. This enforces that if the obstacle persists for more than 10 seconds without help, the system must trigger the HelpRequested state (PickerBot requests help).",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (ObstaclePersisting && not HelpRequested imply clock <= 10)"
+          },
+          "total_time": 38.73583912849426,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all orders completed",
+          "classification": {
+            "step": "classification",
+            "timing": 11.942004203796387,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventual\",\"completion\",\"orders\"],\"cues\":[\"eventually\",\"after\",\"then\",\"when\",\"must\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.78347611427307,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> AllOrdersDone\",\"explanation\":\"This encodes a global liveness property: eventually the proposition AllOrdersDone becomes true, i.e., all orders are completed. It follows the eventual_completion pattern using A<> with a final_state predicate.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> AllOrdersDone",
+              "explanation": "This encodes a global liveness property: eventually the proposition AllOrdersDone becomes true, i.e., all orders are completed. It follows the eventual_completion pattern using A<> with a final_state predicate.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> AllOrdersDone"
+          },
+          "total_time": 28.747686862945557,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually all orders reported",
+          "classification": {
+            "step": "classification",
+            "timing": 19.646209001541138,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventual_completion\",\"eventually\",\"orders\",\"reported\",\"completion\",\"reporting\",\"all\"],\"cues\":[\"eventually\",\"then\",\"after\",\"orders\",\"reported\",\"all\",\"never\",\"must\",\"can\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.372251749038696,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> System.all_orders_reported\",\"explanation\":\"The constraint 'eventually all orders reported' maps to a liveness property requiring the system to reach a final state where all orders have been reported (System.all_orders_reported).\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> System.all_orders_reported",
+              "explanation": "The constraint 'eventually all orders reported' maps to a liveness property requiring the system to reach a final state where all orders have been reported (System.all_orders_reported).",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> System.all_orders_reported"
+          },
+          "total_time": 33.04353308677673,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "classification": {
+            "step": "classification",
+            "timing": 2.4727439880371094,
+            "tokens": 196,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"verifies\", \"before\", \"grasping\"],\n  \"cues\": [\"before\"],\n  \"trigger_text/response_text\": {\n    \"trigger_text\": \"verifies item via QR\",\n    \"response_text\": \"grasping\"\n  }\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8542351722717285,
+            "tokens": 561,
+            "raw_text": "{\n  \"query\": \"PickerBot.verifies_item_via_QR --> PickerBot.grasping\",\n  \"explanation\": \"The constraint specifies that the action of verifying an item via QR by PickerBot must occur before the action of grasping. This aligns with the 'sequential_workflow' pattern where one action eventually follows another. The '-->' operator is used to represent this eventual sequence.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "PickerBot.verifies_item_via_QR --> PickerBot.grasping",
+              "explanation": "The constraint specifies that the action of verifying an item via QR by PickerBot must occur before the action of grasping. This aligns with the 'sequential_workflow' pattern where one action eventually follows another. The '-->' operator is used to represent this eventual sequence.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PickerBot.verifies_item_via_QR --> PickerBot.grasping"
+          },
+          "total_time": 4.351122140884399,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9826397895812988,
+            "tokens": 161,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"abort\", \"exceeds\", \"limit\"],\n  \"cues\": [\"when\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.014446973800659,
+            "tokens": 562,
+            "raw_text": "{\n  \"query\": \"A[] not (PickerBot.aborting && load > limit)\",\n  \"explanation\": \"This query ensures that the PickerBot never aborts a pick when the load exceeds the limit, aligning with the forbidden_state pattern which prevents dangerous or invalid states from occurring.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (PickerBot.aborting && load > limit)",
+              "explanation": "This query ensures that the PickerBot never aborts a pick when the load exceeds the limit, aligning with the forbidden_state pattern which prevents dangerous or invalid states from occurring.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (PickerBot.aborting && load > limit)"
+          },
+          "total_time": 3.014195203781128,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1082520484924316,
+            "tokens": 167,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"load\", \"exceeds\", \"limit\", \"notifies\", \"supervisor\"],\n  \"cues\": [\"when\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.930340051651001,
+            "tokens": 560,
+            "raw_text": "{\n  \"query\": \"(load > limit) --> PickerBot.notifies_supervisor\",\n  \"explanation\": \"The constraint describes a conditional response pattern where the condition 'load exceeds limit' triggers the eventual action 'PickerBot notifies supervisor'. The '-->' operator is used to represent this eventual triggered behavior, aligning with the pattern template for conditional responses.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(load > limit) --> PickerBot.notifies_supervisor",
+              "explanation": "The constraint describes a conditional response pattern where the condition 'load exceeds limit' triggers the eventual action 'PickerBot notifies supervisor'. The '-->' operator is used to represent this eventual triggered behavior, aligning with the pattern template for conditional responses.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(load > limit) --> PickerBot.notifies_supervisor"
+          },
+          "total_time": 3.0601119995117188,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 1.514760971069336,
+            "tokens": 210,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"PickerBot\", \"reduces speed\", \"human\", \"<\", \"2 m\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"human < 2 m\",\n  \"response_text\": \"PickerBot reduces speed to 0.3 m/s\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.6920928955078125,
+            "tokens": 698,
+            "raw_text": "{\n  \"query\": \"A[] (human < 2 imply PickerBot.speed == 0.3)\",\n  \"explanation\": \"This query matches the constraint because it uses the 'safety_immediate_response' pattern, which requires an immediate response to a trigger condition. The condition 'human < 2' triggers the immediate action 'PickerBot reduces speed to 0.3 m/s'. The 'imply' operator is used to ensure that the response is instantaneous, as required by the pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (human < 2 imply PickerBot.speed == 0.3)",
+              "explanation": "This query matches the constraint because it uses the 'safety_immediate_response' pattern, which requires an immediate response to a trigger condition. The condition 'human < 2' triggers the immediate action 'PickerBot reduces speed to 0.3 m/s'. The 'imply' operator is used to ensure that the response is instantaneous, as required by the pattern.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (human < 2 imply PickerBot.speed == 0.3)"
+          },
+          "total_time": 4.229436159133911,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8133618831634521,
+            "tokens": 172,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"obstacle\", \"persists\", \"requests help\", \"10 s\"],\n  \"cues\": [\">\", \"if\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0820722579956055,
+            "tokens": 722,
+            "raw_text": "{\n  \"query\": \"A[] (Obstacle.persists && not PickerBot.requests_help imply clock > 10)\",\n  \"explanation\": \"This query ensures that if an obstacle persists for more than 10 seconds, the PickerBot must request help. The 'imply' operator is used to enforce that the help request must occur immediately after the 10-second threshold is exceeded.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Obstacle.persists && not PickerBot.requests_help imply clock > 10)",
+              "explanation": "This query ensures that if an obstacle persists for more than 10 seconds, the PickerBot must request help. The 'imply' operator is used to enforce that the help request must occur immediately after the 10-second threshold is exceeded.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Obstacle.persists && not PickerBot.requests_help imply clock > 10)"
+          },
+          "total_time": 2.9144980907440186,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all orders completed",
+          "classification": {
+            "step": "classification",
+            "timing": 1.5604400634765625,
+            "tokens": 153,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"completed\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9226160049438477,
+            "tokens": 530,
+            "raw_text": "{\n  \"query\": \"A<> all_orders_completed\",\n  \"explanation\": \"The constraint 'Eventually all orders completed' matches the 'eventual_completion' pattern, which requires that a task must eventually complete. The UPPAAL query 'A<> all_orders_completed' ensures that the system will eventually reach a state where all orders are completed, aligning with the liveness property described.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> all_orders_completed",
+              "explanation": "The constraint 'Eventually all orders completed' matches the 'eventual_completion' pattern, which requires that a task must eventually complete. The UPPAAL query 'A<> all_orders_completed' ensures that the system will eventually reach a state where all orders are completed, aligning with the liveness property described.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_orders_completed"
+          },
+          "total_time": 3.4982481002807617,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually all orders reported",
+          "classification": {
+            "step": "classification",
+            "timing": 0.867255687713623,
+            "tokens": 159,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"all\", \"orders\", \"reported\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.7514429092407227,
+            "tokens": 530,
+            "raw_text": "{\n  \"query\": \"A<> AllOrders.reported\",\n  \"explanation\": \"The query uses the 'eventual_completion' pattern to ensure that the state where all orders are reported is eventually reached. This matches the constraint 'Eventually all orders reported' by using the A<> operator, which is appropriate for liveness properties where something must eventually happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> AllOrders.reported",
+              "explanation": "The query uses the 'eventual_completion' pattern to ensure that the state where all orders are reported is eventually reached. This matches the constraint 'Eventually all orders reported' by using the A<> operator, which is appropriate for liveness properties where something must eventually happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> AllOrders.reported"
+          },
+          "total_time": 3.6335930824279785,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "classification": {
+            "step": "classification",
+            "timing": 3.877779960632324,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"PickerBot\", \"verifies\", \"item\", \"QR\", \"before\", \"grasping\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"grasping\",\n  \"response_text\": \"verifies item via QR\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.212012052536011,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"PickerBot.verifying_QR --> PickerBot.grasping\",\n  \"explanation\": \"This query ensures that PickerBot must verify the item via QR before grasping. The --> operator captures the sequential workflow where QR verification eventually leads to grasping, enforcing the 'before' constraint in the natural language.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "PickerBot.verifying_QR --> PickerBot.grasping",
+              "explanation": "This query ensures that PickerBot must verify the item via QR before grasping. The --> operator captures the sequential workflow where QR verification eventually leads to grasping, enforcing the 'before' constraint in the natural language.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PickerBot.verifying_QR --> PickerBot.grasping"
+          },
+          "total_time": 8.106030941009521,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "classification": {
+            "step": "classification",
+            "timing": 3.1356852054595947,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"PickerBot\", \"aborts\", \"pick\", \"load\", \"exceeds\", \"limit\"],\n  \"cues\": [\"when\", \"exceeds\"],\n  \"trigger_text\": \"load exceeds limit\",\n  \"response_text\": \"PickerBot aborts pick\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.796221971511841,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(PickerBot.load > PickerBot.limit) --> PickerBot.pick_aborted\",\n  \"explanation\": \"This query uses the conditional response pattern with the leads-to operator (-->). When the load exceeds the limit condition becomes true, the PickerBot must eventually reach a state where the pick operation is aborted. This matches the trigger-response behavior specified in the constraint.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(PickerBot.load > PickerBot.limit) --> PickerBot.pick_aborted",
+              "explanation": "This query uses the conditional response pattern with the leads-to operator (-->). When the load exceeds the limit condition becomes true, the PickerBot must eventually reach a state where the pick operation is aborted. This matches the trigger-response behavior specified in the constraint.",
+              "confidence": 0.88,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(PickerBot.load > PickerBot.limit) --> PickerBot.pick_aborted"
+          },
+          "total_time": 7.959505796432495,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "classification": {
+            "step": "classification",
+            "timing": 3.1340200901031494,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"load\", \"exceeds\", \"limit\", \"PickerBot\", \"notifies\", \"supervisor\", \"when\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"load exceeds limit\",\n  \"response_text\": \"PickerBot notifies supervisor\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.31240701675415,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(PickerBot.load > PickerBot.limit) --> PickerBot.notifying_supervisor\",\n  \"explanation\": \"This query uses the conditional_response pattern with the leadsto operator (-->). When the load exceeds the limit (trigger condition), the PickerBot must eventually notify the supervisor (response behavior). The --> operator is appropriate here because notification is an eventual action triggered by the condition, not an immediate same-state response.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(PickerBot.load > PickerBot.limit) --> PickerBot.notifying_supervisor",
+              "explanation": "This query uses the conditional_response pattern with the leadsto operator (-->). When the load exceeds the limit (trigger condition), the PickerBot must eventually notify the supervisor (response behavior). The --> operator is appropriate here because notification is an eventual action triggered by the condition, not an immediate same-state response.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(PickerBot.load > PickerBot.limit) --> PickerBot.notifying_supervisor"
+          },
+          "total_time": 7.46264910697937,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 4.121301889419556,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"PickerBot\", \"reduces\", \"speed\", \"human\", \"distance\", \"proximity\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"human < 2 m\",\n  \"response_text\": \"PickerBot reduces speed to 0.3 m/s\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5592.803920984268,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(human_distance < 2) --> (PickerBot.speed == 0.3)\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that when the human distance becomes less than 2 meters (the trigger condition), the PickerBot will eventually reduce its speed to 0.3 m/s (the response). The --> operator is appropriate here because it captures the eventual behavioral response to the proximity trigger.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(human_distance < 2) --> (PickerBot.speed == 0.3)",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that when the human distance becomes less than 2 meters (the trigger condition), the PickerBot will eventually reduce its speed to 0.3 m/s (the response). The --> operator is appropriate here because it captures the eventual behavioral response to the proximity trigger.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(human_distance < 2) --> (PickerBot.speed == 0.3)"
+          },
+          "total_time": 5596.964557170868,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "classification": {
+            "step": "classification",
+            "timing": 3.6929969787597656,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"PickerBot\", \"requests\", \"help\", \"obstacle\", \"persists\", \"10 s\", \"timeout\"],\n  \"cues\": [\">\", \"if\"],\n  \"trigger_text\": \"obstacle persists > 10 s\",\n  \"response_text\": \"PickerBot requests help\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.13067102432251,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (PickerBot.obstacle_detected && not PickerBot.help_requested imply clock <= 10)\",\n  \"explanation\": \"This query enforces that if PickerBot detects an obstacle and has not yet requested help, the time (clock) must not exceed 10 seconds. This matches the time_bounded_constraint pattern where the system must respond (request help) within the specified timeout period when the triggering condition (obstacle persists) is true.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (PickerBot.obstacle_detected && not PickerBot.help_requested imply clock <= 10)",
+              "explanation": "This query enforces that if PickerBot detects an obstacle and has not yet requested help, the time (clock) must not exceed 10 seconds. This matches the time_bounded_constraint pattern where the system must respond (request help) within the specified timeout period when the triggering condition (obstacle persists) is true.",
+              "confidence": 0.9,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (PickerBot.obstacle_detected && not PickerBot.help_requested imply clock <= 10)"
+          },
+          "total_time": 8.882752895355225,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all orders completed",
+          "classification": {
+            "step": "classification",
+            "timing": 3.0830631256103516,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"orders\", \"completed\", \"all\"],\n  \"cues\": [\"eventually\", \"all\"],\n  \"trigger_text\": \"orders\",\n  \"response_text\": \"completed\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.8042290210723877,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> all_orders_completed\",\n  \"explanation\": \"This query uses the eventual_completion pattern to verify that the system must eventually reach a state where all orders are completed. The A<> operator ensures this is a liveness property that must hold globally.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> all_orders_completed",
+              "explanation": "This query uses the eventual_completion pattern to verify that the system must eventually reach a state where all orders are completed. The A<> operator ensures this is a liveness property that must hold globally.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_orders_completed"
+          },
+          "total_time": 6.9058518409729,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually all orders reported",
+          "classification": {
+            "step": "classification",
+            "timing": 3.2957301139831543,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"all\", \"orders\", \"reported\"],\n  \"cues\": [\"eventually\", \"all\"],\n  \"trigger_text\": \"orders\",\n  \"response_text\": \"reported\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.124124765396118,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (forall (i : order_t) Order(i).reported)\",\n  \"explanation\": \"This query uses the eventual_completion pattern with A<> operator to express that eventually all orders must reach the 'reported' state. The universal quantifier 'forall' ensures this applies to all order instances.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (forall (i : order_t) Order(i).reported)",
+              "explanation": "This query uses the eventual_completion pattern with A<> operator to express that eventually all orders must reach the 'reported' state. The universal quantifier 'forall' ensures this applies to all order instances.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A<> (forall (i : order_t) Order(i).reported)"
+          },
+          "total_time": 7.455939769744873,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "classification": {
+            "step": "classification",
+            "timing": 1.118298053741455,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"verify\", \"QR\", \"before\", \"grasping\", \"item\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"verify item via QR\",\n  \"response_text\": \"grasping\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9230620861053467,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"PickerBot.verifying_QR --> PickerBot.grasping\",\n  \"explanation\": \"The constraint specifies a sequential workflow where QR verification (trigger_text) must occur before grasping (response_text). The 'before' cue indicates an ordering dependency between two actions performed by the same entity (PickerBot). The '-->' operator captures this eventual sequential relationship: verification happens first, then grasping follows as a consequence.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "PickerBot.verifying_QR --> PickerBot.grasping",
+              "explanation": "The constraint specifies a sequential workflow where QR verification (trigger_text) must occur before grasping (response_text). The 'before' cue indicates an ordering dependency between two actions performed by the same entity (PickerBot). The '-->' operator captures this eventual sequential relationship: verification happens first, then grasping follows as a consequence.",
+              "confidence": 0.92,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PickerBot.verifying_QR --> PickerBot.grasping"
+          },
+          "total_time": 3.0534510612487793,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "classification": {
+            "step": "classification",
+            "timing": 1.664841890335083,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"aborts\", \"pick\", \"load exceeds\", \"limit\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"load exceeds limit\",\n  \"response_text\": \"aborts pick\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0580480098724365,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (PickerBot.load > limit imply not PickerBot.picking)\",\n  \"explanation\": \"The constraint describes an immediate safety response: when load exceeds limit (trigger), PickerBot must abort pick (response). This is a same-state immediate response requiring the safety_immediate_response pattern with A[] and imply operators. The imply operator ensures that whenever the trigger condition (load > limit) is true, the response (not picking) must be true RIGHT NOW, with no delay allowed.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (PickerBot.load > limit imply not PickerBot.picking)",
+              "explanation": "The constraint describes an immediate safety response: when load exceeds limit (trigger), PickerBot must abort pick (response). This is a same-state immediate response requiring the safety_immediate_response pattern with A[] and imply operators. The imply operator ensures that whenever the trigger condition (load > limit) is true, the response (not picking) must be true RIGHT NOW, with no delay allowed.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (PickerBot.load > limit imply not PickerBot.picking)"
+          },
+          "total_time": 3.746300220489502,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9742763042449951,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"load\", \"exceeds\", \"limit\", \"notifies\", \"supervisor\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"load exceeds limit\",\n  \"response_text\": \"PickerBot notifies supervisor\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4717109203338623,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(PickerBot.load > limit) --> PickerBot.notifies_supervisor\",\n  \"explanation\": \"This matches the conditional_response pattern where the trigger condition 'load exceeds limit' leads to the eventual response 'PickerBot notifies supervisor'. The '-->' operator captures the sequential workflow: when the load exceeds the limit, PickerBot will eventually notify the supervisor.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(PickerBot.load > limit) --> PickerBot.notifies_supervisor",
+              "explanation": "This matches the conditional_response pattern where the trigger condition 'load exceeds limit' leads to the eventual response 'PickerBot notifies supervisor'. The '-->' operator captures the sequential workflow: when the load exceeds the limit, PickerBot will eventually notify the supervisor.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(PickerBot.load > limit) --> PickerBot.notifies_supervisor"
+          },
+          "total_time": 2.465489149093628,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1556661128997803,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"speed\", \"distance\", \"human\", \"reduces\", \"proximity\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"human < 2 m\",\n  \"response_text\": \"reduces speed to 0.3 m/s\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.3968420028686523,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(PickerBot.distance_to_human < 2) --> (PickerBot.speed == 0.3)\",\n  \"explanation\": \"The constraint describes a conditional_response pattern where the trigger is 'human < 2 m' (distance to human less than 2 meters) and the response is 'reduces speed to 0.3 m/s'. The '-->' operator correctly captures the sequential workflow: when the distance condition becomes true, the system eventually responds by setting speed to 0.3 m/s. This is not an immediate implication but an eventual behavioral response.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(PickerBot.distance_to_human < 2) --> (PickerBot.speed == 0.3)",
+              "explanation": "The constraint describes a conditional_response pattern where the trigger is 'human < 2 m' (distance to human less than 2 meters) and the response is 'reduces speed to 0.3 m/s'. The '-->' operator correctly captures the sequential workflow: when the distance condition becomes true, the system eventually responds by setting speed to 0.3 m/s. This is not an immediate implication but an eventual behavioral response.",
+              "confidence": 0.88,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(PickerBot.distance_to_human < 2) --> (PickerBot.speed == 0.3)"
+          },
+          "total_time": 3.5705971717834473,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0702600479125977,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"obstacle\", \"persists\", \"help\", \"request\"],\n  \"cues\": [\">\", \"s\"],\n  \"trigger_text\": \"obstacle persists > 10 s\",\n  \"response_text\": \"PickerBot requests help\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0998969078063965,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (PickerBot.obstacle_persists && clock > 10 --> PickerBot.requests_help)\",\n  \"explanation\": \"The constraint requires that when an obstacle persists for more than 10 seconds, PickerBot must request help. This is a time-bounded sequential response: the condition (obstacle persisting) must hold for a duration exceeding 10 seconds, triggering the response (help request). The '-->' operator captures the eventual triggered behavior once the time threshold is exceeded, while A[] ensures this property holds globally throughout execution.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (PickerBot.obstacle_persists && clock > 10 --> PickerBot.requests_help)",
+              "explanation": "The constraint requires that when an obstacle persists for more than 10 seconds, PickerBot must request help. This is a time-bounded sequential response: the condition (obstacle persisting) must hold for a duration exceeding 10 seconds, triggering the response (help request). The '-->' operator captures the eventual triggered behavior once the time threshold is exceeded, while A[] ensures this property holds globally throughout execution.",
+              "confidence": 0.82,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (PickerBot.obstacle_persists && clock > 10 --> PickerBot.requests_help)"
+          },
+          "total_time": 3.1987898349761963,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all orders completed",
+          "classification": {
+            "step": "classification",
+            "timing": 1.122628927230835,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"orders\", \"completed\"],\n  \"cues\": [\"eventually\", \"all\"],\n  \"trigger_text\": \"all orders\",\n  \"response_text\": \"completed\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.3725829124450684,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> all_orders_completed\",\n  \"explanation\": \"The constraint 'Eventually all orders completed' expresses a liveness property where all orders must eventually reach a completed state. This matches the eventual_completion pattern with the A<> operator, which is used for properties that must inevitably happen. The trigger 'all orders' combined with the response 'completed' indicates a global state that the system must eventually achieve.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> all_orders_completed",
+              "explanation": "The constraint 'Eventually all orders completed' expresses a liveness property where all orders must eventually reach a completed state. This matches the eventual_completion pattern with the A<> operator, which is used for properties that must inevitably happen. The trigger 'all orders' combined with the response 'completed' indicates a global state that the system must eventually achieve.",
+              "confidence": 0.92,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_orders_completed"
+          },
+          "total_time": 3.5188910961151123,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually all orders reported",
+          "classification": {
+            "step": "classification",
+            "timing": 1.5453240871429443,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"orders\", \"reported\", \"all\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"all orders\",\n  \"response_text\": \"reported\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.865705966949463,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> System.all_orders_reported\",\n  \"explanation\": \"The constraint 'Eventually all orders reported' is a liveness property expressing that a system state must eventually be reached. The keyword 'eventually' combined with 'all orders' (trigger) and 'reported' (response/final state) indicates a global eventual completion. The A<> operator is used because this must happen in all execution paths - all orders must eventually reach the 'reported' state.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> System.all_orders_reported",
+              "explanation": "The constraint 'Eventually all orders reported' is a liveness property expressing that a system state must eventually be reached. The keyword 'eventually' combined with 'all orders' (trigger) and 'reported' (response/final state) indicates a global eventual completion. The A<> operator is used because this must happen in all execution paths - all orders must eventually reach the 'reported' state.",
+              "confidence": 0.92,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> System.all_orders_reported"
+          },
+          "total_time": 3.42576003074646,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "classification": {
+            "step": "classification",
+            "timing": 10.30211877822876,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"verify\", \"before\", \"grasping\"], \"cues\": [\"before\"], \"trigger_text\": \"PickerBot verifies item via QR\", \"response_text\": \"grasping\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.067770719528198,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"PickerBot.verifies_item_via_QR --> PickerBot.grasping\", \"explanation\": \"The constraint describes a sequential workflow where PickerBot verifies the item via QR before eventually grasping it, matching the sequential_workflow pattern with the --> operator for eventual triggered behavior.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "PickerBot.verifies_item_via_QR --> PickerBot.grasping",
+              "explanation": "The constraint describes a sequential workflow where PickerBot verifies the item via QR before eventually grasping it, matching the sequential_workflow pattern with the --> operator for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PickerBot.verifies_item_via_QR --> PickerBot.grasping"
+          },
+          "total_time": 23.387825965881348,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "classification": {
+            "step": "classification",
+            "timing": 12.658143997192383,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"abort\", \"pick\", \"load\", \"exceeds\", \"limit\"], \"cues\": [\"when\"], \"trigger_text/response_text\": \"when load exceeds limit / aborts pick\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.634681940078735,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (PickerBot.load > limit imply not PickerBot.picking)\", \"explanation\": \"The constraint describes an immediate safety response where PickerBot must abort picking instantly when the load exceeds the limit, matching the safety_immediate_response pattern template with A[] and imply for same-state immediate response.\", \"confidence\": 0.85, \"pattern_used\": \"safety_immediate_response\", \"operator_used\": [\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (PickerBot.load > limit imply not PickerBot.picking)",
+              "explanation": "The constraint describes an immediate safety response where PickerBot must abort picking instantly when the load exceeds the limit, matching the safety_immediate_response pattern template with A[] and imply for same-state immediate response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (PickerBot.load > limit imply not PickerBot.picking)"
+          },
+          "total_time": 26.31277108192444,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "classification": {
+            "step": "classification",
+            "timing": 9.75127100944519,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"notify\",\"exceeds\"],\"cues\":[\"when\"],\"trigger_text\":\"load exceeds limit\",\"response_text\":\"PickerBot notifies supervisor\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.665073871612549,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(load > limit) --> PickerBot.notifies_supervisor\", \"explanation\": \"The constraint describes a conditional trigger where exceeding the load leads to the PickerBot eventually notifying the supervisor, matching the conditional_response pattern with --> for eventual behavior.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(load > limit) --> PickerBot.notifies_supervisor",
+              "explanation": "The constraint describes a conditional trigger where exceeding the load leads to the PickerBot eventually notifying the supervisor, matching the conditional_response pattern with --> for eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(load > limit) --> PickerBot.notifies_supervisor"
+          },
+          "total_time": 20.426234245300293,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 14.032830953598022,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"PickerBot\", \"reduces\", \"speed\", \"0.3\", \"m/s\", \"human\", \"<\", \"2\", \"m\"], \"cues\": [\"when\", \"<\"], \"trigger_text\": \"human < 2 m\", \"response_text\": \"PickerBot reduces speed to 0.3 m/s\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 26.155191659927368,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (human < 2 --> PickerBot.speed == 0.3)\", \"explanation\": \"This query uses the safety_immediate_response pattern with A[] and --> to ensure that when the human is less than 2 meters away, the PickerBot will eventually reduce its speed to 0.3 m/s, although the pattern emphasizes immediate response and --> allows for eventual behavior, contributing to the moderate confidence.\", \"confidence\": 0.85, \"pattern_used\": \"safety_immediate_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (human < 2 --> PickerBot.speed == 0.3)",
+              "explanation": "This query uses the safety_immediate_response pattern with A[] and --> to ensure that when the human is less than 2 meters away, the PickerBot will eventually reduce its speed to 0.3 m/s, although the pattern emphasizes immediate response and --> allows for eventual behavior, contributing to the moderate confidence.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (human < 2 --> PickerBot.speed == 0.3)"
+          },
+          "total_time": 40.21074891090393,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "classification": {
+            "step": "classification",
+            "timing": 8.650901079177856,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"time_bounded_constraint\", \"keywords\": [\"persists\", \"obstacle\", \"help\"], \"cues\": [\"if\", \">\", \"10 s\"], \"trigger_text\": \"obstacle persists > 10 s\", \"response_text\": \"requests help\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 24.528379678726196,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (PickerBot.obstacle_persists && clock > 10 --> PickerBot.requests_help)\", \"explanation\": \"The constraint specifies a conditional response where if an obstacle persists for more than 10 seconds (assuming clock resets when obstacle starts), then help must be requested eventually. This uses the --> operator for eventual triggered behavior in a conditional response pattern, matching the time-bounded trigger.\", \"confidence\": 0.85, \"pattern_used\": \"time_bounded_constraint\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (PickerBot.obstacle_persists && clock > 10 --> PickerBot.requests_help)",
+              "explanation": "The constraint specifies a conditional response where if an obstacle persists for more than 10 seconds (assuming clock resets when obstacle starts), then help must be requested eventually. This uses the --> operator for eventual triggered behavior in a conditional response pattern, matching the time-bounded trigger.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (PickerBot.obstacle_persists && clock > 10 --> PickerBot.requests_help)"
+          },
+          "total_time": 33.19802975654602,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all orders completed",
+          "classification": {
+            "step": "classification",
+            "timing": 8.582509756088257,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"eventually\", \"all\", \"orders\", \"completed\"], \"cues\": [\"eventually\"], \"trigger_text\": null, \"response_text\": \"all orders completed\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.361373901367188,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> all_orders_completed\", \"explanation\": \"The constraint requires that all orders must eventually be completed, which is a liveness property. The A<> operator ensures that the system will eventually reach a state where all orders are completed.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> all_orders_completed",
+              "explanation": "The constraint requires that all orders must eventually be completed, which is a liveness property. The A<> operator ensures that the system will eventually reach a state where all orders are completed.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_orders_completed"
+          },
+          "total_time": 22.96474313735962,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually all orders reported",
+          "classification": {
+            "step": "classification",
+            "timing": 9.15686297416687,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"orders\", \"reported\"], \"cues\": [\"eventually\"], \"response_text\": \"all orders reported\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.934417009353638,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> all_orders_reported\",\"explanation\":\"The constraint 'Eventually all orders reported' indicates a liveness property where the system must eventually reach a state where all orders are reported, matching the eventual_completion pattern using A<> for global liveness.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> all_orders_reported",
+              "explanation": "The constraint 'Eventually all orders reported' indicates a liveness property where the system must eventually reach a state where all orders are reported, matching the eventual_completion pattern using A<> for global liveness.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_orders_reported"
+          },
+          "total_time": 26.1148419380188,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "classification": {
+            "step": "classification",
+            "timing": 5.881940126419067,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"verifies\", \"before\", \"grasping\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"verifies item via QR\",\n  \"response_text\": \"grasping\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.62807321548462,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"PickerBot.verification_done --> PickerBot.grasping\",\n  \"explanation\": \"The query uses the sequential_workflow pattern to ensure that after PickerBot completes verification (trigger: verifies item via QR), grasping eventually follows, matching the constraint that verification must happen before grasping.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "PickerBot.verification_done --> PickerBot.grasping",
+              "explanation": "The query uses the sequential_workflow pattern to ensure that after PickerBot completes verification (trigger: verifies item via QR), grasping eventually follows, matching the constraint that verification must happen before grasping.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PickerBot.verification_done --> PickerBot.grasping"
+          },
+          "total_time": 14.524848937988281,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "classification": {
+            "step": "classification",
+            "timing": 6.837124824523926,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"PickerBot\", \"aborts\", \"pick\", \"load\", \"exceeds\", \"limit\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"load exceeds limit\",\n  \"response_text\": \"aborts pick\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.444109201431274,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(load > limit) --> PickerBot.abort_pick\",\n  \"explanation\": \"The query matches the constraint by using the --> operator to indicate that when the condition 'load exceeds limit' is true, it eventually leads to the response 'PickerBot aborts pick', following the conditional_response pattern template.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(load > limit) --> PickerBot.abort_pick",
+              "explanation": "The query matches the constraint by using the --> operator to indicate that when the condition 'load exceeds limit' is true, it eventually leads to the response 'PickerBot aborts pick', following the conditional_response pattern template.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(load > limit) --> PickerBot.abort_pick"
+          },
+          "total_time": 14.320374965667725,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "classification": {
+            "step": "classification",
+            "timing": 7.573225975036621,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"load\", \"exceeds\", \"limit\", \"PickerBot\", \"notifies\", \"supervisor\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"load exceeds limit\",\n  \"response_text\": \"PickerBot notifies supervisor\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.040407180786133,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(load > limit) --> PickerBot.notifies_supervisor\",\n  \"explanation\": \"This query matches the constraint by using the --> operator to represent that when the condition 'load exceeds limit' is true, the eventual response 'PickerBot notifies supervisor' will occur, following the conditional_response pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(load > limit) --> PickerBot.notifies_supervisor",
+              "explanation": "This query matches the constraint by using the --> operator to represent that when the condition 'load exceeds limit' is true, the eventual response 'PickerBot notifies supervisor' will occur, following the conditional_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(load > limit) --> PickerBot.notifies_supervisor"
+          },
+          "total_time": 16.638044118881226,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 10.583057165145874,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"reduces speed\", \"human\", \"2 m\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"human < 2 m\",\n  \"response_text\": \"reduces speed to 0.3 m/s\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.378289222717285,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(human < 2) --> (PickerBot.speed == 0.3)\",\n  \"explanation\": \"This query matches the constraint by using the --> operator to indicate that when the condition 'human < 2' is true, the PickerBot will eventually reduce its speed to 0.3 m/s, aligning with the conditional_response pattern for triggered behaviors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(human < 2) --> (PickerBot.speed == 0.3)",
+              "explanation": "This query matches the constraint by using the --> operator to indicate that when the condition 'human < 2' is true, the PickerBot will eventually reduce its speed to 0.3 m/s, aligning with the conditional_response pattern for triggered behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(human < 2) --> (PickerBot.speed == 0.3)"
+          },
+          "total_time": 18.984099864959717,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "classification": {
+            "step": "classification",
+            "timing": 7.566618204116821,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"obstacle\", \"persists\", \"10 s\", \"requests help\"],\n  \"cues\": [\"if\", \">\", \"s\"],\n  \"trigger_text\": \"obstacle persists > 10 s\",\n  \"response_text\": \"requests help\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.387094974517822,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (obstacle_persists && not requests_help imply clock <= 10)\",\n  \"explanation\": \"This query ensures that if the obstacle persists and help has not been requested, the clock does not exceed 10 seconds, matching the time_bounded_constraint pattern where an action must occur within a specific duration.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (obstacle_persists && not requests_help imply clock <= 10)",
+              "explanation": "This query ensures that if the obstacle persists and help has not been requested, the clock does not exceed 10 seconds, matching the time_bounded_constraint pattern where an action must occur within a specific duration.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (obstacle_persists && not requests_help imply clock <= 10)"
+          },
+          "total_time": 23.97753882408142,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all orders completed",
+          "classification": {
+            "step": "classification",
+            "timing": 6.975496768951416,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"orders\", \"completed\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"Eventually all orders completed\"\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.123201131820679,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> all_orders_completed\",\n  \"explanation\": \"The query A<> all_orders_completed ensures that it is inevitable for all orders to reach a completed state, aligning with the 'eventual_completion' pattern and the constraint's use of 'eventually' to indicate global liveness.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> all_orders_completed",
+              "explanation": "The query A<> all_orders_completed ensures that it is inevitable for all orders to reach a completed state, aligning with the 'eventual_completion' pattern and the constraint's use of 'eventually' to indicate global liveness.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_orders_completed"
+          },
+          "total_time": 20.118996143341064,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually all orders reported",
+          "classification": {
+            "step": "classification",
+            "timing": 7.141899108886719,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"all\", \"orders\", \"reported\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.052884817123413,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> all_orders_reported\",\n  \"explanation\": \"The query A<> all_orders_reported ensures that eventually, the state where all orders are reported is reached, directly matching the eventual_completion pattern for the constraint 'Eventually all orders reported'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> all_orders_reported",
+              "explanation": "The query A<> all_orders_reported ensures that eventually, the state where all orders are reported is reached, directly matching the eventual_completion pattern for the constraint 'Eventually all orders reported'.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_orders_reported"
+          },
+          "total_time": 21.216132879257202,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "classification": {
+            "step": "classification",
+            "timing": 38.817034006118774,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"verify\", \"QR\", \"grasp\", \"before\"],\n  \"cues\": [\"before\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 55.723268032073975,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"PickerBot.verify_QR --> PickerBot.grasp\",\n  \"explanation\": \"This query uses the sequential_workflow pattern with the '-->' operator to specify that after PickerBot verifies the item via QR (verify_QR), it eventually grasps the item (grasp), aligning with the 'before' cue in the constraint, which indicates a temporal sequence where verification precedes grasping.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "PickerBot.verify_QR --> PickerBot.grasp",
+              "explanation": "This query uses the sequential_workflow pattern with the '-->' operator to specify that after PickerBot verifies the item via QR (verify_QR), it eventually grasps the item (grasp), aligning with the 'before' cue in the constraint, which indicates a temporal sequence where verification precedes grasping.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PickerBot.verify_QR --> PickerBot.grasp"
+          },
+          "total_time": 94.56632018089294,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "classification": {
+            "step": "classification",
+            "timing": 33.158822774887085,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"PickerBot\", \"abort\", \"pick\", \"load\", \"exceed\", \"limit\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"load exceeds limit\",\n  \"response_text\": \"aborts pick\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 68.54607796669006,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(PickerBot.load > limit) --> PickerBot.pick_aborted\",\n  \"explanation\": \"The constraint uses 'when' to indicate a conditional response where 'load exceeds limit' triggers 'aborts pick', matching the conditional_response pattern. This pattern uses the '-->' operator to model that whenever the condition holds (load > limit), eventually the response (pick_aborted) will hold, aligning with the template condition --> response and similar examples provided.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(PickerBot.load > limit) --> PickerBot.pick_aborted",
+              "explanation": "The constraint uses 'when' to indicate a conditional response where 'load exceeds limit' triggers 'aborts pick', matching the conditional_response pattern. This pattern uses the '-->' operator to model that whenever the condition holds (load > limit), eventually the response (pick_aborted) will hold, aligning with the template condition --> response and similar examples provided.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(PickerBot.load > limit) --> PickerBot.pick_aborted"
+          },
+          "total_time": 101.72252368927002,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "classification": {
+            "step": "classification",
+            "timing": 31.85227084159851,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"load\", \"exceeds\", \"limit\", \"PickerBot\", \"notifies\", \"supervisor\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"load exceeds limit\",\n  \"response_text\": \"PickerBot notifies supervisor\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 56.073877811431885,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(load > limit) --> (PickerBot.supervisor_notified)\",\n  \"explanation\": \"This constraint matches the conditional_response pattern with the cue 'when', where the condition 'load exceeds limit' eventually leads to the response 'PickerBot notifies supervisor'. The '-->' operator is used as per the pattern template for eventual triggered behavior, similar to provided examples like (Robot.battery < 20) --> Robot.at_charging_station.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(load > limit) --> (PickerBot.supervisor_notified)",
+              "explanation": "This constraint matches the conditional_response pattern with the cue 'when', where the condition 'load exceeds limit' eventually leads to the response 'PickerBot notifies supervisor'. The '-->' operator is used as per the pattern template for eventual triggered behavior, similar to provided examples like (Robot.battery < 20) --> Robot.at_charging_station.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(load > limit) --> (PickerBot.supervisor_notified)"
+          },
+          "total_time": 87.9632499217987,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 50.77142786979675,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"PickerBot\", \"speed\", \"human\", \"distance\", \"reduce\", \"safety\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"human < 2 m\",\n  \"response_text\": \"reduces speed to 0.3 m/s\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 78.81768584251404,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (distance_to_human < 2 imply speed == 0.3)\",\n  \"explanation\": \"This query matches the safety_immediate_response pattern as it uses A[] with imply to ensure that whenever the human distance is less than 2 meters, PickerBot's speed is immediately 0.3 m/s, reflecting an instantaneous response with no delay, consistent with the constraint's keywords and cues.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (distance_to_human < 2 imply speed == 0.3)",
+              "explanation": "This query matches the safety_immediate_response pattern as it uses A[] with imply to ensure that whenever the human distance is less than 2 meters, PickerBot's speed is immediately 0.3 m/s, reflecting an instantaneous response with no delay, consistent with the constraint's keywords and cues.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (distance_to_human < 2 imply speed == 0.3)"
+          },
+          "total_time": 129.62752723693848,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "classification": {
+            "step": "classification",
+            "timing": 66.2575569152832,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"PickerBot\", \"help\", \"obstacle\", \"persists\", \"10 s\"],\n  \"cues\": [\"if\", \">\"],\n  \"trigger_text\": \"obstacle persists > 10 s\",\n  \"response_text\": \"PickerBot requests help\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 115.22961211204529,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(obstacle && obstacle_time > 10) --> PickerBot.help_requested\",\n  \"explanation\": \"The constraint 'PickerBot requests help if obstacle persists > 10 s' is a conditional eventual response, matching the 'conditional_response' pattern. The condition 'obstacle && obstacle_time > 10' represents the obstacle persisting for over 10 seconds (assuming 'obstacle' is a boolean variable and 'obstacle_time' is a clock reset when obstacle is detected), and 'PickerBot.help_requested' is the response action. The '-->' operator is used to specify that whenever the condition becomes true, the response will eventually occur, consistent with the pattern template and similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(obstacle && obstacle_time > 10) --> PickerBot.help_requested",
+              "explanation": "The constraint 'PickerBot requests help if obstacle persists > 10 s' is a conditional eventual response, matching the 'conditional_response' pattern. The condition 'obstacle && obstacle_time > 10' represents the obstacle persisting for over 10 seconds (assuming 'obstacle' is a boolean variable and 'obstacle_time' is a clock reset when obstacle is detected), and 'PickerBot.help_requested' is the response action. The '-->' operator is used to specify that whenever the condition becomes true, the response will eventually occur, consistent with the pattern template and similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(obstacle && obstacle_time > 10) --> PickerBot.help_requested"
+          },
+          "total_time": 181.53093886375427,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all orders completed",
+          "classification": {
+            "step": "classification",
+            "timing": 31.323719263076782,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"orders\", \"completed\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 95.70003700256348,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> all_orders_completed\",\n  \"explanation\": \"The constraint 'Eventually all orders completed' specifies a liveness property where all orders must eventually reach a completed state. The UPPAAL query A<> all_orders_completed uses the operator A<> to assert that in all paths, the condition where all orders are completed (represented by the state 'all_orders_completed') is eventually satisfied, aligning with the 'eventual_completion' pattern and its template A<> final_state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> all_orders_completed",
+              "explanation": "The constraint 'Eventually all orders completed' specifies a liveness property where all orders must eventually reach a completed state. The UPPAAL query A<> all_orders_completed uses the operator A<> to assert that in all paths, the condition where all orders are completed (represented by the state 'all_orders_completed') is eventually satisfied, aligning with the 'eventual_completion' pattern and its template A<> final_state.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_orders_completed"
+          },
+          "total_time": 127.08627891540527,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually all orders reported",
+          "classification": {
+            "step": "classification",
+            "timing": 26.128540754318237,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"orders\", \"reported\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 92.57587575912476,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> all_orders_reported\",\n  \"explanation\": \"The constraint 'Eventually all orders reported' contains the keyword 'eventually', which matches the pattern for liveness properties where something must eventually happen. Using the A<> operator from the 'eventual_completion' pattern asserts that eventually the state where all orders are reported must be reached globally, similar to provided examples like 'A<> InspectionBot.all_tasks_done'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> all_orders_reported",
+              "explanation": "The constraint 'Eventually all orders reported' contains the keyword 'eventually', which matches the pattern for liveness properties where something must eventually happen. Using the A<> operator from the 'eventual_completion' pattern asserts that eventually the state where all orders are reported must be reached globally, similar to provided examples like 'A<> InspectionBot.all_tasks_done'.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_orders_reported"
+          },
+          "total_time": 118.74865484237671,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "classification": {
+            "step": "classification",
+            "timing": 0.6954107284545898,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"pickerbot\", \"verify\", \"qr\", \"grasping\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"PickerBot\",\n  \"response_text\": \"grasping\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.142648696899414,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"PickerBot.verifies --> PickerBot.grasping\",\n  \"explanation\": \"The constraint 'PickerBot verifies item via QR before grasping' translates to a sequential workflow where verifying the item eventually leads to grasping it. The '-->' operator captures this eventual transition between states.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "PickerBot.verifies --> PickerBot.grasping",
+              "explanation": "The constraint 'PickerBot verifies item via QR before grasping' translates to a sequential workflow where verifying the item eventually leads to grasping it. The '-->' operator captures this eventual transition between states.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PickerBot.verifies --> PickerBot.grasping"
+          },
+          "total_time": 1.8563199043273926,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1819407939910889,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"abort\", \"pick\", \"load\", \"limit\", \"exceeds\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"load exceeds limit\",\n  \"response_text\": \"PickerBot aborts pick\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2558879852294922,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"PickerBot.load_exceeds_limit --> PickerBot.abort_pick\",\n  \"explanation\": \"The constraint 'PickerBot aborts pick when load exceeds limit' fits the 'conditional_response' pattern. When the condition 'load exceeds limit' is met, the response is that 'PickerBot aborts pick'. The '-->' operator expresses this eventual response relationship.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "PickerBot.load_exceeds_limit --> PickerBot.abort_pick",
+              "explanation": "The constraint 'PickerBot aborts pick when load exceeds limit' fits the 'conditional_response' pattern. When the condition 'load exceeds limit' is met, the response is that 'PickerBot aborts pick'. The '-->' operator expresses this eventual response relationship.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PickerBot.load_exceeds_limit --> PickerBot.abort_pick"
+          },
+          "total_time": 2.4689557552337646,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1248579025268555,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"load\", \"limit\", \"notify\", \"supervisor\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"load exceeds limit\",\n  \"response_text\": \"PickerBot notifies supervisor\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0187249183654785,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(load > limit) --> PickerBot.notifies_supervisor\",\n  \"explanation\": \"The constraint describes an eventual response to a condition. When 'load exceeds limit', PickerBot eventually 'notifies supervisor'. The '-->' operator captures this eventual response relationship. 'load > limit' represents the condition, and 'PickerBot.notifies_supervisor' represents the eventual response of the PickerBot notifying the supervisor.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(load > limit) --> PickerBot.notifies_supervisor",
+              "explanation": "The constraint describes an eventual response to a condition. When 'load exceeds limit', PickerBot eventually 'notifies supervisor'. The '-->' operator captures this eventual response relationship. 'load > limit' represents the condition, and 'PickerBot.notifies_supervisor' represents the eventual response of the PickerBot notifying the supervisor.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(load > limit) --> PickerBot.notifies_supervisor"
+          },
+          "total_time": 2.163376808166504,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8639981746673584,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"speed\", \"reduce\", \"human\", \"distance\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"human < 2 m\",\n  \"response_text\": \"PickerBot reduces speed to 0.3 m/s\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.1185343265533447,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(human_distance < 2) --> (PickerBot.speed <= 0.3)\",\n  \"explanation\": \"The constraint describes a conditional response where the PickerBot reduces its speed when the distance to a human is less than 2 meters. The '-->' operator signifies that the speed reduction will eventually occur after the human is within the specified distance. We use '<=' to represent that the speed will be 0.3 or less, in case there are other limiting factors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(human_distance < 2) --> (PickerBot.speed <= 0.3)",
+              "explanation": "The constraint describes a conditional response where the PickerBot reduces its speed when the distance to a human is less than 2 meters. The '-->' operator signifies that the speed reduction will eventually occur after the human is within the specified distance. We use '<=' to represent that the speed will be 0.3 or less, in case there are other limiting factors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(human_distance < 2) --> (PickerBot.speed <= 0.3)"
+          },
+          "total_time": 2.0049197673797607,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7743380069732666,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"obstacle\", \"persist\", \"help\", \"request\", \"PickerBot\", \"time\", \"duration\"],\n  \"cues\": [\">\"],\n  \"trigger_text\": \"obstacle persists\",\n  \"response_text\": \"PickerBot requests help\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.3617579936981201,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (ObstaclePersists imply PickerBot.requests_help delay <= 10)\",\n  \"explanation\": \"The constraint states that if the obstacle persists for longer than 10 seconds, the PickerBot must request help.  This is a time-bounded constraint related to a conditional response, but given that it must persist for some time first, it implies an eventual response rather than an immediate one. The 'delay <= 10' specifies a 10-second time bound on the response. 'ObstaclePersists' and 'PickerBot.requests_help' are assumed to be boolean variables indicating the presence of an obstacle and the bot's request, respectively.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (ObstaclePersists imply PickerBot.requests_help delay <= 10)",
+              "explanation": "The constraint states that if the obstacle persists for longer than 10 seconds, the PickerBot must request help.  This is a time-bounded constraint related to a conditional response, but given that it must persist for some time first, it implies an eventual response rather than an immediate one. The 'delay <= 10' specifies a 10-second time bound on the response. 'ObstaclePersists' and 'PickerBot.requests_help' are assumed to be boolean variables indicating the presence of an obstacle and the bot's request, respectively.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (ObstaclePersists imply PickerBot.requests_help delay <= 10)"
+          },
+          "total_time": 2.175312042236328,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all orders completed",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2131321430206299,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"orders\",\n    \"completed\",\n    \"eventually\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ],\n  \"trigger_text\": \"orders\",\n  \"response_text\": \"completed\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.8852741718292236,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> all_orders_completed\",\n  \"explanation\": \"The constraint states that 'eventually all orders completed'. This is a liveness property, so we use A<>. The 'all_orders_completed' is the state we expect to eventually reach.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> all_orders_completed",
+              "explanation": "The constraint states that 'eventually all orders completed'. This is a liveness property, so we use A<>. The 'all_orders_completed' is the state we expect to eventually reach.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_orders_completed"
+          },
+          "total_time": 2.1133289337158203,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually all orders reported",
+          "classification": {
+            "step": "classification",
+            "timing": 0.6672210693359375,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"eventual\",\n    \"completion\",\n    \"orders\",\n    \"reported\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4146170616149902,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> allOrdersReported\",\n  \"explanation\": \"The constraint 'Eventually all orders reported' requires that the system eventually reaches a state where all orders are reported. The 'eventual_completion' pattern is used with the 'A<>' operator, meaning 'eventually'. 'allOrdersReported' is the state where all orders have been reported.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> allOrdersReported",
+              "explanation": "The constraint 'Eventually all orders reported' requires that the system eventually reaches a state where all orders are reported. The 'eventual_completion' pattern is used with the 'A<>' operator, meaning 'eventually'. 'allOrdersReported' is the state where all orders have been reported.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> allOrdersReported"
+          },
+          "total_time": 2.1037168502807617,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "classification": {
+            "step": "classification",
+            "timing": 11.508747816085815,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"PickerBot\",\n    \"verifies\",\n    \"QR\",\n    \"grasping\",\n    \"before\"\n  ],\n  \"cues\": [\n    \"before\"\n  ],\n  \"trigger_text\": \"verifies item via QR\",\n  \"response_text\": \"grasping\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.961028099060059,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"PickerBot.VerifyQR --> PickerBot.Grasping\",\n  \"explanation\": \"The constraint \\\"PickerBot verifies item via QR before grasping\\\" specifies a required sequence of operations. The `sequential_workflow` pattern is appropriate here. The `-->` (leads to) operator correctly models that after the `VerifyQR` action occurs, the `Grasping` action must eventually follow.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "PickerBot.VerifyQR --> PickerBot.Grasping",
+              "explanation": "The constraint \"PickerBot verifies item via QR before grasping\" specifies a required sequence of operations. The `sequential_workflow` pattern is appropriate here. The `-->` (leads to) operator correctly models that after the `VerifyQR` action occurs, the `Grasping` action must eventually follow.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PickerBot.VerifyQR --> PickerBot.Grasping"
+          },
+          "total_time": 27.582741022109985,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "classification": {
+            "step": "classification",
+            "timing": 11.576101064682007,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"PickerBot\",\n    \"abort\",\n    \"load\",\n    \"limit\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"exceeds\"\n  ],\n  \"trigger_text\": \"load exceeds limit\",\n  \"response_text\": \"PickerBot aborts pick\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.029119968414307,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (PickerBot.load > limit imply not PickerBot.picking)\",\n  \"explanation\": \"This is a safety property ensuring an immediate response. `A[]` checks that the condition holds in all reachable states. The `imply` operator enforces that whenever the trigger condition `PickerBot.load > limit` is true, the response `not PickerBot.picking` must also be true in the exact same state, modeling an instantaneous abort action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (PickerBot.load > limit imply not PickerBot.picking)",
+              "explanation": "This is a safety property ensuring an immediate response. `A[]` checks that the condition holds in all reachable states. The `imply` operator enforces that whenever the trigger condition `PickerBot.load > limit` is true, the response `not PickerBot.picking` must also be true in the exact same state, modeling an instantaneous abort action.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (PickerBot.load > limit imply not PickerBot.picking)"
+          },
+          "total_time": 28.644888877868652,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "classification": {
+            "step": "classification",
+            "timing": 9.207414150238037,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"load\",\n    \"exceeds\",\n    \"limit\",\n    \"PickerBot\",\n    \"notifies\",\n    \"supervisor\"\n  ],\n  \"cues\": [\n    \"when\"\n  ],\n  \"trigger_text\": \"load exceeds limit\",\n  \"response_text\": \"PickerBot notifies supervisor\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.874460220336914,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"PickerBot.load_exceeds_limit --> PickerBot.NotifyingSupervisor\",\n  \"explanation\": \"The constraint specifies a triggered behavior: the condition 'load exceeds limit' must eventually lead to the response 'PickerBot notifies supervisor'. The `-->` (leads to) operator is used to model this conditional, eventual response, ensuring that any time the system is in a state where `PickerBot.load_exceeds_limit` is true, it will eventually transition to a state where `PickerBot.NotifyingSupervisor` is true.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "PickerBot.load_exceeds_limit --> PickerBot.NotifyingSupervisor",
+              "explanation": "The constraint specifies a triggered behavior: the condition 'load exceeds limit' must eventually lead to the response 'PickerBot notifies supervisor'. The `-->` (leads to) operator is used to model this conditional, eventual response, ensuring that any time the system is in a state where `PickerBot.load_exceeds_limit` is true, it will eventually transition to a state where `PickerBot.NotifyingSupervisor` is true.",
+              "confidence": 0.95,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PickerBot.load_exceeds_limit --> PickerBot.NotifyingSupervisor"
+          },
+          "total_time": 19.101027011871338,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 10.787084102630615,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"PickerBot\",\n    \"speed\",\n    \"human\",\n    \"distance\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"<\"\n  ],\n  \"trigger_text\": \"human < 2 m\",\n  \"response_text\": \"PickerBot reduces speed to 0.3 m/s\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.943336009979248,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (PickerBot.human_distance < 2 imply PickerBot.speed == 0.3)\",\n  \"explanation\": \"The query uses A[] (globally) to assert a safety property that must always be true. The 'imply' operator ensures that in any state where the trigger condition (PickerBot.human_distance < 2) is met, the response (PickerBot.speed == 0.3) must also be true in that same state. This directly translates the immediate 'when... then...' logic of the constraint.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (PickerBot.human_distance < 2 imply PickerBot.speed == 0.3)",
+              "explanation": "The query uses A[] (globally) to assert a safety property that must always be true. The 'imply' operator ensures that in any state where the trigger condition (PickerBot.human_distance < 2) is met, the response (PickerBot.speed == 0.3) must also be true in that same state. This directly translates the immediate 'when... then...' logic of the constraint.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (PickerBot.human_distance < 2 imply PickerBot.speed == 0.3)"
+          },
+          "total_time": 28.785014629364014,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "classification": {
+            "step": "classification",
+            "timing": 10.058086156845093,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"PickerBot\",\n    \"request\",\n    \"help\",\n    \"obstacle\",\n    \"persists\"\n  ],\n  \"cues\": [\n    \"if\",\n    \">\"\n  ],\n  \"trigger_text\": \"obstacle persists > 10 s\",\n  \"response_text\": \"PickerBot requests help\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 28.425146102905273,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(PickerBot.Obstacle and PickerBot.c > 10) --> PickerBot.RequestHelp\",\n  \"explanation\": \"The constraint specifies a conditional response: if an obstacle persists for over 10 seconds (the condition), the PickerBot must eventually request help (the response). The `-->` (leads to) operator is used for this pattern. The condition is modeled by checking if the system is in an obstacle-handling state (e.g., `PickerBot.Obstacle`) and a local clock (`PickerBot.c`) has exceeded 10. The response is modeled as eventually reaching a state where help is requested (`PickerBot.RequestHelp`).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(PickerBot.Obstacle and PickerBot.c > 10) --> PickerBot.RequestHelp",
+              "explanation": "The constraint specifies a conditional response: if an obstacle persists for over 10 seconds (the condition), the PickerBot must eventually request help (the response). The `-->` (leads to) operator is used for this pattern. The condition is modeled by checking if the system is in an obstacle-handling state (e.g., `PickerBot.Obstacle`) and a local clock (`PickerBot.c`) has exceeded 10. The response is modeled as eventually reaching a state where help is requested (`PickerBot.RequestHelp`).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(PickerBot.Obstacle and PickerBot.c > 10) --> PickerBot.RequestHelp"
+          },
+          "total_time": 38.511433124542236,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all orders completed",
+          "classification": {
+            "step": "classification",
+            "timing": 9.874021291732788,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"orders\",\n    \"completed\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.881633996963501,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> System.all_orders_completed\",\n  \"explanation\": \"The constraint requires a liveness property, stating that a certain condition must eventually be met in all possible futures. The 'A<>' (Always Eventually) operator is used to check that for all paths, the system will eventually reach a state where the condition 'System.all_orders_completed' is true.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> System.all_orders_completed",
+              "explanation": "The constraint requires a liveness property, stating that a certain condition must eventually be met in all possible futures. The 'A<>' (Always Eventually) operator is used to check that for all paths, the system will eventually reach a state where the condition 'System.all_orders_completed' is true.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> System.all_orders_completed"
+          },
+          "total_time": 24.773252964019775,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually all orders reported",
+          "classification": {
+            "step": "classification",
+            "timing": 10.980164051055908,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"orders\",\n    \"reported\",\n    \"all\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ],\n  \"response_text\": \"all orders reported\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.182558059692383,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> System.all_orders_reported\",\n  \"explanation\": \"The constraint requires that the system must eventually reach a specific state. The keyword 'Eventually' directly maps to the UPPAAL liveness operator `A<>` (always eventually). The condition 'all orders reported' represents the target state, modeled here as a boolean variable `System.all_orders_reported`. The query thus verifies that for all possible paths, the system will eventually reach the state where all orders are reported.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> System.all_orders_reported",
+              "explanation": "The constraint requires that the system must eventually reach a specific state. The keyword 'Eventually' directly maps to the UPPAAL liveness operator `A<>` (always eventually). The condition 'all orders reported' represents the target state, modeled here as a boolean variable `System.all_orders_reported`. The query thus verifies that for all possible paths, the system will eventually reach the state where all orders are reported.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> System.all_orders_reported"
+          },
+          "total_time": 25.18421721458435,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    }
+  ]
+}

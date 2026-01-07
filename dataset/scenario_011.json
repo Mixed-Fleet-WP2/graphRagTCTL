@@ -1,0 +1,24 @@
+{
+  "id": "scenario_011",
+  "domain": "agriculture",
+  "prompt": "A harvester collects crops while a trailer follows to gather the load. The trailer must stay within 5 meters of the harvester. If distance exceeds 10 meters, both must stop and resynchronize within 15 seconds.",
+  "robots": ["Harvester", "TrailerBot"],
+  "constraints": [
+    "TrailerBot maintains distance ≤ 5 meters from Harvester",
+    "If distance > 10 meters, Harvester stop",
+    "If distance > 10 meters, TrailerBot stop",
+    "Harvester and TrailerBot must resynchronize within 15 seconds of stopping"
+  ],
+  "reference_properties": [
+    "A[] TrailerBot.DistanceToHarvester <= 5",
+    "(distance > 10) --> Harvester.stop",
+    "(distance > 10) --> TrailerBot.stop",
+    "A[] (Harvester.Active && TrailerBot.Active) imply (ResyncClock <= 15 )"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10",
+    "validation_status": "validated"
+  }
+}

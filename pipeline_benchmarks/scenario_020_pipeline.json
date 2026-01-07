@@ -1,0 +1,917 @@
+{
+  "id": "scenario_020",
+  "domain": "space",
+  "prompt": "An external repair drone fixes solar panels, while an inspection bot verifies alignment. at some point repair drone have to to reach a safe shutdown state. If misalignment persists for over 60 seconds we must switch inspection bot to emergency stop.",
+  "robots": [
+    "RepairDrone",
+    "InspectBot"
+  ],
+  "constraints": [
+    "At some point RepairDrone have to reach a safe shutdown state",
+    "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "classification": {
+            "step": "classification",
+            "timing": 2.334015130996704,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"RepairDrone\",\"safe shutdown state\",\"eventually\",\"at some point\",\"have to reach\"],\"cues\":[\"at some point\",\"have to\",\"reach\"],\"trigger_text\":null,\"response_text\":\"RepairDrone reaches a safe shutdown state\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.031219244003296,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> RepairDrone.safe_shutdown\",\"explanation\":\"The constraint says that at some point (eventually) RepairDrone has to reach a safe shutdown state. This is a liveness requirement that something must eventually happen, which matches the eventual_completion pattern. Using the A<> operator expresses that on all possible executions, eventually the location representing the safe shutdown state (here modeled as RepairDrone.safe_shutdown) will be reached.\",\"confidence\":0.93,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> RepairDrone.safe_shutdown",
+              "explanation": "The constraint says that at some point (eventually) RepairDrone has to reach a safe shutdown state. This is a liveness requirement that something must eventually happen, which matches the eventual_completion pattern. Using the A<> operator expresses that on all possible executions, eventually the location representing the safe shutdown state (here modeled as RepairDrone.safe_shutdown) will be reached.",
+              "confidence": 0.93,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> RepairDrone.safe_shutdown"
+          },
+          "total_time": 4.381173610687256,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8234329223632812,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"misalignment\",\"persists\",\"60 seconds\",\"InspectBot\",\"apply\",\"emergency stop\",\"triggers\",\"time-bounded\"],\"cues\":[\"if\",\"for\",\"60\",\"seconds\",\",\"],\"trigger_text\":\"misalignment persists for 60 seconds\",\"response_text\":\"InspectBot apply emergency stop triggers\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.3158440589904785,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (InspectBot.misaligned && not InspectBot.emergency_stop imply misalignClock <= 60)\",\"explanation\":\"The constraint says that if misalignment persists for 60 seconds, the emergency stop must be applied. Using the time-bounded pattern, we model this as: whenever the misalignment condition holds and the emergency stop has not yet been applied, the dedicated clock misalignClock (reset when misalignment starts) is not allowed to exceed 60 seconds. Thus, the system cannot remain in a misaligned-without-emergency-stop situation for more than 60 seconds, enforcing that the emergency stop is triggered by or at that time bound.\",\"confidence\":0.86,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"A[]\",\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (InspectBot.misaligned && not InspectBot.emergency_stop imply misalignClock <= 60)",
+              "explanation": "The constraint says that if misalignment persists for 60 seconds, the emergency stop must be applied. Using the time-bounded pattern, we model this as: whenever the misalignment condition holds and the emergency stop has not yet been applied, the dedicated clock misalignClock (reset when misalignment starts) is not allowed to exceed 60 seconds. Thus, the system cannot remain in a misaligned-without-emergency-stop situation for more than 60 seconds, enforcing that the emergency stop is triggered by or at that time bound.",
+              "confidence": 0.86,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectBot.misaligned && not InspectBot.emergency_stop imply misalignClock <= 60)"
+          },
+          "total_time": 4.156796932220459,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "classification": {
+            "step": "classification",
+            "timing": 28.006033897399902,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"reach\",\"safe shutdown\",\"RepairDrone\",\"must\",\"at some point\",\"shutdown\"],\"cues\":[\"at\",\"some\",\"point\",\"have\",\"to\",\"reach\",\"eventually\",\"must\"],\"trigger_text\":\"RepairDrone\",\"response_text\":\"safe shutdown state\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.223182916641235,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> RepairDrone.safe_shutdown\",\"explanation\":\"This liveness query asserts that on all execution paths the RepairDrone process will eventually reach its safe_shutdown state, matching the natural-language constraint that the RepairDrone must at some point reach a safe shutdown.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> RepairDrone.safe_shutdown",
+              "explanation": "This liveness query asserts that on all execution paths the RepairDrone process will eventually reach its safe_shutdown state, matching the natural-language constraint that the RepairDrone must at some point reach a safe shutdown.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> RepairDrone.safe_shutdown"
+          },
+          "total_time": 35.25649809837341,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "classification": {
+            "step": "classification",
+            "timing": 7.900674104690552,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"misalignment\",\"60 seconds\",\"emergency stop\",\"InspectBot\",\"persist\",\"stop triggers\",\"apply\"],\"cues\":[\"if\",\"persists\",\"for\",\"seconds\",\"apply\",\"emergency\",\"stop\"],\"trigger_text\":\"misalignment persists for 60 seconds\",\"response_text\":\"InspectBot applies emergency stop triggers\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.895459651947021,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (InspectBot.misaligned && not InspectBot.emergency_stop imply misalign_clock <= 60)\",\n  \"explanation\": \"This safety property enforces that whenever InspectBot is in the misaligned state and an emergency stop has not yet been applied, the misalignment clock (misalign_clock) must never exceed 60 seconds. Thus the emergency stop transition must occur within 60 seconds of misalignment starting, matching the requirement that persistent misalignment for 60s triggers an emergency stop.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (InspectBot.misaligned && not InspectBot.emergency_stop imply misalign_clock <= 60)",
+              "explanation": "This safety property enforces that whenever InspectBot is in the misaligned state and an emergency stop has not yet been applied, the misalignment clock (misalign_clock) must never exceed 60 seconds. Thus the emergency stop transition must occur within 60 seconds of misalignment starting, matching the requirement that persistent misalignment for 60s triggers an emergency stop.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectBot.misaligned && not InspectBot.emergency_stop imply misalign_clock <= 60)"
+          },
+          "total_time": 20.83045196533203,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "classification": {
+            "step": "classification",
+            "timing": 7.842372894287109,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"safe_shutdown\",\"state\",\"reachability\",\"RepairDrone\"],\"cues\":[\"eventually\",\"must\",\"after\",\"when\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.521677255630493,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> RepairDrone.safe_shutdown\",\"explanation\":\"This query encodes a must-eventuality liveness property: on all possible executions, the RepairDrone will eventually reach the safe_shutdown state, satisfying the constraint that the drone must reach safe shutdown at some point.\",\"confidence\":0.85,\"pattern_used\":\"reachability\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> RepairDrone.safe_shutdown",
+              "explanation": "This query encodes a must-eventuality liveness property: on all possible executions, the RepairDrone will eventually reach the safe_shutdown state, satisfying the constraint that the drone must reach safe shutdown at some point.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> RepairDrone.safe_shutdown"
+          },
+          "total_time": 19.39269518852234,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "classification": {
+            "step": "classification",
+            "timing": 11.50127911567688,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"misalignment\",\"emergency_stop\",\"60_seconds\",\"InspectBot\",\"safety\",\"trigger\"],\"cues\":[\"if\",\"then\",\"after\",\"60\",\"seconds\",\"misalignment\",\"persist\",\"emergency_stop\",\"triggers\"],\"trigger_text\":\"misalignment persists for 60 seconds\",\"response_text\":\"InspectBot apply emergency stop triggers\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 30.95577383041382,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (MisalignmentActive imply clock <= 60) --> EmergencyStopTriggered\",\"explanation\":\"This encodes a time-bounded constraint where, if misalignment is active, the system must trigger an emergency stop within 60 seconds. The 'imply clock <= 60' enforces the 60-second bound, and the '-->' expresses the eventual conditional response to apply the emergency stop.\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (MisalignmentActive imply clock <= 60) --> EmergencyStopTriggered",
+              "explanation": "This encodes a time-bounded constraint where, if misalignment is active, the system must trigger an emergency stop within 60 seconds. The 'imply clock <= 60' enforces the 60-second bound, and the '-->' expresses the eventual conditional response to apply the emergency stop.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (MisalignmentActive imply clock <= 60) --> EmergencyStopTriggered"
+          },
+          "total_time": 42.471123933792114,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8148829936981201,
+            "tokens": 167,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"reach\", \"safe shutdown state\"],\n  \"cues\": [\"have to\", \"at some point\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0760667324066162,
+            "tokens": 526,
+            "raw_text": "{\n  \"query\": \"A<> RepairDrone.safe_shutdown\",\n  \"explanation\": \"The constraint specifies that the RepairDrone must eventually reach a safe shutdown state, which aligns with the 'eventual_completion' pattern. The A<> operator is used for liveness properties where something must eventually happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> RepairDrone.safe_shutdown",
+              "explanation": "The constraint specifies that the RepairDrone must eventually reach a safe shutdown state, which aligns with the 'eventual_completion' pattern. The A<> operator is used for liveness properties where something must eventually happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> RepairDrone.safe_shutdown"
+          },
+          "total_time": 1.9127490520477295,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0916123390197754,
+            "tokens": 203,
+            "raw_text": "{\n    \"pattern\": \"time_bounded_constraint\",\n    \"keywords\": [\"misalignment\", \"60 seconds\", \"emergency stop\"],\n    \"cues\": [\"if\", \"for\", \"triggers\"],\n    \"trigger_text\": \"misalignment persists for 60 seconds\",\n    \"response_text\": \"InspectBot apply emergency stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.48284912109375,
+            "tokens": 735,
+            "raw_text": "{\n  \"query\": \"A[] (Misalignment.persists --> clock <= 60)\",\n  \"explanation\": \"The query ensures that if a misalignment persists, the emergency stop must be triggered within 60 seconds. The 'time_bounded_constraint' pattern is used to enforce this time limit, and the '-->' operator is appropriate for eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Misalignment.persists --> clock <= 60)",
+              "explanation": "The query ensures that if a misalignment persists, the emergency stop must be triggered within 60 seconds. The 'time_bounded_constraint' pattern is used to enforce this time limit, and the '-->' operator is appropriate for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Misalignment.persists --> clock <= 60)"
+          },
+          "total_time": 2.598515033721924,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "classification": {
+            "step": "classification",
+            "timing": 3.341907024383545,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"RepairDrone\", \"reach\", \"safe shutdown state\", \"at some point\"],\n  \"cues\": [\"at some point\", \"have to\", \"reach\"],\n  \"response_text\": \"RepairDrone reach safe shutdown state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.223835229873657,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> RepairDrone.safe_shutdown\",\n  \"explanation\": \"This query uses the A<> operator to express that the RepairDrone must eventually reach the safe_shutdown state. The constraint 'at some point RepairDrone have to reach a safe shutdown state' is a liveness property requiring eventual completion, which matches the eventual_completion pattern. A<> ensures that in all paths, the safe shutdown state will eventually be reached.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> RepairDrone.safe_shutdown",
+              "explanation": "This query uses the A<> operator to express that the RepairDrone must eventually reach the safe_shutdown state. The constraint 'at some point RepairDrone have to reach a safe shutdown state' is a liveness property requiring eventual completion, which matches the eventual_completion pattern. A<> ensures that in all paths, the safe shutdown state will eventually be reached.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> RepairDrone.safe_shutdown"
+          },
+          "total_time": 9.586580276489258,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "classification": {
+            "step": "classification",
+            "timing": 3.13333797454834,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"misalignment\", \"persists\", \"60 seconds\", \"emergency stop\", \"triggers\"],\n  \"cues\": [\"If\", \"for\", \"60 seconds\"],\n  \"trigger_text\": \"misalignment persists for 60 seconds\",\n  \"response_text\": \"InspectBot apply emergency stop triggers\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.029773950576782,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (InspectBot.misalignment && not InspectBot.emergency_stop imply clock <= 60)\",\n  \"explanation\": \"This query enforces that if misalignment persists (is active) and emergency stop has not yet triggered, the clock must not exceed 60 seconds. This matches the time_bounded_constraint pattern where a condition (misalignment) must not persist beyond a time limit (60 seconds) without the required response (emergency stop) occurring.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (InspectBot.misalignment && not InspectBot.emergency_stop imply clock <= 60)",
+              "explanation": "This query enforces that if misalignment persists (is active) and emergency stop has not yet triggered, the clock must not exceed 60 seconds. This matches the time_bounded_constraint pattern where a condition (misalignment) must not persist beyond a time limit (60 seconds) without the required response (emergency stop) occurring.",
+              "confidence": 0.9,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectBot.misalignment && not InspectBot.emergency_stop imply clock <= 60)"
+          },
+          "total_time": 8.190972805023193,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3083951473236084,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"RepairDrone\", \"safe shutdown state\", \"reach\", \"at some point\"],\n  \"cues\": [\"have to\", \"reach\"],\n  \"trigger_text\": \"At some point RepairDrone\",\n  \"response_text\": \"reach a safe shutdown state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.537541151046753,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> RepairDrone.safe_shutdown_state\",\n  \"explanation\": \"The constraint uses 'have to reach' which indicates a mandatory eventual requirement, not just possibility. Despite the cue 'reach' suggesting reachability pattern, the modal verb 'have to' is a strong deontic operator meaning the drone MUST eventually reach the safe shutdown state. This is a liveness property requiring A<> (for all paths, eventually) rather than E<> (exists a path where it's possible). The RepairDrone must inevitably reach the safe_shutdown_state at some point during execution.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> RepairDrone.safe_shutdown_state",
+              "explanation": "The constraint uses 'have to reach' which indicates a mandatory eventual requirement, not just possibility. Despite the cue 'reach' suggesting reachability pattern, the modal verb 'have to' is a strong deontic operator meaning the drone MUST eventually reach the safe shutdown state. This is a liveness property requiring A<> (for all paths, eventually) rather than E<> (exists a path where it's possible). The RepairDrone must inevitably reach the safe_shutdown_state at some point during execution.",
+              "confidence": 0.92,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> RepairDrone.safe_shutdown_state"
+          },
+          "total_time": 3.875265121459961,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0693979263305664,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"misalignment\", \"emergency stop\", \"60 seconds\", \"persists\"],\n  \"cues\": [\"if\", \"for\"],\n  \"trigger_text\": \"misalignment persists for 60 seconds\",\n  \"response_text\": \"InspectBot apply emergency stop triggers\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.52298903465271,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (InspectBot.misalignment && clock >= 60 --> InspectBot.emergency_stop)\",\n  \"explanation\": \"This query enforces that if misalignment persists (remains true) for 60 seconds or more, then InspectBot must apply emergency stop. The clock >= 60 condition checks that 60 seconds have elapsed since misalignment began. The '-->' operator is used because this is a sequential/causal relationship: the condition (persistent misalignment for 60 seconds) triggers the response (emergency stop) as an eventual action, not an immediate same-state response. A[] ensures this must hold in all executions.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (InspectBot.misalignment && clock >= 60 --> InspectBot.emergency_stop)",
+              "explanation": "This query enforces that if misalignment persists (remains true) for 60 seconds or more, then InspectBot must apply emergency stop. The clock >= 60 condition checks that 60 seconds have elapsed since misalignment began. The '-->' operator is used because this is a sequential/causal relationship: the condition (persistent misalignment for 60 seconds) triggers the response (emergency stop) as an eventual action, not an immediate same-state response. A[] ensures this must hold in all executions.",
+              "confidence": 0.88,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (InspectBot.misalignment && clock >= 60 --> InspectBot.emergency_stop)"
+          },
+          "total_time": 3.615108013153076,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "classification": {
+            "step": "classification",
+            "timing": 12.638041734695435,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"RepairDrone\",\"safe shutdown state\"],\"cues\":[\"at some point\",\"have to\"]}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.024677753448486,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> RepairDrone.safe_shutdown_state\", \"explanation\": \"The constraint states that the RepairDrone must eventually reach a safe shutdown state at some point, which aligns with the eventual_completion pattern using the A<> operator for global liveness properties that must eventually happen.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> RepairDrone.safe_shutdown_state",
+              "explanation": "The constraint states that the RepairDrone must eventually reach a safe shutdown state at some point, which aligns with the eventual_completion pattern using the A<> operator for global liveness properties that must eventually happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> RepairDrone.safe_shutdown_state"
+          },
+          "total_time": 32.68807005882263,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "classification": {
+            "step": "classification",
+            "timing": 13.329337120056152,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"time_bounded_constraint\", \"keywords\": [\"misalignment\", \"persists\", \"60 seconds\", \"emergency stop\"], \"cues\": [\"if\", \"for\"], \"trigger_text\": \"misalignment persists for 60 seconds\", \"response_text\": \"InspectBot apply emergency stop triggers\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 22.203276872634888,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (InspectBot.misaligned && clock >= 60 --> InspectBot.emergency_stop_triggered)\", \"explanation\": \"The query uses a global always operator A[] with leads-to --> to enforce that if misalignment persists for 60 seconds (clock >=60 while misaligned), the emergency stop must eventually be triggered, matching the conditional time-bounded response.\", \"confidence\": 0.85, \"pattern_used\": \"time_bounded_constraint\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (InspectBot.misaligned && clock >= 60 --> InspectBot.emergency_stop_triggered)",
+              "explanation": "The query uses a global always operator A[] with leads-to --> to enforce that if misalignment persists for 60 seconds (clock >=60 while misaligned), the emergency stop must eventually be triggered, matching the conditional time-bounded response.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (InspectBot.misaligned && clock >= 60 --> InspectBot.emergency_stop_triggered)"
+          },
+          "total_time": 35.560431241989136,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "classification": {
+            "step": "classification",
+            "timing": 8.583619117736816,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"repairdrone\", \"safe shutdown state\", \"reach\"],\n  \"cues\": [\"at\", \"some\", \"point\", \"have\", \"to\"],\n  \"trigger_text\": \"At some point RepairDrone have to reach a safe shutdown state\"\n}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.561909914016724,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"E<> RepairDrone.in_safe_shutdown_state\",\n  \"explanation\": \"This query uses the E<> operator to check if it is possible for the RepairDrone to reach the safe shutdown state, aligning with the reachability pattern as the constraint implies verifying if such a state can occur at some point.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "E<> RepairDrone.in_safe_shutdown_state",
+              "explanation": "This query uses the E<> operator to check if it is possible for the RepairDrone to reach the safe shutdown state, aligning with the reachability pattern as the constraint implies verifying if such a state can occur at some point.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> RepairDrone.in_safe_shutdown_state"
+          },
+          "total_time": 16.16672682762146,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "classification": {
+            "step": "classification",
+            "timing": 5.368436336517334,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"misalignment\", \"60 seconds\", \"emergency stop\"],\n  \"cues\": [\"if\", \"for\", \"seconds\"],\n  \"trigger_text\": \"misalignment persists for 60 seconds\",\n  \"response_text\": \"InspectBot apply emergency stop triggers\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.10548710823059,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (misalignment && clock >= 60 --> emergency_stop)\",\n  \"explanation\": \"This query ensures that if the misalignment state persists for 60 seconds (i.e., clock >= 60 while in misalignment), the emergency stop will eventually be triggered, aligning with the time_bounded_constraint pattern for enforcing an action after a duration.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (misalignment && clock >= 60 --> emergency_stop)",
+              "explanation": "This query ensures that if the misalignment state persists for 60 seconds (i.e., clock >= 60 while in misalignment), the emergency stop will eventually be triggered, aligning with the time_bounded_constraint pattern for enforcing an action after a duration.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (misalignment && clock >= 60 --> emergency_stop)"
+          },
+          "total_time": 16.496170043945312,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "classification": {
+            "step": "classification",
+            "timing": 55.182732582092285,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"RepairDrone\", \"reach\", \"safe shutdown state\"],\n  \"cues\": [\"eventually\", \"must\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 84.74518394470215,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> RepairDrone.safe_shutdown\",\n  \"explanation\": \"The constraint 'At some point RepairDrone have to reach a safe shutdown state' specifies that RepairDrone must eventually achieve a safe shutdown state, which aligns with the eventual_completion pattern. This pattern uses the A<> operator to assert that something must eventually happen in all possible paths, making it suitable for liveness properties like this one.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> RepairDrone.safe_shutdown",
+              "explanation": "The constraint 'At some point RepairDrone have to reach a safe shutdown state' specifies that RepairDrone must eventually achieve a safe shutdown state, which aligns with the eventual_completion pattern. This pattern uses the A<> operator to assert that something must eventually happen in all possible paths, making it suitable for liveness properties like this one.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> RepairDrone.safe_shutdown"
+          },
+          "total_time": 139.9723060131073,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "classification": {
+            "step": "classification",
+            "timing": 67.0041937828064,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"misalignment\", \"persists\", \"60 seconds\", \"InspectBot\", \"emergency stop triggers\"],\n  \"cues\": [\"if\", \"for\"],\n  \"trigger_text\": \"If misalignment persists for 60 seconds\",\n  \"response_text\": \"InspectBot apply emergency stop triggers\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 111.65999984741211,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (InspectBot.misalignment && !InspectBot.emergency_stop imply clock <= 60)\",\n  \"explanation\": \"This query enforces that if misalignment is detected in InspectBot and emergency stop is not triggered, the time must not exceed 60 seconds, ensuring emergency stop is applied within 60 seconds when misalignment persists, matching the time_bounded_constraint pattern with A[] for safety and imply for immediate response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (InspectBot.misalignment && !InspectBot.emergency_stop imply clock <= 60)",
+              "explanation": "This query enforces that if misalignment is detected in InspectBot and emergency stop is not triggered, the time must not exceed 60 seconds, ensuring emergency stop is applied within 60 seconds when misalignment persists, matching the time_bounded_constraint pattern with A[] for safety and imply for immediate response.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectBot.misalignment && !InspectBot.emergency_stop imply clock <= 60)"
+          },
+          "total_time": 178.68690729141235,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9738759994506836,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\n    \"repair drone\",\n    \"safe shutdown\",\n    \"reach\",\n    \"eventually\"\n  ],\n  \"cues\": [\n    \"eventually\",\n    \"reach\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.452003002166748,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"E<> RepairDrone.safeShutdown\",\n  \"explanation\": \"The constraint states that the RepairDrone must eventually reach a safe shutdown state. The 'reachability' pattern and the cue words 'eventually' and 'reach' indicate that we need to check if reaching the 'safeShutdown' state is possible. The operator E<> (exists eventually) is used to verify if the RepairDrone can reach the 'safeShutdown' state at some point in the future.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": []\n}\n```",
+            "uppaal_result": {
+              "query": "E<> RepairDrone.safeShutdown",
+              "explanation": "The constraint states that the RepairDrone must eventually reach a safe shutdown state. The 'reachability' pattern and the cue words 'eventually' and 'reach' indicate that we need to check if reaching the 'safeShutdown' state is possible. The operator E<> (exists eventually) is used to verify if the RepairDrone can reach the 'safeShutdown' state at some point in the future.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": []
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> RepairDrone.safeShutdown"
+          },
+          "total_time": 2.456423759460449,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0392060279846191,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"misalignment\", \"emergency stop\", \"time\", \"InspectBot\"],\n  \"cues\": [\"for\", \"seconds\"],\n  \"trigger_text\": \"misalignment persists\",\n  \"response_text\": \"InspectBot apply emergency stop triggers\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8117032051086426,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (InspectBot.misalignment imply misalignment_clock <= 60)\",\n  \"explanation\": \"The constraint states that if 'misalignment persists for 60 seconds, InspectBot apply emergency stop triggers'. This means misalignment lasts for 60 seconds. The template A[] (state imply clock <= T) fits this pattern well, where 'InspectBot.misalignment' is the state, and 60 is the time bound. The clock 'misalignment_clock' would need to be defined to start when 'InspectBot.misalignment' becomes true, but the query expresses the upper time bound condition. Note the --> (eventually leads to) operator doesn't fit because it only describes the duration of the misalignment.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (InspectBot.misalignment imply misalignment_clock <= 60)",
+              "explanation": "The constraint states that if 'misalignment persists for 60 seconds, InspectBot apply emergency stop triggers'. This means misalignment lasts for 60 seconds. The template A[] (state imply clock <= T) fits this pattern well, where 'InspectBot.misalignment' is the state, and 60 is the time bound. The clock 'misalignment_clock' would need to be defined to start when 'InspectBot.misalignment' becomes true, but the query expresses the upper time bound condition. Note the --> (eventually leads to) operator doesn't fit because it only describes the duration of the misalignment.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectBot.misalignment imply misalignment_clock <= 60)"
+          },
+          "total_time": 2.8740320205688477,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "classification": {
+            "step": "classification",
+            "timing": 12.57345724105835,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\n    \"RepairDrone\",\n    \"reach\",\n    \"safe shutdown state\"\n  ],\n  \"cues\": [\n    \"at some point\",\n    \"have to\",\n    \"reach\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 18.722453832626343,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> RepairDrone.SafeShutdownState\",\n  \"explanation\": \"The constraint 'At some point... have to reach' specifies a liveness property, meaning the system must eventually reach the target state from any given state. The 'A<>' (eventually) operator checks if the state 'RepairDrone.SafeShutdownState' is inevitably reached in all possible execution paths, which directly translates the 'have to' requirement.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> RepairDrone.SafeShutdownState",
+              "explanation": "The constraint 'At some point... have to reach' specifies a liveness property, meaning the system must eventually reach the target state from any given state. The 'A<>' (eventually) operator checks if the state 'RepairDrone.SafeShutdownState' is inevitably reached in all possible execution paths, which directly translates the 'have to' requirement.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> RepairDrone.SafeShutdownState"
+          },
+          "total_time": 31.317614793777466,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "classification": {
+            "step": "classification",
+            "timing": 11.443521976470947,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"misalignment\",\n    \"persists\",\n    \"emergency stop\"\n  ],\n  \"cues\": [\n    \"If\",\n    \"for\",\n    \"seconds\"\n  ],\n  \"trigger_text\": \"misalignment persists for 60 seconds\",\n  \"response_text\": \"InspectBot apply emergency stop triggers\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 37.5694580078125,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(InspectBot.Misaligned and InspectBot.t >= 60) --> InspectBot.EmergencyStop\",\n  \"explanation\": \"This query formalizes the conditional rule. The expression `(InspectBot.Misaligned and InspectBot.t >= 60)` represents the trigger condition 'misalignment persists for 60 seconds', assuming a clock `t` measures the time spent in the `Misaligned` state. The 'leads to' operator (`-->`) ensures that whenever this trigger condition is met, the system must eventually reach the `InspectBot.EmergencyStop` state, which represents the response 'apply emergency stop triggers'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(InspectBot.Misaligned and InspectBot.t >= 60) --> InspectBot.EmergencyStop",
+              "explanation": "This query formalizes the conditional rule. The expression `(InspectBot.Misaligned and InspectBot.t >= 60)` represents the trigger condition 'misalignment persists for 60 seconds', assuming a clock `t` measures the time spent in the `Misaligned` state. The 'leads to' operator (`-->`) ensures that whenever this trigger condition is met, the system must eventually reach the `InspectBot.EmergencyStop` state, which represents the response 'apply emergency stop triggers'.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(InspectBot.Misaligned and InspectBot.t >= 60) --> InspectBot.EmergencyStop"
+          },
+          "total_time": 49.03021001815796,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    }
+  ]
+}

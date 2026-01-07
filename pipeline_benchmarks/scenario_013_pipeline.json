@@ -1,0 +1,1340 @@
+{
+  "id": "scenario_013",
+  "domain": "harbor",
+  "prompt": "A drone monitors dock areas while patrol AGVs move containers. The drone must maintain altitude between 10 and 50 meters. If visibility < 50%, drone must land. Patrol AGVs must stop if the drone is landing nearby.",
+  "robots": [
+    "SurveillanceDrone",
+    "PatrolAGV"
+  ],
+  "constraints": [
+    "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+    "SurveillanceDrone lands when visibility below 50%",
+    "PatrolAGV stops when drone is landing nearby"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "classification": {
+            "step": "classification",
+            "timing": 2.7509799003601074,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"SurveillanceDrone\",\"altitude\",\"between 10 and 50 meters\",\"range constraint\",\"safety\"],\"cues\":[\"between\",\"when\",\"must\"],\"trigger_text\":\"when SurveillanceDrone is flying\",\"response_text\":\"its altitude is within [10,50] meters\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.0622291564941406,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (SurveillanceDrone.flying imply (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50))\",\"explanation\":\"The constraint says that whenever the SurveillanceDrone is flying, its altitude must stay between 10 and 50 meters. Using a safety invariant with A[] ensures this holds in all reachable states. The condition is expressed as an implication: in any state where SurveillanceDrone.flying is true, it is forbidden for the altitude to be outside [10,50]. This matches the forbidden_state pattern by ruling out any state where the drone is flying and its altitude is not within the allowed range.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (SurveillanceDrone.flying imply (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50))",
+              "explanation": "The constraint says that whenever the SurveillanceDrone is flying, its altitude must stay between 10 and 50 meters. Using a safety invariant with A[] ensures this holds in all reachable states. The condition is expressed as an implication: in any state where SurveillanceDrone.flying is true, it is forbidden for the altitude to be outside [10,50]. This matches the forbidden_state pattern by ruling out any state where the drone is flying and its altitude is not within the allowed range.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SurveillanceDrone.flying imply (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50))"
+          },
+          "total_time": 5.8331310749053955,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "classification": {
+            "step": "classification",
+            "timing": 2.7783758640289307,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"SurveillanceDrone\",\"lands\",\"visibility\",\"below 50%\",\"condition\",\"triggered action\"],\"cues\":[\"when\",\"below\",\"%\"],\"trigger_text\":\"visibility below 50%\",\"response_text\":\"SurveillanceDrone lands\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8115582466125488,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(visibility < 50) --> SurveillanceDrone.landed\",\"explanation\":\"The condition \\\"visibility below 50%\\\" is modeled as (visibility < 50). The required reaction \\\"SurveillanceDrone lands\\\" is represented by the state predicate SurveillanceDrone.landed. Using the conditional response pattern with the --> operator specifies that whenever the visibility drops below 50%, it must eventually be the case that the drone is in its landed state, matching the triggered, non-immediate behavior described.\",\"confidence\":0.87,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(visibility < 50) --> SurveillanceDrone.landed",
+              "explanation": "The condition \"visibility below 50%\" is modeled as (visibility < 50). The required reaction \"SurveillanceDrone lands\" is represented by the state predicate SurveillanceDrone.landed. Using the conditional response pattern with the --> operator specifies that whenever the visibility drops below 50%, it must eventually be the case that the drone is in its landed state, matching the triggered, non-immediate behavior described.",
+              "confidence": 0.87,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 50) --> SurveillanceDrone.landed"
+          },
+          "total_time": 4.610426187515259,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8993427753448486,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"PatrolAGV\",\"stops\",\"drone\",\"landing\",\"nearby\",\"conditional behavior\",\"robot interaction\"],\"cues\":[\"when\"],\"trigger_text\":\"drone is landing nearby\",\"response_text\":\"PatrolAGV stops\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.3492071628570557,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(drone.landing_nearby) --> (PatrolAGV.stopped)\",\"explanation\":\"The natural-language constraint says that when the drone is landing nearby, the PatrolAGV eventually stops. This is a conditional eventual-response property, so the conditional_response pattern with the --> operator is appropriate. The left side models the trigger condition (drone.landing_nearby), and the right side models the required eventual response state (PatrolAGV.stopped).\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(drone.landing_nearby) --> (PatrolAGV.stopped)",
+              "explanation": "The natural-language constraint says that when the drone is landing nearby, the PatrolAGV eventually stops. This is a conditional eventual-response property, so the conditional_response pattern with the --> operator is appropriate. The left side models the trigger condition (drone.landing_nearby), and the right side models the required eventual response state (PatrolAGV.stopped).",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(drone.landing_nearby) --> (PatrolAGV.stopped)"
+          },
+          "total_time": 4.27049708366394,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "classification": {
+            "step": "classification",
+            "timing": 5.6487510204315186,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"altitude\",\n    \"maintain\",\n    \"between\",\n    \"10\",\n    \"50\",\n    \"meters\",\n    \"flying\",\n    \"within\",\n    \"range\",\n    \"must\",\n    \"never\",\n    \"safe\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"between\",\n    \"maintains\",\n    \"must\",\n    \"never\",\n    \"<\",\n    \">\",\n    \"10\",\n    \"50\",\n    \"meters\",\n    \"flying\",\n    \"within\"\n  ],\n  \"trigger_text\": \"when flying\",\n  \"response_text\": \"altitude must remain between 10 and 50 meters\"\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.6979169845581055,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (SurveillanceDrone.flying && (SurveillanceDrone.altitude < 10 || SurveillanceDrone.altitude > 50))\",\n  \"explanation\": \"This safety property forbids any state where the drone is flying while its altitude is outside the allowed range [10,50]. It uses the forbidden_state pattern (A[] not(...)) to ensure the bad state (flying && (altitude < 10 || altitude > 50)) never occurs.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (SurveillanceDrone.flying && (SurveillanceDrone.altitude < 10 || SurveillanceDrone.altitude > 50))",
+              "explanation": "This safety property forbids any state where the drone is flying while its altitude is outside the allowed range [10,50]. It uses the forbidden_state pattern (A[] not(...)) to ensure the bad state (flying && (altitude < 10 || altitude > 50)) never occurs.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (SurveillanceDrone.flying && (SurveillanceDrone.altitude < 10 || SurveillanceDrone.altitude > 50))"
+          },
+          "total_time": 12.368712186813354,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "classification": {
+            "step": "classification",
+            "timing": 6.546283006668091,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"visibility\",\"land\",\"lands\",\"below\",\"50%\",\"SurveillanceDrone\",\"landing\"],\"cues\":[\"when\",\"below\",\"%\",\"<\"],\"trigger_text\":\"visibility below 50%\",\"response_text\":\"SurveillanceDrone lands\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.6882078647613525,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(SurveillanceDrone.visibility < 50) --> SurveillanceDrone.lands\",\n  \"explanation\": \"This follows the conditional_response template: when the trigger condition (SurveillanceDrone.visibility < 50) holds, the model must eventually reach the response state (SurveillanceDrone.lands). The '-->' operator denotes the eventual triggered behavior required by the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(SurveillanceDrone.visibility < 50) --> SurveillanceDrone.lands",
+              "explanation": "This follows the conditional_response template: when the trigger condition (SurveillanceDrone.visibility < 50) holds, the model must eventually reach the response state (SurveillanceDrone.lands). The '-->' operator denotes the eventual triggered behavior required by the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(SurveillanceDrone.visibility < 50) --> SurveillanceDrone.lands"
+          },
+          "total_time": 12.26968002319336,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "classification": {
+            "step": "classification",
+            "timing": 6.243022918701172,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"PatrolAGV\",\"stop\",\"stops\",\"drone\",\"landing\",\"nearby\",\"halt\",\"safety\",\"immediate\",\"avoid collision\"],\"cues\":[\"when\",\"landing\",\"nearby\",\"stop\",\"stops\",\"immediately\",\"must\"],\"trigger_text\":\"drone is landing nearby\",\"response_text\":\"PatrolAGV stops (immediately)\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.355694055557251,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Drone.landing_nearby imply PatrolAGV.stopped)\",\"explanation\":\"This encodes the safety_immediate_response: globally (A[]) whenever the trigger condition 'Drone.landing_nearby' holds, it immediately implies PatrolAGV is in the 'stopped' state. The A[] with 'imply' enforces an instantaneous safety reaction to avoid collision.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (Drone.landing_nearby imply PatrolAGV.stopped)",
+              "explanation": "This encodes the safety_immediate_response: globally (A[]) whenever the trigger condition 'Drone.landing_nearby' holds, it immediately implies PatrolAGV is in the 'stopped' state. The A[] with 'imply' enforces an instantaneous safety reaction to avoid collision.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Drone.landing_nearby imply PatrolAGV.stopped)"
+          },
+          "total_time": 13.615635871887207,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "classification": {
+            "step": "classification",
+            "timing": 12.789196729660034,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"altitude\",\"range\",\"drone\",\"flying\",\"safety\"],\"cues\":[\"when\",\"<\",\">\",\"must\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.137979984283447,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (Drone.flying && (Drone.altitude < 10 || Drone.altitude > 50))\",\"explanation\":\"This forbids the state where the drone is flying and its altitude is outside the [10,50] m range. It matches the forbidden_state pattern: A[] not(bad_state) with bad_state = Drone.flying && (Drone.altitude < 10 || Drone.altitude > 50).\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (Drone.flying && (Drone.altitude < 10 || Drone.altitude > 50))",
+              "explanation": "This forbids the state where the drone is flying and its altitude is outside the [10,50] m range. It matches the forbidden_state pattern: A[] not(bad_state) with bad_state = Drone.flying && (Drone.altitude < 10 || Drone.altitude > 50).",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Drone.flying && (Drone.altitude < 10 || Drone.altitude > 50))"
+          },
+          "total_time": 25.956143856048584,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "classification": {
+            "step": "classification",
+            "timing": 16.236173152923584,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"landing\",\"visibility\",\"threshold\",\"50%\",\"drone\",\"safety\"],\"cues\":[\"when\",\"<\",\"%\"],\"trigger_text\":\"visibility below 50%\",\"response_text\":\"lands\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.124516010284424,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(visibility < 50) --> SurveillanceDrone.lands\",\"explanation\":\"This uses the conditional_response pattern: when the condition (visibility below 50) holds, the system triggers an eventual response (SurveillanceDrone.lands).\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(visibility < 50) --> SurveillanceDrone.lands",
+              "explanation": "This uses the conditional_response pattern: when the condition (visibility below 50) holds, the system triggers an eventual response (SurveillanceDrone.lands).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 50) --> SurveillanceDrone.lands"
+          },
+          "total_time": 23.38575792312622,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "classification": {
+            "step": "classification",
+            "timing": 9.810885906219482,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"PatrolAGV\",\"drone\",\"landing\",\"nearby\",\"stop\",\"safety\"],\"cues\":[\"when\",\"then\",\"must\"],\"trigger_text\":\"drone is landing nearby\",\"response_text\":\"PatrolAGV stops\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.440400123596191,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"drone.landing_nearby --> PatrolAGV.stops\",\"explanation\":\"This uses the conditional_response pattern: when the condition drone.landing_nearby holds, PatrolAGV.stops is the eventual response, matching the NL constraint 'PatrolAGV stops when drone is landing nearby'.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "drone.landing_nearby --> PatrolAGV.stops",
+              "explanation": "This uses the conditional_response pattern: when the condition drone.landing_nearby holds, PatrolAGV.stops is the eventual response, matching the NL constraint 'PatrolAGV stops when drone is landing nearby'.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "drone.landing_nearby --> PatrolAGV.stops"
+          },
+          "total_time": 25.27781915664673,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9630708694458008,
+            "tokens": 172,
+            "raw_text": "{\n    \"pattern\": \"forbidden_state\",\n    \"keywords\": [\"altitude\", \"between\", \"meters\", \"flying\"],\n    \"cues\": [\"when\", \"between\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8018701076507568,
+            "tokens": 601,
+            "raw_text": "{\n  \"query\": \"A[] not (SurveillanceDrone.flying && (SurveillanceDrone.altitude < 10 || SurveillanceDrone.altitude > 50))\",\n  \"explanation\": \"This query ensures that the SurveillanceDrone never flies at an altitude outside the range of 10 to 50 meters. It uses the forbidden_state pattern to prevent the drone from being in a state where it is flying and its altitude is not within the specified range.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": []\n}",
+            "uppaal_result": {
+              "query": "A[] not (SurveillanceDrone.flying && (SurveillanceDrone.altitude < 10 || SurveillanceDrone.altitude > 50))",
+              "explanation": "This query ensures that the SurveillanceDrone never flies at an altitude outside the range of 10 to 50 meters. It uses the forbidden_state pattern to prevent the drone from being in a state where it is flying and its altitude is not within the specified range.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": []
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (SurveillanceDrone.flying && (SurveillanceDrone.altitude < 10 || SurveillanceDrone.altitude > 50))"
+          },
+          "total_time": 2.8011629581451416,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.049597978591919,
+            "tokens": 188,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"lands\", \"visibility\", \"below\", \"50%\"],\n  \"cues\": [\"when\", \"below\"],\n  \"trigger_text\": \"visibility below 50%\",\n  \"response_text\": \"SurveillanceDrone lands\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.234550714492798,
+            "tokens": 580,
+            "raw_text": "{\n  \"query\": \"(visibility < 50) --> SurveillanceDrone.lands\",\n  \"explanation\": \"The constraint describes a conditional response where the SurveillanceDrone lands when the visibility is below 50%. This matches the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The operator '-->' is appropriate here as it represents an eventual triggered behavior rather than an immediate response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(visibility < 50) --> SurveillanceDrone.lands",
+              "explanation": "The constraint describes a conditional response where the SurveillanceDrone lands when the visibility is below 50%. This matches the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The operator '-->' is appropriate here as it represents an eventual triggered behavior rather than an immediate response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 50) --> SurveillanceDrone.lands"
+          },
+          "total_time": 3.295314073562622,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8846569061279297,
+            "tokens": 164,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stops\", \"landing\", \"nearby\"],\n  \"cues\": [\"when\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0850539207458496,
+            "tokens": 638,
+            "raw_text": "{\n  \"query\": \"A[] (Drone.landing_nearby imply PatrolAGV.stopped)\",\n  \"explanation\": \"The query follows the 'safety_immediate_response' pattern, ensuring that the PatrolAGV stops immediately when the drone is landing nearby. The 'imply' operator is used to enforce an immediate response, as required by the pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Drone.landing_nearby imply PatrolAGV.stopped)",
+              "explanation": "The query follows the 'safety_immediate_response' pattern, ensuring that the PatrolAGV stops immediately when the drone is landing nearby. The 'imply' operator is used to enforce an immediate response, as required by the pattern.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Drone.landing_nearby imply PatrolAGV.stopped)"
+          },
+          "total_time": 2.9858028888702393,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "classification": {
+            "step": "classification",
+            "timing": 3.516639232635498,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"SurveillanceDrone\", \"altitude\", \"between\", \"10\", \"50\", \"meters\", \"flying\"],\n  \"cues\": [\"when\", \"between\"],\n  \"trigger_text\": \"flying\",\n  \"response_text\": \"maintains altitude between 10 and 50 meters\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.219199895858765,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] SurveillanceDrone.flying imply (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50)\",\n  \"explanation\": \"This constraint requires that whenever the drone is in the flying state, it must maintain altitude between 10 and 50 meters. This is a same-state immediate response requirement - the altitude bounds must hold simultaneously with the flying condition. Using A[] with imply ensures that in all reachable states, if the drone is flying, then the altitude constraint is immediately satisfied in that same state.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] SurveillanceDrone.flying imply (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50)",
+              "explanation": "This constraint requires that whenever the drone is in the flying state, it must maintain altitude between 10 and 50 meters. This is a same-state immediate response requirement - the altitude bounds must hold simultaneously with the flying condition. Using A[] with imply ensures that in all reachable states, if the drone is flying, then the altitude constraint is immediately satisfied in that same state.",
+              "confidence": 0.95,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] SurveillanceDrone.flying imply (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50)"
+          },
+          "total_time": 10.749099969863892,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "classification": {
+            "step": "classification",
+            "timing": 3.1065690517425537,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"SurveillanceDrone\", \"lands\", \"visibility\", \"below\", \"50%\"],\n  \"cues\": [\"when\", \"below\", \"%\"],\n  \"trigger_text\": \"visibility below 50%\",\n  \"response_text\": \"SurveillanceDrone lands\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.124965667724609,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(visibility < 50) --> SurveillanceDrone.landed\",\n  \"explanation\": \"This query uses the conditional response pattern with the --> operator to express that when visibility drops below 50%, the SurveillanceDrone will eventually reach a landed state. The trigger condition (visibility < 50) leads to the eventual response (drone in landed location/state).\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(visibility < 50) --> SurveillanceDrone.landed",
+              "explanation": "This query uses the conditional response pattern with the --> operator to express that when visibility drops below 50%, the SurveillanceDrone will eventually reach a landed state. The trigger condition (visibility < 50) leads to the eventual response (drone in landed location/state).",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 50) --> SurveillanceDrone.landed"
+          },
+          "total_time": 7.263200998306274,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "classification": {
+            "step": "classification",
+            "timing": 3.1558070182800293,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"PatrolAGV\", \"stops\", \"drone\", \"landing\", \"nearby\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"drone is landing nearby\",\n  \"response_text\": \"PatrolAGV stops\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.886919736862183,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(drone.landing && drone.nearby) --> PatrolAGV.stopped\",\n  \"explanation\": \"This query uses the conditional response pattern with the --> operator to express that when the drone is landing nearby (trigger condition), the PatrolAGV will eventually stop (response). The --> operator is appropriate here because stopping is an eventual response to the landing condition, not necessarily an immediate same-state reaction.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(drone.landing && drone.nearby) --> PatrolAGV.stopped",
+              "explanation": "This query uses the conditional response pattern with the --> operator to express that when the drone is landing nearby (trigger condition), the PatrolAGV will eventually stop (response). The --> operator is appropriate here because stopping is an eventual response to the landing condition, not necessarily an immediate same-state reaction.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(drone.landing && drone.nearby) --> PatrolAGV.stopped"
+          },
+          "total_time": 8.070223808288574,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3242690563201904,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"altitude\", \"between\", \"range\", \"constraint\", \"maintains\"],\n  \"cues\": [\"between\", \">\", \"<\"],\n  \"trigger_text\": \"SurveillanceDrone flying\",\n  \"response_text\": \"altitude between 10 and 50 meters\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.427211046218872,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (SurveillanceDrone.flying imply (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50))\",\n  \"explanation\": \"The constraint requires that whenever the SurveillanceDrone is flying, its altitude must always be maintained within the range of 10 to 50 meters. This uses the forbidden_state pattern with A[] to ensure the safety property holds universally. The imply operator creates an immediate response: if the drone is flying, then it must satisfy the altitude range constraint at all times. This prevents the forbidden state of flying outside the specified altitude range.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (SurveillanceDrone.flying imply (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50))",
+              "explanation": "The constraint requires that whenever the SurveillanceDrone is flying, its altitude must always be maintained within the range of 10 to 50 meters. This uses the forbidden_state pattern with A[] to ensure the safety property holds universally. The imply operator creates an immediate response: if the drone is flying, then it must satisfy the altitude range constraint at all times. This prevents the forbidden state of flying outside the specified altitude range.",
+              "confidence": 0.92,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SurveillanceDrone.flying imply (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50))"
+          },
+          "total_time": 3.7736010551452637,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0436789989471436,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"lands\", \"visibility\", \"threshold\", \"condition\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"visibility below 50%\",\n  \"response_text\": \"SurveillanceDrone lands\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.690993070602417,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(visibility < 50) --> SurveillanceDrone.lands\",\n  \"explanation\": \"The constraint describes a conditional_response pattern where the condition 'visibility below 50%' triggers the eventual response 'SurveillanceDrone lands'. The '-->' operator is appropriate here because it represents a sequential workflow where the condition leads to an eventual action (not an immediate same-state response). This matches the pattern template 'condition --> response' and is consistent with similar examples like c007 and c012.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(visibility < 50) --> SurveillanceDrone.lands",
+              "explanation": "The constraint describes a conditional_response pattern where the condition 'visibility below 50%' triggers the eventual response 'SurveillanceDrone lands'. The '-->' operator is appropriate here because it represents a sequential workflow where the condition leads to an eventual action (not an immediate same-state response). This matches the pattern template 'condition --> response' and is consistent with similar examples like c007 and c012.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 50) --> SurveillanceDrone.lands"
+          },
+          "total_time": 2.76029896736145,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "classification": {
+            "step": "classification",
+            "timing": 1.041579008102417,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"stops\",\n    \"drone landing\",\n    \"nearby\",\n    \"PatrolAGV\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"nearby\"\n  ],\n  \"trigger_text\": \"drone is landing nearby\",\n  \"response_text\": \"PatrolAGV stops\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5867650508880615,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Drone.landing_nearby --> PatrolAGV.stopped\",\n  \"explanation\": \"This constraint describes a conditional response pattern where the condition 'drone is landing nearby' triggers an eventual response 'PatrolAGV stops'. The '-->' operator captures the sequential workflow where the landing event leads to the stopping behavior. The trigger (Drone.landing_nearby) is a state or condition that eventually causes the response (PatrolAGV.stopped) to occur.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Drone.landing_nearby --> PatrolAGV.stopped",
+              "explanation": "This constraint describes a conditional response pattern where the condition 'drone is landing nearby' triggers an eventual response 'PatrolAGV stops'. The '-->' operator captures the sequential workflow where the landing event leads to the stopping behavior. The trigger (Drone.landing_nearby) is a state or condition that eventually causes the response (PatrolAGV.stopped) to occur.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.landing_nearby --> PatrolAGV.stopped"
+          },
+          "total_time": 2.6543891429901123,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "classification": {
+            "step": "classification",
+            "timing": 12.484723806381226,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"forbidden_state\", \"keywords\": [\"maintains\", \"altitude\", \"between\", \"meters\", \"when\", \"flying\"], \"cues\": [\"when\", \"between\"], \"trigger_text\": \"when flying\", \"response_text\": \"maintains altitude between 10 and 50 meters\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 40.32197833061218,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] not (SurveillanceDrone.flying && (altitude < 10 || altitude > 50))\", \"explanation\": \"This query uses the forbidden_state pattern to ensure that the SurveillanceDrone never enters a state where it is flying and the altitude is outside the range of 10 to 50 meters, which matches the constraint that it maintains altitude between 10 and 50 meters when flying.\", \"confidence\": 0.85, \"pattern_used\": \"forbidden_state\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (SurveillanceDrone.flying && (altitude < 10 || altitude > 50))",
+              "explanation": "This query uses the forbidden_state pattern to ensure that the SurveillanceDrone never enters a state where it is flying and the altitude is outside the range of 10 to 50 meters, which matches the constraint that it maintains altitude between 10 and 50 meters when flying.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (SurveillanceDrone.flying && (altitude < 10 || altitude > 50))"
+          },
+          "total_time": 52.830482959747314,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "classification": {
+            "step": "classification",
+            "timing": 8.700850009918213,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"SurveillanceDrone\", \"lands\", \"visibility\", \"below\", \"50%\"], \"cues\": [\"when\", \"below\"], \"trigger_text\": \"visibility below 50%\", \"response_text\": \"SurveillanceDrone lands\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.964230060577393,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(visibility < 50) --> SurveillanceDrone.landed\", \"explanation\": \"The query applies the conditional_response pattern using the --> operator, where the condition 'visibility < 50' triggers the eventual response 'SurveillanceDrone.landed', directly matching the natural language constraint that the drone lands when visibility is below 50%.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(visibility < 50) --> SurveillanceDrone.landed",
+              "explanation": "The query applies the conditional_response pattern using the --> operator, where the condition 'visibility < 50' triggers the eventual response 'SurveillanceDrone.landed', directly matching the natural language constraint that the drone lands when visibility is below 50%.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 50) --> SurveillanceDrone.landed"
+          },
+          "total_time": 25.70519709587097,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "classification": {
+            "step": "classification",
+            "timing": 12.791329145431519,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"stops\", \"landing\"], \"cues\": [\"when\"], \"trigger_text\": \"drone is landing nearby\", \"response_text\": \"PatrolAGV stops\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 40.32853674888611,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (drone.landing_nearby --> PatrolAGV.stopped)\", \"explanation\": \"This query ensures that when the drone is landing nearby, the PatrolAGV eventually stops, matching the eventual triggered behavior for the 'when' condition in the constraint.\", \"confidence\": 0.85, \"pattern_used\": \"safety_immediate_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (drone.landing_nearby --> PatrolAGV.stopped)",
+              "explanation": "This query ensures that when the drone is landing nearby, the PatrolAGV eventually stops, matching the eventual triggered behavior for the 'when' condition in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (drone.landing_nearby --> PatrolAGV.stopped)"
+          },
+          "total_time": 53.14447808265686,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "classification": {
+            "step": "classification",
+            "timing": 11.268791913986206,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"altitude\", \"maintains\", \"between\", \"10\", \"50\", \"meters\", \"flying\"],\n  \"cues\": [\"when\", \"between\"],\n  \"trigger_text\": \"when flying\"\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.344098091125488,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (flying --> (altitude >= 10 && altitude <= 50))\",\n  \"explanation\": \"This query ensures that whenever the drone is flying, its altitude is maintained between 10 and 50 meters by using the imply operator within A[], preventing the forbidden state where the drone is flying outside this altitude range, aligning with the forbidden_state pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (flying --> (altitude >= 10 && altitude <= 50))",
+              "explanation": "This query ensures that whenever the drone is flying, its altitude is maintained between 10 and 50 meters by using the imply operator within A[], preventing the forbidden state where the drone is flying outside this altitude range, aligning with the forbidden_state pattern.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (flying --> (altitude >= 10 && altitude <= 50))"
+          },
+          "total_time": 22.641266107559204,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "classification": {
+            "step": "classification",
+            "timing": 6.7852771282196045,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"lands\", \"visibility\", \"below\", \"50%\"],\n  \"cues\": [\"when\", \"below\"],\n  \"trigger_text\": \"visibility below 50%\",\n  \"response_text\": \"lands\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.582705736160278,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(visibility < 50) --> SurveillanceDrone.lands\",\n  \"explanation\": \"This query uses the --> operator to indicate that when visibility is below 50%, the SurveillanceDrone will eventually land, directly matching the conditional_response pattern where a condition leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(visibility < 50) --> SurveillanceDrone.lands",
+              "explanation": "This query uses the --> operator to indicate that when visibility is below 50%, the SurveillanceDrone will eventually land, directly matching the conditional_response pattern where a condition leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 50) --> SurveillanceDrone.lands"
+          },
+          "total_time": 13.394949197769165,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "classification": {
+            "step": "classification",
+            "timing": 7.263115167617798,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"PatrolAGV\", \"stops\", \"drone\", \"landing\", \"nearby\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"drone is landing nearby\",\n  \"response_text\": \"PatrolAGV stops\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.252631187438965,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(drone_landing_nearby) --> PatrolAGV_stopped\",\n  \"explanation\": \"The query matches the constraint by using the --> operator to indicate that when the condition 'drone is landing nearby' is true, it eventually leads to 'PatrolAGV stops', following the conditional_response pattern for triggered behaviors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(drone_landing_nearby) --> PatrolAGV_stopped",
+              "explanation": "The query matches the constraint by using the --> operator to indicate that when the condition 'drone is landing nearby' is true, it eventually leads to 'PatrolAGV stops', following the conditional_response pattern for triggered behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(drone_landing_nearby) --> PatrolAGV_stopped"
+          },
+          "total_time": 14.53867793083191,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "classification": {
+            "step": "classification",
+            "timing": 51.86690378189087,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"maintains\", \"altitude\", \"between\", \"flying\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"when flying\",\n  \"response_text\": \"maintains altitude between 10 and 50 meters\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 41.67426419258118,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(SurveillanceDrone.flying) --> (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50)\",\n  \"explanation\": \"This query uses the conditional_response pattern with the '-->' operator to represent that when the drone is flying (condition), it eventually maintains an altitude between 10 and 50 meters (response), matching the trigger 'when flying' and response text from the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(SurveillanceDrone.flying) --> (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50)",
+              "explanation": "This query uses the conditional_response pattern with the '-->' operator to represent that when the drone is flying (condition), it eventually maintains an altitude between 10 and 50 meters (response), matching the trigger 'when flying' and response text from the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(SurveillanceDrone.flying) --> (SurveillanceDrone.altitude >= 10 && SurveillanceDrone.altitude <= 50)"
+          },
+          "total_time": 93.57994508743286,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "classification": {
+            "step": "classification",
+            "timing": 32.25071382522583,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"SurveillanceDrone\", \"lands\", \"visibility\", \"below 50%\"],\n  \"cues\": [\"when\", \"%\"],\n  \"trigger_text\": \"visibility below 50%\",\n  \"response_text\": \"lands\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 55.63940501213074,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(visibility < 50) --> SurveillanceDrone.landed\",\n  \"explanation\": \"This query matches the constraint 'SurveillanceDrone lands when visibility below 50%' by using the conditional_response pattern, where the condition 'visibility below 50%' (represented as visibility < 50) triggers the eventual response 'SurveillanceDrone lands' (represented as SurveillanceDrone.landed). The operator '-->' is applied to denote that whenever the condition holds, the response will eventually occur, consistent with the pattern and similar examples provided.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(visibility < 50) --> SurveillanceDrone.landed",
+              "explanation": "This query matches the constraint 'SurveillanceDrone lands when visibility below 50%' by using the conditional_response pattern, where the condition 'visibility below 50%' (represented as visibility < 50) triggers the eventual response 'SurveillanceDrone lands' (represented as SurveillanceDrone.landed). The operator '-->' is applied to denote that whenever the condition holds, the response will eventually occur, consistent with the pattern and similar examples provided.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 50) --> SurveillanceDrone.landed"
+          },
+          "total_time": 87.91389107704163,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "classification": {
+            "step": "classification",
+            "timing": 28.186131954193115,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"PatrolAGV\", \"stops\", \"drone\", \"landing\", \"nearby\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"drone is landing nearby\",\n  \"response_text\": \"PatrolAGV stops\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 37.56276512145996,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(drone.landing_nearby) --> (PatrolAGV.stopped)\",\n  \"explanation\": \"This query matches the conditional_response pattern because the constraint uses 'when' to indicate that the condition 'drone is landing nearby' triggers the eventual response 'PatrolAGV stops'. The operator '-->' is specifically for sequential workflows and eventual triggered behaviors, as per the pattern context and similar examples, making it suitable for this translation.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(drone.landing_nearby) --> (PatrolAGV.stopped)",
+              "explanation": "This query matches the conditional_response pattern because the constraint uses 'when' to indicate that the condition 'drone is landing nearby' triggers the eventual response 'PatrolAGV stops'. The operator '-->' is specifically for sequential workflows and eventual triggered behaviors, as per the pattern context and similar examples, making it suitable for this translation.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(drone.landing_nearby) --> (PatrolAGV.stopped)"
+          },
+          "total_time": 65.78513789176941,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "classification": {
+            "step": "classification",
+            "timing": 1.217602014541626,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"altitude\", \"SurveillanceDrone\", \"flying\", \"maintain\", \"between\"],\n  \"cues\": [\"between\"],\n  \"trigger_text\": \"flying\",\n  \"response_text\": \"maintains altitude between 10 and 50 meters\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6995000839233398,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (SurveillanceDrone.flying --> SurveillanceDrone.altitude >= 10 and SurveillanceDrone.altitude <= 50)\",\n  \"explanation\": \"The constraint states that *when* the SurveillanceDrone is flying, it *should eventually* maintain its altitude between 10 and 50 meters.  Since it is not an instantaneous reaction, but rather an eventual state that must be reached, we use the implication operator '-->' to represent the temporal relationship. Also the time-bounded aspect isn't a hard deadline; it's about *maintaining* a state, so the time-bounded pattern is not strictly applicable, even though the altitude must be within bounds during flight. Finally the constraint implies an ongoing condition rather than an instantaneous one.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (SurveillanceDrone.flying --> SurveillanceDrone.altitude >= 10 and SurveillanceDrone.altitude <= 50)",
+              "explanation": "The constraint states that *when* the SurveillanceDrone is flying, it *should eventually* maintain its altitude between 10 and 50 meters.  Since it is not an instantaneous reaction, but rather an eventual state that must be reached, we use the implication operator '-->' to represent the temporal relationship. Also the time-bounded aspect isn't a hard deadline; it's about *maintaining* a state, so the time-bounded pattern is not strictly applicable, even though the altitude must be within bounds during flight. Finally the constraint implies an ongoing condition rather than an instantaneous one.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (SurveillanceDrone.flying --> SurveillanceDrone.altitude >= 10 and SurveillanceDrone.altitude <= 50)"
+          },
+          "total_time": 2.942317247390747,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9339866638183594,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"surveillance drone\", \"land\", \"visibility\", \"below\", \"threshold\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"visibility below 50%\",\n  \"response_text\": \"SurveillanceDrone lands\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.3069548606872559,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(visibility < 50) --> SurveillanceDrone.lands\",\n  \"explanation\": \"The natural language constraint 'SurveillanceDrone lands when visibility below 50%' fits the conditional_response pattern.  The condition 'visibility below 50%' triggers the eventual response 'SurveillanceDrone lands'.  The '-->' operator expresses this eventual response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(visibility < 50) --> SurveillanceDrone.lands",
+              "explanation": "The natural language constraint 'SurveillanceDrone lands when visibility below 50%' fits the conditional_response pattern.  The condition 'visibility below 50%' triggers the eventual response 'SurveillanceDrone lands'.  The '-->' operator expresses this eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 50) --> SurveillanceDrone.lands"
+          },
+          "total_time": 2.2710862159729004,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7633228302001953,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"stop\", \"AGV\", \"drone\", \"landing\", \"nearby\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"drone is landing nearby\",\n  \"response_text\": \"PatrolAGV stops\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2517130374908447,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Drone.isLandingNearby --> PatrolAGV.isStopped\",\n  \"explanation\": \"The constraint describes an eventual response. When the drone is landing nearby, the PatrolAGV eventually stops.  This aligns with the 'conditional_response' pattern where the condition (drone landing nearby) leads to an eventual action (AGV stopping). The '-->' operator correctly captures the eventual response relationship.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "Drone.isLandingNearby --> PatrolAGV.isStopped",
+              "explanation": "The constraint describes an eventual response. When the drone is landing nearby, the PatrolAGV eventually stops.  This aligns with the 'conditional_response' pattern where the condition (drone landing nearby) leads to an eventual action (AGV stopping). The '-->' operator correctly captures the eventual response relationship.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.isLandingNearby --> PatrolAGV.isStopped"
+          },
+          "total_time": 2.042588949203491,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "classification": {
+            "step": "classification",
+            "timing": 8.476757049560547,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"SurveillanceDrone\",\n    \"altitude\",\n    \"flying\"\n  ],\n  \"cues\": [\n    \"maintains\",\n    \"between\",\n    \"when\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.29389786720276,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (SurveillanceDrone.Flying && (SurveillanceDrone.altitude < 10 || SurveillanceDrone.altitude > 50))\",\n  \"explanation\": \"This query enforces a safety property using the forbidden_state pattern. It asserts that it is always (`A[]`) true that the system is not (`not`) in a state where the 'SurveillanceDrone' is in its 'Flying' location AND its 'altitude' is outside the valid range (i.e., less than 10 or greater than 50). This directly translates the constraint that the altitude must be maintained within the specified range whenever the drone is flying.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (SurveillanceDrone.Flying && (SurveillanceDrone.altitude < 10 || SurveillanceDrone.altitude > 50))",
+              "explanation": "This query enforces a safety property using the forbidden_state pattern. It asserts that it is always (`A[]`) true that the system is not (`not`) in a state where the 'SurveillanceDrone' is in its 'Flying' location AND its 'altitude' is outside the valid range (i.e., less than 10 or greater than 50). This directly translates the constraint that the altitude must be maintained within the specified range whenever the drone is flying.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (SurveillanceDrone.Flying && (SurveillanceDrone.altitude < 10 || SurveillanceDrone.altitude > 50))"
+          },
+          "total_time": 29.79816198348999,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "classification": {
+            "step": "classification",
+            "timing": 8.818643808364868,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"SurveillanceDrone\",\n    \"lands\",\n    \"visibility\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"below\",\n    \"%\"\n  ],\n  \"trigger_text\": \"visibility below 50%\",\n  \"response_text\": \"SurveillanceDrone lands\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.204097032546997,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (visibility < 50 imply SurveillanceDrone.Landing)\",\n  \"explanation\": \"This query enforces a safety property. The `A[]` operator ensures the rule is checked in all reachable states. The `imply` operator creates an immediate-response relationship: in any state where the trigger condition `visibility < 50` is true, the drone must also be in the `Landing` state (`SurveillanceDrone.Landing`). This perfectly models the instantaneous requirement specified by 'when'.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (visibility < 50 imply SurveillanceDrone.Landing)",
+              "explanation": "This query enforces a safety property. The `A[]` operator ensures the rule is checked in all reachable states. The `imply` operator creates an immediate-response relationship: in any state where the trigger condition `visibility < 50` is true, the drone must also be in the `Landing` state (`SurveillanceDrone.Landing`). This perfectly models the instantaneous requirement specified by 'when'.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (visibility < 50 imply SurveillanceDrone.Landing)"
+          },
+          "total_time": 25.039952993392944,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "PatrolAGV stops when drone is landing nearby",
+          "classification": {
+            "step": "classification",
+            "timing": 12.008997201919556,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"PatrolAGV\",\n    \"stops\",\n    \"drone\",\n    \"landing\"\n  ],\n  \"cues\": [\n    \"when\"\n  ],\n  \"trigger_text\": \"drone is landing nearby\",\n  \"response_text\": \"PatrolAGV stops\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.63151478767395,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Drone.LandingNearby imply PatrolAGV.Stopped)\",\n  \"explanation\": \"This query verifies a safety property using A[] (globally). It asserts that in any state, if the trigger condition 'drone is landing nearby' (modeled as Drone.LandingNearby) is true, then the response 'PatrolAGV stops' (modeled as PatrolAGV.Stopped) must also be true in the exact same state. The 'imply' operator is used for this immediate, same-state relationship as specified by the 'when' keyword and the safety_immediate_response pattern.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Drone.LandingNearby imply PatrolAGV.Stopped)",
+              "explanation": "This query verifies a safety property using A[] (globally). It asserts that in any state, if the trigger condition 'drone is landing nearby' (modeled as Drone.LandingNearby) is true, then the response 'PatrolAGV stops' (modeled as PatrolAGV.Stopped) must also be true in the exact same state. The 'imply' operator is used for this immediate, same-state relationship as specified by the 'when' keyword and the safety_immediate_response pattern.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Drone.LandingNearby imply PatrolAGV.Stopped)"
+          },
+          "total_time": 26.66109609603882,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

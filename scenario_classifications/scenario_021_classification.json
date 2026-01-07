@@ -1,0 +1,313 @@
+{
+  "id": "scenario_021",
+  "domain": "marine",
+  "prompt": "Two underwater drones inspect ship hulls. They must always remain within communication range. Eventually, all sections must be inspected. If visibility < 30%, will both start returning to surface.",
+  "robots": [
+    "SubDroneA",
+    "SubDroneB"
+  ],
+  "constraints": [
+    "Both drones maintain communication range at all times",
+    "All sections eventually inspected",
+    "If visibility < 30%, both start returning to surface "
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.4654881954193115,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Both drones maintain communication range at all times",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "All sections eventually inspected",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 10.132076025009155,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Both drones maintain communication range at all times",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "All sections eventually inspected",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 13.709277868270874,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Both drones maintain communication range at all times",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "All sections eventually inspected",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.4018008708953857,
+      "tokens": 722,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Both drones maintain communication range at all times",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "All sections eventually inspected",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.545073986053467,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Both drones maintain communication range at all times",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "All sections eventually inspected",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.5541658401489258,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Both drones maintain communication range at all times",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (drones_out_of_communication_range)"
+        },
+        {
+          "index": 1,
+          "constraint": "All sections eventually inspected",
+          "pattern_name": "eventual_completion",
+          "template": "A<> all_sections_inspected"
+        },
+        {
+          "index": 2,
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (visibility < 30% imply both_drones_return_to_surface)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 12.081002950668335,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Both drones maintain communication range at all times",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (out_of_communication_range)"
+        },
+        {
+          "index": 1,
+          "constraint": "All sections eventually inspected",
+          "pattern_name": "eventual_completion",
+          "template": "A<> all_sections_inspected"
+        },
+        {
+          "index": 2,
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "pattern_name": "conditional_response",
+          "template": "visibility < 30% --> both_start_returning"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 10.152973890304565,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Both drones maintain communication range at all times",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "All sections eventually inspected",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 52.40624475479126,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Both drones maintain communication range at all times",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "All sections eventually inspected",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.3835327625274658,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Both drones maintain communication range at all times",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "All sections eventually inspected",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 14.480031967163086,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Both drones maintain communication range at all times",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "All sections eventually inspected",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

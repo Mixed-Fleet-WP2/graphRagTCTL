@@ -1,0 +1,247 @@
+{
+  "id": "scenario_001",
+  "domain": "harbor_logistics",
+  "prompt": "A drone scans container stacks. Once scanning is finished, a UGV moves to collect the container. The forklift then loads the container onto the truck.",
+  "robots": [
+    "Drone",
+    "UGV",
+    "Forklift"
+  ],
+  "constraints": [
+    "Drone scanning is finished, UGV moves to collect the container.",
+    "once the UGV arrives to collect the container, the Forklift loads the container onto the truck."
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 4.287477016448975,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 9.360690355300903,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 15.149569034576416,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.737187147140503,
+      "tokens": 693,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 5.306870937347412,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.5256121158599854,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 16.548238277435303,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 13.790233135223389,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 25.572158098220825,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.2837719917297363,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 18.054319858551025,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

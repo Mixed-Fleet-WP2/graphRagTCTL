@@ -1,0 +1,25 @@
+{
+  "id": "scenario_022",
+  "domain": "manufacturing",
+  "prompt": "Two robotic arms weld a car frame simultaneously. They must never weld the same section together. Eventually, both arms should complete their tasks and reach idle state.",
+  "robots": ["ArmA", "ArmB"],
+  "constraints": [
+    "ArmA and ArmB never weld the same section simultaneously",
+    "ArmA eventually completes its tasks",
+    "ArmB eventually completes its tasks",
+    "ArmA eventually reach idle state",
+    "ArmB eventually reach idle state"
+  ],
+  "reference_properties": [
+    "A[] not (ArmA.WeldingSection == ArmB.WeldingSection)",
+    "A<> (ArmA.Completed)",
+    "A<> (ArmB.Completed)",
+    "A<> (ArmA.Idle)",
+    "A<> (ArmB.Idle)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-12"
+  }
+}

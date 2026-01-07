@@ -1,0 +1,22 @@
+{
+  "id": "scenario_018",
+  "domain": "construction",
+  "prompt": "A drone delivers bricks to the upper floor, and a lifting robot waits to stack them. If the drone battery drops below 15%, it must land for charging, but there exists a possible sequence where delivery still completes successfully.",
+  "robots": ["DeliveryDrone", "LiftBot"],
+  "constraints": [
+    "LiftBot stacks only after DeliveryDrone arrives",
+    "DeliveryDrone lands when battery < 15%",
+    "Delivery eventually completes"
+  ],
+  "reference_properties": [
+    "DeliveryDrone.arrives --> LiftBot.stacks",
+    "A[] (DeliveryDrone.battery < 15 imply DeliveryDrone.lands)",
+    "E<> (DeliveryDrone.Delivered)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-12",
+    "validation_status": "validated"
+  }
+}

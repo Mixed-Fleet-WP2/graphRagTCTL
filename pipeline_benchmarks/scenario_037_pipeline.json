@@ -1,0 +1,2190 @@
+{
+  "id": "scenario_037",
+  "domain": "harbor",
+  "prompt": "A harbor inspection drone flies along dock sections capturing video of hulls and cranes. It must maintain altitude between 8 and 20 meters and avoid restricted air corridors. If strong magnetic interference is detected, it must ascend above 25 meters until interference clears. The drone uploads each section\u2019s footage before starting the next and must always return to base at the end of its patrol.",
+  "robots": [
+    "HarborDrone"
+  ],
+  "constraints": [
+    "HarborDrone altitude between 8\u201320 m",
+    "HarborDrone avoids restricted corridors",
+    "HarborDrone ascends above 25 m when magnetic interference detected",
+    "HarborDrone uploads footage before moving to next section",
+    "Always returns to base at end of patrol"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "classification": {
+            "step": "classification",
+            "timing": 2.211560010910034,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"HarborDrone\",\"altitude\",\"between\",\"range\",\"8-20 m\",\"bounds\",\"limit\"],\"cues\":[\">\",\"<\",\"between\",\"must\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.161933183670044,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)\",\"explanation\":\"The constraint says HarborDrone altitude must stay within the range 8\u201320 m, which means states where altitude is below 8 or above 20 are forbidden. Using the forbidden_state pattern, we express that such out-of-bounds states must never occur with A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20).\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)",
+              "explanation": "The constraint says HarborDrone altitude must stay within the range 8\u201320 m, which means states where altitude is below 8 or above 20 are forbidden. Using the forbidden_state pattern, we express that such out-of-bounds states must never occur with A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20).",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)"
+          },
+          "total_time": 4.387867212295532,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "HarborDrone avoids restricted corridors",
+          "classification": {
+            "step": "classification",
+            "timing": 2.867358922958374,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"HarborDrone\",\"avoids\",\"restricted corridors\",\"safety\",\"forbidden\"],\"cues\":[\"avoids\"],\"trigger_text\":\"HarborDrone is in a restricted corridor\",\"response_text\":\"HarborDrone must not enter or remain in restricted corridors\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.4089572429656982,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (HarborDrone.in_restricted_corridor)\",\"explanation\":\"The constraint says HarborDrone must avoid (i.e., never be in) restricted corridors. This is a safety/forbidden-state property, so we use the pattern A[] not (bad_state). Here, the forbidden state is HarborDrone being in a restricted corridor, modeled as the predicate HarborDrone.in_restricted_corridor. Thus A[] not (HarborDrone.in_restricted_corridor) enforces that HarborDrone is never in any restricted corridor in any reachable state.\",\"confidence\":0.93,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.in_restricted_corridor)",
+              "explanation": "The constraint says HarborDrone must avoid (i.e., never be in) restricted corridors. This is a safety/forbidden-state property, so we use the pattern A[] not (bad_state). Here, the forbidden state is HarborDrone being in a restricted corridor, modeled as the predicate HarborDrone.in_restricted_corridor. Thus A[] not (HarborDrone.in_restricted_corridor) enforces that HarborDrone is never in any restricted corridor in any reachable state.",
+              "confidence": 0.93,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.in_restricted_corridor)"
+          },
+          "total_time": 6.297067165374756,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7511487007141113,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"HarborDrone\",\"ascends\",\"above 25 m\",\"magnetic interference\",\"detected\",\"altitude change\",\"response to condition\"],\"cues\":[\"when\",\">\"],\"trigger_text\":\"magnetic interference detected\",\"response_text\":\"HarborDrone ascends above 25 m\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.331191062927246,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(magnetic_interference_detected) --> (HarborDrone.altitude > 25)\",\"explanation\":\"The constraint says that when magnetic interference is detected, HarborDrone must (eventually) ascend above 25 m. The conditional-response pattern uses the \\\"-->\\\" operator to express that whenever the condition holds (magnetic_interference_detected), it is eventually followed by the response state (HarborDrone.altitude > 25). This matches the described triggered behavior without requiring it to be instantaneous.\",\"confidence\":0.9,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(magnetic_interference_detected) --> (HarborDrone.altitude > 25)",
+              "explanation": "The constraint says that when magnetic interference is detected, HarborDrone must (eventually) ascend above 25 m. The conditional-response pattern uses the \"-->\" operator to express that whenever the condition holds (magnetic_interference_detected), it is eventually followed by the response state (HarborDrone.altitude > 25). This matches the described triggered behavior without requiring it to be instantaneous.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(magnetic_interference_detected) --> (HarborDrone.altitude > 25)"
+          },
+          "total_time": 5.0944108963012695,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "classification": {
+            "step": "classification",
+            "timing": 1.723555088043213,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"HarborDrone\",\"uploads footage\",\"before\",\"moving\",\"next section\",\"sequence\",\"order of operations\"],\"cues\":[\"before\"],\"trigger_text\":\"HarborDrone moves to next section\",\"response_text\":\"HarborDrone uploads footage\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.9758460521698,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"HarborDrone.uploads_footage --> HarborDrone.moving_next_section\",\"explanation\":\"The natural-language constraint says that uploading footage must occur before HarborDrone moves to the next section. Using the sequential_workflow pattern, we model this as a causal order: whenever the system reaches a state where the drone has uploaded footage (HarborDrone.uploads_footage), this will eventually be followed by a state where it moves to the next section (HarborDrone.moving_next_section). The '-->' operator captures this eventual-following relationship consistent with the provided pattern.\",\"confidence\":0.84,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "HarborDrone.uploads_footage --> HarborDrone.moving_next_section",
+              "explanation": "The natural-language constraint says that uploading footage must occur before HarborDrone moves to the next section. Using the sequential_workflow pattern, we model this as a causal order: whenever the system reaches a state where the drone has uploaded footage (HarborDrone.uploads_footage), this will eventually be followed by a state where it moves to the next section (HarborDrone.moving_next_section). The '-->' operator captures this eventual-following relationship consistent with the provided pattern.",
+              "confidence": 0.84,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.uploads_footage --> HarborDrone.moving_next_section"
+          },
+          "total_time": 4.719773769378662,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Always returns to base at end of patrol",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7079429626464844,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"return to base\",\"end of patrol\",\"always\",\"patrol completion\"],\"cues\":[\"always\",\"end\"],\"trigger_text\":\"end of patrol\",\"response_text\":\"returns to base\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.2784178256988525,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> Drone.return_to_base\",\"explanation\":\"The constraint says the drone always returns to base at the end of its patrol, which is a liveness requirement that this return must eventually occur. Using the eventual completion pattern, A<> Drone.return_to_base states that on all paths, at some point in the future, the system reaches a state where the drone is in its 'return_to_base' location (i.e., it has returned to base after completing the patrol).\",\"confidence\":0.78,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> Drone.return_to_base",
+              "explanation": "The constraint says the drone always returns to base at the end of its patrol, which is a liveness requirement that this return must eventually occur. Using the eventual completion pattern, A<> Drone.return_to_base states that on all paths, at some point in the future, the system reaches a state where the drone is in its 'return_to_base' location (i.e., it has returned to base after completing the patrol).",
+              "confidence": 0.78,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Drone.return_to_base"
+          },
+          "total_time": 4.005346059799194,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "classification": {
+            "step": "classification",
+            "timing": 9.070703029632568,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"HarborDrone\",\"altitude\",\"altitude range\",\"8-20\",\"8\u201320\",\"meters\",\"m\",\"flight height\",\"min\",\"max\",\"within range\"],\"cues\":[\"between\",\"8\",\"20\",\"m\",\"meters\",\"within\",\"outside\",\"<\",\">\",\"must\",\"never\"],\"trigger_text\":\"HarborDrone altitude\",\"response_text\":\"altitude must be between 8 and 20 m (being outside this range is forbidden)\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.046529054641724,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)\",\n  \"explanation\": \"Forbids any system state where HarborDrone.altitude is outside the 8\u201320 meter range. This uses the forbidden_state pattern (always not (altitude < 8 or altitude > 20)) so the drone must remain within 8\u201320 m at all times.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)",
+              "explanation": "Forbids any system state where HarborDrone.altitude is outside the 8\u201320 meter range. This uses the forbidden_state pattern (always not (altitude < 8 or altitude > 20)) so the drone must remain within 8\u201320 m at all times.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)"
+          },
+          "total_time": 19.139852046966553,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "HarborDrone avoids restricted corridors",
+          "classification": {
+            "step": "classification",
+            "timing": 9.471598863601685,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"avoid\",\"avoids\",\"restricted\",\"corridor\",\"no-entry\",\"forbidden\",\"must not\",\"cannot enter\"],\"cues\":[\"avoid\",\"avoids\",\"never\",\"must not\",\"cannot\",\"no\",\"forbidden\",\"restricted\",\"corridor\"],\"trigger_text\":\"restricted corridors\",\"response_text\":\"HarborDrone must not enter or traverse restricted corridors.\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.913831949234009,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (HarborDrone.inRestrictedCorridor)\",\"explanation\":\"This safety property uses the forbidden_state pattern to assert that the HarborDrone must never be in a restricted corridor. A[] not(...) ensures that the bad state 'HarborDrone.inRestrictedCorridor' cannot occur at any time, matching the natural-language constraint that the drone avoids restricted corridors.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.inRestrictedCorridor)",
+              "explanation": "This safety property uses the forbidden_state pattern to assert that the HarborDrone must never be in a restricted corridor. A[] not(...) ensures that the bad state 'HarborDrone.inRestrictedCorridor' cannot occur at any time, matching the natural-language constraint that the drone avoids restricted corridors.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.inRestrictedCorridor)"
+          },
+          "total_time": 19.41117024421692,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "classification": {
+            "step": "classification",
+            "timing": 15.429191827774048,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"magnetic interference\",\"ascend\",\"altitude\",\"25 m\",\"HarborDrone\",\"detected\",\"safety\"],\"cues\":[\"when\",\"detected\",\"above\",\"25\",\"m\",\"must\"],\"trigger_text\":\"magnetic interference detected\",\"response_text\":\"HarborDrone ascends above 25 m\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.7720468044281,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(HarborDrone.magnetic_interference_detected) --> (HarborDrone.altitude > 25)\",\"explanation\":\"This expresses the conditional_response: whenever magnetic interference is detected by HarborDrone (left side), it must eventually reach an altitude above 25 m (right side). The '-->' operator denotes the triggered eventual response required by the constraint.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(HarborDrone.magnetic_interference_detected) --> (HarborDrone.altitude > 25)",
+              "explanation": "This expresses the conditional_response: whenever magnetic interference is detected by HarborDrone (left side), it must eventually reach an altitude above 25 m (right side). The '-->' operator denotes the triggered eventual response required by the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(HarborDrone.magnetic_interference_detected) --> (HarborDrone.altitude > 25)"
+          },
+          "total_time": 29.215094089508057,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "classification": {
+            "step": "classification",
+            "timing": 12.160096883773804,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"upload\",\"footage\",\"before\",\"move\",\"next section\",\"HarborDrone\"],\"cues\":[\"before\",\"must\",\"uploads\",\"moving\",\"next\",\"then\",\"when\"],\"trigger_text\":\"moving to next section\",\"response_text\":\"uploads footage\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.817666053771973,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section\",\n  \"explanation\": \"This uses the sequential_workflow pattern: the upload action (HarborDrone.uploads_footage) must occur before the subsequent action of moving to the next section (HarborDrone.moving_to_next_section). The '-->' operator expresses that when the move happens, it is eventually preceded by the upload as required by the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}",
+            "uppaal_result": {
+              "query": "HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section",
+              "explanation": "This uses the sequential_workflow pattern: the upload action (HarborDrone.uploads_footage) must occur before the subsequent action of moving to the next section (HarborDrone.moving_to_next_section). The '-->' operator expresses that when the move happens, it is eventually preceded by the upload as required by the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section"
+          },
+          "total_time": 20.010190725326538,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Always returns to base at end of patrol",
+          "classification": {
+            "step": "classification",
+            "timing": 11.948349237442017,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"return\",\"base\",\"end\",\"patrol\",\"always\",\"at end\"],\"cues\":[\"always\",\"end\",\"return\",\"patrol\",\"base\",\"must\"],\"trigger_text\":\"end of patrol\",\"response_text\":\"return to base\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.272074937820435,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Patrol.end --> Robot.return_to_base\",\"explanation\":\"This expresses that whenever a patrol ends (Patrol.end), the robot must eventually return to base (Robot.return_to_base). It uses the sequential_workflow '-->' operator to specify that the end-of-patrol event leads to the eventual occurrence of returning to base.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Patrol.end --> Robot.return_to_base",
+              "explanation": "This expresses that whenever a patrol ends (Patrol.end), the robot must eventually return to base (Robot.return_to_base). It uses the sequential_workflow '-->' operator to specify that the end-of-patrol event leads to the eventual occurrence of returning to base.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Patrol.end --> Robot.return_to_base"
+          },
+          "total_time": 26.240796089172363,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "classification": {
+            "step": "classification",
+            "timing": 12.676872253417969,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"altitude\",\"range\",\"HarborDrone\",\"8-20 m\",\"safety\"],\"cues\":[\"between\",\"8\",\"20\",\"m\",\"<\",\">\",\"must\",\"altitude\",\"HarborDrone\"],\"trigger_text\":\"HarborDrone altitude between 8\u201320 m\",\"response_text\":\"Altitude must remain within 8\u201320 meters\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.227375984191895,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)\",\"explanation\":\"This encodes the constraint as a forbidden state: the altitude must always stay within [8,20] meters; reaching a value outside this range would violate the safety property.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)",
+              "explanation": "This encodes the constraint as a forbidden state: the altitude must always stay within [8,20] meters; reaching a value outside this range would violate the safety property.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)"
+          },
+          "total_time": 22.926319122314453,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "HarborDrone avoids restricted corridors",
+          "classification": {
+            "step": "classification",
+            "timing": 7.950654983520508,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"avoid\",\"restricted_corridors\",\"HarborDrone\",\"safety\"],\"cues\":[\"never\",\"must\",\"cannot\",\"avoid\",\"forbidden\",\"restricted\",\"corridor\",\"then\",\"when\",\"after\",\"eventually\",\"<\",\">\",\"%\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.660270929336548,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (HarborDrone.in_restricted_corridors)\",\"explanation\":\"This expresses the forbidden-state constraint: HarborDrone must never be in a restricted corridor. The UPPAAL form A[] not (...) enforces that the bad_state (being in a restricted corridor) is never true in any reachable state.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.in_restricted_corridors)",
+              "explanation": "This expresses the forbidden-state constraint: HarborDrone must never be in a restricted corridor. The UPPAAL form A[] not (...) enforces that the bad_state (being in a restricted corridor) is never true in any reachable state.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.in_restricted_corridors)"
+          },
+          "total_time": 23.638579845428467,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "classification": {
+            "step": "classification",
+            "timing": 9.882881879806519,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"magnetic_interference\",\"altitude_control\",\"conditional_action\",\"trigger\"],\"cues\":[\"when\",\"then\",\"<\",\">\",\"%\"],\"trigger_text\":\"magnetic interference detected\",\"response_text\":\"ascend above 25 m\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 18.698978900909424,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(HarborDrone.magnetic_interference_detected) --> (HarborDrone.altitude > 25)\",\"explanation\":\"Pattern conditional_response: left side is the trigger 'magnetic interference detected', right side is the eventual response 'ascend above 25 m'. The query uses a conditional implication where the condition triggers an ascent to altitude greater than 25.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(HarborDrone.magnetic_interference_detected) --> (HarborDrone.altitude > 25)",
+              "explanation": "Pattern conditional_response: left side is the trigger 'magnetic interference detected', right side is the eventual response 'ascend above 25 m'. The query uses a conditional implication where the condition triggers an ascent to altitude greater than 25.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(HarborDrone.magnetic_interference_detected) --> (HarborDrone.altitude > 25)"
+          },
+          "total_time": 28.60139513015747,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "classification": {
+            "step": "classification",
+            "timing": 8.633259057998657,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"upload\",\"footage\",\"before\",\"next section\",\"HarborDrone\"],\"cues\":[\"before\",\"after\",\"then\"],\"trigger_text\":\"HarborDrone uploads footage before moving to next section\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.897843837738037,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"HarborDrone.footage_uploaded --> HarborDrone.moving_to_next_section\",\"explanation\":\"The constraint states that HarborDrone uploads footage before moving to the next section. This fits the sequential_workflow pattern with action1 being the footage upload and action2 being moving to the next section.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "HarborDrone.footage_uploaded --> HarborDrone.moving_to_next_section",
+              "explanation": "The constraint states that HarborDrone uploads footage before moving to the next section. This fits the sequential_workflow pattern with action1 being the footage upload and action2 being moving to the next section.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.footage_uploaded --> HarborDrone.moving_to_next_section"
+          },
+          "total_time": 16.55868411064148,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Always returns to base at end of patrol",
+          "classification": {
+            "step": "classification",
+            "timing": 10.678261995315552,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"patrol\",\"base\",\"return\",\"sequence\",\"end\"],\"cues\":[\"after\",\"end\",\"then\",\"patrol\",\"return\",\"must\",\"always\"],\"trigger_text\":\"end of patrol\",\"response_text\":\"return to base\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.87122631072998,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Patrol.end --> Base.return\",\"explanation\":\"Maps the NL constraint to a sequential_workflow: after the end of patrol (Patrol.end) the system must perform a return to base (Base.return). The arrow --> encodes that the second action follows the first, matching the trigger_text 'end of patrol' and response_text 'return to base' in a single ordered sequence.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Patrol.end --> Base.return",
+              "explanation": "Maps the NL constraint to a sequential_workflow: after the end of patrol (Patrol.end) the system must perform a return to base (Base.return). The arrow --> encodes that the second action follows the first, matching the trigger_text 'end of patrol' and response_text 'return to base' in a single ordered sequence.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Patrol.end --> Base.return"
+          },
+          "total_time": 28.5764000415802,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2506122589111328,
+            "tokens": 164,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"altitude\", \"between\", \"8\u201320 m\"],\n  \"cues\": [\"between\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4772849082946777,
+            "tokens": 571,
+            "raw_text": "{\n  \"query\": \"A[] not (HarborDrone.altitude >= 8 && HarborDrone.altitude <= 20)\",\n  \"explanation\": \"This query ensures that the HarborDrone's altitude is never between 8 and 20 meters, which matches the constraint of preventing the drone from being in a forbidden state within this altitude range.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": []\n}",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.altitude >= 8 && HarborDrone.altitude <= 20)",
+              "explanation": "This query ensures that the HarborDrone's altitude is never between 8 and 20 meters, which matches the constraint of preventing the drone from being in a forbidden state within this altitude range.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": []
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.altitude >= 8 && HarborDrone.altitude <= 20)"
+          },
+          "total_time": 2.7487308979034424,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "HarborDrone avoids restricted corridors",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9740390777587891,
+            "tokens": 159,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"avoids\", \"restricted\", \"corridors\"],\n  \"cues\": [\"avoids\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9334661960601807,
+            "tokens": 571,
+            "raw_text": "{\n  \"query\": \"A[] not (HarborDrone.inRestrictedCorridor)\",\n  \"explanation\": \"The query ensures that the HarborDrone never enters a restricted corridor, aligning with the constraint that it must avoid these areas. This matches the 'forbidden_state' pattern, which is used to prevent dangerous or invalid states from occurring.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.inRestrictedCorridor)",
+              "explanation": "The query ensures that the HarborDrone never enters a restricted corridor, aligning with the constraint that it must avoid these areas. This matches the 'forbidden_state' pattern, which is used to prevent dangerous or invalid states from occurring.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.inRestrictedCorridor)"
+          },
+          "total_time": 2.9332869052886963,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "classification": {
+            "step": "classification",
+            "timing": 2.535317897796631,
+            "tokens": 168,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"ascends\", \"magnetic interference\", \"above 25 m\"],\n  \"cues\": [\"when\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.450134038925171,
+            "tokens": 578,
+            "raw_text": "{\n  \"query\": \"MagneticInterferenceDetected --> HarborDrone.altitude > 25\",\n  \"explanation\": \"The constraint describes a conditional response where the HarborDrone ascends above 25 meters when magnetic interference is detected. This matches the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The '-->' operator is appropriate here as it represents an eventual response to a condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "MagneticInterferenceDetected --> HarborDrone.altitude > 25",
+              "explanation": "The constraint describes a conditional response where the HarborDrone ascends above 25 meters when magnetic interference is detected. This matches the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The '-->' operator is appropriate here as it represents an eventual response to a condition.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MagneticInterferenceDetected --> HarborDrone.altitude > 25"
+          },
+          "total_time": 5.007019996643066,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "classification": {
+            "step": "classification",
+            "timing": 1.493030071258545,
+            "tokens": 196,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"uploads\", \"before\", \"moving\", \"next section\"],\n  \"cues\": [\"before\"],\n  \"trigger_text/response_text\": {\n    \"trigger_text\": \"uploads footage\",\n    \"response_text\": \"moving to next section\"\n  }\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9896519184112549,
+            "tokens": 558,
+            "raw_text": "{\n  \"query\": \"HarborDrone.uploads_footage --> HarborDrone.moves_to_next_section\",\n  \"explanation\": \"The constraint specifies that the HarborDrone must upload footage before moving to the next section, which aligns with the sequential_workflow pattern where one action eventually follows another. The 'before' cue indicates a sequential dependency, making the '-->' operator appropriate.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "HarborDrone.uploads_footage --> HarborDrone.moves_to_next_section",
+              "explanation": "The constraint specifies that the HarborDrone must upload footage before moving to the next section, which aligns with the sequential_workflow pattern where one action eventually follows another. The 'before' cue indicates a sequential dependency, making the '-->' operator appropriate.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.uploads_footage --> HarborDrone.moves_to_next_section"
+          },
+          "total_time": 3.5035550594329834,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Always returns to base at end of patrol",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8917407989501953,
+            "tokens": 165,
+            "raw_text": "{\n    \"pattern\": \"eventual_completion\",\n    \"keywords\": [\"returns\", \"end\", \"patrol\"],\n    \"cues\": [\"always\", \"at\", \"end\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9811480045318604,
+            "tokens": 526,
+            "raw_text": "{\n  \"query\": \"A[] Patrol.end --> Base.returned\",\n  \"explanation\": \"The query ensures that whenever a patrol ends, the system must eventually return to base. This matches the constraint of always returning to base at the end of a patrol, using the '-->' operator for eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] Patrol.end --> Base.returned",
+              "explanation": "The query ensures that whenever a patrol ends, the system must eventually return to base. This matches the constraint of always returning to base at the end of a patrol, using the '-->' operator for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] Patrol.end --> Base.returned"
+          },
+          "total_time": 2.8954832553863525,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "classification": {
+            "step": "classification",
+            "timing": 3.256006956100464,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"HarborDrone\", \"altitude\", \"between\", \"8\", \"20\", \"m\"],\n  \"cues\": [\"between\"],\n  \"trigger_text\": \"HarborDrone altitude < 8 m OR HarborDrone altitude > 20 m\",\n  \"response_text\": null\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.388920068740845,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)\",\n  \"explanation\": \"This query enforces that the HarborDrone altitude must always remain between 8 and 20 meters by forbidding states where altitude falls below 8 or rises above 20. The forbidden_state pattern uses A[] not to ensure this constraint is never violated throughout all execution paths.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)",
+              "explanation": "This query enforces that the HarborDrone altitude must always remain between 8 and 20 meters by forbidding states where altitude falls below 8 or rises above 20. The forbidden_state pattern uses A[] not to ensure this constraint is never violated throughout all execution paths.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)"
+          },
+          "total_time": 7.669323921203613,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "HarborDrone avoids restricted corridors",
+          "classification": {
+            "step": "classification",
+            "timing": 2.8290491104125977,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"avoids\", \"restricted\", \"corridors\", \"HarborDrone\"],\n  \"cues\": [\"avoids\"],\n  \"trigger_text\": \"HarborDrone in restricted corridors\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.134523868560791,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (HarborDrone.in_restricted_corridor)\",\n  \"explanation\": \"This query ensures that HarborDrone never enters a state where it is in a restricted corridor. The A[] not pattern matches the forbidden_state template, expressing that the system must always avoid this dangerous state.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.in_restricted_corridor)",
+              "explanation": "This query ensures that HarborDrone never enters a state where it is in a restricted corridor. The A[] not pattern matches the forbidden_state template, expressing that the system must always avoid this dangerous state.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.in_restricted_corridor)"
+          },
+          "total_time": 6.988324880599976,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "classification": {
+            "step": "classification",
+            "timing": 3.3937039375305176,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"HarborDrone\", \"ascends\", \"25 m\", \"magnetic interference\", \"detected\"],\n  \"cues\": [\"when\", \"above\"],\n  \"trigger_text\": \"magnetic interference detected\",\n  \"response_text\": \"HarborDrone ascends above 25 m\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.736510992050171,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"HarborDrone.magnetic_interference_detected --> HarborDrone.altitude > 25\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that when magnetic interference is detected, the HarborDrone will eventually ascend above 25 meters. The --> operator is appropriate here because this describes a triggered behavior where detection of interference leads to an eventual response (ascending), not an immediate same-state condition.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "HarborDrone.magnetic_interference_detected --> HarborDrone.altitude > 25",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that when magnetic interference is detected, the HarborDrone will eventually ascend above 25 meters. The --> operator is appropriate here because this describes a triggered behavior where detection of interference leads to an eventual response (ascending), not an immediate same-state condition.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.magnetic_interference_detected --> HarborDrone.altitude > 25"
+          },
+          "total_time": 8.160492181777954,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "classification": {
+            "step": "classification",
+            "timing": 3.227869987487793,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"uploads\", \"footage\", \"before\", \"moving\", \"next\", \"section\", \"HarborDrone\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"moving to next section\",\n  \"response_text\": \"uploads footage\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.178544998168945,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section\",\n  \"explanation\": \"This query ensures that HarborDrone uploads footage before moving to the next section. The --> operator captures the sequential workflow where the upload action must occur and eventually lead to the moving action, enforcing the 'before' constraint.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section",
+              "explanation": "This query ensures that HarborDrone uploads footage before moving to the next section. The --> operator captures the sequential workflow where the upload action must occur and eventually lead to the moving action, enforcing the 'before' constraint.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section"
+          },
+          "total_time": 7.4185950756073,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Always returns to base at end of patrol",
+          "classification": {
+            "step": "classification",
+            "timing": 3.3623311519622803,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"returns\", \"base\", \"end\", \"patrol\"],\n  \"cues\": [\"always\", \"at end\"],\n  \"trigger_text\": \"patrol\",\n  \"response_text\": \"returns to base\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.4231650829315186,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> Robot.at_base\",\n  \"explanation\": \"The constraint requires that the robot always returns to base at the end of patrol, meaning it must eventually reach the at_base state after every patrol. This is a liveness property expressing that the robot will eventually complete its return to base.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> Robot.at_base",
+              "explanation": "The constraint requires that the robot always returns to base at the end of patrol, meaning it must eventually reach the at_base state after every patrol. This is a liveness property expressing that the robot will eventually complete its return to base.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Robot.at_base"
+          },
+          "total_time": 6.807229042053223,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1159989833831787,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"altitude\", \"bounds\", \"range\", \"HarborDrone\"],\n  \"cues\": [\"between\", \"8\u201320 m\"],\n  \"trigger_text\": \"HarborDrone altitude\",\n  \"response_text\": \"must remain between 8\u201320 m\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6272978782653809,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)\",\n  \"explanation\": \"The constraint requires HarborDrone altitude to always remain between 8\u201320 m. This is a forbidden_state pattern: we forbid any state where altitude goes outside this range. The query uses A[] (always) with not to ensure the altitude never violates the bounds (never below 8 m AND never above 20 m).\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)",
+              "explanation": "The constraint requires HarborDrone altitude to always remain between 8\u201320 m. This is a forbidden_state pattern: we forbid any state where altitude goes outside this range. The query uses A[] (always) with not to ensure the altitude never violates the bounds (never below 8 m AND never above 20 m).",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)"
+          },
+          "total_time": 2.7542362213134766,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "HarborDrone avoids restricted corridors",
+          "classification": {
+            "step": "classification",
+            "timing": 1.9483799934387207,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"avoids\", \"restricted\", \"corridors\", \"HarborDrone\"],\n  \"cues\": [\"avoids\", \"restricted\"],\n  \"trigger_text\": \"HarborDrone\",\n  \"response_text\": \"avoids restricted corridors\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6933948993682861,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (HarborDrone.location == restricted_corridor)\",\n  \"explanation\": \"The constraint states that HarborDrone must avoid restricted corridors, which means it should never be in a restricted corridor state. This is a forbidden_state pattern requiring that the condition 'HarborDrone is in a restricted corridor' must never be true. The A[] operator ensures this property holds in all reachable states, and 'not' negates the forbidden condition.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.location == restricted_corridor)",
+              "explanation": "The constraint states that HarborDrone must avoid restricted corridors, which means it should never be in a restricted corridor state. This is a forbidden_state pattern requiring that the condition 'HarborDrone is in a restricted corridor' must never be true. The A[] operator ensures this property holds in all reachable states, and 'not' negates the forbidden condition.",
+              "confidence": 0.92,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.location == restricted_corridor)"
+          },
+          "total_time": 3.661979913711548,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.415693998336792,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"ascends\", \"above\", \"25 m\", \"magnetic interference\", \"detected\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"magnetic interference detected\",\n  \"response_text\": \"HarborDrone ascends above 25 m\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.434185028076172,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"magnetic_interference_detected --> HarborDrone.above_25m\",\n  \"explanation\": \"This constraint describes a conditional_response pattern where the detection of magnetic interference (condition/trigger) leads to an eventual behavior where HarborDrone ascends above 25 m (response). The '-->' operator captures this sequential workflow: when the trigger condition occurs, the system should eventually reach the response state. This is not an immediate same-state response, so '-->' is appropriate rather than 'imply'.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "magnetic_interference_detected --> HarborDrone.above_25m",
+              "explanation": "This constraint describes a conditional_response pattern where the detection of magnetic interference (condition/trigger) leads to an eventual behavior where HarborDrone ascends above 25 m (response). The '-->' operator captures this sequential workflow: when the trigger condition occurs, the system should eventually reach the response state. This is not an immediate same-state response, so '-->' is appropriate rather than 'imply'.",
+              "confidence": 0.88,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "magnetic_interference_detected --> HarborDrone.above_25m"
+          },
+          "total_time": 3.87951922416687,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3251149654388428,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"uploads\", \"footage\", \"before\", \"moving\", \"next section\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"uploads footage\",\n  \"response_text\": \"moving to next section\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9648091793060303,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section\",\n  \"explanation\": \"The constraint describes a sequential workflow where 'uploads footage' (trigger_text) must occur before 'moving to next section' (response_text). The --> operator captures the eventual sequential relationship between these two actions, indicating that after the drone uploads footage, it will eventually transition to moving to the next section. This matches the sequential_workflow pattern where one action leads to another.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section",
+              "explanation": "The constraint describes a sequential workflow where 'uploads footage' (trigger_text) must occur before 'moving to next section' (response_text). The --> operator captures the eventual sequential relationship between these two actions, indicating that after the drone uploads footage, it will eventually transition to moving to the next section. This matches the sequential_workflow pattern where one action leads to another.",
+              "confidence": 0.92,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section"
+          },
+          "total_time": 3.3160240650177,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Always returns to base at end of patrol",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0987069606781006,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"returns\",\n    \"base\",\n    \"end\",\n    \"patrol\",\n    \"completion\"\n  ],\n  \"cues\": [\n    \"end\",\n    \"always\"\n  ],\n  \"trigger_text\": \"end of patrol\",\n  \"response_text\": \"returns to base\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.517437219619751,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> Patrol.end --> Robot.at_base\",\n  \"explanation\": \"The constraint expresses a liveness property where the robot must eventually return to base when the patrol ends. The trigger is 'end of patrol' and the response is 'returns to base'. The pattern uses eventual_completion with A<> for the must-eventually-happen behavior, combined with --> to express the sequential workflow: when patrol ends, the robot eventually reaches base.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\", \"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> Patrol.end --> Robot.at_base",
+              "explanation": "The constraint expresses a liveness property where the robot must eventually return to base when the patrol ends. The trigger is 'end of patrol' and the response is 'returns to base'. The pattern uses eventual_completion with A<> for the must-eventually-happen behavior, combined with --> to express the sequential workflow: when patrol ends, the robot eventually reaches base.",
+              "confidence": 0.88,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>",
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A<> Patrol.end --> Robot.at_base"
+          },
+          "total_time": 2.6314961910247803,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "classification": {
+            "step": "classification",
+            "timing": 12.71531891822815,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"forbidden_state\", \"keywords\": [\"altitude\", \"between\", \"8\u201320\", \"m\"], \"cues\": [\"between\"]}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.848964929580688,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] not (HarborDrone.altitude < 8 or HarborDrone.altitude > 20)\", \"explanation\": \"The constraint 'HarborDrone altitude between 8\u201320 m' implies that the altitude must never be outside the range of 8 to 20 meters, which fits the forbidden_state pattern by ensuring the bad state (altitude outside 8-20 m) never occurs.\", \"confidence\": 0.85, \"pattern_used\": \"forbidden_state\", \"operator_used\": [\"A[]\", \"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.altitude < 8 or HarborDrone.altitude > 20)",
+              "explanation": "The constraint 'HarborDrone altitude between 8\u201320 m' implies that the altitude must never be outside the range of 8 to 20 meters, which fits the forbidden_state pattern by ensuring the bad state (altitude outside 8-20 m) never occurs.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.altitude < 8 or HarborDrone.altitude > 20)"
+          },
+          "total_time": 28.583813905715942,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "HarborDrone avoids restricted corridors",
+          "classification": {
+            "step": "classification",
+            "timing": 13.407708883285522,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"forbidden_state\", \"keywords\": [\"avoids\", \"restricted\", \"corridors\"], \"cues\": [\"never\"], \"trigger_text/response_text\": \"HarborDrone avoids restricted corridors\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.353200197219849,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] not (HarborDrone.in_restricted_corridor)\", \"explanation\": \"The query uses the forbidden_state pattern to ensure that the HarborDrone never enters restricted corridors, directly matching the 'avoids' and 'restricted corridors' keywords, and implying that being in such corridors is a bad state that must never occur.\", \"confidence\": 0.85, \"pattern_used\": \"forbidden_state\", \"operator_used\": [\"A[]\", \"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.in_restricted_corridor)",
+              "explanation": "The query uses the forbidden_state pattern to ensure that the HarborDrone never enters restricted corridors, directly matching the 'avoids' and 'restricted corridors' keywords, and implying that being in such corridors is a bad state that must never occur.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.in_restricted_corridor)"
+          },
+          "total_time": 27.783488035202026,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "classification": {
+            "step": "classification",
+            "timing": 7.856660842895508,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"ascends\", \"magnetic interference\"], \"cues\": [\"when\"], \"trigger_text\": \"magnetic interference detected\", \"response_text\": \"ascends above 25 m\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.07405710220337,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(HarborDrone.magnetic_interference_detected) --> (HarborDrone.height > 25)\",\n  \"explanation\": \"The constraint specifies a conditional response where magnetic interference detection triggers eventual ascension above 25 m, matching the conditional_response pattern with the --> operator for eventual behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(HarborDrone.magnetic_interference_detected) --> (HarborDrone.height > 25)",
+              "explanation": "The constraint specifies a conditional response where magnetic interference detection triggers eventual ascension above 25 m, matching the conditional_response pattern with the --> operator for eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(HarborDrone.magnetic_interference_detected) --> (HarborDrone.height > 25)"
+          },
+          "total_time": 16.961007118225098,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "classification": {
+            "step": "classification",
+            "timing": 12.818812131881714,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"uploads\", \"footage\", \"before\", \"moving\", \"next\", \"section\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"moving to next section\",\n  \"response_text\": \"uploads footage\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.180702924728394,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section\", \"explanation\": \"The constraint indicates that uploading footage happens before moving to the next section, matching the sequential workflow pattern where one action eventually follows another, using the --> operator for eventual triggered behavior.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section",
+              "explanation": "The constraint indicates that uploading footage happens before moving to the next section, matching the sequential workflow pattern where one action eventually follows another, using the --> operator for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section"
+          },
+          "total_time": 22.02122688293457,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Always returns to base at end of patrol",
+          "classification": {
+            "step": "classification",
+            "timing": 11.346467733383179,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"returns\", \"base\", \"patrol\"], \"cues\": [\"always\", \"at end of\"], \"trigger_text\": \"end of patrol\", \"response_text\": \"returns to base\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.462928771972656,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"end_of_patrol --> A<> at_base\", \"explanation\": \"The constraint specifies that always, at the end of patrol, the system returns to base, which is a triggered eventual completion using the leadsto operator for conditional response.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "end_of_patrol --> A<> at_base",
+              "explanation": "The constraint specifies that always, at the end of patrol, the system returns to base, which is a triggered eventual completion using the leadsto operator for conditional response.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "end_of_patrol --> A<> at_base"
+          },
+          "total_time": 21.827594995498657,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "classification": {
+            "step": "classification",
+            "timing": 10.17460298538208,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"HarborDrone\", \"altitude\", \"between\", \"8-20\", \"m\"],\n  \"cues\": [\"between\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.836268186569214,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (HarborDrone.altitude >= 8 && HarborDrone.altitude <= 20)\",\n  \"explanation\": \"The query uses A[] not to ensure that the state where HarborDrone's altitude is between 8 and 20 meters never occurs, directly matching the forbidden_state pattern as it prevents the specified bad state from happening at any time.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.altitude >= 8 && HarborDrone.altitude <= 20)",
+              "explanation": "The query uses A[] not to ensure that the state where HarborDrone's altitude is between 8 and 20 meters never occurs, directly matching the forbidden_state pattern as it prevents the specified bad state from happening at any time.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.altitude >= 8 && HarborDrone.altitude <= 20)"
+          },
+          "total_time": 20.02760100364685,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "HarborDrone avoids restricted corridors",
+          "classification": {
+            "step": "classification",
+            "timing": 5.904118061065674,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"avoids\", \"restricted\", \"corridors\"],\n  \"cues\": [\"avoids\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.618224859237671,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (HarborDrone.inRestrictedCorridors)\",\n  \"explanation\": \"The query ensures that the state where HarborDrone is in restricted corridors never occurs, aligning with the forbidden_state pattern as the constraint 'HarborDrone avoids restricted corridors' indicates a state that must be prohibited.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.inRestrictedCorridors)",
+              "explanation": "The query ensures that the state where HarborDrone is in restricted corridors never occurs, aligning with the forbidden_state pattern as the constraint 'HarborDrone avoids restricted corridors' indicates a state that must be prohibited.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.inRestrictedCorridors)"
+          },
+          "total_time": 17.54401206970215,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "classification": {
+            "step": "classification",
+            "timing": 5.816237688064575,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"ascends\", \"magnetic interference\", \"above 25 m\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"magnetic interference detected\",\n  \"response_text\": \"HarborDrone ascends above 25 m\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.683150053024292,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(interference_detected) --> (HarborDrone.altitude > 25)\",\n  \"explanation\": \"The query uses the --> operator to indicate that when magnetic interference is detected, the HarborDrone will eventually ascend above 25 m, matching the conditional_response pattern where a condition leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(interference_detected) --> (HarborDrone.altitude > 25)",
+              "explanation": "The query uses the --> operator to indicate that when magnetic interference is detected, the HarborDrone will eventually ascend above 25 m, matching the conditional_response pattern where a condition leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(interference_detected) --> (HarborDrone.altitude > 25)"
+          },
+          "total_time": 11.524352073669434,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "classification": {
+            "step": "classification",
+            "timing": 5.926609992980957,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"uploads\", \"footage\", \"before\", \"moving\", \"next section\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"uploads footage\",\n  \"response_text\": \"moving to next section\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.354396104812622,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section\",\n  \"explanation\": \"This query uses the --> operator to represent a sequential workflow where the HarborDrone's footage upload must eventually lead to it moving to the next section, directly matching the constraint's 'before' keyword and the pattern's template.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section",
+              "explanation": "This query uses the --> operator to represent a sequential workflow where the HarborDrone's footage upload must eventually lead to it moving to the next section, directly matching the constraint's 'before' keyword and the pattern's template.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.uploads_footage --> HarborDrone.moving_to_next_section"
+          },
+          "total_time": 16.30261206626892,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Always returns to base at end of patrol",
+          "classification": {
+            "step": "classification",
+            "timing": 6.9144110679626465,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"always\", \"returns\", \"base\", \"end\", \"patrol\"],\n  \"cues\": [\"always\"],\n  \"trigger_text\": \"end of patrol\",\n  \"response_text\": \"returns to base\"\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.199029922485352,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (end_of_patrol --> <> Robot.at_base)\",\n  \"explanation\": \"The query uses A[] to ensure that whenever the end_of_patrol state occurs, it is always followed by the robot eventually reaching the base (using <> for eventual liveness), matching the constraint that the robot always returns to base at the end of patrol based on the eventual_completion pattern for triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (end_of_patrol --> <> Robot.at_base)",
+              "explanation": "The query uses A[] to ensure that whenever the end_of_patrol state occurs, it is always followed by the robot eventually reaching the base (using <> for eventual liveness), matching the constraint that the robot always returns to base at the end of patrol based on the eventual_completion pattern for triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (end_of_patrol --> <> Robot.at_base)"
+          },
+          "total_time": 22.131630182266235,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "classification": {
+            "step": "classification",
+            "timing": 76.61326217651367,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"HarborDrone\", \"altitude\", \"between\", \"8\", \"20\"],\n  \"cues\": [\"between\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 65.8140881061554,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (HarborDrone.altitude >= 8 && HarborDrone.altitude <= 20)\",\n  \"explanation\": \"The constraint 'HarborDrone altitude between 8\u201320 m' is interpreted as a forbidden state based on the pattern 'forbidden_state', meaning this altitude range must never occur. The UPPAAL query uses A[] not to ensure that the condition where altitude is between 8 and 20 meters is always false, preventing this state from happening, which matches the pattern's description and similar examples like A[] not (vibration > 5.0 && System.operating).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.altitude >= 8 && HarborDrone.altitude <= 20)",
+              "explanation": "The constraint 'HarborDrone altitude between 8\u201320 m' is interpreted as a forbidden state based on the pattern 'forbidden_state', meaning this altitude range must never occur. The UPPAAL query uses A[] not to ensure that the condition where altitude is between 8 and 20 meters is always false, preventing this state from happening, which matches the pattern's description and similar examples like A[] not (vibration > 5.0 && System.operating).",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.altitude >= 8 && HarborDrone.altitude <= 20)"
+          },
+          "total_time": 142.45035433769226,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "HarborDrone avoids restricted corridors",
+          "classification": {
+            "step": "classification",
+            "timing": 36.9360990524292,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"HarborDrone\", \"avoids\", \"restricted corridors\"],\n  \"cues\": []\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 57.23517179489136,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (HarborDrone.inRestrictedCorridor)\",\n  \"explanation\": \"The constraint 'HarborDrone avoids restricted corridors' indicates that the state where HarborDrone is in a restricted corridor must never occur. This aligns with the forbidden_state pattern, which uses A[] not(bad_state) to enforce that a dangerous or invalid state is always false, ensuring safety by preventing the prohibited condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.inRestrictedCorridor)",
+              "explanation": "The constraint 'HarborDrone avoids restricted corridors' indicates that the state where HarborDrone is in a restricted corridor must never occur. This aligns with the forbidden_state pattern, which uses A[] not(bad_state) to enforce that a dangerous or invalid state is always false, ensuring safety by preventing the prohibited condition.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.inRestrictedCorridor)"
+          },
+          "total_time": 94.19046020507812,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "classification": {
+            "step": "classification",
+            "timing": 39.1104040145874,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"HarborDrone\", \"ascends\", \"above 25 m\", \"magnetic interference\", \"detected\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"magnetic interference detected\",\n  \"response_text\": \"ascends above 25 m\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 70.76173281669617,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"HarborDrone.magneticInterferenceDetected --> HarborDrone.altitude > 25\",\n  \"explanation\": \"This query translates the natural-language constraint by using the '-->' operator to express that when the condition 'magnetic interference detected' (modeled as HarborDrone.magneticInterferenceDetected) becomes true, the response 'ascends above 25 m' (modeled as HarborDrone.altitude > 25) eventually holds, which aligns with the conditional_response pattern for triggered eventual behaviors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "HarborDrone.magneticInterferenceDetected --> HarborDrone.altitude > 25",
+              "explanation": "This query translates the natural-language constraint by using the '-->' operator to express that when the condition 'magnetic interference detected' (modeled as HarborDrone.magneticInterferenceDetected) becomes true, the response 'ascends above 25 m' (modeled as HarborDrone.altitude > 25) eventually holds, which aligns with the conditional_response pattern for triggered eventual behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.magneticInterferenceDetected --> HarborDrone.altitude > 25"
+          },
+          "total_time": 109.89328622817993,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "classification": {
+            "step": "classification",
+            "timing": 47.17969012260437,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"upload\", \"footage\", \"move\", \"section\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"upload footage\",\n  \"response_text\": \"move to next section\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 45.341718673706055,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"HarborDrone.upload_footage --> HarborDrone.move_next_section\",\n  \"explanation\": \"The constraint uses 'before' as a cue to indicate a sequential order where uploading footage must precede moving to the next section, fitting the sequential_workflow pattern. The '-->' operator is used to model this eventual triggered behavior, ensuring that if the first action (uploading footage) occurs, eventually the second action (moving to next section) will follow, aligning with the pattern template action1 --> action2.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "HarborDrone.upload_footage --> HarborDrone.move_next_section",
+              "explanation": "The constraint uses 'before' as a cue to indicate a sequential order where uploading footage must precede moving to the next section, fitting the sequential_workflow pattern. The '-->' operator is used to model this eventual triggered behavior, ensuring that if the first action (uploading footage) occurs, eventually the second action (moving to next section) will follow, aligning with the pattern template action1 --> action2.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.upload_footage --> HarborDrone.move_next_section"
+          },
+          "total_time": 92.54079699516296,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Always returns to base at end of patrol",
+          "classification": {
+            "step": "classification",
+            "timing": 38.17733931541443,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"returns\", \"base\", \"patrol\", \"end\"],\n  \"cues\": [\"always\", \"at\"],\n  \"trigger_text\": \"end of patrol\",\n  \"response_text\": \"returns to base\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 58.379130125045776,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(patrol_ended) --> (at_base)\",\n  \"explanation\": \"The constraint 'Always returns to base at end of patrol' matches the conditional_response pattern, where the condition 'end of patrol' (patrol_ended) triggers the eventual response 'returns to base' (at_base). The '-->' operator is specified for this pattern to express that whenever the condition becomes true, the response must eventually occur, aligning with the classifier's trigger_text and response_text.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(patrol_ended) --> (at_base)",
+              "explanation": "The constraint 'Always returns to base at end of patrol' matches the conditional_response pattern, where the condition 'end of patrol' (patrol_ended) triggers the eventual response 'returns to base' (at_base). The '-->' operator is specified for this pattern to express that whenever the condition becomes true, the response must eventually occur, aligning with the classifier's trigger_text and response_text.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(patrol_ended) --> (at_base)"
+          },
+          "total_time": 96.58778023719788,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0045719146728516,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"altitude\", \"harbor drone\", \"range\", \"height\", \"position\"],\n  \"cues\": [\"between\"],\n  \"trigger_text\": \"HarborDrone altitude\",\n  \"response_text\": \"8\u201320 m\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5860469341278076,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (HarborDrone.altitude < 8 or HarborDrone.altitude > 20)\",\n  \"explanation\": \"The constraint specifies that the HarborDrone altitude must always be between 8 and 20 meters. The 'forbidden_state' pattern with the 'A[] not' operator is used to ensure this condition is always met. The query checks if the altitude is outside the range of 8-20, and asserts that this situation must never occur.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.altitude < 8 or HarborDrone.altitude > 20)",
+              "explanation": "The constraint specifies that the HarborDrone altitude must always be between 8 and 20 meters. The 'forbidden_state' pattern with the 'A[] not' operator is used to ensure this condition is always met. The query checks if the altitude is outside the range of 8-20, and asserts that this situation must never occur.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.altitude < 8 or HarborDrone.altitude > 20)"
+          },
+          "total_time": 2.618126153945923,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "HarborDrone avoids restricted corridors",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9251010417938232,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"HarborDrone\",\n    \"restricted corridors\",\n    \"avoid\"\n  ],\n  \"cues\": [\n    \"avoid\"\n  ],\n  \"trigger_text\": \"HarborDrone\",\n  \"response_text\": \"restricted corridors\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2802770137786865,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not HarborDrone.location in restricted_corridors\",\n  \"explanation\": \"The constraint states that the HarborDrone must always avoid restricted corridors. This directly translates to 'always' (A[]) 'not' being 'in restricted corridors'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not HarborDrone.location in restricted_corridors",
+              "explanation": "The constraint states that the HarborDrone must always avoid restricted corridors. This directly translates to 'always' (A[]) 'not' being 'in restricted corridors'.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not HarborDrone.location in restricted_corridors"
+          },
+          "total_time": 2.2441909313201904,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7083299160003662,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"drone\", \"ascend\", \"magnetic interference\", \"altitude\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"magnetic interference detected\",\n  \"response_text\": \"HarborDrone ascends above 25 m\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0475261211395264,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"HarborDrone.magnetic_interference_detected --> HarborDrone.altitude > 25\",\n  \"explanation\": \"The constraint describes a conditional response: when magnetic interference is detected, HarborDrone eventually ascends above 25 meters. The '-->' operator represents eventual response, linking the trigger (magnetic interference detected) to the consequence (altitude exceeding 25m).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "HarborDrone.magnetic_interference_detected --> HarborDrone.altitude > 25",
+              "explanation": "The constraint describes a conditional response: when magnetic interference is detected, HarborDrone eventually ascends above 25 meters. The '-->' operator represents eventual response, linking the trigger (magnetic interference detected) to the consequence (altitude exceeding 25m).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.magnetic_interference_detected --> HarborDrone.altitude > 25"
+          },
+          "total_time": 1.771050214767456,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8208808898925781,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"HarborDrone\", \"footage\", \"upload\", \"section\", \"before\", \"next\"],\n  \"cues\": [\"before\", \"next\"],\n  \"trigger_text\": \"moving to next section\",\n  \"response_text\": \"uploads footage\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.9265329837799072,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"HarborDrone.upload_footage --> HarborDrone.next_section\",\n  \"explanation\": \"The constraint 'HarborDrone uploads footage before moving to next section' describes a sequential workflow. The 'upload_footage' action must occur before the 'next_section' action. The '-->' operator is appropriate to indicate this eventual sequential relationship.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "HarborDrone.upload_footage --> HarborDrone.next_section",
+              "explanation": "The constraint 'HarborDrone uploads footage before moving to next section' describes a sequential workflow. The 'upload_footage' action must occur before the 'next_section' action. The '-->' operator is appropriate to indicate this eventual sequential relationship.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.upload_footage --> HarborDrone.next_section"
+          },
+          "total_time": 1.7710280418395996,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Always returns to base at end of patrol",
+          "classification": {
+            "step": "classification",
+            "timing": 0.988508939743042,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"patrol\", \"return\", \"base\", \"end\"],\n  \"cues\": [\"always\", \"end\"],\n  \"trigger_text\": \"patrol\",\n  \"response_text\": \"return to base\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.3400299549102783,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"patrol --> A<> at_base\",\n  \"explanation\": \"The constraint specifies that after a 'patrol' event, the system 'always returns to base'. This indicates an eventual completion pattern where the 'patrol' event triggers the 'return to base' event. The '-->' operator signifies that after the patrol event, the system MUST eventually reach the at_base state (A<> at_base).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "patrol --> A<> at_base",
+              "explanation": "The constraint specifies that after a 'patrol' event, the system 'always returns to base'. This indicates an eventual completion pattern where the 'patrol' event triggers the 'return to base' event. The '-->' operator signifies that after the patrol event, the system MUST eventually reach the at_base state (A<> at_base).",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "patrol --> A<> at_base"
+          },
+          "total_time": 2.3439600467681885,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "classification": {
+            "step": "classification",
+            "timing": 7.42763876914978,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"HarborDrone\",\n    \"altitude\",\n    \"between\"\n  ],\n  \"cues\": [\n    \"between\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.36372685432434,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)\",\n  \"explanation\": \"The constraint specifies that the HarborDrone's altitude must always be within the range of 8 to 20 meters. This is a safety property that defines a forbidden state. The query uses the 'A[]' operator to assert that for all reachable states, it is 'not' the case that the 'HarborDrone.altitude' is less than 8 or greater than 20. This effectively enforces that the altitude must always remain between 8 and 20, inclusive.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)",
+              "explanation": "The constraint specifies that the HarborDrone's altitude must always be within the range of 8 to 20 meters. This is a safety property that defines a forbidden state. The query uses the 'A[]' operator to assert that for all reachable states, it is 'not' the case that the 'HarborDrone.altitude' is less than 8 or greater than 20. This effectively enforces that the altitude must always remain between 8 and 20, inclusive.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)"
+          },
+          "total_time": 19.805760145187378,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "HarborDrone avoids restricted corridors",
+          "classification": {
+            "step": "classification",
+            "timing": 10.558984994888306,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"drone\",\n    \"avoid\",\n    \"restricted\",\n    \"corridor\",\n    \"zone\",\n    \"area\"\n  ],\n  \"cues\": [\n    \"avoids\",\n    \"never\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 25.032042980194092,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (HarborDrone.InRestrictedCorridor)\",\n  \"explanation\": \"This query verifies a safety property. The 'A[]' (always globally) operator asserts that the specified condition must hold for all reachable states. 'not (HarborDrone.InRestrictedCorridor)' defines the forbidden state, which is the HarborDrone process being in its 'InRestrictedCorridor' location. Together, the query checks that the drone is never in a state where it is inside a restricted corridor, directly matching the constraint to 'avoid' it.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (HarborDrone.InRestrictedCorridor)",
+              "explanation": "This query verifies a safety property. The 'A[]' (always globally) operator asserts that the specified condition must hold for all reachable states. 'not (HarborDrone.InRestrictedCorridor)' defines the forbidden state, which is the HarborDrone process being in its 'InRestrictedCorridor' location. Together, the query checks that the drone is never in a state where it is inside a restricted corridor, directly matching the constraint to 'avoid' it.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (HarborDrone.InRestrictedCorridor)"
+          },
+          "total_time": 35.61817002296448,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "classification": {
+            "step": "classification",
+            "timing": 5.43005108833313,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"HarborDrone\",\n    \"ascends\",\n    \"magnetic interference\"\n  ],\n  \"cues\": [\n    \"when\",\n    \">\"\n  ],\n  \"trigger_text\": \"magnetic interference detected\",\n  \"response_text\": \"HarborDrone ascends above 25 m\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.829046964645386,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"HarborDrone.magnetic_interference_detected --> HarborDrone.altitude > 25\",\n  \"explanation\": \"This query uses the 'leads to' (`-->`) operator to verify that whenever the condition 'HarborDrone.magnetic_interference_detected' is true, it is eventually followed by the response where 'HarborDrone.altitude > 25'. This directly models the constraint's pattern where a trigger ('when magnetic interference detected') leads to an eventual action ('ascends above 25 m').\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "HarborDrone.magnetic_interference_detected --> HarborDrone.altitude > 25",
+              "explanation": "This query uses the 'leads to' (`-->`) operator to verify that whenever the condition 'HarborDrone.magnetic_interference_detected' is true, it is eventually followed by the response where 'HarborDrone.altitude > 25'. This directly models the constraint's pattern where a trigger ('when magnetic interference detected') leads to an eventual action ('ascends above 25 m').",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.magnetic_interference_detected --> HarborDrone.altitude > 25"
+          },
+          "total_time": 14.285274028778076,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "classification": {
+            "step": "classification",
+            "timing": 11.901528120040894,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"drone\",\n    \"uploads\",\n    \"footage\",\n    \"moving\"\n  ],\n  \"cues\": [\n    \"before\"\n  ],\n  \"trigger_text\": \"HarborDrone uploads footage\",\n  \"response_text\": \"moving to next section\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.775174856185913,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"HarborDrone.upload_complete --> HarborDrone.moving\",\n  \"explanation\": \"The constraint 'HarborDrone uploads footage before moving to next section' describes a sequential workflow where one action follows another. The query uses the 'leads to' operator (-->) to verify that whenever the `HarborDrone.upload_complete` state is reached, it is eventually followed by the `HarborDrone.moving` state.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "HarborDrone.upload_complete --> HarborDrone.moving",
+              "explanation": "The constraint 'HarborDrone uploads footage before moving to next section' describes a sequential workflow where one action follows another. The query uses the 'leads to' operator (-->) to verify that whenever the `HarborDrone.upload_complete` state is reached, it is eventually followed by the `HarborDrone.moving` state.",
+              "confidence": 0.95,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.upload_complete --> HarborDrone.moving"
+          },
+          "total_time": 22.69339609146118,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Always returns to base at end of patrol",
+          "classification": {
+            "step": "classification",
+            "timing": 29.57581615447998,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"returns\",\n    \"base\",\n    \"patrol\",\n    \"end\"\n  ],\n  \"cues\": [\n    \"always\",\n    \"at end of\"\n  ],\n  \"trigger_text\": \"at end of patrol\",\n  \"response_text\": \"returns to base\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.845752716064453,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Robot.EndOfPatrol --> A<> Robot.AtBase)\",\n  \"explanation\": \"This query translates the conditional liveness property. The `A[]` operator ensures the property holds for all execution paths (\\\"Always\\\"). The trigger `Robot.EndOfPatrol` represents the condition \\\"at end of patrol\\\". The leads-to operator `-->` combined with `A<>` specifies that following the trigger, the system must eventually reach the response state `Robot.AtBase` (\\\"returns to base\\\").\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A[]\",\n    \"-->\",\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Robot.EndOfPatrol --> A<> Robot.AtBase)",
+              "explanation": "This query translates the conditional liveness property. The `A[]` operator ensures the property holds for all execution paths (\"Always\"). The trigger `Robot.EndOfPatrol` represents the condition \"at end of patrol\". The leads-to operator `-->` combined with `A<>` specifies that following the trigger, the system must eventually reach the response state `Robot.AtBase` (\"returns to base\").",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A[]",
+                "-->",
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Robot.EndOfPatrol --> A<> Robot.AtBase)"
+          },
+          "total_time": 50.44677710533142,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    }
+  ]
+}

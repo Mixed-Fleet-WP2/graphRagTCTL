@@ -1,0 +1,918 @@
+{
+  "id": "scenario_008",
+  "domain": "harbor",
+  "prompt": "An unmanned crane unloads containers onto automated trucks. Trucks can move only after the crane signals unloading complete. If wind gusts exceed 40 km/h, unloading must be paused for safety.",
+  "robots": [
+    "CraneBot",
+    "TruckAMR"
+  ],
+  "constraints": [
+    "TruckAMR starts moving only after CraneBot finishes unloading",
+    "CraneBot pauses unloading when wind gusts exceed 40 km/h"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "classification": {
+            "step": "classification",
+            "timing": 3.8059499263763428,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"TruckAMR\",\"CraneBot\",\"starts moving\",\"finishes unloading\",\"only after\",\"sequence\",\"ordering\",\"precedence\"],\"cues\":[\"only after\",\"after\"],\"trigger_text\":\"CraneBot finishes unloading\",\"response_text\":\"TruckAMR starts moving\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.533781051635742,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"CraneBot.finishes_unloading --> TruckAMR.starts_moving\",\"explanation\":\"The constraint says TruckAMR may start moving only after CraneBot finishes unloading, which is a precedence/ordering relation. Using the sequential_workflow pattern, we express that whenever the action 'CraneBot.finishes_unloading' occurs, it is (eventually) followed by 'TruckAMR.starts_moving'. The '-->' operator encodes this eventual-follow relation in UPPAAL.\",\"confidence\":0.86,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "CraneBot.finishes_unloading --> TruckAMR.starts_moving",
+              "explanation": "The constraint says TruckAMR may start moving only after CraneBot finishes unloading, which is a precedence/ordering relation. Using the sequential_workflow pattern, we express that whenever the action 'CraneBot.finishes_unloading' occurs, it is (eventually) followed by 'TruckAMR.starts_moving'. The '-->' operator encodes this eventual-follow relation in UPPAAL.",
+              "confidence": 0.86,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.finishes_unloading --> TruckAMR.starts_moving"
+          },
+          "total_time": 6.366907835006714,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 1.9907031059265137,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"CraneBot\",\"pauses\",\"unloading\",\"wind gusts\",\"exceed 40 km/h\",\"safety\"],\"cues\":[\"when\",\">\"],\"trigger_text\":\"wind gusts exceed 40 km/h\",\"response_text\":\"CraneBot pauses unloading\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.9316039085388184,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(wind_gust_speed > 40) --> CraneBot.pausing_unloading\",\"explanation\":\"The constraint says that when the condition \\\"wind gusts exceed 40 km/h\\\" holds, the system must (eventually) reach a state where \\\"CraneBot pauses unloading.\\\" The conditional_response pattern is therefore encoded with the liveness arrow operator (-->). The left side models the trigger condition as wind_gust_speed > 40, and the right side models the required eventual behavior as CraneBot being in a pausing/unloading state (here represented by the state label CraneBot.pausing_unloading).\",\"confidence\":0.88,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(wind_gust_speed > 40) --> CraneBot.pausing_unloading",
+              "explanation": "The constraint says that when the condition \"wind gusts exceed 40 km/h\" holds, the system must (eventually) reach a state where \"CraneBot pauses unloading.\" The conditional_response pattern is therefore encoded with the liveness arrow operator (-->). The left side models the trigger condition as wind_gust_speed > 40, and the right side models the required eventual behavior as CraneBot being in a pausing/unloading state (here represented by the state label CraneBot.pausing_unloading).",
+              "confidence": 0.88,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(wind_gust_speed > 40) --> CraneBot.pausing_unloading"
+          },
+          "total_time": 5.954560041427612,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "classification": {
+            "step": "classification",
+            "timing": 11.484543085098267,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"starts moving\",\"finishes unloading\",\"only after\",\"after\",\"sequence\",\"order\",\"precedence\"],\"cues\":[\"after\",\"only\",\"starts\",\"finishes\",\"must\"],\"trigger_text\":\"CraneBot finishes unloading\",\"response_text\":\"TruckAMR starts moving\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.750209093093872,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"CraneBot.unloading_finished --> TruckAMR.moving\",\"explanation\":\"This sequential-workflow query states that whenever CraneBot reaches the unloading_finished state, then eventually TruckAMR will reach the moving state. It captures the natural-language constraint that TruckAMR should start moving only after CraneBot finishes unloading by ensuring the move follows the unload completion.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "CraneBot.unloading_finished --> TruckAMR.moving",
+              "explanation": "This sequential-workflow query states that whenever CraneBot reaches the unloading_finished state, then eventually TruckAMR will reach the moving state. It captures the natural-language constraint that TruckAMR should start moving only after CraneBot finishes unloading by ensuring the move follows the unload completion.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.unloading_finished --> TruckAMR.moving"
+          },
+          "total_time": 24.25599479675293,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 9.02811074256897,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"pause unloading\",\"wind gusts\",\"> 40 km/h\",\"safety\",\"CraneBot\",\"stop operations\"],\"cues\":[\"when\",\"if\",\"exceed\",\">\",\"must\",\"pause\",\"gust\",\"km/h\"],\"trigger_text\":\"wind gusts exceed 40 km/h\",\"response_text\":\"CraneBot pauses unloading\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.926792860031128,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (CraneBot.wind_gusts > 40 imply not CraneBot.unloading)\",\n  \"explanation\": \"This safety property states that always (A[]) whenever the measured wind gusts for CraneBot exceed 40 km/h, the unloading action must be paused immediately (modeled here as CraneBot not unloading). It uses an immediate implication so there is no allowed delay between the trigger (wind_gusts > 40) and the safety response (not CraneBot.unloading).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (CraneBot.wind_gusts > 40 imply not CraneBot.unloading)",
+              "explanation": "This safety property states that always (A[]) whenever the measured wind gusts for CraneBot exceed 40 km/h, the unloading action must be paused immediately (modeled here as CraneBot not unloading). It uses an immediate implication so there is no allowed delay between the trigger (wind_gusts > 40) and the safety response (not CraneBot.unloading).",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (CraneBot.wind_gusts > 40 imply not CraneBot.unloading)"
+          },
+          "total_time": 19.98900294303894,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "classification": {
+            "step": "classification",
+            "timing": 8.432183027267456,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"TruckAMR\",\"CraneBot\",\"unloading\",\"moving\",\"finishes\",\"after\",\"then\"],\"cues\":[\"after\",\"then\",\"finishes\",\"must\"],\"trigger_text\":\"TruckAMR starts moving\",\"response_text\":\"only after CraneBot finishes unloading\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.777719974517822,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"CraneBot.unloading_complete --> TruckAMR.moving\",\"explanation\":\"This uses the sequential_workflow template: CraneBot finishes unloading (unloading_complete) is the first action, and TruckAMR starts moving (moving) is the subsequent action. The arrow --> denotes that the second event happens after the first (eventual follow-up).\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "CraneBot.unloading_complete --> TruckAMR.moving",
+              "explanation": "This uses the sequential_workflow template: CraneBot finishes unloading (unloading_complete) is the first action, and TruckAMR starts moving (moving) is the subsequent action. The arrow --> denotes that the second event happens after the first (eventual follow-up).",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.unloading_complete --> TruckAMR.moving"
+          },
+          "total_time": 17.232994079589844,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 13.666162252426147,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"wind_gust\",\"threshold\",\"unloading\",\"crane\"],\"cues\":[\"when\"],\"trigger_text\":\"when wind gusts exceed 40 km/h\",\"response_text\":\"pause unloading\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.529932737350464,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(wind_gust > 40) --> CraneBot.pause_unloading\",\"explanation\":\"The constraint is a conditional response: when wind_gust exceeds 40, CraneBot transitions to a state where unloading is paused. This follows the conditional_response pattern using the '-->' operator (condition --> action/state).\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(wind_gust > 40) --> CraneBot.pause_unloading",
+              "explanation": "The constraint is a conditional response: when wind_gust exceeds 40, CraneBot transitions to a state where unloading is paused. This follows the conditional_response pattern using the '-->' operator (condition --> action/state).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(wind_gust > 40) --> CraneBot.pause_unloading"
+          },
+          "total_time": 24.21528697013855,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "classification": {
+            "step": "classification",
+            "timing": 1.542287826538086,
+            "tokens": 187,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts moving\", \"finishes unloading\"],\n  \"cues\": [\"only after\"],\n  \"trigger_text\": \"CraneBot finishes unloading\",\n  \"response_text\": \"TruckAMR starts moving\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.4835550785064697,
+            "tokens": 571,
+            "raw_text": "{\n  \"query\": \"CraneBot.unloading_complete --> TruckAMR.moving\",\n  \"explanation\": \"The query represents a sequential workflow where the action of TruckAMR starting to move is triggered only after CraneBot finishes unloading. This matches the constraint 'TruckAMR starts moving only after CraneBot finishes unloading' by using the '-->' operator to indicate that one action eventually follows another.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "CraneBot.unloading_complete --> TruckAMR.moving",
+              "explanation": "The query represents a sequential workflow where the action of TruckAMR starting to move is triggered only after CraneBot finishes unloading. This matches the constraint 'TruckAMR starts moving only after CraneBot finishes unloading' by using the '-->' operator to indicate that one action eventually follows another.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.unloading_complete --> TruckAMR.moving"
+          },
+          "total_time": 4.0486578941345215,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2589292526245117,
+            "tokens": 201,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"pauses\", \"exceed\", \"wind gusts\"],\n  \"cues\": [\"when\", \"exceed\"],\n  \"trigger_text\": \"wind gusts exceed 40 km/h\",\n  \"response_text\": \"CraneBot pauses unloading\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.433868169784546,
+            "tokens": 665,
+            "raw_text": "{\n  \"query\": \"A[] (WindGusts > 40 imply CraneBot.paused)\",\n  \"explanation\": \"The query follows the safety_immediate_response pattern, ensuring that whenever wind gusts exceed 40 km/h, CraneBot must immediately pause unloading. The 'imply' operator is used within the A[] operator to enforce an immediate response to the dangerous condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (WindGusts > 40 imply CraneBot.paused)",
+              "explanation": "The query follows the safety_immediate_response pattern, ensuring that whenever wind gusts exceed 40 km/h, CraneBot must immediately pause unloading. The 'imply' operator is used within the A[] operator to enforce an immediate response to the dangerous condition.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (WindGusts > 40 imply CraneBot.paused)"
+          },
+          "total_time": 4.720805883407593,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "classification": {
+            "step": "classification",
+            "timing": 4.238605976104736,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"TruckAMR\", \"starts\", \"moving\", \"after\", \"CraneBot\", \"finishes\", \"unloading\"],\n  \"cues\": [\"only\", \"after\"],\n  \"trigger_text\": \"CraneBot finishes unloading\",\n  \"response_text\": \"TruckAMR starts moving\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.249491930007935,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CraneBot.unloading_complete --> TruckAMR.moving\",\n  \"explanation\": \"This query captures the sequential workflow where TruckAMR starts moving only after CraneBot finishes unloading. The --> operator ensures that once CraneBot reaches the unloading_complete state, TruckAMR will eventually reach the moving state, enforcing the temporal ordering specified by 'only after'.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "CraneBot.unloading_complete --> TruckAMR.moving",
+              "explanation": "This query captures the sequential workflow where TruckAMR starts moving only after CraneBot finishes unloading. The --> operator ensures that once CraneBot reaches the unloading_complete state, TruckAMR will eventually reach the moving state, enforcing the temporal ordering specified by 'only after'.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.unloading_complete --> TruckAMR.moving"
+          },
+          "total_time": 8.514159202575684,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 3.684267997741699,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"pauses\", \"unloading\", \"wind\", \"gusts\", \"exceed\", \"40 km/h\"],\n  \"cues\": [\"when\", \"exceed\"],\n  \"trigger_text\": \"wind gusts exceed 40 km/h\",\n  \"response_text\": \"CraneBot pauses unloading\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.362659215927124,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(wind_gusts > 40) --> CraneBot.paused_unloading\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that when wind gusts exceed 40 km/h (trigger condition), the CraneBot will eventually pause unloading operations (response behavior). The --> operator is appropriate here because this represents a triggered behavior where the condition leads to an eventual action.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(wind_gusts > 40) --> CraneBot.paused_unloading",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that when wind gusts exceed 40 km/h (trigger condition), the CraneBot will eventually pause unloading operations (response behavior). The --> operator is appropriate here because this represents a triggered behavior where the condition leads to an eventual action.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(wind_gusts > 40) --> CraneBot.paused_unloading"
+          },
+          "total_time": 8.075682878494263,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "classification": {
+            "step": "classification",
+            "timing": 1.313474178314209,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts moving\", \"after\", \"finishes\", \"unloading\", \"dependency\", \"prerequisite\"],\n  \"cues\": [\"after\", \"only after\", \"finishes\"],\n  \"trigger_text\": \"CraneBot finishes unloading\",\n  \"response_text\": \"TruckAMR starts moving\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.028926134109497,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CraneBot.unloading_complete --> TruckAMR.moving\",\n  \"explanation\": \"The constraint describes a sequential workflow where TruckAMR's moving action is dependent on and triggered after CraneBot finishes unloading. The --> operator captures this eventual triggered behavior: once the unloading_complete state is reached in CraneBot, TruckAMR will eventually start moving. This matches the sequential_workflow pattern with clear dependency (only after) and prerequisite relationship.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "CraneBot.unloading_complete --> TruckAMR.moving",
+              "explanation": "The constraint describes a sequential workflow where TruckAMR's moving action is dependent on and triggered after CraneBot finishes unloading. The --> operator captures this eventual triggered behavior: once the unloading_complete state is reached in CraneBot, TruckAMR will eventually start moving. This matches the sequential_workflow pattern with clear dependency (only after) and prerequisite relationship.",
+              "confidence": 0.92,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.unloading_complete --> TruckAMR.moving"
+          },
+          "total_time": 3.3703341484069824,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1031007766723633,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"pauses\", \"unloading\", \"wind gusts\", \"exceed\", \"threshold\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"wind gusts exceed 40 km/h\",\n  \"response_text\": \"pauses unloading\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7049767971038818,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(CraneBot.wind_gusts > 40) --> CraneBot.paused_unloading\",\n  \"explanation\": \"This constraint describes a conditional_response pattern where exceeding wind gust threshold (condition) triggers pausing of unloading (eventual response). The --> operator captures the sequential workflow: when wind gusts exceed 40 km/h, the system eventually enters a paused unloading state. This is not an immediate same-state response, but rather an eventual behavioral change triggered by the condition.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(CraneBot.wind_gusts > 40) --> CraneBot.paused_unloading",
+              "explanation": "This constraint describes a conditional_response pattern where exceeding wind gust threshold (condition) triggers pausing of unloading (eventual response). The --> operator captures the sequential workflow: when wind gusts exceed 40 km/h, the system eventually enters a paused unloading state. This is not an immediate same-state response, but rather an eventual behavioral change triggered by the condition.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CraneBot.wind_gusts > 40) --> CraneBot.paused_unloading"
+          },
+          "total_time": 2.835649013519287,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "classification": {
+            "step": "classification",
+            "timing": 17.65431809425354,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"starts\", \"only after\", \"finishes\"], \"cues\": [\"after\"], \"trigger_text\": \"CraneBot finishes unloading\", \"response_text\": \"TruckAMR starts moving\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.552549123764038,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"CraneBot.unloading_complete --> TruckAMR.moving\", \"explanation\": \"This query ensures that TruckAMR starts moving only after CraneBot finishes unloading, matching the sequential workflow pattern where one action eventually follows another.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "CraneBot.unloading_complete --> TruckAMR.moving",
+              "explanation": "This query ensures that TruckAMR starts moving only after CraneBot finishes unloading, matching the sequential workflow pattern where one action eventually follows another.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.unloading_complete --> TruckAMR.moving"
+          },
+          "total_time": 33.26015591621399,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 15.416873931884766,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"pauses\", \"unloading\", \"wind gusts\"], \"cues\": [\"when\", \"exceed\"], \"trigger_text\": \"wind gusts exceed 40 km/h\", \"response_text\": \"pauses unloading\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 18.854400873184204,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (wind_gusts > 40 imply not CraneBot.unloading)\",\"explanation\":\"The query uses the safety_immediate_response pattern with A[] and imply to ensure that whenever wind gusts exceed 40 km/h, CraneBot immediately pauses unloading (i.e., not unloading), matching the immediate safety response required by the constraint.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (wind_gusts > 40 imply not CraneBot.unloading)",
+              "explanation": "The query uses the safety_immediate_response pattern with A[] and imply to ensure that whenever wind gusts exceed 40 km/h, CraneBot immediately pauses unloading (i.e., not unloading), matching the immediate safety response required by the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (wind_gusts > 40 imply not CraneBot.unloading)"
+          },
+          "total_time": 34.29471802711487,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "classification": {
+            "step": "classification",
+            "timing": 7.6243908405303955,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"TruckAMR\", \"starts moving\", \"CraneBot\", \"finishes unloading\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"CraneBot finishes unloading\",\n  \"response_text\": \"TruckAMR starts moving\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.48977017402649,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"CraneBot.unloading_finished --> TruckAMR.moving\",\n  \"explanation\": \"The query uses the --> operator to ensure that TruckAMR starts moving only after CraneBot finishes unloading, matching the sequential_workflow pattern where one action eventually follows another.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "CraneBot.unloading_finished --> TruckAMR.moving",
+              "explanation": "The query uses the --> operator to ensure that TruckAMR starts moving only after CraneBot finishes unloading, matching the sequential_workflow pattern where one action eventually follows another.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.unloading_finished --> TruckAMR.moving"
+          },
+          "total_time": 17.143733024597168,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 6.537976026535034,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"pauses\", \"unloading\", \"wind gusts\", \"exceed 40 km/h\"],\n  \"cues\": [\"when\", \"exceed\"],\n  \"trigger_text\": \"wind gusts exceed 40 km/h\",\n  \"response_text\": \"CraneBot pauses unloading\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.758680105209351,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(wind_gusts > 40) --> CraneBot.pauses_unloading\",\n  \"explanation\": \"This query matches the constraint by using the --> operator to indicate that when wind gusts exceed 40 km/h, CraneBot will eventually pause unloading, aligning with the conditional_response pattern where a condition leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(wind_gusts > 40) --> CraneBot.pauses_unloading",
+              "explanation": "This query matches the constraint by using the --> operator to indicate that when wind gusts exceed 40 km/h, CraneBot will eventually pause unloading, aligning with the conditional_response pattern where a condition leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(wind_gusts > 40) --> CraneBot.pauses_unloading"
+          },
+          "total_time": 13.314316987991333,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "classification": {
+            "step": "classification",
+            "timing": 36.20481491088867,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"TruckAMR\", \"CraneBot\", \"move\", \"unload\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"CraneBot finishes unloading\",\n  \"response_text\": \"TruckAMR starts moving\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 55.620060205459595,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"CraneBot.unloading_complete --> TruckAMR.moving\",\n  \"explanation\": \"This query matches the constraint because it follows the sequential_workflow pattern, using the '-->' operator to indicate that after CraneBot finishes unloading (trigger), TruckAMR will eventually start moving (response), which aligns with the natural-language cue 'after' and the keyword analysis.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "CraneBot.unloading_complete --> TruckAMR.moving",
+              "explanation": "This query matches the constraint because it follows the sequential_workflow pattern, using the '-->' operator to indicate that after CraneBot finishes unloading (trigger), TruckAMR will eventually start moving (response), which aligns with the natural-language cue 'after' and the keyword analysis.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.unloading_complete --> TruckAMR.moving"
+          },
+          "total_time": 91.84603881835938,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 63.185596227645874,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"CraneBot\", \"pauses\", \"unloading\", \"wind gusts\", \"exceed\", \"40 km/h\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"wind gusts exceed 40 km/h\",\n  \"response_text\": \"CraneBot pauses unloading\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 63.64461421966553,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(wind_speed > 40) --> (CraneBot.paused)\",\n  \"explanation\": \"The constraint uses 'when' to indicate a conditional response pattern, where the condition (wind gusts exceeding 40 km/h) triggers the eventual response (CraneBot pausing unloading), aligning with the pattern template of condition leading to response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(wind_speed > 40) --> (CraneBot.paused)",
+              "explanation": "The constraint uses 'when' to indicate a conditional response pattern, where the condition (wind gusts exceeding 40 km/h) triggers the eventual response (CraneBot pausing unloading), aligning with the pattern template of condition leading to response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(wind_speed > 40) --> (CraneBot.paused)"
+          },
+          "total_time": 126.87113213539124,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2410252094268799,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"TruckAMR\", \"CraneBot\", \"move\", \"unloading\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"CraneBot finishes unloading\",\n  \"response_text\": \"TruckAMR starts moving\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5961370468139648,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CraneBot.unloading_finished --> TruckAMR.moving\",\n  \"explanation\": \"The constraint specifies a sequential workflow: TruckAMR starts moving only after CraneBot finishes unloading. The '-->' operator represents this eventual triggering, indicating that the TruckAMR eventually enters the 'moving' state after the CraneBot enters the 'unloading_finished' state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "CraneBot.unloading_finished --> TruckAMR.moving",
+              "explanation": "The constraint specifies a sequential workflow: TruckAMR starts moving only after CraneBot finishes unloading. The '-->' operator represents this eventual triggering, indicating that the TruckAMR eventually enters the 'moving' state after the CraneBot enters the 'unloading_finished' state.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.unloading_finished --> TruckAMR.moving"
+          },
+          "total_time": 2.860609769821167,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8079581260681152,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"cranebot\", \"pauses\", \"unloading\", \"wind\", \"gusts\", \"exceed\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"wind gusts exceed 40 km/h\",\n  \"response_text\": \"CraneBot pauses unloading\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7245161533355713,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(wind_gusts > 40) --> CraneBot.paused_unloading\",\n  \"explanation\": \"The constraint describes a conditional response: when wind gusts exceed 40 km/h, the CraneBot eventually pauses unloading. This maps directly to the 'conditional_response' pattern with the '-->' (leads to) operator.  We assume 'wind_gusts' is a global variable and 'CraneBot.paused_unloading' represents the CraneBot reaching a state where unloading is paused.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(wind_gusts > 40) --> CraneBot.paused_unloading",
+              "explanation": "The constraint describes a conditional response: when wind gusts exceed 40 km/h, the CraneBot eventually pauses unloading. This maps directly to the 'conditional_response' pattern with the '-->' (leads to) operator.  We assume 'wind_gusts' is a global variable and 'CraneBot.paused_unloading' represents the CraneBot reaching a state where unloading is paused.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(wind_gusts > 40) --> CraneBot.paused_unloading"
+          },
+          "total_time": 2.5578699111938477,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "classification": {
+            "step": "classification",
+            "timing": 8.385817766189575,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"TruckAMR\",\n    \"moving\",\n    \"CraneBot\",\n    \"unloading\"\n  ],\n  \"cues\": [\n    \"only after\",\n    \"after\"\n  ],\n  \"trigger_text\": \"CraneBot finishes unloading\",\n  \"response_text\": \"TruckAMR starts moving\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.707858085632324,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CraneBot.unloading_complete --> TruckAMR.moving\",\n  \"explanation\": \"This query uses the leads-to operator (`-->`) to model the sequential workflow. It verifies that whenever the `CraneBot` automaton is in the `unloading_complete` state (the trigger), the `TruckAMR` automaton must eventually reach the `moving` state (the response). This directly corresponds to the constraint that TruckAMR's movement follows the completion of CraneBot's unloading.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "CraneBot.unloading_complete --> TruckAMR.moving",
+              "explanation": "This query uses the leads-to operator (`-->`) to model the sequential workflow. It verifies that whenever the `CraneBot` automaton is in the `unloading_complete` state (the trigger), the `TruckAMR` automaton must eventually reach the `moving` state (the response). This directly corresponds to the constraint that TruckAMR's movement follows the completion of CraneBot's unloading.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.unloading_complete --> TruckAMR.moving"
+          },
+          "total_time": 22.116814136505127,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 7.71912407875061,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"CraneBot\",\n    \"pauses\",\n    \"unloading\",\n    \"wind\",\n    \"gusts\",\n    \"exceed\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"exceed\"\n  ],\n  \"trigger_text\": \"wind gusts exceed 40 km/h\",\n  \"response_text\": \"CraneBot pauses unloading\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.514393091201782,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Environment.wind_speed > 40 imply not CraneBot.unloading)\",\n  \"explanation\": \"This query enforces a global safety property using A[] (always). The 'imply' operator ensures an immediate, same-state response: if the trigger condition 'Environment.wind_speed > 40' is true, then the response 'not CraneBot.unloading' must also be true in that exact same state. This perfectly models the requirement that the CraneBot instantly pauses unloading activity the moment wind speed exceeds the threshold.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Environment.wind_speed > 40 imply not CraneBot.unloading)",
+              "explanation": "This query enforces a global safety property using A[] (always). The 'imply' operator ensures an immediate, same-state response: if the trigger condition 'Environment.wind_speed > 40' is true, then the response 'not CraneBot.unloading' must also be true in that exact same state. This perfectly models the requirement that the CraneBot instantly pauses unloading activity the moment wind speed exceeds the threshold.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Environment.wind_speed > 40 imply not CraneBot.unloading)"
+          },
+          "total_time": 28.260411024093628,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    }
+  ]
+}

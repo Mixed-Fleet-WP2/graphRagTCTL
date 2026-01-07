@@ -1,0 +1,28 @@
+{
+  "id": "scenario_038",
+  "domain": "healthcare",
+  "prompt": "An autonomous delivery robot transports medication trays across hospital wards. It must check elevator availability before entering and disinfect its tray every 15 minutes of operation. When any emergency alarm is active, it must stop and move to a safe corridor. If communication with control is lost, it stores all pending deliveries locally. All deliveries must eventually be completed.",
+  "robots": ["MediRover"],
+  "constraints": [
+    "MediRover checks elevator availability before entering",
+    "MediRover disinfects tray every 15 minutes",
+    "MediRover stops  when emergency alarm active",
+    "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+    "MediRover stores pending deliveries locally if comm lost",
+    "Eventually all deliveries completed"
+  ],
+  "reference_properties": [
+    "A[] (MediRover.UsingElevator imply Elevator.Available)",
+    "A[] (MediRover.OperatingTime % 900 == 0 imply MediRover.Disinfect)",
+    "A[] (EmergencyAlarm imply MediRover.Stopped)",
+    "(MediRover.Stopped && EmergencyAlarm) --> (MediRover.MoveToSafeCorridor)",
+    "A[] (CommLost imply MediRover.LocalStore)",
+    "A<> MediRover.AllDeliveriesDone"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10",
+    "validation_status": "validated"
+  }
+}

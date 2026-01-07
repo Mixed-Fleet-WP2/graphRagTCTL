@@ -1,0 +1,312 @@
+{
+  "id": "scenario_019",
+  "domain": "healthcare",
+  "prompt": "A medication robot delivers supplies across hospital floors. If elevator is busy, it waits; otherwise it proceeds. Every request should eventually be fulfilled, and the robot should always remain within safe areas.",
+  "robots": [
+    "MediBot"
+  ],
+  "constraints": [
+    "MediBot waits if elevator busy",
+    "Each delivery request eventually fulfilled",
+    "MediBot never leaves safe areas"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 1.6148788928985596,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediBot waits if elevator busy",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Each delivery request eventually fulfilled",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "MediBot never leaves safe areas",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 5.611104965209961,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediBot waits if elevator busy",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Each delivery request eventually fulfilled",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "MediBot never leaves safe areas",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 15.25681734085083,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediBot waits if elevator busy",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Each delivery request eventually fulfilled",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "MediBot never leaves safe areas",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.6655259132385254,
+      "tokens": 712,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediBot waits if elevator busy",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Each delivery request eventually fulfilled",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "MediBot never leaves safe areas",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.20474910736084,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediBot waits if elevator busy",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Each delivery request eventually fulfilled",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "MediBot never leaves safe areas",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.1094050407409668,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediBot waits if elevator busy",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Each delivery request eventually fulfilled",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "MediBot never leaves safe areas",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 11.061916828155518,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediBot waits if elevator busy",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Each delivery request eventually fulfilled",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "MediBot never leaves safe areas",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 6.9580748081207275,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediBot waits if elevator busy",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Each delivery request eventually fulfilled",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "MediBot never leaves safe areas",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 27.95956015586853,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediBot waits if elevator busy",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Each delivery request eventually fulfilled",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "MediBot never leaves safe areas",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.0456812381744385,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediBot waits if elevator busy",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Each delivery request eventually fulfilled",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "MediBot never leaves safe areas",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 9.993934154510498,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediBot waits if elevator busy",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Each delivery request eventually fulfilled",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "MediBot never leaves safe areas",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

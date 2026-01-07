@@ -1,0 +1,1342 @@
+{
+  "id": "scenario_009",
+  "domain": "construction",
+  "prompt": "A crane lifts steel beams while a ground robot bolts them in place. The ground robot begins only after crane placement is confirmed. If a human enters the safety zone, both robots must halt within 5 seconds.",
+  "robots": [
+    "CraneBot",
+    "GroundBot"
+  ],
+  "constraints": [
+    "GroundBot starts bolting after CraneBot confirms placement",
+    "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+    "If a human enters the safety zone, GroundBot  must halt within 5 seconds"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "classification": {
+            "step": "classification",
+            "timing": 3.457218647003174,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"GroundBot\",\"CraneBot\",\"starts bolting\",\"confirms placement\",\"sequence\",\"ordering\",\"after\"],\"cues\":[\"after\"],\"trigger_text\":\"CraneBot confirms placement\",\"response_text\":\"GroundBot starts bolting\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9214961528778076,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"CraneBot.confirms_placement --> GroundBot.starts_bolting\",\"explanation\":\"The constraint states that GroundBot starting to bolt must eventually follow after CraneBot confirms placement. The sequential_workflow pattern with the --> operator encodes that whenever the CraneBot confirmation event/state occurs, it is eventually followed by the GroundBot bolting start event/state.\",\"confidence\":0.9,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "CraneBot.confirms_placement --> GroundBot.starts_bolting",
+              "explanation": "The constraint states that GroundBot starting to bolt must eventually follow after CraneBot confirms placement. The sequential_workflow pattern with the --> operator encodes that whenever the CraneBot confirmation event/state occurs, it is eventually followed by the GroundBot bolting start event/state.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.confirms_placement --> GroundBot.starts_bolting"
+          },
+          "total_time": 5.407491683959961,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 1.554013967514038,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"human enters safety zone\",\"CraneBot\",\"halt\",\"within 5 seconds\",\"safety\"],\"cues\":[\"if\",\"within\",\"must\"],\"trigger_text\":\"a human enters the safety zone\",\"response_text\":\"CraneBot halts within 5 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.6895530223846436,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Human.in_safety_zone && not CraneBot.halted imply t <= 5)\",\"explanation\":\"This uses the time-bounded constraint pattern: whenever a human is in the safety zone and CraneBot has not yet halted, the clock t (assumed reset when the human enters the zone) must be \u2264 5. This enforces that CraneBot cannot remain unhalted for more than 5 seconds after a human is in the safety zone, matching the requirement that it must halt within 5 seconds.\",\"confidence\":0.88,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"A[]\",\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (Human.in_safety_zone && not CraneBot.halted imply t <= 5)",
+              "explanation": "This uses the time-bounded constraint pattern: whenever a human is in the safety zone and CraneBot has not yet halted, the clock t (assumed reset when the human enters the zone) must be \u2264 5. This enforces that CraneBot cannot remain unhalted for more than 5 seconds after a human is in the safety zone, matching the requirement that it must halt within 5 seconds.",
+              "confidence": 0.88,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Human.in_safety_zone && not CraneBot.halted imply t <= 5)"
+          },
+          "total_time": 5.273430109024048,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 1.881032943725586,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"human enters\",\"safety zone\",\"GroundBot\",\"halt\",\"within 5 seconds\",\"safety\"],\"cues\":[\"if\",\"must\",\"within\"],\"trigger_text\":\"a human enters the safety zone\",\"response_text\":\"GroundBot halts within 5 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9843759536743164,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (HumanInSafetyZone && not GroundBot.halted imply t <= 5)\",\"explanation\":\"This uses the time_bounded_constraint pattern. The condition \\\"HumanInSafetyZone && not GroundBot.halted\\\" represents that a human has entered the safety zone and GroundBot has not yet halted. The clock t (assumed reset when the human enters or when this situation starts) is constrained by t <= 5 under this condition, ensuring GroundBot must halt within 5 seconds whenever a human is in the safety zone and it is not yet halted.\",\"confidence\":0.88,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"A[]\",\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (HumanInSafetyZone && not GroundBot.halted imply t <= 5)",
+              "explanation": "This uses the time_bounded_constraint pattern. The condition \"HumanInSafetyZone && not GroundBot.halted\" represents that a human has entered the safety zone and GroundBot has not yet halted. The clock t (assumed reset when the human enters or when this situation starts) is constrained by t <= 5 under this condition, ensuring GroundBot must halt within 5 seconds whenever a human is in the safety zone and it is not yet halted.",
+              "confidence": 0.88,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (HumanInSafetyZone && not GroundBot.halted imply t <= 5)"
+          },
+          "total_time": 3.8924789428710938,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "classification": {
+            "step": "classification",
+            "timing": 10.36155080795288,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"after\",\"starts bolting\",\"confirms placement\",\"CraneBot\",\"GroundBot\",\"bolting\",\"placement\",\"start\"],\"cues\":[\"after\",\"when\",\"then\",\"starts\",\"confirms\"],\"trigger_text\":\"CraneBot confirms placement\",\"response_text\":\"GroundBot starts bolting\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.928869009017944,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"CraneBot.placement_confirmed --> GroundBot.bolting\",\n  \"explanation\": \"Using the sequential_workflow template action1 --> action2: when CraneBot reaches the placement_confirmed state, GroundBot is required to eventually reach the bolting state, which encodes 'GroundBot starts bolting after CraneBot confirms placement.'\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}",
+            "uppaal_result": {
+              "query": "CraneBot.placement_confirmed --> GroundBot.bolting",
+              "explanation": "Using the sequential_workflow template action1 --> action2: when CraneBot reaches the placement_confirmed state, GroundBot is required to eventually reach the bolting state, which encodes 'GroundBot starts bolting after CraneBot confirms placement.'",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.placement_confirmed --> GroundBot.bolting"
+          },
+          "total_time": 18.321821928024292,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 9.487967014312744,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"human enters safety zone\",\"safety zone\",\"halt\",\"stop\",\"within 5 seconds\",\"must halt\",\"CraneBot\"],\"cues\":[\"if\",\"when\",\"must\",\"within\",\"seconds\",\"halt\",\"enter\",\"safety\"],\"trigger_text\":\"human enters the safety zone\",\"response_text\":\"CraneBot must halt within 5 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 24.814635038375854,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (human_in_zone && not CraneBot.halted imply halt_timer <= 5)\",\"explanation\":\"This is a time-bounded safety property: whenever a human is in the safety zone and CraneBot has not yet halted, the clock halt_timer must never exceed 5 seconds. The A[] (always) quantifier enforces the deadline globally. Note: the model should reset halt_timer when the human enters the safety zone so the bound measures time since the trigger.\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (human_in_zone && not CraneBot.halted imply halt_timer <= 5)",
+              "explanation": "This is a time-bounded safety property: whenever a human is in the safety zone and CraneBot has not yet halted, the clock halt_timer must never exceed 5 seconds. The A[] (always) quantifier enforces the deadline globally. Note: the model should reset halt_timer when the human enters the safety zone so the bound measures time since the trigger.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (human_in_zone && not CraneBot.halted imply halt_timer <= 5)"
+          },
+          "total_time": 34.319302797317505,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 18.611610889434814,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"human enters\",\"safety zone\",\"halt\",\"stop\",\"GroundBot\",\"within 5 seconds\",\"must\",\"safety\"],\"cues\":[\"if\",\"when\",\"must\",\"within\",\"seconds\",\"halt\",\"enter\"],\"trigger_text\":\"human enters the safety zone\",\"response_text\":\"GroundBot must halt within 5 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.890077829360962,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Human.enter_safety_zone imply GroundBot.halted && t <= 5)\",\"explanation\":\"Uses a global safety invariant A[] so that whenever the trigger condition (Human.enter_safety_zone) holds, the safety action (GroundBot.halted) must hold immediately and the clock t (measuring time since the trigger) must be <= 5 seconds, ensuring the robot halts within 5 seconds of a human entering the safety zone.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (Human.enter_safety_zone imply GroundBot.halted && t <= 5)",
+              "explanation": "Uses a global safety invariant A[] so that whenever the trigger condition (Human.enter_safety_zone) holds, the safety action (GroundBot.halted) must hold immediately and the clock t (measuring time since the trigger) must be <= 5 seconds, ensuring the robot halts within 5 seconds of a human entering the safety zone.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Human.enter_safety_zone imply GroundBot.halted && t <= 5)"
+          },
+          "total_time": 38.52933406829834,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "classification": {
+            "step": "classification",
+            "timing": 11.201212882995605,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"sequential_workflow\",\"order_of_operations\",\"trigger\",\"groundbot\",\"cranebot\"],\"cues\":[\"after\",\"then\"],\"trigger_text\":\"CraneBot confirms placement\",\"response_text\":\"GroundBot starts bolting\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.468977212905884,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"CraneBot.placement_confirmed --> GroundBot.bolting\",\"explanation\":\"Represents a sequential workflow where GroundBot begins bolting only after CraneBot confirms placement, i.e., CraneBot.placement_confirmed occurs before GroundBot.bolting.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "CraneBot.placement_confirmed --> GroundBot.bolting",
+              "explanation": "Represents a sequential workflow where GroundBot begins bolting only after CraneBot confirms placement, i.e., CraneBot.placement_confirmed occurs before GroundBot.bolting.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.placement_confirmed --> GroundBot.bolting"
+          },
+          "total_time": 23.698681116104126,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 17.20406699180603,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"halt\",\"safety_zone\",\"5_seconds\",\"conditional\",\"crane\"],\"cues\":[\"must\"],\"trigger_text\":\"If a human enters the safety zone\",\"response_text\":\"CraneBot must halt within 5 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 42.96184802055359,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Crane.human_in_safety_zone && not Crane.halted imply clock <= 5)\",\"explanation\":\"This enforces that whenever a human is in the safety zone and the crane has not halted yet, the global clock must reach no more than 5 seconds, i.e., CraneBot must halt within 5 seconds after the trigger. It matches the time_bounded_constraint pattern by bounding the response time to 5 seconds.\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (Crane.human_in_safety_zone && not Crane.halted imply clock <= 5)",
+              "explanation": "This enforces that whenever a human is in the safety zone and the crane has not halted yet, the global clock must reach no more than 5 seconds, i.e., CraneBot must halt within 5 seconds after the trigger. It matches the time_bounded_constraint pattern by bounding the response time to 5 seconds.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Crane.human_in_safety_zone && not Crane.halted imply clock <= 5)"
+          },
+          "total_time": 60.19650912284851,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 15.019435167312622,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"halt\",\"safety zone\",\"GroundBot\",\"5 seconds\",\"human\",\"conditional\"],\"cues\":[\"if\",\"enters\",\"safety zone\",\"must\",\"within\",\"seconds\",\"then\"],\"trigger_text\":\"If a human enters the safety zone\",\"response_text\":\"GroundBot must halt within 5 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 54.25063705444336,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] ((HumanInSafetyZone && not GroundBot.halted) --> clock <= 5)\", \"explanation\":\"This uses the time_bounded_constraint pattern. It enforces that once a human is in the safety zone and GroundBot has not yet halted, the global clock must be within 5 seconds, i.e., GroundBot must halt within 5 seconds after zone entry (assuming the clock is reset at entry to the zone).\", \"confidence\":0.85, \"pattern_used\":\"time_bounded_constraint\", \"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] ((HumanInSafetyZone && not GroundBot.halted) --> clock <= 5)",
+              "explanation": "This uses the time_bounded_constraint pattern. It enforces that once a human is in the safety zone and GroundBot has not yet halted, the global clock must be within 5 seconds, i.e., GroundBot must halt within 5 seconds after zone entry (assuming the clock is reset at entry to the zone).",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] ((HumanInSafetyZone && not GroundBot.halted) --> clock <= 5)"
+          },
+          "total_time": 69.28825998306274,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "classification": {
+            "step": "classification",
+            "timing": 2.0517210960388184,
+            "tokens": 186,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"confirms\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"CraneBot confirms placement\",\n  \"response_text\": \"GroundBot starts bolting\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.03783917427063,
+            "tokens": 572,
+            "raw_text": "{\n  \"query\": \"CraneBot.confirms_placement --> GroundBot.starts_bolting\",\n  \"explanation\": \"The query matches the constraint because it follows the 'sequential_workflow' pattern where one action (CraneBot confirms placement) eventually leads to another action (GroundBot starts bolting). The 'after' keyword indicates a sequential relationship, which is captured by the '-->' operator.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "CraneBot.confirms_placement --> GroundBot.starts_bolting",
+              "explanation": "The query matches the constraint because it follows the 'sequential_workflow' pattern where one action (CraneBot confirms placement) eventually leads to another action (GroundBot starts bolting). The 'after' keyword indicates a sequential relationship, which is captured by the '-->' operator.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.confirms_placement --> GroundBot.starts_bolting"
+          },
+          "total_time": 4.106555223464966,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3122899532318115,
+            "tokens": 205,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"safety zone\", \"halt\", \"5 seconds\"],\n  \"cues\": [\"if\", \"must\", \"within\", \"seconds\"],\n  \"trigger_text\": \"a human enters the safety zone\",\n  \"response_text\": \"CraneBot must halt\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.948667049407959,
+            "tokens": 670,
+            "raw_text": "{\n  \"query\": \"A[] (Human.in_safety_zone --> CraneBot.halted within 5)\",\n  \"explanation\": \"The query uses the '-->' operator to represent that once a human enters the safety zone, the CraneBot must halt within 5 seconds. This matches the constraint of an immediate response with a specified time limit, aligning with the 'safety_immediate_response' pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Human.in_safety_zone --> CraneBot.halted within 5)",
+              "explanation": "The query uses the '-->' operator to represent that once a human enters the safety zone, the CraneBot must halt within 5 seconds. This matches the constraint of an immediate response with a specified time limit, aligning with the 'safety_immediate_response' pattern.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Human.in_safety_zone --> CraneBot.halted within 5)"
+          },
+          "total_time": 4.283308029174805,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 1.6567120552062988,
+            "tokens": 210,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"safety zone\", \"halt\", \"5 seconds\"],\n  \"cues\": [\"if\", \"must\", \"within\", \"seconds\"],\n  \"trigger_text\": \"If a human enters the safety zone\",\n  \"response_text\": \"GroundBot must halt within 5 seconds\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.62282395362854,
+            "tokens": 711,
+            "raw_text": "{\n  \"query\": \"A[] (Human.in_safety_zone --> GroundBot.halted within 5)\",\n  \"explanation\": \"The query uses the '-->' operator to represent the eventual response that must occur within a specified time frame. The constraint specifies that GroundBot must halt within 5 seconds of a human entering the safety zone, which aligns with the use of '-->' for eventual triggered behavior. The pattern 'safety_immediate_response' is used because it deals with immediate responses to dangerous conditions, and the operator '-->' is appropriate for specifying a time-bound response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Human.in_safety_zone --> GroundBot.halted within 5)",
+              "explanation": "The query uses the '-->' operator to represent the eventual response that must occur within a specified time frame. The constraint specifies that GroundBot must halt within 5 seconds of a human entering the safety zone, which aligns with the use of '-->' for eventual triggered behavior. The pattern 'safety_immediate_response' is used because it deals with immediate responses to dangerous conditions, and the operator '-->' is appropriate for specifying a time-bound response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Human.in_safety_zone --> GroundBot.halted within 5)"
+          },
+          "total_time": 5.3041698932647705,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "classification": {
+            "step": "classification",
+            "timing": 3.2167959213256836,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"GroundBot\", \"starts\", \"bolting\", \"after\", \"CraneBot\", \"confirms\", \"placement\"],\n  \"cues\": [\"after\", \"then\"],\n  \"trigger_text\": \"CraneBot confirms placement\",\n  \"response_text\": \"GroundBot starts bolting\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.917713165283203,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CraneBot.placement_confirmed --> GroundBot.bolting\",\n  \"explanation\": \"This query captures the sequential workflow where GroundBot starts bolting eventually after CraneBot confirms placement. The --> operator ensures that once CraneBot reaches the placement_confirmed state, GroundBot will eventually reach the bolting state, matching the multi-step process described in the constraint.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "CraneBot.placement_confirmed --> GroundBot.bolting",
+              "explanation": "This query captures the sequential workflow where GroundBot starts bolting eventually after CraneBot confirms placement. The --> operator ensures that once CraneBot reaches the placement_confirmed state, GroundBot will eventually reach the bolting state, matching the multi-step process described in the constraint.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.placement_confirmed --> GroundBot.bolting"
+          },
+          "total_time": 8.15309190750122,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 4.744920015335083,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"human\", \"enters\", \"safety zone\", \"CraneBot\", \"halt\", \"within\", \"5 seconds\"],\n  \"cues\": [\"If\", \"must\", \"within\"],\n  \"trigger_text\": \"human enters the safety zone\",\n  \"response_text\": \"CraneBot must halt within 5 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.984477996826172,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (CraneBot.human_in_safety_zone && not CraneBot.halted imply clock <= 5)\",\n  \"explanation\": \"This query enforces that whenever a human enters the safety zone (human_in_safety_zone is true) and CraneBot has not yet halted, the elapsed time (clock) must not exceed 5 seconds. The A[] operator ensures this property always holds, 'imply' enforces the immediate time constraint, and the clock should be reset when human_in_safety_zone becomes true to measure the 5-second window accurately.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (CraneBot.human_in_safety_zone && not CraneBot.halted imply clock <= 5)",
+              "explanation": "This query enforces that whenever a human enters the safety zone (human_in_safety_zone is true) and CraneBot has not yet halted, the elapsed time (clock) must not exceed 5 seconds. The A[] operator ensures this property always holds, 'imply' enforces the immediate time constraint, and the clock should be reset when human_in_safety_zone becomes true to measure the 5-second window accurately.",
+              "confidence": 0.9,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (CraneBot.human_in_safety_zone && not CraneBot.halted imply clock <= 5)"
+          },
+          "total_time": 10.75416898727417,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 4.281750917434692,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"human\", \"enters\", \"safety zone\", \"GroundBot\", \"halt\", \"5 seconds\"],\n  \"cues\": [\"If\", \"must\", \"within\"],\n  \"trigger_text\": \"human enters the safety zone\",\n  \"response_text\": \"GroundBot must halt within 5 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.088349103927612,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (GroundBot.human_in_safety_zone && not GroundBot.halted imply clock <= 5)\",\n  \"explanation\": \"This query enforces that whenever a human is in the safety zone and GroundBot has not yet halted, the time must not exceed 5 seconds. The A[] operator ensures this constraint always holds, 'imply' checks the immediate state condition, and 'clock <= 5' enforces the 5-second deadline. The clock is assumed to reset when the human enters the safety zone.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (GroundBot.human_in_safety_zone && not GroundBot.halted imply clock <= 5)",
+              "explanation": "This query enforces that whenever a human is in the safety zone and GroundBot has not yet halted, the time must not exceed 5 seconds. The A[] operator ensures this constraint always holds, 'imply' checks the immediate state condition, and 'clock <= 5' enforces the 5-second deadline. The clock is assumed to reset when the human enters the safety zone.",
+              "confidence": 0.9,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (GroundBot.human_in_safety_zone && not GroundBot.halted imply clock <= 5)"
+          },
+          "total_time": 9.393041849136353,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "classification": {
+            "step": "classification",
+            "timing": 1.156761884689331,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"confirms\", \"bolting\", \"placement\"],\n  \"cues\": [\"after\", \"then\"],\n  \"trigger_text\": \"CraneBot confirms placement\",\n  \"response_text\": \"GroundBot starts bolting\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7319211959838867,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CraneBot.placement_confirmed --> GroundBot.bolting\",\n  \"explanation\": \"The constraint describes a sequential workflow where GroundBot's bolting action is triggered after CraneBot confirms placement. The 'after' keyword and the trigger-response structure (trigger_text \u2192 response_text) match the sequential_workflow pattern. The '-->' operator captures the eventual triggered behavior: once the placement confirmation occurs, bolting will eventually start.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "CraneBot.placement_confirmed --> GroundBot.bolting",
+              "explanation": "The constraint describes a sequential workflow where GroundBot's bolting action is triggered after CraneBot confirms placement. The 'after' keyword and the trigger-response structure (trigger_text \u2192 response_text) match the sequential_workflow pattern. The '-->' operator captures the eventual triggered behavior: once the placement confirmation occurs, bolting will eventually start.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.placement_confirmed --> GroundBot.bolting"
+          },
+          "total_time": 2.907848834991455,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2066388130187988,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"safety zone\", \"halt\", \"CraneBot\", \"seconds\"],\n  \"cues\": [\"if\", \"must\", \"within\", \"<\"],\n  \"trigger_text\": \"a human enters the safety zone\",\n  \"response_text\": \"CraneBot must halt within 5 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.912304162979126,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (human_in_safety_zone && not CraneBot.halted imply clock <= 5)\",\n  \"explanation\": \"This query enforces that whenever a human enters the safety zone, CraneBot must halt within 5 seconds. The A[] operator ensures this is always true. The imply operator enforces an immediate deadline: if the condition (human in safety zone AND CraneBot not yet halted) is true, then the clock must not exceed 5 seconds. The clock implicitly resets when the human enters the safety zone (triggering condition).\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (human_in_safety_zone && not CraneBot.halted imply clock <= 5)",
+              "explanation": "This query enforces that whenever a human enters the safety zone, CraneBot must halt within 5 seconds. The A[] operator ensures this is always true. The imply operator enforces an immediate deadline: if the condition (human in safety zone AND CraneBot not yet halted) is true, then the clock must not exceed 5 seconds. The clock implicitly resets when the human enters the safety zone (triggering condition).",
+              "confidence": 0.92,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (human_in_safety_zone && not CraneBot.halted imply clock <= 5)"
+          },
+          "total_time": 3.151677131652832,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 1.326002836227417,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"safety zone\", \"human\", \"halt\", \"GroundBot\"],\n  \"cues\": [\"If\", \"must\", \"within 5 seconds\"],\n  \"trigger_text\": \"a human enters the safety zone\",\n  \"response_text\": \"GroundBot must halt within 5 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.3368802070617676,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (GroundBot.human_in_safety_zone imply GroundBot.halting)\",\n  \"explanation\": \"The constraint requires GroundBot to halt whenever a human enters the safety zone. Using A[] (always) with imply ensures that whenever the trigger condition (human_in_safety_zone) becomes true, the safety action (halting) must be true in the same state. The 5-second deadline is a timing constraint that should be enforced at the model level through clock variables and state transitions, not in the query itself. The imply operator captures the immediate response requirement\u2014there is no acceptable delay between detecting the human and beginning to halt.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (GroundBot.human_in_safety_zone imply GroundBot.halting)",
+              "explanation": "The constraint requires GroundBot to halt whenever a human enters the safety zone. Using A[] (always) with imply ensures that whenever the trigger condition (human_in_safety_zone) becomes true, the safety action (halting) must be true in the same state. The 5-second deadline is a timing constraint that should be enforced at the model level through clock variables and state transitions, not in the query itself. The imply operator captures the immediate response requirement\u2014there is no acceptable delay between detecting the human and beginning to halt.",
+              "confidence": 0.88,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (GroundBot.human_in_safety_zone imply GroundBot.halting)"
+          },
+          "total_time": 3.6835410594940186,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "classification": {
+            "step": "classification",
+            "timing": 13.035547018051147,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"starts\", \"bolting\", \"after\", \"confirms\", \"placement\"], \"cues\": [\"after\"], \"trigger_text\": \"CraneBot confirms placement\", \"response_text\": \"GroundBot starts bolting\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.513566970825195,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"CraneBot.confirm_placement --> GroundBot.bolting\",\n  \"explanation\": \"The constraint describes a sequential workflow where GroundBot starts bolting after CraneBot confirms placement, matching the 'after' cue and eventual follow-up in examples like inspection_complete --> welding.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "CraneBot.confirm_placement --> GroundBot.bolting",
+              "explanation": "The constraint describes a sequential workflow where GroundBot starts bolting after CraneBot confirms placement, matching the 'after' cue and eventual follow-up in examples like inspection_complete --> welding.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.confirm_placement --> GroundBot.bolting"
+          },
+          "total_time": 28.57413125038147,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 17.297301054000854,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"safety\", \"zone\", \"human\", \"enters\", \"halt\"], \"cues\": [\"if\", \"must\", \"within\", \"seconds\"], \"trigger_text\": \"a human enters the safety zone\", \"response_text\": \"CraneBot must halt within 5 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.041558027267456,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (human_enters_zone --> CraneBot.halted within 5)\", \"explanation\": \"The query uses the leadsto operator (--> ) to enforce that whenever a human enters the safety zone (trigger event), CraneBot must halt within 5 seconds, matching the eventual response requirement rather than immediate.\", \"confidence\": 0.85, \"pattern_used\": \"safety_immediate_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (human_enters_zone --> CraneBot.halted within 5)",
+              "explanation": "The query uses the leadsto operator (--> ) to enforce that whenever a human enters the safety zone (trigger event), CraneBot must halt within 5 seconds, matching the eventual response requirement rather than immediate.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (human_enters_zone --> CraneBot.halted within 5)"
+          },
+          "total_time": 36.36476683616638,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 11.853746175765991,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"halt\", \"safety zone\", \"human\", \"enter\"], \"cues\": [\"if\", \"must\", \"within\"], \"trigger_text\": \"a human enters the safety zone\", \"response_text\": \"GroundBot must halt within 5 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.66444206237793,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (human_enters_safety_zone --> GroundBot.halted)\", \"explanation\": \"The constraint requires that if a human enters the safety zone, GroundBot must halt within 5 seconds, which is an eventual response (not immediate), so we use the --> operator for eventual triggered behavior inside A[] for global safety, though the exact time bound would be modeled in the system with clocks.\", \"confidence\": 0.85, \"pattern_used\": \"safety_immediate_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (human_enters_safety_zone --> GroundBot.halted)",
+              "explanation": "The constraint requires that if a human enters the safety zone, GroundBot must halt within 5 seconds, which is an eventual response (not immediate), so we use the --> operator for eventual triggered behavior inside A[] for global safety, though the exact time bound would be modeled in the system with clocks.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (human_enters_safety_zone --> GroundBot.halted)"
+          },
+          "total_time": 32.539722204208374,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "classification": {
+            "step": "classification",
+            "timing": 7.622197151184082,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"after\", \"starts\", \"confirms\", \"placement\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"CraneBot confirms placement\",\n  \"response_text\": \"GroundBot starts bolting\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.004872798919678,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"CraneBot.confirms_placement --> GroundBot.starts_bolting\",\n  \"explanation\": \"This query uses the --> operator to indicate that after CraneBot confirms placement, GroundBot will eventually start bolting, matching the sequential_workflow pattern where one action follows another with possible delays.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "CraneBot.confirms_placement --> GroundBot.starts_bolting",
+              "explanation": "This query uses the --> operator to indicate that after CraneBot confirms placement, GroundBot will eventually start bolting, matching the sequential_workflow pattern where one action follows another with possible delays.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.confirms_placement --> GroundBot.starts_bolting"
+          },
+          "total_time": 14.649632215499878,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 10.538105010986328,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"human\", \"enters\", \"safety zone\", \"halt\", \"within 5 seconds\"],\n  \"cues\": [\"if\", \"must\", \"within\"],\n  \"trigger_text\": \"If a human enters the safety zone\",\n  \"response_text\": \"CraneBot must halt within 5 seconds\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 18.003653049468994,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (human_in_safety_zone && not CraneBot.halted imply clock <= 5)\",\n  \"explanation\": \"This query matches the constraint by using the time_bounded_constraint pattern, ensuring that whenever a human is in the safety zone and CraneBot is not halted, the clock does not exceed 5 seconds, thereby enforcing that CraneBot must halt within 5 seconds after the condition is met.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (human_in_safety_zone && not CraneBot.halted imply clock <= 5)",
+              "explanation": "This query matches the constraint by using the time_bounded_constraint pattern, ensuring that whenever a human is in the safety zone and CraneBot is not halted, the clock does not exceed 5 seconds, thereby enforcing that CraneBot must halt within 5 seconds after the condition is met.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (human_in_safety_zone && not CraneBot.halted imply clock <= 5)"
+          },
+          "total_time": 28.568431854248047,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 8.729421138763428,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"human\", \"safety zone\", \"halt\", \"within 5 seconds\"],\n  \"cues\": [\"if\", \"must\", \"within\"],\n  \"trigger_text\": \"a human enters the safety zone\",\n  \"response_text\": \"GroundBot must halt within 5 seconds\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.37738823890686,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (human_in_zone && !GroundBot.halted imply clock <= 5)\",\n  \"explanation\": \"This query matches the constraint by ensuring that whenever a human is in the safety zone and the GroundBot is not halted, the clock must not exceed 5 seconds, enforcing the time-bound response as per the pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (human_in_zone && !GroundBot.halted imply clock <= 5)",
+              "explanation": "This query matches the constraint by ensuring that whenever a human is in the safety zone and the GroundBot is not halted, the clock must not exceed 5 seconds, enforcing the time-bound response as per the pattern.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (human_in_zone && !GroundBot.halted imply clock <= 5)"
+          },
+          "total_time": 25.127023220062256,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "classification": {
+            "step": "classification",
+            "timing": 26.161999225616455,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"GroundBot\", \"bolting\", \"CraneBot\", \"confirms\", \"placement\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"CraneBot confirms placement\",\n  \"response_text\": \"GroundBot starts bolting\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 44.409279108047485,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"CraneBot.confirms_placement --> GroundBot.starts_bolting\",\n  \"explanation\": \"The constraint uses 'after' to indicate that GroundBot starts bolting eventually follows CraneBot confirms placement, which fits the sequential_workflow pattern where one action triggers another with possible delays. The '-->' operator in UPPAAL models this eventual response, as shown in similar examples like 'InspectorDrone.inspection_complete --> Welder.welding'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "CraneBot.confirms_placement --> GroundBot.starts_bolting",
+              "explanation": "The constraint uses 'after' to indicate that GroundBot starts bolting eventually follows CraneBot confirms placement, which fits the sequential_workflow pattern where one action triggers another with possible delays. The '-->' operator in UPPAAL models this eventual response, as shown in similar examples like 'InspectorDrone.inspection_complete --> Welder.welding'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.confirms_placement --> GroundBot.starts_bolting"
+          },
+          "total_time": 70.61022901535034,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 58.12384009361267,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"human\", \"safety zone\", \"enter\", \"CraneBot\", \"halt\", \"5 seconds\", \"must\"],\n  \"cues\": [\"must\"],\n  \"trigger_text\": \"If a human enters the safety zone\",\n  \"response_text\": \"CraneBot must halt within 5 seconds\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 92.06423616409302,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (humanInZone && !craneBotHalted imply clock <= 5)\",\n  \"explanation\": \"This query uses the time_bounded_constraint pattern to enforce that whenever a human is in the safety zone (humanInZone true) and the CraneBot has not halted (!craneBotHalted), the global clock must be less than or equal to 5 seconds, ensuring CraneBot halts within 5 seconds after human entry.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (humanInZone && !craneBotHalted imply clock <= 5)",
+              "explanation": "This query uses the time_bounded_constraint pattern to enforce that whenever a human is in the safety zone (humanInZone true) and the CraneBot has not halted (!craneBotHalted), the global clock must be less than or equal to 5 seconds, ensuring CraneBot halts within 5 seconds after human entry.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (humanInZone && !craneBotHalted imply clock <= 5)"
+          },
+          "total_time": 150.2196319103241,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 53.139204025268555,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"human\", \"safety zone\", \"GroundBot\", \"halt\", \"5 seconds\"],\n  \"cues\": [\"If\", \"must\", \"within\"],\n  \"trigger_text\": \"a human enters the safety zone\",\n  \"response_text\": \"GroundBot must halt within 5 seconds\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 97.56227898597717,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (Human.inSafetyZone && not GroundBot.halted imply clock <= 5)\",\n  \"explanation\": \"This query matches the constraint by using the time_bounded_constraint pattern, where 'Human.inSafetyZone' represents the trigger state (a human enters the safety zone), 'GroundBot.halted' is the target state, and 'clock <= 5' enforces that GroundBot must halt within 5 seconds of the trigger. The 'imply' operator ensures an immediate response, and 'A[]' guarantees this property always holds, enforcing the deadline.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Human.inSafetyZone && not GroundBot.halted imply clock <= 5)",
+              "explanation": "This query matches the constraint by using the time_bounded_constraint pattern, where 'Human.inSafetyZone' represents the trigger state (a human enters the safety zone), 'GroundBot.halted' is the target state, and 'clock <= 5' enforces that GroundBot must halt within 5 seconds of the trigger. The 'imply' operator ensures an immediate response, and 'A[]' guarantees this property always holds, enforcing the deadline.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Human.inSafetyZone && not GroundBot.halted imply clock <= 5)"
+          },
+          "total_time": 150.72483110427856,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8112139701843262,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"bolting\", \"placement\", \"confirmation\", \"GroundBot\", \"CraneBot\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"CraneBot confirms placement\",\n  \"response_text\": \"GroundBot starts bolting\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.1832308769226074,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CraneBot.confirms_placement --> GroundBot.starts_bolting\",\n  \"explanation\": \"The constraint specifies a sequential workflow where the GroundBot starting bolting follows CraneBot confirming placement. The '-->' operator is used for such eventual responses in sequential workflows.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "CraneBot.confirms_placement --> GroundBot.starts_bolting",
+              "explanation": "The constraint specifies a sequential workflow where the GroundBot starting bolting follows CraneBot confirming placement. The '-->' operator is used for such eventual responses in sequential workflows.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.confirms_placement --> GroundBot.starts_bolting"
+          },
+          "total_time": 2.0206429958343506,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1257591247558594,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"safety\", \"zone\", \"CraneBot\", \"halt\", \"seconds\", \"time\"],\n  \"cues\": [\"if\", \"must\", \"<\"],\n  \"trigger_text\": \"human enters the safety zone\",\n  \"response_text\": \"CraneBot must halt\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.1230378150939941,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (human_enters_safety_zone --> CraneBot.halt within 5)\",\n  \"explanation\": \"The constraint states that if a human enters the safety zone, the CraneBot must halt within 5 seconds.  This uses the 'time_bounded_constraint' pattern. '-->' represents eventual response. 'CraneBot.halt within 5' means CraneBot.halt must eventually become true, and this happens within 5 time units.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (human_enters_safety_zone --> CraneBot.halt within 5)",
+              "explanation": "The constraint states that if a human enters the safety zone, the CraneBot must halt within 5 seconds.  This uses the 'time_bounded_constraint' pattern. '-->' represents eventual response. 'CraneBot.halt within 5' means CraneBot.halt must eventually become true, and this happens within 5 time units.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (human_enters_safety_zone --> CraneBot.halt within 5)"
+          },
+          "total_time": 2.27229905128479,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 1.425616979598999,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"safety\",\n    \"zone\",\n    \"halt\",\n    \"time\",\n    \"limit\",\n    \"GroundBot\",\n    \"human\"\n  ],\n  \"cues\": [\n    \"if\",\n    \"must\",\n    \"<\"\n  ],\n  \"trigger_text\": \"a human enters the safety zone\",\n  \"response_text\": \"GroundBot  must halt\",\n  \"time_limit\": \"5 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.258310317993164,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Human.inSafetyZone --> GroundBot.Halted)\",\n  \"explanation\": \"This query uses the '-->' (leads to) operator to specify that if a human enters the safety zone (Human.inSafetyZone), then eventually the GroundBot must halt (GroundBot.Halted). The time constraint of 'within 5 seconds' is implicit in assuming that halting will happen reasonably quickly after the trigger.  Since the prompt specifies halt 'within 5 seconds' a time bound is IMPLIED, not explicitly stated. Thus --> is more suitable.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Human.inSafetyZone --> GroundBot.Halted)",
+              "explanation": "This query uses the '-->' (leads to) operator to specify that if a human enters the safety zone (Human.inSafetyZone), then eventually the GroundBot must halt (GroundBot.Halted). The time constraint of 'within 5 seconds' is implicit in assuming that halting will happen reasonably quickly after the trigger.  Since the prompt specifies halt 'within 5 seconds' a time bound is IMPLIED, not explicitly stated. Thus --> is more suitable.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Human.inSafetyZone --> GroundBot.Halted)"
+          },
+          "total_time": 2.715399980545044,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "classification": {
+            "step": "classification",
+            "timing": 6.795342922210693,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"GroundBot\",\n    \"bolting\",\n    \"CraneBot\",\n    \"placement\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"CraneBot confirms placement\",\n  \"response_text\": \"GroundBot starts bolting\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.496500015258789,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CraneBot.placement_confirmed --> GroundBot.bolting\",\n  \"explanation\": \"The constraint specifies a sequential workflow where 'GroundBot starts bolting' must eventually occur after 'CraneBot confirms placement'. The 'leads to' operator (-->) correctly models this relationship, ensuring that whenever the system is in a state where `CraneBot.placement_confirmed` is true, it is guaranteed that eventually a state will be reached where `GroundBot.bolting` is true.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "CraneBot.placement_confirmed --> GroundBot.bolting",
+              "explanation": "The constraint specifies a sequential workflow where 'GroundBot starts bolting' must eventually occur after 'CraneBot confirms placement'. The 'leads to' operator (-->) correctly models this relationship, ensuring that whenever the system is in a state where `CraneBot.placement_confirmed` is true, it is guaranteed that eventually a state will be reached where `GroundBot.bolting` is true.",
+              "confidence": 0.95,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.placement_confirmed --> GroundBot.bolting"
+          },
+          "total_time": 20.319544076919556,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 9.61386227607727,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"human\",\n    \"safety zone\",\n    \"cranebot\",\n    \"halt\"\n  ],\n  \"cues\": [\n    \"if\",\n    \"must\",\n    \"within\",\n    \"<\"\n  ],\n  \"trigger_text\": \"a human enters the safety zone\",\n  \"response_text\": \"CraneBot must halt within 5 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 63.87231397628784,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Human.InSafetyZone --> (CraneBot.Halted and CraneBot.c <= 5))\",\n  \"explanation\": \"This query formalizes a bounded response property. The 'A[] (... --> ...)' structure specifies that for all paths, a trigger must eventually lead to a response. The trigger is the system being in a state where a human is in the safety zone (`Human.InSafetyZone`). The required response is the system reaching a state where the crane is halted (`CraneBot.Halted`). The time constraint 'within 5 seconds' is enforced by conjunctively checking that a clock `CraneBot.c` (which is assumed to be reset when the human enters the zone) is less than or equal to 5 at the moment the `Halted` state is reached.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Human.InSafetyZone --> (CraneBot.Halted and CraneBot.c <= 5))",
+              "explanation": "This query formalizes a bounded response property. The 'A[] (... --> ...)' structure specifies that for all paths, a trigger must eventually lead to a response. The trigger is the system being in a state where a human is in the safety zone (`Human.InSafetyZone`). The required response is the system reaching a state where the crane is halted (`CraneBot.Halted`). The time constraint 'within 5 seconds' is enforced by conjunctively checking that a clock `CraneBot.c` (which is assumed to be reset when the human enters the zone) is less than or equal to 5 at the moment the `Halted` state is reached.",
+              "confidence": 0.9,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Human.InSafetyZone --> (CraneBot.Halted and CraneBot.c <= 5))"
+          },
+          "total_time": 73.51480197906494,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 18.12039613723755,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"human\",\n    \"safety zone\",\n    \"GroundBot\",\n    \"halt\",\n    \"5 seconds\"\n  ],\n  \"cues\": [\n    \"If\",\n    \"must\",\n    \"within\"\n  ],\n  \"trigger_text\": \"a human enters the safety zone\",\n  \"response_text\": \"GroundBot must halt within 5 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 40.38267421722412,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Human.in_safety_zone --> (GroundBot.Halted && GroundBot.t_response <= 5)\",\n  \"explanation\": \"This query models a bounded liveness property. It uses the 'leads to' operator (`-->`) to state that whenever the condition `Human.in_safety_zone` becomes true, the system must eventually reach a state where `GroundBot.Halted` is true. The conjunction `&& GroundBot.t_response <= 5` adds the critical time constraint, ensuring that the transition to the 'Halted' state occurs within 5 time units, as measured by a clock `t_response` that is reset when the human enters the zone.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "Human.in_safety_zone --> (GroundBot.Halted && GroundBot.t_response <= 5)",
+              "explanation": "This query models a bounded liveness property. It uses the 'leads to' operator (`-->`) to state that whenever the condition `Human.in_safety_zone` becomes true, the system must eventually reach a state where `GroundBot.Halted` is true. The conjunction `&& GroundBot.t_response <= 5` adds the critical time constraint, ensuring that the transition to the 'Halted' state occurs within 5 time units, as measured by a clock `t_response` that is reset when the human enters the zone.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Human.in_safety_zone --> (GroundBot.Halted && GroundBot.t_response <= 5)"
+          },
+          "total_time": 58.531063079833984,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

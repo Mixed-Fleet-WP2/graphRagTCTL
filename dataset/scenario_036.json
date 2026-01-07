@@ -1,0 +1,28 @@
+{
+  "id": "scenario_036",
+  "domain": "industrial",
+  "prompt": "A maintenance bot operates in a refrigerated warehouse maintaining conveyor motors. It must warm up sensors for 30 seconds before measurements. If temperature drops below −25°C, it enters standby mode until heating pads raise it above −15°C. The robot performs vibration analysis for each motor and logs anomalies. It is always possible for the bot to recover from standby to active operation.",
+  "robots": ["FrostBot"],
+  "constraints": [
+    "FrostBot warms sensors for 30 s before measurements",
+    "FrostBot enters standby when temperature < −25°C",
+    "FrostBot resumes when temperature > −15°C",
+    "FrostBot performs vibration analysis for each motor",
+    "FrostBot logs anomalies for each motor",
+    "Always possible to recover from standby to active"
+  ],
+  "reference_properties": [
+    "A[] (FrostBot.Measuring imply FrostBot.WarmupTime >= 30)",
+    "A[] (Temperature < -25 imply FrostBot.Standby)",
+    "(Temperature > -15 && FrostBot.Standby) --> FrostBot.Active",
+    "A<> FrostBot.VibrationAnalysisDone",
+    "A<> FrostBot.AnomalyLogged",
+    "A<> FrostBot.Active"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10",
+    "validation_status": "validated"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "scenario_001",
+  "domain": "harbor_logistics",
+  "prompt": "A drone scans container stacks. Once scanning is finished, a UGV moves to collect the container. The forklift then loads the container onto the truck.",
+  "robots": ["Drone", "UGV", "Forklift"],
+  "constraints": [
+    "Drone scanning is finished, UGV moves to collect the container.",
+    "once the UGV arrives to collect the container, the Forklift loads the container onto the truck."
+  ],
+  "reference_properties": [
+    "Drone.scanning_done --> UGV.collecting",
+    "Ugv.Arrived  --> Forklift.Moving"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-07",
+    "validation_status": "validated"
+  }
+}

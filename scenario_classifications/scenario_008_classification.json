@@ -1,0 +1,246 @@
+{
+  "id": "scenario_008",
+  "domain": "harbor",
+  "prompt": "An unmanned crane unloads containers onto automated trucks. Trucks can move only after the crane signals unloading complete. If wind gusts exceed 40 km/h, unloading must be paused for safety.",
+  "robots": [
+    "CraneBot",
+    "TruckAMR"
+  ],
+  "constraints": [
+    "TruckAMR starts moving only after CraneBot finishes unloading",
+    "CraneBot pauses unloading when wind gusts exceed 40 km/h"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.3029820919036865,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 9.252265930175781,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "pattern_name": "sequential_workflow",
+          "template": "CraneBot_finished_unloading --> TruckAMR_start_moving"
+        },
+        {
+          "index": 1,
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (wind_gusts > 40km/h imply CraneBot_pause_unloading)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 18.305644035339355,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.2982430458068848,
+      "tokens": 698,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.0792882442474365,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.0076489448547363,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 13.993582963943481,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 9.641279935836792,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 22.23529601097107,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.3281171321868896,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 9.005640029907227,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

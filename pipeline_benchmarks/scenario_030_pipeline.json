@@ -1,0 +1,1769 @@
+{
+  "id": "scenario_030",
+  "domain": "disaster_response",
+  "prompt": "A drone maps the disaster area, two search robots locate survivors, a medical robot delivers aid, and a transport AMR carries victims to safety. SearchRobots must not enter overlapping zones. MedicalBot waits for confirmation from at least one SearchRobot before starting aid delivery. TransportAMR operates only after MedicalBot finishes. It must always be possible to reach a state where all survivors are rescued.",
+  "robots": [
+    "SurveyDrone",
+    "SearchBot1",
+    "SearchBot2",
+    "MedicalBot",
+    "TransportAMR"
+  ],
+  "constraints": [
+    "SearchBot1 and SearchBot2 must not enter overlapping zones",
+    "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+    "TransportAMR starts only after MedicalBot finishes aid delivery",
+    "Always possible to reach a state where all survivors are rescued"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "classification": {
+            "step": "classification",
+            "timing": 4.619693994522095,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"SearchBot1\",\"SearchBot2\",\"overlapping zones\",\"must not\",\"prohibited\",\"no overlap\"],\"cues\":[\"must not\",\"not\"],\"trigger_text\":\"SearchBot1 and SearchBot2 enter overlapping zones\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.2201249599456787,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (overlappingZones(SearchBot1, SearchBot2))\",\"explanation\":\"The constraint says SearchBot1 and SearchBot2 must not enter overlapping zones, which is a classic forbidden state. Using the forbidden_state pattern, we express that in all reachable states (A[]), the condition of them being in overlapping zones is never true (not (...)). The predicate overlappingZones(SearchBot1, SearchBot2) stands for the situation where their zones overlap, and wrapping it in A[] not(...) ensures this situation is prohibited in every possible execution.\",\"confidence\":0.88,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (overlappingZones(SearchBot1, SearchBot2))",
+              "explanation": "The constraint says SearchBot1 and SearchBot2 must not enter overlapping zones, which is a classic forbidden state. Using the forbidden_state pattern, we express that in all reachable states (A[]), the condition of them being in overlapping zones is never true (not (...)). The predicate overlappingZones(SearchBot1, SearchBot2) stands for the situation where their zones overlap, and wrapping it in A[] not(...) ensures this situation is prohibited in every possible execution.",
+              "confidence": 0.88,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (overlappingZones(SearchBot1, SearchBot2))"
+          },
+          "total_time": 7.854939937591553,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "classification": {
+            "step": "classification",
+            "timing": 1.735813856124878,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"MedicalBot\",\"SearchBot\",\"delivers aid\",\"only after\",\"confirmation\",\"at least one\"],\"cues\":[\"only after\",\"after\",\"from\",\"at least\"],\"trigger_text\":\"confirmation from at least one SearchBot\",\"response_text\":\"MedicalBot delivers aid\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.490570068359375,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(exists(i:int[0,NUM_SEARCHBOTS-1]) SearchBot(i).confirmed) --> MedicalBot.delivers_aid\",\"explanation\":\"The constraint says MedicalBot may deliver aid only after there has been a confirmation from at least one SearchBot. Using the conditional response pattern, the trigger condition is that at least one SearchBot has issued confirmation (modeled here by an indexed SearchBot template with a confirmed condition). The query states that whenever such a confirmation condition holds, this will eventually lead to the state where MedicalBot.delivers_aid holds, and, combined with the system model that prevents aid delivery before confirmation, enforces the 'only after confirmation from at least one SearchBot' requirement.\",\"confidence\":0.78,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(exists(i:int[0,NUM_SEARCHBOTS-1]) SearchBot(i).confirmed) --> MedicalBot.delivers_aid",
+              "explanation": "The constraint says MedicalBot may deliver aid only after there has been a confirmation from at least one SearchBot. Using the conditional response pattern, the trigger condition is that at least one SearchBot has issued confirmation (modeled here by an indexed SearchBot template with a confirmed condition). The query states that whenever such a confirmation condition holds, this will eventually lead to the state where MedicalBot.delivers_aid holds, and, combined with the system model that prevents aid delivery before confirmation, enforces the 'only after confirmation from at least one SearchBot' requirement.",
+              "confidence": 0.78,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "(exists(i:int[0,NUM_SEARCHBOTS-1]) SearchBot(i).confirmed) --> MedicalBot.delivers_aid"
+          },
+          "total_time": 6.248086929321289,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8843190670013428,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"TransportAMR\",\"MedicalBot\",\"starts only after\",\"finishes\",\"aid delivery\",\"sequence\",\"ordering\",\"dependency\"],\"cues\":[\"starts\",\"after\",\"only after\"],\"trigger_text\":\"MedicalBot finishes aid delivery\",\"response_text\":\"TransportAMR starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.8153820037841797,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"MedicalBot.aid_delivery_finished --> TransportAMR.starting\",\"explanation\":\"The constraint says TransportAMR may start only after MedicalBot has finished aid delivery, and that finishing should (eventually) lead to TransportAMR starting. The sequential_workflow pattern with the --> operator encodes that whenever MedicalBot reaches the state/event 'aid_delivery_finished', then eventually the state/event 'starting' of TransportAMR will occur, preserving the required ordering.\",\"confidence\":0.9,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "MedicalBot.aid_delivery_finished --> TransportAMR.starting",
+              "explanation": "The constraint says TransportAMR may start only after MedicalBot has finished aid delivery, and that finishing should (eventually) lead to TransportAMR starting. The sequential_workflow pattern with the --> operator encodes that whenever MedicalBot reaches the state/event 'aid_delivery_finished', then eventually the state/event 'starting' of TransportAMR will occur, preserving the required ordering.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MedicalBot.aid_delivery_finished --> TransportAMR.starting"
+          },
+          "total_time": 5.723449945449829,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "classification": {
+            "step": "classification",
+            "timing": 1.6352241039276123,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"always possible\",\"reach a state\",\"survivors\",\"rescued\",\"reachability\",\"eventually reachable\"],\"cues\":[\"always\",\"possible\",\"reach\",\"state\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.0362322330474854,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"E<> AllSurvivorsRescued\",\"explanation\":\"The constraint says it is possible to reach a state where all survivors are rescued. This is a reachability/possibility property, so we use the existential reachability pattern E<>. The atomic proposition AllSurvivorsRescued abstracts the state condition 'all survivors are rescued'. Thus, E<> AllSurvivorsRescued correctly encodes that there exists at least one execution where the system reaches such a state.\",\"confidence\":0.86,\"pattern_used\":\"reachability\",\"operator_used\":[\"E<>\"]}",
+            "uppaal_result": {
+              "query": "E<> AllSurvivorsRescued",
+              "explanation": "The constraint says it is possible to reach a state where all survivors are rescued. This is a reachability/possibility property, so we use the existential reachability pattern E<>. The atomic proposition AllSurvivorsRescued abstracts the state condition 'all survivors are rescued'. Thus, E<> AllSurvivorsRescued correctly encodes that there exists at least one execution where the system reaches such a state.",
+              "confidence": 0.86,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> AllSurvivorsRescued"
+          },
+          "total_time": 4.692195177078247,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "classification": {
+            "step": "classification",
+            "timing": 5.898526906967163,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"SearchBot1\",\"SearchBot2\",\"overlapping zones\",\"must not\",\"no overlap\",\"avoid overlap\",\"simultaneous presence\"],\"cues\":[\"must\",\"not\",\"never\",\"overlap\",\"overlapping\",\"and\"],\"trigger_text\":\"SearchBot1 and SearchBot2 in overlapping zones\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.32563829421997,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (SearchBot1.in_overlapping_zone && SearchBot2.in_overlapping_zone)\",\"explanation\":\"This safety property enforces that it is never the case that both SearchBot1 and SearchBot2 are simultaneously in overlapping zones, matching the requirement that they must not enter overlapping zones.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (SearchBot1.in_overlapping_zone && SearchBot2.in_overlapping_zone)",
+              "explanation": "This safety property enforces that it is never the case that both SearchBot1 and SearchBot2 are simultaneously in overlapping zones, matching the requirement that they must not enter overlapping zones.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (SearchBot1.in_overlapping_zone && SearchBot2.in_overlapping_zone)"
+          },
+          "total_time": 15.242419004440308,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "classification": {
+            "step": "classification",
+            "timing": 14.201226234436035,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"MedicalBot\",\n    \"deliver aid\",\n    \"confirmation\",\n    \"SearchBot\",\n    \"only after\",\n    \"prior authorization\",\n    \"dependency\",\n    \"precedence\",\n    \"at least one\"\n  ],\n  \"cues\": [\n    \"after\",\n    \"only after\",\n    \"must\",\n    \"confirmation\",\n    \"at least one\",\n    \"SearchBot\",\n    \"deliver\",\n    \"only\"\n  ],\n  \"trigger_text\": \"confirmation from at least one SearchBot\",\n  \"response_text\": \"MedicalBot delivers aid\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.321032047271729,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(exists (i : int[0..N-1]) SearchBot[i].confirmation) --> MedicalBot.deliver_aid\",\"explanation\":\"This uses the conditional_response pattern: if there exists at least one SearchBot with 'confirmation' then MedicalBot must (eventually) deliver aid. The existential quantifier captures \\\"confirmation from at least one SearchBot\\\" and the '-->' operator expresses the required eventual response (MedicalBot.deliver_aid) that must follow that condition. N represents the number of SearchBot instances in the model.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(exists (i : int[0..N-1]) SearchBot[i].confirmation) --> MedicalBot.deliver_aid",
+              "explanation": "This uses the conditional_response pattern: if there exists at least one SearchBot with 'confirmation' then MedicalBot must (eventually) deliver aid. The existential quantifier captures \"confirmation from at least one SearchBot\" and the '-->' operator expresses the required eventual response (MedicalBot.deliver_aid) that must follow that condition. N represents the number of SearchBot instances in the model.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "(exists (i : int[0..N-1]) SearchBot[i].confirmation) --> MedicalBot.deliver_aid"
+          },
+          "total_time": 27.54469084739685,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "classification": {
+            "step": "classification",
+            "timing": 6.2511279582977295,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"TransportAMR\",\"MedicalBot\",\"starts only after\",\"after\",\"finishes\",\"aid delivery\",\"precedence\",\"start\",\"finish\"],\"cues\":[\"only\",\"after\",\"finishes\",\"starts\",\"must\",\"when\"],\"trigger_text\":\"MedicalBot finishes aid delivery\",\"response_text\":\"TransportAMR starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.040621042251587,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"MedicalBot.aid_delivery_complete --> TransportAMR.start\",\"explanation\":\"This uses the sequential_workflow pattern: the event 'MedicalBot.aid_delivery_complete' represents 'MedicalBot finishes aid delivery' and the right-hand action 'TransportAMR.start' represents 'TransportAMR starts'. The '-->' operator specifies that TransportAMR.start must eventually follow the completion of MedicalBot's aid delivery.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "MedicalBot.aid_delivery_complete --> TransportAMR.start",
+              "explanation": "This uses the sequential_workflow pattern: the event 'MedicalBot.aid_delivery_complete' represents 'MedicalBot finishes aid delivery' and the right-hand action 'TransportAMR.start' represents 'TransportAMR starts'. The '-->' operator specifies that TransportAMR.start must eventually follow the completion of MedicalBot's aid delivery.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MedicalBot.aid_delivery_complete --> TransportAMR.start"
+          },
+          "total_time": 16.32059097290039,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "classification": {
+            "step": "classification",
+            "timing": 9.763138055801392,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"reachability\",\"reach\",\"reachable\",\"always possible\",\"survivors\",\"rescued\",\"all\",\"state\"],\"cues\":[\"always\",\"possible\",\"reach\",\"eventually\",\"all\",\"rescued\",\"survivors\"],\"trigger_text\":null,\"response_text\":\"reach a state where all survivors are rescued\"}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.347733974456787,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] E<> (all_survivors_rescued)\",\"explanation\":\"A[] E<> (all_survivors_rescued) checks that from every reachable state it is possible (exists a path) to eventually reach a state where all survivors are rescued, matching the \u2018always possible to reach\u2019 reachability requirement.\",\"confidence\":0.85,\"pattern_used\":\"reachability\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] E<> (all_survivors_rescued)",
+              "explanation": "A[] E<> (all_survivors_rescued) checks that from every reachable state it is possible (exists a path) to eventually reach a state where all survivors are rescued, matching the \u2018always possible to reach\u2019 reachability requirement.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] E<> (all_survivors_rescued)"
+          },
+          "total_time": 21.13517189025879,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "classification": {
+            "step": "classification",
+            "timing": 10.457638263702393,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"overlap\", \"zones\", \"mutual_exclusion\", \"safety\", \"robots\", \"SearchBot1\", \"SearchBot2\"],\n  \"cues\": [\"must\", \"never\", \"overlapping\", \"zones\", \"enter\", \"avoid\", \"collision\"],\n  \"trigger_text\": \"must not enter overlapping zones\",\n  \"response_text\": \"enforce mutual exclusion to prevent overlapping zones\"\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.787022113800049,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (SearchBot1.zone == SearchBot2.zone)\",\"explanation\":\"This encodes that SearchBot1 and SearchBot2 must never occupy the same zone; if they do, the system reaches a forbidden state. It directly implements the 'never' constraint for overlapping zones using a universal safety property.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (SearchBot1.zone == SearchBot2.zone)",
+              "explanation": "This encodes that SearchBot1 and SearchBot2 must never occupy the same zone; if they do, the system reaches a forbidden state. It directly implements the 'never' constraint for overlapping zones using a universal safety property.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (SearchBot1.zone == SearchBot2.zone)"
+          },
+          "total_time": 20.260364055633545,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "classification": {
+            "step": "classification",
+            "timing": 11.615141153335571,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"MedicalBot\",\"SearchBot\",\"confirmation\",\"delivery\",\"aid\"],\"cues\":[\"after\",\"then\",\"must\"],\"trigger_text\":\"MedicalBot delivers aid only after confirmation from at least one SearchBot\",\"response_text\":\"deliver aid after receiving confirmation from a SearchBot\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.297425985336304,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"SearchBot.confirmation --> MedicalBot.delivery\",\"explanation\":\"This encodes the sequential workflow: once a SearchBot confirmation occurs, MedicalBot's delivery will follow (eventually), capturing 'MedicalBot delivers aid only after confirmation from at least one SearchBot'.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "SearchBot.confirmation --> MedicalBot.delivery",
+              "explanation": "This encodes the sequential workflow: once a SearchBot confirmation occurs, MedicalBot's delivery will follow (eventually), capturing 'MedicalBot delivers aid only after confirmation from at least one SearchBot'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SearchBot.confirmation --> MedicalBot.delivery"
+          },
+          "total_time": 28.929565906524658,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "classification": {
+            "step": "classification",
+            "timing": 13.28612208366394,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"TransportAMR\",\"MedicalBot\",\"aid delivery\",\"start\",\"finish\",\"order\",\"sequence\",\"dependency\"],\"cues\":[\"after\",\"then\",\"finishes\",\"starts\",\"only after\"],\"trigger_text\":\"TransportAMR starts only after MedicalBot finishes aid delivery\",\"response_text\":\"TransportAMR must not start until MedicalBot has completed aid delivery\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.065192937850952,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"MedicalBot.aid_delivery_complete --> TransportAMR.start\",\"explanation\":\"The constraint requires TransportAMR to start only after MedicalBot finishes aid delivery. In UPPAAL's sequential-workflow pattern this is represented as the completion of the first action (MedicalBot.aid_delivery_complete) followed by the next action starting (TransportAMR.start) using the --> operator.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "MedicalBot.aid_delivery_complete --> TransportAMR.start",
+              "explanation": "The constraint requires TransportAMR to start only after MedicalBot finishes aid delivery. In UPPAAL's sequential-workflow pattern this is represented as the completion of the first action (MedicalBot.aid_delivery_complete) followed by the next action starting (TransportAMR.start) using the --> operator.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MedicalBot.aid_delivery_complete --> TransportAMR.start"
+          },
+          "total_time": 23.369511127471924,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "classification": {
+            "step": "classification",
+            "timing": 14.002811908721924,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"survivors\",\"rescued\",\"reachability\",\"state\",\"goal\"],\"cues\":[\"eventually\",\"reach\",\"state\",\"survivors\",\"rescued\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.323482036590576,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> AllSurvivorsRescued\",\"explanation\":\"Global liveness: on all possible executions, eventually the condition where all survivors are rescued becomes true. 'AllSurvivorsRescued' represents the conjunction of each survivor being rescued.\",\"confidence\":0.85,\"pattern_used\":\"reachability\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> AllSurvivorsRescued",
+              "explanation": "Global liveness: on all possible executions, eventually the condition where all survivors are rescued becomes true. 'AllSurvivorsRescued' represents the conjunction of each survivor being rescued.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> AllSurvivorsRescued"
+          },
+          "total_time": 25.359365224838257,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9219982624053955,
+            "tokens": 164,
+            "raw_text": "{\n    \"pattern\": \"forbidden_state\",\n    \"keywords\": [\"overlapping zones\", \"must not enter\"],\n    \"cues\": [\"must not\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.021937847137451,
+            "tokens": 574,
+            "raw_text": "{\n  \"query\": \"A[] not (SearchBot1.inZone && SearchBot2.inZone)\",\n  \"explanation\": \"The query ensures that the state where both SearchBot1 and SearchBot2 are in overlapping zones never occurs. This matches the constraint that they must not enter overlapping zones, using the forbidden_state pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (SearchBot1.inZone && SearchBot2.inZone)",
+              "explanation": "The query ensures that the state where both SearchBot1 and SearchBot2 are in overlapping zones never occurs. This matches the constraint that they must not enter overlapping zones, using the forbidden_state pattern.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (SearchBot1.inZone && SearchBot2.inZone)"
+          },
+          "total_time": 2.969785213470459,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9020659923553467,
+            "tokens": 166,
+            "raw_text": "{\n    \"pattern\": \"conditional_response\",\n    \"keywords\": [\"delivers aid\", \"confirmation\", \"SearchBot\"],\n    \"cues\": [\"only after\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6022121906280518,
+            "tokens": 572,
+            "raw_text": "{\n  \"query\": \"SearchBot.confirmation --> MedicalBot.delivers_aid\",\n  \"explanation\": \"The constraint specifies that MedicalBot delivers aid only after receiving confirmation from at least one SearchBot. This aligns with the 'conditional_response' pattern where a condition (confirmation from SearchBot) leads to an eventual response (MedicalBot delivering aid). The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "SearchBot.confirmation --> MedicalBot.delivers_aid",
+              "explanation": "The constraint specifies that MedicalBot delivers aid only after receiving confirmation from at least one SearchBot. This aligns with the 'conditional_response' pattern where a condition (confirmation from SearchBot) leads to an eventual response (MedicalBot delivering aid). The '-->' operator is used to represent this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SearchBot.confirmation --> MedicalBot.delivers_aid"
+          },
+          "total_time": 2.5329549312591553,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3815317153930664,
+            "tokens": 192,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finishes\", \"delivery\"],\n  \"cues\": [\"after\", \"only\"],\n  \"trigger_text\": \"MedicalBot finishes aid delivery\",\n  \"response_text\": \"TransportAMR starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.6926779747009277,
+            "tokens": 566,
+            "raw_text": "{\n  \"query\": \"MedicalBot.aid_delivery_complete --> TransportAMR.start\",\n  \"explanation\": \"The query uses the sequential_workflow pattern to express that the action of TransportAMR starting occurs only after MedicalBot finishes aid delivery. The '-->' operator is used to indicate that one action eventually follows another, which matches the constraint provided.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "MedicalBot.aid_delivery_complete --> TransportAMR.start",
+              "explanation": "The query uses the sequential_workflow pattern to express that the action of TransportAMR starting occurs only after MedicalBot finishes aid delivery. The '-->' operator is used to indicate that one action eventually follows another, which matches the constraint provided.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MedicalBot.aid_delivery_complete --> TransportAMR.start"
+          },
+          "total_time": 4.095580101013184,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2132501602172852,
+            "tokens": 167,
+            "raw_text": "{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"reach\", \"state\", \"rescued\"],\n  \"cues\": [\"always\", \"possible\", \"reach\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7460830211639404,
+            "tokens": 537,
+            "raw_text": "{\n  \"query\": \"A[] (E<> all_survivors_rescued)\",\n  \"explanation\": \"The query checks that it is always possible to reach a state where all survivors are rescued. The use of A[] ensures that at any point in time, there exists a future possibility (E<>) where the desired state is reached. This aligns with the constraint of 'always possible' to reach the state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (E<> all_survivors_rescued)",
+              "explanation": "The query checks that it is always possible to reach a state where all survivors are rescued. The use of A[] ensures that at any point in time, there exists a future possibility (E<>) where the desired state is reached. This aligns with the constraint of 'always possible' to reach the state.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (E<> all_survivors_rescued)"
+          },
+          "total_time": 2.9809398651123047,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "classification": {
+            "step": "classification",
+            "timing": 3.2353971004486084,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"SearchBot1\", \"SearchBot2\", \"overlapping\", \"zones\", \"must not\"],\n  \"cues\": [\"must not\"],\n  \"trigger_text\": \"SearchBot1 and SearchBot2 enter overlapping zones\",\n  \"response_text\": null\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.646467924118042,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (SearchBot1.inZone && SearchBot2.inZone && zonesOverlap)\",\n  \"explanation\": \"This query uses the forbidden_state pattern with A[] not(...) to ensure that SearchBot1 and SearchBot2 never simultaneously occupy overlapping zones. The condition checks that both bots are in zones AND those zones overlap, which must never be true.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (SearchBot1.inZone && SearchBot2.inZone && zonesOverlap)",
+              "explanation": "This query uses the forbidden_state pattern with A[] not(...) to ensure that SearchBot1 and SearchBot2 never simultaneously occupy overlapping zones. The condition checks that both bots are in zones AND those zones overlap, which must never be true.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (SearchBot1.inZone && SearchBot2.inZone && zonesOverlap)"
+          },
+          "total_time": 7.911016941070557,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "classification": {
+            "step": "classification",
+            "timing": 3.598526954650879,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"MedicalBot\", \"delivers\", \"aid\", \"after\", \"confirmation\", \"SearchBot\"],\n  \"cues\": [\"only\", \"after\"],\n  \"trigger_text\": \"confirmation from at least one SearchBot\",\n  \"response_text\": \"MedicalBot delivers aid\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.01936411857605,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"SearchBot.confirmation_sent --> MedicalBot.delivering_aid\",\n  \"explanation\": \"This query captures the sequential workflow where MedicalBot delivers aid only after at least one SearchBot sends confirmation. The --> operator ensures that the MedicalBot's aid delivery action eventually follows the SearchBot's confirmation, matching the 'only after' constraint in the natural language specification.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "SearchBot.confirmation_sent --> MedicalBot.delivering_aid",
+              "explanation": "This query captures the sequential workflow where MedicalBot delivers aid only after at least one SearchBot sends confirmation. The --> operator ensures that the MedicalBot's aid delivery action eventually follows the SearchBot's confirmation, matching the 'only after' constraint in the natural language specification.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SearchBot.confirmation_sent --> MedicalBot.delivering_aid"
+          },
+          "total_time": 8.62746810913086,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "classification": {
+            "step": "classification",
+            "timing": 4.617523193359375,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"TransportAMR\", \"starts\", \"after\", \"MedicalBot\", \"finishes\", \"aid delivery\"],\n  \"cues\": [\"after\", \"starts\", \"only\"],\n  \"trigger_text\": \"MedicalBot finishes aid delivery\",\n  \"response_text\": \"TransportAMR starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.679471015930176,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"MedicalBot.aid_delivery_complete --> TransportAMR.starting\",\n  \"explanation\": \"This query captures the sequential workflow where TransportAMR starts only after MedicalBot finishes aid delivery. The --> operator ensures that whenever MedicalBot reaches the aid_delivery_complete state, TransportAMR will eventually reach the starting state, enforcing the required ordering constraint.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "MedicalBot.aid_delivery_complete --> TransportAMR.starting",
+              "explanation": "This query captures the sequential workflow where TransportAMR starts only after MedicalBot finishes aid delivery. The --> operator ensures that whenever MedicalBot reaches the aid_delivery_complete state, TransportAMR will eventually reach the starting state, enforcing the required ordering constraint.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MedicalBot.aid_delivery_complete --> TransportAMR.starting"
+          },
+          "total_time": 9.312112808227539,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "classification": {
+            "step": "classification",
+            "timing": 3.97176194190979,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"possible\", \"reach\", \"state\", \"survivors\", \"rescued\"],\n  \"cues\": [\"always\", \"possible\", \"reach\"],\n  \"trigger_text\": null,\n  \"response_text\": \"all survivors are rescued\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.649281978607178,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"E<> all_survivors_rescued\",\n  \"explanation\": \"The constraint asks if it's 'always possible' to reach a state where all survivors are rescued. The reachability pattern E<> checks if a state is possible to reach. The term 'all_survivors_rescued' represents the target state where all survivors have been rescued.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "E<> all_survivors_rescued",
+              "explanation": "The constraint asks if it's 'always possible' to reach a state where all survivors are rescued. The reachability pattern E<> checks if a state is possible to reach. The term 'all_survivors_rescued' represents the target state where all survivors have been rescued.",
+              "confidence": 0.9,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> all_survivors_rescued"
+          },
+          "total_time": 8.636580228805542,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "classification": {
+            "step": "classification",
+            "timing": 1.16609787940979,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"overlapping zones\", \"must not\", \"SearchBot1\", \"SearchBot2\"],\n  \"cues\": [\"must not\"],\n  \"trigger_text\": \"SearchBot1 and SearchBot2 enter overlapping zones\",\n  \"response_text\": \"prevent entry to overlapping zones\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.258354902267456,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (SearchBot1.in_zone && SearchBot2.in_zone && SearchBot1.zone == SearchBot2.zone)\",\n  \"explanation\": \"This query enforces the forbidden_state pattern by using A[] (always) with not() to ensure that the state where both SearchBot1 and SearchBot2 are simultaneously in the same zone never occurs. The conjunction checks that both robots are in zones AND their zone identifiers are equal, which represents overlapping zone entry. This prevents the dangerous state from ever being reached.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (SearchBot1.in_zone && SearchBot2.in_zone && SearchBot1.zone == SearchBot2.zone)",
+              "explanation": "This query enforces the forbidden_state pattern by using A[] (always) with not() to ensure that the state where both SearchBot1 and SearchBot2 are simultaneously in the same zone never occurs. The conjunction checks that both robots are in zones AND their zone identifiers are equal, which represents overlapping zone entry. This prevents the dangerous state from ever being reached.",
+              "confidence": 0.92,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (SearchBot1.in_zone && SearchBot2.in_zone && SearchBot1.zone == SearchBot2.zone)"
+          },
+          "total_time": 3.4622461795806885,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3276848793029785,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"delivers aid\",\n    \"only after\",\n    \"confirmation\",\n    \"SearchBot\"\n  ],\n  \"cues\": [\n    \"only after\",\n    \"at least one\"\n  ],\n  \"trigger_text\": \"confirmation from at least one SearchBot\",\n  \"response_text\": \"MedicalBot delivers aid\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5099499225616455,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(SearchBot.confirmed) --> (MedicalBot.delivers_aid)\",\n  \"explanation\": \"This query captures the conditional_response pattern where the condition is 'confirmation from at least one SearchBot' (represented as SearchBot.confirmed state) and the response is 'MedicalBot delivers aid'. The --> operator indicates eventual triggered behavior: once at least one SearchBot provides confirmation, MedicalBot will eventually deliver aid. This is a sequential workflow where the confirmation triggers the aid delivery.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(SearchBot.confirmed) --> (MedicalBot.delivers_aid)",
+              "explanation": "This query captures the conditional_response pattern where the condition is 'confirmation from at least one SearchBot' (represented as SearchBot.confirmed state) and the response is 'MedicalBot delivers aid'. The --> operator indicates eventual triggered behavior: once at least one SearchBot provides confirmation, MedicalBot will eventually deliver aid. This is a sequential workflow where the confirmation triggers the aid delivery.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(SearchBot.confirmed) --> (MedicalBot.delivers_aid)"
+          },
+          "total_time": 2.854219913482666,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1079699993133545,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finishes\", \"delivery\", \"TransportAMR\", \"MedicalBot\"],\n  \"cues\": [\"after\", \"only\"],\n  \"trigger_text\": \"MedicalBot finishes aid delivery\",\n  \"response_text\": \"TransportAMR starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9717392921447754,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"MedicalBot.aid_delivery_complete --> TransportAMR.starts\",\n  \"explanation\": \"The constraint describes a sequential workflow where TransportAMR's start is triggered only after MedicalBot completes aid delivery. The 'only after' phrasing indicates MedicalBot finishing is a prerequisite that must occur before TransportAMR begins. The '-->' operator captures this eventual sequential dependency: once the trigger state (aid_delivery_complete) is reached, the response state (TransportAMR starts) will eventually follow.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "MedicalBot.aid_delivery_complete --> TransportAMR.starts",
+              "explanation": "The constraint describes a sequential workflow where TransportAMR's start is triggered only after MedicalBot completes aid delivery. The 'only after' phrasing indicates MedicalBot finishing is a prerequisite that must occur before TransportAMR begins. The '-->' operator captures this eventual sequential dependency: once the trigger state (aid_delivery_complete) is reached, the response state (TransportAMR starts) will eventually follow.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MedicalBot.aid_delivery_complete --> TransportAMR.starts"
+          },
+          "total_time": 3.098328113555908,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2815282344818115,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"reach\", \"state\", \"survivors\", \"rescued\", \"possible\"],\n  \"cues\": [\"always\", \"possible to reach\"],\n  \"trigger_text\": \"a state where all survivors are rescued\",\n  \"response_text\": \"must be reachable from any valid system state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.675184965133667,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"E<> (all_survivors_rescued)\",\n  \"explanation\": \"The constraint uses 'always possible to reach', which indicates a reachability property - we need to verify that a state where all survivors are rescued CAN be reached from the system. The E<> operator is appropriate here because it checks if there EXISTS a path to the target state, matching the 'possible to reach' semantics in the natural language constraint.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "E<> (all_survivors_rescued)",
+              "explanation": "The constraint uses 'always possible to reach', which indicates a reachability property - we need to verify that a state where all survivors are rescued CAN be reached from the system. The E<> operator is appropriate here because it checks if there EXISTS a path to the target state, matching the 'possible to reach' semantics in the natural language constraint.",
+              "confidence": 0.9,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> (all_survivors_rescued)"
+          },
+          "total_time": 2.968596935272217,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "classification": {
+            "step": "classification",
+            "timing": 9.218369960784912,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"forbidden_state\", \"keywords\": [\"must not\"], \"cues\": [\"must\", \"not\"]}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.864559650421143,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] not (overlap(SearchBot1.zone, SearchBot2.zone))\", \"explanation\": \"The constraint 'SearchBot1 and SearchBot2 must not enter overlapping zones' requires that the system never reaches a state where the zones of the two bots overlap, which fits the forbidden_state pattern using A[] not to express that the bad state (zone overlap) must never happen.\", \"confidence\": 0.85, \"pattern_used\": \"forbidden_state\", \"operator_used\": [\"A[]\", \"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (overlap(SearchBot1.zone, SearchBot2.zone))",
+              "explanation": "The constraint 'SearchBot1 and SearchBot2 must not enter overlapping zones' requires that the system never reaches a state where the zones of the two bots overlap, which fits the forbidden_state pattern using A[] not to express that the bad state (zone overlap) must never happen.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (overlap(SearchBot1.zone, SearchBot2.zone))"
+          },
+          "total_time": 31.10716485977173,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "classification": {
+            "step": "classification",
+            "timing": 16.59762930870056,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"aid delivery\"],\"cues\":[\"after\",\"only\"],\"trigger_text\":\"confirmation from at least one SearchBot\",\"response_text\":\"MedicalBot delivers aid\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 31.676865100860596,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"SearchBot.confirmation --> MedicalBot.delivers_aid\", \"explanation\": \"The constraint specifies that MedicalBot delivers aid only after confirmation from at least one SearchBot, which aligns with the sequential_workflow pattern where one action (confirmation) triggers an eventual response (aid delivery), as indicated by the cues 'after' and 'only', and the trigger/response texts.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "SearchBot.confirmation --> MedicalBot.delivers_aid",
+              "explanation": "The constraint specifies that MedicalBot delivers aid only after confirmation from at least one SearchBot, which aligns with the sequential_workflow pattern where one action (confirmation) triggers an eventual response (aid delivery), as indicated by the cues 'after' and 'only', and the trigger/response texts.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SearchBot.confirmation --> MedicalBot.delivers_aid"
+          },
+          "total_time": 48.3051860332489,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "classification": {
+            "step": "classification",
+            "timing": 8.862322092056274,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"starts\",\"after\",\"finishes\"],\"cues\":[\"after\"],\"trigger_text\":\"MedicalBot finishes aid delivery\",\"response_text\":\"TransportAMR starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.197154998779297,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"MedicalBot.aid_delivery_complete --> TransportAMR.start\", \"explanation\": \"The constraint specifies a sequential workflow where TransportAMR starts only after MedicalBot finishes aid delivery, matching the sequential_workflow pattern with the --> operator for eventual triggered behavior.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "MedicalBot.aid_delivery_complete --> TransportAMR.start",
+              "explanation": "The constraint specifies a sequential workflow where TransportAMR starts only after MedicalBot finishes aid delivery, matching the sequential_workflow pattern with the --> operator for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MedicalBot.aid_delivery_complete --> TransportAMR.start"
+          },
+          "total_time": 19.082141160964966,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "classification": {
+            "step": "classification",
+            "timing": 10.870166778564453,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"reachability\", \"keywords\": [\"reach\", \"state\", \"rescued\", \"possible\"], \"cues\": [\"always\", \"possible\"]}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 25.002468824386597,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] E<> AllSurvivorsRescued\",\n  \"explanation\": \"The query uses A[] to ensure the property holds in all states, and E<> to check if it is possible to reach the state where all survivors are rescued, matching the 'always possible' requirement in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"A[]\", \"E<>\"]\n}",
+            "uppaal_result": {
+              "query": "A[] E<> AllSurvivorsRescued",
+              "explanation": "The query uses A[] to ensure the property holds in all states, and E<> to check if it is possible to reach the state where all survivors are rescued, matching the 'always possible' requirement in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "A[]",
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] E<> AllSurvivorsRescued"
+          },
+          "total_time": 35.89472484588623,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "classification": {
+            "step": "classification",
+            "timing": 6.819783926010132,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"must not\", \"overlapping zones\", \"enter\"],\n  \"cues\": [\"must\", \"not\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.011983871459961,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (SearchBot1.zone == SearchBot2.zone)\",\n  \"explanation\": \"This query ensures that the state where SearchBot1 and SearchBot2 are in the same zone never occurs, directly matching the constraint that they must not enter overlapping zones, based on the forbidden_state pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (SearchBot1.zone == SearchBot2.zone)",
+              "explanation": "This query ensures that the state where SearchBot1 and SearchBot2 are in the same zone never occurs, directly matching the constraint that they must not enter overlapping zones, based on the forbidden_state pattern.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (SearchBot1.zone == SearchBot2.zone)"
+          },
+          "total_time": 18.84984302520752,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "classification": {
+            "step": "classification",
+            "timing": 6.9288740158081055,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"after\", \"confirmation\", \"delivers\", \"aid\", \"SearchBot\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"confirmation from at least one SearchBot\",\n  \"response_text\": \"MedicalBot delivers aid\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.287780046463013,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(SearchBot.confirmed) --> MedicalBot.delivers_aid\",\n  \"explanation\": \"This query uses the --> operator to specify that once confirmation from at least one SearchBot occurs, MedicalBot will eventually deliver aid, directly matching the conditional_response pattern where the condition (confirmation) leads to the eventual response (delivering aid).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(SearchBot.confirmed) --> MedicalBot.delivers_aid",
+              "explanation": "This query uses the --> operator to specify that once confirmation from at least one SearchBot occurs, MedicalBot will eventually deliver aid, directly matching the conditional_response pattern where the condition (confirmation) leads to the eventual response (delivering aid).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(SearchBot.confirmed) --> MedicalBot.delivers_aid"
+          },
+          "total_time": 19.23965311050415,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "classification": {
+            "step": "classification",
+            "timing": 7.004878044128418,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"TransportAMR\", \"starts\", \"after\", \"MedicalBot\", \"finishes\", \"aid delivery\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"MedicalBot finishes aid delivery\",\n  \"response_text\": \"TransportAMR starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.885493040084839,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"MedicalBot.aid_delivery_complete --> TransportAMR.start\",\n  \"explanation\": \"This query uses the --> operator to specify that TransportAMR.start occurs eventually after MedicalBot.aid_delivery_complete, directly matching the sequential_workflow pattern where one action follows another after a possible delay, as indicated by the 'after' cue in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "MedicalBot.aid_delivery_complete --> TransportAMR.start",
+              "explanation": "This query uses the --> operator to specify that TransportAMR.start occurs eventually after MedicalBot.aid_delivery_complete, directly matching the sequential_workflow pattern where one action follows another after a possible delay, as indicated by the 'after' cue in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MedicalBot.aid_delivery_complete --> TransportAMR.start"
+          },
+          "total_time": 14.910926103591919,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "classification": {
+            "step": "classification",
+            "timing": 7.0515899658203125,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"reach\", \"state\", \"survivors\", \"rescued\"],\n  \"cues\": [\"always\", \"possible\", \"reach\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.510401010513306,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"E<> all_survivors_rescued\",\n  \"explanation\": \"The query uses E<> to check if it is possible to reach the state where all survivors are rescued, aligning with the reachability pattern for verifying if something can happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}",
+            "uppaal_result": {
+              "query": "E<> all_survivors_rescued",
+              "explanation": "The query uses E<> to check if it is possible to reach the state where all survivors are rescued, aligning with the reachability pattern for verifying if something can happen.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> all_survivors_rescued"
+          },
+          "total_time": 20.577855825424194,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "classification": {
+            "step": "classification",
+            "timing": 41.0534987449646,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"forbidden\", \"must not enter\", \"overlapping zones\", \"SearchBot\"],\n  \"cues\": [\"must\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 109.23660516738892,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (SearchBot1.inOverlap && SearchBot2.inOverlap)\",\n  \"explanation\": \"This query uses the 'forbidden_state' pattern with A[] not to assert that it is always true that both SearchBot1 and SearchBot2 are not in overlapping zones simultaneously, directly translating the constraint that they must not enter overlapping zones.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (SearchBot1.inOverlap && SearchBot2.inOverlap)",
+              "explanation": "This query uses the 'forbidden_state' pattern with A[] not to assert that it is always true that both SearchBot1 and SearchBot2 are not in overlapping zones simultaneously, directly translating the constraint that they must not enter overlapping zones.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (SearchBot1.inOverlap && SearchBot2.inOverlap)"
+          },
+          "total_time": 150.3201367855072,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "classification": {
+            "step": "classification",
+            "timing": 53.30874967575073,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"MedicalBot\", \"delivers aid\", \"confirmation\", \"SearchBot\", \"only after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"confirmation from at least one SearchBot\",\n  \"response_text\": \"MedicalBot delivers aid\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 138.58458185195923,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"SearchBot.confirmed --> MedicalBot.delivering_aid\",\n  \"explanation\": \"This query uses the sequential_workflow pattern with the '-->' operator to model that MedicalBot's aid delivery eventually follows after confirmation from at least one SearchBot, representing a multi-step process where one action leads to another with possible delays, as indicated by the 'after' cue in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "SearchBot.confirmed --> MedicalBot.delivering_aid",
+              "explanation": "This query uses the sequential_workflow pattern with the '-->' operator to model that MedicalBot's aid delivery eventually follows after confirmation from at least one SearchBot, representing a multi-step process where one action leads to another with possible delays, as indicated by the 'after' cue in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SearchBot.confirmed --> MedicalBot.delivering_aid"
+          },
+          "total_time": 191.9186840057373,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "classification": {
+            "step": "classification",
+            "timing": 36.62074685096741,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"TransportAMR\", \"starts\", \"only after\", \"MedicalBot\", \"finishes\", \"aid\", \"delivery\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"MedicalBot finishes aid delivery\",\n  \"response_text\": \"TransportAMR starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 69.14475321769714,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"MedicalBot.aid_delivery_completed --> TransportAMR.started\",\n  \"explanation\": \"The constraint 'TransportAMR starts only after MedicalBot finishes aid delivery' expresses a sequential dependency where one action (MedicalBot finishing aid delivery) must occur before another (TransportAMR starting), with possible delays. This aligns with the sequential_workflow pattern, which uses the lead-to operator (-->) to model eventual triggered behavior, as seen in similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "MedicalBot.aid_delivery_completed --> TransportAMR.started",
+              "explanation": "The constraint 'TransportAMR starts only after MedicalBot finishes aid delivery' expresses a sequential dependency where one action (MedicalBot finishing aid delivery) must occur before another (TransportAMR starting), with possible delays. This aligns with the sequential_workflow pattern, which uses the lead-to operator (-->) to model eventual triggered behavior, as seen in similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MedicalBot.aid_delivery_completed --> TransportAMR.started"
+          },
+          "total_time": 105.81529712677002,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "classification": {
+            "step": "classification",
+            "timing": 70.07796311378479,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"reach\", \"state\", \"rescued\", \"survivors\", \"always possible\"],\n  \"cues\": [\"always\", \"reach\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 124.81410312652588,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"E<> all_survivors_rescued\",\n  \"explanation\": \"The constraint 'Always possible to reach a state where all survivors are rescued' focuses on the possibility of reaching a rescue state, which aligns with the reachability pattern. The E<> operator is used to check if such a state can eventually be reached, as indicated by keywords like 'possible' and 'reach' in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}",
+            "uppaal_result": {
+              "query": "E<> all_survivors_rescued",
+              "explanation": "The constraint 'Always possible to reach a state where all survivors are rescued' focuses on the possibility of reaching a rescue state, which aligns with the reachability pattern. The E<> operator is used to check if such a state can eventually be reached, as indicated by keywords like 'possible' and 'reach' in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> all_survivors_rescued"
+          },
+          "total_time": 194.92670488357544,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1429009437561035,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"mutual exclusion\",\n    \"overlapping zones\",\n    \"safety\",\n    \"conflict avoidance\"\n  ],\n  \"cues\": [\n    \"must not\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5407381057739258,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (SearchBot1.zone == SearchBot2.zone && SearchBot1.zone != 0)\",\n  \"explanation\": \"The constraint states that SearchBot1 and SearchBot2 must not enter overlapping zones. This translates to 'always' being false when both bots are in the same zone (and the zone is not zone 0, assuming zone 0 represents being outside any defined zone). The 'forbidden_state' pattern is used with the 'A[] not' operator to express this safety property.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (SearchBot1.zone == SearchBot2.zone && SearchBot1.zone != 0)",
+              "explanation": "The constraint states that SearchBot1 and SearchBot2 must not enter overlapping zones. This translates to 'always' being false when both bots are in the same zone (and the zone is not zone 0, assuming zone 0 represents being outside any defined zone). The 'forbidden_state' pattern is used with the 'A[] not' operator to express this safety property.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (SearchBot1.zone == SearchBot2.zone && SearchBot1.zone != 0)"
+          },
+          "total_time": 2.707753896713257,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1380019187927246,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"medical\", \"aid\", \"search\", \"confirmation\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"confirmation from at least one SearchBot\",\n  \"response_text\": \"MedicalBot delivers aid\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.528414011001587,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"SearchBot.confirmation --> MedicalBot.delivering_aid\",\n  \"explanation\": \"The constraint specifies that MedicalBot delivers aid 'after' a confirmation from at least one SearchBot. This is a sequential workflow pattern. The '-->' operator captures the eventual response where aid delivery follows confirmation. The condition 'at least one SearchBot' is implicitly handled, as the condition becomes true when one SearchBot reaches 'confirmation'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "SearchBot.confirmation --> MedicalBot.delivering_aid",
+              "explanation": "The constraint specifies that MedicalBot delivers aid 'after' a confirmation from at least one SearchBot. This is a sequential workflow pattern. The '-->' operator captures the eventual response where aid delivery follows confirmation. The condition 'at least one SearchBot' is implicitly handled, as the condition becomes true when one SearchBot reaches 'confirmation'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SearchBot.confirmation --> MedicalBot.delivering_aid"
+          },
+          "total_time": 2.682816982269287,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0015838146209717,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"start\", \"after\", \"finish\", \"transport\", \"medical\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"MedicalBot finishes aid delivery\",\n  \"response_text\": \"TransportAMR starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.9128758907318115,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"MedicalBot.aid_delivery_complete --> TransportAMR.start\",\n  \"explanation\": \"The constraint 'TransportAMR starts only after MedicalBot finishes aid delivery' describes a sequential workflow. The '-->' operator is used to represent that TransportAMR.start will eventually happen after MedicalBot.aid_delivery_complete.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "MedicalBot.aid_delivery_complete --> TransportAMR.start",
+              "explanation": "The constraint 'TransportAMR starts only after MedicalBot finishes aid delivery' describes a sequential workflow. The '-->' operator is used to represent that TransportAMR.start will eventually happen after MedicalBot.aid_delivery_complete.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MedicalBot.aid_delivery_complete --> TransportAMR.start"
+          },
+          "total_time": 1.9374713897705078,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0097501277923584,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"possible\", \"reach\", \"state\", \"survivors\", \"rescued\"],\n  \"cues\": [\"possible\"],\n  \"trigger_text\": \"Always\",\n  \"response_text\": \"reach a state where all survivors are rescued\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.3222582340240479,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"E<> survivors_rescued == NUM_SURVIVORS\",\n  \"explanation\": \"The constraint states that it is 'always possible' to reach a state where 'all survivors are rescued'. This maps directly to the reachability pattern E<> (exists eventually). We define the target state as 'survivors_rescued == NUM_SURVIVORS' which means the number of rescued survivors equals the total number of survivors, fulfilling the requirement that all survivors are rescued. 'NUM_SURVIVORS' is assumed to be a constant defined elsewhere in the UPPAAL model.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "E<> survivors_rescued == NUM_SURVIVORS",
+              "explanation": "The constraint states that it is 'always possible' to reach a state where 'all survivors are rescued'. This maps directly to the reachability pattern E<> (exists eventually). We define the target state as 'survivors_rescued == NUM_SURVIVORS' which means the number of rescued survivors equals the total number of survivors, fulfilling the requirement that all survivors are rescued. 'NUM_SURVIVORS' is assumed to be a constant defined elsewhere in the UPPAAL model.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> survivors_rescued == NUM_SURVIVORS"
+          },
+          "total_time": 2.3497562408447266,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "classification": {
+            "step": "classification",
+            "timing": 8.095574855804443,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"SearchBot1\",\n    \"SearchBot2\",\n    \"overlapping zones\"\n  ],\n  \"cues\": [\n    \"must not\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.07005000114441,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (SearchBot1.InOverlappingZone && SearchBot2.InOverlappingZone)\",\n  \"explanation\": \"The constraint is a safety property that a specific state must never occur. The UPPAAL pattern for this is `A[] not (bad_state)`. The 'bad state' is when SearchBot1 AND SearchBot2 are in overlapping zones simultaneously. This is represented by the logical conjunction (`&&`) of their respective boolean states, `SearchBot1.InOverlappingZone` and `SearchBot2.InOverlappingZone`.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (SearchBot1.InOverlappingZone && SearchBot2.InOverlappingZone)",
+              "explanation": "The constraint is a safety property that a specific state must never occur. The UPPAAL pattern for this is `A[] not (bad_state)`. The 'bad state' is when SearchBot1 AND SearchBot2 are in overlapping zones simultaneously. This is represented by the logical conjunction (`&&`) of their respective boolean states, `SearchBot1.InOverlappingZone` and `SearchBot2.InOverlappingZone`.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (SearchBot1.InOverlappingZone && SearchBot2.InOverlappingZone)"
+          },
+          "total_time": 29.18000102043152,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "classification": {
+            "step": "classification",
+            "timing": 6.886023998260498,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"MedicalBot\",\n    \"SearchBot\",\n    \"confirmation\",\n    \"delivers aid\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"confirmation from at least one SearchBot\",\n  \"response_text\": \"MedicalBot delivers aid\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 30.847306966781616,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(exists(i:id_t) SearchBot(i).Confirmation) --> MedicalBot.DeliversAid\",\n  \"explanation\": \"The constraint \\\"MedicalBot delivers aid only after confirmation from at least one SearchBot\\\" describes a sequential workflow where one event follows another. The 'sequential_workflow' pattern with the '-->' (leads to) operator is used. The trigger condition 'confirmation from at least one SearchBot' is represented by `exists(i:id_t) SearchBot(i).Confirmation`, checking if any SearchBot is in the `Confirmation` state. The response 'MedicalBot delivers aid' is represented by the state `MedicalBot.DeliversAid`. The query ensures that whenever the trigger condition is met, the response must eventually occur.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(exists(i:id_t) SearchBot(i).Confirmation) --> MedicalBot.DeliversAid",
+              "explanation": "The constraint \"MedicalBot delivers aid only after confirmation from at least one SearchBot\" describes a sequential workflow where one event follows another. The 'sequential_workflow' pattern with the '-->' (leads to) operator is used. The trigger condition 'confirmation from at least one SearchBot' is represented by `exists(i:id_t) SearchBot(i).Confirmation`, checking if any SearchBot is in the `Confirmation` state. The response 'MedicalBot delivers aid' is represented by the state `MedicalBot.DeliversAid`. The query ensures that whenever the trigger condition is met, the response must eventually occur.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "(exists(i:id_t) SearchBot(i).Confirmation) --> MedicalBot.DeliversAid"
+          },
+          "total_time": 37.76027798652649,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "classification": {
+            "step": "classification",
+            "timing": 7.380712032318115,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"TransportAMR\",\n    \"MedicalBot\",\n    \"starts\",\n    \"finishes\",\n    \"aid delivery\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"MedicalBot finishes aid delivery\",\n  \"response_text\": \"TransportAMR starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.446310997009277,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"MedicalBot.AidDeliveryFinished --> TransportAMR.Starts\",\n  \"explanation\": \"The constraint \\\"TransportAMR starts only after MedicalBot finishes aid delivery\\\" describes a sequential workflow where one event triggers another. The 'leads to' operator (-->) is used to model this. The query specifies that whenever the system is in the state `MedicalBot.AidDeliveryFinished`, it must eventually transition to the `TransportAMR.Starts` state, thus enforcing the required sequence.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "MedicalBot.AidDeliveryFinished --> TransportAMR.Starts",
+              "explanation": "The constraint \"TransportAMR starts only after MedicalBot finishes aid delivery\" describes a sequential workflow where one event triggers another. The 'leads to' operator (-->) is used to model this. The query specifies that whenever the system is in the state `MedicalBot.AidDeliveryFinished`, it must eventually transition to the `TransportAMR.Starts` state, thus enforcing the required sequence.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MedicalBot.AidDeliveryFinished --> TransportAMR.Starts"
+          },
+          "total_time": 22.852797985076904,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "classification": {
+            "step": "classification",
+            "timing": 11.30332088470459,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\n    \"reach state\",\n    \"survivors rescued\",\n    \"possible\"\n  ],\n  \"cues\": [\n    \"always\",\n    \"possible\",\n    \"reach\",\n    \"state where\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 26.700236082077026,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] E<> all_survivors_rescued\",\n  \"explanation\": \"The constraint 'Always possible to reach' translates to the temporal logic pattern `A[] E<>`. The `A[]` operator captures 'Always' (meaning from any reachable state), and the `E<>` operator captures 'possible to reach' (there exists a future path). The query verifies that the system can never get into a state from which it's impossible to eventually rescue all survivors.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\n    \"A[]\",\n    \"E<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] E<> all_survivors_rescued",
+              "explanation": "The constraint 'Always possible to reach' translates to the temporal logic pattern `A[] E<>`. The `A[]` operator captures 'Always' (meaning from any reachable state), and the `E<>` operator captures 'possible to reach' (there exists a future path). The query verifies that the system can never get into a state from which it's impossible to eventually rescue all survivors.",
+              "confidence": 0.95,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "A[]",
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] E<> all_survivors_rescued"
+          },
+          "total_time": 38.022533893585205,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    }
+  ]
+}

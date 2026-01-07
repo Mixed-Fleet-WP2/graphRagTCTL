@@ -1,0 +1,381 @@
+{
+  "id": "scenario_025",
+  "domain": "harbor",
+  "prompt": "Three AMRs operate at a dock. At any time, at least one must be charging. Eventually, they can operate again after recharging.",
+  "robots": [
+    "DockAMR1",
+    "DockAMR2",
+    "DockAMR3"
+  ],
+  "constraints": [
+    "At least one AMR must always be charging",
+    "DockAMR1 can operate after DockAMR1 has recharged",
+    "DockAMR2 can operate after DockAMR2 has recharged",
+    "DockAMR3 can operate after DockAMR3 has recharged"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.473700761795044,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At least one AMR must always be charging",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 14.808091163635254,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At least one AMR must always be charging",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 16.123046875,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At least one AMR must always be charging",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.8042986392974854,
+      "tokens": 819,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At least one AMR must always be charging",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (all_AMRs_not_charging)"
+        },
+        {
+          "index": 1,
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "DockAMR1_recharged --> DockAMR1_operate"
+        },
+        {
+          "index": 2,
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "DockAMR2_recharged --> DockAMR2_operate"
+        },
+        {
+          "index": 3,
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "DockAMR3_recharged --> DockAMR3_operate"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.566106081008911,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At least one AMR must always be charging",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.5395309925079346,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At least one AMR must always be charging",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (all_amrs_not_charging)"
+        },
+        {
+          "index": 1,
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "DockAMR1_recharged --> DockAMR1_operates"
+        },
+        {
+          "index": 2,
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "DockAMR2_recharged --> DockAMR2_operates"
+        },
+        {
+          "index": 3,
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "DockAMR3_recharged --> DockAMR3_operates"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 21.98866319656372,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At least one AMR must always be charging",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 15.260129928588867,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At least one AMR must always be charging",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 38.51184105873108,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At least one AMR must always be charging",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.314115047454834,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At least one AMR must always be charging",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 15.376668930053711,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "At least one AMR must always be charging",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        },
+        {
+          "index": 2,
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        },
+        {
+          "index": 3,
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

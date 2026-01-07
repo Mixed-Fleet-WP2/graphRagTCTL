@@ -1,0 +1,21 @@
+{
+  "id": "scenario_013",
+  "domain": "harbor",
+  "prompt": "A drone monitors dock areas while patrol AGVs move containers. The drone must maintain altitude between 10 and 50 meters. If visibility < 50%, drone must land. Patrol AGVs must stop if the drone is landing nearby.",
+  "robots": ["SurveillanceDrone", "PatrolAGV"],
+  "constraints": [
+    "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+    "SurveillanceDrone lands when visibility below 50%",
+    "PatrolAGV stops when SurveillanceDrone is landing nearby"
+  ],
+  "reference_properties": [
+    "A[] (SurveillanceDrone.Flying imply (SurveillanceDrone.Altitude >= 10 && SurveillanceDrone.Altitude <= 50))",
+    "A[] (Environment.visibility < 50) imply (SurveillanceDrone.Landed)",
+    "A[] (SurveillanceDrone.landingNearby imply PatrolAGV.stopped)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10"
+  }
+}

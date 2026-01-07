@@ -1,0 +1,383 @@
+{
+  "id": "scenario_028",
+  "domain": "agriculture",
+  "prompt": "A drone surveys fields, a sprayer drone follows to apply fertilizer, two ground rovers collect samples, and a transport AMR carries full sample boxes to base. SprayerDrone acts only after SurveyDrone marks zones as safe. SampleRover1 and SampleRover2 cannot operate in the same zone simultaneously. The TransportAMR moves only when both rovers finish their collection. It must always be possible to reach a state where all zones are fertilized and samples collected.",
+  "robots": [
+    "SurveyDrone",
+    "SprayerDrone",
+    "SampleRover1",
+    "SampleRover2",
+    "TransportAMR"
+  ],
+  "constraints": [
+    "SprayerDrone starts only after SurveyDrone marks zone safe",
+    "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+    "TransportAMR starts only after both SampleRovers finish collecting",
+    "Always possible to reach a state where all zones are fertilized and samples collected"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 3.348357915878296,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 11.469407796859741,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 31.39597177505493,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.7296552658081055,
+      "tokens": 867,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.738361120223999,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.729984998703003,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 14.118381023406982,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 9.22887396812439,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 47.32058382034302,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.6854379177093506,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 15.588716983795166,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

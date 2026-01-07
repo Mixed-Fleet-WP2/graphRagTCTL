@@ -1,0 +1,1735 @@
+{
+  "id": "scenario_025",
+  "domain": "harbor",
+  "prompt": "Three AMRs operate at a dock. At any time, at least one must be charging. Eventually, they can operate again after recharging.",
+  "robots": [
+    "DockAMR1",
+    "DockAMR2",
+    "DockAMR3"
+  ],
+  "constraints": [
+    "At least one AMR must always be charging",
+    "DockAMR1 can operate after DockAMR1 has recharged",
+    "DockAMR2 can operate after DockAMR2 has recharged",
+    "DockAMR3 can operate after DockAMR3 has recharged"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "At least one AMR must always be charging",
+          "classification": {
+            "step": "classification",
+            "timing": 1.6023590564727783,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"at least one\",\"always\",\"charging\",\"AMR\",\"availability\",\"forbidden state\"],\"cues\":[\"at least\",\"always\",\"must\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.373440980911255,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (AMR1.charging == false && AMR2.charging == false && AMR3.charging == false)\",\"explanation\":\"The natural-language constraint says that at least one AMR must always be charging. This is equivalent to saying it is forbidden that all AMRs are not charging at the same time. Using the forbidden_state pattern A[] not(...), we encode the bad state as all AMRs having charging == false. Thus the query states that in all reachable states, it is never the case that AMR1, AMR2, and AMR3 are all not charging, ensuring at least one is always charging.\",\"confidence\":0.86,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (AMR1.charging == false && AMR2.charging == false && AMR3.charging == false)",
+              "explanation": "The natural-language constraint says that at least one AMR must always be charging. This is equivalent to saying it is forbidden that all AMRs are not charging at the same time. Using the forbidden_state pattern A[] not(...), we encode the bad state as all AMRs having charging == false. Thus the query states that in all reachable states, it is never the case that AMR1, AMR2, and AMR3 are all not charging, ensuring at least one is always charging.",
+              "confidence": 0.86,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (AMR1.charging == false && AMR2.charging == false && AMR3.charging == false)"
+          },
+          "total_time": 4.996726989746094,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 2.343722105026245,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"DockAMR1\",\"operate\",\"recharged\",\"after\",\"condition\"],\"cues\":[\"after\",\"can\"],\"trigger_text\":\"DockAMR1 has recharged\",\"response_text\":\"DockAMR1 can operate\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.4614012241363525,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"DockAMR1.recharged --> DockAMR1.operating\",\"explanation\":\"The constraint says that once DockAMR1 has recharged, it can (is allowed to) operate. This is a conditional eventual response, so the conditional_response pattern with the --> operator is appropriate: whenever the condition DockAMR1.recharged holds, it must eventually be followed by a state where DockAMR1 is operating.\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "DockAMR1.recharged --> DockAMR1.operating",
+              "explanation": "The constraint says that once DockAMR1 has recharged, it can (is allowed to) operate. This is a conditional eventual response, so the conditional_response pattern with the --> operator is appropriate: whenever the condition DockAMR1.recharged holds, it must eventually be followed by a state where DockAMR1 is operating.",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR1.recharged --> DockAMR1.operating"
+          },
+          "total_time": 4.820882081985474,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 2.630718946456909,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"DockAMR2\",\"operate\",\"recharged\",\"precondition\",\"after charging\"],\"cues\":[\"after\",\"can\"],\"trigger_text\":\"DockAMR2 has recharged\",\"response_text\":\"DockAMR2 can operate\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.6543891429901123,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"DockAMR2.recharged --> DockAMR2.operating\",\"explanation\":\"The constraint states that once DockAMR2 has recharged, it can (eventually) operate. This is modeled as a conditional response: whenever the condition DockAMR2.recharged becomes true, it is eventually followed by the state DockAMR2.operating. The --> operator captures this eventual response after the recharge condition is met.\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "DockAMR2.recharged --> DockAMR2.operating",
+              "explanation": "The constraint states that once DockAMR2 has recharged, it can (eventually) operate. This is modeled as a conditional response: whenever the condition DockAMR2.recharged becomes true, it is eventually followed by the state DockAMR2.operating. The --> operator captures this eventual response after the recharge condition is met.",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR2.recharged --> DockAMR2.operating"
+          },
+          "total_time": 5.300846815109253,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 1.9280829429626465,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"DockAMR3\",\"operate\",\"recharged\",\"sequence\",\"after\"],\"cues\":[\"after\",\"can\"],\"trigger_text\":\"DockAMR3 has recharged\",\"response_text\":\"DockAMR3 can operate\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.683227062225342,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"DockAMR3.recharged --> DockAMR3.operate\",\"explanation\":\"The constraint says that DockAMR3\u2019s operation should occur after it has recharged. This is a sequential workflow: once the 'recharged' action/state is reached, the 'operate' action/state should eventually follow. The template action1 --> action2 directly applies, mapping 'DockAMR3 has recharged' to DockAMR3.recharged and 'DockAMR3 can operate' to DockAMR3.operate.\",\"confidence\":0.93,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "DockAMR3.recharged --> DockAMR3.operate",
+              "explanation": "The constraint says that DockAMR3\u2019s operation should occur after it has recharged. This is a sequential workflow: once the 'recharged' action/state is reached, the 'operate' action/state should eventually follow. The template action1 --> action2 directly applies, mapping 'DockAMR3 has recharged' to DockAMR3.recharged and 'DockAMR3 can operate' to DockAMR3.operate.",
+              "confidence": 0.93,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR3.recharged --> DockAMR3.operate"
+          },
+          "total_time": 4.6268470287323,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "At least one AMR must always be charging",
+          "classification": {
+            "step": "classification",
+            "timing": 9.85027265548706,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"always\",\"at least one\",\"must\",\"charging\",\"AMR\",\"robot\",\">=1\",\"existential\",\"never zero\",\"invariant\"],\"cues\":[\"always\",\"must\",\"at least one\",\"never\",\"charging\",\">=1\",\"exists\"],\"trigger_text\":null,\"response_text\":\"At all times, the system must have at least one AMR in the charging state (states with zero charging AMRs are forbidden).\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.830690145492554,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (num_charging == 0)\",\"explanation\":\"This is a safety (forbidden_state) property that disallows any reachable state in which the number of AMRs charging is zero. It enforces that at all times at least one AMR is in the charging state by forbidding states where num_charging == 0.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (num_charging == 0)",
+              "explanation": "This is a safety (forbidden_state) property that disallows any reachable state in which the number of AMRs charging is zero. It enforces that at all times at least one AMR is in the charging state by forbidding states where num_charging == 0.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (num_charging == 0)"
+          },
+          "total_time": 31.698766946792603,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 5.675952911376953,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"after\",\n    \"recharged\",\n    \"recharge\",\n    \"operate\",\n    \"can operate\",\n    \"DockAMR1\"\n  ],\n  \"cues\": [\n    \"after\",\n    \"has\",\n    \"can\",\n    \"then\"\n  ],\n  \"trigger_text\": \"DockAMR1 has recharged\",\n  \"response_text\": \"DockAMR1 can operate\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.498608827590942,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"DockAMR1.recharged --> E<> DockAMR1.operating\",\"explanation\":\"This encodes the sequential workflow: once DockAMR1 has the 'recharged' state, it is possible (can) that DockAMR1 eventually reaches the 'operating' state. The '-->' operator captures the 'after/then' sequencing and the E<> captures the 'can' (possible) liveness of operating following recharge.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "DockAMR1.recharged --> E<> DockAMR1.operating",
+              "explanation": "This encodes the sequential workflow: once DockAMR1 has the 'recharged' state, it is possible (can) that DockAMR1 eventually reaches the 'operating' state. The '-->' operator captures the 'after/then' sequencing and the E<> captures the 'can' (possible) liveness of operating following recharge.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "DockAMR1.recharged --> E<> DockAMR1.operating"
+          },
+          "total_time": 15.19655179977417,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 7.925567150115967,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"DockAMR2\",\"operate\",\"recharge\",\"recharged\",\"operate after recharge\"],\"cues\":[\"after\",\"can\",\"has\",\"when\"],\"trigger_text\":\"DockAMR2 has recharged\",\"response_text\":\"DockAMR2 can operate\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.158021926879883,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"E<> (DockAMR2.recharged --> DockAMR2.operating)\",\"explanation\":\"Uses the sequential_workflow pattern: it asserts it is possible (E<>) that after DockAMR2 has recharged, DockAMR2 will eventually operate (-->), matching 'can operate after has recharged'.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "E<> (DockAMR2.recharged --> DockAMR2.operating)",
+              "explanation": "Uses the sequential_workflow pattern: it asserts it is possible (E<>) that after DockAMR2 has recharged, DockAMR2 will eventually operate (-->), matching 'can operate after has recharged'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "E<> (DockAMR2.recharged --> DockAMR2.operating)"
+          },
+          "total_time": 18.104443073272705,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 11.72035813331604,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"DockAMR3\",\"recharged\",\"operate\",\"after\",\"can operate\"],\"cues\":[\"after\",\"can\",\"has\",\"operate\",\"recharged\"],\"trigger_text\":\"DockAMR3 has recharged\",\"response_text\":\"DockAMR3 can operate\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.6478590965271,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"DockAMR3.recharged --> DockAMR3.operating\",\"explanation\":\"Uses the sequential-workflow leads-to operator (-->) to state that once DockAMR3 is in the 'recharged' state, it can eventually reach the 'operating' state (captures 'can operate after recharged').\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "DockAMR3.recharged --> DockAMR3.operating",
+              "explanation": "Uses the sequential-workflow leads-to operator (-->) to state that once DockAMR3 is in the 'recharged' state, it can eventually reach the 'operating' state (captures 'can operate after recharged').",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR3.recharged --> DockAMR3.operating"
+          },
+          "total_time": 24.39544677734375,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "At least one AMR must always be charging",
+          "classification": {
+            "step": "classification",
+            "timing": 12.296371221542358,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"AMR\",\"charging\",\"safety\",\"battery\",\"continuous_charging\",\"forbidden_state\",\"constraint\"],\"cues\":[\"must\",\"never\",\"when\",\"then\",\"eventually\",\"can\",\"<\",\">\",\"%\",\"after\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 38.48663806915283,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (AMR0.charging == false && AMR1.charging == false && AMR2.charging == false)\",\"explanation\":\"This forbids the global state where all AMRs are not charging. The forbidden state is (not AMR0.charging and not AMR1.charging and not AMR2.charging). By wrapping it in A[] not(...), the property states that this state must never occur, i.e., at least one AMR is charging at all times.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (AMR0.charging == false && AMR1.charging == false && AMR2.charging == false)",
+              "explanation": "This forbids the global state where all AMRs are not charging. The forbidden state is (not AMR0.charging and not AMR1.charging and not AMR2.charging). By wrapping it in A[] not(...), the property states that this state must never occur, i.e., at least one AMR is charging at all times.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (AMR0.charging == false && AMR1.charging == false && AMR2.charging == false)"
+          },
+          "total_time": 50.799489974975586,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 13.777791976928711,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"recharge\",\"operate\",\"DockAMR1\",\"precondition\",\"sequence\",\"after\"],\"cues\":[\"after\",\"then\",\"must\",\"can\",\"<\",\">\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.055854082107544,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"DockAMR1.recharge_complete --> DockAMR1.operating\",\"explanation\":\"The constraint expresses that after DockAMR1 finishes recharging, it can (will eventually) operate. This matches the sequential_workflow pattern action1 --> action2, using DockAMR1.recharge_complete as the first action and DockAMR1.operating as the second.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "DockAMR1.recharge_complete --> DockAMR1.operating",
+              "explanation": "The constraint expresses that after DockAMR1 finishes recharging, it can (will eventually) operate. This matches the sequential_workflow pattern action1 --> action2, using DockAMR1.recharge_complete as the first action and DockAMR1.operating as the second.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR1.recharge_complete --> DockAMR1.operating"
+          },
+          "total_time": 32.87204027175903,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 21.524883270263672,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"recharge\",\"operate\",\"after\",\"DockAMR2\",\"sequential\"],\"cues\":[\"after\",\"then\"],\"trigger_text\":\"DockAMR2 has recharged\",\"response_text\":\"DockAMR2 can operate\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.787874937057495,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"DockAMR2.recharged --> DockAMR2.operating\",\"explanation\":\"This matches the sequential_workflow pattern: one action (recharged) is followed by another action (operating). The -- > operator captures a subsequent transition from the recharge state to the operating state, allowing for possible delays between the two events.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "DockAMR2.recharged --> DockAMR2.operating",
+              "explanation": "This matches the sequential_workflow pattern: one action (recharged) is followed by another action (operating). The -- > operator captures a subsequent transition from the recharge state to the operating state, allowing for possible delays between the two events.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR2.recharged --> DockAMR2.operating"
+          },
+          "total_time": 35.33427095413208,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 10.11472487449646,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"DockAMR3\",\"recharge\",\"operate\",\"precondition\",\"sequence\"],\"cues\":[\"after\",\"then\",\"can\"],\"trigger_text\":\"after recharge\",\"response_text\":\"operate\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.059628963470459,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"DockAMR3.recharge_complete --> DockAMR3.operate\",\"explanation\":\"The constraint states that DockAMR3 can operate after it has recharged, which maps to a sequential workflow where recharge_complete occurs before operate.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "DockAMR3.recharge_complete --> DockAMR3.operate",
+              "explanation": "The constraint states that DockAMR3 can operate after it has recharged, which maps to a sequential workflow where recharge_complete occurs before operate.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR3.recharge_complete --> DockAMR3.operate"
+          },
+          "total_time": 22.189335823059082,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "At least one AMR must always be charging",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0575029850006104,
+            "tokens": 162,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"must\", \"always\", \"charging\"],\n  \"cues\": [\"must\", \"always\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.1907899379730225,
+            "tokens": 584,
+            "raw_text": "{\n  \"query\": \"A[] not (forall (i : int[0,N-1]) AMR[i].charging == false)\",\n  \"explanation\": \"The query ensures that it is never the case that all AMRs are not charging, which aligns with the constraint that at least one AMR must always be charging. This uses the forbidden_state pattern to prevent the invalid state where no AMR is charging.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": []\n}",
+            "uppaal_result": {
+              "query": "A[] not (forall (i : int[0,N-1]) AMR[i].charging == false)",
+              "explanation": "The query ensures that it is never the case that all AMRs are not charging, which aligns with the constraint that at least one AMR must always be charging. This uses the forbidden_state pattern to prevent the invalid state where no AMR is charging.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": []
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (forall (i : int[0,N-1]) AMR[i].charging == false)"
+          },
+          "total_time": 3.2625858783721924,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 3.01583194732666,
+            "tokens": 190,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"operate\", \"recharged\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DockAMR1 has recharged\",\n  \"response_text\": \"DockAMR1 can operate\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6621787548065186,
+            "tokens": 569,
+            "raw_text": "{\n  \"query\": \"DockAMR1.recharged --> DockAMR1.operate\",\n  \"explanation\": \"The constraint specifies that DockAMR1 can operate after it has recharged, which aligns with the sequential_workflow pattern where one action eventually follows another. The 'after' cue indicates a sequential relationship, making the '-->' operator appropriate for this scenario.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DockAMR1.recharged --> DockAMR1.operate",
+              "explanation": "The constraint specifies that DockAMR1 can operate after it has recharged, which aligns with the sequential_workflow pattern where one action eventually follows another. The 'after' cue indicates a sequential relationship, making the '-->' operator appropriate for this scenario.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR1.recharged --> DockAMR1.operate"
+          },
+          "total_time": 4.6973888874053955,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0137929916381836,
+            "tokens": 190,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"operate\", \"recharged\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DockAMR2 has recharged\",\n  \"response_text\": \"DockAMR2 can operate\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0119001865386963,
+            "tokens": 568,
+            "raw_text": "{\n  \"query\": \"DockAMR2.recharged --> DockAMR2.operate\",\n  \"explanation\": \"The query uses the sequential_workflow pattern to express that the action of DockAMR2 operating eventually follows the action of DockAMR2 recharging. The 'after' cue indicates a sequential relationship, which is captured by the '-->' operator.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DockAMR2.recharged --> DockAMR2.operate",
+              "explanation": "The query uses the sequential_workflow pattern to express that the action of DockAMR2 operating eventually follows the action of DockAMR2 recharging. The 'after' cue indicates a sequential relationship, which is captured by the '-->' operator.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR2.recharged --> DockAMR2.operate"
+          },
+          "total_time": 3.0526583194732666,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1896390914916992,
+            "tokens": 190,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"operate\", \"recharged\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DockAMR3 has recharged\",\n  \"response_text\": \"DockAMR3 can operate\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0008609294891357,
+            "tokens": 577,
+            "raw_text": "{\n  \"query\": \"DockAMR3.recharged --> DockAMR3.operate\",\n  \"explanation\": \"The query uses the sequential_workflow pattern to express that the operation of DockAMR3 follows its recharging. The 'after' cue indicates a sequential relationship, which is captured by the '-->' operator, signifying that once DockAMR3 has recharged, it can eventually operate.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DockAMR3.recharged --> DockAMR3.operate",
+              "explanation": "The query uses the sequential_workflow pattern to express that the operation of DockAMR3 follows its recharging. The 'after' cue indicates a sequential relationship, which is captured by the '-->' operator, signifying that once DockAMR3 has recharged, it can eventually operate.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR3.recharged --> DockAMR3.operate"
+          },
+          "total_time": 3.2125632762908936,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "At least one AMR must always be charging",
+          "classification": {
+            "step": "classification",
+            "timing": 3.830625057220459,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"AMR\", \"always\", \"charging\", \"at least one\"],\n  \"cues\": [\"always\", \"must\", \"at least one\"],\n  \"trigger_text\": \"AMR battery level drops or charging status changes\",\n  \"response_text\": \"ensure at least one AMR remains charging\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.999844074249268,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (exists (i:int[0,N-1]) AMR[i].charging)\",\n  \"explanation\": \"This query ensures that at all times (A[]), there exists at least one AMR in the charging state. The 'always' keyword indicates a safety property that must hold in every state, matching the safety_immediate_response pattern where the condition must be true immediately and continuously.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"exists\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (exists (i:int[0,N-1]) AMR[i].charging)",
+              "explanation": "This query ensures that at all times (A[]), there exists at least one AMR in the charging state. The 'always' keyword indicates a safety property that must hold in every state, matching the safety_immediate_response pattern where the condition must be true immediately and continuously.",
+              "confidence": 0.9,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "exists"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (exists (i:int[0,N-1]) AMR[i].charging)"
+          },
+          "total_time": 8.845693826675415,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 2.9703209400177,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"DockAMR1\", \"operate\", \"after\", \"recharged\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DockAMR1 has recharged\",\n  \"response_text\": \"DockAMR1 can operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.477415323257446,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DockAMR1.recharged --> DockAMR1.operating\",\n  \"explanation\": \"This query uses the sequential workflow pattern with the leads-to operator (-->) to express that after DockAMR1 reaches the 'recharged' state, it will eventually transition to the 'operating' state. The leads-to operator captures the 'after' relationship where recharging must complete before operation can occur.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "DockAMR1.recharged --> DockAMR1.operating",
+              "explanation": "This query uses the sequential workflow pattern with the leads-to operator (-->) to express that after DockAMR1 reaches the 'recharged' state, it will eventually transition to the 'operating' state. The leads-to operator captures the 'after' relationship where recharging must complete before operation can occur.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR1.recharged --> DockAMR1.operating"
+          },
+          "total_time": 7.463198900222778,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 3.068162202835083,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"DockAMR2\", \"operate\", \"recharged\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DockAMR2 has recharged\",\n  \"response_text\": \"DockAMR2 can operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.903468132019043,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DockAMR2.recharged --> DockAMR2.operate\",\n  \"explanation\": \"This query uses the leads-to operator (-->) to express that after DockAMR2 reaches the recharged state, it will eventually reach the operate state. This matches the sequential_workflow pattern where recharging is the trigger action that eventually leads to the response action of operating.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "DockAMR2.recharged --> DockAMR2.operate",
+              "explanation": "This query uses the leads-to operator (-->) to express that after DockAMR2 reaches the recharged state, it will eventually reach the operate state. This matches the sequential_workflow pattern where recharging is the trigger action that eventually leads to the response action of operating.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR2.recharged --> DockAMR2.operate"
+          },
+          "total_time": 7.993293762207031,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 3.3544721603393555,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"DockAMR3\", \"operate\", \"recharged\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DockAMR3 has recharged\",\n  \"response_text\": \"DockAMR3 can operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.04481315612793,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DockAMR3.recharged --> DockAMR3.operating\",\n  \"explanation\": \"This query uses the leads-to operator (-->) to express that after DockAMR3 reaches the recharged state, it will eventually transition to the operating state. This matches the sequential_workflow pattern where recharging is completed before operation can resume.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "DockAMR3.recharged --> DockAMR3.operating",
+              "explanation": "This query uses the leads-to operator (-->) to express that after DockAMR3 reaches the recharged state, it will eventually transition to the operating state. This matches the sequential_workflow pattern where recharging is completed before operation can resume.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR3.recharged --> DockAMR3.operating"
+          },
+          "total_time": 7.421194076538086,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "At least one AMR must always be charging",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8072597980499268,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"AMR\", \"charging\", \"always\"],\n  \"cues\": [\"always\", \"must\"],\n  \"trigger_text\": \"At least one AMR\",\n  \"response_text\": \"must always be charging\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0799360275268555,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (exists(i : int[0, NUM_AMRS-1]) amr[i].charging)\",\n  \"explanation\": \"This query enforces that at least one AMR must always be in a charging state. The A[] operator ensures this condition holds in ALL reachable states (always true). The exists quantifier checks that there is at least one AMR with charging=true. This matches the constraint 'must always be charging' by preventing any state where zero AMRs are charging.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (exists(i : int[0, NUM_AMRS-1]) amr[i].charging)",
+              "explanation": "This query enforces that at least one AMR must always be in a charging state. The A[] operator ensures this condition holds in ALL reachable states (always true). The exists quantifier checks that there is at least one AMR with charging=true. This matches the constraint 'must always be charging' by preventing any state where zero AMRs are charging.",
+              "confidence": 0.82,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (exists(i : int[0, NUM_AMRS-1]) amr[i].charging)"
+          },
+          "total_time": 3.9065117835998535,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8264830112457275,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"operate\", \"recharged\", \"after\", \"condition\"],\n  \"cues\": [\"after\", \"can\"],\n  \"trigger_text\": \"DockAMR1 has recharged\",\n  \"response_text\": \"DockAMR1 can operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.6572799682617188,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DockAMR1.recharged --> DockAMR1.operating\",\n  \"explanation\": \"The constraint expresses a conditional_response pattern where the condition 'DockAMR1 has recharged' triggers the eventual response 'DockAMR1 can operate'. The '-->' operator captures the sequential workflow: once the recharge condition is satisfied, the system will eventually transition to the operating state. This is not an immediate response but rather an eventual behavior triggered by the condition.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "DockAMR1.recharged --> DockAMR1.operating",
+              "explanation": "The constraint expresses a conditional_response pattern where the condition 'DockAMR1 has recharged' triggers the eventual response 'DockAMR1 can operate'. The '-->' operator captures the sequential workflow: once the recharge condition is satisfied, the system will eventually transition to the operating state. This is not an immediate response but rather an eventual behavior triggered by the condition.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR1.recharged --> DockAMR1.operating"
+          },
+          "total_time": 4.499956130981445,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0150489807128906,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"operate\", \"recharged\", \"after\", \"DockAMR2\"],\n  \"cues\": [\"after\", \"can\"],\n  \"trigger_text\": \"DockAMR2 has recharged\",\n  \"response_text\": \"DockAMR2 can operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5667259693145752,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DockAMR2.recharged --> DockAMR2.operating\",\n  \"explanation\": \"This constraint describes a conditional response where the condition 'DockAMR2 has recharged' triggers the eventual response 'DockAMR2 can operate'. The '-->' operator captures the sequential workflow: once recharging is complete, the system transitions to an operating state. This matches the conditional_response pattern where a trigger leads to an eventual action.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "DockAMR2.recharged --> DockAMR2.operating",
+              "explanation": "This constraint describes a conditional response where the condition 'DockAMR2 has recharged' triggers the eventual response 'DockAMR2 can operate'. The '-->' operator captures the sequential workflow: once recharging is complete, the system transitions to an operating state. This matches the conditional_response pattern where a trigger leads to an eventual action.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR2.recharged --> DockAMR2.operating"
+          },
+          "total_time": 2.599836826324463,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2557358741760254,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"operate\", \"recharged\", \"DockAMR3\", \"after\"],\n  \"cues\": [\"after\", \"can\"],\n  \"trigger_text\": \"DockAMR3 has recharged\",\n  \"response_text\": \"DockAMR3 can operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6584882736206055,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DockAMR3.recharged --> DockAMR3.operating\",\n  \"explanation\": \"The constraint describes a conditional response where the condition 'DockAMR3 has recharged' triggers the eventual response 'DockAMR3 can operate'. The '-->' operator captures this sequential workflow: once recharging is complete, the system progresses to an operational state. This matches the conditional_response pattern where a triggered condition leads to eventual action.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "DockAMR3.recharged --> DockAMR3.operating",
+              "explanation": "The constraint describes a conditional response where the condition 'DockAMR3 has recharged' triggers the eventual response 'DockAMR3 can operate'. The '-->' operator captures this sequential workflow: once recharging is complete, the system progresses to an operational state. This matches the conditional_response pattern where a triggered condition leads to eventual action.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR3.recharged --> DockAMR3.operating"
+          },
+          "total_time": 2.9399638175964355,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "At least one AMR must always be charging",
+          "classification": {
+            "step": "classification",
+            "timing": 9.998266220092773,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"forbidden_state\", \"keywords\": [\"charging\", \"always\", \"must\"], \"cues\": [\"always\", \"must\"], \"trigger_text\": null, \"response_text\": null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.443068027496338,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] not (!AMR1.charging && !AMR2.charging)\", \"explanation\": \"The constraint 'At least one AMR must always be charging' implies that the state where no AMR is charging must never occur. Assuming two AMRs (AMR1 and AMR2), the forbidden state is when neither is charging, matching the forbidden_state pattern template A[] not (bad_state).\", \"confidence\": 0.85, \"pattern_used\": \"forbidden_state\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (!AMR1.charging && !AMR2.charging)",
+              "explanation": "The constraint 'At least one AMR must always be charging' implies that the state where no AMR is charging must never occur. Assuming two AMRs (AMR1 and AMR2), the forbidden state is when neither is charging, matching the forbidden_state pattern template A[] not (bad_state).",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (!AMR1.charging && !AMR2.charging)"
+          },
+          "total_time": 30.460757970809937,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 12.187530040740967,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": \"sequential\", \"cues\": [\"after\"], \"trigger_text\": \"DockAMR1 has recharged\", \"response_text\": \"DockAMR1 can operate\"}"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 12.23483395576477,
+          "success": false,
+          "error": "GraphRAG retrieval failed: {neo4j_code: Neo.ClientError.Statement.SyntaxError} {message: Type mismatch for parameter 'keywords': expected List<T> but was String (line 4, column 63 (offset: 149))\n\"             size([kw IN coalesce(e.keywords, []) WHERE kw IN $keywords]) AS overlap\"\n                                                               ^} {gql_status: 22G03} {gql_status_description: error: data exception - invalid value type}",
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 13.061280965805054,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"operate\", \"recharged\"], \"cues\": [\"after\", \"can\"], \"trigger_text\": \"DockAMR2 has recharged\", \"response_text\": \"DockAMR2 can operate\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.632359981536865,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"DockAMR2.recharged --> DockAMR2.can_operate\", \"explanation\": \"The constraint describes a conditional response where recharging triggers the ability to operate, matching the conditional_response pattern with --> operator for eventual behavior.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "DockAMR2.recharged --> DockAMR2.can_operate",
+              "explanation": "The constraint describes a conditional response where recharging triggers the ability to operate, matching the conditional_response pattern with --> operator for eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR2.recharged --> DockAMR2.can_operate"
+          },
+          "total_time": 29.710041761398315,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 14.481436252593994,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"recharge\", \"operate\"], \"cues\": [\"after\"], \"trigger_text\": \"DockAMR3 has recharged\", \"response_text\": \"DockAMR3 can operate\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.120471000671387,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"DockAMR3.recharged --> DockAMR3.operating\", \"explanation\": \"The constraint indicates that after DockAMR3 recharges, it can operate, which fits the sequential_workflow pattern where recharging eventually leads to operating, using the --> operator for eventual triggered behavior.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "DockAMR3.recharged --> DockAMR3.operating",
+              "explanation": "The constraint indicates that after DockAMR3 recharges, it can operate, which fits the sequential_workflow pattern where recharging eventually leads to operating, using the --> operator for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR3.recharged --> DockAMR3.operating"
+          },
+          "total_time": 26.619687795639038,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "At least one AMR must always be charging",
+          "classification": {
+            "step": "classification",
+            "timing": 6.904366970062256,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"AMR\", \"charging\", \"always\"],\n  \"cues\": [\"always\", \"must\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.542052745819092,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (!AMR1.charging && !AMR2.charging)\",\n  \"explanation\": \"This query ensures that the state where no AMR is charging never occurs, directly matching the constraint that at least one AMR must always be charging by using the forbidden_state pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (!AMR1.charging && !AMR2.charging)",
+              "explanation": "This query ensures that the state where no AMR is charging never occurs, directly matching the constraint that at least one AMR must always be charging by using the forbidden_state pattern.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (!AMR1.charging && !AMR2.charging)"
+          },
+          "total_time": 26.462722778320312,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 5.734189987182617,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"DockAMR1\", \"operate\", \"after\", \"recharged\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DockAMR1 has recharged\",\n  \"response_text\": \"DockAMR1 can operate\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.663563966751099,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"DockAMR1.recharged --> DockAMR1.operating\",\n  \"explanation\": \"The query uses the --> operator to ensure that after DockAMR1 has recharged, it will eventually operate, aligning with the sequential_workflow pattern where one action follows another as specified in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DockAMR1.recharged --> DockAMR1.operating",
+              "explanation": "The query uses the --> operator to ensure that after DockAMR1 has recharged, it will eventually operate, aligning with the sequential_workflow pattern where one action follows another as specified in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR1.recharged --> DockAMR1.operating"
+          },
+          "total_time": 13.419825792312622,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 5.827195882797241,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"after\", \"operate\", \"recharged\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DockAMR2 has recharged\",\n  \"response_text\": \"DockAMR2 can operate\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.741862773895264,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"DockAMR2.recharged --> DockAMR2.operating\",\n  \"explanation\": \"This query uses the --> operator to model the sequential workflow where the recharged state of DockAMR2 eventually leads to the operating state, directly matching the constraint that DockAMR2 can operate after it has recharged.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DockAMR2.recharged --> DockAMR2.operating",
+              "explanation": "This query uses the --> operator to model the sequential workflow where the recharged state of DockAMR2 eventually leads to the operating state, directly matching the constraint that DockAMR2 can operate after it has recharged.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR2.recharged --> DockAMR2.operating"
+          },
+          "total_time": 12.591284990310669,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 15.88012409210205,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"after\", \"operate\", \"recharged\"],\n  \"cues\": [\"after\", \"can\"],\n  \"trigger_text\": \"DockAMR3 has recharged\",\n  \"response_text\": \"DockAMR3 can operate\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.009121894836426,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"DockAMR3.recharged --> DockAMR3.operating\",\n  \"explanation\": \"The query uses the --> operator to represent a sequential workflow where the recharging of DockAMR3 eventually leads to its operation, directly matching the constraint that DockAMR3 can operate after it has recharged.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DockAMR3.recharged --> DockAMR3.operating",
+              "explanation": "The query uses the --> operator to represent a sequential workflow where the recharging of DockAMR3 eventually leads to its operation, directly matching the constraint that DockAMR3 can operate after it has recharged.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR3.recharged --> DockAMR3.operating"
+          },
+          "total_time": 21.910989999771118,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "At least one AMR must always be charging",
+          "classification": {
+            "step": "classification",
+            "timing": 31.21932601928711,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"AMR\", \"charging\"],\n  \"cues\": [\"always\", \"must\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 112.32267999649048,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (forall (i:int[0,N-1]) AMR(i).charging == false)\",\n  \"explanation\": \"The constraint 'At least one AMR must always be charging' is translated using the 'forbidden_state' pattern, which requires that a bad state never occurs. Here, the bad state is when no AMR is charging, expressed as 'forall (i:int[0,N-1]) AMR(i).charging == false'. The query 'A[] not (bad_state)' ensures this state is never reached, which is equivalent to always having at least one AMR charging, matching the natural-language constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (forall (i:int[0,N-1]) AMR(i).charging == false)",
+              "explanation": "The constraint 'At least one AMR must always be charging' is translated using the 'forbidden_state' pattern, which requires that a bad state never occurs. Here, the bad state is when no AMR is charging, expressed as 'forall (i:int[0,N-1]) AMR(i).charging == false'. The query 'A[] not (bad_state)' ensures this state is never reached, which is equivalent to always having at least one AMR charging, matching the natural-language constraint.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (forall (i:int[0,N-1]) AMR(i).charging == false)"
+          },
+          "total_time": 143.56516480445862,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 47.19698405265808,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"DockAMR1\", \"operate\", \"recharge\", \"after\"],\n  \"cues\": [\"after\", \"can\"],\n  \"trigger_text\": \"DockAMR1 has recharged\",\n  \"response_text\": \"DockAMR1 can operate\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 61.93231797218323,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"DockAMR1.recharge_complete --> DockAMR1.operating\",\n  \"explanation\": \"The constraint 'DockAMR1 can operate after DockAMR1 has recharged' fits the sequential_workflow pattern with 'after' as a cue, indicating that operating eventually follows recharging. The UPPAAL query uses the leads-to operator '-->' to model this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DockAMR1.recharge_complete --> DockAMR1.operating",
+              "explanation": "The constraint 'DockAMR1 can operate after DockAMR1 has recharged' fits the sequential_workflow pattern with 'after' as a cue, indicating that operating eventually follows recharging. The UPPAAL query uses the leads-to operator '-->' to model this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR1.recharge_complete --> DockAMR1.operating"
+          },
+          "total_time": 109.15080189704895,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 56.41141414642334,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"operate\", \"recharge\", \"after\"],\n  \"cues\": [\"after\", \"can\"],\n  \"trigger_text\": \"DockAMR2 has recharged\",\n  \"response_text\": \"DockAMR2 can operate\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 56.7116858959198,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"DockAMR2.recharged --> DockAMR2.operating\",\n  \"explanation\": \"The constraint uses 'after' to indicate that operating eventually follows recharging, which matches the sequential_workflow pattern for multi-step processes with eventual responses, as seen in similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DockAMR2.recharged --> DockAMR2.operating",
+              "explanation": "The constraint uses 'after' to indicate that operating eventually follows recharging, which matches the sequential_workflow pattern for multi-step processes with eventual responses, as seen in similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR2.recharged --> DockAMR2.operating"
+          },
+          "total_time": 113.14943599700928,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 31.964317798614502,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"operate\", \"recharge\"],\n  \"cues\": [\"after\", \"can\"],\n  \"trigger_text\": \"DockAMR3 has recharged\",\n  \"response_text\": \"DockAMR3 can operate\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 87.20465326309204,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"DockAMR3.recharged --> DockAMR3.operating\",\n  \"explanation\": \"The constraint 'DockAMR3 can operate after DockAMR3 has recharged' matches the sequential_workflow pattern where one action (recharging) eventually triggers another (operating). The '-->' operator is used to express that whenever DockAMR3 is recharged, it will eventually operate, aligning with the 'after' cue and the pattern's description of eventual following actions.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DockAMR3.recharged --> DockAMR3.operating",
+              "explanation": "The constraint 'DockAMR3 can operate after DockAMR3 has recharged' matches the sequential_workflow pattern where one action (recharging) eventually triggers another (operating). The '-->' operator is used to express that whenever DockAMR3 is recharged, it will eventually operate, aligning with the 'after' cue and the pattern's description of eventual following actions.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR3.recharged --> DockAMR3.operating"
+          },
+          "total_time": 119.19029188156128,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "At least one AMR must always be charging",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0239946842193604,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"charging\",\n    \"AMR\",\n    \"always\",\n    \"at least one\"\n  ],\n  \"cues\": [\n    \"always\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5102360248565674,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (AMR1.charging or AMR2.charging or AMR3.charging)\",\n  \"explanation\": \"The constraint 'At least one AMR must always be charging' translates to a global invariant (A[]) that the state where either AMR1, AMR2, or AMR3 is charging must always hold.  We use 'A[]' to express 'always' and the OR operator to express 'at least one'. Assuming there are three AMRs: AMR1, AMR2, and AMR3.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (AMR1.charging or AMR2.charging or AMR3.charging)",
+              "explanation": "The constraint 'At least one AMR must always be charging' translates to a global invariant (A[]) that the state where either AMR1, AMR2, or AMR3 is charging must always hold.  We use 'A[]' to express 'always' and the OR operator to express 'at least one'. Assuming there are three AMRs: AMR1, AMR2, and AMR3.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (AMR1.charging or AMR2.charging or AMR3.charging)"
+          },
+          "total_time": 2.553812026977539,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 1.009078025817871,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"dockamr1\", \"operate\", \"recharged\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DockAMR1 has recharged\",\n  \"response_text\": \"DockAMR1 can operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.1115450859069824,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DockAMR1.recharged --> DockAMR1.operating\",\n  \"explanation\": \"The constraint describes a sequential workflow where DockAMR1 operating after it has recharged. This is modeled using the '-->' operator, indicating that after the 'recharged' state is reached, the 'operating' state will eventually be reached.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "DockAMR1.recharged --> DockAMR1.operating",
+              "explanation": "The constraint describes a sequential workflow where DockAMR1 operating after it has recharged. This is modeled using the '-->' operator, indicating that after the 'recharged' state is reached, the 'operating' state will eventually be reached.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR1.recharged --> DockAMR1.operating"
+          },
+          "total_time": 2.143481969833374,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8074219226837158,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"operate\", \"recharged\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DockAMR2 has recharged\",\n  \"response_text\": \"DockAMR2 can operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.3129611015319824,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DockAMR2.recharged --> DockAMR2.operate\",\n  \"explanation\": \"The constraint specifies a sequential workflow where DockAMR2 operating eventually follows its recharging. The '-->' operator is used to represent this eventual, sequential dependency.  DockAMR2.recharged and DockAMR2.operate are assumed to be boolean variables/clocks becoming true when the respective action is completed.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "DockAMR2.recharged --> DockAMR2.operate",
+              "explanation": "The constraint specifies a sequential workflow where DockAMR2 operating eventually follows its recharging. The '-->' operator is used to represent this eventual, sequential dependency.  DockAMR2.recharged and DockAMR2.operate are assumed to be boolean variables/clocks becoming true when the respective action is completed.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR2.recharged --> DockAMR2.operate"
+          },
+          "total_time": 2.14607572555542,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2139692306518555,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"operate\", \"recharged\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DockAMR3 has recharged\",\n  \"response_text\": \"DockAMR3 can operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4056570529937744,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DockAMR3.recharged --> DockAMR3.operate\",\n  \"explanation\": \"The constraint 'DockAMR3 can operate after DockAMR3 has recharged' expresses a sequential workflow where the 'recharged' state of DockAMR3 eventually leads to its 'operate' state. The '-->' operator is suitable for representing eventual responses in sequential workflows. 'DockAMR3.recharged --> DockAMR3.operate' accurately captures this relationship, meaning once DockAMR3 enters the 'recharged' state, it will eventually transition to the 'operate' state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "DockAMR3.recharged --> DockAMR3.operate",
+              "explanation": "The constraint 'DockAMR3 can operate after DockAMR3 has recharged' expresses a sequential workflow where the 'recharged' state of DockAMR3 eventually leads to its 'operate' state. The '-->' operator is suitable for representing eventual responses in sequential workflows. 'DockAMR3.recharged --> DockAMR3.operate' accurately captures this relationship, meaning once DockAMR3 enters the 'recharged' state, it will eventually transition to the 'operate' state.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR3.recharged --> DockAMR3.operate"
+          },
+          "total_time": 2.64399790763855,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "At least one AMR must always be charging",
+          "classification": {
+            "step": "classification",
+            "timing": 6.752940654754639,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"AMR\",\n    \"charging\",\n    \"at least one\"\n  ],\n  \"cues\": [\n    \"must\",\n    \"always\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.530190229415894,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not ((sum(i:id_t) AMR(i).Charging) == 0)\",\n  \"explanation\": \"The constraint 'At least one AMR must always be charging' is a safety property. The query uses the 'forbidden_state' pattern 'A[] not (bad_state)'. The 'bad state' is the negation of the requirement, which is 'no AMRs are charging'. This is expressed by checking if the sum of AMRs in the 'Charging' location is equal to zero. The A[] operator ensures this forbidden state is never reached.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not ((sum(i:id_t) AMR(i).Charging) == 0)",
+              "explanation": "The constraint 'At least one AMR must always be charging' is a safety property. The query uses the 'forbidden_state' pattern 'A[] not (bad_state)'. The 'bad state' is the negation of the requirement, which is 'no AMRs are charging'. This is expressed by checking if the sum of AMRs in the 'Charging' location is equal to zero. The A[] operator ensures this forbidden state is never reached.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not ((sum(i:id_t) AMR(i).Charging) == 0)"
+          },
+          "total_time": 21.301033973693848,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 6.651762962341309,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"operate\",\n    \"recharged\"\n  ],\n  \"cues\": [\n    \"can\",\n    \"after\"\n  ],\n  \"trigger_text\": \"DockAMR1 has recharged\",\n  \"response_text\": \"DockAMR1 can operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.693516731262207,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DockAMR1.recharged --> DockAMR1.operate\",\n  \"explanation\": \"The constraint \\\"DockAMR1 can operate after DockAMR1 has recharged\\\" describes a sequential workflow where one event follows another. The keyword 'after' signals this temporal dependency. The pattern `action1 --> action2` is used, where `action1` is the trigger 'DockAMR1 has recharged' (mapped to `DockAMR1.recharged`) and `action2` is the response 'DockAMR1 can operate' (mapped to `DockAMR1.operate`). The `-->` (leads to) operator ensures that whenever the system is in the `recharged` state, it must eventually transition to the `operate` state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "DockAMR1.recharged --> DockAMR1.operate",
+              "explanation": "The constraint \"DockAMR1 can operate after DockAMR1 has recharged\" describes a sequential workflow where one event follows another. The keyword 'after' signals this temporal dependency. The pattern `action1 --> action2` is used, where `action1` is the trigger 'DockAMR1 has recharged' (mapped to `DockAMR1.recharged`) and `action2` is the response 'DockAMR1 can operate' (mapped to `DockAMR1.operate`). The `-->` (leads to) operator ensures that whenever the system is in the `recharged` state, it must eventually transition to the `operate` state.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR1.recharged --> DockAMR1.operate"
+          },
+          "total_time": 24.370557069778442,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 8.90619707107544,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"DockAMR2\",\n    \"operate\",\n    \"recharged\",\n    \"after\"\n  ],\n  \"cues\": [\n    \"can\",\n    \"after\"\n  ],\n  \"trigger_text\": \"DockAMR2 has recharged\",\n  \"response_text\": \"DockAMR2 can operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 36.90995907783508,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DockAMR2.Recharged --> DockAMR2.Operating\",\n  \"explanation\": \"The constraint 'DockAMR2 can operate after DockAMR2 has recharged' describes a sequential workflow. The keyword 'after' directly maps to the 'leads to' (`-->`) operator, which is characteristic of this pattern. The trigger event `DockAMR2 has recharged` is represented by the state `DockAMR2.Recharged`. The resulting action `DockAMR2 can operate` is represented by the state `DockAMR2.Operating`. The query verifies that whenever the `Recharged` state is reached, the `Operating` state will eventually be reached, fulfilling the sequential condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "DockAMR2.Recharged --> DockAMR2.Operating",
+              "explanation": "The constraint 'DockAMR2 can operate after DockAMR2 has recharged' describes a sequential workflow. The keyword 'after' directly maps to the 'leads to' (`-->`) operator, which is characteristic of this pattern. The trigger event `DockAMR2 has recharged` is represented by the state `DockAMR2.Recharged`. The resulting action `DockAMR2 can operate` is represented by the state `DockAMR2.Operating`. The query verifies that whenever the `Recharged` state is reached, the `Operating` state will eventually be reached, fulfilling the sequential condition.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR2.Recharged --> DockAMR2.Operating"
+          },
+          "total_time": 1649.3455941677094,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 8.101654052734375,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"DockAMR3\",\n    \"operate\",\n    \"recharged\"\n  ],\n  \"cues\": [\n    \"can\",\n    \"after\"\n  ],\n  \"trigger_text\": \"DockAMR3 has recharged\",\n  \"response_text\": \"DockAMR3 can operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.0958890914917,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"DockAMR3.recharged --> DockAMR3.operate\",\n  \"explanation\": \"The constraint specifies a sequential workflow where the 'operate' action happens after the 'recharged' event for DockAMR3. The '-->' operator (leads to) perfectly captures this relationship, signifying that whenever the state 'DockAMR3.recharged' is true, it will eventually be followed by the state 'DockAMR3.operate'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "DockAMR3.recharged --> DockAMR3.operate",
+              "explanation": "The constraint specifies a sequential workflow where the 'operate' action happens after the 'recharged' event for DockAMR3. The '-->' operator (leads to) perfectly captures this relationship, signifying that whenever the state 'DockAMR3.recharged' is true, it will eventually be followed by the state 'DockAMR3.operate'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR3.recharged --> DockAMR3.operate"
+          },
+          "total_time": 25.22232699394226,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    }
+  ]
+}

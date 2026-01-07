@@ -1,0 +1,1338 @@
+{
+  "id": "scenario_002",
+  "domain": "warehouse",
+  "prompt": "A camera scans pallet barcodes. After scanning, an Agv moves to pick the pallet. Once the AGV is loaded, the conveyor moves then the robot arm places the pallet onto a shelf.",
+  "robots": [
+    "Camera",
+    "Agv",
+    "Conveyor",
+    "RobotArm"
+  ],
+  "constraints": [
+    "AGV moves to pick the pallet after scanning.",
+    "Conveyor moves only after Agv is loaded",
+    "Conveyor must move before RobotArm places the pallet onto a shelf"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.9281320571899414,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"AGV\",\"moves\",\"pick\",\"pallet\",\"after\",\"scanning\",\"sequence\",\"order\"],\"cues\":[\"after\",\"then\"],\"trigger_text\":\"after scanning\",\"response_text\":\"AGV moves to pick the pallet\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.674438953399658,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"AGV.scanning_done --> AGV.picking_pallet\",\"explanation\":\"The constraint says that after scanning, the AGV moves to pick the pallet. This is a sequential workflow where the completion of scanning (AGV.scanning_done) must eventually be followed by the AGV moving to pick the pallet (AGV.picking_pallet), so the sequential workflow operator '-->' is used.\",\"confidence\":0.86,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "AGV.scanning_done --> AGV.picking_pallet",
+              "explanation": "The constraint says that after scanning, the AGV moves to pick the pallet. This is a sequential workflow where the completion of scanning (AGV.scanning_done) must eventually be followed by the AGV moving to pick the pallet (AGV.picking_pallet), so the sequential workflow operator '-->' is used.",
+              "confidence": 0.86,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AGV.scanning_done --> AGV.picking_pallet"
+          },
+          "total_time": 4.650141954421997,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "classification": {
+            "step": "classification",
+            "timing": 2.53873610496521,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"conveyor\",\"AGV\",\"moves only after\",\"loaded\",\"precondition\",\"dependency\"],\"cues\":[\"only after\",\"after\"],\"trigger_text\":\"AGV is loaded\",\"response_text\":\"Conveyor moves\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.874413013458252,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"AGV.loaded --> Conveyor.moving\",\"explanation\":\"The natural-language constraint states that the conveyor may move only after the AGV is loaded, which implies a temporal dependency: loading of the AGV is a precondition that eventually leads to the conveyor moving. Using the conditional-response pattern, we encode this as an eventual response: whenever the AGV is in the loaded state (AGV.loaded), this must eventually be followed by the conveyor being in the moving state (Conveyor.moving). The 'only after' phrasing is captured by making loading the triggering condition for any movement of the conveyor.\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "AGV.loaded --> Conveyor.moving",
+              "explanation": "The natural-language constraint states that the conveyor may move only after the AGV is loaded, which implies a temporal dependency: loading of the AGV is a precondition that eventually leads to the conveyor moving. Using the conditional-response pattern, we encode this as an eventual response: whenever the AGV is in the loaded state (AGV.loaded), this must eventually be followed by the conveyor being in the moving state (Conveyor.moving). The 'only after' phrasing is captured by making loading the triggering condition for any movement of the conveyor.",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AGV.loaded --> Conveyor.moving"
+          },
+          "total_time": 5.445624113082886,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "classification": {
+            "step": "classification",
+            "timing": 1.997511863708496,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"conveyor\",\"robot arm\",\"pallet\",\"shelf\",\"move before\",\"ordering\",\"sequence\"],\"cues\":[\"must\",\"before\"],\"trigger_text\":\"RobotArm places the pallet onto a shelf\",\"response_text\":\"Conveyor moves (is moving)\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.475350856781006,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Conveyor.moving --> RobotArm.placing_pallet_on_shelf\",\"explanation\":\"The query states that whenever the Conveyor is (or becomes) in the state 'moving', this is eventually followed by the RobotArm entering the state 'placing_pallet_on_shelf'. This encodes the required ordering that the conveyor must move before the robot arm places the pallet onto a shelf, matching the sequential_workflow pattern with the '-->' operator.\",\"confidence\":0.87,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Conveyor.moving --> RobotArm.placing_pallet_on_shelf",
+              "explanation": "The query states that whenever the Conveyor is (or becomes) in the state 'moving', this is eventually followed by the RobotArm entering the state 'placing_pallet_on_shelf'. This encodes the required ordering that the conveyor must move before the robot arm places the pallet onto a shelf, matching the sequential_workflow pattern with the '-->' operator.",
+              "confidence": 0.87,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Conveyor.moving --> RobotArm.placing_pallet_on_shelf"
+          },
+          "total_time": 4.499863147735596,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "classification": {
+            "step": "classification",
+            "timing": 5.944954872131348,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"AGV\",\"scan\",\"scanning\",\"move\",\"moves\",\"pick\",\"pallet\",\"after\",\"then\"],\"cues\":[\"after\",\"then\",\"when\",\"must\"],\"trigger_text\":\"scanning\",\"response_text\":\"AGV moves to pick the pallet\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.709466218948364,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Scanner.scanning_done --> AGV.pick_pallet\",\"explanation\":\"Expresses that once the scanning action is completed (Scanner.scanning_done), the AGV will eventually move to pick the pallet (AGV.pick_pallet). The '-->' operator captures the required sequential/eventual relationship (action1 leads to action2).\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Scanner.scanning_done --> AGV.pick_pallet",
+              "explanation": "Expresses that once the scanning action is completed (Scanner.scanning_done), the AGV will eventually move to pick the pallet (AGV.pick_pallet). The '-->' operator captures the required sequential/eventual relationship (action1 leads to action2).",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Scanner.scanning_done --> AGV.pick_pallet"
+          },
+          "total_time": 13.673671960830688,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "classification": {
+            "step": "classification",
+            "timing": 7.866264820098877,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"conveyor\",\"Agv\",\"AGV\",\"loaded\",\"only after\",\"after\",\"move\",\"moves\"],\"cues\":[\"after\",\"only\",\"when\",\"must\",\"then\"],\"trigger_text\":\"Agv is loaded\",\"response_text\":\"Conveyor moves\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.629775047302246,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(Agv.loaded) --> (Conveyor.moving)\",\"explanation\":\"Maps the trigger 'Agv is loaded' to the required eventual response 'Conveyor moves' using the conditional_response pattern. This query requires that whenever the AGV becomes loaded, the system must eventually reach a state where the conveyor is moving, capturing the intended sequential constraint that conveyor movement occurs after AGV loading.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(Agv.loaded) --> (Conveyor.moving)",
+              "explanation": "Maps the trigger 'Agv is loaded' to the required eventual response 'Conveyor moves' using the conditional_response pattern. This query requires that whenever the AGV becomes loaded, the system must eventually reach a state where the conveyor is moving, capturing the intended sequential constraint that conveyor movement occurs after AGV loading.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(Agv.loaded) --> (Conveyor.moving)"
+          },
+          "total_time": 19.519941806793213,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "classification": {
+            "step": "classification",
+            "timing": 10.651273012161255,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"Conveyor\",\"RobotArm\",\"pallet\",\"shelf\",\"move\",\"places\",\"before\",\"must\"],\"cues\":[\"before\",\"must\",\"places\",\"move\"],\"trigger_text\":\"RobotArm places the pallet onto a shelf\",\"response_text\":\"Conveyor must move before the RobotArm places the pallet onto the shelf\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.572736978530884,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Conveyor.move --> RobotArm.place_pallet_on_shelf\",\n  \"explanation\": \"Specifies a sequential workflow: the Conveyor's move action must occur before the RobotArm performs the 'place pallet on shelf' action, matching the requirement that Conveyor moves prior to the placement.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Conveyor.move --> RobotArm.place_pallet_on_shelf",
+              "explanation": "Specifies a sequential workflow: the Conveyor's move action must occur before the RobotArm performs the 'place pallet on shelf' action, matching the requirement that Conveyor moves prior to the placement.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Conveyor.move --> RobotArm.place_pallet_on_shelf"
+          },
+          "total_time": 23.261209964752197,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "classification": {
+            "step": "classification",
+            "timing": 10.834077835083008,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"AGV\",\"scan\",\"pallet\",\"move\",\"sequence\",\"after\",\"scanning\"],\"cues\":[\"after\",\"then\"],\"trigger_text\":\"after scanning\",\"response_text\":\"AGV moves to pick the pallet.\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.3118257522583,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"AGV.scanning_done --> AGV.move_to_pallet\",\"explanation\":\"Represents a sequential workflow: after the scanning completes (scanning_done), the AGV moves to pick the pallet (move_to_pallet). This matches the constraint 'AGV moves to pick the pallet after scanning.' using the --> operator for sequential behavior.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "AGV.scanning_done --> AGV.move_to_pallet",
+              "explanation": "Represents a sequential workflow: after the scanning completes (scanning_done), the AGV moves to pick the pallet (move_to_pallet). This matches the constraint 'AGV moves to pick the pallet after scanning.' using the --> operator for sequential behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AGV.scanning_done --> AGV.move_to_pallet"
+          },
+          "total_time": 24.17480206489563,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "classification": {
+            "step": "classification",
+            "timing": 16.141847848892212,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"conveyor\",\"agv\",\"loaded\",\"sequence\",\"constraint\"],\"cues\":[\"after\",\"must\"],\"trigger_text\":\"sequential_workflow\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.34910798072815,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Agv.loaded --> Conveyor.moves\",\"explanation\":\"The constraint expresses a sequential relationship: the Conveyor moves only after the Agv has been loaded. This is modeled as a direct two-action sequence where the Agv loading event precedes the Conveyor movement event, i.e., Agv.loaded --> Conveyor.moves.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Agv.loaded --> Conveyor.moves",
+              "explanation": "The constraint expresses a sequential relationship: the Conveyor moves only after the Agv has been loaded. This is modeled as a direct two-action sequence where the Agv loading event precedes the Conveyor movement event, i.e., Agv.loaded --> Conveyor.moves.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Agv.loaded --> Conveyor.moves"
+          },
+          "total_time": 32.52841401100159,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "classification": {
+            "step": "classification",
+            "timing": 10.197612762451172,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"sequence\",\"order\",\"conveyor\",\"robot_arm\",\"pallet\",\"shelf\",\"operation\"],\"cues\":[\"must\",\"then\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.230163097381592,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Conveyor.move_complete --> RobotArm.place_pallet_on_shelf\",\"explanation\":\"Encodes that the completion of Conveyor movement must occur before the RobotArm places the pallet on a shelf, using the sequential_workflow pattern (action1 --> action2) to express the required order.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Conveyor.move_complete --> RobotArm.place_pallet_on_shelf",
+              "explanation": "Encodes that the completion of Conveyor movement must occur before the RobotArm places the pallet on a shelf, using the sequential_workflow pattern (action1 --> action2) to express the required order.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Conveyor.move_complete --> RobotArm.place_pallet_on_shelf"
+          },
+          "total_time": 26.448575258255005,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8295078277587891,
+            "tokens": 188,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"moves\", \"pick\", \"after\", \"scanning\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"scanning\",\n  \"response_text\": \"AGV moves to pick the pallet\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.3915650844573975,
+            "tokens": 562,
+            "raw_text": "{\n  \"query\": \"AGV.scanning_complete --> AGV.pick_pallet\",\n  \"explanation\": \"The constraint specifies that the AGV moves to pick the pallet after scanning, which fits the sequential_workflow pattern where one action follows another. The 'after' keyword indicates a sequential relationship, making the '-->' operator appropriate for this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "AGV.scanning_complete --> AGV.pick_pallet",
+              "explanation": "The constraint specifies that the AGV moves to pick the pallet after scanning, which fits the sequential_workflow pattern where one action follows another. The 'after' keyword indicates a sequential relationship, making the '-->' operator appropriate for this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AGV.scanning_complete --> AGV.pick_pallet"
+          },
+          "total_time": 2.2431039810180664,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "classification": {
+            "step": "classification",
+            "timing": 1.5741398334503174,
+            "tokens": 198,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"Conveyor\", \"Agv\", \"moves\", \"loaded\"],\n  \"cues\": [\"only after\"],\n  \"trigger_text/response_text\": {\n    \"trigger_text\": \"Agv is loaded\",\n    \"response_text\": \"Conveyor moves\"\n  }\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5207419395446777,
+            "tokens": 545,
+            "raw_text": "{\n  \"query\": \"Agv.loaded --> Conveyor.moves\",\n  \"explanation\": \"The constraint specifies that the Conveyor can only move after the Agv is loaded, which aligns with the sequential_workflow pattern where one action eventually follows another. The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Agv.loaded --> Conveyor.moves",
+              "explanation": "The constraint specifies that the Conveyor can only move after the Agv is loaded, which aligns with the sequential_workflow pattern where one action eventually follows another. The '-->' operator is used to represent this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Agv.loaded --> Conveyor.moves"
+          },
+          "total_time": 3.1247150897979736,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3856699466705322,
+            "tokens": 203,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"Conveyor\", \"RobotArm\", \"places\", \"pallet\", \"shelf\"],\n  \"cues\": [\"must\", \"before\"],\n  \"trigger_text\": \"Conveyor must move\",\n  \"response_text\": \"RobotArm places the pallet onto a shelf\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.236494779586792,
+            "tokens": 591,
+            "raw_text": "{\n  \"query\": \"Conveyor.move --> RobotArm.place_pallet\",\n  \"explanation\": \"The constraint specifies a sequential workflow where the action of the Conveyor moving must occur before the RobotArm places the pallet onto a shelf. This aligns with the 'sequential_workflow' pattern, which is used for processes where one action eventually follows another. The '-->' operator is appropriate here as it denotes eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Conveyor.move --> RobotArm.place_pallet",
+              "explanation": "The constraint specifies a sequential workflow where the action of the Conveyor moving must occur before the RobotArm places the pallet onto a shelf. This aligns with the 'sequential_workflow' pattern, which is used for processes where one action eventually follows another. The '-->' operator is appropriate here as it denotes eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Conveyor.move --> RobotArm.place_pallet"
+          },
+          "total_time": 3.657758951187134,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "classification": {
+            "step": "classification",
+            "timing": 3.383272171020508,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"AGV\", \"moves\", \"pick\", \"pallet\", \"after\", \"scanning\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"scanning\",\n  \"response_text\": \"AGV moves to pick the pallet\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.26033091545105,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"AGV.scanning_done --> AGV.picking_pallet\",\n  \"explanation\": \"This query captures the sequential workflow where the AGV moves to pick the pallet after scanning is complete. The --> operator ensures that once the scanning_done state is reached, the AGV will eventually transition to the picking_pallet state, matching the 'after' relationship in the constraint.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "AGV.scanning_done --> AGV.picking_pallet",
+              "explanation": "This query captures the sequential workflow where the AGV moves to pick the pallet after scanning is complete. The --> operator ensures that once the scanning_done state is reached, the AGV will eventually transition to the picking_pallet state, matching the 'after' relationship in the constraint.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AGV.scanning_done --> AGV.picking_pallet"
+          },
+          "total_time": 7.666027069091797,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "classification": {
+            "step": "classification",
+            "timing": 3.157824993133545,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"conveyor\", \"moves\", \"after\", \"agv\", \"loaded\"],\n  \"cues\": [\"after\", \"only\"],\n  \"trigger_text\": \"Agv is loaded\",\n  \"response_text\": \"Conveyor moves\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.081849098205566,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Agv.loaded --> Conveyor.moving\",\n  \"explanation\": \"This query captures the sequential workflow where the Conveyor moves only after the Agv is loaded. The --> operator ensures that once Agv reaches the 'loaded' state, the Conveyor will eventually transition to the 'moving' state, enforcing the required ordering constraint.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Agv.loaded --> Conveyor.moving",
+              "explanation": "This query captures the sequential workflow where the Conveyor moves only after the Agv is loaded. The --> operator ensures that once Agv reaches the 'loaded' state, the Conveyor will eventually transition to the 'moving' state, enforcing the required ordering constraint.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Agv.loaded --> Conveyor.moving"
+          },
+          "total_time": 7.257458209991455,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "classification": {
+            "step": "classification",
+            "timing": 3.2659640312194824,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"conveyor\", \"move\", \"before\", \"robotarm\", \"places\", \"pallet\", \"shelf\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"Conveyor must move\",\n  \"response_text\": \"RobotArm places the pallet onto a shelf\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.682909965515137,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Conveyor.moving --> RobotArm.placing_pallet\",\n  \"explanation\": \"This query ensures that the Conveyor must move before the RobotArm places the pallet onto a shelf. The leadsto operator (-->) captures the sequential workflow where the Conveyor's moving action eventually leads to the RobotArm's placing_pallet action, matching the 'before' relationship in the constraint.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Conveyor.moving --> RobotArm.placing_pallet",
+              "explanation": "This query ensures that the Conveyor must move before the RobotArm places the pallet onto a shelf. The leadsto operator (-->) captures the sequential workflow where the Conveyor's moving action eventually leads to the RobotArm's placing_pallet action, matching the 'before' relationship in the constraint.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Conveyor.moving --> RobotArm.placing_pallet"
+          },
+          "total_time": 7.9700329303741455,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3235318660736084,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"AGV\", \"move\", \"pick\", \"pallet\", \"scanning\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"scanning\",\n  \"response_text\": \"AGV moves to pick the pallet\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6564607620239258,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"scanning --> AGV.moving_to_pick\",\n  \"explanation\": \"The constraint describes a sequential workflow where scanning is the trigger event and AGV moving to pick the pallet is the eventual response. The 'after' cue indicates scanning must complete before AGV begins its picking movement. The '-->' operator correctly captures this eventual triggered behavior typical of sequential workflows with possible delays between states.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "scanning --> AGV.moving_to_pick",
+              "explanation": "The constraint describes a sequential workflow where scanning is the trigger event and AGV moving to pick the pallet is the eventual response. The 'after' cue indicates scanning must complete before AGV begins its picking movement. The '-->' operator correctly captures this eventual triggered behavior typical of sequential workflows with possible delays between states.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "scanning --> AGV.moving_to_pick"
+          },
+          "total_time": 3.008979320526123,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3726048469543457,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"conveyor\", \"moves\", \"AGV\", \"loaded\", \"only after\"],\n  \"cues\": [\"only\", \"after\"],\n  \"trigger_text\": \"AGV is loaded\",\n  \"response_text\": \"Conveyor moves\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.1239888668060303,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"AGV.loaded --> Conveyor.moves\",\n  \"explanation\": \"This constraint describes a conditional response pattern where the Conveyor's movement is triggered by and depends on the AGV being loaded. The keyword 'only after' indicates that Conveyor.moves is an eventual response that occurs following the condition AGV.loaded. The '-->' operator captures this sequential workflow: once AGV becomes loaded, the conveyor will eventually start moving.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "AGV.loaded --> Conveyor.moves",
+              "explanation": "This constraint describes a conditional response pattern where the Conveyor's movement is triggered by and depends on the AGV being loaded. The keyword 'only after' indicates that Conveyor.moves is an eventual response that occurs following the condition AGV.loaded. The '-->' operator captures this sequential workflow: once AGV becomes loaded, the conveyor will eventually start moving.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AGV.loaded --> Conveyor.moves"
+          },
+          "total_time": 3.531285047531128,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "classification": {
+            "step": "classification",
+            "timing": 1.192924976348877,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"conveyor\", \"move\", \"robot arm\", \"places\", \"pallet\", \"shelf\", \"before\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"Conveyor must move\",\n  \"response_text\": \"RobotArm places the pallet onto a shelf\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.768528938293457,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Conveyor.moving --> RobotArm.placing_pallet\",\n  \"explanation\": \"The constraint specifies a sequential workflow where Conveyor moving must occur before RobotArm places the pallet. The 'before' keyword indicates a causal ordering where one action triggers the eventual occurrence of another. The '-->' operator captures this eventual sequential relationship: once the conveyor moves, the robot arm will eventually place the pallet onto the shelf.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Conveyor.moving --> RobotArm.placing_pallet",
+              "explanation": "The constraint specifies a sequential workflow where Conveyor moving must occur before RobotArm places the pallet. The 'before' keyword indicates a causal ordering where one action triggers the eventual occurrence of another. The '-->' operator captures this eventual sequential relationship: once the conveyor moves, the robot arm will eventually place the pallet onto the shelf.",
+              "confidence": 0.92,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Conveyor.moving --> RobotArm.placing_pallet"
+          },
+          "total_time": 2.9914679527282715,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "classification": {
+            "step": "classification",
+            "timing": 8.761590957641602,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"AGV\", \"moves\", \"pick\", \"pallet\", \"scanning\"], \"cues\": [\"after\"], \"trigger_text\": \"after scanning\", \"response_text\": \"AGV moves to pick the pallet\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.27886414527893,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"AGV.scanning_done --> AGV.picking_pallet\", \"explanation\": \"The constraint describes a sequential workflow where AGV picking the pallet eventually follows after scanning is done, matching the sequential_workflow pattern with the '-->' operator for eventual triggered behavior.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "AGV.scanning_done --> AGV.picking_pallet",
+              "explanation": "The constraint describes a sequential workflow where AGV picking the pallet eventually follows after scanning is done, matching the sequential_workflow pattern with the '-->' operator for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AGV.scanning_done --> AGV.picking_pallet"
+          },
+          "total_time": 23.07619309425354,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "classification": {
+            "step": "classification",
+            "timing": 12.61626386642456,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"conveyor\", \"moves\", \"after\", \"Agv\", \"loaded\"], \"cues\": [\"after\"], \"trigger_text\": \"Agv is loaded\", \"response_text\": \"Conveyor moves\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.406070709228516,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"AGV.loaded --> Conveyor.moves\", \"explanation\": \"This query uses the sequential workflow operator --> to ensure that the conveyor moves eventually after the AGV is loaded, matching the 'only after' constraint as per the pattern template action1 --> action2.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "AGV.loaded --> Conveyor.moves",
+              "explanation": "This query uses the sequential workflow operator --> to ensure that the conveyor moves eventually after the AGV is loaded, matching the 'only after' constraint as per the pattern template action1 --> action2.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AGV.loaded --> Conveyor.moves"
+          },
+          "total_time": 26.05189037322998,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "classification": {
+            "step": "classification",
+            "timing": 12.26314902305603,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"must\", \"move\", \"before\", \"places\"], \"cues\": [\"must\", \"before\"], \"trigger_text\": \"RobotArm places the pallet onto a shelf\", \"response_text\": \"Conveyor must move\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.47765612602234,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"Conveyor.move --> RobotArm.places\", \"explanation\": \"The constraint requires that the Conveyor must move before the RobotArm places the pallet, which aligns with the sequential_workflow pattern where one action (Conveyor.move) leads to another (RobotArm.places) eventually, using the --> operator to enforce this order.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "Conveyor.move --> RobotArm.places",
+              "explanation": "The constraint requires that the Conveyor must move before the RobotArm places the pallet, which aligns with the sequential_workflow pattern where one action (Conveyor.move) leads to another (RobotArm.places) eventually, using the --> operator to enforce this order.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Conveyor.move --> RobotArm.places"
+          },
+          "total_time": 33.76770210266113,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "classification": {
+            "step": "classification",
+            "timing": 6.739563941955566,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"AGV\", \"moves\", \"pick\", \"pallet\", \"after\", \"scanning\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"scanning\",\n  \"response_text\": \"AGV moves to pick the pallet\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.185886859893799,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"scanning --> AGV.picking_pallet\",\n  \"explanation\": \"The query uses the --> operator to indicate that after scanning is completed, the AGV will eventually move to pick the pallet, which directly matches the sequential workflow pattern where one action follows another with possible delays.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "scanning --> AGV.picking_pallet",
+              "explanation": "The query uses the --> operator to indicate that after scanning is completed, the AGV will eventually move to pick the pallet, which directly matches the sequential workflow pattern where one action follows another with possible delays.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "scanning --> AGV.picking_pallet"
+          },
+          "total_time": 18.945212841033936,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "classification": {
+            "step": "classification",
+            "timing": 7.468479156494141,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"conveyor\", \"moves\", \"after\", \"agv\", \"loaded\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"Agv is loaded\",\n  \"response_text\": \"Conveyor moves\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.345553874969482,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Agv.loaded --> Conveyor.moving\",\n  \"explanation\": \"The query uses the --> operator to ensure that after the AGV is loaded, the conveyor will eventually move, aligning with the sequential_workflow pattern for the constraint 'Conveyor moves only after Agv is loaded'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Agv.loaded --> Conveyor.moving",
+              "explanation": "The query uses the --> operator to ensure that after the AGV is loaded, the conveyor will eventually move, aligning with the sequential_workflow pattern for the constraint 'Conveyor moves only after Agv is loaded'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Agv.loaded --> Conveyor.moving"
+          },
+          "total_time": 14.83555793762207,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "classification": {
+            "step": "classification",
+            "timing": 7.895043134689331,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"must\", \"before\", \"move\", \"places\", \"pallet\", \"shelf\"],\n  \"cues\": [\"before\", \"must\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.417317867279053,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Conveyor.moved --> RobotArm.placing_pallet\",\n  \"explanation\": \"The query uses the --> operator to specify that the Conveyor's move action must eventually lead to the RobotArm placing the pallet, matching the sequential_workflow pattern where one action precedes another, as indicated by the 'before' in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Conveyor.moved --> RobotArm.placing_pallet",
+              "explanation": "The query uses the --> operator to specify that the Conveyor's move action must eventually lead to the RobotArm placing the pallet, matching the sequential_workflow pattern where one action precedes another, as indicated by the 'before' in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Conveyor.moved --> RobotArm.placing_pallet"
+          },
+          "total_time": 18.3406240940094,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "classification": {
+            "step": "classification",
+            "timing": 31.9388587474823,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"AGV\", \"moves\", \"pick\", \"pallet\", \"after\", \"scanning\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"scanning\",\n  \"response_text\": \"AGV moves to pick the pallet\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 65.82568407058716,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"scanning_complete --> AGV.picking_pallet\",\n  \"explanation\": \"The constraint 'AGV moves to pick the pallet after scanning' describes a sequential workflow where scanning must occur first, eventually leading to AGV moving to pick the pallet. This matches the 'sequential_workflow' pattern, and the '-->' operator is used to model the eventual triggered behavior, ensuring that after scanning is complete, AGV will eventually pick the pallet.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "scanning_complete --> AGV.picking_pallet",
+              "explanation": "The constraint 'AGV moves to pick the pallet after scanning' describes a sequential workflow where scanning must occur first, eventually leading to AGV moving to pick the pallet. This matches the 'sequential_workflow' pattern, and the '-->' operator is used to model the eventual triggered behavior, ensuring that after scanning is complete, AGV will eventually pick the pallet.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "scanning_complete --> AGV.picking_pallet"
+          },
+          "total_time": 97.79150390625,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "classification": {
+            "step": "classification",
+            "timing": 42.64999794960022,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"conveyor\", \"moves\", \"agv\", \"loaded\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"Agv is loaded\",\n  \"response_text\": \"Conveyor moves\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 59.03813815116882,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Agv.loaded --> Conveyor.moving\",\n  \"explanation\": \"The query uses the leads-to operator (-->) to model that after the event 'Agv.loaded' occurs, the event 'Conveyor.moving' will eventually follow, which directly translates the natural-language constraint 'Conveyor moves only after Agv is loaded' as a sequential workflow.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Agv.loaded --> Conveyor.moving",
+              "explanation": "The query uses the leads-to operator (-->) to model that after the event 'Agv.loaded' occurs, the event 'Conveyor.moving' will eventually follow, which directly translates the natural-language constraint 'Conveyor moves only after Agv is loaded' as a sequential workflow.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Agv.loaded --> Conveyor.moving"
+          },
+          "total_time": 101.7198531627655,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "classification": {
+            "step": "classification",
+            "timing": 54.73261594772339,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"before\", \"move\", \"places\"],\n  \"cues\": [\"must\", \"before\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 96.02531099319458,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Conveyor.moving --> RobotArm.placing\",\n  \"explanation\": \"The constraint 'Conveyor must move before RobotArm places the pallet' specifies a sequential order where one action (conveyor moving) must occur prior to another (robot arm placing). This matches the sequential_workflow pattern, which describes one action eventually leading to another. The '-->' operator is used to express that whenever the conveyor is moving, eventually the robot arm will be placing, capturing the eventual sequence required by the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Conveyor.moving --> RobotArm.placing",
+              "explanation": "The constraint 'Conveyor must move before RobotArm places the pallet' specifies a sequential order where one action (conveyor moving) must occur prior to another (robot arm placing). This matches the sequential_workflow pattern, which describes one action eventually leading to another. The '-->' operator is used to express that whenever the conveyor is moving, eventually the robot arm will be placing, capturing the eventual sequence required by the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Conveyor.moving --> RobotArm.placing"
+          },
+          "total_time": 150.7966058254242,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.006944179534912,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"AGV\", \"pallet\", \"scanning\", \"move\", \"pick\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"scanning\",\n  \"response_text\": \"AGV moves to pick the pallet\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.9926841259002686,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"AGV.scanning --> AGV.moving_to_pick\",\n  \"explanation\": \"The constraint states that the AGV moves to pick the pallet *after* scanning. This maps directly to the 'sequential_workflow' pattern, where the scanning action must precede the moving_to_pick action. The '-->' operator captures the 'after' or 'eventually' relationship.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "AGV.scanning --> AGV.moving_to_pick",
+              "explanation": "The constraint states that the AGV moves to pick the pallet *after* scanning. This maps directly to the 'sequential_workflow' pattern, where the scanning action must precede the moving_to_pick action. The '-->' operator captures the 'after' or 'eventually' relationship.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AGV.scanning --> AGV.moving_to_pick"
+          },
+          "total_time": 2.032186985015869,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7115228176116943,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"conveyor\", \"AGV\", \"load\", \"move\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"Agv is loaded\",\n  \"response_text\": \"Conveyor moves\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.1043009757995605,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Agv.loaded --> Conveyor.moves\",\n  \"explanation\": \"The constraint 'Conveyor moves only after Agv is loaded' describes a sequential workflow. The AGV being loaded (Agv.loaded) eventually leads to the conveyor moving (Conveyor.moves). The '-->' operator captures this eventual triggering.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Agv.loaded --> Conveyor.moves",
+              "explanation": "The constraint 'Conveyor moves only after Agv is loaded' describes a sequential workflow. The AGV being loaded (Agv.loaded) eventually leads to the conveyor moving (Conveyor.moves). The '-->' operator captures this eventual triggering.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Agv.loaded --> Conveyor.moves"
+          },
+          "total_time": 1.8468577861785889,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9623138904571533,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"conveyor\", \"robot arm\", \"pallet\", \"move\", \"place\", \"before\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"RobotArm places the pallet onto a shelf\",\n  \"response_text\": \"Conveyor must move\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.3654818534851074,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Conveyor.moving --> RobotArm.placing\",\n  \"explanation\": \"The constraint specifies a sequential workflow where the conveyor must move before the robot arm places the pallet. The '-->' operator from the sequential_workflow pattern represents this eventual following relationship.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Conveyor.moving --> RobotArm.placing",
+              "explanation": "The constraint specifies a sequential workflow where the conveyor must move before the robot arm places the pallet. The '-->' operator from the sequential_workflow pattern represents this eventual following relationship.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Conveyor.moving --> RobotArm.placing"
+          },
+          "total_time": 2.349329948425293,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "classification": {
+            "step": "classification",
+            "timing": 10.176762104034424,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"agv\",\n    \"move\",\n    \"pick\",\n    \"pallet\",\n    \"scanning\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"scanning\",\n  \"response_text\": \"AGV moves to pick the pallet\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 22.656524181365967,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"AGV.ScanningComplete --> AGV.MovingToPick\",\n  \"explanation\": \"The constraint 'AGV moves to pick the pallet after scanning' describes a sequential workflow, indicated by the keyword 'after'. The 'leads to' operator (-->) is used to model this relationship. The query verifies that once the AGV process reaches the `ScanningComplete` state, it will eventually transition to the `MovingToPick` state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "AGV.ScanningComplete --> AGV.MovingToPick",
+              "explanation": "The constraint 'AGV moves to pick the pallet after scanning' describes a sequential workflow, indicated by the keyword 'after'. The 'leads to' operator (-->) is used to model this relationship. The query verifies that once the AGV process reaches the `ScanningComplete` state, it will eventually transition to the `MovingToPick` state.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AGV.ScanningComplete --> AGV.MovingToPick"
+          },
+          "total_time": 32.860721826553345,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "classification": {
+            "step": "classification",
+            "timing": 6.857510805130005,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"conveyor\",\n    \"moves\",\n    \"agv\",\n    \"loaded\"\n  ],\n  \"cues\": [\n    \"only after\",\n    \"after\"\n  ],\n  \"trigger_text\": \"Agv is loaded\",\n  \"response_text\": \"Conveyor moves\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.835703134536743,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Agv.loaded --> Conveyor.moves\",\n  \"explanation\": \"This query uses the 'leads to' operator (-->) which corresponds to the identified 'sequential_workflow' pattern. It formalizes that after the trigger condition 'Agv.loaded' becomes true, the response action 'Conveyor.moves' must eventually occur, matching the sequence defined by 'only after'.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "Agv.loaded --> Conveyor.moves",
+              "explanation": "This query uses the 'leads to' operator (-->) which corresponds to the identified 'sequential_workflow' pattern. It formalizes that after the trigger condition 'Agv.loaded' becomes true, the response action 'Conveyor.moves' must eventually occur, matching the sequence defined by 'only after'.",
+              "confidence": 0.95,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Agv.loaded --> Conveyor.moves"
+          },
+          "total_time": 28.720902919769287,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "classification": {
+            "step": "classification",
+            "timing": 10.795659065246582,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"Conveyor\",\n    \"RobotArm\",\n    \"pallet\",\n    \"shelf\",\n    \"move\",\n    \"places\"\n  ],\n  \"cues\": [\n    \"before\"\n  ],\n  \"trigger_text\": \"Conveyor must move\",\n  \"response_text\": \"RobotArm places the pallet onto a shelf\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.054914951324463,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Conveyor.Moving --> RobotArm.Placing\",\n  \"explanation\": \"The constraint \\\"Conveyor must move before RobotArm places the pallet\\\" specifies a sequential order of events. The `sequential_workflow` pattern with the `-->` (leads to) operator is used to model this. It verifies that after the `Conveyor` enters its `Moving` state, the `RobotArm` will eventually enter its `Placing` state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "Conveyor.Moving --> RobotArm.Placing",
+              "explanation": "The constraint \"Conveyor must move before RobotArm places the pallet\" specifies a sequential order of events. The `sequential_workflow` pattern with the `-->` (leads to) operator is used to model this. It verifies that after the `Conveyor` enters its `Moving` state, the `RobotArm` will eventually enter its `Placing` state.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Conveyor.Moving --> RobotArm.Placing"
+          },
+          "total_time": 30.88117790222168,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

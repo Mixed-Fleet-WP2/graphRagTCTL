@@ -1,0 +1,446 @@
+{
+  "id": "scenario_039",
+  "domain": "space",
+  "prompt": "An orbital maintenance robot services communication satellites. It must align within \u00b12\u00b0 before docking. If solar radiation spikes above threshold, it retreats to shield position until radiation returns to normal. After each maintenance operation, it performs diagnostics lasting at least 120 seconds. Docking must be completed within 300 seconds after alignment achieved, and all satellites must eventually be serviced.",
+  "robots": [
+    "OrbitalServicer"
+  ],
+  "constraints": [
+    "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+    "OrbitalServicer retreats to shield when radiation above threshold",
+    "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+    "Docking completes within 300 s after alignment",
+    "Eventually all satellites serviced"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 3.3524417877197266,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Docking completes within 300 s after alignment",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Eventually all satellites serviced",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 8.765676021575928,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Docking completes within 300 s after alignment",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "Eventually all satellites serviced",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 23.700639009475708,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Docking completes within 300 s after alignment",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Eventually all satellites serviced",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 3.381411075592041,
+      "tokens": 858,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Docking completes within 300 s after alignment",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "Eventually all satellites serviced",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 4.021603107452393,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Docking completes within 300 s after alignment",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "Eventually all satellites serviced",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.9218738079071045,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (docking_initiated AND alignment_error > 2\u00b0)"
+        },
+        {
+          "index": 1,
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (radiation_above_threshold imply retreat_to_shield)"
+        },
+        {
+          "index": 2,
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "pattern_name": "sequential_workflow",
+          "template": "maintenance_completed --> diagnostics_start --> diagnostics_duration >= 120s"
+        },
+        {
+          "index": 3,
+          "constraint": "Docking completes within 300 s after alignment",
+          "pattern_name": "conditional_response",
+          "template": "alignment_achieved --> docking_completes_within_300s"
+        },
+        {
+          "index": 4,
+          "constraint": "Eventually all satellites serviced",
+          "pattern_name": "eventual_completion",
+          "template": "A<> all_satellites_serviced"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 24.858184814453125,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Docking completes within 300 s after alignment",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Eventually all satellites serviced",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 14.149211883544922,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Docking completes within 300 s after alignment",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Eventually all satellites serviced",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 73.71242189407349,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Docking completes within 300 s after alignment",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "Eventually all satellites serviced",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.5952980518341064,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Docking completes within 300 s after alignment",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "Eventually all satellites serviced",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 16.092456817626953,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Docking completes within 300 s after alignment",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 4,
+          "constraint": "Eventually all satellites serviced",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

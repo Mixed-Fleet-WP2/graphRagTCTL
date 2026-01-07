@@ -1,0 +1,19 @@
+{
+  "id": "scenario_023",
+  "domain": "disaster_response",
+  "prompt": "A drone scans for survivors and a ground robot delivers medical kits. It’s always possible to reach a state where both have completed their missions. If battery < 10%, drone must return to base within 20 seconds.",
+  "robots": ["RescueDrone", "MedicBot"],
+  "constraints": [
+    "Always possible for both to complete missions",
+    "RescueDrone returns to base within 20 seconds when battery < 10%"
+  ],
+  "reference_properties": [
+    "A<> (RescueDrone.Done && MedicBot.Done)",
+    "A[] (RescueDrone.Battery < 10 and not RescueDrone.AtBase) imply (RescueDrone.ReturnTime <= 20)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-12"
+  }
+}

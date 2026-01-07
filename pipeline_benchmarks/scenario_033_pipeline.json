@@ -1,0 +1,3021 @@
+{
+  "id": "scenario_033",
+  "domain": "manufacturing",
+  "prompt": "An indoor inspection drone autonomously navigates a multi-floor factory. It must spend no more than 120 seconds in each section. If temperature exceeds 60\u00b0C, the drone activates thermal protection and skips the current section. In case of lost localization, it switches to mapping mode until position is reacquired. When all sections are inspected, it must land at the maintenance dock and upload sensor logs. It is always possible to reach a safe state where the drone is landed.",
+  "robots": [
+    "InspectDrone"
+  ],
+  "constraints": [
+    "InspectDrone spends \u2264 120 s per section",
+    "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+    "InspectDrone skips section when temperature > 60\u00b0C",
+    "InspectDrone switches to mapping mode if localization lost",
+    "InspectDrone lands at maintenance dock after all sections inspected",
+    "InspectDrone uploads sensor logs after landing",
+    "Always possible to reach safe landed state"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "InspectDrone spends \u2264 120 s per section",
+          "classification": {
+            "step": "classification",
+            "timing": 2.338299036026001,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"InspectDrone\",\"spends\",\"\u2264 120 s\",\"per section\",\"time bound\",\"duration limit\"],\"cues\":[\"\u2264\",\"per\"],\"trigger_text\":\"InspectDrone inspects a section\",\"response_text\":\"The inspection of that section completes within 120 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.435981035232544,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (InspectDrone.in_section imply InspectDrone.t_inspect <= 120)\",\"explanation\":\"The natural-language constraint says the drone may spend at most 120 seconds on any section. Using the time_bounded_constraint pattern, we express this as a global safety property with A[]: whenever the drone is in a section (location InspectDrone.in_section, with clock InspectDrone.t_inspect measuring time since entering that section), it must hold that the inspection time is \u2264 120 seconds. This prevents the model from ever remaining in that state longer than 120 seconds, matching the duration limit per section.\",\"confidence\":0.9,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"A[]\",\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (InspectDrone.in_section imply InspectDrone.t_inspect <= 120)",
+              "explanation": "The natural-language constraint says the drone may spend at most 120 seconds on any section. Using the time_bounded_constraint pattern, we express this as a global safety property with A[]: whenever the drone is in a section (location InspectDrone.in_section, with clock InspectDrone.t_inspect measuring time since entering that section), it must hold that the inspection time is \u2264 120 seconds. This prevents the model from ever remaining in that state longer than 120 seconds, matching the duration limit per section.",
+              "confidence": 0.9,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectDrone.in_section imply InspectDrone.t_inspect <= 120)"
+          },
+          "total_time": 6.799162864685059,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+          "classification": {
+            "step": "classification",
+            "timing": 3.1843252182006836,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"temperature exceeds 60\u00b0C\",\"InspectDrone\",\"activate\",\"thermal protection\",\"if-then\"],\"cues\":[\"if\",\">\",\"must\"],\"trigger_text\":\"temperature exceeds 60\u00b0C\",\"response_text\":\"InspectDrone activates thermal protection\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.7021589279174805,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(temperature > 60) --> InspectDrone.thermal_protection_active\",\"explanation\":\"The constraint says that whenever the temperature exceeds 60\u00b0C, the InspectDrone must eventually activate thermal protection. The conditional-response pattern is captured with the --> operator: the condition (temperature > 60) triggers the eventual response state (InspectDrone.thermal_protection_active). This ensures that in all runs, any time the temperature goes above 60, the drone will at some later point have its thermal protection active.\",\"confidence\":0.9,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(temperature > 60) --> InspectDrone.thermal_protection_active",
+              "explanation": "The constraint says that whenever the temperature exceeds 60\u00b0C, the InspectDrone must eventually activate thermal protection. The conditional-response pattern is captured with the --> operator: the condition (temperature > 60) triggers the eventual response state (InspectDrone.thermal_protection_active). This ensures that in all runs, any time the temperature goes above 60, the drone will at some later point have its thermal protection active.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 60) --> InspectDrone.thermal_protection_active"
+          },
+          "total_time": 5.909866809844971,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 2.1430680751800537,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"InspectDrone\",\"skips section\",\"temperature > 60\u00b0C\",\"skip condition\",\"environment constraint\"],\"cues\":[\">\",\"when\"],\"trigger_text\":\"temperature > 60\u00b0C\",\"response_text\":\"InspectDrone skips the section\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.2048540115356445,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (temperature > 60 && InspectDrone.skips_section)\",\"explanation\":\"The natural-language constraint describes a situation we want to prevent: the drone skipping a section when the temperature exceeds 60\u00b0C. This is modeled as a forbidden state using the safety pattern A[] not (...). The query asserts that in all reachable states it is never the case that both the temperature is above 60 and the InspectDrone is in a state representing 'skips section'.\",\"confidence\":0.91,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (temperature > 60 && InspectDrone.skips_section)",
+              "explanation": "The natural-language constraint describes a situation we want to prevent: the drone skipping a section when the temperature exceeds 60\u00b0C. This is modeled as a forbidden state using the safety pattern A[] not (...). The query asserts that in all reachable states it is never the case that both the temperature is above 60 and the InspectDrone is in a state representing 'skips section'.",
+              "confidence": 0.91,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (temperature > 60 && InspectDrone.skips_section)"
+          },
+          "total_time": 5.369225978851318,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "InspectDrone switches to mapping mode if localization lost",
+          "classification": {
+            "step": "classification",
+            "timing": 3.3994431495666504,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"InspectDrone\",\"mapping mode\",\"localization lost\",\"switches to\"],\"cues\":[\"if\"],\"trigger_text\":\"localization lost\",\"response_text\":\"InspectDrone switches to mapping mode\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.609128952026367,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"InspectDrone.localization_lost --> InspectDrone.mapping_mode\",\"explanation\":\"The natural-language constraint says that whenever the condition \\\"localization lost\\\" holds, the response \\\"InspectDrone switches to mapping mode\\\" must eventually occur. This is a conditional eventual response, so the conditional_response pattern with the --> operator is appropriate. The left side models the trigger (InspectDrone.localization_lost) and the right side models the required eventual state (InspectDrone.mapping_mode).\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode",
+              "explanation": "The natural-language constraint says that whenever the condition \"localization lost\" holds, the response \"InspectDrone switches to mapping mode\" must eventually occur. This is a conditional eventual response, so the conditional_response pattern with the --> operator is appropriate. The left side models the trigger (InspectDrone.localization_lost) and the right side models the required eventual state (InspectDrone.mapping_mode).",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode"
+          },
+          "total_time": 6.025171995162964,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 2.2893340587615967,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"InspectDrone\",\"lands\",\"maintenance dock\",\"all sections inspected\",\"after\",\"completion\"],\"cues\":[\"after\"],\"trigger_text\":\"all sections inspected\",\"response_text\":\"InspectDrone lands at maintenance dock\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.913699150085449,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> InspectDrone.landed_at_maintenance_dock\",\"explanation\":\"The constraint states that InspectDrone lands at the maintenance dock after all sections are inspected, which the classifier mapped to an eventual_completion pattern. Under this pattern we only encode that the required task (landing at the maintenance dock) must eventually complete, using A<>. Thus, A<> InspectDrone.landed_at_maintenance_dock expresses that in all runs, at some point, the drone reaches the landing-at-maintenance-dock state. (Note: it does not encode ordering with respect to inspection, only eventual completion, as required by the selected pattern.)\",\"confidence\":0.79,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> InspectDrone.landed_at_maintenance_dock",
+              "explanation": "The constraint states that InspectDrone lands at the maintenance dock after all sections are inspected, which the classifier mapped to an eventual_completion pattern. Under this pattern we only encode that the required task (landing at the maintenance dock) must eventually complete, using A<>. Thus, A<> InspectDrone.landed_at_maintenance_dock expresses that in all runs, at some point, the drone reaches the landing-at-maintenance-dock state. (Note: it does not encode ordering with respect to inspection, only eventual completion, as required by the selected pattern.)",
+              "confidence": 0.79,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> InspectDrone.landed_at_maintenance_dock"
+          },
+          "total_time": 6.2283101081848145,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "InspectDrone uploads sensor logs after landing",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4081847667694092,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"InspectDrone\",\"uploads\",\"sensor logs\",\"after landing\",\"drone\",\"inspection\"],\"cues\":[\"after\"],\"trigger_text\":\"InspectDrone landing\",\"response_text\":\"InspectDrone uploads sensor logs\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.0700840950012207,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"InspectDrone.landing --> InspectDrone.uploads_sensor_logs\",\"explanation\":\"The constraint says that uploading sensor logs must eventually occur after the InspectDrone has landed. This is a sequential workflow: one action (landing) is followed, possibly after some delay, by another action (uploading sensor logs). The operator `-->` captures this eventual-follow relationship, so `InspectDrone.landing --> InspectDrone.uploads_sensor_logs` correctly formalizes the requirement.\",\"confidence\":0.86,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs",
+              "explanation": "The constraint says that uploading sensor logs must eventually occur after the InspectDrone has landed. This is a sequential workflow: one action (landing) is followed, possibly after some delay, by another action (uploading sensor logs). The operator `-->` captures this eventual-follow relationship, so `InspectDrone.landing --> InspectDrone.uploads_sensor_logs` correctly formalizes the requirement.",
+              "confidence": 0.86,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs"
+          },
+          "total_time": 4.497645139694214,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Always possible to reach safe landed state",
+          "classification": {
+            "step": "classification",
+            "timing": 1.6266751289367676,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"always possible\",\"reach\",\"safe landed state\",\"reachable\"],\"cues\":[],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.132153034210205,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"E<> safe_landed_state\",\"explanation\":\"The constraint says it must always be possible to reach the safe landed state, which is a possibility/feasibility property. For reachability/possibility we use the pattern E<> target_state, so we check that there exists some execution where the system can reach safe_landed_state.\",\"confidence\":0.86,\"pattern_used\":\"reachability\",\"operator_used\":[\"E<>\"]}",
+            "uppaal_result": {
+              "query": "E<> safe_landed_state",
+              "explanation": "The constraint says it must always be possible to reach the safe landed state, which is a possibility/feasibility property. For reachability/possibility we use the pattern E<> target_state, so we check that there exists some execution where the system can reach safe_landed_state.",
+              "confidence": 0.86,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> safe_landed_state"
+          },
+          "total_time": 3.7747480869293213,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "InspectDrone spends \u2264 120 s per section",
+          "classification": {
+            "step": "classification",
+            "timing": 7.578916072845459,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"InspectDrone\",\"spends\",\"\u2264 120 s\",\"120 seconds\",\"per section\",\"time\",\"duration\",\"max\",\"limit\"],\"cues\":[\"\u2264\",\"<=\",\"s\",\"seconds\",\"per\",\"per section\",\"spends\",\"must\",\"within\"],\"trigger_text\":\"InspectDrone per section\",\"response_text\":\"spends \u2264 120 s\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.542321920394897,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (InspectDrone.inspecting_section imply InspectDrone.t <= 120)\",\"explanation\":\"This safety property enforces the time-bounded constraint: whenever the InspectDrone is in the per-section inspection state (InspectDrone.inspecting_section), its local clock t must be \u2264 120 seconds, ensuring the drone spends at most 120 s per section. The A[] wrapper makes this an invariant that must always hold (the clock should be reset on entry to the inspection state).\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (InspectDrone.inspecting_section imply InspectDrone.t <= 120)",
+              "explanation": "This safety property enforces the time-bounded constraint: whenever the InspectDrone is in the per-section inspection state (InspectDrone.inspecting_section), its local clock t must be \u2264 120 seconds, ensuring the drone spends at most 120 s per section. The A[] wrapper makes this an invariant that must always hold (the clock should be reset on entry to the inspection state).",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectDrone.inspecting_section imply InspectDrone.t <= 120)"
+          },
+          "total_time": 19.137149810791016,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+          "classification": {
+            "step": "classification",
+            "timing": 7.835788011550903,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"temperature\",\"60\u00b0C\",\"exceeds\",\"InspectDrone\",\"activate\",\"thermal protection\",\"must\",\"if\"],\"cues\":[\"if\",\"exceeds\",\"must\",\">\",\"activate\"],\"trigger_text\":\"temperature exceeds 60\u00b0C\",\"response_text\":\"InspectDrone must activate thermal protection\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.185676097869873,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active\",\"explanation\":\"Follows the conditional_response template: whenever the condition InspectDrone.temperature > 60 holds, the system must eventually reach a state where InspectDrone.thermal_protection_active is true. The '-->' operator expresses this triggered eventual response.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active",
+              "explanation": "Follows the conditional_response template: whenever the condition InspectDrone.temperature > 60 holds, the system must eventually reach a state where InspectDrone.thermal_protection_active is true. The '-->' operator expresses this triggered eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active"
+          },
+          "total_time": 16.04621124267578,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 7.075052738189697,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"InspectDrone\",\"skip section\",\"skips\",\"temperature\",\"threshold\",\"60\u00b0C\",\"> 60\u00b0C\",\"skip\",\"section\"],\"cues\":[\"when\",\">\",\"temperature\",\"skip\",\"skips\"],\"trigger_text\":\"temperature > 60\u00b0C\",\"response_text\":\"InspectDrone skips section\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.954406023025513,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(InspectDrone.temperature > 60) --> InspectDrone.skips_section\",\n  \"explanation\": \"This uses the conditional_response pattern: if InspectDrone's temperature exceeds 60, then eventually InspectDrone will be in the skips_section state. The '-->' operator denotes the triggered eventual response (not an immediate same-state implication).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}",
+            "uppaal_result": {
+              "query": "(InspectDrone.temperature > 60) --> InspectDrone.skips_section",
+              "explanation": "This uses the conditional_response pattern: if InspectDrone's temperature exceeds 60, then eventually InspectDrone will be in the skips_section state. The '-->' operator denotes the triggered eventual response (not an immediate same-state implication).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(InspectDrone.temperature > 60) --> InspectDrone.skips_section"
+          },
+          "total_time": 16.085198163986206,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "InspectDrone switches to mapping mode if localization lost",
+          "classification": {
+            "step": "classification",
+            "timing": 18.52111792564392,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"InspectDrone\",\"localization\",\"localization lost\",\"mapping mode\",\"switch\",\"relocalize\",\"fallback\",\"mapping\"],\"cues\":[\"if\",\"when\",\"then\",\"lost\",\"switches\",\"must\",\"to\"],\"trigger_text\":\"localization lost\",\"response_text\":\"InspectDrone switches to mapping mode\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.842125654220581,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"InspectDrone.localization_lost --> InspectDrone.mode == mapping\",\"explanation\":\"Using the conditional_response pattern: when the InspectDrone has the condition localization_lost, it must eventually switch to mapping mode. The left side is the trigger (localization_lost) and the right side is the required eventual response (mode == mapping).\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "InspectDrone.localization_lost --> InspectDrone.mode == mapping",
+              "explanation": "Using the conditional_response pattern: when the InspectDrone has the condition localization_lost, it must eventually switch to mapping mode. The left side is the trigger (localization_lost) and the right side is the required eventual response (mode == mapping).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.localization_lost --> InspectDrone.mode == mapping"
+          },
+          "total_time": 27.384492874145508,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 9.617363929748535,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"InspectDrone\",\"lands\",\"maintenance dock\",\"inspect\",\"sections\",\"after\",\"all inspected\",\"landing\"],\"cues\":[\"after\",\"then\",\"must\",\"all\",\"inspected\"],\"trigger_text\":\"all sections inspected\",\"response_text\":\"InspectDrone lands at maintenance dock\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.199456930160522,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"all_sections_inspected --> InspectDrone.at_maintenance_dock\",\"explanation\":\"The NL constraint states that once the condition 'all sections inspected' holds, the InspectDrone must eventually land at the maintenance dock. This is a conditional-response mapping: the condition 'all_sections_inspected' is placed on the left and the required eventual state 'InspectDrone.at_maintenance_dock' on the right, connected with the '-->' operator to express the triggered eventual action.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "all_sections_inspected --> InspectDrone.at_maintenance_dock",
+              "explanation": "The NL constraint states that once the condition 'all sections inspected' holds, the InspectDrone must eventually land at the maintenance dock. This is a conditional-response mapping: the condition 'all_sections_inspected' is placed on the left and the required eventual state 'InspectDrone.at_maintenance_dock' on the right, connected with the '-->' operator to express the triggered eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "all_sections_inspected --> InspectDrone.at_maintenance_dock"
+          },
+          "total_time": 18.833996772766113,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "InspectDrone uploads sensor logs after landing",
+          "classification": {
+            "step": "classification",
+            "timing": 7.134980916976929,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"InspectDrone\",\"upload\",\"sensor logs\",\"landing\",\"after landing\",\"uploads\"],\"cues\":[\"after\",\"when\",\"uploads\"],\"trigger_text\":\"landing\",\"response_text\":\"uploads sensor logs\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.310380697250366,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(InspectDrone.landing) --> InspectDrone.uploads_sensor_logs\",\"explanation\":\"This encodes a conditional response: whenever InspectDrone enters the landing condition, it should eventually perform the action of uploading sensor logs. It follows the conditional_response template (condition --> response) using the --> operator for an eventual triggered behavior.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(InspectDrone.landing) --> InspectDrone.uploads_sensor_logs",
+              "explanation": "This encodes a conditional response: whenever InspectDrone enters the landing condition, it should eventually perform the action of uploading sensor logs. It follows the conditional_response template (condition --> response) using the --> operator for an eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(InspectDrone.landing) --> InspectDrone.uploads_sensor_logs"
+          },
+          "total_time": 16.46904706954956,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Always possible to reach safe landed state",
+          "classification": {
+            "step": "classification",
+            "timing": 7.91913914680481,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"reachability\",\"reach\",\"reachable\",\"safe\",\"landed\",\"state\",\"always possible\",\"must be reachable\"],\"cues\":[\"always\",\"possible\",\"reach\",\"safe\",\"landed\",\"must\",\"can\",\"eventually\"],\"trigger_text\":null,\"response_text\":\"safe landed state is reachable\"}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.14747428894043,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] E<> SafeLanded\",\"explanation\":\"\\\"Always possible to reach safe landed state\\\" means from every reachable state there must exist a path that eventually reaches the safe landed state. The UPPAAL formula A[] E<> SafeLanded asserts exactly that: in all states (A[]) it is possible (E<>) to eventually reach SafeLanded.\",\"confidence\":0.85,\"pattern_used\":\"reachability\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] E<> SafeLanded",
+              "explanation": "\"Always possible to reach safe landed state\" means from every reachable state there must exist a path that eventually reaches the safe landed state. The UPPAAL formula A[] E<> SafeLanded asserts exactly that: in all states (A[]) it is possible (E<>) to eventually reach SafeLanded.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] E<> SafeLanded"
+          },
+          "total_time": 23.08368730545044,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "InspectDrone spends \u2264 120 s per section",
+          "classification": {
+            "step": "classification",
+            "timing": 11.238646984100342,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"time\",\"duration\",\"limit\",\"seconds\",\"per_section\",\"InspectDrone\"],\"cues\":[\"\u2264\",\"per\",\"section\",\"seconds\",\"time\",\"limit\",\"per_section\",\"InspectDrone\"],\"trigger_text\":\"InspectDrone spends \u2264 120 s per section\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 35.62973713874817,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (InspectDrone.in_section && not InspectDrone.section_completed imply clock <= 120)\",\"explanation\":\"This property enforces a maximum dwell time of 120 seconds while the drone is in a section: if the drone is in a section and the section is not completed yet, the clock must not exceed 120. This captures 'InspectDrone spends \u2264 120 s per section'.\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (InspectDrone.in_section && not InspectDrone.section_completed imply clock <= 120)",
+              "explanation": "This property enforces a maximum dwell time of 120 seconds while the drone is in a section: if the drone is in a section and the section is not completed yet, the clock must not exceed 120. This captures 'InspectDrone spends \u2264 120 s per section'.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectDrone.in_section && not InspectDrone.section_completed imply clock <= 120)"
+          },
+          "total_time": 46.89038109779358,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+          "classification": {
+            "step": "classification",
+            "timing": 14.923446893692017,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"temperature\",\"thermal protection\",\"InspectDrone\",\"activation\",\"safety\"],\"cues\":[\">\",\"then\",\"must\"],\"trigger_text\":\"If temperature exceeds 60\u00b0C\",\"response_text\":\"activate thermal protection\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.36716890335083,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(temperature > 60) --> InspectDrone.thermal_protection_activated\",\"explanation\":\"This encodes the NL constraint as a conditional_response: when the condition (temperature > 60) holds, the system eventually moves InspectDrone into the thermal_protection_activated state, i.e., an eventual response.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(temperature > 60) --> InspectDrone.thermal_protection_activated",
+              "explanation": "This encodes the NL constraint as a conditional_response: when the condition (temperature > 60) holds, the system eventually moves InspectDrone into the thermal_protection_activated state, i.e., an eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 60) --> InspectDrone.thermal_protection_activated"
+          },
+          "total_time": 31.31696605682373,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 19.125750064849854,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"InspectDrone\",\"temperature\",\"conditional\",\"skip\",\"section\",\"60\u00b0C\",\"safety\"],\"cues\":[\"when\",\"then\",\">\"],\"trigger_text\":\"when temperature > 60\u00b0C\",\"response_text\":\"skip the section.\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.3355929851532,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(InspectDrone.temperature > 60) --> InspectDrone.section_skipped\",\"explanation\":\"This encodes a conditional response: when the InspectDrone's temperature exceeds 60, the system transitions to the section-skipped state, matching the pattern 'condition --> action'.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(InspectDrone.temperature > 60) --> InspectDrone.section_skipped",
+              "explanation": "This encodes a conditional response: when the InspectDrone's temperature exceeds 60, the system transitions to the section-skipped state, matching the pattern 'condition --> action'.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(InspectDrone.temperature > 60) --> InspectDrone.section_skipped"
+          },
+          "total_time": 38.48584985733032,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "InspectDrone switches to mapping mode if localization lost",
+          "classification": {
+            "step": "classification",
+            "timing": 13.765123128890991,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"localization\",\"mapping mode\",\"conditional\",\"switch\"],\"cues\":[\"if\",\"localization\",\"lost\",\"then\",\"switch\",\"mapping\",\"mode\"],\"trigger_text\":\"localization lost\",\"response_text\":\"switch to mapping mode\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.223546743392944,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"LocalizationLost --> InspectDrone.mapping_mode\",\"explanation\":\"LocalizationLost is the condition; when it is true, InspectDrone switches to the mapping_mode location, encoding the action 'switch to mapping mode'. This follows the conditional_response pattern (condition --> response).\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "LocalizationLost --> InspectDrone.mapping_mode",
+              "explanation": "LocalizationLost is the condition; when it is true, InspectDrone switches to the mapping_mode location, encoding the action 'switch to mapping mode'. This follows the conditional_response pattern (condition --> response).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "LocalizationLost --> InspectDrone.mapping_mode"
+          },
+          "total_time": 30.013183116912842,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 13.172262907028198,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"order\",\"sequence\",\"after\",\"then\",\"landing\",\"maintenance_dock\",\"sections_inspected\",\"InspectDrone\"],\"cues\":[\"after\",\"then\"],\"trigger_text\":\"InspectDrone lands at maintenance dock after all sections inspected\",\"response_text\":\"Land at maintenance dock after all sections have been inspected.\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 23.022305727005005,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"InspectDrone.sections_inspected --> InspectDrone.lands_at_maintenance_dock\",\"explanation\":\"This encodes a sequential workflow: after the event that all sections have been inspected (InspectDrone.sections_inspected), the next action is InspectDrone.lands_at_maintenance_dock (landing at the maintenance dock).\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "InspectDrone.sections_inspected --> InspectDrone.lands_at_maintenance_dock",
+              "explanation": "This encodes a sequential workflow: after the event that all sections have been inspected (InspectDrone.sections_inspected), the next action is InspectDrone.lands_at_maintenance_dock (landing at the maintenance dock).",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.sections_inspected --> InspectDrone.lands_at_maintenance_dock"
+          },
+          "total_time": 36.21330714225769,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "InspectDrone uploads sensor logs after landing",
+          "classification": {
+            "step": "classification",
+            "timing": 10.729785203933716,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"upload\",\"sensor_logs\",\"landing\",\"drone\"],\"cues\":[\"after\",\"then\",\"landing\",\"upload\"],\"trigger_text\":\"after landing\",\"response_text\":\"upload sensor logs\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 18.062732934951782,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"InspectDrone.landing_complete --> InspectDrone.upload_sensor_logs\",\"explanation\":\"The constraint specifies that after landing, InspectDrone uploads sensor logs. This is a sequential_workflow relation: first the landing_complete state, then the upload_sensor_logs action, connected with --> to denote the subsequent event.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "InspectDrone.landing_complete --> InspectDrone.upload_sensor_logs",
+              "explanation": "The constraint specifies that after landing, InspectDrone uploads sensor logs. This is a sequential_workflow relation: first the landing_complete state, then the upload_sensor_logs action, connected with --> to denote the subsequent event.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.landing_complete --> InspectDrone.upload_sensor_logs"
+          },
+          "total_time": 28.81614398956299,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Always possible to reach safe landed state",
+          "classification": {
+            "step": "classification",
+            "timing": 16.216078758239746,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"reachability\",\"safe_state\",\"landed_state\",\"state\",\"path\",\"reach\"],\"cues\":[\"reach\",\"reachability\",\"eventually\",\"must\",\"can\",\"state\",\"safe\",\"landed\",\"path\"],\"trigger_text\":\"Always possible to reach safe landed state\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.158440113067627,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"E<> (Drone.safe_state && Drone.landed_state)\",\"explanation\":\"The constraint asserts that it is always possible to reach a state where both safety and landing conditions hold, i.e., a reachability (can happen) property. The UPPAAL query expresses this as an existential eventual reachability to a state satisfying safe_state and landed_state.\",\"confidence\":0.85,\"pattern_used\":\"reachability\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "E<> (Drone.safe_state && Drone.landed_state)",
+              "explanation": "The constraint asserts that it is always possible to reach a state where both safety and landing conditions hold, i.e., a reachability (can happen) property. The UPPAAL query expresses this as an existential eventual reachability to a state satisfying safe_state and landed_state.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> (Drone.safe_state && Drone.landed_state)"
+          },
+          "total_time": 36.395403146743774,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "InspectDrone spends \u2264 120 s per section",
+          "classification": {
+            "step": "classification",
+            "timing": 2.54133677482605,
+            "tokens": 168,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"spends\", \"per section\", \"\u2264 120 s\"],\n  \"cues\": [\"\u2264\", \"per\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.135374069213867,
+            "tokens": 727,
+            "raw_text": "{\n  \"query\": \"A[] (InspectDrone.in_section imply clock <= 120)\",\n  \"explanation\": \"The query enforces that the InspectDrone must not spend more than 120 seconds in any section, aligning with the constraint of spending \u2264 120 s per section. The 'imply' operator is used to ensure that the time spent in the state 'in_section' is immediately bounded by 120 seconds.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (InspectDrone.in_section imply clock <= 120)",
+              "explanation": "The query enforces that the InspectDrone must not spend more than 120 seconds in any section, aligning with the constraint of spending \u2264 120 s per section. The 'imply' operator is used to ensure that the time spent in the state 'in_section' is immediately bounded by 120 seconds.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectDrone.in_section imply clock <= 120)"
+          },
+          "total_time": 4.6981730461120605,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9034991264343262,
+            "tokens": 174,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"temperature\", \"exceeds\", \"InspectDrone\", \"activate\", \"thermal protection\"],\n  \"cues\": [\"if\", \"must\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.100452184677124,
+            "tokens": 592,
+            "raw_text": "{\n  \"query\": \"(temperature > 60) --> InspectDrone.thermal_protection_activated\",\n  \"explanation\": \"The constraint specifies a conditional response pattern where the condition is the temperature exceeding 60\u00b0C, and the response is the activation of thermal protection by the InspectDrone. The 'if' and 'must' cues indicate a conditional eventual response, which aligns with the 'conditional_response' pattern. The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature > 60) --> InspectDrone.thermal_protection_activated",
+              "explanation": "The constraint specifies a conditional response pattern where the condition is the temperature exceeding 60\u00b0C, and the response is the activation of thermal protection by the InspectDrone. The 'if' and 'must' cues indicate a conditional eventual response, which aligns with the 'conditional_response' pattern. The '-->' operator is used to represent this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 60) --> InspectDrone.thermal_protection_activated"
+          },
+          "total_time": 3.0241541862487793,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4393117427825928,
+            "tokens": 185,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"skips\", \"temperature\", \">\"],\n  \"cues\": [\">\", \"when\"],\n  \"trigger_text\": \"temperature > 60\u00b0C\",\n  \"response_text\": \"InspectDrone skips section\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.341525077819824,
+            "tokens": 566,
+            "raw_text": "{\n  \"query\": \"(temperature > 60) --> InspectDrone.skips_section\",\n  \"explanation\": \"This query matches the constraint by using the conditional_response pattern, where the condition 'temperature > 60\u00b0C' triggers the eventual response 'InspectDrone skips section'. The '-->' operator is used to represent the eventual triggered behavior as specified in the pattern context.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature > 60) --> InspectDrone.skips_section",
+              "explanation": "This query matches the constraint by using the conditional_response pattern, where the condition 'temperature > 60\u00b0C' triggers the eventual response 'InspectDrone skips section'. The '-->' operator is used to represent the eventual triggered behavior as specified in the pattern context.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 60) --> InspectDrone.skips_section"
+          },
+          "total_time": 3.8041529655456543,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "InspectDrone switches to mapping mode if localization lost",
+          "classification": {
+            "step": "classification",
+            "timing": 1.104158878326416,
+            "tokens": 180,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"mapping mode\", \"localization lost\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"localization lost\",\n  \"response_text\": \"switches to mapping mode\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.343510150909424,
+            "tokens": 570,
+            "raw_text": "{\n  \"query\": \"InspectDrone.localization_lost --> InspectDrone.mapping_mode\",\n  \"explanation\": \"The constraint describes a conditional response where the event 'localization lost' triggers the eventual action 'switches to mapping mode'. This matches the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The '-->' operator is appropriate for this sequential workflow.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode",
+              "explanation": "The constraint describes a conditional response where the event 'localization lost' triggers the eventual action 'switches to mapping mode'. This matches the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The '-->' operator is appropriate for this sequential workflow.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode"
+          },
+          "total_time": 3.469576835632324,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1002569198608398,
+            "tokens": 197,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"lands\", \"maintenance dock\", \"sections inspected\"],\n  \"cues\": [\"after\"],\n  \"trigger_text/response_text\": {\n    \"trigger_text\": \"all sections inspected\",\n    \"response_text\": \"InspectDrone lands at maintenance dock\"\n  }\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9391062259674072,
+            "tokens": 568,
+            "raw_text": "{\n  \"query\": \"AllSections.inspected --> InspectDrone.lands_at_maintenance_dock\",\n  \"explanation\": \"The constraint specifies a sequential workflow where the action of the InspectDrone landing at the maintenance dock occurs after all sections have been inspected. This matches the 'sequential_workflow' pattern, which is used for processes where one step follows another. The '-->' operator is appropriate here as it denotes eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "AllSections.inspected --> InspectDrone.lands_at_maintenance_dock",
+              "explanation": "The constraint specifies a sequential workflow where the action of the InspectDrone landing at the maintenance dock occurs after all sections have been inspected. This matches the 'sequential_workflow' pattern, which is used for processes where one step follows another. The '-->' operator is appropriate here as it denotes eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AllSections.inspected --> InspectDrone.lands_at_maintenance_dock"
+          },
+          "total_time": 3.0549509525299072,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "InspectDrone uploads sensor logs after landing",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1063051223754883,
+            "tokens": 177,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"uploads\", \"sensor logs\", \"landing\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"landing\",\n  \"response_text\": \"uploads sensor logs\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8232371807098389,
+            "tokens": 562,
+            "raw_text": "{\n  \"query\": \"InspectDrone.landing --> InspectDrone.uploads_sensor_logs\",\n  \"explanation\": \"The constraint specifies that the action of uploading sensor logs occurs after the landing of the InspectDrone. This aligns with the 'sequential_workflow' pattern where one action eventually follows another. The 'after' cue indicates a sequential relationship, making the '-->' operator appropriate for this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs",
+              "explanation": "The constraint specifies that the action of uploading sensor logs occurs after the landing of the InspectDrone. This aligns with the 'sequential_workflow' pattern where one action eventually follows another. The 'after' cue indicates a sequential relationship, making the '-->' operator appropriate for this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs"
+          },
+          "total_time": 2.947131872177124,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Always possible to reach safe landed state",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2214851379394531,
+            "tokens": 163,
+            "raw_text": "{\n    \"pattern\": \"reachability\",\n    \"keywords\": [\"reach\", \"safe\", \"landed\", \"state\"],\n    \"cues\": [\"always\", \"possible\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6248180866241455,
+            "tokens": 527,
+            "raw_text": "{\n  \"query\": \"E<> SafeLandedState\",\n  \"explanation\": \"The constraint 'Always possible to reach safe landed state' indicates that it should be possible to reach the 'SafeLandedState' at some point. The reachability pattern with the E<> operator is used to verify that this state can be reached, aligning with the keywords 'possible' and 'reach'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}",
+            "uppaal_result": {
+              "query": "E<> SafeLandedState",
+              "explanation": "The constraint 'Always possible to reach safe landed state' indicates that it should be possible to reach the 'SafeLandedState' at some point. The reachability pattern with the E<> operator is used to verify that this state can be reached, aligning with the keywords 'possible' and 'reach'.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> SafeLandedState"
+          },
+          "total_time": 2.865200996398926,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "InspectDrone spends \u2264 120 s per section",
+          "classification": {
+            "step": "classification",
+            "timing": 3.477557897567749,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"InspectDrone\", \"spends\", \"120\", \"per section\", \"time limit\"],\n  \"cues\": [\"\u2264\", \"per\"],\n  \"trigger_text\": \"InspectDrone inspects section\",\n  \"response_text\": \"duration \u2264 120 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.401128053665161,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (InspectDrone.inspecting imply clock <= 120)\",\n  \"explanation\": \"This query enforces that whenever InspectDrone is in the inspecting state, the clock must not exceed 120 time units. The A[] operator ensures this time bound holds always, and 'imply' enforces that the duration constraint is checked immediately while in that state, matching the pattern for maximum time allowed in a state.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (InspectDrone.inspecting imply clock <= 120)",
+              "explanation": "This query enforces that whenever InspectDrone is in the inspecting state, the clock must not exceed 120 time units. The A[] operator ensures this time bound holds always, and 'imply' enforces that the duration constraint is checked immediately while in that state, matching the pattern for maximum time allowed in a state.",
+              "confidence": 0.9,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectDrone.inspecting imply clock <= 120)"
+          },
+          "total_time": 8.898953199386597,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+          "classification": {
+            "step": "classification",
+            "timing": 3.153170108795166,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"temperature\", \"exceeds\", \"60\u00b0C\", \"InspectDrone\", \"activate\", \"thermal protection\"],\n  \"cues\": [\"If\", \"exceeds\", \"must\"],\n  \"trigger_text\": \"temperature exceeds 60\u00b0C\",\n  \"response_text\": \"InspectDrone must activate thermal protection\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.658476114273071,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature > 60) --> InspectDrone.thermal_protection_active\",\n  \"explanation\": \"This query uses the conditional response pattern with the leads-to operator (-->). When the temperature exceeds 60\u00b0C (temperature > 60), it triggers the eventual response that InspectDrone must activate thermal protection (InspectDrone.thermal_protection_active). The --> operator is appropriate here because this represents a triggered behavior where exceeding the temperature threshold leads to the eventual action of activating thermal protection.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature > 60) --> InspectDrone.thermal_protection_active",
+              "explanation": "This query uses the conditional response pattern with the leads-to operator (-->). When the temperature exceeds 60\u00b0C (temperature > 60), it triggers the eventual response that InspectDrone must activate thermal protection (InspectDrone.thermal_protection_active). The --> operator is appropriate here because this represents a triggered behavior where exceeding the temperature threshold leads to the eventual action of activating thermal protection.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 60) --> InspectDrone.thermal_protection_active"
+          },
+          "total_time": 7.835655927658081,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 3.9056339263916016,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"InspectDrone\", \"skips\", \"section\", \"temperature\", \"60\u00b0C\"],\n  \"cues\": [\">\", \"when\"],\n  \"trigger_text\": \"temperature > 60\u00b0C\",\n  \"response_text\": \"InspectDrone skips section\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.411425828933716,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (temperature > 60 && InspectDrone.skipping)\",\n  \"explanation\": \"This query ensures the system never enters a state where temperature exceeds 60\u00b0C and the InspectDrone is in a skipping state. The forbidden_state pattern uses A[] not(...) to express that this combination must never occur, enforcing the constraint that the drone skips sections when temperature is too high.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (temperature > 60 && InspectDrone.skipping)",
+              "explanation": "This query ensures the system never enters a state where temperature exceeds 60\u00b0C and the InspectDrone is in a skipping state. The forbidden_state pattern uses A[] not(...) to express that this combination must never occur, enforcing the constraint that the drone skips sections when temperature is too high.",
+              "confidence": 0.82,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (temperature > 60 && InspectDrone.skipping)"
+          },
+          "total_time": 9.339027881622314,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "InspectDrone switches to mapping mode if localization lost",
+          "classification": {
+            "step": "classification",
+            "timing": 3.1535542011260986,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"InspectDrone\", \"switches\", \"mapping mode\", \"localization\", \"lost\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"localization lost\",\n  \"response_text\": \"InspectDrone switches to mapping mode\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.533707141876221,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectDrone.localization_lost --> InspectDrone.mapping_mode\",\n  \"explanation\": \"This query uses the conditional_response pattern with the leads-to operator (-->). It specifies that if InspectDrone enters a state where localization is lost, it will eventually switch to mapping mode. The --> operator is appropriate here because this is a triggered behavior where the condition (localization lost) leads to an eventual response (switching to mapping mode).\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode",
+              "explanation": "This query uses the conditional_response pattern with the leads-to operator (-->). It specifies that if InspectDrone enters a state where localization is lost, it will eventually switch to mapping mode. The --> operator is appropriate here because this is a triggered behavior where the condition (localization lost) leads to an eventual response (switching to mapping mode).",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode"
+          },
+          "total_time": 7.709268093109131,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 3.3090860843658447,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"InspectDrone\", \"lands\", \"maintenance dock\", \"after\", \"all sections inspected\"],\n  \"cues\": [\"after\", \"all\"],\n  \"trigger_text\": \"all sections inspected\",\n  \"response_text\": \"InspectDrone lands at maintenance dock\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.716746091842651,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectDrone.all_sections_inspected --> InspectDrone.landing_at_maintenance_dock\",\n  \"explanation\": \"This query captures the sequential workflow where after all sections are inspected (trigger state), the InspectDrone eventually lands at the maintenance dock (response state). The leadsto operator (-->) is appropriate here as it models the eventual transition from completing inspection to landing, allowing for intermediate steps or delays.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectDrone.all_sections_inspected --> InspectDrone.landing_at_maintenance_dock",
+              "explanation": "This query captures the sequential workflow where after all sections are inspected (trigger state), the InspectDrone eventually lands at the maintenance dock (response state). The leadsto operator (-->) is appropriate here as it models the eventual transition from completing inspection to landing, allowing for intermediate steps or delays.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.all_sections_inspected --> InspectDrone.landing_at_maintenance_dock"
+          },
+          "total_time": 8.04156231880188,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "InspectDrone uploads sensor logs after landing",
+          "classification": {
+            "step": "classification",
+            "timing": 3.1410491466522217,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"InspectDrone\", \"uploads\", \"sensor logs\", \"after\", \"landing\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"landing\",\n  \"response_text\": \"uploads sensor logs\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.439666271209717,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectDrone.landing --> InspectDrone.uploads_sensor_logs\",\n  \"explanation\": \"This query captures the sequential workflow where InspectDrone must eventually upload sensor logs after completing the landing action. The --> operator ensures that once the landing state is reached, the drone will eventually transition to uploading sensor logs.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs",
+              "explanation": "This query captures the sequential workflow where InspectDrone must eventually upload sensor logs after completing the landing action. The --> operator ensures that once the landing state is reached, the drone will eventually transition to uploading sensor logs.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs"
+          },
+          "total_time": 7.60180401802063,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Always possible to reach safe landed state",
+          "classification": {
+            "step": "classification",
+            "timing": 2.8959710597991943,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"possible\", \"reach\", \"safe\", \"landed\", \"state\"],\n  \"cues\": [\"always\", \"possible\", \"reach\"],\n  \"trigger_text\": null,\n  \"response_text\": \"safe landed state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.6722328662872314,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"E<> safe_landed\",\n  \"explanation\": \"This reachability query checks if it is possible to reach the safe_landed state. The E<> operator verifies that a path exists where the system can eventually reach the target state, matching the 'always possible to reach' constraint.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "E<> safe_landed",
+              "explanation": "This reachability query checks if it is possible to reach the safe_landed state. The E<> operator verifies that a path exists where the system can eventually reach the target state, matching the 'always possible to reach' constraint.",
+              "confidence": 0.9,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> safe_landed"
+          },
+          "total_time": 6.590047836303711,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "InspectDrone spends \u2264 120 s per section",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1841228008270264,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"InspectDrone\", \"time limit\", \"per section\", \"duration\"],\n  \"cues\": [\"\u2264\", \"120 s\"],\n  \"trigger_text\": \"InspectDrone spends time on section\",\n  \"response_text\": \"duration must not exceed 120 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.143714189529419,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (InspectDrone.inspecting_section imply section_clock <= 120)\",\n  \"explanation\": \"This query enforces that whenever InspectDrone is in the state of inspecting a section, the section_clock (which measures time spent on the current section) must not exceed 120 seconds. The A[] operator ensures this constraint always holds, and 'imply' enforces the time bound immediately as a safety property. The clock resets when entering a new section, ensuring the constraint applies per section as required.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (InspectDrone.inspecting_section imply section_clock <= 120)",
+              "explanation": "This query enforces that whenever InspectDrone is in the state of inspecting a section, the section_clock (which measures time spent on the current section) must not exceed 120 seconds. The A[] operator ensures this constraint always holds, and 'imply' enforces the time bound immediately as a safety property. The clock resets when entering a new section, ensuring the constraint applies per section as required.",
+              "confidence": 0.9,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectDrone.inspecting_section imply section_clock <= 120)"
+          },
+          "total_time": 3.3595099449157715,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+          "classification": {
+            "step": "classification",
+            "timing": 1.100377082824707,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"temperature\", \"exceeds\", \"thermal protection\", \"activate\"],\n  \"cues\": [\"if\", \">\"],\n  \"trigger_text\": \"temperature exceeds 60\u00b0C\",\n  \"response_text\": \"InspectDrone must activate thermal protection\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.73848295211792,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active\",\n  \"explanation\": \"This query captures the conditional_response pattern where the trigger condition (temperature exceeds 60\u00b0C) eventually leads to the response (thermal protection activation). The --> operator is appropriate here because it represents a sequential workflow where detecting high temperature triggers the thermal protection system, without requiring immediate same-state response.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active",
+              "explanation": "This query captures the conditional_response pattern where the trigger condition (temperature exceeds 60\u00b0C) eventually leads to the response (thermal protection activation). The --> operator is appropriate here because it represents a sequential workflow where detecting high temperature triggers the thermal protection system, without requiring immediate same-state response.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active"
+          },
+          "total_time": 2.8529069423675537,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 1.102660894393921,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"InspectDrone\", \"skips\", \"section\", \"temperature\"],\n  \"cues\": [\">\"],\n  \"trigger_text\": \"temperature > 60\u00b0C\",\n  \"response_text\": \"skips section\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.092717170715332,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(InspectDrone.temperature > 60) --> InspectDrone.skips_section\",\n  \"explanation\": \"This constraint describes a conditional_response pattern where the condition 'temperature > 60\u00b0C' triggers the eventual response 'skips section'. The --> operator is appropriate here because it represents a sequential workflow where detecting high temperature leads to the drone skipping a section. This is not an immediate same-state response, but rather an eventual behavior triggered by the condition.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(InspectDrone.temperature > 60) --> InspectDrone.skips_section",
+              "explanation": "This constraint describes a conditional_response pattern where the condition 'temperature > 60\u00b0C' triggers the eventual response 'skips section'. The --> operator is appropriate here because it represents a sequential workflow where detecting high temperature leads to the drone skipping a section. This is not an immediate same-state response, but rather an eventual behavior triggered by the condition.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(InspectDrone.temperature > 60) --> InspectDrone.skips_section"
+          },
+          "total_time": 3.2231810092926025,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "InspectDrone switches to mapping mode if localization lost",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0360589027404785,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"InspectDrone\", \"mapping mode\", \"localization lost\", \"switches to\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"localization lost\",\n  \"response_text\": \"switches to mapping mode\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5371968746185303,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectDrone.localization_lost --> InspectDrone.mapping_mode\",\n  \"explanation\": \"This constraint describes a conditional response pattern where the trigger condition 'localization lost' eventually leads to the response 'switches to mapping mode'. The '-->' operator is appropriate here because it represents a sequential workflow where losing localization causes the drone to eventually transition to mapping mode, rather than an immediate state implication.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode",
+              "explanation": "This constraint describes a conditional response pattern where the trigger condition 'localization lost' eventually leads to the response 'switches to mapping mode'. The '-->' operator is appropriate here because it represents a sequential workflow where losing localization causes the drone to eventually transition to mapping mode, rather than an immediate state implication.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode"
+          },
+          "total_time": 2.5905168056488037,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1340861320495605,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"lands\", \"maintenance dock\", \"after\", \"inspected\", \"sections\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"all sections inspected\",\n  \"response_text\": \"InspectDrone lands at maintenance dock\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8495659828186035,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectDrone.sections_inspected --> InspectDrone.lands_at_maintenance_dock\",\n  \"explanation\": \"The constraint describes a sequential workflow where landing at the maintenance dock is triggered after all sections are inspected. The keyword 'after' indicates eventual sequential behavior. The trigger event is 'all sections inspected' (represented as InspectDrone.sections_inspected) and the response is 'InspectDrone lands at maintenance dock' (represented as InspectDrone.lands_at_maintenance_dock). The --> operator is appropriate for this eventual triggered response pattern.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectDrone.sections_inspected --> InspectDrone.lands_at_maintenance_dock",
+              "explanation": "The constraint describes a sequential workflow where landing at the maintenance dock is triggered after all sections are inspected. The keyword 'after' indicates eventual sequential behavior. The trigger event is 'all sections inspected' (represented as InspectDrone.sections_inspected) and the response is 'InspectDrone lands at maintenance dock' (represented as InspectDrone.lands_at_maintenance_dock). The --> operator is appropriate for this eventual triggered response pattern.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.sections_inspected --> InspectDrone.lands_at_maintenance_dock"
+          },
+          "total_time": 2.998837947845459,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "InspectDrone uploads sensor logs after landing",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0612659454345703,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"uploads\", \"sensor logs\", \"landing\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"landing\",\n  \"response_text\": \"uploads sensor logs\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.1869020462036133,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectDrone.landing --> InspectDrone.uploads_sensor_logs\",\n  \"explanation\": \"The constraint describes a sequential workflow where 'uploads sensor logs' is an action that eventually follows 'landing'. The trigger is 'landing' and the response is 'uploads sensor logs'. The '-->' operator correctly captures that uploading sensor logs is a subsequent action triggered after the landing event completes, matching the sequential_workflow pattern with the 'after' cue.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs",
+              "explanation": "The constraint describes a sequential workflow where 'uploads sensor logs' is an action that eventually follows 'landing'. The trigger is 'landing' and the response is 'uploads sensor logs'. The '-->' operator correctly captures that uploading sensor logs is a subsequent action triggered after the landing event completes, matching the sequential_workflow pattern with the 'after' cue.",
+              "confidence": 0.92,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs"
+          },
+          "total_time": 3.2620620727539062,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Always possible to reach safe landed state",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4792890548706055,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"reach\", \"safe\", \"landed\", \"state\", \"possible\"],\n  \"cues\": [\"always\", \"possible to reach\"],\n  \"trigger_text\": \"safe landed state\",\n  \"response_text\": \"must be reachable from any state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4945590496063232,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"E<> System.safe_landed_state\",\n  \"explanation\": \"The constraint states it must be 'always possible to reach safe landed state'. The classifier identified 'reachability' pattern with cues 'always' and 'possible to reach'. The E<> operator checks if a state CAN happen or is POSSIBLE, which directly matches 'possible to reach'. The trigger is 'safe landed state' which becomes the target state in the query.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "E<> System.safe_landed_state",
+              "explanation": "The constraint states it must be 'always possible to reach safe landed state'. The classifier identified 'reachability' pattern with cues 'always' and 'possible to reach'. The E<> operator checks if a state CAN happen or is POSSIBLE, which directly matches 'possible to reach'. The trigger is 'safe landed state' which becomes the target state in the query.",
+              "confidence": 0.92,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> System.safe_landed_state"
+          },
+          "total_time": 2.995572805404663,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "InspectDrone spends \u2264 120 s per section",
+          "classification": {
+            "step": "classification",
+            "timing": 13.430012941360474,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"time_bounded_constraint\", \"keywords\": [\"spends\", \"per section\", \"120 s\"], \"cues\": [\"\u2264\", \"s\"]}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 27.50595712661743,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (InspectDrone.in_section imply clock <= 120)\", \"explanation\": \"This query enforces that whenever InspectDrone is in a section, the clock (representing time spent) does not exceed 120 seconds, matching the time_bounded_constraint pattern for maximum duration.\", \"confidence\": 0.85, \"pattern_used\": \"time_bounded_constraint\", \"operator_used\": [\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (InspectDrone.in_section imply clock <= 120)",
+              "explanation": "This query enforces that whenever InspectDrone is in a section, the clock (representing time spent) does not exceed 120 seconds, matching the time_bounded_constraint pattern for maximum duration.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectDrone.in_section imply clock <= 120)"
+          },
+          "total_time": 40.96703004837036,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+          "classification": {
+            "step": "classification",
+            "timing": 11.27261209487915,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"temperature\", \"exceeds\", \"activate\", \"thermal protection\"],\n  \"cues\": [\"if\", \"exceeds\", \"must\"],\n  \"trigger_text\": \"temperature exceeds 60\u00b0C\",\n  \"response_text\": \"InspectDrone must activate thermal protection\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.606465816497803,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(temperature > 60) --> InspectDrone.thermal_protection\", \"explanation\": \"The query uses the --> operator from the conditional_response pattern to indicate that if the temperature exceeds 60\u00b0C, the InspectDrone must eventually activate thermal protection, aligning with the 'if condition then eventual response' structure of the constraint.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(temperature > 60) --> InspectDrone.thermal_protection",
+              "explanation": "The query uses the --> operator from the conditional_response pattern to indicate that if the temperature exceeds 60\u00b0C, the InspectDrone must eventually activate thermal protection, aligning with the 'if condition then eventual response' structure of the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 60) --> InspectDrone.thermal_protection"
+          },
+          "total_time": 24.894041299819946,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 14.232847929000854,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"skips\", \"temperature\"], \"cues\": [\"when\", \">\"], \"trigger_text\": \"temperature > 60\u00b0C\", \"response_text\": \"skips section\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.7495858669281,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(temperature > 60) --> InspectDrone.skips_section\", \"explanation\": \"The query matches the conditional_response pattern, where the condition 'temperature > 60\u00b0C' triggers the eventual behavior 'InspectDrone skips section', using the --> operator for sequential eventual response.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(temperature > 60) --> InspectDrone.skips_section",
+              "explanation": "The query matches the conditional_response pattern, where the condition 'temperature > 60\u00b0C' triggers the eventual behavior 'InspectDrone skips section', using the --> operator for sequential eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 60) --> InspectDrone.skips_section"
+          },
+          "total_time": 26.004741191864014,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "InspectDrone switches to mapping mode if localization lost",
+          "classification": {
+            "step": "classification",
+            "timing": 10.122545003890991,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"InspectDrone\", \"switches\", \"mapping mode\", \"localization lost\"], \"cues\": [\"if\"], \"trigger_text\": \"localization lost\", \"response_text\": \"switches to mapping mode\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.233593225479126,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"InspectDrone.localization_lost --> InspectDrone.mapping_mode\", \"explanation\": \"The constraint describes a conditional response where if localization is lost, the InspectDrone eventually switches to mapping mode, matching the conditional_response pattern with the --> operator for eventual behavior.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode",
+              "explanation": "The constraint describes a conditional response where if localization is lost, the InspectDrone eventually switches to mapping mode, matching the conditional_response pattern with the --> operator for eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode"
+          },
+          "total_time": 20.371915102005005,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 10.432634115219116,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"lands\", \"inspected\"], \"cues\": [\"after\"], \"trigger_text\": \"all sections inspected\", \"response_text\": \"lands at maintenance dock\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.280848741531372,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"InspectDrone.all_sections_inspected --> InspectDrone.lands_at_maintenance_dock\",\"explanation\":\"The constraint describes a sequential workflow where the InspectDrone lands at the maintenance dock after all sections are inspected, matching the pattern of one action eventually following another.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "InspectDrone.all_sections_inspected --> InspectDrone.lands_at_maintenance_dock",
+              "explanation": "The constraint describes a sequential workflow where the InspectDrone lands at the maintenance dock after all sections are inspected, matching the pattern of one action eventually following another.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.all_sections_inspected --> InspectDrone.lands_at_maintenance_dock"
+          },
+          "total_time": 22.727452278137207,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "InspectDrone uploads sensor logs after landing",
+          "classification": {
+            "step": "classification",
+            "timing": 11.812691926956177,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"upload\",\"after\",\"landing\"],\"cues\":[\"after\"],\"trigger_text\":\"landing\",\"response_text\":\"uploads sensor logs\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.027056217193604,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"InspectDrone.landing --> InspectDrone.uploads_sensor_logs\", \"explanation\": \"The constraint describes a sequential workflow where InspectDrone's landing event is followed eventually by InspectDrone uploading sensor logs, matching the 'after' cue and sequential pattern template.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs",
+              "explanation": "The constraint describes a sequential workflow where InspectDrone's landing event is followed eventually by InspectDrone uploading sensor logs, matching the 'after' cue and sequential pattern template.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs"
+          },
+          "total_time": 23.86203622817993,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Always possible to reach safe landed state",
+          "classification": {
+            "step": "classification",
+            "timing": 15.441188097000122,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"reachability\", \"keywords\": [\"reach\", \"possible\", \"safe\", \"landed\"], \"cues\": [\"always\", \"possible\", \"reach\"]}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 18.234373092651367,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (E<> safe_landed)\", \"explanation\": \"The constraint 'Always possible to reach safe landed state' means that from every state in the system, it is possible to reach the safe landed state. This is expressed using the global operator A[] to ensure it holds in all states, combined with E<> for existential reachability to check if it's possible.\", \"confidence\": 0.85, \"pattern_used\": \"reachability\", \"operator_used\": [\"A[]\", \"E<>\"]}",
+            "uppaal_result": {
+              "query": "A[] (E<> safe_landed)",
+              "explanation": "The constraint 'Always possible to reach safe landed state' means that from every state in the system, it is possible to reach the safe landed state. This is expressed using the global operator A[] to ensure it holds in all states, combined with E<> for existential reachability to check if it's possible.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "A[]",
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (E<> safe_landed)"
+          },
+          "total_time": 33.69610810279846,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "InspectDrone spends \u2264 120 s per section",
+          "classification": {
+            "step": "classification",
+            "timing": 7.382824897766113,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"spends\", \"\u2264 120 s\", \"per section\"],\n  \"cues\": [\"\u2264\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.44306993484497,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (InspectDrone.in_section imply section_clock <= 120)\",\n  \"explanation\": \"This query ensures that whenever the drone is in a section (InspectDrone.in_section), the section clock does not exceed 120 seconds, directly enforcing the constraint that InspectDrone spends no more than 120 seconds per section, based on the time_bounded_constraint pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (InspectDrone.in_section imply section_clock <= 120)",
+              "explanation": "This query ensures that whenever the drone is in a section (InspectDrone.in_section), the section clock does not exceed 120 seconds, directly enforcing the constraint that InspectDrone spends no more than 120 seconds per section, based on the time_bounded_constraint pattern.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectDrone.in_section imply section_clock <= 120)"
+          },
+          "total_time": 27.85255765914917,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+          "classification": {
+            "step": "classification",
+            "timing": 7.643752813339233,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"temperature\", \"exceeds\", \"60\u00b0C\", \"InspectDrone\", \"activate\", \"thermal protection\"],\n  \"cues\": [\"If\", \"must\", \"exceeds\"],\n  \"trigger_text\": \"temperature exceeds 60\u00b0C\",\n  \"response_text\": \"InspectDrone must activate thermal protection\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.358476638793945,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(temperature > 60) --> InspectDrone.thermal_protection\",\n  \"explanation\": \"The query uses the --> operator to specify that if the temperature exceeds 60\u00b0C, then eventually InspectDrone must activate thermal protection, directly matching the conditional_response pattern where a condition leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature > 60) --> InspectDrone.thermal_protection",
+              "explanation": "The query uses the --> operator to specify that if the temperature exceeds 60\u00b0C, then eventually InspectDrone must activate thermal protection, directly matching the conditional_response pattern where a condition leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 60) --> InspectDrone.thermal_protection"
+          },
+          "total_time": 15.024473190307617,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 6.764591217041016,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"skips\", \"when\", \"temperature\", \"60\u00b0C\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"temperature > 60\u00b0C\",\n  \"response_text\": \"InspectDrone skips section\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.415710926055908,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(temperature > 60) --> InspectDrone.skips_section\",\n  \"explanation\": \"The query matches the constraint by using the --> operator to represent that when the condition 'temperature > 60\u00b0C' is true, it eventually leads to the response 'InspectDrone skips section', following the conditional_response pattern for triggered behaviors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature > 60) --> InspectDrone.skips_section",
+              "explanation": "The query matches the constraint by using the --> operator to represent that when the condition 'temperature > 60\u00b0C' is true, it eventually leads to the response 'InspectDrone skips section', following the conditional_response pattern for triggered behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 60) --> InspectDrone.skips_section"
+          },
+          "total_time": 13.200298070907593,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "InspectDrone switches to mapping mode if localization lost",
+          "classification": {
+            "step": "classification",
+            "timing": 7.591170787811279,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"switches\", \"mapping mode\", \"localization lost\", \"if\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"localization lost\",\n  \"response_text\": \"switches to mapping mode\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.88527512550354,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"InspectDrone.localization_lost --> InspectDrone.in_mapping_mode\",\n  \"explanation\": \"This query matches the constraint by using the --> operator to represent that if localization is lost (condition), the drone eventually switches to mapping mode (response), following the conditional_response pattern for triggered behaviors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "InspectDrone.localization_lost --> InspectDrone.in_mapping_mode",
+              "explanation": "This query matches the constraint by using the --> operator to represent that if localization is lost (condition), the drone eventually switches to mapping mode (response), following the conditional_response pattern for triggered behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.localization_lost --> InspectDrone.in_mapping_mode"
+          },
+          "total_time": 13.501033067703247,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 5.795821189880371,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"after\", \"lands\", \"inspected\", \"maintenance\", \"dock\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"all sections inspected\",\n  \"response_text\": \"InspectDrone lands at maintenance dock\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.709858655929565,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"all_sections_inspected --> InspectDrone.landed_at_dock\",\n  \"explanation\": \"This query uses the --> operator to represent that after all sections are inspected (trigger), the InspectDrone will eventually land at the maintenance dock (response), aligning with the sequential_workflow pattern where one action follows another with possible delays.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "all_sections_inspected --> InspectDrone.landed_at_dock",
+              "explanation": "This query uses the --> operator to represent that after all sections are inspected (trigger), the InspectDrone will eventually land at the maintenance dock (response), aligning with the sequential_workflow pattern where one action follows another with possible delays.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "all_sections_inspected --> InspectDrone.landed_at_dock"
+          },
+          "total_time": 14.539057970046997,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "InspectDrone uploads sensor logs after landing",
+          "classification": {
+            "step": "classification",
+            "timing": 5.933688163757324,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"after\", \"uploads\", \"landing\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"after landing\",\n  \"response_text\": \"uploads sensor logs\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.637683868408203,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"InspectDrone.landing --> InspectDrone.uploads_sensor_logs\",\n  \"explanation\": \"This query matches the constraint because it uses the sequential_workflow pattern to indicate that after InspectDrone lands, it will eventually upload sensor logs, aligning with the 'after' cue in the input.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs",
+              "explanation": "This query matches the constraint because it uses the sequential_workflow pattern to indicate that after InspectDrone lands, it will eventually upload sensor logs, aligning with the 'after' cue in the input.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs"
+          },
+          "total_time": 12.59191608428955,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Always possible to reach safe landed state",
+          "classification": {
+            "step": "classification",
+            "timing": 7.22470498085022,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"reach\", \"safe landed state\"],\n  \"cues\": [\"always\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.158059120178223,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"E<> safe_landed\",\n  \"explanation\": \"The constraint 'Always possible to reach safe landed state' indicates that reaching the safe landed state is possible, which aligns with the reachability pattern using E<> to check if such a state can be reached in some path.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}",
+            "uppaal_result": {
+              "query": "E<> safe_landed",
+              "explanation": "The constraint 'Always possible to reach safe landed state' indicates that reaching the safe landed state is possible, which aligns with the reachability pattern using E<> to check if such a state can be reached in some path.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> safe_landed"
+          },
+          "total_time": 21.407578945159912,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "InspectDrone spends \u2264 120 s per section",
+          "classification": {
+            "step": "classification",
+            "timing": 62.308101177215576,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"InspectDrone\", \"spends\", \"per section\", \"120 s\"],\n  \"cues\": [\"\u2264\", \"per\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 110.79162979125977,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (InspectDrone.inspecting imply c <= 120)\",\n  \"explanation\": \"This query matches the time_bounded_constraint pattern by enforcing that whenever InspectDrone is in the 'inspecting' state (representing spending time per section), the clock c must be \u2264 120 seconds. This ensures the maximum time of 120 s per section is not exceeded, with the clock resetting upon state entry as per pattern rules.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (InspectDrone.inspecting imply c <= 120)",
+              "explanation": "This query matches the time_bounded_constraint pattern by enforcing that whenever InspectDrone is in the 'inspecting' state (representing spending time per section), the clock c must be \u2264 120 seconds. This ensures the maximum time of 120 s per section is not exceeded, with the clock resetting upon state entry as per pattern rules.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectDrone.inspecting imply c <= 120)"
+          },
+          "total_time": 173.15546321868896,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+          "classification": {
+            "step": "classification",
+            "timing": 78.26350617408752,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"temperature\", \"exceeds\", \"60\u00b0C\", \"InspectDrone\", \"activate\", \"thermal protection\"],\n  \"cues\": [\"must\"],\n  \"trigger_text\": \"temperature exceeds 60\u00b0C\",\n  \"response_text\": \"activate thermal protection\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 97.318932056427,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active\",\n  \"explanation\": \"The constraint uses 'if...must' to indicate a conditional eventual response, matching the conditional_response pattern where the condition 'temperature exceeds 60\u00b0C' triggers the response 'activate thermal protection'. The '-->' operator is used for such triggered behaviors, as specified in the pattern template and similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active",
+              "explanation": "The constraint uses 'if...must' to indicate a conditional eventual response, matching the conditional_response pattern where the condition 'temperature exceeds 60\u00b0C' triggers the response 'activate thermal protection'. The '-->' operator is used for such triggered behaviors, as specified in the pattern template and similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active"
+          },
+          "total_time": 175.6060609817505,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 30.70719814300537,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"InspectDrone\", \"skips section\", \"temperature > 60\u00b0C\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"temperature > 60\u00b0C\",\n  \"response_text\": \"skips section\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 74.21752190589905,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(temperature > 60) --> InspectDrone.skip_section\",\n  \"explanation\": \"This query follows the conditional_response pattern where the condition 'temperature > 60\u00b0C' (trigger) leads to the eventual response 'InspectDrone skips section', using the '-->' operator for triggered behavior as shown in similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(temperature > 60) --> InspectDrone.skip_section",
+              "explanation": "This query follows the conditional_response pattern where the condition 'temperature > 60\u00b0C' (trigger) leads to the eventual response 'InspectDrone skips section', using the '-->' operator for triggered behavior as shown in similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 60) --> InspectDrone.skip_section"
+          },
+          "total_time": 104.96116399765015,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "InspectDrone switches to mapping mode if localization lost",
+          "classification": {
+            "step": "classification",
+            "timing": 30.908701181411743,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"InspectDrone\", \"switch\", \"mapping mode\", \"localization lost\", \"if\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"localization lost\",\n  \"response_text\": \"switches to mapping mode\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 61.21656394004822,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"InspectDrone.localization_lost --> InspectDrone.mapping_mode\",\n  \"explanation\": \"The constraint 'InspectDrone switches to mapping mode if localization lost' matches the conditional_response pattern, where a condition triggers an eventual response. The '-->' operator is used to model that the condition 'localization lost' leads to the response 'switches to mapping mode' eventually, as indicated by the keyword 'if' and the pattern template.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode",
+              "explanation": "The constraint 'InspectDrone switches to mapping mode if localization lost' matches the conditional_response pattern, where a condition triggers an eventual response. The '-->' operator is used to model that the condition 'localization lost' leads to the response 'switches to mapping mode' eventually, as indicated by the keyword 'if' and the pattern template.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode"
+          },
+          "total_time": 92.15886402130127,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 34.386083126068115,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"InspectDrone\", \"lands\", \"maintenance dock\", \"sections inspected\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"all sections inspected\",\n  \"response_text\": \"InspectDrone lands at maintenance dock\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 79.86238598823547,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"sections_inspected --> InspectDrone.lands_at_maintenance_dock\",\n  \"explanation\": \"The constraint 'InspectDrone lands at maintenance dock after all sections inspected' describes a sequential workflow where the event 'all sections inspected' (mapped to 'sections_inspected') must eventually lead to the event 'InspectDrone lands at maintenance dock' (mapped to 'InspectDrone.lands_at_maintenance_dock'). This matches the 'sequential_workflow' pattern with the cue 'after', indicating delayed but eventual behavior, so the operator '-->' is used to represent that if 'sections_inspected' occurs, 'InspectDrone.lands_at_maintenance_dock' will eventually occur.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "sections_inspected --> InspectDrone.lands_at_maintenance_dock",
+              "explanation": "The constraint 'InspectDrone lands at maintenance dock after all sections inspected' describes a sequential workflow where the event 'all sections inspected' (mapped to 'sections_inspected') must eventually lead to the event 'InspectDrone lands at maintenance dock' (mapped to 'InspectDrone.lands_at_maintenance_dock'). This matches the 'sequential_workflow' pattern with the cue 'after', indicating delayed but eventual behavior, so the operator '-->' is used to represent that if 'sections_inspected' occurs, 'InspectDrone.lands_at_maintenance_dock' will eventually occur.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "sections_inspected --> InspectDrone.lands_at_maintenance_dock"
+          },
+          "total_time": 114.2970700263977,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "InspectDrone uploads sensor logs after landing",
+          "classification": {
+            "step": "classification",
+            "timing": 35.79815077781677,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"upload\", \"sensor logs\", \"landing\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"landing\",\n  \"response_text\": \"uploads sensor logs\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 69.59834694862366,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"InspectDrone.landing_complete --> InspectDrone.uploading_sensor_logs\",\n  \"explanation\": \"The constraint uses 'after' to indicate that uploading sensor logs eventually follows landing, which matches the sequential_workflow pattern. The '-->' operator is used for eventual triggered behavior, as seen in similar examples like 'InspectorDrone.inspection_complete --> Welder.welding'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "InspectDrone.landing_complete --> InspectDrone.uploading_sensor_logs",
+              "explanation": "The constraint uses 'after' to indicate that uploading sensor logs eventually follows landing, which matches the sequential_workflow pattern. The '-->' operator is used for eventual triggered behavior, as seen in similar examples like 'InspectorDrone.inspection_complete --> Welder.welding'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.landing_complete --> InspectDrone.uploading_sensor_logs"
+          },
+          "total_time": 105.44755291938782,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Always possible to reach safe landed state",
+          "classification": {
+            "step": "classification",
+            "timing": 64.43494296073914,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"reach\", \"safe\", \"landed\", \"state\", \"possible\"],\n  \"cues\": [\"can\", \"reach\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 86.24683594703674,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"E<> safe_landed\",\n  \"explanation\": \"The constraint 'Always possible to reach safe landed state' contains keywords 'possible' and 'reach', which align with the reachability pattern. The query E<> safe_landed uses the existential eventually operator to verify that it is possible for the system to eventually reach the safe landed state, consistent with the pattern's purpose of checking if something can happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}",
+            "uppaal_result": {
+              "query": "E<> safe_landed",
+              "explanation": "The constraint 'Always possible to reach safe landed state' contains keywords 'possible' and 'reach', which align with the reachability pattern. The query E<> safe_landed uses the existential eventually operator to verify that it is possible for the system to eventually reach the safe landed state, consistent with the pattern's purpose of checking if something can happen.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> safe_landed"
+          },
+          "total_time": 150.72137808799744,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "InspectDrone spends \u2264 120 s per section",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2242662906646729,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"time\",\n    \"duration\",\n    \"inspect drone\",\n    \"section\",\n    \"maximum\",\n    \"limit\"\n  ],\n  \"cues\": [\n    \"\u2264\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4338090419769287,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (InspectDrone.inspecting imply clock <= 120)\",\n  \"explanation\": \"The constraint states that the 'InspectDrone' spends no more than 120 seconds per section.  The UPPAAL query uses the 'A[]' operator to ensure that this is always true.  'InspectDrone.inspecting' represents the state where the drone is inspecting a section. The 'imply' keyword means 'if', and 'clock <= 120' limits the time spent in that state to 120 seconds.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (InspectDrone.inspecting imply clock <= 120)",
+              "explanation": "The constraint states that the 'InspectDrone' spends no more than 120 seconds per section.  The UPPAAL query uses the 'A[]' operator to ensure that this is always true.  'InspectDrone.inspecting' represents the state where the drone is inspecting a section. The 'imply' keyword means 'if', and 'clock <= 120' limits the time spent in that state to 120 seconds.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectDrone.inspecting imply clock <= 120)"
+          },
+          "total_time": 2.6822509765625,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0185787677764893,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"temperature\", \"exceeds\", \"thermal protection\", \"activate\"],\n  \"cues\": [\"If\"],\n  \"trigger_text\": \"temperature exceeds 60\u00b0C\",\n  \"response_text\": \"InspectDrone must activate thermal protection\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.9984779357910156,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectDrone.temperature > 60 --> InspectDrone.thermal_protection_active\",\n  \"explanation\": \"The constraint states that if the temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection. This translates to a conditional eventual response pattern. The '-->' operator signifies that if the temperature exceeds 60, InspectDrone will eventually activate thermal protection.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectDrone.temperature > 60 --> InspectDrone.thermal_protection_active",
+              "explanation": "The constraint states that if the temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection. This translates to a conditional eventual response pattern. The '-->' operator signifies that if the temperature exceeds 60, InspectDrone will eventually activate thermal protection.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.temperature > 60 --> InspectDrone.thermal_protection_active"
+          },
+          "total_time": 2.0264179706573486,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 1.405613899230957,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"skip\", \"temperature\", \"drone\", \"inspect\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"temperature > 60\u00b0C\",\n  \"response_text\": \"InspectDrone skips section\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.1083650588989258,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature > 60) --> InspectDrone.skips_section\",\n  \"explanation\": \"The constraint states that 'InspectDrone skips section when temperature > 60\u00b0C'. This aligns with the 'conditional_response' pattern, where a condition (temperature > 60) leads to an eventual response (InspectDrone skips section). The '-->' operator is used to express this eventual relationship.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature > 60) --> InspectDrone.skips_section",
+              "explanation": "The constraint states that 'InspectDrone skips section when temperature > 60\u00b0C'. This aligns with the 'conditional_response' pattern, where a condition (temperature > 60) leads to an eventual response (InspectDrone skips section). The '-->' operator is used to express this eventual relationship.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 60) --> InspectDrone.skips_section"
+          },
+          "total_time": 2.526738166809082,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "InspectDrone switches to mapping mode if localization lost",
+          "classification": {
+            "step": "classification",
+            "timing": 2.049678087234497,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"drone\", \"mapping\", \"localization\", \"mode\", \"switch\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"localization lost\",\n  \"response_text\": \"InspectDrone switches to mapping mode\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.110692024230957,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectDrone.localization_lost --> InspectDrone.mapping_mode\",\n  \"explanation\": \"The constraint 'InspectDrone switches to mapping mode if localization lost' follows a conditional response pattern. The '-->' operator is used to express that if InspectDrone's localization is lost (InspectDrone.localization_lost), then eventually InspectDrone will switch to mapping mode (InspectDrone.mapping_mode).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode",
+              "explanation": "The constraint 'InspectDrone switches to mapping mode if localization lost' follows a conditional response pattern. The '-->' operator is used to express that if InspectDrone's localization is lost (InspectDrone.localization_lost), then eventually InspectDrone will switch to mapping mode (InspectDrone.mapping_mode).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode"
+          },
+          "total_time": 3.1813058853149414,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8055591583251953,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"landing\", \"maintenance\", \"inspection\", \"drone\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"all sections inspected\",\n  \"response_text\": \"InspectDrone lands at maintenance dock\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7346632480621338,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectDrone.all_sections_inspected --> InspectDrone.lands_at_maintenance_dock\",\n  \"explanation\": \"The constraint describes a sequential workflow where after the drone has inspected all sections (InspectDrone.all_sections_inspected), it eventually lands at the maintenance dock (InspectDrone.lands_at_maintenance_dock). The \\\"-->\\\" operator in UPPAAL represents this eventual following relationship.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectDrone.all_sections_inspected --> InspectDrone.lands_at_maintenance_dock",
+              "explanation": "The constraint describes a sequential workflow where after the drone has inspected all sections (InspectDrone.all_sections_inspected), it eventually lands at the maintenance dock (InspectDrone.lands_at_maintenance_dock). The \"-->\" operator in UPPAAL represents this eventual following relationship.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.all_sections_inspected --> InspectDrone.lands_at_maintenance_dock"
+          },
+          "total_time": 2.5593109130859375,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "InspectDrone uploads sensor logs after landing",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9035100936889648,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"upload\", \"sensor logs\", \"landing\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"landing\",\n  \"response_text\": \"InspectDrone uploads sensor logs\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7270638942718506,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectDrone.landing --> InspectDrone.logs_uploaded\",\n  \"explanation\": \"The constraint specifies that InspectDrone uploads sensor logs (InspectDrone.logs_uploaded) after landing (InspectDrone.landing). This is a conditional response, making '-->' (eventual trigger) the correct operator to use. The pattern 'eventual_completion' is not the primary driver here, but rather the 'conditional_response' that must use '-->'.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectDrone.landing --> InspectDrone.logs_uploaded",
+              "explanation": "The constraint specifies that InspectDrone uploads sensor logs (InspectDrone.logs_uploaded) after landing (InspectDrone.landing). This is a conditional response, making '-->' (eventual trigger) the correct operator to use. The pattern 'eventual_completion' is not the primary driver here, but rather the 'conditional_response' that must use '-->'.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.landing --> InspectDrone.logs_uploaded"
+          },
+          "total_time": 2.6504247188568115,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Always possible to reach safe landed state",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8031837940216064,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"safe\", \"landed\", \"state\", \"possible\", \"reach\"],\n  \"cues\": [\"possible\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.99102783203125,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"E<> safe_landed_state\",\n  \"explanation\": \"The constraint states that it is *always possible* to reach the `safe_landed_state`. The `E<>` operator corresponds to \\\"eventually possible\\\", aligning perfectly with the requirement of the reachability pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "E<> safe_landed_state",
+              "explanation": "The constraint states that it is *always possible* to reach the `safe_landed_state`. The `E<>` operator corresponds to \"eventually possible\", aligning perfectly with the requirement of the reachability pattern.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> safe_landed_state"
+          },
+          "total_time": 1.816215991973877,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "InspectDrone spends \u2264 120 s per section",
+          "classification": {
+            "step": "classification",
+            "timing": 7.333522796630859,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"InspectDrone\",\n    \"spends\",\n    \"120 s\",\n    \"section\"\n  ],\n  \"cues\": [\n    \"\u2264\",\n    \"s\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.760172128677368,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (InspectDrone.Inspecting imply InspectDrone.t <= 120)\",\n  \"explanation\": \"This query enforces a safety property using A[] (globally). It states that whenever the 'InspectDrone' automaton is in the 'Inspecting' location, its local clock 't' (assumed to be reset upon entering 'Inspecting') must be less than or equal to 120. This directly models the requirement that the time spent in a section does not exceed 120 seconds.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (InspectDrone.Inspecting imply InspectDrone.t <= 120)",
+              "explanation": "This query enforces a safety property using A[] (globally). It states that whenever the 'InspectDrone' automaton is in the 'Inspecting' location, its local clock 't' (assumed to be reset upon entering 'Inspecting') must be less than or equal to 120. This directly models the requirement that the time spent in a section does not exceed 120 seconds.",
+              "confidence": 0.95,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectDrone.Inspecting imply InspectDrone.t <= 120)"
+          },
+          "total_time": 24.10948610305786,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+          "classification": {
+            "step": "classification",
+            "timing": 9.679857015609741,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"temperature\",\n    \"exceeds\",\n    \"thermal protection\",\n    \"drone\"\n  ],\n  \"cues\": [\n    \"If\",\n    \">\",\n    \"must\"\n  ],\n  \"trigger_text\": \"temperature exceeds 60\u00b0C\",\n  \"response_text\": \"InspectDrone must activate thermal protection\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.547348976135254,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (InspectDrone.temperature > 60 imply InspectDrone.thermal_protection_active)\",\n  \"explanation\": \"This query enforces an immediate safety property. It uses A[] (always) to state that for the entire system execution, the condition must hold. The 'imply' operator ensures that in the very same state where 'InspectDrone.temperature > 60' is true, the safety action 'InspectDrone.thermal_protection_active' must also be true. This directly translates the 'If...must...' requirement for an instantaneous response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (InspectDrone.temperature > 60 imply InspectDrone.thermal_protection_active)",
+              "explanation": "This query enforces an immediate safety property. It uses A[] (always) to state that for the entire system execution, the condition must hold. The 'imply' operator ensures that in the very same state where 'InspectDrone.temperature > 60' is true, the safety action 'InspectDrone.thermal_protection_active' must also be true. This directly translates the 'If...must...' requirement for an instantaneous response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectDrone.temperature > 60 imply InspectDrone.thermal_protection_active)"
+          },
+          "total_time": 29.248876094818115,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 8.587502002716064,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"InspectDrone\",\n    \"skips\",\n    \"section\",\n    \"temperature\"\n  ],\n  \"cues\": [\n    \"when\",\n    \">\"\n  ],\n  \"trigger_text\": \"temperature > 60\u00b0C\",\n  \"response_text\": \"InspectDrone skips section\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.171229839324951,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(temperature > 60) --> InspectDrone.SkippingSection\",\n  \"explanation\": \"This query uses the 'leads to' operator (-->) to model the specified conditional_response pattern. It asserts that for all execution paths, if the condition 'temperature > 60' becomes true, it will eventually be followed by the response, which is the 'InspectDrone' automaton reaching the 'SkippingSection' state. This directly translates the cause-and-effect relationship described in the constraint.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(temperature > 60) --> InspectDrone.SkippingSection",
+              "explanation": "This query uses the 'leads to' operator (-->) to model the specified conditional_response pattern. It asserts that for all execution paths, if the condition 'temperature > 60' becomes true, it will eventually be followed by the response, which is the 'InspectDrone' automaton reaching the 'SkippingSection' state. This directly translates the cause-and-effect relationship described in the constraint.",
+              "confidence": 0.95,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(temperature > 60) --> InspectDrone.SkippingSection"
+          },
+          "total_time": 20.780934810638428,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "InspectDrone switches to mapping mode if localization lost",
+          "classification": {
+            "step": "classification",
+            "timing": 8.483407020568848,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"InspectDrone\",\n    \"switches\",\n    \"mapping mode\",\n    \"localization lost\"\n  ],\n  \"cues\": [\n    \"if\"\n  ],\n  \"trigger_text\": \"localization lost\",\n  \"response_text\": \"InspectDrone switches to mapping mode\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 26.811420917510986,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (InspectDrone.localization_lost imply InspectDrone.MappingMode)\",\n  \"explanation\": \"The query enforces a safety property that must always hold (`A[]`). It states that if the trigger condition `InspectDrone.localization_lost` is true, then the system must also be in the state `InspectDrone.MappingMode`. The `imply` operator enforces this as an immediate, same-state requirement, correctly modeling the instantaneous switch described in the constraint.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (InspectDrone.localization_lost imply InspectDrone.MappingMode)",
+              "explanation": "The query enforces a safety property that must always hold (`A[]`). It states that if the trigger condition `InspectDrone.localization_lost` is true, then the system must also be in the state `InspectDrone.MappingMode`. The `imply` operator enforces this as an immediate, same-state requirement, correctly modeling the instantaneous switch described in the constraint.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectDrone.localization_lost imply InspectDrone.MappingMode)"
+          },
+          "total_time": 35.31929612159729,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 8.280900001525879,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"InspectDrone\",\n    \"lands\",\n    \"maintenance dock\",\n    \"sections\",\n    \"inspected\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"all sections inspected\",\n  \"response_text\": \"InspectDrone lands at maintenance dock\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.625559091567993,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"System.all_sections_inspected --> InspectDrone.landing\",\n  \"explanation\": \"The constraint \\\"InspectDrone lands at maintenance dock after all sections inspected\\\" describes a sequence where one action follows another. The keyword 'after' indicates this temporal ordering. The 'sequential_workflow' pattern with the '-->' (leads to) operator is used to model this. The trigger condition 'all sections inspected' is represented by the state `System.all_sections_inspected`, and the subsequent action 'InspectDrone lands' is represented by the state `InspectDrone.landing`. The query mandates that once the system confirms all sections are inspected, the drone must eventually begin its landing sequence.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "System.all_sections_inspected --> InspectDrone.landing",
+              "explanation": "The constraint \"InspectDrone lands at maintenance dock after all sections inspected\" describes a sequence where one action follows another. The keyword 'after' indicates this temporal ordering. The 'sequential_workflow' pattern with the '-->' (leads to) operator is used to model this. The trigger condition 'all sections inspected' is represented by the state `System.all_sections_inspected`, and the subsequent action 'InspectDrone lands' is represented by the state `InspectDrone.landing`. The query mandates that once the system confirms all sections are inspected, the drone must eventually begin its landing sequence.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "System.all_sections_inspected --> InspectDrone.landing"
+          },
+          "total_time": 28.92861580848694,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "InspectDrone uploads sensor logs after landing",
+          "classification": {
+            "step": "classification",
+            "timing": 7.321278095245361,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"InspectDrone\",\n    \"uploads\",\n    \"sensor logs\",\n    \"landing\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"landing\",\n  \"response_text\": \"InspectDrone uploads sensor logs\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.105244159698486,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectDrone.Landed --> InspectDrone.UploadingLogs\",\n  \"explanation\": \"The constraint \\\"InspectDrone uploads sensor logs after landing\\\" specifies a sequential workflow. The 'leads to' operator (-->) is used to verify this property. It checks that whenever the first event occurs (InspectDrone is in the 'Landed' state), the second event will eventually follow (InspectDrone will enter the 'UploadingLogs' state).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectDrone.Landed --> InspectDrone.UploadingLogs",
+              "explanation": "The constraint \"InspectDrone uploads sensor logs after landing\" specifies a sequential workflow. The 'leads to' operator (-->) is used to verify this property. It checks that whenever the first event occurs (InspectDrone is in the 'Landed' state), the second event will eventually follow (InspectDrone will enter the 'UploadingLogs' state).",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectDrone.Landed --> InspectDrone.UploadingLogs"
+          },
+          "total_time": 17.444666862487793,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Always possible to reach safe landed state",
+          "classification": {
+            "step": "classification",
+            "timing": 8.485045909881592,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\n    \"possible\",\n    \"reach\",\n    \"safe landed state\"\n  ],\n  \"cues\": [\n    \"possible\",\n    \"reach\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 24.256099939346313,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] E<> System.SafeLanded\",\n  \"explanation\": \"The term 'Always' translates to the A[] operator, which means 'for all reachable states'. The phrase 'possible to reach' translates to the E<> operator, which checks if a future path exists. Therefore, the query A[] E<> System.SafeLanded verifies that from any state the system is in, it is always possible to eventually reach the 'SafeLanded' state.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\n    \"A[]\",\n    \"E<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] E<> System.SafeLanded",
+              "explanation": "The term 'Always' translates to the A[] operator, which means 'for all reachable states'. The phrase 'possible to reach' translates to the E<> operator, which checks if a future path exists. Therefore, the query A[] E<> System.SafeLanded verifies that from any state the system is in, it is always possible to eventually reach the 'SafeLanded' state.",
+              "confidence": 0.9,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "A[]",
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] E<> System.SafeLanded"
+          },
+          "total_time": 32.75584697723389,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "scenario_029",
+  "domain": "construction",
+  "prompt": "Two cranes lift beams, a welder seals them, a drone monitors progress, and two delivery AMRs supply materials. Welding can begin only after both cranes finish lifting. Drone must remain within 50 m radius of cranes. DeliveryAMRs must alternate: while one delivers, the other waits. Eventually, all beams are welded and drone reports completion.",
+  "robots": ["CraneA", "CraneB", "WelderBot", "MonitorDrone", "DeliveryAMR1", "DeliveryAMR2"],
+  "constraints": [
+    "WelderBot starts only after CraneA and CraneB finish lifting",
+    "MonitorDrone must remain within 50 m radius of both cranes",
+    "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+    "Eventually all beams welded and MonitorDrone reports completion"
+  ],
+  "reference_properties": [
+    "A[] (WelderBot.Active) imply (CraneA.Done && CraneB.Done)",
+    "A[] (MonitorDrone.DistanceToCraneA <= 50 && MonitorDrone.DistanceToCraneB <= 50)",
+    "A[] not (DeliveryAMR1.Delivering && DeliveryAMR2.Delivering)",
+    "A<> (WelderBot.AllBeamsWelded && MonitorDrone.ReportSent)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-12"
+  }
+}

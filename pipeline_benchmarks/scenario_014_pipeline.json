@@ -1,0 +1,1343 @@
+{
+  "id": "scenario_014",
+  "domain": "construction",
+  "prompt": "A maintenance drone inspects bridge cables while a repair robot seals cracks. The repair robot must wait until the inspection of the cable segment is completed. Both must stop if vibration exceeds threshold 5.0 g.",
+  "robots": [
+    "InspectionDrone",
+    "RepairBot"
+  ],
+  "constraints": [
+    "RepairBot starts after InspectionDrone finishes inspection",
+    "InspectionDrone stop when vibration exceeds 5 g",
+    "RepairBot stop when vibration exceeds 5 g"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "classification": {
+            "step": "classification",
+            "timing": 2.1350247859954834,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"RepairBot\",\"InspectionDrone\",\"starts after\",\"finishes\",\"inspection\",\"sequence\",\"ordering\",\"workflow\"],\"cues\":[\"after\"],\"trigger_text\":\"InspectionDrone finishes inspection\",\"response_text\":\"RepairBot starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.1801180839538574,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"InspectionDrone.inspection_finished --> RepairBot.starting\",\"explanation\":\"The constraint says that RepairBot starts after InspectionDrone finishes inspection. This is a sequential workflow where one action (inspection finished) eventually leads to another (repair starts). The pattern template is action1 --> action2, so we map the trigger 'InspectionDrone finishes inspection' to InspectionDrone.inspection_finished and the response 'RepairBot starts' to RepairBot.starting, using the --> operator to express eventual follow-up rather than immediate response.\",\"confidence\":0.86,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "InspectionDrone.inspection_finished --> RepairBot.starting",
+              "explanation": "The constraint says that RepairBot starts after InspectionDrone finishes inspection. This is a sequential workflow where one action (inspection finished) eventually leads to another (repair starts). The pattern template is action1 --> action2, so we map the trigger 'InspectionDrone finishes inspection' to InspectionDrone.inspection_finished and the response 'RepairBot starts' to RepairBot.starting, using the --> operator to express eventual follow-up rather than immediate response.",
+              "confidence": 0.86,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectionDrone.inspection_finished --> RepairBot.starting"
+          },
+          "total_time": 4.3630690574646,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 2.2516229152679443,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"InspectionDrone\",\"stop\",\"vibration\",\"exceeds\",\"5 g\",\"threshold\"],\"cues\":[\"when\",\">\"],\"trigger_text\":\"vibration exceeds 5 g\",\"response_text\":\"InspectionDrone stop\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 57.24567198753357,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(InspectionDrone.vibration > 5) --> InspectionDrone.stop\",\"explanation\":\"The condition is that the drone\u2019s vibration exceeds 5 g, modeled as InspectionDrone.vibration > 5. The required response is that the InspectionDrone stops, modeled as InspectionDrone.stop. Using the conditional response pattern with the --> operator encodes that whenever the vibration exceeds 5 g, it will eventually lead to the drone being in the stop state.\",\"confidence\":0.9,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(InspectionDrone.vibration > 5) --> InspectionDrone.stop",
+              "explanation": "The condition is that the drone\u2019s vibration exceeds 5 g, modeled as InspectionDrone.vibration > 5. The required response is that the InspectionDrone stops, modeled as InspectionDrone.stop. Using the conditional response pattern with the --> operator encodes that whenever the vibration exceeds 5 g, it will eventually lead to the drone being in the stop state.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(InspectionDrone.vibration > 5) --> InspectionDrone.stop"
+          },
+          "total_time": 59.51418709754944,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 2.597423791885376,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"RepairBot\",\"stop\",\"vibration\",\"exceeds\",\"5 g\",\"threshold\",\"limit\"],\"cues\":[\"when\",\">\",\"must\"],\"trigger_text\":\"vibration exceeds 5 g\",\"response_text\":\"RepairBot stops\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.2507243156433105,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (vibration > 5 && RepairBot.operating)\",\"explanation\":\"The English constraint means the robot must not keep operating once vibration exceeds 5 g. Using the forbidden_state pattern, we encode as a state that must never occur: high vibration together with RepairBot still operating. A[] not (...) enforces that this unsafe combination is never reachable in any state of any execution.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (vibration > 5 && RepairBot.operating)",
+              "explanation": "The English constraint means the robot must not keep operating once vibration exceeds 5 g. Using the forbidden_state pattern, we encode as a state that must never occur: high vibration together with RepairBot still operating. A[] not (...) enforces that this unsafe combination is never reachable in any state of any execution.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (vibration > 5 && RepairBot.operating)"
+          },
+          "total_time": 4.868166208267212,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "classification": {
+            "step": "classification",
+            "timing": 5.264211177825928,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"after\",\n    \"starts\",\n    \"finishes\",\n    \"inspection\",\n    \"RepairBot\",\n    \"InspectionDrone\",\n    \"start after\",\n    \"finish\"\n  ],\n  \"cues\": [\n    \"after\",\n    \"when\",\n    \"then\",\n    \"starts\",\n    \"finishes\",\n    \"must\"\n  ],\n  \"trigger_text\": \"InspectionDrone finishes inspection\",\n  \"response_text\": \"RepairBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.716348886489868,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"InspectionDrone.inspection_complete --> RepairBot.starting\",\"explanation\":\"This uses the sequential_workflow pattern: when InspectionDrone signals inspection_complete (finishes inspection), RepairBot is required to eventually start (enter starting state). The '-->' operator expresses the eventual follow-on relationship rather than an immediate implication.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "InspectionDrone.inspection_complete --> RepairBot.starting",
+              "explanation": "This uses the sequential_workflow pattern: when InspectionDrone signals inspection_complete (finishes inspection), RepairBot is required to eventually start (enter starting state). The '-->' operator expresses the eventual follow-on relationship rather than an immediate implication.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectionDrone.inspection_complete --> RepairBot.starting"
+          },
+          "total_time": 25.002665042877197,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 12.367810010910034,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"stop\",\"vibration\",\"exceeds\",\"5 g\",\"threshold\",\"emergency stop\",\"inspection drone\"],\"cues\":[\"when\",\"exceeds\",\"stop\",\"vibration\",\">\",\"5\",\"g\"],\"trigger_text\":\"vibration exceeds 5 g\",\"response_text\":\"stop\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.167979717254639,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)\",\"explanation\":\"This encodes the immediate safety response: whenever the InspectionDrone's vibration measurement exceeds 5 g, it must be in the stopped state at that same instant. The A[] wrapper enforces the property globally and 'imply' ensures there is no allowed delay between trigger (vibration > 5) and action (stopped). It assumes an InspectionDrone.vibration numeric variable and an InspectionDrone.stopped boolean/location.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)",
+              "explanation": "This encodes the immediate safety response: whenever the InspectionDrone's vibration measurement exceeds 5 g, it must be in the stopped state at that same instant. The A[] wrapper enforces the property globally and 'imply' ensures there is no allowed delay between trigger (vibration > 5) and action (stopped). It assumes an InspectionDrone.vibration numeric variable and an InspectionDrone.stopped boolean/location.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)"
+          },
+          "total_time": 25.610331773757935,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 8.796822786331177,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"vibration\",\"stop\",\"exceeds\",\"5 g\",\"threshold\",\"stop immediately\"],\"cues\":[\"when\",\"exceeds\",\">\",\"stop\",\"must\",\"5 g\"],\"trigger_text\":\"vibration exceeds 5 g\",\"response_text\":\"stop immediately\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.065711259841919,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (RepairBot.vibration > 5 imply RepairBot.stopped)\",\n  \"explanation\": \"This is a safety immediate-response property: A[] with 'imply' ensures that whenever the trigger condition (RepairBot.vibration > 5) holds, the safety action (RepairBot.stopped) must hold immediately with no delay, matching the safety_immediate_response template.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)",
+              "explanation": "This is a safety immediate-response property: A[] with 'imply' ensures that whenever the trigger condition (RepairBot.vibration > 5) holds, the safety action (RepairBot.stopped) must hold immediately with no delay, matching the safety_immediate_response template.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)"
+          },
+          "total_time": 22.88404679298401,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "classification": {
+            "step": "classification",
+            "timing": 23.22714400291443,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"sequential_workflow\",\"RepairBot\",\"InspectionDrone\",\"finishes inspection\",\"starts after finish\"],\"cues\":[\"after\",\"then\",\"finishes\",\"inspection\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.023628950119019,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"InspectionDrone.inspection_complete --> RepairBot.start\",\"explanation\":\"This uses the sequential_workflow pattern: the second action (RepairBot.start) occurs after the first action (InspectionDrone.inspection_complete).\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "InspectionDrone.inspection_complete --> RepairBot.start",
+              "explanation": "This uses the sequential_workflow pattern: the second action (RepairBot.start) occurs after the first action (InspectionDrone.inspection_complete).",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectionDrone.inspection_complete --> RepairBot.start"
+          },
+          "total_time": 37.27886199951172,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 14.860374212265015,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"vibration\",\"5 g\",\"drone\",\"safety\",\"threshold\",\"stop\"],\"cues\":[\"when\",\">\"],\"trigger_text\":\"vibration exceeds 5 g\",\"response_text\":\"stop the inspection drone immediately\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.56082510948181,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stop)\",\"explanation\":\"This expresses an immediate safety response: if the vibration exceeds 5 g, the inspection drone must stop immediately on all possible executions. It uses the safety_immediate_response pattern with an imply inside A[], matching the constraint: 'InspectionDrone stop when vibration exceeds 5 g'.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stop)",
+              "explanation": "This expresses an immediate safety response: if the vibration exceeds 5 g, the inspection drone must stop immediately on all possible executions. It uses the safety_immediate_response pattern with an imply inside A[], matching the constraint: 'InspectionDrone stop when vibration exceeds 5 g'.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stop)"
+          },
+          "total_time": 36.445850133895874,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 11.171179056167603,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"vibration\",\"5 g\",\"threshold\",\"emergency_stop\",\"stop\",\"RepairBot\"],\"cues\":[\"when\",\"exceeds\",\"immediately\",\"stop\",\"5 g\",\"threshold\",\"must\"],\"trigger_text\":\"vibration exceeds 5 g\",\"response_text\":\"Stop RepairBot immediately.\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.65898323059082,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (vibration > 5 imply RepairBot.stop)\",\"explanation\":\"Immediate safety response: when vibration exceeds the threshold (5), RepairBot must stop immediately. This uses A[] for a global, immediate implication of a safety action (RepairBot.stop) on the trigger condition.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (vibration > 5 imply RepairBot.stop)",
+              "explanation": "Immediate safety response: when vibration exceeds the threshold (5), RepairBot must stop immediately. This uses A[] for a global, immediate implication of a safety action (RepairBot.stop) on the trigger condition.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (vibration > 5 imply RepairBot.stop)"
+          },
+          "total_time": 31.860729217529297,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1172373294830322,
+            "tokens": 160,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"finishes\", \"inspection\"],\n  \"cues\": [\"after\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.342839002609253,
+            "tokens": 554,
+            "raw_text": "{\n  \"query\": \"InspectionDrone.inspection_complete --> RepairBot.start\",\n  \"explanation\": \"The constraint specifies that the RepairBot starts after the InspectionDrone finishes inspection. This aligns with the sequential_workflow pattern where one action follows another. The '-->' operator is used to indicate that the start of RepairBot is eventually triggered by the completion of the inspection by InspectionDrone.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "InspectionDrone.inspection_complete --> RepairBot.start",
+              "explanation": "The constraint specifies that the RepairBot starts after the InspectionDrone finishes inspection. This aligns with the sequential_workflow pattern where one action follows another. The '-->' operator is used to indicate that the start of RepairBot is eventually triggered by the completion of the inspection by InspectionDrone.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectionDrone.inspection_complete --> RepairBot.start"
+          },
+          "total_time": 2.4786832332611084,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4337542057037354,
+            "tokens": 190,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stop\", \"vibration\", \"exceeds\"],\n  \"cues\": [\"when\", \"exceeds\"],\n  \"trigger_text\": \"vibration exceeds 5 g\",\n  \"response_text\": \"InspectionDrone stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8730370998382568,
+            "tokens": 645,
+            "raw_text": "{\n  \"query\": \"A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)\",\n  \"explanation\": \"The query follows the safety_immediate_response pattern, ensuring that the InspectionDrone stops immediately when the vibration exceeds 5 g. The 'imply' operator is used within 'A[]' to enforce an immediate response to the trigger condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)",
+              "explanation": "The query follows the safety_immediate_response pattern, ensuring that the InspectionDrone stops immediately when the vibration exceeds 5 g. The 'imply' operator is used within 'A[]' to enforce an immediate response to the trigger condition.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)"
+          },
+          "total_time": 3.3347768783569336,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9999361038208008,
+            "tokens": 190,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stop\", \"vibration\", \"exceeds\"],\n  \"cues\": [\"when\", \"exceeds\"],\n  \"trigger_text\": \"vibration exceeds 5 g\",\n  \"response_text\": \"RepairBot stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0665929317474365,
+            "tokens": 650,
+            "raw_text": "{\n  \"query\": \"A[] (RepairBot.vibration > 5 imply RepairBot.stopped)\",\n  \"explanation\": \"The query uses the 'safety_immediate_response' pattern to ensure that the RepairBot stops immediately when the vibration exceeds 5 g. The 'imply' operator is used within the A[] operator to enforce an immediate response, as required by the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)",
+              "explanation": "The query uses the 'safety_immediate_response' pattern to ensure that the RepairBot stops immediately when the vibration exceeds 5 g. The 'imply' operator is used within the A[] operator to enforce an immediate response, as required by the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)"
+          },
+          "total_time": 3.0901360511779785,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "classification": {
+            "step": "classification",
+            "timing": 3.0325639247894287,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"RepairBot\", \"starts\", \"after\", \"InspectionDrone\", \"finishes\", \"inspection\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"InspectionDrone finishes inspection\",\n  \"response_text\": \"RepairBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.59509015083313,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectionDrone.inspection_complete --> RepairBot.starting\",\n  \"explanation\": \"This query uses the leadsto operator (-->) to express that after InspectionDrone finishes inspection (reaches inspection_complete state), RepairBot will eventually start (reach starting state). This matches the sequential workflow pattern where one action follows another with possible delays.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectionDrone.inspection_complete --> RepairBot.starting",
+              "explanation": "This query uses the leadsto operator (-->) to express that after InspectionDrone finishes inspection (reaches inspection_complete state), RepairBot will eventually start (reach starting state). This matches the sequential workflow pattern where one action follows another with possible delays.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectionDrone.inspection_complete --> RepairBot.starting"
+          },
+          "total_time": 8.654508113861084,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 3.0999066829681396,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"InspectionDrone\", \"stop\", \"vibration\", \"exceeds\", \"5 g\"],\n  \"cues\": [\"when\", \"exceeds\"],\n  \"trigger_text\": \"vibration exceeds 5 g\",\n  \"response_text\": \"InspectionDrone stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.437819004058838,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)\",\n  \"explanation\": \"This query enforces that whenever the InspectionDrone's vibration exceeds 5 g, it must be in a stopped state immediately. The A[] operator ensures this safety property holds in all reachable states, and 'imply' guarantees the immediate response without any delay between the trigger condition and the safety action.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)",
+              "explanation": "This query enforces that whenever the InspectionDrone's vibration exceeds 5 g, it must be in a stopped state immediately. The A[] operator ensures this safety property holds in all reachable states, and 'imply' guarantees the immediate response without any delay between the trigger condition and the safety action.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)"
+          },
+          "total_time": 7.561244964599609,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 3.0182127952575684,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"RepairBot\", \"stop\", \"vibration\", \"exceeds\", \"5 g\"],\n  \"cues\": [\"when\", \"exceeds\", \">\"],\n  \"trigger_text\": \"vibration exceeds 5 g\",\n  \"response_text\": \"RepairBot stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.662699937820435,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (RepairBot.vibration > 5 imply RepairBot.stopped)\",\n  \"explanation\": \"This query enforces that whenever RepairBot's vibration exceeds 5 g, it must be stopped immediately in the same state. The A[] operator ensures this safety property always holds, and 'imply' enforces the immediate response without any delay between the trigger condition and the safety action.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)",
+              "explanation": "This query enforces that whenever RepairBot's vibration exceeds 5 g, it must be stopped immediately in the same state. The A[] operator ensures this safety property always holds, and 'imply' enforces the immediate response without any delay between the trigger condition and the safety action.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)"
+          },
+          "total_time": 7.710927963256836,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "classification": {
+            "step": "classification",
+            "timing": 1.063049077987671,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts after\", \"finishes\", \"RepairBot\", \"InspectionDrone\", \"inspection\"],\n  \"cues\": [\"after\", \"starts\"],\n  \"trigger_text\": \"InspectionDrone finishes inspection\",\n  \"response_text\": \"RepairBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4264729022979736,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectionDrone.inspection_complete --> RepairBot.starting\",\n  \"explanation\": \"The constraint describes a sequential workflow where RepairBot's action (starting) is triggered after InspectionDrone completes its inspection. The '-->' operator captures this eventual causal relationship between two actions in a multi-step process, matching the sequential_workflow pattern with 'after' and 'starts' cues.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectionDrone.inspection_complete --> RepairBot.starting",
+              "explanation": "The constraint describes a sequential workflow where RepairBot's action (starting) is triggered after InspectionDrone completes its inspection. The '-->' operator captures this eventual causal relationship between two actions in a multi-step process, matching the sequential_workflow pattern with 'after' and 'starts' cues.",
+              "confidence": 0.92,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectionDrone.inspection_complete --> RepairBot.starting"
+          },
+          "total_time": 2.5061280727386475,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0081310272216797,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stop\", \"vibration\", \"exceeds\", \"threshold\"],\n  \"cues\": [\">\"],\n  \"trigger_text\": \"vibration exceeds 5 g\",\n  \"response_text\": \"stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8419880867004395,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)\",\n  \"explanation\": \"The constraint requires an immediate stop response when vibration exceeds 5g. This matches the safety_immediate_response pattern with A[] (always) and imply (immediate consequence in same state). The trigger condition 'vibration > 5' must immediately cause the safety action 'stopped' with no delay allowed.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)",
+              "explanation": "The constraint requires an immediate stop response when vibration exceeds 5g. This matches the safety_immediate_response pattern with A[] (always) and imply (immediate consequence in same state). The trigger condition 'vibration > 5' must immediately cause the safety action 'stopped' with no delay allowed.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)"
+          },
+          "total_time": 2.8693320751190186,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2936618328094482,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stop\", \"vibration\", \"exceeds\", \"threshold\"],\n  \"cues\": [\">\"],\n  \"trigger_text\": \"vibration exceeds 5 g\",\n  \"response_text\": \"RepairBot stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.824342966079712,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (RepairBot.vibration > 5 imply RepairBot.stopped)\",\n  \"explanation\": \"The constraint requires RepairBot to stop immediately when vibration exceeds 5g. This is a safety_immediate_response pattern where the trigger (vibration > 5) must instantly cause the response (stopped state). The A[] operator ensures this holds in all states, and 'imply' enforces the immediate response without delay.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)",
+              "explanation": "The constraint requires RepairBot to stop immediately when vibration exceeds 5g. This is a safety_immediate_response pattern where the trigger (vibration > 5) must instantly cause the response (stopped state). The A[] operator ensures this holds in all states, and 'imply' enforces the immediate response without delay.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)"
+          },
+          "total_time": 3.1366000175476074,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "classification": {
+            "step": "classification",
+            "timing": 7.560905933380127,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"starts\", \"after\", \"finishes\"], \"cues\": [\"after\"], \"trigger_text\": \"InspectionDrone finishes inspection\", \"response_text\": \"RepairBot starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.839461088180542,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"InspectionDrone.inspection_complete --> RepairBot.repairing\",\"explanation\":\"The constraint describes a sequential workflow where RepairBot starts repairing after InspectionDrone finishes inspection, matching the eventual trigger pattern with the --> operator as seen in similar examples like welder starting welding after inspection.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "InspectionDrone.inspection_complete --> RepairBot.repairing",
+              "explanation": "The constraint describes a sequential workflow where RepairBot starts repairing after InspectionDrone finishes inspection, matching the eventual trigger pattern with the --> operator as seen in similar examples like welder starting welding after inspection.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectionDrone.inspection_complete --> RepairBot.repairing"
+          },
+          "total_time": 22.416010856628418,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 11.268126010894775,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"vibration\", \"exceeds\", \"stop\", \"5 g\"], \"cues\": [\"when\"], \"trigger_text\": \"vibration exceeds 5 g\", \"response_text\": \"stop\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 27.0362229347229,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)\", \"explanation\": \"The constraint requires an immediate stop when vibration exceeds 5 g, modeled as a safety property with A[] ensuring that whenever the trigger condition holds, the drone is stopped in the same state using imply for immediate response.\", \"confidence\": 0.85, \"pattern_used\": \"safety_immediate_response\", \"operator_used\": [\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)",
+              "explanation": "The constraint requires an immediate stop when vibration exceeds 5 g, modeled as a safety property with A[] ensuring that whenever the trigger condition holds, the drone is stopped in the same state using imply for immediate response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)"
+          },
+          "total_time": 38.32361197471619,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 11.919306993484497,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"vibration\", \"exceeds\", \"stop\"], \"cues\": [\"when\"], \"trigger_text\": \"vibration exceeds 5 g\", \"response_text\": \"stop\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.370040893554688,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (RepairBot.vibration > 5 imply RepairBot.stopped)\", \"explanation\": \"The query enforces an immediate safety response using the safety_immediate_response pattern, ensuring that whenever vibration exceeds 5 g, RepairBot stops instantly without any delay, as required by the constraint.\", \"confidence\": 0.85, \"pattern_used\": \"safety_immediate_response\", \"operator_used\": [\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)",
+              "explanation": "The query enforces an immediate safety response using the safety_immediate_response pattern, ensuring that whenever vibration exceeds 5 g, RepairBot stops instantly without any delay, as required by the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)"
+          },
+          "total_time": 31.316532850265503,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "classification": {
+            "step": "classification",
+            "timing": 6.546337604522705,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finishes\", \"inspection\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"InspectionDrone finishes inspection\",\n  \"response_text\": \"RepairBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.415195941925049,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"InspectionDrone.inspection_finished --> RepairBot.starting\",\n  \"explanation\": \"The query uses the --> operator to ensure that after InspectionDrone finishes inspection, RepairBot will eventually start, aligning with the sequential_workflow pattern where one action follows another.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "InspectionDrone.inspection_finished --> RepairBot.starting",
+              "explanation": "The query uses the --> operator to ensure that after InspectionDrone finishes inspection, RepairBot will eventually start, aligning with the sequential_workflow pattern where one action follows another.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectionDrone.inspection_finished --> RepairBot.starting"
+          },
+          "total_time": 14.984762191772461,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 8.353029012680054,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"stop\", \"vibration\", \"exceeds\", \"5 g\"],\n  \"cues\": [\"when\", \"exceeds\", \">\"],\n  \"trigger_text\": \"vibration exceeds 5 g\",\n  \"response_text\": \"stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.6010050773620605,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(vibration > 5) --> InspectionDrone.stop\",\n  \"explanation\": \"This query matches the constraint by using the --> operator to indicate that when the vibration exceeds 5 g, the InspectionDrone will eventually stop, following the conditional_response pattern where a condition leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(vibration > 5) --> InspectionDrone.stop",
+              "explanation": "This query matches the constraint by using the --> operator to indicate that when the vibration exceeds 5 g, the InspectionDrone will eventually stop, following the conditional_response pattern where a condition leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(vibration > 5) --> InspectionDrone.stop"
+          },
+          "total_time": 14.979936122894287,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 7.194169759750366,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"vibration\", \"exceeds\", \"5 g\", \"stop\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"vibration exceeds 5 g\",\n  \"response_text\": \"stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.974187850952148,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(vibration > 5) --> RepairBot.stopped\",\n  \"explanation\": \"The query matches the constraint by using the --> operator to indicate that when the vibration exceeds 5 g, the RepairBot will eventually stop, aligning with the conditional_response pattern where a condition leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(vibration > 5) --> RepairBot.stopped",
+              "explanation": "The query matches the constraint by using the --> operator to indicate that when the vibration exceeds 5 g, the RepairBot will eventually stop, aligning with the conditional_response pattern where a condition leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(vibration > 5) --> RepairBot.stopped"
+          },
+          "total_time": 13.192293167114258,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "classification": {
+            "step": "classification",
+            "timing": 43.25117206573486,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"RepairBot\", \"starts\", \"InspectionDrone\", \"finishes\", \"inspection\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"InspectionDrone finishes inspection\",\n  \"response_text\": \"RepairBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 62.926905155181885,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"InspectionDrone.inspection_complete --> RepairBot.starting\",\n  \"explanation\": \"The constraint 'RepairBot starts after InspectionDrone finishes inspection' matches the sequential_workflow pattern with keyword 'after', indicating that the inspection completion triggers the RepairBot's start with possible delay, which is modeled using the '-->' operator for eventual following.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "InspectionDrone.inspection_complete --> RepairBot.starting",
+              "explanation": "The constraint 'RepairBot starts after InspectionDrone finishes inspection' matches the sequential_workflow pattern with keyword 'after', indicating that the inspection completion triggers the RepairBot's start with possible delay, which is modeled using the '-->' operator for eventual following.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectionDrone.inspection_complete --> RepairBot.starting"
+          },
+          "total_time": 106.20411515235901,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 34.88815402984619,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"InspectionDrone\", \"stop\", \"vibration\", \"exceeds\", \"5 g\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"vibration exceeds 5 g\",\n  \"response_text\": \"stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 65.2378089427948,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(vibration > 5) --> InspectionDrone.stop\",\n  \"explanation\": \"This query uses the conditional_response pattern with the '-->' operator to specify that when the condition 'vibration exceeds 5 g' (trigger) holds, the response 'InspectionDrone stop' (action) eventually occurs, matching the natural language constraint with cues like 'when' and keywords such as 'vibration', 'exceeds', '5 g', and 'stop'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(vibration > 5) --> InspectionDrone.stop",
+              "explanation": "This query uses the conditional_response pattern with the '-->' operator to specify that when the condition 'vibration exceeds 5 g' (trigger) holds, the response 'InspectionDrone stop' (action) eventually occurs, matching the natural language constraint with cues like 'when' and keywords such as 'vibration', 'exceeds', '5 g', and 'stop'.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(vibration > 5) --> InspectionDrone.stop"
+          },
+          "total_time": 100.17159008979797,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 51.506572008132935,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"stop\", \"vibration\", \"exceeds\", \"5 g\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"vibration exceeds 5 g\",\n  \"response_text\": \"stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 69.89556980133057,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(RepairBot.vibration > 5) --> (RepairBot.stopped)\",\n  \"explanation\": \"This query matches the conditional_response pattern because the natural-language constraint 'RepairBot stop when vibration exceeds 5 g' uses the cue 'when' to indicate a triggered behavior where the condition (vibration exceeding 5 g) leads to the eventual response (stop). The '-->' operator is used for such eventual responses in sequential workflows, as specified in the pattern template.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(RepairBot.vibration > 5) --> (RepairBot.stopped)",
+              "explanation": "This query matches the conditional_response pattern because the natural-language constraint 'RepairBot stop when vibration exceeds 5 g' uses the cue 'when' to indicate a triggered behavior where the condition (vibration exceeding 5 g) leads to the eventual response (stop). The '-->' operator is used for such eventual responses in sequential workflows, as specified in the pattern template.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(RepairBot.vibration > 5) --> (RepairBot.stopped)"
+          },
+          "total_time": 121.45450091362,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "classification": {
+            "step": "classification",
+            "timing": 0.908782958984375,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"repair\", \"inspection\", \"start\", \"finish\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"InspectionDrone finishes inspection\",\n  \"response_text\": \"RepairBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.3503131866455078,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectionDrone.inspection_complete --> RepairBot.start\",\n  \"explanation\": \"The constraint describes a sequential workflow where RepairBot starts after InspectionDrone finishes inspection.  The '-->' operator is used to represent eventual triggering from one process to another. 'inspection_complete' and 'start' are signals (committed locations) indicating the respective starts or completions of the actions.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectionDrone.inspection_complete --> RepairBot.start",
+              "explanation": "The constraint describes a sequential workflow where RepairBot starts after InspectionDrone finishes inspection.  The '-->' operator is used to represent eventual triggering from one process to another. 'inspection_complete' and 'start' are signals (committed locations) indicating the respective starts or completions of the actions.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectionDrone.inspection_complete --> RepairBot.start"
+          },
+          "total_time": 2.2951011657714844,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9647419452667236,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"drone\", \"stop\", \"vibration\", \"exceeds\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"vibration exceeds 5 g\",\n  \"response_text\": \"InspectionDrone stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.100450038909912,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(InspectionDrone.vibration > 5) --> InspectionDrone.stopped\",\n  \"explanation\": \"The constraint states that when the 'InspectionDrone' vibration exceeds 5g, the 'InspectionDrone' eventually stops. This is a conditional response pattern, where the vibration exceeding the threshold triggers the eventual response of the drone stopping. The '-->' operator represents this eventual behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(InspectionDrone.vibration > 5) --> InspectionDrone.stopped",
+              "explanation": "The constraint states that when the 'InspectionDrone' vibration exceeds 5g, the 'InspectionDrone' eventually stops. This is a conditional response pattern, where the vibration exceeding the threshold triggers the eventual response of the drone stopping. The '-->' operator represents this eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(InspectionDrone.vibration > 5) --> InspectionDrone.stopped"
+          },
+          "total_time": 2.0931990146636963,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8151538372039795,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"stop\", \"vibration\", \"exceeds\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"vibration exceeds 5 g\",\n  \"response_text\": \"RepairBot stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.012160062789917,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(vibration > 5) --> RepairBot.stop\",\n  \"explanation\": \"The constraint specifies an eventual response (RepairBot stopping) when a condition (vibration exceeding 5g) is met. This matches the 'conditional_response' pattern, and the '-->' operator accurately represents the eventual behavior.  The condition `vibration > 5` triggers the eventual state `RepairBot.stop`.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(vibration > 5) --> RepairBot.stop",
+              "explanation": "The constraint specifies an eventual response (RepairBot stopping) when a condition (vibration exceeding 5g) is met. This matches the 'conditional_response' pattern, and the '-->' operator accurately represents the eventual behavior.  The condition `vibration > 5` triggers the eventual state `RepairBot.stop`.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(vibration > 5) --> RepairBot.stop"
+          },
+          "total_time": 1.8520841598510742,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "classification": {
+            "step": "classification",
+            "timing": 11.351321935653687,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"RepairBot\",\n    \"InspectionDrone\",\n    \"starts\",\n    \"finishes\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"InspectionDrone finishes inspection\",\n  \"response_text\": \"RepairBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.94423770904541,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectionDrone.inspection_complete --> RepairBot.repairing\",\n  \"explanation\": \"The constraint specifies a sequential workflow where one action follows another. The 'leads to' operator (-->) is used to verify that whenever the 'InspectionDrone' enters a state indicating it has finished its inspection (e.g., 'inspection_complete'), the 'RepairBot' must eventually start its task (e.g., enter the 'repairing' state).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectionDrone.inspection_complete --> RepairBot.repairing",
+              "explanation": "The constraint specifies a sequential workflow where one action follows another. The 'leads to' operator (-->) is used to verify that whenever the 'InspectionDrone' enters a state indicating it has finished its inspection (e.g., 'inspection_complete'), the 'RepairBot' must eventually start its task (e.g., enter the 'repairing' state).",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectionDrone.inspection_complete --> RepairBot.repairing"
+          },
+          "total_time": 22.326692819595337,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 8.270945072174072,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"InspectionDrone\",\n    \"stop\",\n    \"vibration\",\n    \"exceeds\"\n  ],\n  \"cues\": [\n    \"when\",\n    \">\"\n  ],\n  \"trigger_text\": \"vibration exceeds 5 g\",\n  \"response_text\": \"InspectionDrone stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.217787265777588,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)\",\n  \"explanation\": \"This query verifies that it is always (`A[]`) true that if the `InspectionDrone.vibration` variable is greater than 5, then the `InspectionDrone.stopped` state must immediately be true. The `imply` operator enforces this immediate, same-state response, directly matching the 'when... exceeds' structure of the constraint and the `safety_immediate_response` pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)",
+              "explanation": "This query verifies that it is always (`A[]`) true that if the `InspectionDrone.vibration` variable is greater than 5, then the `InspectionDrone.stopped` state must immediately be true. The `imply` operator enforces this immediate, same-state response, directly matching the 'when... exceeds' structure of the constraint and the `safety_immediate_response` pattern.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)"
+          },
+          "total_time": 24.513022899627686,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 7.6144859790802,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"RepairBot\",\n    \"stop\",\n    \"vibration\",\n    \"exceeds\"\n  ],\n  \"cues\": [\n    \"when\",\n    \">\"\n  ],\n  \"trigger_text\": \"vibration exceeds 5 g\",\n  \"response_text\": \"RepairBot stop\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.049297094345093,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (RepairBot.vibration > 5 imply RepairBot.stopped)\",\n  \"explanation\": \"The query uses A[] (always) and 'imply' to enforce a strict safety property. It asserts that in every state of the system, if the 'RepairBot.vibration' is greater than 5, then the 'RepairBot.stopped' boolean must also be true in that same state. This directly translates the immediate response required by 'when'.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)",
+              "explanation": "The query uses A[] (always) and 'imply' to enforce a strict safety property. It asserts that in every state of the system, if the 'RepairBot.vibration' is greater than 5, then the 'RepairBot.stopped' boolean must also be true in that same state. This directly translates the immediate response required by 'when'.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)"
+          },
+          "total_time": 23.712635040283203,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

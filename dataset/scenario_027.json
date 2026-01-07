@@ -1,0 +1,24 @@
+{
+  "id": "scenario_027",
+  "domain": "harbor",
+  "prompt": "A crane unloads containers onto AGV1 and AGV2. A drone supervises from above, and a forklift transports the containers to storage. Both AGVs wait until crane signals unloading complete. Forklift starts after any AGV reaches the transfer zone. Drone must maintain 20 m distance from crane at all times. Eventually, all containers must be in storage.",
+  "robots": ["CraneBot", "AGV1", "AGV2", "Forklift", "DroneSupervisor"],
+  "constraints": [
+    "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+    "Forklift starts only after at least one AGV reaches transfer zone",
+    "DroneSupervisor maintains at least 20 m distance from CraneBot",
+    "Eventually all containers reach storage area"
+  ],
+  "reference_properties": [
+    "A[] ((AGV1.StartLoading || AGV2.StartLoading) imply CraneBot.UnloadDone)",
+    "A[] (Forklift.Active) imply (AGV1.AtTransferZone || AGV2.AtTransferZone)",
+    "A[] (DroneSupervisor.DistanceToCraneBot >= 20)",
+    "A<> (Environment.ContainersInStorage == TotalContainers)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-12",
+    "validation_status": "validated"
+  }
+}

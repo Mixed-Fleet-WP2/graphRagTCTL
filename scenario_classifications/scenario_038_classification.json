@@ -1,0 +1,513 @@
+{
+  "id": "scenario_038",
+  "domain": "healthcare",
+  "prompt": "An autonomous delivery robot transports medication trays across hospital wards. It must check elevator availability before entering and disinfect its tray every 15 minutes of operation. When any emergency alarm is active, it must stop and move to a safe corridor. If communication with control is lost, it stores all pending deliveries locally. All deliveries must eventually be completed.",
+  "robots": [
+    "MediRover"
+  ],
+  "constraints": [
+    "MediRover checks elevator availability before entering",
+    "MediRover disinfects tray every 15 minutes",
+    "MediRover stops  when emergency alarm active",
+    "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+    "MediRover stores pending deliveries locally if comm lost",
+    "Eventually all deliveries completed"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 4.200766086578369,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediRover checks elevator availability before entering",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MediRover disinfects tray every 15 minutes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "MediRover stops  when emergency alarm active",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "MediRover stores pending deliveries locally if comm lost",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all deliveries completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 19.020156145095825,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediRover checks elevator availability before entering",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MediRover disinfects tray every 15 minutes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "MediRover stops  when emergency alarm active",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "MediRover stores pending deliveries locally if comm lost",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all deliveries completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 38.49990391731262,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediRover checks elevator availability before entering",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MediRover disinfects tray every 15 minutes",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "MediRover stops  when emergency alarm active",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 4,
+          "constraint": "MediRover stores pending deliveries locally if comm lost",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all deliveries completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 2.311540126800537,
+      "tokens": 898,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediRover checks elevator availability before entering",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "MediRover disinfects tray every 15 minutes",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "MediRover stops  when emergency alarm active",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "MediRover stores pending deliveries locally if comm lost",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all deliveries completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 4.084436893463135,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediRover checks elevator availability before entering",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MediRover disinfects tray every 15 minutes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "MediRover stops  when emergency alarm active",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "MediRover stores pending deliveries locally if comm lost",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all deliveries completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.7232468128204346,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediRover checks elevator availability before entering",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "MediRover disinfects tray every 15 minutes",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "MediRover stops  when emergency alarm active",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "MediRover stores pending deliveries locally if comm lost",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all deliveries completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 64.72343492507935,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediRover checks elevator availability before entering",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (enter_elevator_without_checking_availability)"
+        },
+        {
+          "index": 1,
+          "constraint": "MediRover disinfects tray every 15 minutes",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (operation_time_greater_than_15_min_without_disinfect)"
+        },
+        {
+          "index": 2,
+          "constraint": "MediRover stops  when emergency alarm active",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (emergency_alarm_active imply stop)"
+        },
+        {
+          "index": 3,
+          "constraint": "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "pattern_name": "conditional_response",
+          "template": "stopped_and_emergency_alarm_active --> move_to_safe_corridor"
+        },
+        {
+          "index": 4,
+          "constraint": "MediRover stores pending deliveries locally if comm lost",
+          "pattern_name": "conditional_response",
+          "template": "communication_lost --> store_pending_deliveries_locally"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all deliveries completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> all_deliveries_completed"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 17.691471099853516,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediRover checks elevator availability before entering",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MediRover disinfects tray every 15 minutes",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "MediRover stops  when emergency alarm active",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "MediRover stores pending deliveries locally if comm lost",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all deliveries completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 70.08906102180481,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediRover checks elevator availability before entering",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MediRover disinfects tray every 15 minutes",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "MediRover stops  when emergency alarm active",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "MediRover stores pending deliveries locally if comm lost",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all deliveries completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.7343080043792725,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediRover checks elevator availability before entering",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "MediRover disinfects tray every 15 minutes",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "MediRover stops  when emergency alarm active",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "MediRover stores pending deliveries locally if comm lost",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all deliveries completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 23.151118755340576,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "MediRover checks elevator availability before entering",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MediRover disinfects tray every 15 minutes",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "MediRover stops  when emergency alarm active",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "MediRover stores pending deliveries locally if comm lost",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all deliveries completed",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

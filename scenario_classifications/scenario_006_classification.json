@@ -1,0 +1,313 @@
+{
+  "id": "scenario_006",
+  "domain": "agriculture",
+  "prompt": "A drone sprays pesticide across fields while a ground rover monitors soil humidity. The drone must not spray if wind speed exceeds 25 km/h. The rover reports humidity every 10 minutes, and if humidity < 20%, the drone must pause spraying.",
+  "robots": [
+    "SprayDrone",
+    "SoilRover"
+  ],
+  "constraints": [
+    "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+    "SoilRover reports humidity every 10 minutes",
+    "SprayDrone pauses spraying if humidity below 20%"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.601986885070801,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 19.170118808746338,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (wind_speed > 25 km/h imply SprayDrone.stop_spraying)"
+        },
+        {
+          "index": 1,
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> (SoilRover.report_humidity every 10 minutes)"
+        },
+        {
+          "index": 2,
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (SoilRover.humidity < 20% imply SprayDrone.pause_spraying)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 25.055751085281372,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.1935040950775146,
+      "tokens": 755,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.2599101066589355,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.2661387920379639,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (wind_speed > 25 imply stop_spraying)"
+        },
+        {
+          "index": 1,
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "pattern_name": "sequential_workflow",
+          "template": "report_humidity --> next_report_after_10_minutes"
+        },
+        {
+          "index": 2,
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (humidity < 20 imply pause_spraying)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 35.33389186859131,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 15.36556601524353,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 26.512815713882446,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.196319818496704,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 2,
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 18.957011938095093,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 1,
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

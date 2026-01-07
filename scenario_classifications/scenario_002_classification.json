@@ -1,0 +1,315 @@
+{
+  "id": "scenario_002",
+  "domain": "warehouse",
+  "prompt": "A camera scans pallet barcodes. After scanning, an Agv moves to pick the pallet. Once the AGV is loaded, the conveyor moves then the robot arm places the pallet onto a shelf.",
+  "robots": [
+    "Camera",
+    "Agv",
+    "Conveyor",
+    "RobotArm"
+  ],
+  "constraints": [
+    "AGV moves to pick the pallet after scanning.",
+    "Conveyor moves only after Agv is loaded",
+    "Conveyor must move before RobotArm places the pallet onto a shelf"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.165316104888916,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 14.788537740707397,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 16.032909154891968,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 2.8862719535827637,
+      "tokens": 739,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 4.193241119384766,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.0737009048461914,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 17.9222731590271,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 12.999972820281982,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 112.23344016075134,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.3511459827423096,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 12.34653091430664,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

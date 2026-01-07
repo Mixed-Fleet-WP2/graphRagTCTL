@@ -1,0 +1,480 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-05T09:25:46.982Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_012",
+      "domain": "manufacturing",
+      "prompt": "A robotic arm assembles components while a vision robot checks alignment. The vision robot must verify after each assembly step. If misalignment > 2 mm, assembly halts until correction is confirmed.",
+      "gold_standard": {
+        "constraints": [
+          "VisionBot verifies alignment after each ArmBot assembly step",
+          "ArmBot stops if misalignment exceeds 2 mm",
+          "Assembly resumes after correction confirmation"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+                "query": "ArmBot.assembly_step_done --> VisionBot.verifying_alignment",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+                "query": "A[] (misalignment > 2 && ArmBot.stopped)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Assembly resumes after correction confirmation",
+                "query": "System.correction_confirmation --> System.assembly_resumes",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+                "query": "ArmBot.assembly_step_complete --> VisionBot.verify_alignment",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+                "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Assembly resumes after correction confirmation",
+                "query": "(Correction.confirmation) --> (Assembly.resumed)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+                "query": "A[] (ArmBot.assembly_step_completed --> A<> VisionBot.alignment_verified)",
+                "valid": false,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+                "query": "A[] (ArmBot.misalignment > 2 --> ArmBot.stopped)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Assembly resumes after correction confirmation",
+                "query": "Correction.confirmation --> Assembly.resumes",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 3,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+                "query": "ArmBot.assembly_step --> VisionBot.verifies_alignment",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+                "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Assembly resumes after correction confirmation",
+                "query": "Correction.confirmed --> Assembly.resumes",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+                "query": "ArmBot.assembly_step --> VisionBot.verifying_alignment",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+                "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Assembly resumes after correction confirmation",
+                "query": "CorrectionUnit.correction_confirmed --> AssemblyUnit.resuming",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+                "query": "ArmBot.assembly_step --> VisionBot.verifies_alignment",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+                "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Assembly resumes after correction confirmation",
+                "query": "CorrectionConfirmation.confirmed --> Assembly.resumes",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+                "query": "ArmBot.assembly_step_completed --> VisionBot.verifies_alignment",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+                "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Assembly resumes after correction confirmation",
+                "query": "CorrectionConfirmation.confirmation --> Assembly.assembly_resume",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+                "query": "ArmBot.assembly_step --> VisionBot.verifying_alignment",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+                "query": "A[] (ArmBot.misalignment > 2 --> not ArmBot.moving)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Assembly resumes after correction confirmation",
+                "query": "Correction.confirmation --> Assembly.resumes",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+                "query": "ArmBot.assembly_step_complete --> VisionBot.verifies_alignment",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+                "query": "(ArmBot.misalignment > 2) --> ArmBot.stopped",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Assembly resumes after correction confirmation",
+                "query": "correction_confirmation --> assembly_resumes",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+                "query": "ArmBot.assembly_step --> VisionBot.verifies_alignment",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+                "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Assembly resumes after correction confirmation",
+                "query": "Assembly.correction_confirmation --> Assembly.resumes",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+                "query": "ArmBot.AssemblyComplete --> VisionBot.VerifyingAlignment",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+                "query": "A[] (ArmBot.misalignment > 2 imply ArmBot.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Assembly resumes after correction confirmation",
+                "query": "Correction.Confirmation --> Assembly.Resuming",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 19,
+    "inferred": 0,
+    "hallucination": 14,
+    "unlabeled": 0,
+    "total": 33
+  },
+  "performance_metrics": {
+    "precision": 0.5757575757575758,
+    "recall": 6.333333333333333,
+    "f1": 1.0555555555555556
+  }
+}

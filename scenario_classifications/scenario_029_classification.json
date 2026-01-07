@@ -1,0 +1,384 @@
+{
+  "id": "scenario_029",
+  "domain": "construction",
+  "prompt": "Two cranes lift beams, a welder seals them, a drone monitors progress, and two delivery AMRs supply materials. Welding can begin only after both cranes finish lifting. Drone must remain within 50 m radius of cranes. DeliveryAMRs must alternate: while one delivers, the other waits. Eventually, all beams are welded and drone reports completion.",
+  "robots": [
+    "CraneA",
+    "CraneB",
+    "WelderBot",
+    "MonitorDrone",
+    "DeliveryAMR1",
+    "DeliveryAMR2"
+  ],
+  "constraints": [
+    "WelderBot starts only after CraneA and CraneB finish lifting",
+    "MonitorDrone must remain within 50 m radius of both cranes",
+    "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+    "Eventually all beams welded and MonitorDrone reports completion"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.338609218597412,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 9.901864051818848,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 25.57753300666809,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 3.072735071182251,
+      "tokens": 840,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.755237102508545,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.651031732559204,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 18.543656826019287,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 14.934877157211304,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 41.79561901092529,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.3222029209136963,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 13.360180139541626,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 3,
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

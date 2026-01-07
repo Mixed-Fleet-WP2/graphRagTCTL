@@ -1,0 +1,1757 @@
+{
+  "id": "scenario_026",
+  "domain": "manufacturing",
+  "prompt": "An assembler robot mounts parts on the frame, a welder seals joints, a painter applies coating, and an inspector checks quality. Welding robot starts welding only after assembly completes. Painting robot begins painting after welding finishes, and inspection follows painting. Eventually, all robots must reach idle state.",
+  "robots": [
+    "AssemblerBot",
+    "WelderBot",
+    "PainterBot",
+    "InspectorBot"
+  ],
+  "constraints": [
+    "WelderBot starts only after AssemblerBot completes assembly",
+    "PainterBot starts only after WelderBot finishes welding",
+    "InspectorBot starts only after PainterBot finishes painting",
+    "Eventually all robots reach idle state"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "classification": {
+            "step": "classification",
+            "timing": 2.149371862411499,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"WelderBot\",\"AssemblerBot\",\"starts only after\",\"completes assembly\",\"sequence\",\"ordering\",\"precedence\"],\"cues\":[\"only after\",\"after\"],\"trigger_text\":\"AssemblerBot completes assembly\",\"response_text\":\"WelderBot starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.898993968963623,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"AssemblerBot.assembly_complete --> WelderBot.starting\",\"explanation\":\"The constraint says WelderBot is allowed to start only after AssemblerBot completes assembly, which is a sequential ordering. Using the sequential_workflow pattern, we model this as an eventual response: whenever AssemblerBot reaches the state (or completes the action) `assembly_complete`, it is required that at some point later WelderBot reaches the state `starting`. The `-->` operator captures this \\\"after, eventually\\\" dependency without requiring it to be immediate.\",\"confidence\":0.9,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "AssemblerBot.assembly_complete --> WelderBot.starting",
+              "explanation": "The constraint says WelderBot is allowed to start only after AssemblerBot completes assembly, which is a sequential ordering. Using the sequential_workflow pattern, we model this as an eventual response: whenever AssemblerBot reaches the state (or completes the action) `assembly_complete`, it is required that at some point later WelderBot reaches the state `starting`. The `-->` operator captures this \"after, eventually\" dependency without requiring it to be immediate.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AssemblerBot.assembly_complete --> WelderBot.starting"
+          },
+          "total_time": 5.063220977783203,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 1.5545010566711426,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"PainterBot\",\"WelderBot\",\"starts only after\",\"finishes welding\",\"sequence\",\"ordering\",\"dependency\"],\"cues\":[\"only after\",\"after\",\"finishes\"],\"trigger_text\":\"WelderBot finishes welding\",\"response_text\":\"PainterBot starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.346649169921875,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"WelderBot.welding_finish --> PainterBot.start\",\"explanation\":\"The query uses the sequential workflow operator `-->` to state that whenever WelderBot finishes welding (location or flag `welding_finish` becomes true), this will eventually be followed by PainterBot starting (`start`). This captures the natural-language requirement that PainterBot starts only after WelderBot finishes welding, allowing for some delay between finish and start.\",\"confidence\":0.86,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "WelderBot.welding_finish --> PainterBot.start",
+              "explanation": "The query uses the sequential workflow operator `-->` to state that whenever WelderBot finishes welding (location or flag `welding_finish` becomes true), this will eventually be followed by PainterBot starting (`start`). This captures the natural-language requirement that PainterBot starts only after WelderBot finishes welding, allowing for some delay between finish and start.",
+              "confidence": 0.86,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_finish --> PainterBot.start"
+          },
+          "total_time": 3.9181079864501953,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "classification": {
+            "step": "classification",
+            "timing": 2.4359662532806396,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"InspectorBot\",\"PainterBot\",\"starts only after\",\"finishes\",\"painting\",\"sequence\",\"order\",\"dependency\"],\"cues\":[\"only after\",\"after\",\"finishes\",\"starts\"],\"trigger_text\":\"PainterBot finishes painting\",\"response_text\":\"InspectorBot starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0353541374206543,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"PainterBot.finishes_painting --> InspectorBot.starts\",\"explanation\":\"The query uses the sequential workflow operator `-->` to state that whenever the action `PainterBot.finishes_painting` occurs, it is eventually followed by `InspectorBot.starts`. This captures the dependency that InspectorBot may only start after PainterBot has finished painting, and never before, while allowing an arbitrary delay between finish and start.\",\"confidence\":0.9,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "PainterBot.finishes_painting --> InspectorBot.starts",
+              "explanation": "The query uses the sequential workflow operator `-->` to state that whenever the action `PainterBot.finishes_painting` occurs, it is eventually followed by `InspectorBot.starts`. This captures the dependency that InspectorBot may only start after PainterBot has finished painting, and never before, while allowing an arbitrary delay between finish and start.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PainterBot.finishes_painting --> InspectorBot.starts"
+          },
+          "total_time": 4.492008924484253,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all robots reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7800588607788086,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"all robots\",\"reach\",\"idle state\",\"liveness\"],\"cues\":[\"eventually\",\"all\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.81498122215271,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> all_robots_idle\",\"explanation\":\"The property says that at some point in the future all robots are in the idle state, which is a global liveness requirement. The eventual_completion pattern maps such statements to A<> \u03c6, here with \u03c6 representing the condition that all robots are idle (abstracted as all_robots_idle).\",\"confidence\":0.9,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> all_robots_idle",
+              "explanation": "The property says that at some point in the future all robots are in the idle state, which is a global liveness requirement. The eventual_completion pattern maps such statements to A<> \u03c6, here with \u03c6 representing the condition that all robots are idle (abstracted as all_robots_idle).",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_robots_idle"
+          },
+          "total_time": 3.612173080444336,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "classification": {
+            "step": "classification",
+            "timing": 10.29236888885498,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"WelderBot\",\"AssemblerBot\",\"starts\",\"after\",\"completes\",\"only after\",\"precedence\",\"dependency\",\"start after completion\"],\"cues\":[\"after\",\"only after\",\"completes\",\"starts\",\"must\",\"when\",\"then\"],\"trigger_text\":\"AssemblerBot completes assembly\",\"response_text\":\"WelderBot starts (only after AssemblerBot completes assembly)\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.500410079956055,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"AssemblerBot.assembly_complete --> WelderBot.start\",\n  \"explanation\": \"This uses the sequential_workflow operator (-->) to state that whenever AssemblerBot reaches the assembly_complete location, WelderBot will eventually reach its start location. It captures the requirement that WelderBot starts only after AssemblerBot completes assembly by making WelderBot.start dependent on the occurrence of AssemblerBot.assembly_complete.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "AssemblerBot.assembly_complete --> WelderBot.start",
+              "explanation": "This uses the sequential_workflow operator (-->) to state that whenever AssemblerBot reaches the assembly_complete location, WelderBot will eventually reach its start location. It captures the requirement that WelderBot starts only after AssemblerBot completes assembly by making WelderBot.start dependent on the occurrence of AssemblerBot.assembly_complete.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AssemblerBot.assembly_complete --> WelderBot.start"
+          },
+          "total_time": 17.810502767562866,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 8.13210391998291,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"starts only after\",\n    \"only after\",\n    \"after\",\n    \"finishes welding\",\n    \"WelderBot\",\n    \"PainterBot\",\n    \"start\",\n    \"finish\",\n    \"precedence\",\n    \"sequence\",\n    \"order\"\n  ],\n  \"cues\": [\n    \"after\",\n    \"only\",\n    \"starts\",\n    \"finishes\",\n    \"must\",\n    \"then\"\n  ],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"PainterBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.540210008621216,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"WelderBot.welding_finished --> PainterBot.start\",\"explanation\":\"This sequential-workflow query specifies that after the event WelderBot.welding_finished occurs, PainterBot.start will eventually follow, capturing the requirement that PainterBot starts after WelderBot finishes welding.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "WelderBot.welding_finished --> PainterBot.start",
+              "explanation": "This sequential-workflow query specifies that after the event WelderBot.welding_finished occurs, PainterBot.start will eventually follow, capturing the requirement that PainterBot starts after WelderBot finishes welding.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_finished --> PainterBot.start"
+          },
+          "total_time": 19.708335161209106,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "classification": {
+            "step": "classification",
+            "timing": 4.99950385093689,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"start-after\",\"finish-before\",\"dependency\",\"order\",\"sequence\",\"precedence\",\"PainterBot\",\"InspectorBot\",\"painting\",\"inspection\"],\"cues\":[\"after\",\"only\",\"starts\",\"finishes\",\"then\",\"must\",\"before\"],\"trigger_text\":\"PainterBot finishes painting\",\"response_text\":\"InspectorBot starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.805379152297974,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"PainterBot.painting_finished --> InspectorBot.start\",\"explanation\":\"Using the sequential_workflow pattern (-->), this query specifies that InspectorBot.start must occur only following PainterBot.painting_finished, i.e., InspectorBot\u2019s start is triggered after PainterBot finishes painting, matching the \u2018only after\u2019 precedence requirement.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "PainterBot.painting_finished --> InspectorBot.start",
+              "explanation": "Using the sequential_workflow pattern (-->), this query specifies that InspectorBot.start must occur only following PainterBot.painting_finished, i.e., InspectorBot\u2019s start is triggered after PainterBot finishes painting, matching the \u2018only after\u2019 precedence requirement.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PainterBot.painting_finished --> InspectorBot.start"
+          },
+          "total_time": 22.824887990951538,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all robots reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 6.427229881286621,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"idle\",\"robots\",\"reach\",\"all\",\"completion\",\"liveness\"],\"cues\":[\"eventually\",\"reach\",\"idle\",\"all\",\"robots\",\"must\"],\"trigger_text\":null,\"response_text\":\"All robots eventually reach the idle state.\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 53.033957958221436,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> forall (i : RobotId) Robot[i].idle\",\n  \"explanation\": \"This is a global liveness property (A<>) stating that for every robot index i in the RobotId range the Robot[i] instance will eventually be in the idle state, which matches the requirement that all robots eventually reach idle.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A<> forall (i : RobotId) Robot[i].idle",
+              "explanation": "This is a global liveness property (A<>) stating that for every robot index i in the RobotId range the Robot[i] instance will eventually be in the idle state, which matches the requirement that all robots eventually reach idle.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A<> forall (i : RobotId) Robot[i].idle"
+          },
+          "total_time": 59.481608152389526,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "classification": {
+            "step": "classification",
+            "timing": 10.900888919830322,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"WelderBot\",\"AssemblerBot\",\"assembly\",\"start\",\"complete\",\"sequence\",\"dependency\"],\"cues\":[\"after\",\"then\",\"completed\",\"complete\",\"assembly\"],\"trigger_text\":\"WelderBot starts only after AssemblerBot completes assembly\",\"response_text\":\"Enforce sequential start: WelderBot starts after AssemblerBot completes assembly\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.772823810577393,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"AssemblerBot.assembly_complete --> WelderBot.start\",\"explanation\":\"This enforces that WelderBot.start occurs only after AssemblerBot completes assembly. It uses the UPPAAL sequential_workflow template 'action1 --> action2' to express that the second action follows the first (with possible delay). This matches the constraint 'WelderBot starts only after AssemblerBot completes assembly'.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "AssemblerBot.assembly_complete --> WelderBot.start",
+              "explanation": "This enforces that WelderBot.start occurs only after AssemblerBot completes assembly. It uses the UPPAAL sequential_workflow template 'action1 --> action2' to express that the second action follows the first (with possible delay). This matches the constraint 'WelderBot starts only after AssemblerBot completes assembly'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AssemblerBot.assembly_complete --> WelderBot.start"
+          },
+          "total_time": 21.697572231292725,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 8.374148845672607,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"PainterBot\",\"WelderBot\",\"start\",\"finish\",\"welding\",\"after\",\"dependency\",\"sequence\"],\"cues\":[\"after\",\"then\"],\"trigger_text\":\"PainterBot starts only after WelderBot finishes welding\",\"response_text\":\"Enforce sequential start: WelderBot finishes welding before PainterBot starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.846750259399414,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"WelderBot.welding_complete --> PainterBot.start\",\"explanation\":\"This follows the sequential-workflow pattern: after WelderBot finishes welding, PainterBot starts. It enforces that PainterBot.start cannot occur before WelderBot.welding_complete by using the action1 --> action2 template.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "WelderBot.welding_complete --> PainterBot.start",
+              "explanation": "This follows the sequential-workflow pattern: after WelderBot finishes welding, PainterBot starts. It enforces that PainterBot.start cannot occur before WelderBot.welding_complete by using the action1 --> action2 template.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_complete --> PainterBot.start"
+          },
+          "total_time": 19.237547159194946,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "classification": {
+            "step": "classification",
+            "timing": 9.367266654968262,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"PainterBot\",\"InspectorBot\",\"painting\",\"finish\",\"sequential\",\"start after\",\"dependency\",\"workflow\"],\"cues\":[\"after\",\"then\",\"must\"],\"trigger_text\":\"InspectorBot starts only after PainterBot finishes painting\",\"response_text\":\"InspectorBot will start after PainterBot completes painting.\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.871325969696045,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"PainterBot.painting_done --> InspectorBot.start\",\"explanation\":\"This UPPAAL query encodes a sequential dependency: after PainterBot finishes painting (painting_done), InspectorBot can start (start). It matches the constraint 'InspectorBot starts only after PainterBot finishes painting'.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "PainterBot.painting_done --> InspectorBot.start",
+              "explanation": "This UPPAAL query encodes a sequential dependency: after PainterBot finishes painting (painting_done), InspectorBot can start (start). It matches the constraint 'InspectorBot starts only after PainterBot finishes painting'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PainterBot.painting_done --> InspectorBot.start"
+          },
+          "total_time": 24.260457038879395,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all robots reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 7.34853982925415,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"idle\",\"robots\",\"reach\",\"state\",\"liveness\"],\"cues\":[\"eventually\"],\"trigger_text\":\"Eventually all robots reach idle state\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 26.718737840652466,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> (Robot1.idle && Robot2.idle && Robot3.idle)\",\"explanation\":\"This expresses a liveness property: on all executions, eventually all robots reach their idle state simultaneously, i.e., an eventual completion of the idle condition.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> (Robot1.idle && Robot2.idle && Robot3.idle)",
+              "explanation": "This expresses a liveness property: on all executions, eventually all robots reach their idle state simultaneously, i.e., an eventual completion of the idle condition.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (Robot1.idle && Robot2.idle && Robot3.idle)"
+          },
+          "total_time": 34.08096194267273,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8390252590179443,
+            "tokens": 186,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"completes\", \"assembly\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"AssemblerBot completes assembly\",\n  \"response_text\": \"WelderBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7947311401367188,
+            "tokens": 559,
+            "raw_text": "{\n  \"query\": \"AssemblerBot.assembly_complete --> WelderBot.start\",\n  \"explanation\": \"The query uses the 'sequential_workflow' pattern to express that the action of WelderBot starting occurs eventually after AssemblerBot completes assembly. The '-->' operator is appropriate for indicating that one action follows another in a sequential process.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "AssemblerBot.assembly_complete --> WelderBot.start",
+              "explanation": "The query uses the 'sequential_workflow' pattern to express that the action of WelderBot starting occurs eventually after AssemblerBot completes assembly. The '-->' operator is appropriate for indicating that one action follows another in a sequential process.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AssemblerBot.assembly_complete --> WelderBot.start"
+          },
+          "total_time": 2.648838996887207,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9443380832672119,
+            "tokens": 159,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"finishes\"],\n  \"cues\": [\"after\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5913622379302979,
+            "tokens": 543,
+            "raw_text": "{\n  \"query\": \"WelderBot.welding_complete --> PainterBot.start_painting\",\n  \"explanation\": \"The constraint specifies that PainterBot starts only after WelderBot finishes welding, which aligns with the sequential_workflow pattern where one action eventually follows another. The '-->' operator is used to represent this eventual sequence.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "WelderBot.welding_complete --> PainterBot.start_painting",
+              "explanation": "The constraint specifies that PainterBot starts only after WelderBot finishes welding, which aligns with the sequential_workflow pattern where one action eventually follows another. The '-->' operator is used to represent this eventual sequence.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_complete --> PainterBot.start_painting"
+          },
+          "total_time": 2.5606040954589844,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0989301204681396,
+            "tokens": 182,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finishes\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"PainterBot finishes painting\",\n  \"response_text\": \"InspectorBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6177773475646973,
+            "tokens": 548,
+            "raw_text": "{\n  \"query\": \"PainterBot.painting_complete --> InspectorBot.start\",\n  \"explanation\": \"The query uses the sequential_workflow pattern to express that InspectorBot starts only after PainterBot finishes painting. The '-->' operator is used to indicate that one action eventually follows another, which matches the constraint provided.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "PainterBot.painting_complete --> InspectorBot.start",
+              "explanation": "The query uses the sequential_workflow pattern to express that InspectorBot starts only after PainterBot finishes painting. The '-->' operator is used to indicate that one action eventually follows another, which matches the constraint provided.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PainterBot.painting_complete --> InspectorBot.start"
+          },
+          "total_time": 2.741253137588501,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all robots reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8969619274139404,
+            "tokens": 159,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"reach\", \"idle state\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.249535322189331,
+            "tokens": 526,
+            "raw_text": "{\n  \"query\": \"A<> (Robot1.idle && Robot2.idle && Robot3.idle)\",\n  \"explanation\": \"The query uses the A<> operator to express that all robots must eventually reach the idle state, which matches the 'eventual_completion' pattern indicating a liveness property where something must eventually happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (Robot1.idle && Robot2.idle && Robot3.idle)",
+              "explanation": "The query uses the A<> operator to express that all robots must eventually reach the idle state, which matches the 'eventual_completion' pattern indicating a liveness property where something must eventually happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (Robot1.idle && Robot2.idle && Robot3.idle)"
+          },
+          "total_time": 2.164088010787964,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "classification": {
+            "step": "classification",
+            "timing": 2.9176409244537354,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"WelderBot\", \"starts\", \"after\", \"AssemblerBot\", \"completes\", \"assembly\"],\n  \"cues\": [\"after\", \"only\"],\n  \"trigger_text\": \"AssemblerBot completes assembly\",\n  \"response_text\": \"WelderBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.715003728866577,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"AssemblerBot.assembly_complete --> WelderBot.welding\",\n  \"explanation\": \"This query ensures that WelderBot starts welding only after AssemblerBot completes assembly. The leadsto operator (-->) enforces the sequential workflow where assembly completion eventually triggers the welding operation, matching the 'only after' constraint which requires AssemblerBot to finish before WelderBot can begin.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "AssemblerBot.assembly_complete --> WelderBot.welding",
+              "explanation": "This query ensures that WelderBot starts welding only after AssemblerBot completes assembly. The leadsto operator (-->) enforces the sequential workflow where assembly completion eventually triggers the welding operation, matching the 'only after' constraint which requires AssemblerBot to finish before WelderBot can begin.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AssemblerBot.assembly_complete --> WelderBot.welding"
+          },
+          "total_time": 7.648792743682861,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 3.239940881729126,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"PainterBot\", \"starts\", \"after\", \"WelderBot\", \"finishes\", \"welding\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"PainterBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.090426206588745,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"WelderBot.welding_complete --> PainterBot.painting\",\n  \"explanation\": \"This query captures the sequential workflow where PainterBot starts painting only after WelderBot finishes welding. The --> operator ensures that once WelderBot reaches the welding_complete state, PainterBot will eventually transition to the painting state, matching the 'after' relationship in the constraint.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "WelderBot.welding_complete --> PainterBot.painting",
+              "explanation": "This query captures the sequential workflow where PainterBot starts painting only after WelderBot finishes welding. The --> operator ensures that once WelderBot reaches the welding_complete state, PainterBot will eventually transition to the painting state, matching the 'after' relationship in the constraint.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_complete --> PainterBot.painting"
+          },
+          "total_time": 7.345860719680786,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "classification": {
+            "step": "classification",
+            "timing": 3.049306869506836,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"InspectorBot\", \"starts\", \"after\", \"PainterBot\", \"finishes\", \"painting\"],\n  \"cues\": [\"after\", \"only\"],\n  \"trigger_text\": \"PainterBot finishes painting\",\n  \"response_text\": \"InspectorBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.066564083099365,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"PainterBot.painting_complete --> InspectorBot.inspecting\",\n  \"explanation\": \"This query captures the sequential workflow where InspectorBot starts inspecting only after PainterBot finishes painting. The --> operator ensures that once PainterBot reaches the painting_complete state, InspectorBot will eventually transition to the inspecting state, matching the 'only after' constraint.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "PainterBot.painting_complete --> InspectorBot.inspecting",
+              "explanation": "This query captures the sequential workflow where InspectorBot starts inspecting only after PainterBot finishes painting. The --> operator ensures that once PainterBot reaches the painting_complete state, InspectorBot will eventually transition to the inspecting state, matching the 'only after' constraint.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PainterBot.painting_complete --> InspectorBot.inspecting"
+          },
+          "total_time": 7.147492170333862,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all robots reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 3.444735050201416,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"robots\", \"reach\", \"idle\", \"state\"],\n  \"cues\": [\"eventually\", \"all\"],\n  \"response_text\": \"all robots reach idle state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.16957688331604,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (forall (i:robot_id_t) Robot(i).idle)\",\n  \"explanation\": \"This query uses the A<> operator to verify that eventually all robots reach their idle state. The forall quantifier ensures that every robot (indexed by robot_id_t) must reach the idle location. This matches the eventual_completion pattern where a liveness property guarantees that all robots will eventually complete their tasks and return to idle.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (forall (i:robot_id_t) Robot(i).idle)",
+              "explanation": "This query uses the A<> operator to verify that eventually all robots reach their idle state. The forall quantifier ensures that every robot (indexed by robot_id_t) must reach the idle location. This matches the eventual_completion pattern where a liveness property guarantees that all robots will eventually complete their tasks and return to idle.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A<> (forall (i:robot_id_t) Robot(i).idle)"
+          },
+          "total_time": 8.637365102767944,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4608449935913086,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"WelderBot\", \"AssemblerBot\", \"starts\", \"completes\", \"after\"],\n  \"cues\": [\"after\", \"only after\"],\n  \"trigger_text\": \"AssemblerBot completes assembly\",\n  \"response_text\": \"WelderBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.1427900791168213,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"AssemblerBot.assembly_complete --> WelderBot.starts\",\n  \"explanation\": \"The constraint describes a sequential workflow where WelderBot's action (starts) is triggered only after AssemblerBot completes a prior action (assembly_complete). The 'only after' cue and the sequential dependency between two distinct processes indicate the '-->' operator, which captures eventual triggered behavior in sequential workflows. AssemblerBot completing assembly is the trigger event, and WelderBot starting is the eventual response.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "AssemblerBot.assembly_complete --> WelderBot.starts",
+              "explanation": "The constraint describes a sequential workflow where WelderBot's action (starts) is triggered only after AssemblerBot completes a prior action (assembly_complete). The 'only after' cue and the sequential dependency between two distinct processes indicate the '-->' operator, which captures eventual triggered behavior in sequential workflows. AssemblerBot completing assembly is the trigger event, and WelderBot starting is the eventual response.",
+              "confidence": 0.92,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AssemblerBot.assembly_complete --> WelderBot.starts"
+          },
+          "total_time": 3.6261260509490967,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2065980434417725,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finishes\", \"PainterBot\", \"WelderBot\"],\n  \"cues\": [\"after\", \"starts\"],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"PainterBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.426058053970337,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"WelderBot.welding_complete --> PainterBot.starting\",\n  \"explanation\": \"This query captures the sequential workflow where PainterBot's start is triggered only after WelderBot completes welding. The '-->' operator expresses the eventual causal relationship between the completion of welding and the initiation of painting, matching the constraint's 'after' temporal dependency.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "WelderBot.welding_complete --> PainterBot.starting",
+              "explanation": "This query captures the sequential workflow where PainterBot's start is triggered only after WelderBot completes welding. The '-->' operator expresses the eventual causal relationship between the completion of welding and the initiation of painting, matching the constraint's 'after' temporal dependency.",
+              "confidence": 0.92,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_complete --> PainterBot.starting"
+          },
+          "total_time": 2.6484858989715576,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1055099964141846,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finishes\", \"InspectorBot\", \"PainterBot\"],\n  \"cues\": [\"after\", \"starts\"],\n  \"trigger_text\": \"PainterBot finishes painting\",\n  \"response_text\": \"InspectorBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8805482387542725,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"PainterBot.painting_complete --> InspectorBot.starting\",\n  \"explanation\": \"The constraint specifies a sequential workflow where InspectorBot's start is triggered only after PainterBot finishes painting. The '-->' operator captures this eventual sequential dependency: once the trigger event (PainterBot.painting_complete) occurs, the response event (InspectorBot.starting) must eventually follow. This matches the sequential_workflow pattern with clear trigger and response actions.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "PainterBot.painting_complete --> InspectorBot.starting",
+              "explanation": "The constraint specifies a sequential workflow where InspectorBot's start is triggered only after PainterBot finishes painting. The '-->' operator captures this eventual sequential dependency: once the trigger event (PainterBot.painting_complete) occurs, the response event (InspectorBot.starting) must eventually follow. This matches the sequential_workflow pattern with clear trigger and response actions.",
+              "confidence": 0.92,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PainterBot.painting_complete --> InspectorBot.starting"
+          },
+          "total_time": 3.008485794067383,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all robots reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9788620471954346,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"robots\", \"idle state\", \"reach\", \"all\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"all robots\",\n  \"response_text\": \"reach idle state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.096215009689331,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (Robot1.idle && Robot2.idle && Robot3.idle)\",\n  \"explanation\": \"The constraint uses 'eventually' and 'all robots reach idle state', which is a liveness property requiring that all robots must eventually reach their idle states. The A<> operator is the standard temporal logic operator for expressing global liveness properties - things that must eventually happen. The query asserts that it is always possible to reach a state where all robots are simultaneously in their idle state.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (Robot1.idle && Robot2.idle && Robot3.idle)",
+              "explanation": "The constraint uses 'eventually' and 'all robots reach idle state', which is a liveness property requiring that all robots must eventually reach their idle states. The A<> operator is the standard temporal logic operator for expressing global liveness properties - things that must eventually happen. The query asserts that it is always possible to reach a state where all robots are simultaneously in their idle state.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (Robot1.idle && Robot2.idle && Robot3.idle)"
+          },
+          "total_time": 3.1057229042053223,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "classification": {
+            "step": "classification",
+            "timing": 9.43510103225708,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"starts\", \"after\", \"completes\"], \"cues\": [\"after\"], \"trigger_text\": \"AssemblerBot completes assembly\", \"response_text\": \"WelderBot starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 18.69728398323059,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"AssemblerBot.assembly_complete --> WelderBot.start\", \"explanation\": \"The constraint specifies that WelderBot starts only after AssemblerBot completes assembly, which matches the sequential workflow pattern where one action eventually follows another, using the --> operator to indicate that assembly completion leads to WelderBot starting.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "AssemblerBot.assembly_complete --> WelderBot.start",
+              "explanation": "The constraint specifies that WelderBot starts only after AssemblerBot completes assembly, which matches the sequential workflow pattern where one action eventually follows another, using the --> operator to indicate that assembly completion leads to WelderBot starting.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AssemblerBot.assembly_complete --> WelderBot.start"
+          },
+          "total_time": 28.155900955200195,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 9.744196891784668,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"starts only after\", \"finishes welding\"], \"cues\": [\"only after\"], \"trigger_text\": \"WelderBot finishes welding\", \"response_text\": \"PainterBot starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.633458852767944,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"WelderBot.welding_complete --> PainterBot.starting\", \"explanation\": \"This query uses the --> operator for the sequential_workflow pattern, ensuring that PainterBot starting eventually follows WelderBot finishing welding, matching the 'only after' constraint.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "WelderBot.welding_complete --> PainterBot.starting",
+              "explanation": "This query uses the --> operator for the sequential_workflow pattern, ensuring that PainterBot starting eventually follows WelderBot finishing welding, matching the 'only after' constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_complete --> PainterBot.starting"
+          },
+          "total_time": 19.393370866775513,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "classification": {
+            "step": "classification",
+            "timing": 11.924962759017944,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"starts\", \"after\", \"finishes\"], \"cues\": [\"after\"], \"trigger_text\": \"PainterBot finishes painting\", \"response_text\": \"InspectorBot starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.887490034103394,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"PainterBot.painting_complete --> InspectorBot.starting\", \"explanation\": \"The constraint indicates a sequential workflow where InspectorBot starts only after PainterBot finishes painting, matching the sequential_workflow pattern using the --> operator for eventual triggered behavior.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "PainterBot.painting_complete --> InspectorBot.starting",
+              "explanation": "The constraint indicates a sequential workflow where InspectorBot starts only after PainterBot finishes painting, matching the sequential_workflow pattern using the --> operator for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PainterBot.painting_complete --> InspectorBot.starting"
+          },
+          "total_time": 28.830379009246826,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all robots reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 7.461313009262085,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"robots\",\"idle state\",\"reach\"],\"cues\":[\"eventually\"]}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.305670976638794,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> all_robots_idle\", \"explanation\": \"The constraint 'Eventually all robots reach idle state' indicates a liveness property where all robots must eventually be in the idle state, matching the eventual_completion pattern with the A<> operator for global eventual completion.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> all_robots_idle",
+              "explanation": "The constraint 'Eventually all robots reach idle state' indicates a liveness property where all robots must eventually be in the idle state, matching the eventual_completion pattern with the A<> operator for global eventual completion.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_robots_idle"
+          },
+          "total_time": 27.79000496864319,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "classification": {
+            "step": "classification",
+            "timing": 5.891305923461914,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"completes\", \"assembly\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"AssemblerBot completes assembly\",\n  \"response_text\": \"WelderBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.97435998916626,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"AssemblerBot.assembly_complete --> WelderBot.starts\",\n  \"explanation\": \"This query uses the --> operator to represent that AssemblerBot's assembly completion eventually leads to WelderBot starting, aligning with the sequential_workflow pattern where one action follows another after possible delays, as indicated by the 'after' cue in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "AssemblerBot.assembly_complete --> WelderBot.starts",
+              "explanation": "This query uses the --> operator to represent that AssemblerBot's assembly completion eventually leads to WelderBot starting, aligning with the sequential_workflow pattern where one action follows another after possible delays, as indicated by the 'after' cue in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AssemblerBot.assembly_complete --> WelderBot.starts"
+          },
+          "total_time": 10.888049840927124,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 4.620211124420166,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts after\", \"finishes welding\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"PainterBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.954117774963379,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"WelderBot.welding_finished --> PainterBot.starting\",\n  \"explanation\": \"This query uses the --> operator to specify that once WelderBot finishes welding, PainterBot will eventually start, matching the sequential workflow pattern where one action follows another after a possible delay, as indicated by the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "WelderBot.welding_finished --> PainterBot.starting",
+              "explanation": "This query uses the --> operator to specify that once WelderBot finishes welding, PainterBot will eventually start, matching the sequential workflow pattern where one action follows another after a possible delay, as indicated by the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_finished --> PainterBot.starting"
+          },
+          "total_time": 11.594588994979858,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "classification": {
+            "step": "classification",
+            "timing": 6.650757074356079,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finishes\", \"painting\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"PainterBot finishes painting\",\n  \"response_text\": \"InspectorBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.302855014801025,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"PainterBot.finishes_painting --> InspectorBot.starts\",\n  \"explanation\": \"This query uses the --> operator to specify that InspectorBot.starts occurs only after PainterBot.finishes_painting, aligning with the sequential_workflow pattern where one action eventually follows another.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "PainterBot.finishes_painting --> InspectorBot.starts",
+              "explanation": "This query uses the --> operator to specify that InspectorBot.starts occurs only after PainterBot.finishes_painting, aligning with the sequential_workflow pattern where one action eventually follows another.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PainterBot.finishes_painting --> InspectorBot.starts"
+          },
+          "total_time": 11.972824096679688,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all robots reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 4.963441371917725,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"robots\", \"reach\", \"idle state\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.633440971374512,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> all_robots_idle\",\n  \"explanation\": \"The query A<> all_robots_idle ensures that eventually, all robots will reach the idle state, directly matching the eventual_completion pattern for liveness properties as described in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A<> all_robots_idle",
+              "explanation": "The query A<> all_robots_idle ensures that eventually, all robots will reach the idle state, directly matching the eventual_completion pattern for liveness properties as described in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_robots_idle"
+          },
+          "total_time": 13.613348245620728,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "classification": {
+            "step": "classification",
+            "timing": 35.783878803253174,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"WelderBot\", \"starts\", \"AssemblerBot\", \"completes\", \"assembly\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"AssemblerBot completes assembly\",\n  \"response_text\": \"WelderBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 61.98851203918457,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"AssemblerBot.assembly_complete --> WelderBot.starts\",\n  \"explanation\": \"The constraint uses the keyword 'after' to indicate a sequential workflow where WelderBot starts eventually after AssemblerBot completes assembly. The '-->' operator is specified for this pattern to capture eventual triggered behavior, aligning with the meaning of the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "AssemblerBot.assembly_complete --> WelderBot.starts",
+              "explanation": "The constraint uses the keyword 'after' to indicate a sequential workflow where WelderBot starts eventually after AssemblerBot completes assembly. The '-->' operator is specified for this pattern to capture eventual triggered behavior, aligning with the meaning of the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AssemblerBot.assembly_complete --> WelderBot.starts"
+          },
+          "total_time": 97.79198622703552,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 52.4144561290741,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finishes\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"PainterBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 71.81560969352722,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"WelderBot.finishes_welding --> PainterBot.starts\",\n  \"explanation\": \"The constraint 'PainterBot starts only after WelderBot finishes welding' contains the keyword 'after', which is a cue for the sequential_workflow pattern. This pattern describes one action eventually following another, matching the use of '-->' operator to model eventual triggered behavior in UPPAAL, ensuring that PainterBot starts only after WelderBot finishes welding.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "WelderBot.finishes_welding --> PainterBot.starts",
+              "explanation": "The constraint 'PainterBot starts only after WelderBot finishes welding' contains the keyword 'after', which is a cue for the sequential_workflow pattern. This pattern describes one action eventually following another, matching the use of '-->' operator to model eventual triggered behavior in UPPAAL, ensuring that PainterBot starts only after WelderBot finishes welding.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.finishes_welding --> PainterBot.starts"
+          },
+          "total_time": 124.24936580657959,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "classification": {
+            "step": "classification",
+            "timing": 38.551596879959106,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"InspectorBot\", \"starts\", \"after\", \"PainterBot\", \"finishes\", \"painting\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"PainterBot finishes painting\",\n  \"response_text\": \"InspectorBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 49.0322380065918,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"PainterBot.painting_finished --> InspectorBot.inspection_starts\",\n  \"explanation\": \"The constraint uses 'after' to specify that InspectorBot starts only after PainterBot finishes painting, which aligns with the sequential_workflow pattern where one event eventually triggers another. The '-->' operator models this eventual response, ensuring that InspectorBot.inspection_starts follows PainterBot.painting_finished.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "PainterBot.painting_finished --> InspectorBot.inspection_starts",
+              "explanation": "The constraint uses 'after' to specify that InspectorBot starts only after PainterBot finishes painting, which aligns with the sequential_workflow pattern where one event eventually triggers another. The '-->' operator models this eventual response, ensuring that InspectorBot.inspection_starts follows PainterBot.painting_finished.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PainterBot.painting_finished --> InspectorBot.inspection_starts"
+          },
+          "total_time": 87.60980415344238,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all robots reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 38.19946026802063,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"robots\", \"idle state\", \"eventually\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 112.81522512435913,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> (forall (i: int[0,numRobots-1]) Robot[i].location == idle)\",\n  \"explanation\": \"This query uses the A<> operator to express that eventually, for all robots, each robot's location is idle, matching the constraint 'Eventually all robots reach idle state'. It follows the eventual_completion pattern for liveness properties where something must eventually happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (forall (i: int[0,numRobots-1]) Robot[i].location == idle)",
+              "explanation": "This query uses the A<> operator to express that eventually, for all robots, each robot's location is idle, matching the constraint 'Eventually all robots reach idle state'. It follows the eventual_completion pattern for liveness properties where something must eventually happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A<> (forall (i: int[0,numRobots-1]) Robot[i].location == idle)"
+          },
+          "total_time": 151.0355839729309,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7761971950531006,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"WelderBot\", \"AssemblerBot\", \"starts\", \"completes\", \"assembly\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"AssemblerBot completes assembly\",\n  \"response_text\": \"WelderBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5444059371948242,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"AssemblerBot.assembly_complete --> WelderBot.starts\",\n  \"explanation\": \"The constraint specifies that 'WelderBot starts only after AssemblerBot completes assembly', which directly translates to a sequential workflow. Therefore, we use the '-->' operator to represent that the event 'AssemblerBot.assembly_complete' must occur before 'WelderBot.starts' can occur. The query represents that once the AssemblerBot completes assembly, eventually the WelderBot will start.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "AssemblerBot.assembly_complete --> WelderBot.starts",
+              "explanation": "The constraint specifies that 'WelderBot starts only after AssemblerBot completes assembly', which directly translates to a sequential workflow. Therefore, we use the '-->' operator to represent that the event 'AssemblerBot.assembly_complete' must occur before 'WelderBot.starts' can occur. The query represents that once the AssemblerBot completes assembly, eventually the WelderBot will start.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AssemblerBot.assembly_complete --> WelderBot.starts"
+          },
+          "total_time": 2.362632989883423,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7671430110931396,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"start\", \"finish\", \"after\", \"welding\", \"painting\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"PainterBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.1432411670684814,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"WelderBot.welding_complete --> PainterBot.painting\",\n  \"explanation\": \"The constraint states that PainterBot starts painting only after WelderBot finishes welding, which aligns with the sequential_workflow pattern. '-->' signifies that eventually, PainterBot starts painting after WelderBot completes welding.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "WelderBot.welding_complete --> PainterBot.painting",
+              "explanation": "The constraint states that PainterBot starts painting only after WelderBot finishes welding, which aligns with the sequential_workflow pattern. '-->' signifies that eventually, PainterBot starts painting after WelderBot completes welding.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_complete --> PainterBot.painting"
+          },
+          "total_time": 1.9244370460510254,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9123063087463379,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"start\", \"finish\", \"after\", \"sequential\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"PainterBot finishes painting\",\n  \"response_text\": \"InspectorBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5210328102111816,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"PainterBot.painting_finished --> InspectorBot.started\",\n  \"explanation\": \"The constraint states that the InspectorBot starts only after the PainterBot finishes painting, which maps directly to the sequential_workflow pattern, where 'PainterBot.painting_finished' is action1 and 'InspectorBot.started' is action2. The '-->' operator signifies that eventually, after PainterBot finishes, InspectorBot will start.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "PainterBot.painting_finished --> InspectorBot.started",
+              "explanation": "The constraint states that the InspectorBot starts only after the PainterBot finishes painting, which maps directly to the sequential_workflow pattern, where 'PainterBot.painting_finished' is action1 and 'InspectorBot.started' is action2. The '-->' operator signifies that eventually, after PainterBot finishes, InspectorBot will start.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PainterBot.painting_finished --> InspectorBot.started"
+          },
+          "total_time": 2.4517159461975098,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all robots reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8110949993133545,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"robot\", \"idle\", \"state\", \"eventually\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"all robots\",\n  \"response_text\": \"reach idle state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6243000030517578,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> forall (i : id_t) robots(i).idle\",\n  \"explanation\": \"The constraint states that eventually all robots must reach the idle state.  The `eventual_completion` pattern requires the use of `A<>`. The `forall` quantifier ensures that the `idle` state is reached for every robot instance within the `robots` array (assuming `robots` is an array of robot instances with an `idle` boolean variable).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> forall (i : id_t) robots(i).idle",
+              "explanation": "The constraint states that eventually all robots must reach the idle state.  The `eventual_completion` pattern requires the use of `A<>`. The `forall` quantifier ensures that the `idle` state is reached for every robot instance within the `robots` array (assuming `robots` is an array of robot instances with an `idle` boolean variable).",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A<> forall (i : id_t) robots(i).idle"
+          },
+          "total_time": 2.4575181007385254,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "classification": {
+            "step": "classification",
+            "timing": 7.051159858703613,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"WelderBot\",\n    \"starts\",\n    \"AssemblerBot\",\n    \"completes\",\n    \"assembly\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"AssemblerBot completes assembly\",\n  \"response_text\": \"WelderBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.195019006729126,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"AssemblerBot.assembly_complete --> WelderBot.welding\",\n  \"explanation\": \"The constraint \\\"WelderBot starts only after AssemblerBot completes assembly\\\" describes a sequential workflow where one action must follow another. The `-->` (leads to) operator is used to verify this property. It checks that whenever the system is in the state `AssemblerBot.assembly_complete`, it will eventually reach a state where `WelderBot.welding` is true. This directly models the condition that the welder's action is triggered by the assembler's completion.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "AssemblerBot.assembly_complete --> WelderBot.welding",
+              "explanation": "The constraint \"WelderBot starts only after AssemblerBot completes assembly\" describes a sequential workflow where one action must follow another. The `-->` (leads to) operator is used to verify this property. It checks that whenever the system is in the state `AssemblerBot.assembly_complete`, it will eventually reach a state where `WelderBot.welding` is true. This directly models the condition that the welder's action is triggered by the assembler's completion.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AssemblerBot.assembly_complete --> WelderBot.welding"
+          },
+          "total_time": 24.265197038650513,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 6.846709966659546,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"PainterBot\",\n    \"WelderBot\",\n    \"starts\",\n    \"finishes\",\n    \"welding\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"WelderBot finishes welding\",\n  \"response_text\": \"PainterBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.110420942306519,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"WelderBot.welding_complete --> PainterBot.painting\",\n  \"explanation\": \"This query uses the leads-to operator (`-->`) to verify a sequential workflow. It checks that whenever the `WelderBot` process reaches a state indicating it has finished welding (e.g., `welding_complete`), the `PainterBot` process must eventually transition to its `painting` state. This directly models the requirement that the painter starts its work after the welder finishes.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "WelderBot.welding_complete --> PainterBot.painting",
+              "explanation": "This query uses the leads-to operator (`-->`) to verify a sequential workflow. It checks that whenever the `WelderBot` process reaches a state indicating it has finished welding (e.g., `welding_complete`), the `PainterBot` process must eventually transition to its `painting` state. This directly models the requirement that the painter starts its work after the welder finishes.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding_complete --> PainterBot.painting"
+          },
+          "total_time": 21.9805850982666,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "classification": {
+            "step": "classification",
+            "timing": 6.569162130355835,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"InspectorBot\",\n    \"PainterBot\",\n    \"starts\",\n    \"finishes\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"PainterBot finishes painting\",\n  \"response_text\": \"InspectorBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.312602996826172,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"PainterBot.painting_complete --> InspectorBot.inspecting\",\n  \"explanation\": \"The constraint specifies a sequential workflow where one action follows another. The 'after' keyword indicates that the start of the InspectorBot's task is contingent upon the completion of the PainterBot's task. The 'leads-to' operator (-->) correctly models this liveness property, ensuring that whenever 'PainterBot.painting_complete' becomes true, 'InspectorBot.inspecting' will eventually become true.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "PainterBot.painting_complete --> InspectorBot.inspecting",
+              "explanation": "The constraint specifies a sequential workflow where one action follows another. The 'after' keyword indicates that the start of the InspectorBot's task is contingent upon the completion of the PainterBot's task. The 'leads-to' operator (-->) correctly models this liveness property, ensuring that whenever 'PainterBot.painting_complete' becomes true, 'InspectorBot.inspecting' will eventually become true.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "PainterBot.painting_complete --> InspectorBot.inspecting"
+          },
+          "total_time": 18.90608787536621,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all robots reach idle state",
+          "classification": {
+            "step": "classification",
+            "timing": 11.61933183670044,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"robot\",\n    \"reach\",\n    \"idle_state\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ],\n  \"response_text\": \"all robots reach idle state\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 24.381078004837036,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (Robot1.idle_state && Robot2.idle_state)\",\n  \"explanation\": \"The 'A<>' operator translates 'Eventually', ensuring this is a liveness property that must be satisfied on all paths. The conjunction `(Robot1.idle_state && Robot2.idle_state)` models the condition that 'all robots' have reached their respective `idle_state` location.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (Robot1.idle_state && Robot2.idle_state)",
+              "explanation": "The 'A<>' operator translates 'Eventually', ensuring this is a liveness property that must be satisfied on all paths. The conjunction `(Robot1.idle_state && Robot2.idle_state)` models the condition that 'all robots' have reached their respective `idle_state` location.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (Robot1.idle_state && Robot2.idle_state)"
+          },
+          "total_time": 36.0194308757782,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    }
+  ]
+}

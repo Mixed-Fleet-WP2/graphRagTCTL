@@ -1,0 +1,918 @@
+{
+  "id": "scenario_001",
+  "domain": "harbor_logistics",
+  "prompt": "A drone scans container stacks. Once scanning is finished, a UGV moves to collect the container. The forklift then loads the container onto the truck.",
+  "robots": [
+    "Drone",
+    "UGV",
+    "Forklift"
+  ],
+  "constraints": [
+    "Drone scanning is finished, UGV moves to collect the container.",
+    "once the UGV arrives to collect the container, the Forklift loads the container onto the truck."
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "classification": {
+            "step": "classification",
+            "timing": 2.1468207836151123,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"drone\",\"UGV\",\"scanning finished\",\"moves\",\"collect container\",\"sequence\",\"order\"],\"cues\":[\"is finished\",\",\"],\"trigger_text\":\"Drone scanning is finished\",\"response_text\":\"UGV moves to collect the container.\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.14823317527771,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Drone.scanning_finished --> UGV.collecting_container\",\"explanation\":\"The constraint states that once the drone\u2019s scanning is finished, the UGV then moves to collect the container. This is a sequential workflow where one action eventually follows another, so the pattern action1 --> action2 is appropriate. Here, Drone.scanning_finished represents the completion of the drone\u2019s scanning, and UGV.collecting_container represents the UGV moving to collect the container. The --> operator expresses that whenever the first condition becomes true, the second will eventually occur, matching the natural-language requirement.\",\"confidence\":0.9,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Drone.scanning_finished --> UGV.collecting_container",
+              "explanation": "The constraint states that once the drone\u2019s scanning is finished, the UGV then moves to collect the container. This is a sequential workflow where one action eventually follows another, so the pattern action1 --> action2 is appropriate. Here, Drone.scanning_finished represents the completion of the drone\u2019s scanning, and UGV.collecting_container represents the UGV moving to collect the container. The --> operator expresses that whenever the first condition becomes true, the second will eventually occur, matching the natural-language requirement.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_finished --> UGV.collecting_container"
+          },
+          "total_time": 4.31406831741333,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "classification": {
+            "step": "classification",
+            "timing": 2.211711883544922,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"UGV\",\"arrives\",\"collect the container\",\"Forklift\",\"loads\",\"truck\",\"sequence\",\"workflow\",\"after\"],\"cues\":[\"once\",\"then\"],\"trigger_text\":\"once the UGV arrives to collect the container\",\"response_text\":\"the Forklift loads the container onto the truck\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.778830051422119,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"UGV.arrived_to_collect_container --> Forklift.loading_truck\",\"explanation\":\"The constraint states a sequential workflow: once the UGV arrives to collect the container, the Forklift must (eventually) load the container onto the truck. The sequential_workflow pattern uses the --> operator to express that whenever the trigger state/event `UGV.arrived_to_collect_container` occurs, it is eventually followed by the response state/event `Forklift.loading_truck`, which matches the natural-language requirement with possible delay between arrival and loading.\",\"confidence\":0.88,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "UGV.arrived_to_collect_container --> Forklift.loading_truck",
+              "explanation": "The constraint states a sequential workflow: once the UGV arrives to collect the container, the Forklift must (eventually) load the container onto the truck. The sequential_workflow pattern uses the --> operator to express that whenever the trigger state/event `UGV.arrived_to_collect_container` occurs, it is eventually followed by the response state/event `Forklift.loading_truck`, which matches the natural-language requirement with possible delay between arrival and loading.",
+              "confidence": 0.88,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "UGV.arrived_to_collect_container --> Forklift.loading_truck"
+          },
+          "total_time": 6.017259120941162,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "classification": {
+            "step": "classification",
+            "timing": 5.408491134643555,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"drone\",\"scan\",\"scanning finished\",\"finished\",\"UGV\",\"moves\",\"collect\",\"container\",\"after\"],\"cues\":[\"after\",\"when\",\"then\",\"finished\",\"moves to\",\"collect\"],\"trigger_text\":\"Drone scanning is finished\",\"response_text\":\"UGV moves to collect the container.\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.654818058013916,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Drone.scanning_done --> UGV.collecting_container\",\n  \"explanation\": \"This uses the sequential_workflow pattern: when the Drone reaches the 'scanning_done' state, it requires that eventually the UGV reach the 'collecting_container' state (UGV moves to collect the container). The '-->' operator captures the eventual triggered behavior (action2 follows action1).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Drone.scanning_done --> UGV.collecting_container",
+              "explanation": "This uses the sequential_workflow pattern: when the Drone reaches the 'scanning_done' state, it requires that eventually the UGV reach the 'collecting_container' state (UGV moves to collect the container). The '-->' operator captures the eventual triggered behavior (action2 follows action1).",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_done --> UGV.collecting_container"
+          },
+          "total_time": 13.091758966445923,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "classification": {
+            "step": "classification",
+            "timing": 11.705724954605103,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"UGV\",\"arrives\",\"collect\",\"container\",\"Forklift\",\"loads\",\"truck\",\"once\",\"collects\"],\"cues\":[\"once\",\"when\",\"then\",\"arrives\",\"loads\",\"collect\",\"must\"],\"trigger_text\":\"the UGV arrives to collect the container\",\"response_text\":\"the Forklift loads the container onto the truck.\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.752375841140747,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(UGV.arrives_to_collect_container) --> (Forklift.loads_container_onto_truck)\",\"explanation\":\"Follows the conditional_response template: whenever the UGV arrives to collect the container (trigger condition), then eventually the Forklift loads that container onto the truck (response). The '-->' operator encodes that the response must occur after the trigger.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(UGV.arrives_to_collect_container) --> (Forklift.loads_container_onto_truck)",
+              "explanation": "Follows the conditional_response template: whenever the UGV arrives to collect the container (trigger condition), then eventually the Forklift loads that container onto the truck (response). The '-->' operator encodes that the response must occur after the trigger.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(UGV.arrives_to_collect_container) --> (Forklift.loads_container_onto_truck)"
+          },
+          "total_time": 21.486898183822632,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "classification": {
+            "step": "classification",
+            "timing": 9.402614116668701,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"drone\",\"scanning\",\"UGV\",\"collect\",\"container\",\"finished\",\"after\",\"then\"],\"cues\":[\"after\",\"then\",\"when\",\"eventually\",\"never\",\"must\",\"can\",\"<\",\">\",\"%\"],\"trigger_text\":\"Drone scanning is finished\",\"response_text\":\"UGV moves to collect the container.\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.763833045959473,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Drone.scanning_done --> UGV.collecting\",\"explanation\":\"This constraint expresses a sequential workflow: after the drone finishes scanning (scanning_done), the UGV moves to collect the container (collecting). It matches the pattern where one action is followed by another (one leads to the next with possible delay) using the --> operator.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Drone.scanning_done --> UGV.collecting",
+              "explanation": "This constraint expresses a sequential workflow: after the drone finishes scanning (scanning_done), the UGV moves to collect the container (collecting). It matches the pattern where one action is followed by another (one leads to the next with possible delay) using the --> operator.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_done --> UGV.collecting"
+          },
+          "total_time": 21.184041261672974,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "classification": {
+            "step": "classification",
+            "timing": 13.705942869186401,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"ugv\",\"container\",\"arrival\",\"forklift\",\"loads\",\"truck\",\"sequence\",\"order\"],\"cues\":[\"after\",\"then\"],\"trigger_text\":\"once the UGV arrives to collect the container\",\"response_text\":\"the Forklift loads the container onto the truck\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.410172939300537,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"UGV.arrives_to_collect_container --> Forklift.loads_container_onto_truck\",\"explanation\":\"The constraint expresses that once the UGV arrives to collect the container (trigger event), the Forklift loads the container onto the truck (subsequent action). This is a sequential workflow where action1 is followed by action2, matching the template action1 --> action2.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "UGV.arrives_to_collect_container --> Forklift.loads_container_onto_truck",
+              "explanation": "The constraint expresses that once the UGV arrives to collect the container (trigger event), the Forklift loads the container onto the truck (subsequent action). This is a sequential workflow where action1 is followed by action2, matching the template action1 --> action2.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "UGV.arrives_to_collect_container --> Forklift.loads_container_onto_truck"
+          },
+          "total_time": 23.137859106063843,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.421684980392456,
+            "tokens": 175,
+            "raw_text": "{\n    \"pattern\": \"sequential_workflow\",\n    \"keywords\": [\"drone scanning\", \"UGV moves\", \"collect the container\"],\n    \"cues\": [\"is finished\", \"moves to\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.6529061794281006,
+            "tokens": 560,
+            "raw_text": "{\n  \"query\": \"Drone.scanning_done --> UGV.collecting\",\n  \"explanation\": \"The constraint describes a sequential workflow where the completion of drone scanning is followed by the UGV moving to collect the container. This matches the pattern of one action eventually following another, which is represented by the '-->' operator in UPPAAL.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Drone.scanning_done --> UGV.collecting",
+              "explanation": "The constraint describes a sequential workflow where the completion of drone scanning is followed by the UGV moving to collect the container. This matches the pattern of one action eventually following another, which is represented by the '-->' operator in UPPAAL.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_done --> UGV.collecting"
+          },
+          "total_time": 5.104684829711914,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3093440532684326,
+            "tokens": 226,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"arrives\", \"collect\", \"loads\", \"onto\"],\n  \"cues\": [\"once\", \"the\", \"arrives\", \"to\", \"collect\", \"the\", \"loads\", \"onto\"],\n  \"trigger_text\": \"UGV arrives to collect the container\",\n  \"response_text\": \"Forklift loads the container onto the truck\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8310389518737793,
+            "tokens": 617,
+            "raw_text": "{\n  \"query\": \"UGV.arrives_to_collect --> Forklift.loads_onto_truck\",\n  \"explanation\": \"The query uses the 'sequential_workflow' pattern to represent that once the UGV arrives to collect the container, the Forklift will eventually load the container onto the truck. The '-->' operator is used to indicate that the second action follows the first in a sequential manner, which aligns with the constraint provided.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "UGV.arrives_to_collect --> Forklift.loads_onto_truck",
+              "explanation": "The query uses the 'sequential_workflow' pattern to represent that once the UGV arrives to collect the container, the Forklift will eventually load the container onto the truck. The '-->' operator is used to indicate that the second action follows the first in a sequential manner, which aligns with the constraint provided.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "UGV.arrives_to_collect --> Forklift.loads_onto_truck"
+          },
+          "total_time": 3.1604878902435303,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "classification": {
+            "step": "classification",
+            "timing": 3.890749931335449,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"drone\", \"scanning\", \"finished\", \"UGV\", \"moves\", \"collect\", \"container\"],\n  \"cues\": [\"finished\", \"then\"],\n  \"trigger_text\": \"Drone scanning is finished\",\n  \"response_text\": \"UGV moves to collect the container\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.183203935623169,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Drone.scanning_finished --> UGV.collecting\",\n  \"explanation\": \"This query captures the sequential workflow where after the drone finishes scanning, the UGV will eventually move to collect the container. The --> operator is appropriate here as it represents an eventual response rather than an immediate one, allowing for possible delays between the trigger (drone scanning finished) and the response (UGV collecting).\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Drone.scanning_finished --> UGV.collecting",
+              "explanation": "This query captures the sequential workflow where after the drone finishes scanning, the UGV will eventually move to collect the container. The --> operator is appropriate here as it represents an eventual response rather than an immediate one, allowing for possible delays between the trigger (drone scanning finished) and the response (UGV collecting).",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_finished --> UGV.collecting"
+          },
+          "total_time": 9.104754209518433,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "classification": {
+            "step": "classification",
+            "timing": 3.4597291946411133,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"UGV\", \"arrives\", \"collect\", \"container\", \"Forklift\", \"loads\", \"truck\"],\n  \"cues\": [\"once\", \"the\"],\n  \"trigger_text\": \"the UGV arrives to collect the container\",\n  \"response_text\": \"the Forklift loads the container onto the truck\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.28120493888855,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"UGV.collecting --> Forklift.loading\",\n  \"explanation\": \"This query uses the sequential workflow pattern with the --> operator to express that once the UGV arrives to collect the container (UGV.collecting state), the Forklift will eventually load the container onto the truck (Forklift.loading state). The --> operator is appropriate here because it captures the eventual sequential behavior where one action leads to another with possible delays.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "UGV.collecting --> Forklift.loading",
+              "explanation": "This query uses the sequential workflow pattern with the --> operator to express that once the UGV arrives to collect the container (UGV.collecting state), the Forklift will eventually load the container onto the truck (Forklift.loading state). The --> operator is appropriate here because it captures the eventual sequential behavior where one action leads to another with possible delays.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "UGV.collecting --> Forklift.loading"
+          },
+          "total_time": 7.768017768859863,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4106810092926025,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"drone scanning\", \"finished\", \"UGV moves\", \"collect container\", \"sequence\"],\n  \"cues\": [\"finished\"],\n  \"trigger_text\": \"Drone scanning is finished\",\n  \"response_text\": \"UGV moves to collect the container\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5159637928009033,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Drone.scanning_finished --> UGV.moving_to_collect\",\n  \"explanation\": \"The constraint describes a sequential workflow where drone scanning completion (trigger) eventually leads to UGV moving to collect the container (response). The '-->' operator captures this eventual causal relationship between two sequential actions with possible delays, matching the sequential_workflow pattern and the provided examples.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Drone.scanning_finished --> UGV.moving_to_collect",
+              "explanation": "The constraint describes a sequential workflow where drone scanning completion (trigger) eventually leads to UGV moving to collect the container (response). The '-->' operator captures this eventual causal relationship between two sequential actions with possible delays, matching the sequential_workflow pattern and the provided examples.",
+              "confidence": 0.92,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_finished --> UGV.moving_to_collect"
+          },
+          "total_time": 2.948122262954712,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1172621250152588,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"UGV arrives\", \"collect container\", \"Forklift loads\", \"onto truck\"],\n  \"cues\": [\"once\"],\n  \"trigger_text\": \"UGV arrives to collect the container\",\n  \"response_text\": \"Forklift loads the container onto the truck\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8213658332824707,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"UGV.arrived --> Forklift.loads_onto_truck\",\n  \"explanation\": \"The constraint describes a conditional response where the trigger is 'UGV arrives to collect the container' and the response is 'Forklift loads the container onto the truck'. The cue 'once' indicates this is an eventual triggered behavior (sequential workflow), not an immediate response. The '-->' operator correctly captures that once the UGV arrives (condition), the Forklift will eventually load the container onto the truck (response).\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "UGV.arrived --> Forklift.loads_onto_truck",
+              "explanation": "The constraint describes a conditional response where the trigger is 'UGV arrives to collect the container' and the response is 'Forklift loads the container onto the truck'. The cue 'once' indicates this is an eventual triggered behavior (sequential workflow), not an immediate response. The '-->' operator correctly captures that once the UGV arrives (condition), the Forklift will eventually load the container onto the truck (response).",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "UGV.arrived --> Forklift.loads_onto_truck"
+          },
+          "total_time": 2.9661898612976074,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "classification": {
+            "step": "classification",
+            "timing": 10.89932894706726,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"finished\", \"moves to\", \"collect\"],\n  \"cues\": [\"is finished\"],\n  \"trigger_text\": \"Drone scanning is finished\",\n  \"response_text\": \"UGV moves to collect the container\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.912132024765015,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"Drone.scanning_done --> UGV.collecting\", \"explanation\": \"This query matches the sequential_workflow pattern, where the completion of drone scanning (trigger) eventually leads to the UGV collecting the container (response), as seen in similar examples like ex[c003].\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "Drone.scanning_done --> UGV.collecting",
+              "explanation": "This query matches the sequential_workflow pattern, where the completion of drone scanning (trigger) eventually leads to the UGV collecting the container (response), as seen in similar examples like ex[c003].",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_done --> UGV.collecting"
+          },
+          "total_time": 22.833572149276733,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "classification": {
+            "step": "classification",
+            "timing": 14.687694072723389,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"loads\"], \"cues\": [\"once\"], \"trigger_text\": \"UGV arrives to collect the container\", \"response_text\": \"Forklift loads the container onto the truck\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.838049173355103,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(UGV.arrives_to_collect) --> Forklift.loads_container\", \"explanation\": \"The constraint describes a conditional trigger where the arrival of the UGV leads to an eventual response by the Forklift loading the container, matching the conditional_response pattern with the --> operator for eventual behavior.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(UGV.arrives_to_collect) --> Forklift.loads_container",
+              "explanation": "The constraint describes a conditional trigger where the arrival of the UGV leads to an eventual response by the Forklift loading the container, matching the conditional_response pattern with the --> operator for eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(UGV.arrives_to_collect) --> Forklift.loads_container"
+          },
+          "total_time": 31.647088050842285,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "classification": {
+            "step": "classification",
+            "timing": 6.739418268203735,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"finished\", \"moves\", \"collect\"],\n  \"cues\": [\"finished\", \",\"],\n  \"trigger_text\": \"Drone scanning is finished\",\n  \"response_text\": \"UGV moves to collect the container\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.363953113555908,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Drone.scanning_finished --> UGV.collecting\",\n  \"explanation\": \"The query uses the --> operator to represent that after the drone's scanning is finished, the UGV will eventually move to collect the container, aligning with the sequential_workflow pattern where one action follows another.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Drone.scanning_finished --> UGV.collecting",
+              "explanation": "The query uses the --> operator to represent that after the drone's scanning is finished, the UGV will eventually move to collect the container, aligning with the sequential_workflow pattern where one action follows another.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_finished --> UGV.collecting"
+          },
+          "total_time": 15.134124040603638,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "classification": {
+            "step": "classification",
+            "timing": 8.502280950546265,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"arrives\", \"loads\", \"container\", \"once\"],\n  \"cues\": [\"once\"],\n  \"trigger_text\": \"the UGV arrives to collect the container\",\n  \"response_text\": \"the Forklift loads the container onto the truck\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.7298901081085205,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"UGV.arrived --> Forklift.loading\",\n  \"explanation\": \"The query uses the --> operator to represent that once the UGV arrives to collect the container, the Forklift will eventually load the container onto the truck, following the sequential workflow pattern where one action leads to another.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "UGV.arrived --> Forklift.loading",
+              "explanation": "The query uses the --> operator to represent that once the UGV arrives to collect the container, the Forklift will eventually load the container onto the truck, following the sequential workflow pattern where one action leads to another.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "UGV.arrived --> Forklift.loading"
+          },
+          "total_time": 15.267394065856934,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "classification": {
+            "step": "classification",
+            "timing": 53.88116979598999,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"drone\", \"scanning\", \"finished\", \"UGV\", \"moves\", \"collect\", \"container\"],\n  \"cues\": []\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 69.68179893493652,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Drone.scanning_finished --> UGV.collecting\",\n  \"explanation\": \"This query matches the constraint as it follows the sequential_workflow pattern, where the action of drone scanning finishing (Drone.scanning_finished) eventually triggers the UGV to move and collect the container (UGV.collecting), using the '-->' operator for eventual behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Drone.scanning_finished --> UGV.collecting",
+              "explanation": "This query matches the constraint as it follows the sequential_workflow pattern, where the action of drone scanning finishing (Drone.scanning_finished) eventually triggers the UGV to move and collect the container (UGV.collecting), using the '-->' operator for eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_finished --> UGV.collecting"
+          },
+          "total_time": 123.59533476829529,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "classification": {
+            "step": "classification",
+            "timing": 43.406986951828,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"once\", \"arrives\", \"loads\"],\n  \"cues\": [\"once\"],\n  \"trigger_text\": \"the UGV arrives to collect the container\",\n  \"response_text\": \"the Forklift loads the container onto the truck\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 47.93603515625,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(UGV.arrived_to_collect) --> (Forklift.loaded_onto_truck)\",\n  \"explanation\": \"The constraint uses 'once' to indicate a conditional trigger where the UGV's arrival leads to the Forklift eventually loading the container, matching the conditional_response pattern for eventual triggered behavior with the leads-to operator -->.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(UGV.arrived_to_collect) --> (Forklift.loaded_onto_truck)",
+              "explanation": "The constraint uses 'once' to indicate a conditional trigger where the UGV's arrival leads to the Forklift eventually loading the container, matching the conditional_response pattern for eventual triggered behavior with the leads-to operator -->.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(UGV.arrived_to_collect) --> (Forklift.loaded_onto_truck)"
+          },
+          "total_time": 91.3923351764679,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3656768798828125,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"drone\", \"scanning\", \"UGV\", \"collect\", \"container\", \"finished\", \"moves\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"Drone scanning is finished\",\n  \"response_text\": \"UGV moves to collect the container\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4116461277008057,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Drone.scanning_finished --> UGV.collecting\",\n  \"explanation\": \"The constraint describes a sequential workflow: after the drone finishes scanning, the UGV moves to collect the container. The '-->' operator captures this eventual response. 'Drone.scanning_finished' represents the completion of the drone's scanning process and 'UGV.collecting' represents the UGV beginning to collect the container. This directly maps to the sequential_workflow pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Drone.scanning_finished --> UGV.collecting",
+              "explanation": "The constraint describes a sequential workflow: after the drone finishes scanning, the UGV moves to collect the container. The '-->' operator captures this eventual response. 'Drone.scanning_finished' represents the completion of the drone's scanning process and 'UGV.collecting' represents the UGV beginning to collect the container. This directly maps to the sequential_workflow pattern.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_finished --> UGV.collecting"
+          },
+          "total_time": 2.799118995666504,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0852060317993164,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"UGV\", \"container\", \"Forklift\", \"loads\", \"truck\", \"collect\"],\n  \"cues\": [\"once\"],\n  \"trigger_text\": \"the UGV arrives to collect the container\",\n  \"response_text\": \"the Forklift loads the container onto the truck\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4987611770629883,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"UGV.arrives_to_collect --> Forklift.loads_onto_truck\",\n  \"explanation\": \"The constraint describes a sequential workflow: after the UGV arrives to collect, the Forklift loads the container.  The '-->' operator from the sequential_workflow pattern accurately captures this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "UGV.arrives_to_collect --> Forklift.loads_onto_truck",
+              "explanation": "The constraint describes a sequential workflow: after the UGV arrives to collect, the Forklift loads the container.  The '-->' operator from the sequential_workflow pattern accurately captures this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "UGV.arrives_to_collect --> Forklift.loads_onto_truck"
+          },
+          "total_time": 2.619502067565918,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "classification": {
+            "step": "classification",
+            "timing": 10.071393013000488,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"drone\",\n    \"scanning\",\n    \"finished\",\n    \"UGV\",\n    \"moves\",\n    \"collect\"\n  ],\n  \"cues\": [\n    \",\"\n  ],\n  \"trigger_text\": \"Drone scanning is finished\",\n  \"response_text\": \"UGV moves to collect the container\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.811185836791992,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Drone.ScanningFinished --> UGV.Collecting\",\n  \"explanation\": \"The constraint \\\"Drone scanning is finished, UGV moves to collect the container\\\" describes a conditional, sequential behavior. The `conditional_response` pattern is used, where the drone finishing its scan is the condition that triggers the UGV's eventual response. The `-->` (leads to) operator correctly models this relationship, verifying that whenever the system reaches a state where `Drone.ScanningFinished` is true, it is guaranteed that a state where `UGV.Collecting` is true will be reached eventually.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "Drone.ScanningFinished --> UGV.Collecting",
+              "explanation": "The constraint \"Drone scanning is finished, UGV moves to collect the container\" describes a conditional, sequential behavior. The `conditional_response` pattern is used, where the drone finishing its scan is the condition that triggers the UGV's eventual response. The `-->` (leads to) operator correctly models this relationship, verifying that whenever the system reaches a state where `Drone.ScanningFinished` is true, it is guaranteed that a state where `UGV.Collecting` is true will be reached eventually.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.ScanningFinished --> UGV.Collecting"
+          },
+          "total_time": 22.902605056762695,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "classification": {
+            "step": "classification",
+            "timing": 9.692821979522705,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"UGV\",\n    \"arrives\",\n    \"Forklift\",\n    \"loads\",\n    \"container\",\n    \"truck\"\n  ],\n  \"cues\": [\n    \"once\"\n  ],\n  \"trigger_text\": \"the UGV arrives to collect the container\",\n  \"response_text\": \"the Forklift loads the container onto the truck\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.079208850860596,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"UGV.ArrivedToCollect --> Forklift.LoadingTruck\",\n  \"explanation\": \"The constraint describes a sequential workflow where one event triggers another. The keyword 'once' indicates that the UGV arriving to collect the container (represented by the state UGV.ArrivedToCollect) must eventually be followed by the Forklift loading the container (represented by the state Forklift.LoadingTruck). The '-->' (leads to) operator correctly models this 'eventually follows' relationship.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "UGV.ArrivedToCollect --> Forklift.LoadingTruck",
+              "explanation": "The constraint describes a sequential workflow where one event triggers another. The keyword 'once' indicates that the UGV arriving to collect the container (represented by the state UGV.ArrivedToCollect) must eventually be followed by the Forklift loading the container (represented by the state Forklift.LoadingTruck). The '-->' (leads to) operator correctly models this 'eventually follows' relationship.",
+              "confidence": 0.95,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "UGV.ArrivedToCollect --> Forklift.LoadingTruck"
+          },
+          "total_time": 20.807982921600342,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    }
+  ]
+}

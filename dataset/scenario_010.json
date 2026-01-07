@@ -1,0 +1,22 @@
+{
+  "id": "scenario_0010",
+  "domain": "logistics",
+  "prompt": "A restocking AMR refills shelves while a drone verifies stock levels. The drone can only scan shelves when the AMR is idle. Both must stop if any obstacle is detected within 1 meters.",
+  "robots": ["Amr", "Drone"],
+  "constraints": [
+    "StockDrone scans only when RestockAMR is idle",
+    "Amr must stop if any obstacle is detected within 1 meters",
+    "Drone must stop if any obstacle is detected within 1 meters"
+  ],
+  "reference_properties": [
+    "A[] Drone.Scanning imply Amr.Idle",
+    "A[] (obstacle_distance <= 1) imply (!Drone.Scanning)",
+    "A[] (obstacle_distance <= 1) imply (!Amr.MovingToShelv && !Amr.Restocking)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-11",
+    "validation_status": "validated"
+  }
+}

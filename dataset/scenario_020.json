@@ -1,0 +1,19 @@
+{
+  "id": "scenario_020",
+  "domain": "space",
+  "prompt": "An external repair drone fixes solar panels, while an inspection bot verifies alignment. at some point repair drone have to to reach a safe shutdown state. If misalignment persists for over 60 seconds we must switch inspection bot to emergency stop.",
+  "robots": ["RepairDrone", "InspectBot"],
+  "constraints": [
+    "At some point RepairDrone have to reach a safe shutdown state",
+    "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers"
+  ],
+  "reference_properties": [
+    "A<> (RepairDrone.SafeShutdown )",
+    "A[] (InspectBot.MisalignmentDetected && InspectBot.work_time >= 60) imply  (InspectBot.EmergencyStop)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-12"
+  }
+}

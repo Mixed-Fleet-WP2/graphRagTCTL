@@ -1,0 +1,19 @@
+{
+  "id": "scenario_008",
+  "domain": "harbor",
+  "prompt": "An unmanned crane unloads containers onto automated trucks. Trucks can move only after the crane signals unloading complete. If wind gusts exceed 40 km/h, unloading must be paused for safety.",
+  "robots": ["CraneBot", "TruckAMR"],
+  "constraints": [
+    "TruckAMR starts moving only after CraneBot finishes unloading",
+    "CraneBot pauses unloading when wind gusts exceed 40 km/h"
+  ],
+  "reference_properties": [
+    "CraneBot.finishes_unloading --> TruckAMR.starts_moving",
+    "A[] (ConrolStation.WindSpeed > 40) imply CraneBot.Paused"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10"
+  }
+}

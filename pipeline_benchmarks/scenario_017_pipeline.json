@@ -1,0 +1,1341 @@
+{
+  "id": "scenario_017",
+  "domain": "agriculture",
+  "prompt": "A drone surveys crop zones while a rover collects soil samples. Every zone must be inspected at least once. The rover begins sampling only after the drone finishes the zone. If communication is lost, both must halt.",
+  "robots": [
+    "AgriDrone",
+    "SoilRover"
+  ],
+  "constraints": [
+    "Drone inspects all zones eventually",
+    "Rover samples only after drone finishes scanning zone",
+    "AgriDrone and SoilRover halt if communication lost"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "Drone inspects all zones eventually",
+          "classification": {
+            "step": "classification",
+            "timing": 2.070279836654663,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"drone\",\"inspects\",\"all zones\",\"eventually\",\"coverage\",\"completion\"],\"cues\":[\"eventually\"],\"trigger_text\":\"zones exist / inspection process running\",\"response_text\":\"all zones are inspected at least once\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.215155839920044,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> Drone.all_zones_inspected\",\"explanation\":\"The constraint says the drone must eventually have inspected all zones, which is a liveness property. Using the eventual_completion pattern, we express that in all executions (A) there is some future point (<>) where the condition \\\"all zones are inspected\\\" holds, modeled by the state predicate Drone.all_zones_inspected.\",\"confidence\":0.9,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> Drone.all_zones_inspected",
+              "explanation": "The constraint says the drone must eventually have inspected all zones, which is a liveness property. Using the eventual_completion pattern, we express that in all executions (A) there is some future point (<>) where the condition \"all zones are inspected\" holds, modeled by the state predicate Drone.all_zones_inspected.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Drone.all_zones_inspected"
+          },
+          "total_time": 4.309377908706665,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Rover samples only after drone finishes scanning zone",
+          "classification": {
+            "step": "classification",
+            "timing": 1.890793800354004,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"rover\",\"samples\",\"drone\",\"finishes\",\"scanning\",\"zone\",\"only after\",\"ordering\",\"sequence\"],\"cues\":[\"only after\",\"after\"],\"trigger_text\":\"drone finishes scanning zone\",\"response_text\":\"rover samples\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.2588789463043213,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Drone.scanning_done --> Rover.sampling\",\"explanation\":\"The constraint says the rover may sample only after the drone finishes scanning. Using the sequential workflow pattern, we express that whenever the drone reaches state `scanning_done`, it is eventually followed by the rover reaching state `sampling`. This enforces the required ordering while allowing arbitrary delay between scanning completion and sampling.\",\"confidence\":0.9,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Drone.scanning_done --> Rover.sampling",
+              "explanation": "The constraint says the rover may sample only after the drone finishes scanning. Using the sequential workflow pattern, we express that whenever the drone reaches state `scanning_done`, it is eventually followed by the rover reaching state `sampling`. This enforces the required ordering while allowing arbitrary delay between scanning completion and sampling.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_done --> Rover.sampling"
+          },
+          "total_time": 4.169260025024414,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "AgriDrone and SoilRover halt if communication lost",
+          "classification": {
+            "step": "classification",
+            "timing": 1.80552077293396,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"AgriDrone\",\"SoilRover\",\"halt\",\"communication lost\",\"loss of communication\",\"stop on disconnect\",\"safety\"],\"cues\":[\"if\"],\"trigger_text\":\"communication lost\",\"response_text\":\"AgriDrone and SoilRover halt\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0740468502044678,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (communication_lost && (!AgriDrone.halted || !SoilRover.halted))\",\"explanation\":\"The query forbids any state where communication is lost and either AgriDrone or SoilRover is not halted. Thus, whenever communication_lost is true, both AgriDrone and SoilRover must already be in their halted states, matching the requirement that they halt if communication is lost.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (communication_lost && (!AgriDrone.halted || !SoilRover.halted))",
+              "explanation": "The query forbids any state where communication is lost and either AgriDrone or SoilRover is not halted. Thus, whenever communication_lost is true, both AgriDrone and SoilRover must already be in their halted states, matching the requirement that they halt if communication is lost.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (communication_lost && (!AgriDrone.halted || !SoilRover.halted))"
+          },
+          "total_time": 3.905874729156494,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "Drone inspects all zones eventually",
+          "classification": {
+            "step": "classification",
+            "timing": 5.7424986362457275,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"inspect\",\"inspect all\",\"visit\",\"visit all zones\",\"drone\",\"coverage\",\"complete inspection\"],\"cues\":[\"eventually\",\"all\",\"must\",\"inspect\",\"visit\"],\"trigger_text\":null,\"response_text\":\"Drone inspects all zones (eventually)\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.169583082199097,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> Drone.all_zones_inspected\",\n  \"explanation\": \"This liveness query asserts that on all possible executions the system eventually reaches a state where the Drone has inspected all zones (represented by the boolean/location Drone.all_zones_inspected). It matches the 'eventual_completion' pattern requiring that the inspection task must eventually complete.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A<> Drone.all_zones_inspected",
+              "explanation": "This liveness query asserts that on all possible executions the system eventually reaches a state where the Drone has inspected all zones (represented by the boolean/location Drone.all_zones_inspected). It matches the 'eventual_completion' pattern requiring that the inspection task must eventually complete.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Drone.all_zones_inspected"
+          },
+          "total_time": 11.930882692337036,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Rover samples only after drone finishes scanning zone",
+          "classification": {
+            "step": "classification",
+            "timing": 7.3783698081970215,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"only after\",\"after\",\"drone finishes scanning\",\"drone scans zone\",\"drone scanning\",\"rover samples\",\"sampling\",\"zone\"],\"cues\":[\"after\",\"only\",\"then\"],\"trigger_text\":\"drone finishes scanning zone\",\"response_text\":\"rover samples\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.80770993232727,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Drone.scanning_done --> Rover.sampling\",\n  \"explanation\": \"Using the sequential_workflow operator '-->', this query states that when the drone finishes scanning the zone (Drone.scanning_done) the rover will eventually perform sampling (Rover.sampling). It captures the 'only after' relationship by making sampling occur as a consequent action following scan completion.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}",
+            "uppaal_result": {
+              "query": "Drone.scanning_done --> Rover.sampling",
+              "explanation": "Using the sequential_workflow operator '-->', this query states that when the drone finishes scanning the zone (Drone.scanning_done) the rover will eventually perform sampling (Rover.sampling). It captures the 'only after' relationship by making sampling occur as a consequent action following scan completion.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_done --> Rover.sampling"
+          },
+          "total_time": 18.209153652191162,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "AgriDrone and SoilRover halt if communication lost",
+          "classification": {
+            "step": "classification",
+            "timing": 10.991191148757935,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"communication lost\",\"halt\",\"stop\",\"comm loss\",\"disconnect\",\"emergency stop\",\"AgriDrone\",\"SoilRover\"],\"cues\":[\"if\",\"when\",\"lost\",\"halt\",\"stop\",\"must\",\"immediately\",\"communication\"],\"trigger_text\":\"communication lost\",\"response_text\":\"AgriDrone and SoilRover halt\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.8371100425720215,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Communication.lost --> (AgriDrone.halt && SoilRover.halt)\",\"explanation\":\"This uses the conditional_response pattern: when the condition Communication.lost occurs, it requires that both AgriDrone and SoilRover eventually enter their halt states. The \\\"-->\\\" operator expresses the triggered eventual response (sequential/conditional behavior) rather than an immediate same-state implication.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Communication.lost --> (AgriDrone.halt && SoilRover.halt)",
+              "explanation": "This uses the conditional_response pattern: when the condition Communication.lost occurs, it requires that both AgriDrone and SoilRover eventually enter their halt states. The \"-->\" operator expresses the triggered eventual response (sequential/conditional behavior) rather than an immediate same-state implication.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Communication.lost --> (AgriDrone.halt && SoilRover.halt)"
+          },
+          "total_time": 17.85734724998474,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "Drone inspects all zones eventually",
+          "classification": {
+            "step": "classification",
+            "timing": 13.123676776885986,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"drone\",\"inspects\",\"zones\",\"eventually\",\"completion\",\"inspection\"],\"cues\":[\"eventually\"],\"trigger_text\":\"Drone inspects all zones eventually\",\"response_text\":\"All zones must be inspected eventually\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.789608001708984,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> Drone.all_zones_inspected\",\"explanation\":\"The constraint 'Drone inspects all zones eventually' is a liveness property indicating that the system will reach a state where all zones have been inspected. This maps to the UPPAAL query A<> Drone.all_zones_inspected under the eventual_completion pattern.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> Drone.all_zones_inspected",
+              "explanation": "The constraint 'Drone inspects all zones eventually' is a liveness property indicating that the system will reach a state where all zones have been inspected. This maps to the UPPAAL query A<> Drone.all_zones_inspected under the eventual_completion pattern.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Drone.all_zones_inspected"
+          },
+          "total_time": 24.93951916694641,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Rover samples only after drone finishes scanning zone",
+          "classification": {
+            "step": "classification",
+            "timing": 7.997448921203613,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"rover\",\"drone\",\"sampling\",\"scan\",\"zone\",\"order\",\"finish\",\"after\"],\"cues\":[\"after\",\"then\",\"when\"],\"trigger_text\":\"after drone finishes scanning zone\",\"response_text\":\"rover should sample only after drone finishes scanning zone\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.631734848022461,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Drone.scanning_done --> Rover.sampling\",\"explanation\":\"This encodes a sequential_workflow constraint where Rover's sampling action is triggered after the Drone finishes scanning the zone; matches the NL constraint 'Rover samples only after drone finishes scanning zone'.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Drone.scanning_done --> Rover.sampling",
+              "explanation": "This encodes a sequential_workflow constraint where Rover's sampling action is triggered after the Drone finishes scanning the zone; matches the NL constraint 'Rover samples only after drone finishes scanning zone'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_done --> Rover.sampling"
+          },
+          "total_time": 22.657164096832275,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "AgriDrone and SoilRover halt if communication lost",
+          "classification": {
+            "step": "classification",
+            "timing": 15.357996940612793,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"communication_lost\",\"halt\",\"safety\",\"AgriDrone\",\"SoilRover\",\"conditional\"],\"cues\":[\"communication_lost\",\"when\",\"then\",\"must\"],\"trigger_text\":\"communication_lost\",\"response_text\":\"halt\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.23012685775757,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(communication_lost) --> (AgriDrone.halt && SoilRover.halt)\",\"explanation\":\"This is a conditional_response: when the condition communication_lost holds, both AgriDrone and SoilRover are modeled to eventually halt, using the --> operator to denote the eventual triggered response.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(communication_lost) --> (AgriDrone.halt && SoilRover.halt)",
+              "explanation": "This is a conditional_response: when the condition communication_lost holds, both AgriDrone and SoilRover are modeled to eventually halt, using the --> operator to denote the eventual triggered response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(communication_lost) --> (AgriDrone.halt && SoilRover.halt)"
+          },
+          "total_time": 32.60898494720459,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "Drone inspects all zones eventually",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2719948291778564,
+            "tokens": 160,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"inspects\", \"all zones\", \"eventually\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5706570148468018,
+            "tokens": 536,
+            "raw_text": "{\n  \"query\": \"A<> Drone.all_zones_inspected\",\n  \"explanation\": \"The query uses the 'eventual_completion' pattern to ensure that the task of inspecting all zones by the drone must eventually be completed. The A<> operator is used to express this liveness property, indicating that the condition 'Drone.all_zones_inspected' will eventually become true.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> Drone.all_zones_inspected",
+              "explanation": "The query uses the 'eventual_completion' pattern to ensure that the task of inspecting all zones by the drone must eventually be completed. The A<> operator is used to express this liveness property, indicating that the condition 'Drone.all_zones_inspected' will eventually become true.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Drone.all_zones_inspected"
+          },
+          "total_time": 2.8681321144104004,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Rover samples only after drone finishes scanning zone",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2339630126953125,
+            "tokens": 186,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"samples\", \"scanning\", \"zone\"],\n  \"cues\": [\"after\", \"only\"],\n  \"trigger_text\": \"drone finishes scanning zone\",\n  \"response_text\": \"Rover samples\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8078930377960205,
+            "tokens": 558,
+            "raw_text": "{\n  \"query\": \"Drone.scanning_zone_complete --> Rover.sampling\",\n  \"explanation\": \"The constraint specifies that the Rover can only sample after the drone finishes scanning the zone. This aligns with the 'sequential_workflow' pattern where one action eventually follows another. The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Drone.scanning_zone_complete --> Rover.sampling",
+              "explanation": "The constraint specifies that the Rover can only sample after the drone finishes scanning the zone. This aligns with the 'sequential_workflow' pattern where one action eventually follows another. The '-->' operator is used to represent this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_zone_complete --> Rover.sampling"
+          },
+          "total_time": 3.059544086456299,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "AgriDrone and SoilRover halt if communication lost",
+          "classification": {
+            "step": "classification",
+            "timing": 0.822547197341919,
+            "tokens": 159,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"halt\", \"communication lost\"],\n  \"cues\": [\"if\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.7177891731262207,
+            "tokens": 576,
+            "raw_text": "{\n  \"query\": \"A[] not (communication_lost && (AgriDrone.halt || SoilRover.halt))\",\n  \"explanation\": \"This query ensures that the system never reaches a state where both communication is lost and either AgriDrone or SoilRover is halted. It uses the forbidden_state pattern to prevent this dangerous state from occurring.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (communication_lost && (AgriDrone.halt || SoilRover.halt))",
+              "explanation": "This query ensures that the system never reaches a state where both communication is lost and either AgriDrone or SoilRover is halted. It uses the forbidden_state pattern to prevent this dangerous state from occurring.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (communication_lost && (AgriDrone.halt || SoilRover.halt))"
+          },
+          "total_time": 3.555201768875122,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "Drone inspects all zones eventually",
+          "classification": {
+            "step": "classification",
+            "timing": 3.57523512840271,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"drone\", \"inspects\", \"all\", \"zones\", \"eventually\"],\n  \"cues\": [\"all\", \"eventually\"],\n  \"trigger_text\": \"drone inspects zones\",\n  \"response_text\": \"all zones inspected\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.8284389972686768,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> Drone.all_zones_inspected\",\n  \"explanation\": \"This query verifies that the drone must eventually reach a state where all zones have been inspected. The A<> operator ensures this is a liveness property - the system must eventually complete the inspection of all zones.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> Drone.all_zones_inspected",
+              "explanation": "This query verifies that the drone must eventually reach a state where all zones have been inspected. The A<> operator ensures this is a liveness property - the system must eventually complete the inspection of all zones.",
+              "confidence": 0.92,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Drone.all_zones_inspected"
+          },
+          "total_time": 7.4254069328308105,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Rover samples only after drone finishes scanning zone",
+          "classification": {
+            "step": "classification",
+            "timing": 3.679292917251587,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"rover\", \"samples\", \"after\", \"drone\", \"finishes\", \"scanning\", \"zone\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"drone finishes scanning zone\",\n  \"response_text\": \"rover samples\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.9276039600372314,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Drone.scanning_done --> Rover.sampling\",\n  \"explanation\": \"This query enforces that the Rover's sampling action eventually follows after the Drone reaches its scanning_done state, matching the sequential workflow pattern where one action (drone scanning) must complete before another (rover sampling) can occur.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Drone.scanning_done --> Rover.sampling",
+              "explanation": "This query enforces that the Rover's sampling action eventually follows after the Drone reaches its scanning_done state, matching the sequential workflow pattern where one action (drone scanning) must complete before another (rover sampling) can occur.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_done --> Rover.sampling"
+          },
+          "total_time": 7.6309897899627686,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "AgriDrone and SoilRover halt if communication lost",
+          "classification": {
+            "step": "classification",
+            "timing": 3.3142459392547607,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"AgriDrone\", \"SoilRover\", \"halt\", \"communication\", \"lost\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"communication lost\",\n  \"response_text\": \"AgriDrone and SoilRover halt\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.075030088424683,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (communication_lost imply (AgriDrone.halted && SoilRover.halted))\",\n  \"explanation\": \"This query ensures that in all states, if communication is lost, both AgriDrone and SoilRover must be halted immediately in that same state. The 'imply' operator enforces the immediate safety response without any delay, matching the safety_immediate_response pattern.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (communication_lost imply (AgriDrone.halted && SoilRover.halted))",
+              "explanation": "This query ensures that in all states, if communication is lost, both AgriDrone and SoilRover must be halted immediately in that same state. The 'imply' operator enforces the immediate safety response without any delay, matching the safety_immediate_response pattern.",
+              "confidence": 0.9,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (communication_lost imply (AgriDrone.halted && SoilRover.halted))"
+          },
+          "total_time": 8.41432809829712,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "Drone inspects all zones eventually",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0006868839263916,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"drone\", \"inspects\", \"all zones\", \"eventually\"],\n  \"cues\": [\"eventually\", \"all\"],\n  \"trigger_text\": \"Drone inspects\",\n  \"response_text\": \"all zones\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.867577075958252,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> Drone.inspects_all_zones\",\n  \"explanation\": \"The constraint uses 'eventually' and 'all zones', indicating a liveness property where the drone MUST eventually complete inspecting all zones. The A<> operator is appropriate for global liveness properties that must happen. The state 'inspects_all_zones' represents the completion of inspecting all zones.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> Drone.inspects_all_zones",
+              "explanation": "The constraint uses 'eventually' and 'all zones', indicating a liveness property where the drone MUST eventually complete inspecting all zones. The A<> operator is appropriate for global liveness properties that must happen. The state 'inspects_all_zones' represents the completion of inspecting all zones.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Drone.inspects_all_zones"
+          },
+          "total_time": 2.8916358947753906,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Rover samples only after drone finishes scanning zone",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2929370403289795,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"rover samples\", \"drone finishes scanning\", \"zone\", \"ordering\", \"dependency\"],\n  \"cues\": [\"after\", \"only\"],\n  \"trigger_text\": \"drone finishes scanning zone\",\n  \"response_text\": \"rover samples\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9425311088562012,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Drone.scanning_zone_complete --> Rover.sampling\",\n  \"explanation\": \"The constraint specifies a sequential workflow where rover sampling is dependent on and follows drone scanning completion. The keyword 'only after' indicates a strict ordering dependency where the drone must finish scanning the zone before the rover can sample. The '-->' operator captures this eventual triggered behavior - once the drone reaches scanning_zone_complete state, the rover will eventually transition to sampling state.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Drone.scanning_zone_complete --> Rover.sampling",
+              "explanation": "The constraint specifies a sequential workflow where rover sampling is dependent on and follows drone scanning completion. The keyword 'only after' indicates a strict ordering dependency where the drone must finish scanning the zone before the rover can sample. The '-->' operator captures this eventual triggered behavior - once the drone reaches scanning_zone_complete state, the rover will eventually transition to sampling state.",
+              "confidence": 0.92,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_zone_complete --> Rover.sampling"
+          },
+          "total_time": 3.2544479370117188,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "AgriDrone and SoilRover halt if communication lost",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1082367897033691,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"halt\", \"communication lost\", \"AgriDrone\", \"SoilRover\", \"stop\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"communication lost\",\n  \"response_text\": \"halt\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8653390407562256,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (communication_lost imply (AgriDrone.halted and SoilRover.halted))\",\n  \"explanation\": \"The constraint requires that whenever communication is lost, both AgriDrone and SoilRover must halt immediately in the same state. This is a safety property with an immediate response (no delay allowed). The A[] operator ensures this must ALWAYS be true, and 'imply' enforces the immediate response\u2014when communication_lost becomes true, both agents must be in halted state right away.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (communication_lost imply (AgriDrone.halted and SoilRover.halted))",
+              "explanation": "The constraint requires that whenever communication is lost, both AgriDrone and SoilRover must halt immediately in the same state. This is a safety property with an immediate response (no delay allowed). The A[] operator ensures this must ALWAYS be true, and 'imply' enforces the immediate response\u2014when communication_lost becomes true, both agents must be in halted state right away.",
+              "confidence": 0.92,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (communication_lost imply (AgriDrone.halted and SoilRover.halted))"
+          },
+          "total_time": 3.0011751651763916,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "Drone inspects all zones eventually",
+          "classification": {
+            "step": "classification",
+            "timing": 10.909211158752441,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"drone\", \"inspects\", \"all zones\", \"eventually\"], \"cues\": [\"eventually\"]}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.501744270324707,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> Drone.all_zones_inspected\", \"explanation\": \"The constraint requires that the drone will eventually inspect all zones, which aligns with the eventual_completion pattern. The UPPAAL query A<> Drone.all_zones_inspected checks for global liveness, ensuring the system reaches a state where all zones are inspected.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> Drone.all_zones_inspected",
+              "explanation": "The constraint requires that the drone will eventually inspect all zones, which aligns with the eventual_completion pattern. The UPPAAL query A<> Drone.all_zones_inspected checks for global liveness, ensuring the system reaches a state where all zones are inspected.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Drone.all_zones_inspected"
+          },
+          "total_time": 24.433828115463257,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Rover samples only after drone finishes scanning zone",
+          "classification": {
+            "step": "classification",
+            "timing": 9.784293174743652,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"rover\", \"samples\", \"drone\", \"scanning\", \"zone\"], \"cues\": [\"only\", \"after\"], \"trigger_text\": \"drone finishes scanning zone\", \"response_text\": \"rover samples\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.44805097579956,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Drone.scanning_zone_done --> Rover.sampling\",\n  \"explanation\": \"This query matches the sequential workflow pattern, ensuring that the rover samples only after (eventually following) the drone finishes scanning the zone, based on the 'after' cue and the template for eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Drone.scanning_zone_done --> Rover.sampling",
+              "explanation": "This query matches the sequential workflow pattern, ensuring that the rover samples only after (eventually following) the drone finishes scanning the zone, based on the 'after' cue and the template for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_zone_done --> Rover.sampling"
+          },
+          "total_time": 23.253562927246094,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "AgriDrone and SoilRover halt if communication lost",
+          "classification": {
+            "step": "classification",
+            "timing": 9.30430817604065,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"safety_immediate_response\", \"keywords\": [\"halt\", \"communication\", \"lost\"], \"cues\": [\"if\"], \"trigger_text\": \"communication lost\", \"response_text\": \"halt\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 18.880221366882324,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (communication_lost imply (AgriDrone.halted and SoilRover.halted))\", \"explanation\": \"This query uses the safety_immediate_response pattern to ensure that whenever communication is lost, both AgriDrone and SoilRover are immediately halted, as the response must be instantaneous with no delay.\", \"confidence\": 0.85, \"pattern_used\": \"safety_immediate_response\", \"operator_used\": [\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (communication_lost imply (AgriDrone.halted and SoilRover.halted))",
+              "explanation": "This query uses the safety_immediate_response pattern to ensure that whenever communication is lost, both AgriDrone and SoilRover are immediately halted, as the response must be instantaneous with no delay.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (communication_lost imply (AgriDrone.halted and SoilRover.halted))"
+          },
+          "total_time": 28.209138870239258,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "Drone inspects all zones eventually",
+          "classification": {
+            "step": "classification",
+            "timing": 8.01568603515625,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"drone\", \"inspects\", \"all zones\", \"eventually\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.0682270526886,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> Drone.all_zones_inspected\",\n  \"explanation\": \"The query uses the A<> operator to ensure that the drone will eventually reach a state where all zones are inspected, directly matching the eventual_completion pattern for the constraint 'Drone inspects all zones eventually'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> Drone.all_zones_inspected",
+              "explanation": "The query uses the A<> operator to ensure that the drone will eventually reach a state where all zones are inspected, directly matching the eventual_completion pattern for the constraint 'Drone inspects all zones eventually'.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Drone.all_zones_inspected"
+          },
+          "total_time": 29.11820697784424,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Rover samples only after drone finishes scanning zone",
+          "classification": {
+            "step": "classification",
+            "timing": 6.103605031967163,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"after\", \"samples\", \"finishes\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"drone finishes scanning zone\",\n  \"response_text\": \"Rover samples\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.223103046417236,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"drone.zone_scanned --> rover.sampling\",\n  \"explanation\": \"This query matches the constraint because it uses the --> operator to ensure that the rover's sampling action occurs only after the drone has finished scanning the zone, aligning with the sequential_workflow pattern where one action eventually follows another.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "drone.zone_scanned --> rover.sampling",
+              "explanation": "This query matches the constraint because it uses the --> operator to ensure that the rover's sampling action occurs only after the drone has finished scanning the zone, aligning with the sequential_workflow pattern where one action eventually follows another.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "drone.zone_scanned --> rover.sampling"
+          },
+          "total_time": 14.352329015731812,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "AgriDrone and SoilRover halt if communication lost",
+          "classification": {
+            "step": "classification",
+            "timing": 5.4358320236206055,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"halt\", \"communication\", \"lost\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"communication lost\",\n  \"response_text\": \"AgriDrone and SoilRover halt\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.392871141433716,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (communication_lost imply (AgriDrone.halted and SoilRover.halted))\",\n  \"explanation\": \"The query ensures that whenever communication is lost, both AgriDrone and SoilRover must halt immediately, directly following the safety_immediate_response pattern template A[] (trigger_condition imply safety_action), as the constraint requires an instantaneous response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (communication_lost imply (AgriDrone.halted and SoilRover.halted))",
+              "explanation": "The query ensures that whenever communication is lost, both AgriDrone and SoilRover must halt immediately, directly following the safety_immediate_response pattern template A[] (trigger_condition imply safety_action), as the constraint requires an instantaneous response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (communication_lost imply (AgriDrone.halted and SoilRover.halted))"
+          },
+          "total_time": 15.84719181060791,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "Drone inspects all zones eventually",
+          "classification": {
+            "step": "classification",
+            "timing": 30.604432106018066,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"drone\", \"inspects\", \"zones\", \"eventually\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 76.06596183776855,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> Drone.all_zones_inspected\",\n  \"explanation\": \"The constraint 'Drone inspects all zones eventually' indicates a liveness property where the drone must eventually complete inspecting all zones. This matches the 'eventual_completion' pattern, which uses the UPPAAL operator A<> to express that something must eventually happen globally. The query A<> Drone.all_zones_inspected directly translates this by asserting that there exists a path where eventually the condition 'Drone.all_zones_inspected' becomes true, ensuring the drone's task completion as required.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> Drone.all_zones_inspected",
+              "explanation": "The constraint 'Drone inspects all zones eventually' indicates a liveness property where the drone must eventually complete inspecting all zones. This matches the 'eventual_completion' pattern, which uses the UPPAAL operator A<> to express that something must eventually happen globally. The query A<> Drone.all_zones_inspected directly translates this by asserting that there exists a path where eventually the condition 'Drone.all_zones_inspected' becomes true, ensuring the drone's task completion as required.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Drone.all_zones_inspected"
+          },
+          "total_time": 106.69846391677856,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Rover samples only after drone finishes scanning zone",
+          "classification": {
+            "step": "classification",
+            "timing": 31.629499197006226,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"rover\", \"samples\", \"drone\", \"scans\", \"after\", \"finishes\", \"zone\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"drone finishes scanning zone\",\n  \"response_text\": \"rover samples\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 40.99427604675293,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Drone.scan_complete --> Rover.sampling\",\n  \"explanation\": \"The constraint 'Rover samples only after drone finishes scanning zone' describes a sequential workflow where one action (drone finishing scan) must occur before another (rover sampling), which aligns with the pattern template action1 --> action2 for eventual triggered behavior, as indicated by the cue 'after' and similar examples like 'Drone.scanning_done --> UGV.collecting'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Drone.scan_complete --> Rover.sampling",
+              "explanation": "The constraint 'Rover samples only after drone finishes scanning zone' describes a sequential workflow where one action (drone finishing scan) must occur before another (rover sampling), which aligns with the pattern template action1 --> action2 for eventual triggered behavior, as indicated by the cue 'after' and similar examples like 'Drone.scanning_done --> UGV.collecting'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scan_complete --> Rover.sampling"
+          },
+          "total_time": 72.6603991985321,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "AgriDrone and SoilRover halt if communication lost",
+          "classification": {
+            "step": "classification",
+            "timing": 41.8063440322876,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"AgriDrone\", \"SoilRover\", \"halt\", \"communication\", \"lost\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"communication lost\",\n  \"response_text\": \"halt\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 45.54582619667053,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(communication_lost) --> (AgriDrone.halted && SoilRover.halted)\",\n  \"explanation\": \"This query uses the conditional_response pattern with the '-->' operator to model the constraint: when the condition 'communication lost' (trigger_text from classifier) occurs, it eventually leads to the response where both AgriDrone and SoilRover halt (response_text from classifier), matching the keywords and pattern template 'condition --> response' for triggered eventual behaviors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(communication_lost) --> (AgriDrone.halted && SoilRover.halted)",
+              "explanation": "This query uses the conditional_response pattern with the '-->' operator to model the constraint: when the condition 'communication lost' (trigger_text from classifier) occurs, it eventually leads to the response where both AgriDrone and SoilRover halt (response_text from classifier), matching the keywords and pattern template 'condition --> response' for triggered eventual behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(communication_lost) --> (AgriDrone.halted && SoilRover.halted)"
+          },
+          "total_time": 87.3806369304657,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "Drone inspects all zones eventually",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8019242286682129,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"drone\", \"inspect\", \"zones\", \"eventually\", \"completion\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"drone\",\n  \"response_text\": \"inspects all zones\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0955698490142822,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> Drone.all_zones_inspected\",\n  \"explanation\": \"The constraint states that the drone must eventually inspect all zones. The 'eventual_completion' pattern, combined with the cue 'eventually', suggests using the 'A<>' operator. 'Drone.all_zones_inspected' represents the state where the drone has inspected all zones.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> Drone.all_zones_inspected",
+              "explanation": "The constraint states that the drone must eventually inspect all zones. The 'eventual_completion' pattern, combined with the cue 'eventually', suggests using the 'A<>' operator. 'Drone.all_zones_inspected' represents the state where the drone has inspected all zones.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Drone.all_zones_inspected"
+          },
+          "total_time": 1.932318925857544,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Rover samples only after drone finishes scanning zone",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8133790493011475,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"rover\", \"drone\", \"sampling\", \"scanning\", \"order\", \"before\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"drone finishes scanning zone\",\n  \"response_text\": \"rover samples\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0139551162719727,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Drone.scanning_done --> Rover.sampling\",\n  \"explanation\": \"The constraint 'Rover samples only after drone finishes scanning zone' indicates a sequential workflow. The `-->` operator is used to represent that 'Drone finishes scanning zone' eventually leads to 'Rover samples'.  'Drone.scanning_done' represents the completion of scanning, and 'Rover.sampling' represents the rover starting to sample.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Drone.scanning_done --> Rover.sampling",
+              "explanation": "The constraint 'Rover samples only after drone finishes scanning zone' indicates a sequential workflow. The `-->` operator is used to represent that 'Drone finishes scanning zone' eventually leads to 'Rover samples'.  'Drone.scanning_done' represents the completion of scanning, and 'Rover.sampling' represents the rover starting to sample.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.scanning_done --> Rover.sampling"
+          },
+          "total_time": 1.8401479721069336,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "AgriDrone and SoilRover halt if communication lost",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0205509662628174,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"halt\", \"communication\", \"lost\", \"AgriDrone\", \"SoilRover\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"communication lost\",\n  \"response_text\": \"AgriDrone and SoilRover halt\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8342812061309814,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (communication_lost imply AgriDrone.halt and SoilRover.halt)\",\n  \"explanation\": \"The natural language constraint specifies an immediate response: 'AgriDrone and SoilRover halt if communication lost'. The 'safety_immediate_response' pattern is appropriate here. The template 'A[] (trigger_condition imply safety_action)' directly translates to 'A[] (communication_lost imply AgriDrone.halt and SoilRover.halt)'. We assume that 'AgriDrone.halt' and 'SoilRover.halt' become true in the same state when 'communication_lost' becomes true.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (communication_lost imply AgriDrone.halt and SoilRover.halt)",
+              "explanation": "The natural language constraint specifies an immediate response: 'AgriDrone and SoilRover halt if communication lost'. The 'safety_immediate_response' pattern is appropriate here. The template 'A[] (trigger_condition imply safety_action)' directly translates to 'A[] (communication_lost imply AgriDrone.halt and SoilRover.halt)'. We assume that 'AgriDrone.halt' and 'SoilRover.halt' become true in the same state when 'communication_lost' becomes true.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (communication_lost imply AgriDrone.halt and SoilRover.halt)"
+          },
+          "total_time": 2.869823932647705,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "Drone inspects all zones eventually",
+          "classification": {
+            "step": "classification",
+            "timing": 9.868059873580933,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"drone\",\n    \"inspects\",\n    \"zones\"\n  ],\n  \"cues\": [\n    \"eventually\",\n    \"all\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 19.389482975006104,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> Drone.all_zones_inspected\",\n  \"explanation\": \"This query checks for a liveness property, as indicated by the keyword 'eventually'. The `A<>` operator asserts that for all possible execution paths ('A'), it is inevitable that the system will eventually ('<>') reach a state where the condition `Drone.all_zones_inspected` is true. This directly models the requirement that the drone must complete its task of inspecting all zones, assuming `all_zones_inspected` is a location or boolean flag indicating this final state.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> Drone.all_zones_inspected",
+              "explanation": "This query checks for a liveness property, as indicated by the keyword 'eventually'. The `A<>` operator asserts that for all possible execution paths ('A'), it is inevitable that the system will eventually ('<>') reach a state where the condition `Drone.all_zones_inspected` is true. This directly models the requirement that the drone must complete its task of inspecting all zones, assuming `all_zones_inspected` is a location or boolean flag indicating this final state.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Drone.all_zones_inspected"
+          },
+          "total_time": 29.281195163726807,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Rover samples only after drone finishes scanning zone",
+          "classification": {
+            "step": "classification",
+            "timing": 7.877002000808716,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"rover\",\n    \"samples\",\n    \"drone\",\n    \"scanning\",\n    \"zone\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"drone finishes scanning zone\",\n  \"response_text\": \"Rover samples\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.37288784980774,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Drone.ScanComplete --> Rover.Sampling\",\n  \"explanation\": \"The constraint \\\"Rover samples only after drone finishes scanning zone\\\" describes a sequential workflow where one action follows another. The trigger event is the drone completing its scan (represented by the state `Drone.ScanComplete`), which must eventually lead to the rover starting its action (represented by the state `Rover.Sampling`). The `-->` (leads-to) operator is used to verify this temporal dependency, ensuring that whenever the drone finishes scanning, the rover will eventually sample.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "Drone.ScanComplete --> Rover.Sampling",
+              "explanation": "The constraint \"Rover samples only after drone finishes scanning zone\" describes a sequential workflow where one action follows another. The trigger event is the drone completing its scan (represented by the state `Drone.ScanComplete`), which must eventually lead to the rover starting its action (represented by the state `Rover.Sampling`). The `-->` (leads-to) operator is used to verify this temporal dependency, ensuring that whenever the drone finishes scanning, the rover will eventually sample.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Drone.ScanComplete --> Rover.Sampling"
+          },
+          "total_time": 24.269196033477783,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "AgriDrone and SoilRover halt if communication lost",
+          "classification": {
+            "step": "classification",
+            "timing": 8.741350173950195,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"AgriDrone\",\n    \"SoilRover\",\n    \"halt\",\n    \"communication\",\n    \"lost\"\n  ],\n  \"cues\": [\n    \"if\"\n  ],\n  \"trigger_text\": \"communication lost\",\n  \"response_text\": \"AgriDrone and SoilRover halt\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.95250701904297,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (communication_lost imply AgriDrone.Halted and SoilRover.Halted)\",\n  \"explanation\": \"This query models a safety property using `A[]` (globally). It states that whenever the condition `communication_lost` is true, it implies that both `AgriDrone` and `SoilRover` must be in their `Halted` state in that very same instant. This directly translates the immediate 'if...then' nature of the constraint.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (communication_lost imply AgriDrone.Halted and SoilRover.Halted)",
+              "explanation": "This query models a safety property using `A[]` (globally). It states that whenever the condition `communication_lost` is true, it implies that both `AgriDrone` and `SoilRover` must be in their `Halted` state in that very same instant. This directly translates the immediate 'if...then' nature of the constraint.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (communication_lost imply AgriDrone.Halted and SoilRover.Halted)"
+          },
+          "total_time": 26.722553968429565,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

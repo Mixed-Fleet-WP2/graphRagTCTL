@@ -1,0 +1,24 @@
+{
+  "id": "scenario_030",
+  "domain": "disaster_response",
+  "prompt": "A drone maps the disaster area, two search robots locate survivors, a medical robot delivers aid, and a transport AMR carries victims to safety. SearchRobots must not enter overlapping zones. MedicalBot waits for confirmation from at least one SearchRobot before starting aid delivery. TransportAMR operates only after MedicalBot finishes. It must always be possible to reach a state where all survivors are rescued.",
+  "robots": ["SurveyDrone", "SearchBot1", "SearchBot2", "MedicalBot", "TransportAMR"],
+  "constraints": [
+    "SearchBot1 and SearchBot2 must not enter overlapping zones",
+    "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+    "TransportAMR starts only after MedicalBot finishes aid delivery",
+    "Always possible to reach a state where all survivors are rescued"
+  ],
+  "reference_properties": [
+    "A[] not (SearchBot1.inOverlap || SearchBot2.inOverlap)",
+    "A[] (MedicalBot.DeliveringAid) imply (SearchBot1.Found || SearchBot2.Found)",
+    "A[] (TransportAMR.Active) imply (MedicalBot.Done)",
+    "A<> (Environement.SurvivorsRescued == Environement.TotalSurvivors)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10",
+    "validation_status": "validated"
+  }
+}

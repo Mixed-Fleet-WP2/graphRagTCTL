@@ -1,0 +1,30 @@
+{
+  "id": "scenario_033",
+  "domain": "manufacturing",
+  "prompt": "An indoor inspection drone autonomously navigates a multi-floor factory. It must spend no more than 120 seconds in each section. If temperature exceeds 60°C, the drone activates thermal protection and skips the current section. In case of lost localization, it switches to mapping mode until position is reacquired. When all sections are inspected, it must land at the maintenance dock and upload sensor logs. It is always possible to reach a safe state where the drone is landed.",
+  "robots": ["InspectDrone"],
+  "constraints": [
+    "InspectDrone spends ≤ 120 s per section",
+    "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+    "InspectDrone skips section when temperature > 60°C",
+    "InspectDrone switches to mapping mode if localization lost",
+    "InspectDrone lands at maintenance dock after all sections inspected",
+    "InspectDrone uploads sensor logs after landing",
+    "Always possible to reach safe landed state"
+  ],
+  "reference_properties": [
+        "A[] (InspectDrone.timeInSection <= 120)",
+        "A[] (InspectDrone.temperature > 60 imply InspectDrone.thermalProtectionActive)",
+        "A[] (InspectDrone.SkipSection imply InspectDrone.temperature > 60)",
+        "A[] (InspectDrone.localizationLost imply InspectDrone.mappingMode)",
+        "A[] (InspectDrone.allSectionsInspected imply InspectDrone.landedAtDock)",
+        "InspectDrone.landedAtDock --> InspectDrone.sensorLogsUploaded",
+        "A<> InspectDrone.safeLandedState"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-12",
+    "validation_status": "validated"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "scenario_024",
+  "domain": "harbor",
+  "prompt": "Two cranes move heavy parts alternately. It must always be true that only one crane moves at a time. Eventually, both parts reach their target zones.",
+  "robots": ["CraneA", "CraneB"],
+  "constraints": [
+    "Only one crane moves at a time",
+    "Eventually CraneA reach target zones",
+    "Eventually CraneB reach target zones"
+  ],
+  "reference_properties": [
+    "A[] not (CraneA.Moving && CraneB.Moving)",
+    "A<> (CraneA.AtTarget)",
+    "A<> (CraneB.AtTarget)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10",
+    "validation_status": "validated"
+  }
+}

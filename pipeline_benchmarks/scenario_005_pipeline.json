@@ -1,0 +1,922 @@
+{
+  "id": "scenario_005",
+  "domain": "logistics",
+  "prompt": "A forklift places boxes on a conveyor belt. The belt starts moving only when the forklift is Done placing. The mobile picker robot retrieves packages from the belt and must not operate if any human worker is within 2 meters.",
+  "robots": [
+    "Forklift",
+    "Conveyor",
+    "PickerBot"
+  ],
+  "constraints": [
+    "Conveyor must start moving only when Forklift is done placing boxes",
+    "PickerBot operates only if no human is within 2 meters"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "classification": {
+            "step": "classification",
+            "timing": 2.601853370666504,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"conveyor\",\"forklift\",\"start moving\",\"done placing boxes\",\"only when\",\"condition\"],\"cues\":[\"must\",\"only\",\"when\"],\"trigger_text\":\"Forklift is done placing boxes\",\"response_text\":\"Conveyor starts moving\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.2254769802093506,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(Forklift.done_placing_boxes) --> Conveyor.moving\",\"explanation\":\"The constraint says the conveyor is allowed to start moving only when the forklift is done placing boxes. Using the conditional_response pattern, we encode that whenever the condition \\\"Forklift.done_placing_boxes\\\" becomes true, it eventually leads to the response state \\\"Conveyor.moving\\\". This captures that the conveyor\u2019s movement is triggered by and conditioned on the forklift having finished placing boxes.\",\"confidence\":0.79,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(Forklift.done_placing_boxes) --> Conveyor.moving",
+              "explanation": "The constraint says the conveyor is allowed to start moving only when the forklift is done placing boxes. Using the conditional_response pattern, we encode that whenever the condition \"Forklift.done_placing_boxes\" becomes true, it eventually leads to the response state \"Conveyor.moving\". This captures that the conveyor\u2019s movement is triggered by and conditioned on the forklift having finished placing boxes.",
+              "confidence": 0.79,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(Forklift.done_placing_boxes) --> Conveyor.moving"
+          },
+          "total_time": 4.856502056121826,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 3.3076798915863037,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"robot\",\"PickerBot\",\"operate\",\"only if\",\"no human\",\"within 2 meters\",\"safety distance\"],\"cues\":[\"only if\",\"no\"],\"trigger_text\":\"human is within 2 meters\",\"response_text\":\"PickerBot must not operate\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.687999963760376,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (PickerBot.operating && human_distance < 2)\",\"explanation\":\"The constraint says PickerBot may operate only if no human is within 2 meters, which is equivalent to forbidding any state where PickerBot is operating while a human is closer than 2 meters. The query uses a global safety operator A[] combined with not(...) to ensure that the state (PickerBot.operating && human_distance < 2) never occurs in any reachable state of the system.\",\"confidence\":0.93,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (PickerBot.operating && human_distance < 2)",
+              "explanation": "The constraint says PickerBot may operate only if no human is within 2 meters, which is equivalent to forbidding any state where PickerBot is operating while a human is closer than 2 meters. The query uses a global safety operator A[] combined with not(...) to ensure that the state (PickerBot.operating && human_distance < 2) never occurs in any reachable state of the system.",
+              "confidence": 0.93,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (PickerBot.operating && human_distance < 2)"
+          },
+          "total_time": 6.027247667312622,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "classification": {
+            "step": "classification",
+            "timing": 6.665069103240967,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"Forklift\",\"Conveyor\",\"start moving\",\"done placing boxes\",\"only when\",\"after\",\"must\",\"before\"],\"cues\":[\"only when\",\"when\",\"after\",\"must\",\"before\"],\"trigger_text\":\"Forklift is done placing boxes\",\"response_text\":\"Conveyor starts moving\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.53398609161377,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Forklift.done_placing_boxes --> Conveyor.start_moving\",\"explanation\":\"This sequential-workflow query states that whenever the Forklift has finished placing boxes, the Conveyor will eventually start moving. It encodes the required ordering (Conveyor start follows Forklift completion) using the '-->' eventual-response operator.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Forklift.done_placing_boxes --> Conveyor.start_moving",
+              "explanation": "This sequential-workflow query states that whenever the Forklift has finished placing boxes, the Conveyor will eventually start moving. It encodes the required ordering (Conveyor start follows Forklift completion) using the '-->' eventual-response operator.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Forklift.done_placing_boxes --> Conveyor.start_moving"
+          },
+          "total_time": 17.221760988235474,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 4.8624818325042725,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"human\",\"within 2 meters\",\"2 meters\",\"distance\",\"proximity\",\"operate\",\"operates\",\"only if\",\"no human\",\"safe distance\",\"proximity sensor\"],\"cues\":[\"only if\",\"no\",\"within\",\"meters\",\"must not\",\"never\",\"when\",\"if\"],\"trigger_text\":\"human within 2 meters\",\"response_text\":\"PickerBot must not operate\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.106767892837524,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (PickerBot.operating && Human.distance <= 2.0)\",\n  \"explanation\": \"This is a safety (forbidden_state) property that forbids the system being in a state where PickerBot is operating while a human is within 2 meters. It maps 'PickerBot operates' to PickerBot.operating and 'human within 2 meters' to Human.distance <= 2.0 (meters), and uses A[] not(...) to ensure that combination never occurs.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (PickerBot.operating && Human.distance <= 2.0)",
+              "explanation": "This is a safety (forbidden_state) property that forbids the system being in a state where PickerBot is operating while a human is within 2 meters. It maps 'PickerBot operates' to PickerBot.operating and 'human within 2 meters' to Human.distance <= 2.0 (meters), and uses A[] not(...) to ensure that combination never occurs.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (PickerBot.operating && Human.distance <= 2.0)"
+          },
+          "total_time": 13.995090007781982,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "classification": {
+            "step": "classification",
+            "timing": 11.575003147125244,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"Forklift\",\"placing boxes\",\"conveyor\",\"start moving\",\"sequence\",\"dependency\"],\"cues\":[\"when\",\"after\",\"then\",\"must\",\"only\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.931154251098633,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Forklift.placing_done --> Conveyor.moving\",\"explanation\":\"The constraint states that Conveyor.start_moving can occur only after Forklift has finished placing boxes, which is a sequential workflow captured by Forklift.placing_done --> Conveyor.moving.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Forklift.placing_done --> Conveyor.moving",
+              "explanation": "The constraint states that Conveyor.start_moving can occur only after Forklift has finished placing boxes, which is a sequential workflow captured by Forklift.placing_done --> Conveyor.moving.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Forklift.placing_done --> Conveyor.moving"
+          },
+          "total_time": 22.53503704071045,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 15.021388053894043,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"operation\",\"safety\",\"distance\",\"human\",\"2 meters\",\"no human within\"],\"cues\":[\"then\",\"must\",\"<\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 40.860352993011475,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"UPPAAL=(PickerBot.human_within_2m == false) --> PickerBot.operates\",\"explanation\":\"Left side encodes the condition 'no human within 2 meters' and the right side encodes the action 'PickerBot operates'; this follows the conditional_response pattern of 'condition --> response' (as in examples) and expresses the constraint 'PickerBot operates only if no human is within 2 meters' by tying operation to the safe condition.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "UPPAAL=(PickerBot.human_within_2m == false) --> PickerBot.operates",
+              "explanation": "Left side encodes the condition 'no human within 2 meters' and the right side encodes the action 'PickerBot operates'; this follows the conditional_response pattern of 'condition --> response' (as in examples) and expresses the constraint 'PickerBot operates only if no human is within 2 meters' by tying operation to the safe condition.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "UPPAAL=(PickerBot.human_within_2m == false) --> PickerBot.operates"
+          },
+          "total_time": 55.906227350234985,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "classification": {
+            "step": "classification",
+            "timing": 2.6445729732513428,
+            "tokens": 195,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"start\", \"only when\", \"done\"],\n  \"cues\": [\"must\", \"only when\", \"done\"],\n  \"trigger_text\": \"Forklift is done placing boxes\",\n  \"response_text\": \"Conveyor must start moving\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6918048858642578,
+            "tokens": 590,
+            "raw_text": "{\n  \"query\": \"Forklift.done_placing_boxes --> Conveyor.start_moving\",\n  \"explanation\": \"The constraint specifies that the Conveyor must start moving only when the Forklift is done placing boxes. This aligns with the 'conditional_response' pattern, where a condition (Forklift is done placing boxes) leads to an eventual response (Conveyor starts moving). The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Forklift.done_placing_boxes --> Conveyor.start_moving",
+              "explanation": "The constraint specifies that the Conveyor must start moving only when the Forklift is done placing boxes. This aligns with the 'conditional_response' pattern, where a condition (Forklift is done placing boxes) leads to an eventual response (Conveyor starts moving). The '-->' operator is used to represent this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Forklift.done_placing_boxes --> Conveyor.start_moving"
+          },
+          "total_time": 4.369700908660889,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4371509552001953,
+            "tokens": 174,
+            "raw_text": "{\n    \"pattern\": \"forbidden_state\",\n    \"keywords\": [\"operates\", \"no human\", \"within 2 meters\"],\n    \"cues\": [\"only if\", \"no\", \"within\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.845898151397705,
+            "tokens": 596,
+            "raw_text": "{\n  \"query\": \"A[] not (PickerBot.operating && Human.within_2_meters)\",\n  \"explanation\": \"This query ensures that the PickerBot is never operating when a human is within 2 meters, which matches the constraint that PickerBot operates only if no human is within 2 meters. The forbidden_state pattern is used to prevent this dangerous state from occurring.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (PickerBot.operating && Human.within_2_meters)",
+              "explanation": "This query ensures that the PickerBot is never operating when a human is within 2 meters, which matches the constraint that PickerBot operates only if no human is within 2 meters. The forbidden_state pattern is used to prevent this dangerous state from occurring.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (PickerBot.operating && Human.within_2_meters)"
+          },
+          "total_time": 4.306233167648315,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "classification": {
+            "step": "classification",
+            "timing": 3.156935930252075,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"conveyor\", \"start\", \"moving\", \"forklift\", \"done\", \"placing\", \"boxes\"],\n  \"cues\": [\"only\", \"when\", \"done\"],\n  \"trigger_text\": \"Forklift is done placing boxes\",\n  \"response_text\": \"Conveyor must start moving\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.0589070320129395,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Forklift.done_placing --> Conveyor.moving\",\n  \"explanation\": \"This query captures the sequential workflow where the Conveyor starts moving only after the Forklift completes placing boxes. The leadsto operator (-->) ensures that whenever the Forklift reaches the done_placing state, the Conveyor will eventually transition to the moving state, enforcing the 'only when' constraint through the event-triggered sequencing.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Forklift.done_placing --> Conveyor.moving",
+              "explanation": "This query captures the sequential workflow where the Conveyor starts moving only after the Forklift completes placing boxes. The leadsto operator (-->) ensures that whenever the Forklift reaches the done_placing state, the Conveyor will eventually transition to the moving state, enforcing the 'only when' constraint through the event-triggered sequencing.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Forklift.done_placing --> Conveyor.moving"
+          },
+          "total_time": 8.236876010894775,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 3.7190968990325928,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"PickerBot\", \"operates\", \"human\", \"within\", \"2 meters\", \"only if no\"],\n  \"cues\": [\"only if\", \"no\"],\n  \"trigger_text\": \"human is within 2 meters\",\n  \"response_text\": \"PickerBot must not operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.224189043045044,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (PickerBot.operating && human_distance < 2)\",\n  \"explanation\": \"This query enforces that PickerBot cannot operate when a human is within 2 meters. Using A[] not() ensures this forbidden state never occurs - the system must always satisfy the condition that it's not the case that PickerBot is operating AND a human is within 2 meters distance. This matches the forbidden_state pattern where we prevent a dangerous state from ever happening.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (PickerBot.operating && human_distance < 2)",
+              "explanation": "This query enforces that PickerBot cannot operate when a human is within 2 meters. Using A[] not() ensures this forbidden state never occurs - the system must always satisfy the condition that it's not the case that PickerBot is operating AND a human is within 2 meters distance. This matches the forbidden_state pattern where we prevent a dangerous state from ever happening.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (PickerBot.operating && human_distance < 2)"
+          },
+          "total_time": 9.97890305519104,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "classification": {
+            "step": "classification",
+            "timing": 3.2347776889801025,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"conveyor start\", \"forklift done\", \"placing boxes\", \"precondition\"],\n  \"cues\": [\"only when\"],\n  \"trigger_text\": \"Forklift is done placing boxes\",\n  \"response_text\": \"Conveyor must start moving\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6329913139343262,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Forklift.done_placing_boxes --> Conveyor.moving\",\n  \"explanation\": \"This constraint describes a conditional response where the forklift completing its task (condition) triggers the conveyor to start moving (eventual response). The 'only when' cue indicates that the conveyor's movement is conditional on the forklift being done. The '-->' operator captures this sequential workflow where one event leads to another action.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Forklift.done_placing_boxes --> Conveyor.moving",
+              "explanation": "This constraint describes a conditional response where the forklift completing its task (condition) triggers the conveyor to start moving (eventual response). The 'only when' cue indicates that the conveyor's movement is conditional on the forklift being done. The '-->' operator captures this sequential workflow where one event leads to another action.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Forklift.done_placing_boxes --> Conveyor.moving"
+          },
+          "total_time": 4.891204118728638,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3185551166534424,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"PickerBot\", \"operates\", \"human\", \"distance\", \"proximity\"],\n  \"cues\": [\"only if\", \"within\", \"2 meters\"],\n  \"trigger_text\": \"human is within 2 meters\",\n  \"response_text\": \"PickerBot does not operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.086148262023926,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (human_within_2m imply not PickerBot.operating)\",\n  \"explanation\": \"The constraint prohibits PickerBot from operating when a human is within 2 meters. This is a forbidden state where operation must never occur given the trigger condition. Using 'imply' captures the immediate safety response: whenever the human proximity condition (human_within_2m) is true, PickerBot.operating must be false. The A[] operator ensures this holds in all states and all paths.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (human_within_2m imply not PickerBot.operating)",
+              "explanation": "The constraint prohibits PickerBot from operating when a human is within 2 meters. This is a forbidden state where operation must never occur given the trigger condition. Using 'imply' captures the immediate safety response: whenever the human proximity condition (human_within_2m) is true, PickerBot.operating must be false. The A[] operator ensures this holds in all states and all paths.",
+              "confidence": 0.92,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (human_within_2m imply not PickerBot.operating)"
+          },
+          "total_time": 3.427755832672119,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "classification": {
+            "step": "classification",
+            "timing": 18.985822200775146,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"placing boxes\"], \"cues\": [\"only when\", \"must\"], \"trigger_text\": \"Forklift is done placing boxes\", \"response_text\": \"Conveyor must start moving\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.39441990852356,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"Forklift.placing_done --> Conveyor.start_moving\",\"explanation\":\"The constraint requires Conveyor to start moving only when Forklift is done placing boxes, which aligns with the sequential workflow pattern where one action (Forklift done placing) eventually leads to another (Conveyor starting moving). The --> operator enforces this eventual triggered behavior.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "Forklift.placing_done --> Conveyor.start_moving",
+              "explanation": "The constraint requires Conveyor to start moving only when Forklift is done placing boxes, which aligns with the sequential workflow pattern where one action (Forklift done placing) eventually leads to another (Conveyor starting moving). The --> operator enforces this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Forklift.placing_done --> Conveyor.start_moving"
+          },
+          "total_time": 32.400240898132324,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 13.197820901870728,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"operates\", \"human\", \"within\"], \"cues\": [\"only\", \"if\"], \"trigger_text\": \"no human is within 2 meters\", \"response_text\": \"PickerBot operates\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.29719591140747,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(no_human_within_2m) --> PickerBot.operates\", \"explanation\": \"The constraint specifies that PickerBot operates only if the condition (no human within 2 meters) holds, which fits the conditional_response pattern where the condition leads to the eventual response of operating, using the --> operator for sequential eventual behavior.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(no_human_within_2m) --> PickerBot.operates",
+              "explanation": "The constraint specifies that PickerBot operates only if the condition (no human within 2 meters) holds, which fits the conditional_response pattern where the condition leads to the eventual response of operating, using the --> operator for sequential eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(no_human_within_2m) --> PickerBot.operates"
+          },
+          "total_time": 30.52064323425293,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "classification": {
+            "step": "classification",
+            "timing": 7.262657165527344,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"conveyor\", \"start moving\", \"forklift\", \"done placing boxes\"],\n  \"cues\": [\"when\", \"done\"],\n  \"trigger_text\": \"Forklift is done placing boxes\",\n  \"response_text\": \"Conveyor starts moving\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.759344816207886,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Forklift.done_placing_boxes --> Conveyor.start_moving\",\n  \"explanation\": \"This query uses the --> operator to model the sequential workflow where the Conveyor starts moving only after the Forklift is done placing boxes, ensuring the action follows eventually as per the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Forklift.done_placing_boxes --> Conveyor.start_moving",
+              "explanation": "This query uses the --> operator to model the sequential workflow where the Conveyor starts moving only after the Forklift is done placing boxes, ensuring the action follows eventually as per the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Forklift.done_placing_boxes --> Conveyor.start_moving"
+          },
+          "total_time": 15.044190168380737,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 13.104724168777466,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"operates\", \"only if\", \"no human\", \"within 2 meters\"],\n  \"cues\": [\"only if\", \"within\"],\n  \"trigger_text\": \"no human within 2 meters\",\n  \"response_text\": \"PickerBot operates\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.703507900238037,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(! human_within_2_meters) --> PickerBot.operates\",\n  \"explanation\": \"This query uses the conditional_response pattern to ensure that if no human is within 2 meters (condition), then eventually PickerBot operates (response), directly translating the 'only if' constraint into an eventual implication as per the provided examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(! human_within_2_meters) --> PickerBot.operates",
+              "explanation": "This query uses the conditional_response pattern to ensure that if no human is within 2 meters (condition), then eventually PickerBot operates (response), directly translating the 'only if' constraint into an eventual implication as per the provided examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(! human_within_2_meters) --> PickerBot.operates"
+          },
+          "total_time": 22.840134143829346,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "classification": {
+            "step": "classification",
+            "timing": 58.118913888931274,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"Conveyor\", \"start moving\", \"Forklift\", \"placing boxes\", \"done\"],\n  \"cues\": [\"when\", \"must\"],\n  \"trigger_text\": \"Forklift is done placing boxes\",\n  \"response_text\": \"Conveyor must start moving\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 74.3548789024353,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Forklift.placing_boxes_done --> Conveyor.start_moving\",\n  \"explanation\": \"This query uses the leads-to operator '-->' to model that after the forklift completes placing boxes (Forklift.placing_boxes_done), the conveyor must eventually start moving (Conveyor.start_moving). It aligns with the sequential_workflow pattern where one action follows another with possible delays, as the constraint specifies an eventual triggered behavior with 'only when'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Forklift.placing_boxes_done --> Conveyor.start_moving",
+              "explanation": "This query uses the leads-to operator '-->' to model that after the forklift completes placing boxes (Forklift.placing_boxes_done), the conveyor must eventually start moving (Conveyor.start_moving). It aligns with the sequential_workflow pattern where one action follows another with possible delays, as the constraint specifies an eventual triggered behavior with 'only when'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Forklift.placing_boxes_done --> Conveyor.start_moving"
+          },
+          "total_time": 132.50092101097107,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 41.77363991737366,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"PickerBot\", \"operates\", \"human\", \"within\", \"2 meters\", \"only if\"],\n  \"cues\": [\"if\", \"no\"],\n  \"trigger_text\": \"no human is within 2 meters\",\n  \"response_text\": \"PickerBot operates\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 92.21963906288147,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"!human_within_2m --> PickerBot_operating\",\n  \"explanation\": \"This query translates the constraint 'PickerBot operates only if no human is within 2 meters' into the conditional_response pattern, where the condition 'no human within 2 meters' (modeled as !human_within_2m) eventually triggers the response 'PickerBot operates' (modeled as PickerBot_operating). The '-->' operator is used to represent this eventual triggered behavior, as specified in the pattern template and similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "!human_within_2m --> PickerBot_operating",
+              "explanation": "This query translates the constraint 'PickerBot operates only if no human is within 2 meters' into the conditional_response pattern, where the condition 'no human within 2 meters' (modeled as !human_within_2m) eventually triggers the response 'PickerBot operates' (modeled as PickerBot_operating). The '-->' operator is used to represent this eventual triggered behavior, as specified in the pattern template and similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "!human_within_2m --> PickerBot_operating"
+          },
+          "total_time": 134.03860306739807,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8436737060546875,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"conveyor\", \"forklift\", \"start\", \"moving\", \"placing\", \"boxes\", \"after\", \"done\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"Forklift is done placing boxes\",\n  \"response_text\": \"Conveyor must start moving\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4326961040496826,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Forklift.placing_done --> Conveyor.moving\",\n  \"explanation\": \"The constraint specifies that the 'Conveyor must start moving' only after 'Forklift is done placing boxes'. This represents a sequential workflow where one action (Forklift.placing_done) eventually leads to another (Conveyor.moving). The '-->' operator is used to model this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Forklift.placing_done --> Conveyor.moving",
+              "explanation": "The constraint specifies that the 'Conveyor must start moving' only after 'Forklift is done placing boxes'. This represents a sequential workflow where one action (Forklift.placing_done) eventually leads to another (Conveyor.moving). The '-->' operator is used to model this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Forklift.placing_done --> Conveyor.moving"
+          },
+          "total_time": 2.3015310764312744,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3405430316925049,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"pickerbot\",\n    \"operate\",\n    \"human\",\n    \"2 meters\",\n    \"forbidden\",\n    \"safety\"\n  ],\n  \"cues\": [\n    \"only if\"\n  ],\n  \"trigger_text\": \"human is within 2 meters\",\n  \"response_text\": \"PickerBot does not operate\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.2665281295776367,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] PickerBot.operating imply dist_to_human > 2\",\n  \"explanation\": \"The constraint states that 'PickerBot operates only if no human is within 2 meters'. This translates to: 'Always (A[]) if PickerBot is operating (PickerBot.operating), then it implies that the distance to the human is greater than 2 meters (dist_to_human > 2)'.  The 'imply' operator ensures that PickerBot operates only if the distance condition holds true *at the same time*. We use A[] to enforce this globally for all time.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] PickerBot.operating imply dist_to_human > 2",
+              "explanation": "The constraint states that 'PickerBot operates only if no human is within 2 meters'. This translates to: 'Always (A[]) if PickerBot is operating (PickerBot.operating), then it implies that the distance to the human is greater than 2 meters (dist_to_human > 2)'.  The 'imply' operator ensures that PickerBot operates only if the distance condition holds true *at the same time*. We use A[] to enforce this globally for all time.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] PickerBot.operating imply dist_to_human > 2"
+          },
+          "total_time": 3.6348979473114014,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "classification": {
+            "step": "classification",
+            "timing": 9.513722896575928,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"conveyor\",\n    \"forklift\",\n    \"placing boxes\",\n    \"start moving\"\n  ],\n  \"cues\": [\n    \"must\",\n    \"only when\"\n  ],\n  \"trigger_text\": \"Forklift is done placing boxes\",\n  \"response_text\": \"Conveyor must start moving\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.085631847381592,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Forklift.placing_done --> Conveyor.moving\",\n  \"explanation\": \"This query uses the 'leads to' (`-->`) operator to model a sequential workflow. It verifies that whenever the 'Forklift' automaton is in the 'placing_done' state (the trigger), it is guaranteed that the 'Conveyor' automaton must eventually reach the 'moving' state (the response). This directly translates the constraint 'Conveyor must start moving only when Forklift is done placing boxes'.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "Forklift.placing_done --> Conveyor.moving",
+              "explanation": "This query uses the 'leads to' (`-->`) operator to model a sequential workflow. It verifies that whenever the 'Forklift' automaton is in the 'placing_done' state (the trigger), it is guaranteed that the 'Conveyor' automaton must eventually reach the 'moving' state (the response). This directly translates the constraint 'Conveyor must start moving only when Forklift is done placing boxes'.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Forklift.placing_done --> Conveyor.moving"
+          },
+          "total_time": 20.628539085388184,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 13.767086029052734,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"PickerBot\",\n    \"operates\",\n    \"human\",\n    \"within 2 meters\"\n  ],\n  \"cues\": [\n    \"only if\",\n    \"no\",\n    \"<\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.381845951080322,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (PickerBot.Operating and human_distance < 2)\",\n  \"explanation\": \"The constraint \\\"PickerBot operates only if no human is within 2 meters\\\" describes a safety property, which translates to a state that must never occur. The forbidden state is when the 'PickerBot' is in its 'Operating' state AND the 'human_distance' is less than 2. The UPPAAL query uses the 'A[]' (always) operator with 'not' to assert that this specific combination of conditions is globally unreachable.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (PickerBot.Operating and human_distance < 2)",
+              "explanation": "The constraint \"PickerBot operates only if no human is within 2 meters\" describes a safety property, which translates to a state that must never occur. The forbidden state is when the 'PickerBot' is in its 'Operating' state AND the 'human_distance' is less than 2. The UPPAAL query uses the 'A[]' (always) operator with 'not' to assert that this specific combination of conditions is globally unreachable.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (PickerBot.Operating and human_distance < 2)"
+          },
+          "total_time": 35.17459797859192,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    }
+  ]
+}

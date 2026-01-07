@@ -1,0 +1,313 @@
+{
+  "id": "scenario_004",
+  "domain": "manufacturing",
+  "prompt": "An assembly robot welds metal frames while a quality inspection drone hovers to scan the joints. The drone can start scanning only after welding is complete. If temperature exceeds 90\u00b0C, welding must pause until it drops below 70\u00b0C.",
+  "robots": [
+    "WelderBot",
+    "InspectorDrone"
+  ],
+  "constraints": [
+    "InspectorDrone starts scanning only after WelderBot finishes welding",
+    "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+    "WelderBot resumes welding when temperature drops below 70\u00b0C"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.5374650955200195,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 11.720712900161743,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "WelderBot.finished_welding --> InspectorDrone.start_scanning"
+        },
+        {
+          "index": 1,
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (temperature > 90\u00b0C imply WelderBot.pause_welding)"
+        },
+        {
+          "index": 2,
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "temperature < 70\u00b0C --> WelderBot.resume_welding"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 9.768578052520752,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.2554800510406494,
+      "tokens": 749,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.367347002029419,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.1225578784942627,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 39.46477699279785,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 13.890829801559448,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 29.10679602622986,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.298445701599121,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 10.237357139587402,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 1,
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

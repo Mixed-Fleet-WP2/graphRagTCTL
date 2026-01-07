@@ -1,0 +1,922 @@
+{
+  "id": "scenario_007",
+  "domain": "drone_inspection",
+  "prompt": "A UAV performs an inspection flight around a building. It must maintain a distance of at least 3 meters from any obstacle and return to the base after completing the inspection.",
+  "robots": [
+    "UAV"
+  ],
+  "constraints": [
+    "UAV must maintain a safe distance of 3 meters from obstacles",
+    "UAV must eventually return to base"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "classification": {
+            "step": "classification",
+            "timing": 1.9719598293304443,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"UAV\",\"safe distance\",\"3 meters\",\"obstacles\",\"collision avoidance\",\"proximity limit\"],\"cues\":[\"must\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.253286123275757,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (UAV.distanceToObstacle < 3)\",\"explanation\":\"The constraint says the UAV must always maintain at least 3 meters from obstacles, meaning states where the distance is less than 3 meters are forbidden. Using the forbidden_state pattern, we express this as a safety property that in all reachable states it is never the case that the UAV is closer than 3 meters to any obstacle.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (UAV.distanceToObstacle < 3)",
+              "explanation": "The constraint says the UAV must always maintain at least 3 meters from obstacles, meaning states where the distance is less than 3 meters are forbidden. Using the forbidden_state pattern, we express this as a safety property that in all reachable states it is never the case that the UAV is closer than 3 meters to any obstacle.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (UAV.distanceToObstacle < 3)"
+          },
+          "total_time": 5.252420902252197,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "UAV must eventually return to base",
+          "classification": {
+            "step": "classification",
+            "timing": 1.927225112915039,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"UAV\",\"return to base\",\"eventually\",\"must\",\"mission completion\"],\"cues\":[\"must\",\"eventually\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.35980486869812,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> UAV.at_base\",\"explanation\":\"The constraint says the UAV must eventually return to base, which is a liveness requirement that something has to happen at some point. The pattern for such eventual completion is A<> applied to the state representing being back at base, here modeled as UAV.at_base. Thus A<> UAV.at_base captures that on all paths, eventually, the UAV is at base.\",\"confidence\":0.93,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> UAV.at_base",
+              "explanation": "The constraint says the UAV must eventually return to base, which is a liveness requirement that something has to happen at some point. The pattern for such eventual completion is A<> applied to the state representing being back at base, here modeled as UAV.at_base. Thus A<> UAV.at_base captures that on all paths, eventually, the UAV is at base.",
+              "confidence": 0.93,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> UAV.at_base"
+          },
+          "total_time": 4.3070409297943115,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "classification": {
+            "step": "classification",
+            "timing": 8.057292938232422,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"safe distance\",\"3 meters\",\"obstacles\",\"maintain\",\"must\",\"distance\",\">=3m\",\"avoid\",\"keep away\"],\"cues\":[\"must\",\"maintain\",\"3\",\"meters\",\"obstacles\",\"never\",\"<\",\">=\"],\"trigger_text\":\"distance to obstacle < 3 meters\",\"response_text\":\"adjust position/trajectory to ensure distance >= 3 meters\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.133968114852905,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (UAV.distance_to_obstacle < 3)\",\n  \"explanation\": \"This is a forbidden-state safety property that disallows any reachable state where the UAV's distance to an obstacle is less than 3 meters, ensuring the UAV always maintains a safe distance (>= 3 m).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (UAV.distance_to_obstacle < 3)",
+              "explanation": "This is a forbidden-state safety property that disallows any reachable state where the UAV's distance to an obstacle is less than 3 meters, ensuring the UAV always maintains a safe distance (>= 3 m).",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (UAV.distance_to_obstacle < 3)"
+          },
+          "total_time": 14.210600852966309,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "UAV must eventually return to base",
+          "classification": {
+            "step": "classification",
+            "timing": 5.082692861557007,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"return\",\"base\",\"UAV\",\"must\",\"come back\"],\"cues\":[\"must\",\"eventually\",\"return\",\"to\",\"base\",\"UAV\"],\"trigger_text\":null,\"response_text\":\"UAV returns to base (eventually)\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.682928085327148,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> UAV.at_base\",\"explanation\":\"This is a global liveness property asserting that on all execution paths the UAV will eventually reach the 'at_base' location, directly matching the requirement that the UAV must eventually return to base.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> UAV.at_base",
+              "explanation": "This is a global liveness property asserting that on all execution paths the UAV will eventually reach the 'at_base' location, directly matching the requirement that the UAV must eventually return to base.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> UAV.at_base"
+          },
+          "total_time": 10.789233207702637,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "classification": {
+            "step": "classification",
+            "timing": 14.454057931900024,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"distance\",\"obstacle\",\"safety\",\"UAV\",\"3 meters\",\"maintain\"],\"cues\":[\"must\",\"distance\",\"meters\",\"obstacle\",\"3\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.810245990753174,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (UAV.distance_to_obstacle < 3)\",\"explanation\":\"The constraint requires maintaining a safe distance of at least 3 meters from obstacles. Formulating it as A[] not (distance_to_obstacle < 3) forbids ever entering the unsafe region (distance less than 3 meters), ensuring the UAV never comes closer than 3 meters to an obstacle.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (UAV.distance_to_obstacle < 3)",
+              "explanation": "The constraint requires maintaining a safe distance of at least 3 meters from obstacles. Formulating it as A[] not (distance_to_obstacle < 3) forbids ever entering the unsafe region (distance less than 3 meters), ensuring the UAV never comes closer than 3 meters to an obstacle.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (UAV.distance_to_obstacle < 3)"
+          },
+          "total_time": 23.291255712509155,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "UAV must eventually return to base",
+          "classification": {
+            "step": "classification",
+            "timing": 5.234775066375732,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"UAV\",\"return\",\"base\",\"eventual\",\"completion\",\"must\"],\"cues\":[\"eventually\",\"must\",\"finally\",\"then\",\"after\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.404524087905884,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> UAV.at_base\",\"explanation\":\"The constraint requires that the UAV will eventually be at the base. This is a liveness property expressed with the eventual operator A<> over the location UAV.at_base, matching the eventual_completion pattern.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> UAV.at_base",
+              "explanation": "The constraint requires that the UAV will eventually be at the base. This is a liveness property expressed with the eventual operator A<> over the location UAV.at_base, matching the eventual_completion pattern.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> UAV.at_base"
+          },
+          "total_time": 15.66979718208313,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8794670104980469,
+            "tokens": 170,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"safe distance\", \"3 meters\", \"obstacles\"],\n  \"cues\": [\"must\", \"maintain\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.635305881500244,
+            "tokens": 594,
+            "raw_text": "{\n  \"query\": \"A[] not (distance(UAV, Obstacle) < 3)\",\n  \"explanation\": \"This query ensures that the UAV never gets closer than 3 meters to any obstacle, which aligns with the constraint that the UAV must maintain a safe distance of 3 meters from obstacles. The 'A[] not' operator is used to specify that this state should never occur.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (distance(UAV, Obstacle) < 3)",
+              "explanation": "This query ensures that the UAV never gets closer than 3 meters to any obstacle, which aligns with the constraint that the UAV must maintain a safe distance of 3 meters from obstacles. The 'A[] not' operator is used to specify that this state should never occur.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (distance(UAV, Obstacle) < 3)"
+          },
+          "total_time": 3.5421180725097656,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "UAV must eventually return to base",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1152348518371582,
+            "tokens": 162,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"return\", \"base\"],\n  \"cues\": [\"eventually\", \"must\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.1325409412384033,
+            "tokens": 539,
+            "raw_text": "{\n  \"query\": \"A<> UAV.at_base\",\n  \"explanation\": \"The constraint 'UAV must eventually return to base' is a liveness property indicating that the UAV is required to eventually reach the state where it is at the base. The pattern 'eventual_completion' is used for such liveness properties, and the operator A<> is appropriate for expressing that something must eventually happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> UAV.at_base",
+              "explanation": "The constraint 'UAV must eventually return to base' is a liveness property indicating that the UAV is required to eventually reach the state where it is at the base. The pattern 'eventual_completion' is used for such liveness properties, and the operator A<> is appropriate for expressing that something must eventually happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> UAV.at_base"
+          },
+          "total_time": 3.272770881652832,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "classification": {
+            "step": "classification",
+            "timing": 3.3328118324279785,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"UAV\", \"safe distance\", \"3 meters\", \"obstacles\", \"maintain\"],\n  \"cues\": [\"must\", \"safe\"],\n  \"trigger_text\": \"UAV distance from obstacles < 3 meters\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.278150796890259,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (UAV.distance_to_obstacle < 3)\",\n  \"explanation\": \"This query uses the forbidden_state pattern to ensure the UAV never violates the safe distance constraint. The A[] operator verifies that in all reachable states, the condition 'distance_to_obstacle < 3' never becomes true, which enforces that the UAV must always maintain at least 3 meters distance from obstacles.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (UAV.distance_to_obstacle < 3)",
+              "explanation": "This query uses the forbidden_state pattern to ensure the UAV never violates the safe distance constraint. The A[] operator verifies that in all reachable states, the condition 'distance_to_obstacle < 3' never becomes true, which enforces that the UAV must always maintain at least 3 meters distance from obstacles.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (UAV.distance_to_obstacle < 3)"
+          },
+          "total_time": 7.638236045837402,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "UAV must eventually return to base",
+          "classification": {
+            "step": "classification",
+            "timing": 3.7971127033233643,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"UAV\", \"eventually\", \"return\", \"base\"],\n  \"cues\": [\"eventually\", \"must\"],\n  \"response_text\": \"return to base\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.761867046356201,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> UAV.at_base\",\n  \"explanation\": \"This query uses A<> to express that the UAV must eventually reach the 'at_base' state, matching the eventual_completion pattern for a liveness property that must eventually happen.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> UAV.at_base",
+              "explanation": "This query uses A<> to express that the UAV must eventually reach the 'at_base' state, matching the eventual_completion pattern for a liveness property that must eventually happen.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> UAV.at_base"
+          },
+          "total_time": 7.588257074356079,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "classification": {
+            "step": "classification",
+            "timing": 1.10508394241333,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"safe distance\", \"obstacles\", \"maintain\", \"3 meters\"],\n  \"cues\": [\"must\"],\n  \"trigger_text\": \"UAV approaches obstacle\",\n  \"response_text\": \"maintain a safe distance of 3 meters\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.170285940170288,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (UAV.obstacle_detected imply UAV.distance >= 3)\",\n  \"explanation\": \"The constraint requires the UAV to ALWAYS maintain a safe distance of 3 meters whenever an obstacle is detected. This is a safety property that must hold immediately without delay. The pattern uses A[] (for all states) with imply (immediate response) to ensure that the trigger condition 'obstacle_detected' directly enforces the safety action 'distance >= 3' in the same state, matching the safety_immediate_response pattern.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (UAV.obstacle_detected imply UAV.distance >= 3)",
+              "explanation": "The constraint requires the UAV to ALWAYS maintain a safe distance of 3 meters whenever an obstacle is detected. This is a safety property that must hold immediately without delay. The pattern uses A[] (for all states) with imply (immediate response) to ensure that the trigger condition 'obstacle_detected' directly enforces the safety action 'distance >= 3' in the same state, matching the safety_immediate_response pattern.",
+              "confidence": 0.92,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (UAV.obstacle_detected imply UAV.distance >= 3)"
+          },
+          "total_time": 4.292518138885498,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "UAV must eventually return to base",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2104451656341553,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"UAV\", \"return to base\", \"eventually\"],\n  \"cues\": [\"eventually\", \"must\"],\n  \"trigger_text\": \"UAV must\",\n  \"response_text\": \"return to base\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8065578937530518,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> UAV.at_base\",\n  \"explanation\": \"The constraint uses 'must eventually' (cues: eventually, must) which indicates a liveness property where something must happen globally. The UAV must return to base is a task that eventually completes. The A<> operator is used for global liveness properties where an event must eventually occur from all states. This matches the eventual_completion pattern template A<> final_state.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> UAV.at_base",
+              "explanation": "The constraint uses 'must eventually' (cues: eventually, must) which indicates a liveness property where something must happen globally. The UAV must return to base is a task that eventually completes. The A<> operator is used for global liveness properties where an event must eventually occur from all states. This matches the eventual_completion pattern template A<> final_state.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> UAV.at_base"
+          },
+          "total_time": 3.041217088699341,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "classification": {
+            "step": "classification",
+            "timing": 12.986685037612915,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"forbidden_state\", \"keywords\": [\"maintain\", \"safe distance\", \"obstacles\"], \"cues\": [\"must\"]}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 31.653606176376343,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (dist < 3)\",\"explanation\":\"The constraint requires that the UAV must always maintain a safe distance of at least 3 meters from obstacles, which means the bad state of being closer than 3 meters must never occur; this is modeled as a safety property using A[] not (bad_state) where bad_state is dist < 3, assuming 'dist' is a variable representing the distance to the nearest obstacle.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (dist < 3)",
+              "explanation": "The constraint requires that the UAV must always maintain a safe distance of at least 3 meters from obstacles, which means the bad state of being closer than 3 meters must never occur; this is modeled as a safety property using A[] not (bad_state) where bad_state is dist < 3, assuming 'dist' is a variable representing the distance to the nearest obstacle.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (dist < 3)"
+          },
+          "total_time": 44.664433002471924,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "UAV must eventually return to base",
+          "classification": {
+            "step": "classification",
+            "timing": 13.762926816940308,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"return\", \"base\"], \"cues\": [\"eventually\", \"must\"]}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 24.650840044021606,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> UAV.at_base\", \"explanation\": \"The constraint requires that the UAV must eventually return to base, which is a liveness property ensuring eventual completion. The UPPAAL query uses the A<> operator to check that the UAV reaches the 'at_base' state at some point in the future from any state.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> UAV.at_base",
+              "explanation": "The constraint requires that the UAV must eventually return to base, which is a liveness property ensuring eventual completion. The UPPAAL query uses the A<> operator to check that the UAV reaches the 'at_base' state at some point in the future from any state.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> UAV.at_base"
+          },
+          "total_time": 38.440382957458496,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "classification": {
+            "step": "classification",
+            "timing": 7.831876039505005,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"UAV\", \"safe distance\", \"3 meters\", \"obstacles\"],\n  \"cues\": [\"must\"],\n  \"trigger_text\": \"distance less than 3 meters from obstacles\"\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.947293996810913,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (UAV.distanceToObstacle < 3)\",\n  \"explanation\": \"The query ensures that the UAV never enters a state where its distance to obstacles is less than 3 meters, aligning with the forbidden_state pattern to prevent the unsafe condition as specified in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (UAV.distanceToObstacle < 3)",
+              "explanation": "The query ensures that the UAV never enters a state where its distance to obstacles is less than 3 meters, aligning with the forbidden_state pattern to prevent the unsafe condition as specified in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (UAV.distanceToObstacle < 3)"
+          },
+          "total_time": 20.80094599723816,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "UAV must eventually return to base",
+          "classification": {
+            "step": "classification",
+            "timing": 8.739861011505127,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"return\"],\n  \"cues\": [\"eventually\", \"must\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.7653329372406,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> UAV.at_base\",\n  \"explanation\": \"The query A<> UAV.at_base ensures that the UAV will inevitably reach the base state eventually, directly matching the eventual_completion pattern for the constraint that the UAV must eventually return to base.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> UAV.at_base",
+              "explanation": "The query A<> UAV.at_base ensures that the UAV will inevitably reach the base state eventually, directly matching the eventual_completion pattern for the constraint that the UAV must eventually return to base.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> UAV.at_base"
+          },
+          "total_time": 19.53599786758423,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "classification": {
+            "step": "classification",
+            "timing": 31.915261030197144,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"UAV\", \"maintain\", \"safe distance\", \"3 meters\", \"obstacles\"],\n  \"cues\": [\"must\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 107.17624807357788,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (UAV.distanceToObstacle < 3)\",\n  \"explanation\": \"This query uses the 'forbidden_state' pattern to assert that the UAV never enters a state where its distance to obstacles is less than 3 meters, directly translating the constraint that it must always maintain a safe distance of at least 3 meters from obstacles.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (UAV.distanceToObstacle < 3)",
+              "explanation": "This query uses the 'forbidden_state' pattern to assert that the UAV never enters a state where its distance to obstacles is less than 3 meters, directly translating the constraint that it must always maintain a safe distance of at least 3 meters from obstacles.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (UAV.distanceToObstacle < 3)"
+          },
+          "total_time": 139.1620819568634,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "UAV must eventually return to base",
+          "classification": {
+            "step": "classification",
+            "timing": 28.214655876159668,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"UAV\", \"return\", \"base\", \"eventually\", \"must\"],\n  \"cues\": [\"must\", \"eventually\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 75.13733506202698,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> UAV.at_base\",\n  \"explanation\": \"The constraint 'UAV must eventually return to base' is a liveness property where something must eventually happen. The pattern 'eventual_completion' and similar examples (e.g., 'Robot will eventually return to base' maps to A<> Robot.at_base) indicate using the A<> operator to express global liveness, ensuring that in all paths, eventually the UAV is in the 'at_base' state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> UAV.at_base",
+              "explanation": "The constraint 'UAV must eventually return to base' is a liveness property where something must eventually happen. The pattern 'eventual_completion' and similar examples (e.g., 'Robot will eventually return to base' maps to A<> Robot.at_base) indicate using the A<> operator to express global liveness, ensuring that in all paths, eventually the UAV is in the 'at_base' state.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> UAV.at_base"
+          },
+          "total_time": 103.38196611404419,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2173140048980713,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"UAV\", \"safe distance\", \"obstacles\", \"safety\"],\n  \"cues\": [\"must\"],\n  \"trigger_text\": \"obstacles\",\n  \"response_text\": \"maintain a safe distance of 3 meters\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.585636854171753,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (UAV.obstacle_detected imply UAV.safe_distance >= 3)\",\n  \"explanation\": \"The constraint states that the UAV must maintain a safe distance of 3 meters from obstacles. This is a safety property, and the response (maintaining safe distance) must be immediate when obstacles are detected. Therefore, I used the 'safety_immediate_response' pattern with the 'A[]' and 'imply' operators. 'UAV.obstacle_detected' triggers the response 'UAV.safe_distance >= 3'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (UAV.obstacle_detected imply UAV.safe_distance >= 3)",
+              "explanation": "The constraint states that the UAV must maintain a safe distance of 3 meters from obstacles. This is a safety property, and the response (maintaining safe distance) must be immediate when obstacles are detected. Therefore, I used the 'safety_immediate_response' pattern with the 'A[]' and 'imply' operators. 'UAV.obstacle_detected' triggers the response 'UAV.safe_distance >= 3'.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (UAV.obstacle_detected imply UAV.safe_distance >= 3)"
+          },
+          "total_time": 2.8271241188049316,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "UAV must eventually return to base",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2347970008850098,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"UAV\", \"return\", \"base\", \"eventually\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"UAV\",\n  \"response_text\": \"return to base\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.1221299171447754,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> UAV.at_base\",\n  \"explanation\": \"The constraint 'UAV must eventually return to base' is a liveness property, indicating that the UAV will eventually reach the 'at_base' state. This perfectly aligns with the 'eventual_completion' pattern and the corresponding UPPAAL operator 'A<>', which means 'eventually'. 'UAV.at_base' represents the UAV being at the base.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> UAV.at_base",
+              "explanation": "The constraint 'UAV must eventually return to base' is a liveness property, indicating that the UAV will eventually reach the 'at_base' state. This perfectly aligns with the 'eventual_completion' pattern and the corresponding UPPAAL operator 'A<>', which means 'eventually'. 'UAV.at_base' represents the UAV being at the base.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> UAV.at_base"
+          },
+          "total_time": 2.3883490562438965,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "classification": {
+            "step": "classification",
+            "timing": 8.058392763137817,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"UAV\",\n    \"safe distance\",\n    \"obstacles\",\n    \"maintain\"\n  ],\n  \"cues\": [\n    \"must\",\n    \"<\",\n    \">\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.466057062149048,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (UAV.distance_to_obstacle < 3)\",\n  \"explanation\": \"The constraint \\\"UAV must maintain a safe distance\\\" is a safety property, meaning a certain bad state must never be reached. The 'forbidden_state' pattern `A[] not (bad_state)` is used to express this. The bad state is defined as the UAV's distance to an obstacle being less than 3 meters (`UAV.distance_to_obstacle < 3`). The query ensures that this condition is never met throughout any possible execution.\",\n  \"confidence\": 0.98,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (UAV.distance_to_obstacle < 3)",
+              "explanation": "The constraint \"UAV must maintain a safe distance\" is a safety property, meaning a certain bad state must never be reached. The 'forbidden_state' pattern `A[] not (bad_state)` is used to express this. The bad state is defined as the UAV's distance to an obstacle being less than 3 meters (`UAV.distance_to_obstacle < 3`). The query ensures that this condition is never met throughout any possible execution.",
+              "confidence": 0.98,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (UAV.distance_to_obstacle < 3)"
+          },
+          "total_time": 23.55240297317505,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "UAV must eventually return to base",
+          "classification": {
+            "step": "classification",
+            "timing": 9.275822877883911,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"uav\",\n    \"return\",\n    \"base\"\n  ],\n  \"cues\": [\n    \"must\",\n    \"eventually\"\n  ],\n  \"response_text\": \"return to base\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.06695294380188,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> UAV.at_base\",\n  \"explanation\": \"The constraint 'must eventually' specifies a liveness property, requiring that a state is reached in all possible futures. The UPPAAL operator 'A<>' (Always Eventually) perfectly captures this, ensuring that for all paths, the state 'UAV.at_base' is eventually reached.\",\n  \"confidence\": 0.98,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> UAV.at_base",
+              "explanation": "The constraint 'must eventually' specifies a liveness property, requiring that a state is reached in all possible futures. The UPPAAL operator 'A<>' (Always Eventually) perfectly captures this, ensuring that for all paths, the state 'UAV.at_base' is eventually reached.",
+              "confidence": 0.98,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> UAV.at_base"
+          },
+          "total_time": 20.36591601371765,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    }
+  ]
+}

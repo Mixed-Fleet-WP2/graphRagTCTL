@@ -1,0 +1,2186 @@
+{
+  "id": "scenario_016",
+  "domain": "logistics",
+  "prompt": "Two sorting robots coordinate on a conveyor. If a package is misaligned, SorterA stops the belt while SorterB repositions it. Once corrected, both return to normal operation. Belt must not stop for more than 10 seconds.",
+  "robots": [
+    "SorterA",
+    "SorterB",
+    "Conveyor"
+  ],
+  "constraints": [
+    "SorterA stops conveyor when misalignment detected",
+    "SorterB corrects package alignment before resuming",
+    "SorterA returns to normal operation once the package is corrected",
+    "SorterB returns to normal operation once the package is corrected",
+    "Conveyor must not stop for more than 10 seconds"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.6020171642303467,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"SorterA\",\"stops\",\"conveyor\",\"misalignment\",\"detected\",\"stop on fault\",\"safety interlock\"],\"cues\":[\"when\"],\"trigger_text\":\"misalignment detected\",\"response_text\":\"SorterA stops conveyor\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.5716540813446045,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"misalignment_detected --> SorterA.stops_conveyor\",\"explanation\":\"The constraint states that when a misalignment is detected, SorterA must (eventually) stop the conveyor. This is a conditional eventual response, so the conditional_response pattern with the --> operator is appropriate. The left side models the trigger condition (misalignment_detected), and the right side models the required response state/action (SorterA.stops_conveyor), ensuring that whenever a misalignment is detected, SorterA will eventually stop the conveyor.\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "misalignment_detected --> SorterA.stops_conveyor",
+              "explanation": "The constraint states that when a misalignment is detected, SorterA must (eventually) stop the conveyor. This is a conditional eventual response, so the conditional_response pattern with the --> operator is appropriate. The left side models the trigger condition (misalignment_detected), and the right side models the required response state/action (SorterA.stops_conveyor), ensuring that whenever a misalignment is detected, SorterA will eventually stop the conveyor.",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "misalignment_detected --> SorterA.stops_conveyor"
+          },
+          "total_time": 4.193368196487427,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SorterB corrects package alignment before resuming",
+          "classification": {
+            "step": "classification",
+            "timing": 2.64843487739563,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"SorterB\",\"corrects\",\"package alignment\",\"before\",\"resuming\",\"sequence\",\"ordering\"],\"cues\":[\"before\"],\"trigger_text\":\"SorterB corrects package alignment\",\"response_text\":\"resuming\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.1461689472198486,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"SorterB.corrects_alignment --> SorterB.resuming\",\"explanation\":\"The constraint says that SorterB must correct the package alignment before resuming. This is a sequential workflow where one action must eventually be followed by another, so the pattern action1 --> action2 is used. Here, SorterB.corrects_alignment represents the event/state where package alignment is corrected, and SorterB.resuming represents the resuming action. The query asserts that whenever SorterB.corrects_alignment occurs, it is eventually followed by SorterB.resuming, capturing the required ordering (correction before resumption).\",\"confidence\":0.88,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "SorterB.corrects_alignment --> SorterB.resuming",
+              "explanation": "The constraint says that SorterB must correct the package alignment before resuming. This is a sequential workflow where one action must eventually be followed by another, so the pattern action1 --> action2 is used. Here, SorterB.corrects_alignment represents the event/state where package alignment is corrected, and SorterB.resuming represents the resuming action. The query asserts that whenever SorterB.corrects_alignment occurs, it is eventually followed by SorterB.resuming, capturing the required ordering (correction before resumption).",
+              "confidence": 0.88,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SorterB.corrects_alignment --> SorterB.resuming"
+          },
+          "total_time": 4.81542181968689,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7104392051696777,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"SorterA\",\"returns to normal operation\",\"package is corrected\",\"recovery\",\"eventual\"],\"cues\":[\"once\"],\"trigger_text\":\"the package is corrected\",\"response_text\":\"SorterA returns to normal operation\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.3193259239196777,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (package_corrected --> A<> SorterA.normal_operation)\",\"explanation\":\"The constraint says that once the package is corrected, SorterA must (at some point) return to normal operation. The antecedent is modeled as the state predicate `package_corrected`, and the required eventual behavior as `A<> SorterA.normal_operation`. The overall property is universally quantified over all paths (`A[]`), and `-->` expresses the conditional eventual response from correction to normal operation.\",\"confidence\":0.84,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (package_corrected --> A<> SorterA.normal_operation)",
+              "explanation": "The constraint says that once the package is corrected, SorterA must (at some point) return to normal operation. The antecedent is modeled as the state predicate `package_corrected`, and the required eventual behavior as `A<> SorterA.normal_operation`. The overall property is universally quantified over all paths (`A[]`), and `-->` expresses the conditional eventual response from correction to normal operation.",
+              "confidence": 0.84,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (package_corrected --> A<> SorterA.normal_operation)"
+          },
+          "total_time": 4.05687689781189,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7760140895843506,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"SorterB\",\"returns to normal operation\",\"once\",\"package is corrected\",\"restoration\",\"recovery\"],\"cues\":[\"once\"],\"trigger_text\":\"package is corrected\",\"response_text\":\"SorterB returns to normal operation\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.437370777130127,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> SorterB.normal_operation && package_corrected\",\"explanation\":\"The constraint states that the system must eventually reach a situation where the package has been corrected and SorterB has returned to normal operation. Using the eventual-completion pattern, A<> expresses that this desired state (SorterB in normal_operation with the package_corrected) must occur at some point on all possible executions.\",\"confidence\":0.79,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> SorterB.normal_operation && package_corrected",
+              "explanation": "The constraint states that the system must eventually reach a situation where the package has been corrected and SorterB has returned to normal operation. Using the eventual-completion pattern, A<> expresses that this desired state (SorterB in normal_operation with the package_corrected) must occur at some point on all possible executions.",
+              "confidence": 0.79,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> SorterB.normal_operation && package_corrected"
+          },
+          "total_time": 4.24062705039978,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 1.554076910018921,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"conveyor\",\"must not stop\",\"more than 10 seconds\",\"time limit\",\"duration\"],\"cues\":[\"must\",\"not\",\">\",\"seconds\"],\"trigger_text\":\"conveyor stops\",\"response_text\":\"conveyor restarts within 10 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.5635998249053955,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Conveyor.stopped imply Conveyor.t <= 10)\",\"explanation\":\"Models that whenever the conveyor is in the stopped state, the associated clock t (assumed to be reset when it stops) can never exceed 10 seconds. This directly encodes that the conveyor must not remain stopped for more than 10 seconds at any time.\",\"confidence\":0.9,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"A[]\",\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (Conveyor.stopped imply Conveyor.t <= 10)",
+              "explanation": "Models that whenever the conveyor is in the stopped state, the associated clock t (assumed to be reset when it stops) can never exceed 10 seconds. This directly encodes that the conveyor must not remain stopped for more than 10 seconds at any time.",
+              "confidence": 0.9,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Conveyor.stopped imply Conveyor.t <= 10)"
+          },
+          "total_time": 4.145715951919556,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "classification": {
+            "step": "classification",
+            "timing": 10.11554217338562,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"stop\",\"stops\",\"conveyor\",\"misalignment\",\"detected\",\"SorterA\",\"halt\",\"safety\",\"immediate\"],\"cues\":[\"when\",\"detected\",\"stop\",\"stops\"],\"trigger_text\":\"misalignment detected\",\"response_text\":\"SorterA stops conveyor\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.85921835899353,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)\",\"explanation\":\"This enforces an immediate safety response: whenever SorterA detects a misalignment, the conveyor must be in the stopped state at that same instant. A[] ensures the property always holds globally, and 'imply' enforces the instantaneous reaction from trigger to safety action.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)",
+              "explanation": "This enforces an immediate safety response: whenever SorterA detects a misalignment, the conveyor must be in the stopped state at that same instant. A[] ensures the property always holds globally, and 'imply' enforces the instantaneous reaction from trigger to safety action.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)"
+          },
+          "total_time": 26.001179218292236,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SorterB corrects package alignment before resuming",
+          "classification": {
+            "step": "classification",
+            "timing": 9.901092052459717,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"SorterB\",\"corrects\",\"package alignment\",\"alignment correction\",\"resuming\",\"before resume\",\"resume\"],\"cues\":[\"before\",\"must\",\"corrects\",\"resuming\",\"when\",\"then\"],\"trigger_text\":\"resuming\",\"response_text\":\"SorterB corrects package alignment\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 18.92590594291687,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"SorterB.corrects_alignment --> SorterB.resuming\",\"explanation\":\"Using the sequential_workflow pattern: this query states that the alignment-correction action by SorterB is followed by (and thus occurs before) the SorterB resuming action, ensuring correction precedes resuming.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "SorterB.corrects_alignment --> SorterB.resuming",
+              "explanation": "Using the sequential_workflow pattern: this query states that the alignment-correction action by SorterB is followed by (and thus occurs before) the SorterB resuming action, ensuring correction precedes resuming.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SorterB.corrects_alignment --> SorterB.resuming"
+          },
+          "total_time": 28.86148691177368,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 9.18968391418457,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"SorterA\",\"normal operation\",\"package corrected\",\"corrected package\",\"return to normal\",\"restore operation\"],\"cues\":[\"once\",\"when\",\"after\",\"then\",\"returns\",\"corrected\",\"normal\"],\"trigger_text\":\"package is corrected\",\"response_text\":\"SorterA returns to normal operation\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.262019157409668,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(SorterA.package_corrected) --> (SorterA.normal_operation)\",\n  \"explanation\": \"This encodes the conditional response: when the package is corrected (SorterA.package_corrected), SorterA must eventually return to normal operation (SorterA.normal_operation). It uses the conditional_response '-->' operator to represent the triggered eventual behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}",
+            "uppaal_result": {
+              "query": "(SorterA.package_corrected) --> (SorterA.normal_operation)",
+              "explanation": "This encodes the conditional response: when the package is corrected (SorterA.package_corrected), SorterA must eventually return to normal operation (SorterA.normal_operation). It uses the conditional_response '-->' operator to represent the triggered eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(SorterA.package_corrected) --> (SorterA.normal_operation)"
+          },
+          "total_time": 25.477468013763428,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 8.274141073226929,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"SorterB\",\n    \"returns to normal\",\n    \"normal operation\",\n    \"package\",\n    \"corrected\",\n    \"once\"\n  ],\n  \"cues\": [\n    \"once\",\n    \"when\",\n    \"after\",\n    \"then\"\n  ],\n  \"trigger_text\": \"package is corrected\",\n  \"response_text\": \"SorterB returns to normal operation\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.780928611755371,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(package.corrected) --> (SorterB.normal_operation)\",\"explanation\":\"This encodes the conditional-response: when the condition 'package.corrected' becomes true, it must eventually lead to the response 'SorterB.normal_operation'. The '-->' operator expresses the triggered eventual behavior (conditional_response) rather than an immediate same-state implication.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(package.corrected) --> (SorterB.normal_operation)",
+              "explanation": "This encodes the conditional-response: when the condition 'package.corrected' becomes true, it must eventually lead to the response 'SorterB.normal_operation'. The '-->' operator expresses the triggered eventual behavior (conditional_response) rather than an immediate same-state implication.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(package.corrected) --> (SorterB.normal_operation)"
+          },
+          "total_time": 21.08021306991577,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 8.070670127868652,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"conveyor\",\"stop\",\"stop duration\",\"downtime\",\"seconds\",\"10\",\"must not\",\"maximum duration\"],\"cues\":[\"must\",\"not\",\"more than\",\"seconds\",\">\",\"must not stop\",\"stop for\"],\"trigger_text\":\"Conveyor stops (stop start time)\",\"response_text\":\"Stop duration must be <= 10 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.689635992050171,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (Conveyor.stopped imply stop_timer <= 10)\",\n  \"explanation\": \"This safety property enforces a time-bounded constraint: whenever the Conveyor is in the 'stopped' state, the clock stop_timer (assumed reset when the stop begins) must never exceed 10 seconds, ensuring the conveyor does not remain stopped for more than 10 seconds.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Conveyor.stopped imply stop_timer <= 10)",
+              "explanation": "This safety property enforces a time-bounded constraint: whenever the Conveyor is in the 'stopped' state, the clock stop_timer (assumed reset when the stop begins) must never exceed 10 seconds, ensuring the conveyor does not remain stopped for more than 10 seconds.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Conveyor.stopped imply stop_timer <= 10)"
+          },
+          "total_time": 19.782567977905273,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "classification": {
+            "step": "classification",
+            "timing": 12.953558921813965,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"stop\",\"conveyor\",\"misalignment\",\"safety\",\"emergency_stop\",\"detected\"],\"cues\":[\"when\",\"after\",\"then\",\"eventually\",\"never\",\"must\",\"can\",\"<\",\">\",\"%\"],\"trigger_text\":\"misalignment detected\",\"response_text\":\"stop conveyor\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.748480796813965,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)\",\"explanation\":\"This encodes an immediate safety rule: whenever misalignment_detected holds, the conveyor must be stopped right away (SorterA.conveyor_stopped). It matches the required template A[] (trigger_condition imply safety_action) for a safety_immediate_response.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)",
+              "explanation": "This encodes an immediate safety rule: whenever misalignment_detected holds, the conveyor must be stopped right away (SorterA.conveyor_stopped). It matches the required template A[] (trigger_condition imply safety_action) for a safety_immediate_response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)"
+          },
+          "total_time": 23.7395281791687,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SorterB corrects package alignment before resuming",
+          "classification": {
+            "step": "classification",
+            "timing": 14.156682014465332,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"SorterB\",\"alignment\",\"resume\",\"sequential\"],\"cues\":[\"before\",\"after\",\"then\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.021026134490967,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"SorterB.alignment_correct --> SorterB.resume\",\"explanation\":\"Captures that after SorterB completes alignment correction, the next action is to resume operation, encoding 'before resuming' as a sequential_workflow relation.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "SorterB.alignment_correct --> SorterB.resume",
+              "explanation": "Captures that after SorterB completes alignment correction, the next action is to resume operation, encoding 'before resuming' as a sequential_workflow relation.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SorterB.alignment_correct --> SorterB.resume"
+          },
+          "total_time": 28.200317859649658,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 12.321228265762329,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"SorterA\",\"normal operation\",\"package\",\"corrected\",\"return\",\"condition\",\"resume\"],\"cues\":[\"after\",\"then\",\"when\",\"eventually\"],\"trigger_text\":\"SorterA returns to normal operation once the package is corrected\",\"response_text\":\"SorterA resumes normal operation\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.60775399208069,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"SorterA.package_corrected --> SorterA.normal_operation\",\"explanation\":\"Encodes the conditional_response pattern: when the condition 'SorterA.package_corrected' becomes true, the system transitions to SorterA.normal_operation as the response.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "SorterA.package_corrected --> SorterA.normal_operation",
+              "explanation": "Encodes the conditional_response pattern: when the condition 'SorterA.package_corrected' becomes true, the system transitions to SorterA.normal_operation as the response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SorterA.package_corrected --> SorterA.normal_operation"
+          },
+          "total_time": 29.944905281066895,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 17.658082246780396,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"package corrected\",\"normal operation\",\"SorterB\",\"constraint\"],\"cues\":[\"after\",\"then\",\"when\",\"eventually\"],\"trigger_text\":\"once the package is corrected\",\"response_text\":\"SorterB returns to normal operation\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.235760927200317,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(package_corrected) --> SorterB.normal_operation\",\"explanation\":\"Follows conditional_response: when the condition 'package_corrected' becomes true, SorterB moves to the response state 'normal_operation'.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(package_corrected) --> SorterB.normal_operation",
+              "explanation": "Follows conditional_response: when the condition 'package_corrected' becomes true, SorterB moves to the response state 'normal_operation'.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(package_corrected) --> SorterB.normal_operation"
+          },
+          "total_time": 32.92405295372009,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 11.38918924331665,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"conveyor\",\"time\",\"10 seconds\",\"constraint\",\"stop\"],\"cues\":[\"must\",\"never\",\"after\",\"then\",\"when\"],\"trigger_text\":\"Conveyor must not stop for more than 10 seconds\",\"response_text\":\"Enforce a maximum stop duration of 10 seconds; monitor stop times and trigger automatic restart or alert if the limit is exceeded.\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 28.914793252944946,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (Conveyor.stopped --> clock <= 10)\",\"explanation\":\"This UPPAAL property enforces that whenever the conveyor is in the stopped state, the elapsed time (clock) cannot exceed 10 seconds. It matches 'Conveyor must not stop for more than 10 seconds' by bounding the duration spent in the stopped state; the clock should reset upon entering the stopped state.\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (Conveyor.stopped --> clock <= 10)",
+              "explanation": "This UPPAAL property enforces that whenever the conveyor is in the stopped state, the elapsed time (clock) cannot exceed 10 seconds. It matches 'Conveyor must not stop for more than 10 seconds' by bounding the duration spent in the stopped state; the clock should reset upon entering the stopped state.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Conveyor.stopped --> clock <= 10)"
+          },
+          "total_time": 40.328421115875244,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4129648208618164,
+            "tokens": 196,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"stops\", \"misalignment\", \"detected\"],\n    \"cues\": [\"when\"],\n    \"trigger_text/response_text\": {\n        \"trigger_text\": \"misalignment detected\",\n        \"response_text\": \"SorterA stops conveyor\"\n    }\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.1355860233306885,
+            "tokens": 658,
+            "raw_text": "{\n  \"query\": \"A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)\",\n  \"explanation\": \"The query follows the 'safety_immediate_response' pattern, which requires an immediate response to a dangerous condition. The constraint specifies that the conveyor must stop when a misalignment is detected, indicating an immediate safety action. The 'imply' operator is used to ensure that the response is instantaneous, as required by the pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)",
+              "explanation": "The query follows the 'safety_immediate_response' pattern, which requires an immediate response to a dangerous condition. The constraint specifies that the conveyor must stop when a misalignment is detected, indicating an immediate safety action. The 'imply' operator is used to ensure that the response is instantaneous, as required by the pattern.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)"
+          },
+          "total_time": 3.563706874847412,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SorterB corrects package alignment before resuming",
+          "classification": {
+            "step": "classification",
+            "timing": 1.6270718574523926,
+            "tokens": 195,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"corrects\", \"before\", \"resuming\"],\n  \"cues\": [\"before\"],\n  \"trigger_text/response_text\": {\n    \"trigger_text\": \"SorterB corrects package alignment\",\n    \"response_text\": \"resuming\"\n  }\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7854018211364746,
+            "tokens": 552,
+            "raw_text": "{\n  \"query\": \"SorterB.corrects_package_alignment --> SorterB.resuming\",\n  \"explanation\": \"The constraint specifies that the action of correcting package alignment must occur before the action of resuming. This aligns with the 'sequential_workflow' pattern where one action eventually follows another. The '-->' operator is used to represent this eventual sequence.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "SorterB.corrects_package_alignment --> SorterB.resuming",
+              "explanation": "The constraint specifies that the action of correcting package alignment must occur before the action of resuming. This aligns with the 'sequential_workflow' pattern where one action eventually follows another. The '-->' operator is used to represent this eventual sequence.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SorterB.corrects_package_alignment --> SorterB.resuming"
+          },
+          "total_time": 3.4343349933624268,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1483521461486816,
+            "tokens": 187,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"returns to normal operation\", \"once\", \"corrected\"],\n  \"cues\": [\"once\"],\n  \"trigger_text\": \"package is corrected\",\n  \"response_text\": \"SorterA returns to normal operation\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.116307020187378,
+            "tokens": 585,
+            "raw_text": "{\n  \"query\": \"Package.corrected --> SorterA.normal_operation\",\n  \"explanation\": \"The constraint describes a conditional response where SorterA returns to normal operation once the package is corrected. This aligns with the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The '-->' operator is appropriate here as it represents an eventual triggered behavior, matching the sequential workflow described in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Package.corrected --> SorterA.normal_operation",
+              "explanation": "The constraint describes a conditional response where SorterA returns to normal operation once the package is corrected. This aligns with the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The '-->' operator is appropriate here as it represents an eventual triggered behavior, matching the sequential workflow described in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Package.corrected --> SorterA.normal_operation"
+          },
+          "total_time": 4.289029121398926,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1483399868011475,
+            "tokens": 187,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"returns to normal operation\", \"once\", \"corrected\"],\n  \"cues\": [\"once\"],\n  \"trigger_text\": \"package is corrected\",\n  \"response_text\": \"SorterB returns to normal operation\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.132274866104126,
+            "tokens": 584,
+            "raw_text": "{\n  \"query\": \"Package.corrected --> SorterB.normal_operation\",\n  \"explanation\": \"The constraint describes a conditional response pattern where SorterB returns to normal operation once the package is corrected. This aligns with the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The 'once' keyword indicates a sequential workflow, making the '-->' operator appropriate for this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Package.corrected --> SorterB.normal_operation",
+              "explanation": "The constraint describes a conditional response pattern where SorterB returns to normal operation once the package is corrected. This aligns with the 'conditional_response' pattern, which is used for triggered behaviors where a condition leads to an eventual action. The 'once' keyword indicates a sequential workflow, making the '-->' operator appropriate for this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Package.corrected --> SorterB.normal_operation"
+          },
+          "total_time": 3.3022098541259766,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 1.6236469745635986,
+            "tokens": 169,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"stop\", \"10 seconds\"],\n  \"cues\": [\"must not\", \"for more than\", \"seconds\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8646469116210938,
+            "tokens": 723,
+            "raw_text": "{\n  \"query\": \"A[] (Conveyor.stopped imply clock <= 10)\",\n  \"explanation\": \"The query ensures that the conveyor does not remain in the stopped state for more than 10 seconds, aligning with the constraint that it must not stop for more than 10 seconds. The 'imply' operator is used to enforce the immediate response requirement within the specified time bound.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Conveyor.stopped imply clock <= 10)",
+              "explanation": "The query ensures that the conveyor does not remain in the stopped state for more than 10 seconds, aligning with the constraint that it must not stop for more than 10 seconds. The 'imply' operator is used to enforce the immediate response requirement within the specified time bound.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Conveyor.stopped imply clock <= 10)"
+          },
+          "total_time": 3.506736993789673,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "classification": {
+            "step": "classification",
+            "timing": 3.1362600326538086,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"SorterA\", \"stops\", \"conveyor\", \"misalignment\", \"detected\"],\n  \"cues\": [\"when\", \"stops\"],\n  \"trigger_text\": \"misalignment detected\",\n  \"response_text\": \"SorterA stops conveyor\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.570939064025879,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)\",\n  \"explanation\": \"This query ensures that whenever misalignment is detected in SorterA, the conveyor must be stopped immediately in the same state. The A[] operator ensures this safety property holds globally, and imply enforces the immediate response without any delay between the trigger condition and the safety action.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)",
+              "explanation": "This query ensures that whenever misalignment is detected in SorterA, the conveyor must be stopped immediately in the same state. The A[] operator ensures this safety property holds globally, and imply enforces the immediate response without any delay between the trigger condition and the safety action.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)"
+          },
+          "total_time": 7.73003888130188,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SorterB corrects package alignment before resuming",
+          "classification": {
+            "step": "classification",
+            "timing": 3.7732222080230713,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"SorterB\", \"corrects\", \"package\", \"alignment\", \"before\", \"resuming\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"corrects package alignment\",\n  \"response_text\": \"resuming\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.283663272857666,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"SorterB.correcting_alignment --> SorterB.resuming\",\n  \"explanation\": \"This query captures the sequential workflow where SorterB must correct package alignment before resuming operations. The --> operator ensures that after entering the correcting_alignment state, SorterB will eventually transition to the resuming state, enforcing the temporal ordering required by the constraint.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "SorterB.correcting_alignment --> SorterB.resuming",
+              "explanation": "This query captures the sequential workflow where SorterB must correct package alignment before resuming operations. The --> operator ensures that after entering the correcting_alignment state, SorterB will eventually transition to the resuming state, enforcing the temporal ordering required by the constraint.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SorterB.correcting_alignment --> SorterB.resuming"
+          },
+          "total_time": 8.081907987594604,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 3.562603712081909,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"returns\", \"normal operation\", \"once\", \"corrected\", \"SorterA\"],\n  \"cues\": [\"once\", \"returns to\"],\n  \"trigger_text\": \"package is corrected\",\n  \"response_text\": \"SorterA returns to normal operation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.4846718311309814,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (package_corrected imply SorterA.normal_operation)\",\n  \"explanation\": \"This query verifies that eventually a state is reached where if the package is corrected, SorterA is in normal operation. The A<> operator ensures this condition must eventually hold, capturing both the trigger (package corrected) and the response (normal operation) required by the constraint.\",\n  \"confidence\": 0.78,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (package_corrected imply SorterA.normal_operation)",
+              "explanation": "This query verifies that eventually a state is reached where if the package is corrected, SorterA is in normal operation. The A<> operator ensures this condition must eventually hold, capturing both the trigger (package corrected) and the response (normal operation) required by the constraint.",
+              "confidence": 0.78,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (package_corrected imply SorterA.normal_operation)"
+          },
+          "total_time": 8.074421167373657,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 3.051038980484009,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"returns\", \"normal operation\", \"once\", \"corrected\"],\n  \"cues\": [\"once\"],\n  \"trigger_text\": \"package is corrected\",\n  \"response_text\": \"SorterB returns to normal operation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.996143102645874,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (SorterB.corrected imply SorterB.normal_operation)\",\n  \"explanation\": \"This query verifies that eventually a state is reached where if the package is corrected, SorterB is in normal operation. The A<> operator ensures this condition must eventually hold, and imply captures the causal relationship between correction and return to normal operation within the same eventual state.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (SorterB.corrected imply SorterB.normal_operation)",
+              "explanation": "This query verifies that eventually a state is reached where if the package is corrected, SorterB is in normal operation. The A<> operator ensures this condition must eventually hold, and imply captures the causal relationship between correction and return to normal operation within the same eventual state.",
+              "confidence": 0.82,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (SorterB.corrected imply SorterB.normal_operation)"
+          },
+          "total_time": 8.070853233337402,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 3.679142951965332,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"conveyor\", \"stop\", \"10 seconds\", \"must not\"],\n  \"cues\": [\"must not\", \"more than\", \">\"],\n  \"trigger_text\": \"Conveyor stop\",\n  \"response_text\": \"Duration must not exceed 10 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.784101247787476,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Conveyor.stopped imply clock <= 10)\",\n  \"explanation\": \"This query enforces that whenever the Conveyor is in the stopped state, the clock must not exceed 10 seconds. The A[] operator ensures this is always true, and 'imply' checks the time constraint immediately in the stopped state. The clock should be reset when entering the stopped state.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Conveyor.stopped imply clock <= 10)",
+              "explanation": "This query enforces that whenever the Conveyor is in the stopped state, the clock must not exceed 10 seconds. The A[] operator ensures this is always true, and 'imply' checks the time constraint immediately in the stopped state. The clock should be reset when entering the stopped state.",
+              "confidence": 0.9,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Conveyor.stopped imply clock <= 10)"
+          },
+          "total_time": 8.493850946426392,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0147719383239746,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"SorterA\", \"stops\", \"conveyor\", \"misalignment\", \"detected\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"misalignment detected\",\n  \"response_text\": \"stops conveyor\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.239748239517212,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)\",\n  \"explanation\": \"The constraint describes an immediate safety response: when misalignment is detected, the conveyor must stop RIGHT NOW with no delay. This matches the safety_immediate_response pattern. The 'when' cue and safety context (stopping a conveyor due to misalignment) indicate an instantaneous response requirement. Using A[] ensures this implication holds in ALL states, and 'imply' ensures the consequence (conveyor_stopped) is true in the same state where the trigger (misalignment_detected) occurs.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)",
+              "explanation": "The constraint describes an immediate safety response: when misalignment is detected, the conveyor must stop RIGHT NOW with no delay. This matches the safety_immediate_response pattern. The 'when' cue and safety context (stopping a conveyor due to misalignment) indicate an instantaneous response requirement. Using A[] ensures this implication holds in ALL states, and 'imply' ensures the consequence (conveyor_stopped) is true in the same state where the trigger (misalignment_detected) occurs.",
+              "confidence": 0.92,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SorterA.misalignment_detected imply SorterA.conveyor_stopped)"
+          },
+          "total_time": 3.271559000015259,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SorterB corrects package alignment before resuming",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1382389068603516,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"SorterB\", \"corrects\", \"package alignment\", \"resuming\", \"before\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"package misalignment detected\",\n  \"response_text\": \"SorterB corrects package alignment and resumes operation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9608020782470703,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"SorterB.correcting_alignment --> SorterB.resuming\",\n  \"explanation\": \"The constraint describes a sequential workflow where SorterB must correct package alignment before (i.e., as a prerequisite to) resuming operation. The 'before' keyword indicates a temporal ordering where correction is the trigger that enables resumption. This matches the sequential_workflow pattern with the --> operator, indicating that the correcting_alignment state/action eventually leads to the resuming state/action.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "SorterB.correcting_alignment --> SorterB.resuming",
+              "explanation": "The constraint describes a sequential workflow where SorterB must correct package alignment before (i.e., as a prerequisite to) resuming operation. The 'before' keyword indicates a temporal ordering where correction is the trigger that enables resumption. This matches the sequential_workflow pattern with the --> operator, indicating that the correcting_alignment state/action eventually leads to the resuming state/action.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SorterB.correcting_alignment --> SorterB.resuming"
+          },
+          "total_time": 3.121861219406128,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.3466031551361084,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"returns to normal operation\", \"once\", \"package is corrected\"],\n  \"cues\": [\"once\", \"corrected\"],\n  \"trigger_text\": \"package is corrected\",\n  \"response_text\": \"SorterA returns to normal operation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7201688289642334,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"package_corrected --> SorterA.normal_operation\",\n  \"explanation\": \"The constraint describes a conditional response pattern where the condition 'package is corrected' triggers the eventual response 'SorterA returns to normal operation'. The '-->' operator is appropriate here because it represents a sequential workflow where the correction of the package leads to SorterA transitioning to normal operation state. This is not an immediate response but rather an eventual behavior triggered by the condition.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "package_corrected --> SorterA.normal_operation",
+              "explanation": "The constraint describes a conditional response pattern where the condition 'package is corrected' triggers the eventual response 'SorterA returns to normal operation'. The '-->' operator is appropriate here because it represents a sequential workflow where the correction of the package leads to SorterA transitioning to normal operation state. This is not an immediate response but rather an eventual behavior triggered by the condition.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "package_corrected --> SorterA.normal_operation"
+          },
+          "total_time": 3.0877280235290527,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1735529899597168,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"returns to normal operation\", \"once\", \"package corrected\", \"SorterB\"],\n  \"cues\": [\"once\", \"returns\"],\n  \"trigger_text\": \"package is corrected\",\n  \"response_text\": \"SorterB returns to normal operation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.1789000034332275,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"package_corrected --> A<> SorterB.normal_operation\",\n  \"explanation\": \"This constraint describes a triggered liveness property: once the package is corrected (trigger), SorterB must eventually return to normal operation (response). The '-->' operator captures the sequential workflow where the trigger precondition must be satisfied before the eventual completion property applies. The A<> ensures that SorterB's return to normal operation is a global liveness requirement that must eventually occur after correction.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\", \"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "package_corrected --> A<> SorterB.normal_operation",
+              "explanation": "This constraint describes a triggered liveness property: once the package is corrected (trigger), SorterB must eventually return to normal operation (response). The '-->' operator captures the sequential workflow where the trigger precondition must be satisfied before the eventual completion property applies. The A<> ensures that SorterB's return to normal operation is a global liveness requirement that must eventually occur after correction.",
+              "confidence": 0.88,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->",
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "package_corrected --> A<> SorterB.normal_operation"
+          },
+          "total_time": 4.371368885040283,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2330610752105713,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"conveyor\", \"stop\", \"10 seconds\", \"duration limit\"],\n  \"cues\": [\"not\", \"more than\", \"10 seconds\"],\n  \"trigger_text\": \"conveyor stops\",\n  \"response_text\": \"must resume within 10 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.3484673500061035,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Conveyor.stopped imply clock <= 10)\",\n  \"explanation\": \"The constraint requires that whenever the conveyor is in a stopped state, it must not remain stopped for more than 10 seconds. This uses A[] (universal always) to enforce that the safety property holds globally. The 'imply' operator ensures that at ANY moment the conveyor is stopped, the elapsed time (clock) must be <= 10 seconds. If this condition is violated, the property fails, preventing the conveyor from stopping for longer than the allowed duration.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Conveyor.stopped imply clock <= 10)",
+              "explanation": "The constraint requires that whenever the conveyor is in a stopped state, it must not remain stopped for more than 10 seconds. This uses A[] (universal always) to enforce that the safety property holds globally. The 'imply' operator ensures that at ANY moment the conveyor is stopped, the elapsed time (clock) must be <= 10 seconds. If this condition is violated, the property fails, preventing the conveyor from stopping for longer than the allowed duration.",
+              "confidence": 0.92,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Conveyor.stopped imply clock <= 10)"
+          },
+          "total_time": 3.608715057373047,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "classification": {
+            "step": "classification",
+            "timing": 7.349576950073242,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"stops\", \"when\", \"detected\"], \"cues\": [\"when\"], \"trigger_text\": \"misalignment detected\", \"response_text\": \"SorterA stops conveyor\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.269604921340942,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"misalignment_detected --> SorterA.stops_conveyor\", \"explanation\": \"This matches the conditional_response pattern where misalignment detection triggers an eventual response of SorterA stopping the conveyor, using the --> operator for sequential eventual behavior.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "misalignment_detected --> SorterA.stops_conveyor",
+              "explanation": "This matches the conditional_response pattern where misalignment detection triggers an eventual response of SorterA stopping the conveyor, using the --> operator for sequential eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "misalignment_detected --> SorterA.stops_conveyor"
+          },
+          "total_time": 19.64234185218811,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SorterB corrects package alignment before resuming",
+          "classification": {
+            "step": "classification",
+            "timing": 10.346330165863037,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"corrects\", \"before\", \"resuming\"], \"cues\": [\"before\"]}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.584450960159302,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"SorterB.correcting --> SorterB.resuming\", \"explanation\": \"The constraint specifies that SorterB corrects package alignment before resuming, indicating a sequential workflow where the correcting action eventually leads to the resuming action, matching the pattern's template of action1 --> action2.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "SorterB.correcting --> SorterB.resuming",
+              "explanation": "The constraint specifies that SorterB corrects package alignment before resuming, indicating a sequential workflow where the correcting action eventually leads to the resuming action, matching the pattern's template of action1 --> action2.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SorterB.correcting --> SorterB.resuming"
+          },
+          "total_time": 22.055382013320923,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 12.546913146972656,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"returns\",\"normal\",\"operation\",\"corrected\"],\"cues\":[\"once\"],\"trigger_text\":\"the package is corrected\",\"response_text\":\"SorterA returns to normal operation\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.775354862213135,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"package_corrected --> SorterA.normal_operation\", \"explanation\": \"The query uses the conditional_response pattern where the condition 'the package is corrected' (represented as package_corrected) leads to the eventual response 'SorterA returns to normal operation' (represented as SorterA.normal_operation), matching the 'once' cue for eventual behavior.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "package_corrected --> SorterA.normal_operation",
+              "explanation": "The query uses the conditional_response pattern where the condition 'the package is corrected' (represented as package_corrected) leads to the eventual response 'SorterA returns to normal operation' (represented as SorterA.normal_operation), matching the 'once' cue for eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "package_corrected --> SorterA.normal_operation"
+          },
+          "total_time": 25.344678163528442,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 12.798585891723633,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"returns\", \"normal operation\", \"corrected\"], \"cues\": [\"once\"], \"trigger_text\": \"the package is corrected\", \"response_text\": \"SorterB returns to normal operation\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 18.00512194633484,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"package_corrected --> SorterB.normal_operation\", \"explanation\": \"The query uses the --> operator to indicate that once the package is corrected (condition), SorterB eventually returns to normal operation (response), matching the conditional_response pattern for eventual triggered behavior.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "package_corrected --> SorterB.normal_operation",
+              "explanation": "The query uses the --> operator to indicate that once the package is corrected (condition), SorterB eventually returns to normal operation (response), matching the conditional_response pattern for eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "package_corrected --> SorterB.normal_operation"
+          },
+          "total_time": 30.82686495780945,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 11.662018060684204,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"time_bounded_constraint\", \"keywords\": [\"conveyor\", \"stop\"], \"cues\": [\"must\", \"not\", \"more than\"], \"trigger_text\": \"stop\", \"response_text\": \"must not stop for more than 10 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.137664079666138,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] (Conveyor.stopped imply clock <= 10)\", \"explanation\": \"This query uses the time_bounded_constraint pattern to ensure that if the conveyor enters the 'stopped' state, it must not remain in that state for more than 10 seconds, as the clock is implied to be less than or equal to 10 while stopped.\", \"confidence\": 0.85, \"pattern_used\": \"time_bounded_constraint\", \"operator_used\": [\"A[]\", \"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (Conveyor.stopped imply clock <= 10)",
+              "explanation": "This query uses the time_bounded_constraint pattern to ensure that if the conveyor enters the 'stopped' state, it must not remain in that state for more than 10 seconds, as the clock is implied to be less than or equal to 10 while stopped.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Conveyor.stopped imply clock <= 10)"
+          },
+          "total_time": 26.816838264465332,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "classification": {
+            "step": "classification",
+            "timing": 7.068285942077637,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"stops\", \"when\", \"misalignment\", \"detected\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"misalignment detected\",\n  \"response_text\": \"SorterA stops conveyor\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.585042953491211,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(misalignment_detected) --> (SorterA.conveyor_stopped)\",\n  \"explanation\": \"This query uses the --> operator to indicate that when misalignment is detected, SorterA will eventually stop the conveyor, directly matching the conditional response pattern where a condition leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(misalignment_detected) --> (SorterA.conveyor_stopped)",
+              "explanation": "This query uses the --> operator to indicate that when misalignment is detected, SorterA will eventually stop the conveyor, directly matching the conditional response pattern where a condition leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(misalignment_detected) --> (SorterA.conveyor_stopped)"
+          },
+          "total_time": 14.752225160598755,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SorterB corrects package alignment before resuming",
+          "classification": {
+            "step": "classification",
+            "timing": 6.1298651695251465,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"corrects\", \"before\", \"resuming\", \"package alignment\"],\n  \"cues\": [\"before\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.151676893234253,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"SorterB.correcting_alignment --> SorterB.resuming\",\n  \"explanation\": \"The constraint 'SorterB corrects package alignment before resuming' describes a sequential workflow where one action (correcting package alignment) must occur before another (resuming), so the query uses --> to indicate that correcting alignment eventually leads to resuming, matching the pattern template.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "SorterB.correcting_alignment --> SorterB.resuming",
+              "explanation": "The constraint 'SorterB corrects package alignment before resuming' describes a sequential workflow where one action (correcting package alignment) must occur before another (resuming), so the query uses --> to indicate that correcting alignment eventually leads to resuming, matching the pattern template.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SorterB.correcting_alignment --> SorterB.resuming"
+          },
+          "total_time": 17.300225019454956,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 6.440896987915039,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"returns\", \"normal operation\", \"package corrected\", \"once\"],\n  \"cues\": [\"once\"],\n  \"trigger_text\": \"the package is corrected\",\n  \"response_text\": \"SorterA returns to normal operation\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.925173044204712,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"package_corrected --> SorterA.inNormalOperation\",\n  \"explanation\": \"This query matches the constraint because it uses the --> operator to indicate that once the package is corrected (condition), SorterA will eventually return to normal operation (response), aligning with the conditional_response pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "package_corrected --> SorterA.inNormalOperation",
+              "explanation": "This query matches the constraint because it uses the --> operator to indicate that once the package is corrected (condition), SorterA will eventually return to normal operation (response), aligning with the conditional_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "package_corrected --> SorterA.inNormalOperation"
+          },
+          "total_time": 12.387649059295654,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 6.4474968910217285,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"returns\", \"normal\", \"operation\", \"package\", \"corrected\"],\n  \"cues\": [\"once\"],\n  \"trigger_text\": \"once the package is corrected\",\n  \"response_text\": \"returns to normal operation\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.823615074157715,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(package_corrected) --> SorterB.in_normal_operation\",\n  \"explanation\": \"The query matches the constraint by using the --> operator to represent that once the package is corrected (condition), SorterB will eventually return to normal operation (response), aligning with the conditional_response pattern for eventual triggered behaviors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(package_corrected) --> SorterB.in_normal_operation",
+              "explanation": "The query matches the constraint by using the --> operator to represent that once the package is corrected (condition), SorterB will eventually return to normal operation (response), aligning with the conditional_response pattern for eventual triggered behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(package_corrected) --> SorterB.in_normal_operation"
+          },
+          "total_time": 12.290930986404419,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 10.954850912094116,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"conveyor\", \"stop\", \"10 seconds\"],\n  \"cues\": [\"must\", \"not\", \"more than\"],\n  \"trigger_text\": \"stop\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.750387191772461,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (conveyor.stopped imply clock <= 10)\",\n  \"explanation\": \"The query ensures that whenever the conveyor is in the stopped state, the clock does not exceed 10 seconds, enforcing the constraint that the conveyor must not remain stopped for more than 10 seconds, based on the time_bounded_constraint pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (conveyor.stopped imply clock <= 10)",
+              "explanation": "The query ensures that whenever the conveyor is in the stopped state, the clock does not exceed 10 seconds, enforcing the constraint that the conveyor must not remain stopped for more than 10 seconds, based on the time_bounded_constraint pattern.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (conveyor.stopped imply clock <= 10)"
+          },
+          "total_time": 24.73447299003601,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "classification": {
+            "step": "classification",
+            "timing": 34.737812995910645,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"SorterA\", \"stops\", \"conveyor\", \"misalignment\", \"detected\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"misalignment detected\",\n  \"response_text\": \"SorterA stops conveyor\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 89.40370988845825,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"misalignment_detected --> SorterA.stops_conveyor\",\n  \"explanation\": \"The constraint 'SorterA stops conveyor when misalignment detected' uses 'when' to indicate a conditional response where the detection of misalignment triggers the eventual action of SorterA stopping the conveyor. This aligns with the conditional_response pattern (condition --> response), and the '-->' operator is appropriate for modeling eventual triggered behavior, as specified in the pattern context and similar examples like 'System.error_detected --> System.recovery_mode'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "misalignment_detected --> SorterA.stops_conveyor",
+              "explanation": "The constraint 'SorterA stops conveyor when misalignment detected' uses 'when' to indicate a conditional response where the detection of misalignment triggers the eventual action of SorterA stopping the conveyor. This aligns with the conditional_response pattern (condition --> response), and the '-->' operator is appropriate for modeling eventual triggered behavior, as specified in the pattern context and similar examples like 'System.error_detected --> System.recovery_mode'.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "misalignment_detected --> SorterA.stops_conveyor"
+          },
+          "total_time": 124.15670990943909,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SorterB corrects package alignment before resuming",
+          "classification": {
+            "step": "classification",
+            "timing": 65.2095890045166,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"SorterB\", \"corrects\", \"package\", \"alignment\", \"before\", \"resuming\"],\n  \"cues\": [\"before\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 61.81600570678711,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"SorterB.correction_done --> SorterB.resuming\",\n  \"explanation\": \"The constraint 'SorterB corrects package alignment before resuming' indicates a sequential workflow where one action (correction) must occur before another (resumption). The cue 'before' aligns with the sequential_workflow pattern, and the '-->' operator models that eventually, after SorterB completes correction, it resumes operation, as shown in similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "SorterB.correction_done --> SorterB.resuming",
+              "explanation": "The constraint 'SorterB corrects package alignment before resuming' indicates a sequential workflow where one action (correction) must occur before another (resumption). The cue 'before' aligns with the sequential_workflow pattern, and the '-->' operator models that eventually, after SorterB completes correction, it resumes operation, as shown in similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SorterB.correction_done --> SorterB.resuming"
+          },
+          "total_time": 127.05854487419128,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 48.96735429763794,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"SorterA\", \"normal operation\", \"package\", \"corrected\"],\n  \"cues\": [\"once\", \"returns\"],\n  \"trigger_text\": \"package is corrected\",\n  \"response_text\": \"SorterA returns to normal operation\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 61.765527963638306,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(package_corrected) --> (SorterA.normal_operation)\",\n  \"explanation\": \"The constraint uses 'once' as a cue for a conditional relationship, where the condition 'package is corrected' triggers the eventual response 'SorterA returns to normal operation'. This aligns with the conditional_response pattern (condition --> response), and the --> operator is used for eventual triggered behavior, as indicated by the classifier output and similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(package_corrected) --> (SorterA.normal_operation)",
+              "explanation": "The constraint uses 'once' as a cue for a conditional relationship, where the condition 'package is corrected' triggers the eventual response 'SorterA returns to normal operation'. This aligns with the conditional_response pattern (condition --> response), and the --> operator is used for eventual triggered behavior, as indicated by the classifier output and similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(package_corrected) --> (SorterA.normal_operation)"
+          },
+          "total_time": 110.76595115661621,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 39.6545090675354,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"SorterB\", \"returns\", \"normal operation\", \"package\", \"corrected\"],\n  \"cues\": [\"once\"],\n  \"trigger_text\": \"the package is corrected\",\n  \"response_text\": \"SorterB returns to normal operation\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 65.15548729896545,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Package.corrected --> SorterB.normal_operation\",\n  \"explanation\": \"The constraint describes a conditional_response pattern where 'once the package is corrected' is the trigger condition and 'SorterB returns to normal operation' is the eventual response. The '-->' operator is used for sequential workflows and conditional eventual responses, matching the pattern template 'condition --> response' as seen in similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Package.corrected --> SorterB.normal_operation",
+              "explanation": "The constraint describes a conditional_response pattern where 'once the package is corrected' is the trigger condition and 'SorterB returns to normal operation' is the eventual response. The '-->' operator is used for sequential workflows and conditional eventual responses, matching the pattern template 'condition --> response' as seen in similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Package.corrected --> SorterB.normal_operation"
+          },
+          "total_time": 104.83482480049133,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 43.82003688812256,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"conveyor\", \"stop\", \"duration\", \"time_limit\"],\n  \"cues\": [\"must\", \">\"],\n  \"trigger_text\": \"Conveyor stops\",\n  \"response_text\": \"Must not exceed 10 seconds\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 90.44483995437622,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (Conveyor.stopped imply clock <= 10)\",\n  \"explanation\": \"This query uses the time_bounded_constraint pattern to enforce that whenever the conveyor is in the stopped state, the time (clock) must not exceed 10 seconds, ensuring the stop duration does not go beyond the specified limit. It matches the natural language constraint by applying an upper time bound with immediate response using 'imply' inside A[].\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Conveyor.stopped imply clock <= 10)",
+              "explanation": "This query uses the time_bounded_constraint pattern to enforce that whenever the conveyor is in the stopped state, the time (clock) must not exceed 10 seconds, ensuring the stop duration does not go beyond the specified limit. It matches the natural language constraint by applying an upper time bound with immediate response using 'imply' inside A[].",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Conveyor.stopped imply clock <= 10)"
+          },
+          "total_time": 134.3016393184662,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7297661304473877,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"sorter\", \"conveyor\", \"misalignment\", \"stop\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"misalignment detected\",\n  \"response_text\": \"SorterA stops conveyor\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.383971929550171,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"SorterA.misalignment_detected --> SorterA.conveyor_stopped\",\n  \"explanation\": \"The constraint describes a conditional response: when misalignment is detected (the condition), the conveyor eventually stops (the response).  The '-->' operator captures this eventual response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "SorterA.misalignment_detected --> SorterA.conveyor_stopped",
+              "explanation": "The constraint describes a conditional response: when misalignment is detected (the condition), the conveyor eventually stops (the response).  The '-->' operator captures this eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SorterA.misalignment_detected --> SorterA.conveyor_stopped"
+          },
+          "total_time": 2.14121413230896,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SorterB corrects package alignment before resuming",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7679400444030762,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"sorterB\", \"package\", \"alignment\", \"resume\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"resuming\",\n  \"response_text\": \"corrects package alignment\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5528829097747803,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"SorterB.corrects_alignment --> SorterB.resuming\",\n  \"explanation\": \"The constraint states that 'SorterB corrects package alignment before resuming'. This fits the sequential_workflow pattern (action1 --> action2), where 'SorterB corrects package alignment' is action1 and 'SorterB resuming' is action2. The '-->' operator represents that the first action must occur before the second one, possibly with a delay.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "SorterB.corrects_alignment --> SorterB.resuming",
+              "explanation": "The constraint states that 'SorterB corrects package alignment before resuming'. This fits the sequential_workflow pattern (action1 --> action2), where 'SorterB corrects package alignment' is action1 and 'SorterB resuming' is action2. The '-->' operator represents that the first action must occur before the second one, possibly with a delay.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SorterB.corrects_alignment --> SorterB.resuming"
+          },
+          "total_time": 2.347151041030884,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.111964225769043,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"sorter\", \"package\", \"corrected\", \"returns\", \"normal operation\"],\n  \"cues\": [\"once\"],\n  \"trigger_text\": \"package is corrected\",\n  \"response_text\": \"SorterA returns to normal operation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5286920070648193,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"SorterA.package_corrected --> A<> SorterA.normal_operation\",\n  \"explanation\": \"The constraint states that *once* a package is corrected (SorterA.package_corrected), SorterA *eventually* returns to normal operation (SorterA.normal_operation). This perfectly matches the eventual_completion pattern and the conditional_response triggered behavior where the '-->' operator ensures the eventual fulfillment of the consequent upon triggering of the antecedent.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "SorterA.package_corrected --> A<> SorterA.normal_operation",
+              "explanation": "The constraint states that *once* a package is corrected (SorterA.package_corrected), SorterA *eventually* returns to normal operation (SorterA.normal_operation). This perfectly matches the eventual_completion pattern and the conditional_response triggered behavior where the '-->' operator ensures the eventual fulfillment of the consequent upon triggering of the antecedent.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "SorterA.package_corrected --> A<> SorterA.normal_operation"
+          },
+          "total_time": 2.6586670875549316,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 0.6955380439758301,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"sorter\", \"returns\", \"normal\", \"operation\", \"package\", \"corrected\"],\n  \"cues\": [\"once\"],\n  \"trigger_text\": \"package is corrected\",\n  \"response_text\": \"SorterB returns to normal operation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.836177110671997,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Package.corrected --> A<> SorterB.normal_operation\",\n  \"explanation\": \"The constraint states that *once* the package is corrected, *eventually* SorterB returns to normal operation. This maps directly to the 'eventual_completion' pattern.  The '-->' operator is used to specify that the package correction event triggers the eventual return of SorterB to normal operation. 'A<>' ensures that the SorterB eventually returning to normal operation is a necessary condition after the package has been corrected.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "Package.corrected --> A<> SorterB.normal_operation",
+              "explanation": "The constraint states that *once* the package is corrected, *eventually* SorterB returns to normal operation. This maps directly to the 'eventual_completion' pattern.  The '-->' operator is used to specify that the package correction event triggers the eventual return of SorterB to normal operation. 'A<>' ensures that the SorterB eventually returning to normal operation is a necessary condition after the package has been corrected.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "Package.corrected --> A<> SorterB.normal_operation"
+          },
+          "total_time": 2.5504660606384277,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 0.7304837703704834,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"conveyor\", \"stop\", \"time\", \"duration\", \"limit\"],\n  \"cues\": [\"more than\"],\n  \"trigger_text\": \"Conveyor must not stop\",\n  \"response_text\": \"for more than 10 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.3933162689208984,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Conveyor.stopped imply clock <= 10)\",\n  \"explanation\": \"The constraint states that the conveyor must not stop for more than 10 seconds. This translates to: Always (A[]) if the conveyor is stopped (Conveyor.stopped), then it must be true that the clock is less than or equal to 10 (clock <= 10). The 'imply' is used because the clock constraint must hold immediately when the conveyor is in the stopped state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Conveyor.stopped imply clock <= 10)",
+              "explanation": "The constraint states that the conveyor must not stop for more than 10 seconds. This translates to: Always (A[]) if the conveyor is stopped (Conveyor.stopped), then it must be true that the clock is less than or equal to 10 (clock <= 10). The 'imply' is used because the clock constraint must hold immediately when the conveyor is in the stopped state.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Conveyor.stopped imply clock <= 10)"
+          },
+          "total_time": 2.1496479511260986,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "classification": {
+            "step": "classification",
+            "timing": 10.632062435150146,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"SorterA\",\n    \"stops\",\n    \"conveyor\",\n    \"misalignment\"\n  ],\n  \"cues\": [\n    \"when\"\n  ],\n  \"trigger_text\": \"misalignment detected\",\n  \"response_text\": \"SorterA stops conveyor\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 23.65159797668457,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (SorterA.misalignment_detected imply SorterA.ConveyorStopped)\",\n  \"explanation\": \"This query uses the safety operator A[] (globally) with 'imply' to enforce an immediate response. It asserts that in any state where 'SorterA.misalignment_detected' is true, it must also be true that the system is in the 'SorterA.ConveyorStopped' state. This directly translates the rule that the conveyor must be stopped 'when' a misalignment is detected, without any delay.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (SorterA.misalignment_detected imply SorterA.ConveyorStopped)",
+              "explanation": "This query uses the safety operator A[] (globally) with 'imply' to enforce an immediate response. It asserts that in any state where 'SorterA.misalignment_detected' is true, it must also be true that the system is in the 'SorterA.ConveyorStopped' state. This directly translates the rule that the conveyor must be stopped 'when' a misalignment is detected, without any delay.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SorterA.misalignment_detected imply SorterA.ConveyorStopped)"
+          },
+          "total_time": 34.30058193206787,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SorterB corrects package alignment before resuming",
+          "classification": {
+            "step": "classification",
+            "timing": 7.6081061363220215,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"SorterB\",\n    \"corrects\",\n    \"alignment\",\n    \"resuming\"\n  ],\n  \"cues\": [\n    \"before\"\n  ],\n  \"trigger_text\": \"SorterB corrects package alignment\",\n  \"response_text\": \"resuming\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.788331031799316,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"SorterB.AlignmentCorrection_Complete --> SorterB.Resuming\",\n  \"explanation\": \"The constraint \\\"SorterB corrects package alignment before resuming\\\" specifies a sequential workflow. The 'leads to' operator (-->) is used to verify that one action eventually follows another. In this case, it checks that after SorterB completes the package alignment (represented by the state `SorterB.AlignmentCorrection_Complete`), it will eventually enter the `SorterB.Resuming` state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "SorterB.AlignmentCorrection_Complete --> SorterB.Resuming",
+              "explanation": "The constraint \"SorterB corrects package alignment before resuming\" specifies a sequential workflow. The 'leads to' operator (-->) is used to verify that one action eventually follows another. In this case, it checks that after SorterB completes the package alignment (represented by the state `SorterB.AlignmentCorrection_Complete`), it will eventually enter the `SorterB.Resuming` state.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SorterB.AlignmentCorrection_Complete --> SorterB.Resuming"
+          },
+          "total_time": 22.42671298980713,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 5.9486541748046875,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"SorterA\",\n    \"normal operation\",\n    \"package\",\n    \"corrected\"\n  ],\n  \"cues\": [\n    \"once\"\n  ],\n  \"trigger_text\": \"the package is corrected\",\n  \"response_text\": \"SorterA returns to normal operation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.36615824699402,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Package.Corrected --> SorterA.NormalOperation\",\n  \"explanation\": \"The constraint 'SorterA returns to normal operation once the package is corrected' describes a conditional response. The '-->' (leads to) operator captures this relationship, ensuring that if the condition 'the package is corrected' (modeled as the state `Package.Corrected`) is met, the system must eventually reach a state where the response 'SorterA returns to normal operation' (modeled as the state `SorterA.NormalOperation`) occurs.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "Package.Corrected --> SorterA.NormalOperation",
+              "explanation": "The constraint 'SorterA returns to normal operation once the package is corrected' describes a conditional response. The '-->' (leads to) operator captures this relationship, ensuring that if the condition 'the package is corrected' (modeled as the state `Package.Corrected`) is met, the system must eventually reach a state where the response 'SorterA returns to normal operation' (modeled as the state `SorterA.NormalOperation`) occurs.",
+              "confidence": 0.95,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Package.Corrected --> SorterA.NormalOperation"
+          },
+          "total_time": 22.33218789100647,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "classification": {
+            "step": "classification",
+            "timing": 6.650784015655518,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"SorterB\",\n    \"normal operation\",\n    \"package\",\n    \"corrected\"\n  ],\n  \"cues\": [\n    \"once\"\n  ],\n  \"trigger_text\": \"the package is corrected\",\n  \"response_text\": \"SorterB returns to normal operation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.671576023101807,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"Package.Corrected --> SorterB.NormalOperation\",\n  \"explanation\": \"The constraint specifies a conditional sequence of events: 'once' the package is corrected (the trigger), SorterB eventually returns to normal operation (the response). The 'leads to' operator (-->) correctly models this relationship, verifying that every time the system enters a state where 'Package.Corrected' is true, it must eventually reach a state where 'SorterB.NormalOperation' is also true.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "Package.Corrected --> SorterB.NormalOperation",
+              "explanation": "The constraint specifies a conditional sequence of events: 'once' the package is corrected (the trigger), SorterB eventually returns to normal operation (the response). The 'leads to' operator (-->) correctly models this relationship, verifying that every time the system enters a state where 'Package.Corrected' is true, it must eventually reach a state where 'SorterB.NormalOperation' is also true.",
+              "confidence": 0.95,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Package.Corrected --> SorterB.NormalOperation"
+          },
+          "total_time": 17.339231967926025,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 8.72321105003357,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\n    \"conveyor\",\n    \"stop\",\n    \"10 seconds\"\n  ],\n  \"cues\": [\n    \"must\",\n    \"not\",\n    \"for more than\",\n    \">\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.584715843200684,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (Conveyor.stopped imply Conveyor.t <= 10)\",\n  \"explanation\": \"The constraint \\\"must not stop for more than 10 seconds\\\" is a safety property that sets a maximum duration for the 'stopped' state. The query `A[] (Conveyor.stopped imply Conveyor.t <= 10)` enforces this. `A[]` means it must always be true. `Conveyor.stopped` identifies the state. `imply Conveyor.t <= 10` asserts that whenever the system is in this state, an associated clock `t` (which is assumed to reset upon entering the 'stopped' state) must not exceed 10. This directly models the time-bounded constraint.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (Conveyor.stopped imply Conveyor.t <= 10)",
+              "explanation": "The constraint \"must not stop for more than 10 seconds\" is a safety property that sets a maximum duration for the 'stopped' state. The query `A[] (Conveyor.stopped imply Conveyor.t <= 10)` enforces this. `A[]` means it must always be true. `Conveyor.stopped` identifies the state. `imply Conveyor.t <= 10` asserts that whenever the system is in this state, an associated clock `t` (which is assumed to reset upon entering the 'stopped' state) must not exceed 10. This directly models the time-bounded constraint.",
+              "confidence": 0.95,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Conveyor.stopped imply Conveyor.t <= 10)"
+          },
+          "total_time": 21.328598976135254,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,383 @@
+{
+  "id": "scenario_030",
+  "domain": "disaster_response",
+  "prompt": "A drone maps the disaster area, two search robots locate survivors, a medical robot delivers aid, and a transport AMR carries victims to safety. SearchRobots must not enter overlapping zones. MedicalBot waits for confirmation from at least one SearchRobot before starting aid delivery. TransportAMR operates only after MedicalBot finishes. It must always be possible to reach a state where all survivors are rescued.",
+  "robots": [
+    "SurveyDrone",
+    "SearchBot1",
+    "SearchBot2",
+    "MedicalBot",
+    "TransportAMR"
+  ],
+  "constraints": [
+    "SearchBot1 and SearchBot2 must not enter overlapping zones",
+    "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+    "TransportAMR starts only after MedicalBot finishes aid delivery",
+    "Always possible to reach a state where all survivors are rescued"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.552718162536621,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 20.27408790588379,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (SearchBot1_in_overlapping_zone_with_SearchBot2)"
+        },
+        {
+          "index": 1,
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "pattern_name": "sequential_workflow",
+          "template": "confirmation_from_at_least_one_SearchBot --> MedicalBot_deliver_aid"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "pattern_name": "sequential_workflow",
+          "template": "MedicalBot_finished_aid_delivery --> TransportAMR_start_operation"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "pattern_name": "reachability",
+          "template": "E<> all_survivors_rescued"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 12.891071081161499,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 2.0124261379241943,
+      "tokens": 833,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.684359073638916,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.4371302127838135,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (SearchBot1_in_zone AND SearchBot2_in_zone)"
+        },
+        {
+          "index": 1,
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "pattern_name": "conditional_response",
+          "template": "SearchBot_confirmation --> MedicalBot_delivers_aid"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "pattern_name": "sequential_workflow",
+          "template": "MedicalBot_finishes --> TransportAMR_starts"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "pattern_name": "reachability",
+          "template": "E<> all_survivors_rescued"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 13.188048839569092,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 11.160407066345215,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 80.38308787345886,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.4199190139770508,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 11.917097091674805,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 2,
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "pattern_name": "sequential_workflow",
+          "template": "action1 --> action2"
+        },
+        {
+          "index": 3,
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "pattern_name": "reachability",
+          "template": "E<> target_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

@@ -1,0 +1,480 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-07T12:59:48.821Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_019",
+      "domain": "healthcare",
+      "prompt": "A medication robot delivers supplies across hospital floors. If elevator is busy, it waits; otherwise it proceeds. Every request should eventually be fulfilled, and the robot should always remain within safe areas.",
+      "gold_standard": {
+        "constraints": [
+          "MediBot waits if elevator busy",
+          "Each delivery request eventually fulfilled",
+          "MediBot never leaves safe areas"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MediBot waits if elevator busy",
+                "query": "A[] not (Elevator.busy && MediBot.moving)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Each delivery request eventually fulfilled",
+                "query": "A<> delivery_fulfilled",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MediBot never leaves safe areas",
+                "query": "A[] not (MediBot.leavesSafeArea)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MediBot waits if elevator busy",
+                "query": "(Elevator.busy) --> (MediBot.waits)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Each delivery request eventually fulfilled",
+                "query": "A<> forall (i : int[0..N-1]) DeliveryRequest[i].fulfilled",
+                "valid": false,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MediBot never leaves safe areas",
+                "query": "A[] not (MediBot.inSafeArea == false)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MediBot waits if elevator busy",
+                "query": "UPPAAL=(elevator_busy) --> MediBot.wait",
+                "valid": false,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Each delivery request eventually fulfilled",
+                "query": "A<> DeliveryRequest.all_fulfilled",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MediBot never leaves safe areas",
+                "query": "A[] not (MediBot.leftSafeArea)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MediBot waits if elevator busy",
+                "query": "Elevator.busy --> MediBot.waits",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Each delivery request eventually fulfilled",
+                "query": "A<> DeliveryRequest.fulfilled",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MediBot never leaves safe areas",
+                "query": "A[] not (MediBot.outside_safe_area)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MediBot waits if elevator busy",
+                "query": "elevator.busy --> MediBot.waiting",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Each delivery request eventually fulfilled",
+                "query": "A<> DeliverySystem.all_requests_fulfilled",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MediBot never leaves safe areas",
+                "query": "A[] not (MediBot.location != safe_area)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MediBot waits if elevator busy",
+                "query": "Elevator.busy --> MediBot.waiting",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Each delivery request eventually fulfilled",
+                "query": "A<> (DeliveryRequest.received --> DeliveryRequest.fulfilled)",
+                "valid": false,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MediBot never leaves safe areas",
+                "query": "A[] not (MediBot.location == unsafe_area)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 3,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MediBot waits if elevator busy",
+                "query": "Elevator.busy --> MediBot.waits",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Each delivery request eventually fulfilled",
+                "query": "A[] (delivery_request --> fulfilled)",
+                "valid": false,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MediBot never leaves safe areas",
+                "query": "A[] not (MediBot.leaves_safe_areas)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MediBot waits if elevator busy",
+                "query": "(elevator.busy) --> MediBot.waiting",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Each delivery request eventually fulfilled",
+                "query": "A<> Request.fulfilled",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MediBot never leaves safe areas",
+                "query": "A[] not (MediBot.in_unsafe_area)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MediBot waits if elevator busy",
+                "query": "(elevator.busy) --> (MediBot.waiting)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Each delivery request eventually fulfilled",
+                "query": "A<> request_fulfilled",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MediBot never leaves safe areas",
+                "query": "A[] not (MediBot.outsideSafeArea)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MediBot waits if elevator busy",
+                "query": "Elevator.busy --> MediBot.waiting",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Each delivery request eventually fulfilled",
+                "query": "A<> fulfilled",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MediBot never leaves safe areas",
+                "query": "A[] not MediBot.unsafe",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MediBot waits if elevator busy",
+                "query": "Elevator.Busy --> MediBot.Waiting",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Each delivery request eventually fulfilled",
+                "query": "A[] (Delivery.Requested --> Delivery.Fulfilled)",
+                "valid": false,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MediBot never leaves safe areas",
+                "query": "A[] not (MediBot.UnsafeArea)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 16,
+    "inferred": 0,
+    "hallucination": 17,
+    "unlabeled": 0,
+    "total": 33
+  },
+  "performance_metrics": {
+    "precision": 0.48484848484848486,
+    "recall": 5.333333333333333,
+    "f1": 0.8888888888888888
+  }
+}

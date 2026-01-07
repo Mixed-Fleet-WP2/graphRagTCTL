@@ -1,0 +1,480 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-05T10:26:17.473Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_014",
+      "domain": "construction",
+      "prompt": "A maintenance drone inspects bridge cables while a repair robot seals cracks. The repair robot must wait until the inspection of the cable segment is completed. Both must stop if vibration exceeds threshold 5.0 g.",
+      "gold_standard": {
+        "constraints": [
+          "RepairBot starts after InspectionDrone finishes inspection",
+          "InspectionDrone stop when vibration exceeds 5 g",
+          "RepairBot stop when vibration exceeds 5 g"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+                "query": "InspectionDrone.inspection_finished --> RepairBot.starting",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+                "query": "(InspectionDrone.vibration > 5) --> InspectionDrone.stop",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "RepairBot stop when vibration exceeds 5 g",
+                "query": "A[] not (vibration > 5 && RepairBot.operating)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+                "query": "InspectionDrone.inspection_complete --> RepairBot.starting",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+                "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "RepairBot stop when vibration exceeds 5 g",
+                "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+                "query": "InspectionDrone.inspection_complete --> RepairBot.start",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+                "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stop)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "RepairBot stop when vibration exceeds 5 g",
+                "query": "A[] (vibration > 5 imply RepairBot.stop)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+                "query": "InspectionDrone.inspection_complete --> RepairBot.start",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+                "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "RepairBot stop when vibration exceeds 5 g",
+                "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+                "query": "InspectionDrone.inspection_complete --> RepairBot.starting",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+                "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "RepairBot stop when vibration exceeds 5 g",
+                "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+                "query": "InspectionDrone.inspection_complete --> RepairBot.starting",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+                "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "RepairBot stop when vibration exceeds 5 g",
+                "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+                "query": "InspectionDrone.inspection_complete --> RepairBot.repairing",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+                "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "RepairBot stop when vibration exceeds 5 g",
+                "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+                "query": "InspectionDrone.inspection_finished --> RepairBot.starting",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+                "query": "(vibration > 5) --> InspectionDrone.stop",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "RepairBot stop when vibration exceeds 5 g",
+                "query": "(vibration > 5) --> RepairBot.stopped",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+                "query": "InspectionDrone.inspection_complete --> RepairBot.starting",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+                "query": "(vibration > 5) --> InspectionDrone.stop",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "RepairBot stop when vibration exceeds 5 g",
+                "query": "(RepairBot.vibration > 5) --> (RepairBot.stopped)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+                "query": "InspectionDrone.inspection_complete --> RepairBot.start",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+                "query": "(InspectionDrone.vibration > 5) --> InspectionDrone.stopped",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "RepairBot stop when vibration exceeds 5 g",
+                "query": "(vibration > 5) --> RepairBot.stop",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+                "query": "InspectionDrone.inspection_complete --> RepairBot.repairing",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+                "query": "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "RepairBot stop when vibration exceeds 5 g",
+                "query": "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 25,
+    "inferred": 0,
+    "hallucination": 8,
+    "unlabeled": 0,
+    "total": 33
+  },
+  "performance_metrics": {
+    "precision": 0.7575757575757576,
+    "recall": 8.333333333333334,
+    "f1": 1.3888888888888888
+  }
+}

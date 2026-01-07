@@ -1,0 +1,480 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-05T12:38:24.297Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_018",
+      "domain": "construction",
+      "prompt": "A drone delivers bricks to the upper floor, and a lifting robot waits to stack them. If the drone battery drops below 15%, it must land for charging, but there exists a possible sequence where delivery still completes successfully.",
+      "gold_standard": {
+        "constraints": [
+          "LiftBot stacks only after DeliveryDrone arrives",
+          "DeliveryDrone lands when battery < 15%",
+          "Delivery eventually completes"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+                "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "DeliveryDrone lands when battery < 15%",
+                "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.lands",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Delivery eventually completes",
+                "query": "A<> Delivery.completed",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+                "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "DeliveryDrone lands when battery < 15%",
+                "query": "A[] (DeliveryDrone.battery < 15 imply DeliveryDrone.lands)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Delivery eventually completes",
+                "query": "A<> Delivery.completed",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+                "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "DeliveryDrone lands when battery < 15%",
+                "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.land",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Delivery eventually completes",
+                "query": "A<> Delivery.completed",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+                "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "DeliveryDrone lands when battery < 15%",
+                "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.lands",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Delivery eventually completes",
+                "query": "A<> Delivery.complete",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+                "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "DeliveryDrone lands when battery < 15%",
+                "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.landed",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Delivery eventually completes",
+                "query": "A<> Delivery.complete",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+                "query": "DeliveryDrone.arrived --> LiftBot.stacking",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "DeliveryDrone lands when battery < 15%",
+                "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.landed",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Delivery eventually completes",
+                "query": "A<> Delivery.completes",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+                "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "DeliveryDrone lands when battery < 15%",
+                "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.lands",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Delivery eventually completes",
+                "query": "A<> delivery_completed",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+                "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "DeliveryDrone lands when battery < 15%",
+                "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.lands",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Delivery eventually completes",
+                "query": "A<> delivery_complete",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+                "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "DeliveryDrone lands when battery < 15%",
+                "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.landed",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Delivery eventually completes",
+                "query": "A<> delivery_complete",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+                "query": "DeliveryDrone.arrived --> LiftBot.stacking",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "DeliveryDrone lands when battery < 15%",
+                "query": "(DeliveryDrone.battery < 15) --> DeliveryDrone.at_landing",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Delivery eventually completes",
+                "query": "A<> Delivery.complete",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+                "query": "DeliveryDrone.arrives --> LiftBot.stacks",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "DeliveryDrone lands when battery < 15%",
+                "query": "A[] (DeliveryDrone.battery < 15 imply DeliveryDrone.Landing)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Delivery eventually completes",
+                "query": "A<> Delivery.complete",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 33,
+    "inferred": 0,
+    "hallucination": 0,
+    "unlabeled": 0,
+    "total": 33
+  },
+  "performance_metrics": {
+    "precision": 1,
+    "recall": 11,
+    "f1": 1.8333333333333333
+  }
+}

@@ -1,0 +1,480 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-07T13:14:41.679Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_021",
+      "domain": "marine",
+      "prompt": "Two underwater drones inspect ship hulls. They must always remain within communication range. Eventually, all sections must be inspected. If visibility < 30%, will both start returning to surface.",
+      "gold_standard": {
+        "constraints": [
+          "Both drones maintain communication range at all times",
+          "All sections eventually inspected",
+          "If visibility < 30%, both start returning to surface "
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Both drones maintain communication range at all times",
+                "query": "A[] not (disconnected(d1,d2))",
+                "valid": false,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "All sections eventually inspected",
+                "query": "A<> all_sections_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "If visibility < 30%, both start returning to surface ",
+                "query": "(visibility < 30) --> both_returning_to_surface",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Both drones maintain communication range at all times",
+                "query": "A[] not (distance_d1_d2 > COMM_RANGE)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "All sections eventually inspected",
+                "query": "A<> forall (i : int[0..NUM_SECTIONS-1]) Section[i].inspected",
+                "valid": false,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "If visibility < 30%, both start returning to surface ",
+                "query": "(visibility < 30) --> (DroneA.start_returning && DroneB.start_returning)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Both drones maintain communication range at all times",
+                "query": "A[] not (not (Drone1.inRange && Drone2.inRange))",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "All sections eventually inspected",
+                "query": "A<> Sections.all_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "If visibility < 30%, both start returning to surface ",
+                "query": "(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Both drones maintain communication range at all times",
+                "query": "A[] not (Drone1.out_of_range || Drone2.out_of_range)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "All sections eventually inspected",
+                "query": "A<> AllSections.inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "If visibility < 30%, both start returning to surface ",
+                "query": "(visibility < 30) --> (StartReturningA.at_surface && StartReturningB.at_surface)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Both drones maintain communication range at all times",
+                "query": "A[] not (Drone1.outOfRange || Drone2.outOfRange)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "All sections eventually inspected",
+                "query": "A<> all_sections_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "If visibility < 30%, both start returning to surface ",
+                "query": "(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Both drones maintain communication range at all times",
+                "query": "A[] not (Drone1.out_of_range || Drone2.out_of_range)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "All sections eventually inspected",
+                "query": "A<> all_sections_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "If visibility < 30%, both start returning to surface ",
+                "query": "(visibility < 30) --> (DroneA.returning && DroneB.returning)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Both drones maintain communication range at all times",
+                "query": "A[] not (!Drone1.in_range || !Drone2.in_range)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "All sections eventually inspected",
+                "query": "A<> all_sections_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "If visibility < 30%, both start returning to surface ",
+                "query": "(visibility < 30) --> (DroneA.returning && DroneB.returning)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Both drones maintain communication range at all times",
+                "query": "A[] not (drones.outOfCommunicationRange)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "All sections eventually inspected",
+                "query": "A<> all_sections_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "If visibility < 30%, both start returning to surface ",
+                "query": "(visibility < 30) --> (DroneA.at_surface && DroneB.at_surface)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Both drones maintain communication range at all times",
+                "query": "A[] not (Drone1.commsLost || Drone2.commsLost)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "All sections eventually inspected",
+                "query": "A<> all_sections_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "If visibility < 30%, both start returning to surface ",
+                "query": "(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Both drones maintain communication range at all times",
+                "query": "A[] not (Drone1.commRange < 0 or Drone2.commRange < 0)",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "All sections eventually inspected",
+                "query": "A<> inspected_all_sections",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "If visibility < 30%, both start returning to surface ",
+                "query": "(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Both drones maintain communication range at all times",
+                "query": "A[] not (System.out_of_range)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "All sections eventually inspected",
+                "query": "A<> System.all_sections_inspected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "If visibility < 30%, both start returning to surface ",
+                "query": "(visibility < 30) --> (DroneA.Returning && DroneB.Returning)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 28,
+    "inferred": 0,
+    "hallucination": 5,
+    "unlabeled": 0,
+    "total": 33
+  },
+  "performance_metrics": {
+    "precision": 0.8484848484848485,
+    "recall": 9.333333333333334,
+    "f1": 1.5555555555555556
+  }
+}

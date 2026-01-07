@@ -1,0 +1,26 @@
+{
+  "id": "scenario_016",
+  "domain": "logistics",
+  "prompt": "Two sorting robots coordinate on a conveyor. If a package is misaligned, SorterA stops the belt while SorterB repositions it. Once corrected, both return to normal operation. Belt must not stop for more than 10 seconds.",
+  "robots": ["SorterA", "SorterB", "Conveyor"],
+  "constraints": [
+    "SorterA stops conveyor when misalignment detected",
+    "SorterB corrects package alignment before resuming",
+    "SorterA returns to normal operation once the package is corrected",
+    "SorterB returns to normal operation once the package is corrected",
+    "Conveyor must not stop for more than 10 seconds"
+  ],
+  "reference_properties": [
+    "A[] (SorterA.MisalignmentDetected imply not Conveyor.Running)",
+    "SorterB.corrects_alignment --> SorterB.resuming",
+    "(SorterA.package_corrected) --> (SorterA.normal_operation)",
+    "(SorterB.package_corrected) --> (SorterB.normal_operation)",
+    "A[] (Conveyor.Stopped imply ConveyorStopTime <= 10)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10",
+    "validation_status": "validated"
+  }
+}

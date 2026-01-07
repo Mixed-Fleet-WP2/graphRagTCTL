@@ -1,0 +1,1774 @@
+{
+  "id": "scenario_029",
+  "domain": "construction",
+  "prompt": "Two cranes lift beams, a welder seals them, a drone monitors progress, and two delivery AMRs supply materials. Welding can begin only after both cranes finish lifting. Drone must remain within 50 m radius of cranes. DeliveryAMRs must alternate: while one delivers, the other waits. Eventually, all beams are welded and drone reports completion.",
+  "robots": [
+    "CraneA",
+    "CraneB",
+    "WelderBot",
+    "MonitorDrone",
+    "DeliveryAMR1",
+    "DeliveryAMR2"
+  ],
+  "constraints": [
+    "WelderBot starts only after CraneA and CraneB finish lifting",
+    "MonitorDrone must remain within 50 m radius of both cranes",
+    "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+    "Eventually all beams welded and MonitorDrone reports completion"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "classification": {
+            "step": "classification",
+            "timing": 2.3435111045837402,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"WelderBot\",\"CraneA\",\"CraneB\",\"starts only after\",\"finish lifting\",\"ordering\",\"precedence\"],\"cues\":[\"only after\",\"after\",\"finish\"],\"trigger_text\":\"CraneA and CraneB finish lifting\",\"response_text\":\"WelderBot starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.852579116821289,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(CraneA.lifting_done && CraneB.lifting_done) --> WelderBot.started\",\"explanation\":\"The constraint says WelderBot may only start after both CraneA and CraneB have finished lifting, and that its start should eventually follow their completion. The sequential_workflow pattern is captured with the --> operator. The left side combines both cranes\u2019 lifting completion conditions, and the right side is the WelderBot start condition, expressing that once both cranes are done, WelderBot will eventually start.\",\"confidence\":0.88,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(CraneA.lifting_done && CraneB.lifting_done) --> WelderBot.started",
+              "explanation": "The constraint says WelderBot may only start after both CraneA and CraneB have finished lifting, and that its start should eventually follow their completion. The sequential_workflow pattern is captured with the --> operator. The left side combines both cranes\u2019 lifting completion conditions, and the right side is the WelderBot start condition, expressing that once both cranes are done, WelderBot will eventually start.",
+              "confidence": 0.88,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CraneA.lifting_done && CraneB.lifting_done) --> WelderBot.started"
+          },
+          "total_time": 5.210099935531616,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7608768939971924,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"MonitorDrone\",\"remain within 50 m\",\"radius\",\"both cranes\",\"distance constraint\",\"spatial safety\"],\"cues\":[\"must\",\"within\",\"<\",\"radius\"],\"trigger_text\":\"MonitorDrone must remain within 50 m radius of both cranes\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.6047871112823486,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (distance(MonitorDrone, Crane1) > 50 || distance(MonitorDrone, Crane2) > 50)\",\"explanation\":\"The natural-language constraint says the MonitorDrone must always stay within a 50 m radius of both cranes, meaning it must never be farther than 50 m from either crane. Using the forbidden_state pattern, we forbid any state where the distance from the drone to Crane1 or Crane2 exceeds 50 m. The A[] operator enforces this globally for all reachable states, and not(...) encodes the forbidden spatial violation.\",\"confidence\":0.87,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (distance(MonitorDrone, Crane1) > 50 || distance(MonitorDrone, Crane2) > 50)",
+              "explanation": "The natural-language constraint says the MonitorDrone must always stay within a 50 m radius of both cranes, meaning it must never be farther than 50 m from either crane. Using the forbidden_state pattern, we forbid any state where the distance from the drone to Crane1 or Crane2 exceeds 50 m. The A[] operator enforces this globally for all reachable states, and not(...) encodes the forbidden spatial violation.",
+              "confidence": 0.87,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (distance(MonitorDrone, Crane1) > 50 || distance(MonitorDrone, Crane2) > 50)"
+          },
+          "total_time": 4.3931097984313965,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "classification": {
+            "step": "classification",
+            "timing": 2.123061180114746,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"mutual exclusion\",\"alternate deliveries\",\"DeliveryAMR1\",\"DeliveryAMR2\",\"cannot be simultaneous\"],\"cues\":[\"and\",\"alternate\",\"mutual\",\"exclusion\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.561440944671631,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)\",\"explanation\":\"The constraint requires mutual exclusion: DeliveryAMR1 and DeliveryAMR2 must not deliver simultaneously. Using the forbidden_state pattern, we express that in all reachable states (A[]), it is never the case that both are in their delivering state at the same time. This enforces alternating (non-overlapping) deliveries by excluding the simultaneous-delivery state.\",\"confidence\":0.93,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\",\"&&\"]}",
+            "uppaal_result": {
+              "query": "A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)",
+              "explanation": "The constraint requires mutual exclusion: DeliveryAMR1 and DeliveryAMR2 must not deliver simultaneously. Using the forbidden_state pattern, we express that in all reachable states (A[]), it is never the case that both are in their delivering state at the same time. This enforces alternating (non-overlapping) deliveries by excluding the simultaneous-delivery state.",
+              "confidence": 0.93,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not",
+                "&&"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)"
+          },
+          "total_time": 4.702504873275757,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "classification": {
+            "step": "classification",
+            "timing": 2.132073163986206,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"all beams welded\",\"MonitorDrone\",\"reports completion\",\"welding finished\"],\"cues\":[\"Eventually\",\"all\"],\"trigger_text\":\"all beams welded\",\"response_text\":\"MonitorDrone reports completion\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.522871971130371,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> (all_beams_welded && MonitorDrone.reports_completion)\",\"explanation\":\"The constraint states that it must eventually be the case that all beams are welded and the MonitorDrone reports completion. The eventual_completion pattern maps directly to the liveness operator A<>, and both required conditions are combined in a single conjunction inside the eventuality.\",\"confidence\":0.9,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> (all_beams_welded && MonitorDrone.reports_completion)",
+              "explanation": "The constraint states that it must eventually be the case that all beams are welded and the MonitorDrone reports completion. The eventual_completion pattern maps directly to the liveness operator A<>, and both required conditions are combined in a single conjunction inside the eventuality.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (all_beams_welded && MonitorDrone.reports_completion)"
+          },
+          "total_time": 3.668982982635498,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "classification": {
+            "step": "classification",
+            "timing": 13.44458794593811,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"after\",\n    \"only after\",\n    \"start\",\n    \"starts\",\n    \"finish\",\n    \"finish lifting\",\n    \"CraneA\",\n    \"CraneB\",\n    \"WelderBot\",\n    \"both\",\n    \"then\"\n  ],\n  \"cues\": [\n    \"after\",\n    \"only\",\n    \"finish\",\n    \"starts\",\n    \"and\",\n    \"both\",\n    \"then\"\n  ],\n  \"trigger_text\": \"CraneA and CraneB finish lifting\",\n  \"response_text\": \"WelderBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.860795021057129,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(CraneA.lifting_finished && CraneB.lifting_finished) --> WelderBot.start\",\n  \"explanation\": \"This uses the sequential_workflow pattern (-->): when both CraneA and CraneB have finished lifting (conjoined trigger), WelderBot will subsequently start. It encodes the requirement that WelderBot starts only after both cranes finish lifting.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}",
+            "uppaal_result": {
+              "query": "(CraneA.lifting_finished && CraneB.lifting_finished) --> WelderBot.start",
+              "explanation": "This uses the sequential_workflow pattern (-->): when both CraneA and CraneB have finished lifting (conjoined trigger), WelderBot will subsequently start. It encodes the requirement that WelderBot starts only after both cranes finish lifting.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CraneA.lifting_finished && CraneB.lifting_finished) --> WelderBot.start"
+          },
+          "total_time": 27.328336238861084,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "classification": {
+            "step": "classification",
+            "timing": 13.812002182006836,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"remain\",\"within 50 m\",\"radius\",\"both cranes\",\"must\",\"distance >50 m\",\"stay\",\"proximity\"],\"cues\":[\"must\",\"remain\",\"within\",\"50\",\"m\",\"radius\",\"both\",\"cranes\",\">\"],\"trigger_text\":\"MonitorDrone is at a distance greater than 50 m from either crane\",\"response_text\":\"MonitorDrone must be within 50 m of both cranes (being farther is forbidden)\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.563600778579712,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (MonitorDrone.dist_crane1 > 50 || MonitorDrone.dist_crane2 > 50)\",\"explanation\":\"This safety query forbids any global state where the MonitorDrone is farther than 50 m from either crane. It ensures the system always maintains MonitorDrone within a 50 m radius of both cranes by declaring the condition (distance to crane1 > 50 OR distance to crane2 > 50) as not allowed.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (MonitorDrone.dist_crane1 > 50 || MonitorDrone.dist_crane2 > 50)",
+              "explanation": "This safety query forbids any global state where the MonitorDrone is farther than 50 m from either crane. It ensures the system always maintains MonitorDrone within a 50 m radius of both cranes by declaring the condition (distance to crane1 > 50 OR distance to crane2 > 50) as not allowed.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MonitorDrone.dist_crane1 > 50 || MonitorDrone.dist_crane2 > 50)"
+          },
+          "total_time": 25.39560294151306,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "classification": {
+            "step": "classification",
+            "timing": 11.359715223312378,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"alternate\",\"mutual exclusion\",\"DeliveryAMR1\",\"DeliveryAMR2\",\"alternate deliveries\",\"take turns\",\"mutex\",\"exclusive\"],\"cues\":[\"alternate\",\"mutual\",\"exclusion\",\"after\",\"then\",\"must\",\"never\"],\"trigger_text\":\"DeliveryAMR1 completes a delivery\",\"response_text\":\"DeliveryAMR2 must perform the next delivery (and vice versa)\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.549317121505737,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"DeliveryAMR1.delivery_complete --> DeliveryAMR2.start_delivery && DeliveryAMR2.delivery_complete --> DeliveryAMR1.start_delivery\",\"explanation\":\"This uses the sequential_workflow pattern (-->) to state that whenever DeliveryAMR1 completes a delivery, DeliveryAMR2 must eventually start the next delivery, and vice versa, capturing the required alternation (mutual exclusion of consecutive deliveries by the same AMR).\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "DeliveryAMR1.delivery_complete --> DeliveryAMR2.start_delivery && DeliveryAMR2.delivery_complete --> DeliveryAMR1.start_delivery",
+              "explanation": "This uses the sequential_workflow pattern (-->) to state that whenever DeliveryAMR1 completes a delivery, DeliveryAMR2 must eventually start the next delivery, and vice versa, capturing the required alternation (mutual exclusion of consecutive deliveries by the same AMR).",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "DeliveryAMR1.delivery_complete --> DeliveryAMR2.start_delivery && DeliveryAMR2.delivery_complete --> DeliveryAMR1.start_delivery"
+          },
+          "total_time": 31.92978310585022,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "classification": {
+            "step": "classification",
+            "timing": 3.9472668170928955,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"all beams\",\"welded\",\"MonitorDrone\",\"reports completion\",\"completion\"],\"cues\":[\"eventually\",\"all\",\"and\",\"reports\",\"completion\"],\"trigger_text\":null,\"response_text\":\"All beams are welded AND MonitorDrone reports completion (both must eventually hold)\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.629774808883667,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> (AllBeams.welded && MonitorDrone.reports_completion)\",\"explanation\":\"This is a global liveness property: it requires that on all executions eventually the condition 'all beams are welded' AND 'MonitorDrone reports completion' hold simultaneously. It matches the eventual_completion pattern by using A<> with a conjunction of the two required predicates.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> (AllBeams.welded && MonitorDrone.reports_completion)",
+              "explanation": "This is a global liveness property: it requires that on all executions eventually the condition 'all beams are welded' AND 'MonitorDrone reports completion' hold simultaneously. It matches the eventual_completion pattern by using A<> with a conjunction of the two required predicates.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (AllBeams.welded && MonitorDrone.reports_completion)"
+          },
+          "total_time": 17.603459119796753,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "classification": {
+            "step": "classification",
+            "timing": 8.989588022232056,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"WelderBot\",\"CraneA\",\"CraneB\",\"lifting\",\"finish\",\"start\",\"dependency\",\"order\"],\"cues\":[\"after\",\"then\",\"when\",\"finish\",\"start\",\"must\",\"and\"],\"trigger_text\":\"WelderBot starts only after CraneA and CraneB finish lifting\",\"response_text\":\"WelderBot starts after CraneA and CraneB finish lifting\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.3861026763916,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"CraneA.lifting_complete && CraneB.lifting_complete --> WelderBot.start\",\"explanation\":\"This encodes a sequential dependency: WelderBot.start may occur only after both CraneA and CraneB have finished lifting. It uses the sequential_workflow edge with a conjunction as the precondition, matching the constraint that WelderBot starts after both cranes finish.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "CraneA.lifting_complete && CraneB.lifting_complete --> WelderBot.start",
+              "explanation": "This encodes a sequential dependency: WelderBot.start may occur only after both CraneA and CraneB have finished lifting. It uses the sequential_workflow edge with a conjunction as the precondition, matching the constraint that WelderBot starts after both cranes finish.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneA.lifting_complete && CraneB.lifting_complete --> WelderBot.start"
+          },
+          "total_time": 30.399704933166504,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "classification": {
+            "step": "classification",
+            "timing": 20.852739810943604,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"drone\",\"radius\",\"50m\",\"cranes\",\"safety\",\"constraint\",\"monitor\"],\"cues\":[\"must\",\"never\",\"within\",\"radius\",\"of\",\"both\"],\"trigger_text\":\"forbidden_state\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.42812418937683,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (MonitorDrone.distance_to_crane1 > 50 || MonitorDrone.distance_to_crane2 > 50)\",\"explanation\":\"This encodes the forbidden-state pattern for the constraint. The bad_state is the drone being farther than 50 m from crane1 or crane2. A[] not(bad_state) enforces that this never happens, i.e., the drone must remain within 50 m of both cranes at all times.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (MonitorDrone.distance_to_crane1 > 50 || MonitorDrone.distance_to_crane2 > 50)",
+              "explanation": "This encodes the forbidden-state pattern for the constraint. The bad_state is the drone being farther than 50 m from crane1 or crane2. A[] not(bad_state) enforces that this never happens, i.e., the drone must remain within 50 m of both cranes at all times.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MonitorDrone.distance_to_crane1 > 50 || MonitorDrone.distance_to_crane2 > 50)"
+          },
+          "total_time": 38.309136152267456,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "classification": {
+            "step": "classification",
+            "timing": 10.461934089660645,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"DeliveryAMR1\",\"DeliveryAMR2\",\"alternate\",\"order\",\"mutual_exclusion\",\"two_state_cycle\"],\"cues\":[\"after\",\"then\",\"must\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.604164123535156,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"DeliveryAMR1 --> DeliveryAMR2\",\"explanation\":\"This follows the NL constraint by expressing that DeliveryAMR2 occurs after DeliveryAMR1, modelling the sequential alternation between the two delivery actions using the sequential_workflow template.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "DeliveryAMR1 --> DeliveryAMR2",
+              "explanation": "This follows the NL constraint by expressing that DeliveryAMR2 occurs after DeliveryAMR1, modelling the sequential alternation between the two delivery actions using the sequential_workflow template.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DeliveryAMR1 --> DeliveryAMR2"
+          },
+          "total_time": 22.08579921722412,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "classification": {
+            "step": "classification",
+            "timing": 9.396698236465454,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"beams\",\"welded\",\"MonitorDrone\",\"completion\",\"eventually\"],\"cues\":[\"eventually\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 24.76468300819397,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> (Beams.all_beams_welded && MonitorDrone.completion_reported)\",\"explanation\":\"This is a liveness property (eventual completion) requiring that, on all possible executions, eventually the system reaches a state where both conditions hold: all beams are welded and the MonitorDrone reports completion. It uses A<> with a conjunction of two location predicates (Beams.all_beams_welded and MonitorDrone.completion_reported) as the final_state, matching the provided template for eventual completion.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> (Beams.all_beams_welded && MonitorDrone.completion_reported)",
+              "explanation": "This is a liveness property (eventual completion) requiring that, on all possible executions, eventually the system reaches a state where both conditions hold: all beams are welded and the MonitorDrone reports completion. It uses A<> with a conjunction of two location predicates (Beams.all_beams_welded and MonitorDrone.completion_reported) as the final_state, matching the provided template for eventual completion.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (Beams.all_beams_welded && MonitorDrone.completion_reported)"
+          },
+          "total_time": 34.184099197387695,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0636661052703857,
+            "tokens": 193,
+            "raw_text": "{\n    \"pattern\": \"sequential_workflow\",\n    \"keywords\": [\"starts\", \"after\", \"finish\"],\n    \"cues\": [\"after\", \"only\"],\n    \"trigger_text\": \"CraneA and CraneB finish lifting\",\n    \"response_text\": \"WelderBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7724049091339111,
+            "tokens": 584,
+            "raw_text": "{\n  \"query\": \"CraneA.lifting_complete and CraneB.lifting_complete --> WelderBot.start\",\n  \"explanation\": \"The query uses the sequential_workflow pattern to express that the action of WelderBot starting occurs only after both CraneA and CraneB have completed their lifting tasks. The '-->' operator is used to indicate that WelderBot's action is an eventual response to the completion of the lifting tasks.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "CraneA.lifting_complete and CraneB.lifting_complete --> WelderBot.start",
+              "explanation": "The query uses the sequential_workflow pattern to express that the action of WelderBot starting occurs only after both CraneA and CraneB have completed their lifting tasks. The '-->' operator is used to indicate that WelderBot's action is an eventual response to the completion of the lifting tasks.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneA.lifting_complete and CraneB.lifting_complete --> WelderBot.start"
+          },
+          "total_time": 2.851472854614258,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "classification": {
+            "step": "classification",
+            "timing": 1.000871181488037,
+            "tokens": 186,
+            "raw_text": "{\n    \"pattern\": \"forbidden_state\",\n    \"keywords\": [\"remain\", \"within\", \"radius\"],\n    \"cues\": [\"must\", \"<\"],\n    \"trigger_text/response_text\": \"MonitorDrone must remain within 50 m radius of both cranes\"\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8341319561004639,
+            "tokens": 612,
+            "raw_text": "{\n  \"query\": \"A[] not (distance(MonitorDrone, Crane1) > 50 || distance(MonitorDrone, Crane2) > 50)\",\n  \"explanation\": \"The query ensures that the MonitorDrone never exceeds a 50 m radius from either of the two cranes, which aligns with the constraint that it must remain within this radius. The 'A[] not' operator is used to express that this condition must always be true, preventing the forbidden state of the drone being outside the specified radius.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (distance(MonitorDrone, Crane1) > 50 || distance(MonitorDrone, Crane2) > 50)",
+              "explanation": "The query ensures that the MonitorDrone never exceeds a 50 m radius from either of the two cranes, which aligns with the constraint that it must remain within this radius. The 'A[] not' operator is used to express that this condition must always be true, preventing the forbidden state of the drone being outside the specified radius.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (distance(MonitorDrone, Crane1) > 50 || distance(MonitorDrone, Crane2) > 50)"
+          },
+          "total_time": 2.851598024368286,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "classification": {
+            "step": "classification",
+            "timing": 0.89447021484375,
+            "tokens": 165,
+            "raw_text": "{\n    \"pattern\": \"forbidden_state\",\n    \"keywords\": [\"alternate\", \"mutual exclusion\"],\n    \"cues\": [\"and\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.455151081085205,
+            "tokens": 571,
+            "raw_text": "{\n  \"query\": \"A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)\",\n  \"explanation\": \"The query ensures that DeliveryAMR1 and DeliveryAMR2 do not deliver at the same time, maintaining mutual exclusion. This matches the constraint that they must alternate deliveries.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)",
+              "explanation": "The query ensures that DeliveryAMR1 and DeliveryAMR2 do not deliver at the same time, maintaining mutual exclusion. This matches the constraint that they must alternate deliveries.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)"
+          },
+          "total_time": 2.3624582290649414,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "classification": {
+            "step": "classification",
+            "timing": 0.677882194519043,
+            "tokens": 158,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"completion\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6911520957946777,
+            "tokens": 528,
+            "raw_text": "{\n  \"query\": \"A<> (AllBeams.welded && MonitorDrone.completion_reported)\",\n  \"explanation\": \"The query uses the 'eventual_completion' pattern to ensure that the condition where all beams are welded and the MonitorDrone reports completion must eventually happen. This aligns with the liveness property that something must eventually occur.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (AllBeams.welded && MonitorDrone.completion_reported)",
+              "explanation": "The query uses the 'eventual_completion' pattern to ensure that the condition where all beams are welded and the MonitorDrone reports completion must eventually happen. This aligns with the liveness property that something must eventually occur.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (AllBeams.welded && MonitorDrone.completion_reported)"
+          },
+          "total_time": 2.3880059719085693,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "classification": {
+            "step": "classification",
+            "timing": 3.088456153869629,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"WelderBot\", \"starts\", \"after\", \"CraneA\", \"CraneB\", \"finish\", \"lifting\"],\n  \"cues\": [\"after\", \"starts\", \"only\"],\n  \"trigger_text\": \"CraneA and CraneB finish lifting\",\n  \"response_text\": \"WelderBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.898776054382324,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(CraneA.lifting_finished and CraneB.lifting_finished) --> WelderBot.started\",\n  \"explanation\": \"This query captures the sequential workflow where WelderBot starts only after both CraneA and CraneB finish lifting. The --> operator ensures that eventually after both cranes complete their lifting operations, WelderBot will start. The conjunction (and) ensures both cranes must finish before triggering WelderBot.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(CraneA.lifting_finished and CraneB.lifting_finished) --> WelderBot.started",
+              "explanation": "This query captures the sequential workflow where WelderBot starts only after both CraneA and CraneB finish lifting. The --> operator ensures that eventually after both cranes complete their lifting operations, WelderBot will start. The conjunction (and) ensures both cranes must finish before triggering WelderBot.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CraneA.lifting_finished and CraneB.lifting_finished) --> WelderBot.started"
+          },
+          "total_time": 8.011373043060303,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "classification": {
+            "step": "classification",
+            "timing": 3.4587409496307373,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"MonitorDrone\", \"remain\", \"within\", \"radius\", \"cranes\", \"distance\", \"boundary\"],\n  \"cues\": [\"must\", \"within\"],\n  \"trigger_text\": \"MonitorDrone exceeds 50m radius from either crane\",\n  \"response_text\": \"Violation: MonitorDrone must remain within 50m of both cranes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.311897039413452,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (MonitorDrone.distance_to_crane1 > 50 || MonitorDrone.distance_to_crane2 > 50)\",\n  \"explanation\": \"This query uses the forbidden_state pattern to ensure the MonitorDrone never exceeds 50m radius from either crane. The constraint 'must remain within' means it's forbidden to be outside this boundary. The A[] not operator checks that at all times, the drone is not too far from crane1 AND not too far from crane2.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (MonitorDrone.distance_to_crane1 > 50 || MonitorDrone.distance_to_crane2 > 50)",
+              "explanation": "This query uses the forbidden_state pattern to ensure the MonitorDrone never exceeds 50m radius from either crane. The constraint 'must remain within' means it's forbidden to be outside this boundary. The A[] not operator checks that at all times, the drone is not too far from crane1 AND not too far from crane2.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MonitorDrone.distance_to_crane1 > 50 || MonitorDrone.distance_to_crane2 > 50)"
+          },
+          "total_time": 8.794053077697754,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "classification": {
+            "step": "classification",
+            "timing": 3.2845818996429443,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"alternate\", \"deliveries\", \"mutual exclusion\", \"DeliveryAMR1\", \"DeliveryAMR2\"],\n  \"cues\": [\"alternate\"],\n  \"trigger_text\": \"DeliveryAMR1 delivery\",\n  \"response_text\": \"DeliveryAMR2 delivery (and vice versa)\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.156357049942017,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (DeliveryAMR1.delivering imply not DeliveryAMR2.delivering) and A[] (DeliveryAMR2.delivering imply not DeliveryAMR1.delivering)\",\n  \"explanation\": \"Mutual exclusion means both robots cannot be in the delivering state simultaneously. This query enforces that whenever DeliveryAMR1 is delivering, DeliveryAMR2 is not delivering, and vice versa. The A[] operator ensures this holds globally at all times, preventing concurrent deliveries.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"imply\", \"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (DeliveryAMR1.delivering imply not DeliveryAMR2.delivering) and A[] (DeliveryAMR2.delivering imply not DeliveryAMR1.delivering)",
+              "explanation": "Mutual exclusion means both robots cannot be in the delivering state simultaneously. This query enforces that whenever DeliveryAMR1 is delivering, DeliveryAMR2 is not delivering, and vice versa. The A[] operator ensures this holds globally at all times, preventing concurrent deliveries.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "imply",
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (DeliveryAMR1.delivering imply not DeliveryAMR2.delivering) and A[] (DeliveryAMR2.delivering imply not DeliveryAMR1.delivering)"
+          },
+          "total_time": 8.467679977416992,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "classification": {
+            "step": "classification",
+            "timing": 3.648625135421753,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"all\", \"beams\", \"welded\", \"MonitorDrone\", \"reports\", \"completion\"],\n  \"cues\": [\"eventually\", \"all\"],\n  \"trigger_text\": \"beams welded and MonitorDrone reports completion\",\n  \"response_text\": \"all beams welded and MonitorDrone reports completion\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.825376033782959,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (all_beams_welded && MonitorDrone.completion_reported)\",\n  \"explanation\": \"This query uses A<> to express that eventually (along all paths) a state must be reached where all beams are welded AND the MonitorDrone has reported completion. The conjunction captures both conditions that must hold simultaneously in the final state.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (all_beams_welded && MonitorDrone.completion_reported)",
+              "explanation": "This query uses A<> to express that eventually (along all paths) a state must be reached where all beams are welded AND the MonitorDrone has reported completion. The conjunction captures both conditions that must hold simultaneously in the final state.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (all_beams_welded && MonitorDrone.completion_reported)"
+          },
+          "total_time": 8.49030089378357,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2739319801330566,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finish\", \"lifting\", \"WelderBot\", \"CraneA\", \"CraneB\"],\n  \"cues\": [\"after\", \"starts\"],\n  \"trigger_text\": \"CraneA and CraneB finish lifting\",\n  \"response_text\": \"WelderBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7119991779327393,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(CraneA.lifting_complete && CraneB.lifting_complete) --> WelderBot.starts\",\n  \"explanation\": \"The constraint specifies that WelderBot starts only after both CraneA and CraneB finish lifting. This is a sequential workflow where the completion of two parallel lifting operations (trigger) eventually leads to WelderBot starting (response). The --> operator captures the eventual sequential relationship between the combined trigger condition and the response action.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(CraneA.lifting_complete && CraneB.lifting_complete) --> WelderBot.starts",
+              "explanation": "The constraint specifies that WelderBot starts only after both CraneA and CraneB finish lifting. This is a sequential workflow where the completion of two parallel lifting operations (trigger) eventually leads to WelderBot starting (response). The --> operator captures the eventual sequential relationship between the combined trigger condition and the response action.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CraneA.lifting_complete && CraneB.lifting_complete) --> WelderBot.starts"
+          },
+          "total_time": 3.0172760486602783,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2799098491668701,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"MonitorDrone\", \"radius\", \"distance constraint\", \"spatial boundary\"],\n  \"cues\": [\"within\", \"radius\", \"both\"],\n  \"trigger_text\": \"MonitorDrone exceeds 50 m radius from either crane\",\n  \"response_text\": \"MonitorDrone must return within 50 m radius of both cranes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.418948173522949,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (MonitorDrone.distance > 50 || (MonitorDrone.distance_to_crane1 > 50 && MonitorDrone.distance_to_crane2 > 50))\",\n  \"explanation\": \"This query enforces that the MonitorDrone must NEVER be in a state where it exceeds 50m radius from both cranes simultaneously. The forbidden_state pattern with A[] not(...) prevents the invalid spatial configuration where the drone violates the 50m distance constraint relative to both crane positions. The constraint requires the drone to stay within 50m of at least one crane at all times, which is logically equivalent to forbidding the state where it exceeds 50m from both.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (MonitorDrone.distance > 50 || (MonitorDrone.distance_to_crane1 > 50 && MonitorDrone.distance_to_crane2 > 50))",
+              "explanation": "This query enforces that the MonitorDrone must NEVER be in a state where it exceeds 50m radius from both cranes simultaneously. The forbidden_state pattern with A[] not(...) prevents the invalid spatial configuration where the drone violates the 50m distance constraint relative to both crane positions. The constraint requires the drone to stay within 50m of at least one crane at all times, which is logically equivalent to forbidding the state where it exceeds 50m from both.",
+              "confidence": 0.88,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MonitorDrone.distance > 50 || (MonitorDrone.distance_to_crane1 > 50 && MonitorDrone.distance_to_crane2 > 50))"
+          },
+          "total_time": 3.7223098278045654,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1221039295196533,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"alternate\", \"mutual exclusion\", \"DeliveryAMR1\", \"DeliveryAMR2\"],\n  \"cues\": [\"alternate\"],\n  \"trigger_text\": \"DeliveryAMR1 and DeliveryAMR2\",\n  \"response_text\": \"mutual exclusion (cannot both deliver simultaneously)\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0189177989959717,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)\",\n  \"explanation\": \"This query enforces mutual exclusion between DeliveryAMR1 and DeliveryAMR2 by prohibiting both from being in a delivering state simultaneously. The A[] (always) operator ensures this constraint holds throughout all system execution paths, preventing the forbidden state where both AMRs deliver at the same time.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)",
+              "explanation": "This query enforces mutual exclusion between DeliveryAMR1 and DeliveryAMR2 by prohibiting both from being in a delivering state simultaneously. The A[] (always) operator ensures this constraint holds throughout all system execution paths, preventing the forbidden state where both AMRs deliver at the same time.",
+              "confidence": 0.92,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)"
+          },
+          "total_time": 3.158533811569214,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7603421211242676,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"beams welded\", \"MonitorDrone\", \"completion\", \"all\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"all beams welded\",\n  \"response_text\": \"MonitorDrone reports completion\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7745530605316162,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (WeldingSystem.all_beams_welded && MonitorDrone.completion_reported)\",\n  \"explanation\": \"The constraint requires that eventually both conditions must be satisfied: all beams welded AND MonitorDrone reports completion. This is a global liveness property where both states must eventually occur together. The A<> operator is appropriate because it asserts that all execution paths must eventually reach a state where both conditions hold true.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (WeldingSystem.all_beams_welded && MonitorDrone.completion_reported)",
+              "explanation": "The constraint requires that eventually both conditions must be satisfied: all beams welded AND MonitorDrone reports completion. This is a global liveness property where both states must eventually occur together. The A<> operator is appropriate because it asserts that all execution paths must eventually reach a state where both conditions hold true.",
+              "confidence": 0.92,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (WeldingSystem.all_beams_welded && MonitorDrone.completion_reported)"
+          },
+          "total_time": 3.557248115539551,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "classification": {
+            "step": "classification",
+            "timing": 7.213714838027954,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"starts\",\"after\",\"finish\"],\"cues\":[\"after\"],\"trigger_text\":\"CraneA and CraneB finish lifting\",\"response_text\":\"WelderBot starts\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.799575090408325,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(CraneA.lifting_complete and CraneB.lifting_complete) --> WelderBot.starting\", \"explanation\": \"The query models the sequential workflow where WelderBot starts eventually after both CraneA and CraneB finish lifting, using the --> operator for eventual triggered behavior as per the pattern template.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(CraneA.lifting_complete and CraneB.lifting_complete) --> WelderBot.starting",
+              "explanation": "The query models the sequential workflow where WelderBot starts eventually after both CraneA and CraneB finish lifting, using the --> operator for eventual triggered behavior as per the pattern template.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CraneA.lifting_complete and CraneB.lifting_complete) --> WelderBot.starting"
+          },
+          "total_time": 18.03390097618103,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "classification": {
+            "step": "classification",
+            "timing": 10.325820922851562,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"forbidden_state\", \"keywords\": [\"remain\", \"within\", \"radius\"], \"cues\": [\"must\"]}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 28.557941913604736,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (MonitorDrone.dist_crane1 > 50 || MonitorDrone.dist_crane2 > 50)\",\"explanation\":\"The forbidden_state pattern is used because the constraint specifies that the MonitorDrone must never be outside the 50m radius of both cranes, which is a state that must never occur. The query uses A[] not to ensure this safety property by forbidding the bad state of being beyond the radius of either crane.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (MonitorDrone.dist_crane1 > 50 || MonitorDrone.dist_crane2 > 50)",
+              "explanation": "The forbidden_state pattern is used because the constraint specifies that the MonitorDrone must never be outside the 50m radius of both cranes, which is a state that must never occur. The query uses A[] not to ensure this safety property by forbidding the bad state of being beyond the radius of either crane.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MonitorDrone.dist_crane1 > 50 || MonitorDrone.dist_crane2 > 50)"
+          },
+          "total_time": 38.89613604545593,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "classification": {
+            "step": "classification",
+            "timing": 24.42116403579712,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"forbidden_state\", \"keywords\": [\"mutual exclusion\", \"alternate\", \"deliveries\"], \"cues\": [\"never\"]}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.8310489654541,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)\", \"explanation\": \"This query enforces mutual exclusion by ensuring that DeliveryAMR1 and DeliveryAMR2 never deliver at the same time, which aligns with the constraint's requirement for alternating deliveries.\", \"confidence\": 0.85, \"pattern_used\": \"forbidden_state\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)",
+              "explanation": "This query enforces mutual exclusion by ensuring that DeliveryAMR1 and DeliveryAMR2 never deliver at the same time, which aligns with the constraint's requirement for alternating deliveries.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)"
+          },
+          "total_time": 41.26776123046875,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "classification": {
+            "step": "classification",
+            "timing": 20.169937133789062,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"beams\", \"welded\", \"MonitorDrone\", \"completion\"], \"cues\": [\"eventually\"], \"response_text\": \"all beams welded and MonitorDrone reports completion\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.044655084609985,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> (all_beams_welded && MonitorDrone.completion_reported)\", \"explanation\": \"The constraint specifies that eventually all beams must be welded and the MonitorDrone must report completion, which aligns with the eventual_completion pattern using the A<> operator for global liveness properties where something must eventually happen.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> (all_beams_welded && MonitorDrone.completion_reported)",
+              "explanation": "The constraint specifies that eventually all beams must be welded and the MonitorDrone must report completion, which aligns with the eventual_completion pattern using the A<> operator for global liveness properties where something must eventually happen.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (all_beams_welded && MonitorDrone.completion_reported)"
+          },
+          "total_time": 35.231701135635376,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "classification": {
+            "step": "classification",
+            "timing": 6.034073829650879,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finish\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"CraneA and CraneB finish lifting\",\n  \"response_text\": \"WelderBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.833293676376343,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(CraneA.lifting_finished && CraneB.lifting_finished) --> WelderBot.starts\",\n  \"explanation\": \"This query uses the --> operator to represent a sequential workflow, ensuring that WelderBot starts only after both CraneA and CraneB have finished lifting, as per the constraint and the pattern's template for eventual following actions.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(CraneA.lifting_finished && CraneB.lifting_finished) --> WelderBot.starts",
+              "explanation": "This query uses the --> operator to represent a sequential workflow, ensuring that WelderBot starts only after both CraneA and CraneB have finished lifting, as per the constraint and the pattern's template for eventual following actions.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CraneA.lifting_finished && CraneB.lifting_finished) --> WelderBot.starts"
+          },
+          "total_time": 13.886864185333252,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "classification": {
+            "step": "classification",
+            "timing": 9.427209854125977,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"MonitorDrone\", \"remain within\", \"50 m radius\", \"both cranes\"],\n  \"cues\": [\"must\", \"within\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.877822875976562,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (distance_to_crane1 > 50 or distance_to_crane2 > 50)\",\n  \"explanation\": \"This query matches the constraint by using the forbidden_state pattern to ensure that the drone never enters a state where it is outside the 50m radius of either crane, as derived from the requirement that it must always remain within that radius of both.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (distance_to_crane1 > 50 or distance_to_crane2 > 50)",
+              "explanation": "This query matches the constraint by using the forbidden_state pattern to ensure that the drone never enters a state where it is outside the 50m radius of either crane, as derived from the requirement that it must always remain within that radius of both.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (distance_to_crane1 > 50 or distance_to_crane2 > 50)"
+          },
+          "total_time": 25.32674503326416,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "classification": {
+            "step": "classification",
+            "timing": 7.258286952972412,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"alternate\", \"deliveries\", \"mutual exclusion\"],\n  \"cues\": [\"alternate\"],\n  \"trigger_text\": \"DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.964634895324707,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"DeliveryAMR1.delivery_complete --> DeliveryAMR2.delivering\",\n  \"explanation\": \"This query uses the sequential_workflow pattern to model the alternation, where the completion of DeliveryAMR1's delivery eventually leads to DeliveryAMR2's delivery, implying mutual exclusion through the sequential order as per the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DeliveryAMR1.delivery_complete --> DeliveryAMR2.delivering",
+              "explanation": "This query uses the sequential_workflow pattern to model the alternation, where the completion of DeliveryAMR1's delivery eventually leads to DeliveryAMR2's delivery, implying mutual exclusion through the sequential order as per the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DeliveryAMR1.delivery_complete --> DeliveryAMR2.delivering"
+          },
+          "total_time": 19.246266841888428,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "classification": {
+            "step": "classification",
+            "timing": 8.37569785118103,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"welded\", \"reports\", \"completion\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"all beams welded and MonitorDrone reports completion\"\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.01955795288086,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> (all_beams_welded && MonitorDrone.reports_completion)\",\n  \"explanation\": \"The query uses the A<> operator to ensure that the system will eventually reach a state where all beams are welded and the MonitorDrone reports completion, directly matching the eventual_completion pattern for liveness properties.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (all_beams_welded && MonitorDrone.reports_completion)",
+              "explanation": "The query uses the A<> operator to ensure that the system will eventually reach a state where all beams are welded and the MonitorDrone reports completion, directly matching the eventual_completion pattern for liveness properties.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (all_beams_welded && MonitorDrone.reports_completion)"
+          },
+          "total_time": 20.41702389717102,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "classification": {
+            "step": "classification",
+            "timing": 36.734362840652466,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"WelderBot\", \"starts\", \"CraneA\", \"CraneB\", \"finish\", \"lifting\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"CraneA and CraneB finish lifting\",\n  \"response_text\": \"WelderBot starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 80.0261778831482,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"CraneA.lifting_finished && CraneB.lifting_finished --> WelderBot.starts\",\n  \"explanation\": \"This query translates the constraint 'WelderBot starts only after CraneA and CraneB finish lifting' into a UPPAAL leads-to property. It uses the operator '-->' to specify that once both cranes have finished lifting (CraneA.lifting_finished && CraneB.lifting_finished), eventually WelderBot will start (WelderBot.starts), which aligns with the sequential_workflow pattern where one action follows another with possible delays.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "CraneA.lifting_finished && CraneB.lifting_finished --> WelderBot.starts",
+              "explanation": "This query translates the constraint 'WelderBot starts only after CraneA and CraneB finish lifting' into a UPPAAL leads-to property. It uses the operator '-->' to specify that once both cranes have finished lifting (CraneA.lifting_finished && CraneB.lifting_finished), eventually WelderBot will start (WelderBot.starts), which aligns with the sequential_workflow pattern where one action follows another with possible delays.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneA.lifting_finished && CraneB.lifting_finished --> WelderBot.starts"
+          },
+          "total_time": 116.79109692573547,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "classification": {
+            "step": "classification",
+            "timing": 30.12917995452881,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"MonitorDrone\", \"remain within\", \"50 m radius\", \"cranes\"],\n  \"cues\": [\"must\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 73.6602885723114,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not ( (distance_to_crane1 > 50) || (distance_to_crane2 > 50) )\",\n  \"explanation\": \"The constraint 'MonitorDrone must remain within 50 m radius of both cranes' is a safety property requiring the drone to always be within the specified radius. Using the forbidden_state pattern, this translates to forbidding the state where the drone is outside the radius of either crane, ensuring the property always holds with A[] not(...).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not ( (distance_to_crane1 > 50) || (distance_to_crane2 > 50) )",
+              "explanation": "The constraint 'MonitorDrone must remain within 50 m radius of both cranes' is a safety property requiring the drone to always be within the specified radius. Using the forbidden_state pattern, this translates to forbidding the state where the drone is outside the radius of either crane, ensuring the property always holds with A[] not(...).",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not ( (distance_to_crane1 > 50) || (distance_to_crane2 > 50) )"
+          },
+          "total_time": 103.82100892066956,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "classification": {
+            "step": "classification",
+            "timing": 63.57983422279358,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"alternate\", \"deliveries\", \"mutual exclusion\", \"DeliveryAMR1\", \"DeliveryAMR2\"],\n  \"cues\": []\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 99.54107809066772,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)\",\n  \"explanation\": \"This query matches the forbidden_state pattern by ensuring that the state where both DeliveryAMR1 and DeliveryAMR2 are delivering simultaneously never occurs, which directly enforces the mutual exclusion requirement for alternate deliveries as specified in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)",
+              "explanation": "This query matches the forbidden_state pattern by ensuring that the state where both DeliveryAMR1 and DeliveryAMR2 are delivering simultaneously never occurs, which directly enforces the mutual exclusion requirement for alternate deliveries as specified in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (DeliveryAMR1.delivering && DeliveryAMR2.delivering)"
+          },
+          "total_time": 163.15538096427917,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "classification": {
+            "step": "classification",
+            "timing": 27.599509954452515,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"Eventually\", \"all beams welded\", \"MonitorDrone\", \"reports completion\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 73.61148810386658,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> (Beams.all_welded && MonitorDrone.completion_reported)\",\n  \"explanation\": \"The constraint specifies that eventually both all beams are welded and MonitorDrone reports completion, which is a liveness property. Using the A<> operator ensures that in all paths, this conjunction of conditions must eventually be true, directly matching the 'eventually' keyword and the pattern for eventual completion.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (Beams.all_welded && MonitorDrone.completion_reported)",
+              "explanation": "The constraint specifies that eventually both all beams are welded and MonitorDrone reports completion, which is a liveness property. Using the A<> operator ensures that in all paths, this conjunction of conditions must eventually be true, directly matching the 'eventually' keyword and the pattern for eventual completion.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (Beams.all_welded && MonitorDrone.completion_reported)"
+          },
+          "total_time": 101.23439693450928,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8366870880126953,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"WelderBot\", \"CraneA\", \"CraneB\", \"starts\", \"finish\", \"lifting\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"CraneA and CraneB finish lifting\",\n  \"response_text\": \"WelderBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2821853160858154,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"CraneA.lifting_finished && CraneB.lifting_finished --> WelderBot.starts\",\n  \"explanation\": \"The constraint specifies that 'WelderBot starts only after CraneA and CraneB finish lifting'. This maps directly to the 'sequential_workflow' pattern, where CraneA and CraneB finishing lifting is 'action1' and WelderBot starting is 'action2'. The '-->' operator represents that after the first event happens, the second event eventually follows.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "CraneA.lifting_finished && CraneB.lifting_finished --> WelderBot.starts",
+              "explanation": "The constraint specifies that 'WelderBot starts only after CraneA and CraneB finish lifting'. This maps directly to the 'sequential_workflow' pattern, where CraneA and CraneB finishing lifting is 'action1' and WelderBot starting is 'action2'. The '-->' operator represents that after the first event happens, the second event eventually follows.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneA.lifting_finished && CraneB.lifting_finished --> WelderBot.starts"
+          },
+          "total_time": 2.144536018371582,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9249727725982666,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\n    \"drone\",\n    \"radius\",\n    \"cranes\",\n    \"distance\",\n    \"proximity\"\n  ],\n  \"cues\": [\n    \"must\",\n    \"within\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.600600004196167,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] MonitorDrone.x >= Crane1.x - 50 and MonitorDrone.x <= Crane1.x + 50 and MonitorDrone.y >= Crane1.y - 50 and MonitorDrone.y <= Crane1.y + 50 and MonitorDrone.x >= Crane2.x - 50 and MonitorDrone.x <= Crane2.x + 50 and MonitorDrone.y >= Crane2.y - 50 and MonitorDrone.y <= Crane2.y + 50\",\n  \"explanation\": \"The constraint requires the drone to remain within a 50m radius of both cranes. This query uses A[] (always) to ensure that the drone's x and y coordinates are always within the specified range of both Crane1 and Crane2. The x and y coordinates are used to represent the position and verify the distance requirement.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": []\n}\n```",
+            "uppaal_result": {
+              "query": "A[] MonitorDrone.x >= Crane1.x - 50 and MonitorDrone.x <= Crane1.x + 50 and MonitorDrone.y >= Crane1.y - 50 and MonitorDrone.y <= Crane1.y + 50 and MonitorDrone.x >= Crane2.x - 50 and MonitorDrone.x <= Crane2.x + 50 and MonitorDrone.y >= Crane2.y - 50 and MonitorDrone.y <= Crane2.y + 50",
+              "explanation": "The constraint requires the drone to remain within a 50m radius of both cranes. This query uses A[] (always) to ensure that the drone's x and y coordinates are always within the specified range of both Crane1 and Crane2. The x and y coordinates are used to represent the position and verify the distance requirement.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": []
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] MonitorDrone.x >= Crane1.x - 50 and MonitorDrone.x <= Crane1.x + 50 and MonitorDrone.y >= Crane1.y - 50 and MonitorDrone.y <= Crane1.y + 50 and MonitorDrone.x >= Crane2.x - 50 and MonitorDrone.x <= Crane2.x + 50 and MonitorDrone.y >= Crane2.y - 50 and MonitorDrone.y <= Crane2.y + 50"
+          },
+          "total_time": 2.5575449466705322,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0048871040344238,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"delivery\",\n    \"alternate\",\n    \"mutual exclusion\"\n  ],\n  \"cues\": [],\n  \"trigger_text\": \"DeliveryAMR1 and DeliveryAMR2\",\n  \"response_text\": \"alternate deliveries (mutual exclusion)\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.1136319637298584,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (DeliveryAMR1 && DeliveryAMR2)\",\n  \"explanation\": \"The constraint specifies that DeliveryAMR1 and DeliveryAMR2 are mutually exclusive and should not occur simultaneously. This maps directly to a forbidden state pattern, where the combination of DeliveryAMR1 being true and DeliveryAMR2 being true is not allowed. The A[] operator ensures this condition is always true.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (DeliveryAMR1 && DeliveryAMR2)",
+              "explanation": "The constraint specifies that DeliveryAMR1 and DeliveryAMR2 are mutually exclusive and should not occur simultaneously. This maps directly to a forbidden state pattern, where the combination of DeliveryAMR1 being true and DeliveryAMR2 being true is not allowed. The A[] operator ensures this condition is always true.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (DeliveryAMR1 && DeliveryAMR2)"
+          },
+          "total_time": 2.1371829509735107,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1187138557434082,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"eventually\",\n    \"completion\",\n    \"welded\",\n    \"beams\",\n    \"MonitorDrone\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.1167030334472656,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (weldedBeams >= totalBeams && MonitorDrone.completion)\",\n  \"explanation\": \"The constraint states that eventually all beams must be welded, which is represented by 'weldedBeams >= totalBeams', and the MonitorDrone must report completion, represented by 'MonitorDrone.completion'. The 'A<>' operator ensures that this condition must eventually become true.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (weldedBeams >= totalBeams && MonitorDrone.completion)",
+              "explanation": "The constraint states that eventually all beams must be welded, which is represented by 'weldedBeams >= totalBeams', and the MonitorDrone must report completion, represented by 'MonitorDrone.completion'. The 'A<>' operator ensures that this condition must eventually become true.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (weldedBeams >= totalBeams && MonitorDrone.completion)"
+          },
+          "total_time": 2.2482991218566895,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "classification": {
+            "step": "classification",
+            "timing": 9.312907934188843,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"WelderBot\",\n    \"CraneA\",\n    \"CraneB\",\n    \"starts\",\n    \"finish lifting\"\n  ],\n  \"cues\": [\n    \"only after\",\n    \"after\"\n  ],\n  \"trigger_text\": \"CraneA and CraneB finish lifting\",\n  \"response_text\": \"WelderBot starts\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.989410877227783,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(CraneA.FinishedLifting and CraneB.FinishedLifting) --> WelderBot.Welding\",\n  \"explanation\": \"This query models a sequential workflow where an action is triggered after a preceding condition is met. The condition `CraneA.FinishedLifting and CraneB.FinishedLifting` represents the trigger 'CraneA and CraneB finish lifting'. The response `WelderBot.Welding` represents the action 'WelderBot starts'. The 'leads to' operator `-->` ensures that whenever the trigger condition becomes true, the response action must eventually follow, which correctly captures the 'only after' relationship.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(CraneA.FinishedLifting and CraneB.FinishedLifting) --> WelderBot.Welding",
+              "explanation": "This query models a sequential workflow where an action is triggered after a preceding condition is met. The condition `CraneA.FinishedLifting and CraneB.FinishedLifting` represents the trigger 'CraneA and CraneB finish lifting'. The response `WelderBot.Welding` represents the action 'WelderBot starts'. The 'leads to' operator `-->` ensures that whenever the trigger condition becomes true, the response action must eventually follow, which correctly captures the 'only after' relationship.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(CraneA.FinishedLifting and CraneB.FinishedLifting) --> WelderBot.Welding"
+          },
+          "total_time": 22.32076120376587,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "classification": {
+            "step": "classification",
+            "timing": 8.347306966781616,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"MonitorDrone\",\n    \"remain\",\n    \"within\",\n    \"radius\",\n    \"cranes\"\n  ],\n  \"cues\": [\n    \"must\",\n    \"remain within\",\n    \"<\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.72716212272644,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (MonitorDrone.dist_crane1 > 50 or MonitorDrone.dist_crane2 > 50)\",\n  \"explanation\": \"The constraint is a safety property that must always hold. The 'forbidden_state' pattern is used with `A[] not (...)` to specify a condition that must never be true. The bad state is when the MonitorDrone's distance to crane 1 OR its distance to crane 2 exceeds 50m. The query asserts that this state is never reached.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (MonitorDrone.dist_crane1 > 50 or MonitorDrone.dist_crane2 > 50)",
+              "explanation": "The constraint is a safety property that must always hold. The 'forbidden_state' pattern is used with `A[] not (...)` to specify a condition that must never be true. The bad state is when the MonitorDrone's distance to crane 1 OR its distance to crane 2 exceeds 50m. The query asserts that this state is never reached.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (MonitorDrone.dist_crane1 > 50 or MonitorDrone.dist_crane2 > 50)"
+          },
+          "total_time": 21.098319053649902,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "classification": {
+            "step": "classification",
+            "timing": 11.892151117324829,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"alternate\",\n    \"delivery\",\n    \"mutual exclusion\"\n  ],\n  \"cues\": [\n    \"alternate\",\n    \"mutual exclusion\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.914160251617432,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (DeliveryAMR1.Delivering && DeliveryAMR2.Delivering)\",\n  \"explanation\": \"This query enforces the 'mutual exclusion' aspect of the constraint. It uses the 'forbidden_state' pattern (A[] not ...) to assert that it is globally true (A[]) that the system is never (not) in a state where both the DeliveryAMR1 process is in its 'Delivering' location and (&&) the DeliveryAMR2 process is simultaneously in its 'Delivering' location.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (DeliveryAMR1.Delivering && DeliveryAMR2.Delivering)",
+              "explanation": "This query enforces the 'mutual exclusion' aspect of the constraint. It uses the 'forbidden_state' pattern (A[] not ...) to assert that it is globally true (A[]) that the system is never (not) in a state where both the DeliveryAMR1 process is in its 'Delivering' location and (&&) the DeliveryAMR2 process is simultaneously in its 'Delivering' location.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (DeliveryAMR1.Delivering && DeliveryAMR2.Delivering)"
+          },
+          "total_time": 24.827736139297485,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "classification": {
+            "step": "classification",
+            "timing": 6.487508058547974,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"beams\",\n    \"welded\",\n    \"MonitorDrone\",\n    \"completion\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.455692052841187,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> (System.all_beams_welded && MonitorDrone.completion)\",\n  \"explanation\": \"The query uses the 'A<>' operator, which translates to 'for all paths, eventually'. It checks the liveness property that the system must eventually reach a state where both conditions are met simultaneously: all beams are welded (represented by the boolean 'System.all_beams_welded') and the MonitorDrone has reported completion (represented by the state 'MonitorDrone.completion'). This directly models the constraint 'Eventually all beams welded and MonitorDrone reports completion'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> (System.all_beams_welded && MonitorDrone.completion)",
+              "explanation": "The query uses the 'A<>' operator, which translates to 'for all paths, eventually'. It checks the liveness property that the system must eventually reach a state where both conditions are met simultaneously: all beams are welded (represented by the boolean 'System.all_beams_welded') and the MonitorDrone has reported completion (represented by the state 'MonitorDrone.completion'). This directly models the constraint 'Eventually all beams welded and MonitorDrone reports completion'.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (System.all_beams_welded && MonitorDrone.completion)"
+          },
+          "total_time": 26.979203939437866,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    }
+  ]
+}

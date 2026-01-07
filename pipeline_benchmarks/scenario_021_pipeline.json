@@ -1,0 +1,1343 @@
+{
+  "id": "scenario_021",
+  "domain": "marine",
+  "prompt": "Two underwater drones inspect ship hulls. They must always remain within communication range. Eventually, all sections must be inspected. If visibility < 30%, will both start returning to surface.",
+  "robots": [
+    "SubDroneA",
+    "SubDroneB"
+  ],
+  "constraints": [
+    "Both drones maintain communication range at all times",
+    "All sections eventually inspected",
+    "If visibility < 30%, both start returning to surface "
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "Both drones maintain communication range at all times",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7427639961242676,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"drones\",\"communication range\",\"maintain\",\"at all times\",\"connectivity\",\"disconnection\"],\"cues\":[\"at all times\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.163712978363037,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (disconnected(d1,d2))\",\"explanation\":\"The constraint says that both drones must maintain communication range at all times, which means a loss of connectivity between the two drones is a forbidden state. Using the forbidden_state pattern, we express this as a universal safety property: on all paths and in all states (A[]), it is never the case that the two drones are disconnected. Here, disconnected(d1,d2) is an abstract predicate that should be defined true exactly when the two drones are out of communication range; wrapping it in not(...) ensures that such a state can never occur.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (disconnected(d1,d2))",
+              "explanation": "The constraint says that both drones must maintain communication range at all times, which means a loss of connectivity between the two drones is a forbidden state. Using the forbidden_state pattern, we express this as a universal safety property: on all paths and in all states (A[]), it is never the case that the two drones are disconnected. Here, disconnected(d1,d2) is an abstract predicate that should be defined true exactly when the two drones are out of communication range; wrapping it in not(...) ensures that such a state can never occur.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] not (disconnected(d1,d2))"
+          },
+          "total_time": 4.921094179153442,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "All sections eventually inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.863279104232788,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"all\",\"sections\",\"eventually\",\"inspected\",\"inspection\",\"completion\"],\"cues\":[\"all\",\"eventually\"],\"trigger_text\":\"sections\",\"response_text\":\"inspected\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0109081268310547,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> all_sections_inspected\",\"explanation\":\"The constraint says that all sections must eventually be inspected, which is a liveness requirement. Using the eventual completion pattern, we assert that in all possible executions the system will at some point reach a state where the proposition `all_sections_inspected` holds, meaning every section has been inspected.\",\"confidence\":0.89,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> all_sections_inspected",
+              "explanation": "The constraint says that all sections must eventually be inspected, which is a liveness requirement. Using the eventual completion pattern, we assert that in all possible executions the system will at some point reach a state where the proposition `all_sections_inspected` holds, meaning every section has been inspected.",
+              "confidence": 0.89,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_sections_inspected"
+          },
+          "total_time": 3.890807867050171,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "classification": {
+            "step": "classification",
+            "timing": 2.1258113384246826,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"visibility < 30%\",\"returning to surface\",\"both start\"],\"cues\":[\"if\",\"<\",\"%\"],\"trigger_text\":\"visibility < 30%\",\"response_text\":\"both start returning to surface\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.3428471088409424,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(visibility < 30) --> both_returning_to_surface\",\"explanation\":\"The condition visibility < 30 is used on the left of the conditional response operator -->, and the required eventual behavior 'both start returning to surface' is captured on the right as the state/formula both_returning_to_surface. This matches the pattern 'if condition, then eventual response'.\",\"confidence\":0.87,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(visibility < 30) --> both_returning_to_surface",
+              "explanation": "The condition visibility < 30 is used on the left of the conditional response operator -->, and the required eventual behavior 'both start returning to surface' is captured on the right as the state/formula both_returning_to_surface. This matches the pattern 'if condition, then eventual response'.",
+              "confidence": 0.87,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 30) --> both_returning_to_surface"
+          },
+          "total_time": 4.490397214889526,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "Both drones maintain communication range at all times",
+          "classification": {
+            "step": "classification",
+            "timing": 7.452664136886597,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"communication range\",\"maintain\",\"always\",\"connectivity\",\"link\",\"drones\",\"in range\",\"never out of range\"],\"cues\":[\"always\",\"never\",\"must\",\"at\",\"all\",\"times\",\"maintain\",\"communication\",\"range\"],\"trigger_text\":\"drones out of communication range\",\"response_text\":\"both drones remain within communication range at all times\"}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.656275033950806,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (distance_d1_d2 > COMM_RANGE)\",\"explanation\":\"This safety property forbids any reachable state where the distance between the two drones (distance_d1_d2) exceeds the communication range constant COMM_RANGE, thus ensuring both drones remain within communication range at all times (forbidden_state pattern using A[] not(...)).\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (distance_d1_d2 > COMM_RANGE)",
+              "explanation": "This safety property forbids any reachable state where the distance between the two drones (distance_d1_d2) exceeds the communication range constant COMM_RANGE, thus ensuring both drones remain within communication range at all times (forbidden_state pattern using A[] not(...)).",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (distance_d1_d2 > COMM_RANGE)"
+          },
+          "total_time": 18.123302221298218,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "All sections eventually inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 15.492179155349731,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"all\",\"sections\",\"eventually\",\"inspected\",\"inspect\",\"every\",\"complete\"],\"cues\":[\"eventually\",\"all\",\"every\",\"must\",\"inspect\"],\"trigger_text\":\"all sections\",\"response_text\":\"inspected\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.8605637550354,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> forall (i : int[0..NUM_SECTIONS-1]) Section[i].inspected\",\"explanation\":\"This is a liveness property stating that on all execution paths (A<>), eventually every section's inspected flag becomes true (forall i: Section[i].inspected), which matches the requirement that all sections are eventually inspected.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> forall (i : int[0..NUM_SECTIONS-1]) Section[i].inspected",
+              "explanation": "This is a liveness property stating that on all execution paths (A<>), eventually every section's inspected flag becomes true (forall i: Section[i].inspected), which matches the requirement that all sections are eventually inspected.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A<> forall (i : int[0..NUM_SECTIONS-1]) Section[i].inspected"
+          },
+          "total_time": 25.37499713897705,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "classification": {
+            "step": "classification",
+            "timing": 6.960067987442017,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"visibility\",\"30%\",\"return to surface\",\"start returning\",\"both\"],\"cues\":[\"if\",\"<\",\"%\",\"then\",\"start\",\"returning\",\"surface\"],\"trigger_text\":\"visibility < 30%\",\"response_text\":\"both start returning to surface\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.397616863250732,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(visibility < 30) --> (DroneA.start_returning && DroneB.start_returning)\",\"explanation\":\"This uses the conditional_response pattern: when the condition visibility < 30 holds, it requires that both DroneA and DroneB eventually start returning to the surface. The --> operator expresses that the response is an eventual/sequential reaction to the trigger.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(visibility < 30) --> (DroneA.start_returning && DroneB.start_returning)",
+              "explanation": "This uses the conditional_response pattern: when the condition visibility < 30 holds, it requires that both DroneA and DroneB eventually start returning to the surface. The --> operator expresses that the response is an eventual/sequential reaction to the trigger.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 30) --> (DroneA.start_returning && DroneB.start_returning)"
+          },
+          "total_time": 16.381512880325317,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "Both drones maintain communication range at all times",
+          "classification": {
+            "step": "classification",
+            "timing": 13.291712999343872,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"communication\",\"range\",\"drones\",\"maintain\",\"invariant\",\"safety\"],\"cues\":[\"never\",\"must\",\"at\",\"times\",\"range\",\"communication\",\"drones\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 23.528817892074585,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (not (Drone1.inRange && Drone2.inRange))\",\"explanation\":\"The constraint states that both drones must maintain communication range at all times. The bad state is when at least one drone is out of range, i.e., not (Drone1.inRange && Drone2.inRange). Using A[] not (not (...)) yields a safety property that forbids ever entering that bad state, i.e., ensures Drone1.inRange && Drone2.inRange holds always.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] not (not (Drone1.inRange && Drone2.inRange))",
+              "explanation": "The constraint states that both drones must maintain communication range at all times. The bad state is when at least one drone is out of range, i.e., not (Drone1.inRange && Drone2.inRange). Using A[] not (not (...)) yields a safety property that forbids ever entering that bad state, i.e., ensures Drone1.inRange && Drone2.inRange holds always.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (not (Drone1.inRange && Drone2.inRange))"
+          },
+          "total_time": 36.84872388839722,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "All sections eventually inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 9.917983055114746,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"sections\",\"inspection\",\"eventually\",\"completion\",\"all\"],\"cues\":[\"eventually\",\"then\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.03483295440674,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> Sections.all_inspected\",\"explanation\":\"Represents a global liveness property: on every possible run, the system must eventually reach the state where all sections have been inspected.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> Sections.all_inspected",
+              "explanation": "Represents a global liveness property: on every possible run, the system must eventually reach the state where all sections have been inspected.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> Sections.all_inspected"
+          },
+          "total_time": 25.97381567955017,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "classification": {
+            "step": "classification",
+            "timing": 8.203715801239014,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"visibility\",\"30%\",\"start\",\"returning\",\"surface\"],\"cues\":[\"when\",\"after\",\"then\",\"eventually\",\"never\",\"must\",\"can\",\"<\",\">\",\"%\"],\"trigger_text\":\"If visibility < 30%\",\"response_text\":\"both start returning to surface\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.607738971710205,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)\",\"explanation\":\"This encodes the constraint as a conditional response: if the condition (visibility < 30) holds, then the eventual response is that both drones start returning to the surface (represented by DroneA.returning_to_surface and DroneB.returning_to_surface).\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)",
+              "explanation": "This encodes the constraint as a conditional response: if the condition (visibility < 30) holds, then the eventual response is that both drones start returning to the surface (represented by DroneA.returning_to_surface and DroneB.returning_to_surface).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)"
+          },
+          "total_time": 21.844959020614624,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "Both drones maintain communication range at all times",
+          "classification": {
+            "step": "classification",
+            "timing": 2.071428060531616,
+            "tokens": 167,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"communication\", \"range\", \"maintain\", \"at all times\"],\n  \"cues\": [\"must\", \"never\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.601609945297241,
+            "tokens": 591,
+            "raw_text": "{\n  \"query\": \"A[] not (Drone1.out_of_range || Drone2.out_of_range)\",\n  \"explanation\": \"The query ensures that neither Drone1 nor Drone2 is ever out of communication range, aligning with the constraint that both drones must maintain communication range at all times. This uses the forbidden_state pattern to prevent the occurrence of the 'out_of_range' state for either drone.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (Drone1.out_of_range || Drone2.out_of_range)",
+              "explanation": "The query ensures that neither Drone1 nor Drone2 is ever out of communication range, aligning with the constraint that both drones must maintain communication range at all times. This uses the forbidden_state pattern to prevent the occurrence of the 'out_of_range' state for either drone.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Drone1.out_of_range || Drone2.out_of_range)"
+          },
+          "total_time": 4.701035976409912,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "All sections eventually inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 0.6167159080505371,
+            "tokens": 154,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"inspected\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4395217895507812,
+            "tokens": 523,
+            "raw_text": "{\n  \"query\": \"A<> AllSections.inspected\",\n  \"explanation\": \"The constraint 'All sections eventually inspected' matches the 'eventual_completion' pattern, which requires that a task must eventually complete. The UPPAAL query 'A<> AllSections.inspected' ensures that the state where all sections are inspected is eventually reached.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> AllSections.inspected",
+              "explanation": "The constraint 'All sections eventually inspected' matches the 'eventual_completion' pattern, which requires that a task must eventually complete. The UPPAAL query 'A<> AllSections.inspected' ensures that the state where all sections are inspected is eventually reached.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> AllSections.inspected"
+          },
+          "total_time": 2.084290027618408,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4290199279785156,
+            "tokens": 166,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"visibility\", \"returning\", \"surface\"],\n  \"cues\": [\"if\", \"<\", \"both\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.3533968925476074,
+            "tokens": 590,
+            "raw_text": "{\n  \"query\": \"(visibility < 30) --> (StartReturningA.at_surface && StartReturningB.at_surface)\",\n  \"explanation\": \"The constraint specifies a conditional response pattern where if the visibility is less than 30%, both entities (presumably drones or similar) must start returning to the surface. This matches the conditional_response pattern, which is used for triggered behaviors where a condition leads to an eventual action. The '-->' operator is appropriate here as it denotes an eventual response to a condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(visibility < 30) --> (StartReturningA.at_surface && StartReturningB.at_surface)",
+              "explanation": "The constraint specifies a conditional response pattern where if the visibility is less than 30%, both entities (presumably drones or similar) must start returning to the surface. This matches the conditional_response pattern, which is used for triggered behaviors where a condition leads to an eventual action. The '-->' operator is appropriate here as it denotes an eventual response to a condition.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 30) --> (StartReturningA.at_surface && StartReturningB.at_surface)"
+          },
+          "total_time": 3.8002398014068604,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "Both drones maintain communication range at all times",
+          "classification": {
+            "step": "classification",
+            "timing": 7.703560829162598,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"drones\", \"communication\", \"range\", \"maintain\", \"all times\"],\n  \"cues\": [\"at all times\"],\n  \"trigger_text\": \"drones lose communication range\",\n  \"response_text\": null\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.342944860458374,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (Drone1.outOfRange || Drone2.outOfRange)\",\n  \"explanation\": \"This query uses the forbidden_state pattern with A[] not to ensure that at all times, neither drone is out of communication range. The constraint 'at all times' indicates a safety property that must always hold, so we use A[] (always) with negation to forbid the state where either drone loses communication range.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (Drone1.outOfRange || Drone2.outOfRange)",
+              "explanation": "This query uses the forbidden_state pattern with A[] not to ensure that at all times, neither drone is out of communication range. The constraint 'at all times' indicates a safety property that must always hold, so we use A[] (always) with negation to forbid the state where either drone loses communication range.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Drone1.outOfRange || Drone2.outOfRange)"
+          },
+          "total_time": 12.067125082015991,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "All sections eventually inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 4.016245126724243,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"sections\", \"eventually\", \"inspected\", \"all\"],\n  \"cues\": [\"eventually\", \"all\"],\n  \"trigger_text\": null,\n  \"response_text\": \"all sections inspected\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.928467035293579,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> all_sections_inspected\",\n  \"explanation\": \"This query verifies that eventually all sections will be inspected. The A<> operator checks that in all execution paths, a state where all_sections_inspected is true will eventually be reached, which directly matches the liveness requirement.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> all_sections_inspected",
+              "explanation": "This query verifies that eventually all sections will be inspected. The A<> operator checks that in all execution paths, a state where all_sections_inspected is true will eventually be reached, which directly matches the liveness requirement.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_sections_inspected"
+          },
+          "total_time": 8.01785397529602,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "classification": {
+            "step": "classification",
+            "timing": 4.419129133224487,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"visibility\", \"30%\", \"start\", \"returning\", \"surface\", \"both\"],\n  \"cues\": [\"if\", \"<\", \"both\"],\n  \"trigger_text\": \"visibility < 30%\",\n  \"response_text\": \"both start returning to surface\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.222779989242554,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)\",\n  \"explanation\": \"This query uses the conditional response pattern with the --> operator to express that when visibility drops below 30%, both drones will eventually start returning to the surface. The --> operator is appropriate here because it captures the eventual triggered behavior rather than an immediate same-state response.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)",
+              "explanation": "This query uses the conditional response pattern with the --> operator to express that when visibility drops below 30%, both drones will eventually start returning to the surface. The --> operator is appropriate here because it captures the eventual triggered behavior rather than an immediate same-state response.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)"
+          },
+          "total_time": 8.674460172653198,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "Both drones maintain communication range at all times",
+          "classification": {
+            "step": "classification",
+            "timing": 2.30073618888855,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"drones\", \"communication\", \"range\", \"maintain\", \"all times\"],\n  \"cues\": [\"at all times\"],\n  \"trigger_text\": \"drones lose communication range\",\n  \"response_text\": \"must maintain communication range\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.4347708225250244,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (Drone1.out_of_range || Drone2.out_of_range)\",\n  \"explanation\": \"The constraint requires both drones to maintain communication range at all times. This is a forbidden_state pattern where the bad state is either drone losing communication range. The A[] operator ensures this condition is checked globally (at all times), and 'not' forbids the state where any drone is out of range from occurring.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (Drone1.out_of_range || Drone2.out_of_range)",
+              "explanation": "The constraint requires both drones to maintain communication range at all times. This is a forbidden_state pattern where the bad state is either drone losing communication range. The A[] operator ensures this condition is checked globally (at all times), and 'not' forbids the state where any drone is out of range from occurring.",
+              "confidence": 0.92,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Drone1.out_of_range || Drone2.out_of_range)"
+          },
+          "total_time": 4.75852108001709,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "All sections eventually inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2189078330993652,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"sections\", \"inspected\", \"eventually\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"All sections\",\n  \"response_text\": \"inspected\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8218398094177246,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> all_sections_inspected\",\n  \"explanation\": \"The constraint 'All sections eventually inspected' uses the keyword 'eventually' and describes a liveness property where a final state (all sections being inspected) must be reached. The A<> operator is appropriate because it expresses that from all initial states, the system must eventually reach a state where all sections have been inspected. This matches the eventual_completion pattern template.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> all_sections_inspected",
+              "explanation": "The constraint 'All sections eventually inspected' uses the keyword 'eventually' and describes a liveness property where a final state (all sections being inspected) must be reached. The A<> operator is appropriate because it expresses that from all initial states, the system must eventually reach a state where all sections have been inspected. This matches the eventual_completion pattern template.",
+              "confidence": 0.92,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_sections_inspected"
+          },
+          "total_time": 3.06242299079895,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1557679176330566,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"visibility\", \"threshold\", \"condition\", \"action\", \"start returning\"],\n  \"cues\": [\"<\", \"if\"],\n  \"trigger_text\": \"visibility < 30%\",\n  \"response_text\": \"both start returning to surface\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6877188682556152,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(visibility < 30) --> (DroneA.returning && DroneB.returning)\",\n  \"explanation\": \"The constraint describes a conditional_response pattern where the condition 'visibility < 30%' triggers an eventual response 'both start returning to surface'. The '-->' operator represents this sequential workflow: when visibility drops below 30%, both drones will eventually enter a returning state. This matches the trigger-response semantics and is not an immediate same-state response, so '-->' is appropriate rather than imply.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(visibility < 30) --> (DroneA.returning && DroneB.returning)",
+              "explanation": "The constraint describes a conditional_response pattern where the condition 'visibility < 30%' triggers an eventual response 'both start returning to surface'. The '-->' operator represents this sequential workflow: when visibility drops below 30%, both drones will eventually enter a returning state. This matches the trigger-response semantics and is not an immediate same-state response, so '-->' is appropriate rather than imply.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 30) --> (DroneA.returning && DroneB.returning)"
+          },
+          "total_time": 2.86578106880188,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "Both drones maintain communication range at all times",
+          "classification": {
+            "step": "classification",
+            "timing": 7.901433706283569,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"communication range\",\"maintain\"],\"cues\":[\"at all times\"]}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.57122492790222,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] not (!Drone1.in_range || !Drone2.in_range)\", \"explanation\": \"The constraint 'Both drones maintain communication range at all times' implies that the bad state of losing communication (either drone not in range) must never occur. This matches the forbidden_state pattern, using A[] not (bad_state) to ensure the property holds globally.\", \"confidence\": 0.85, \"pattern_used\": \"forbidden_state\", \"operator_used\": [\"A[]\", \"not\"]}",
+            "uppaal_result": {
+              "query": "A[] not (!Drone1.in_range || !Drone2.in_range)",
+              "explanation": "The constraint 'Both drones maintain communication range at all times' implies that the bad state of losing communication (either drone not in range) must never occur. This matches the forbidden_state pattern, using A[] not (bad_state) to ensure the property holds globally.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (!Drone1.in_range || !Drone2.in_range)"
+          },
+          "total_time": 25.499178886413574,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "All sections eventually inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 11.18687391281128,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"sections\", \"inspected\"], \"cues\": [\"eventually\"]}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.694800853729248,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> all_sections_inspected\", \"explanation\": \"The constraint 'All sections eventually inspected' requires a liveness property where the system must eventually reach a state where all sections are inspected, which is captured by the A<> operator in UPPAAL for global eventual completion.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> all_sections_inspected",
+              "explanation": "The constraint 'All sections eventually inspected' requires a liveness property where the system must eventually reach a state where all sections are inspected, which is captured by the A<> operator in UPPAAL for global eventual completion.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_sections_inspected"
+          },
+          "total_time": 26.9242160320282,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "classification": {
+            "step": "classification",
+            "timing": 8.046341896057129,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"visibility\", \"returning to surface\"], \"cues\": [\"If\", \"<\", \"%\"], \"trigger_text\": \"visibility < 30%\", \"response_text\": \"both start returning to surface\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.189746856689453,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(visibility < 30) --> (DroneA.returning && DroneB.returning)\",\n  \"explanation\": \"The query uses the conditional_response pattern with the --> operator to specify that if visibility is below 30%, both drones must eventually reach a state where they are returning to the surface, matching the eventual response in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(visibility < 30) --> (DroneA.returning && DroneB.returning)",
+              "explanation": "The query uses the conditional_response pattern with the --> operator to specify that if visibility is below 30%, both drones must eventually reach a state where they are returning to the surface, matching the eventual response in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 30) --> (DroneA.returning && DroneB.returning)"
+          },
+          "total_time": 20.263998985290527,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "Both drones maintain communication range at all times",
+          "classification": {
+            "step": "classification",
+            "timing": 6.137199878692627,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"drones\", \"maintain\", \"communication range\", \"at all times\"],\n  \"cues\": [\"at all times\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.327605962753296,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (drones.outOfCommunicationRange)\",\n  \"explanation\": \"This query uses A[] not to ensure that the state where drones are out of communication range never occurs, directly matching the constraint that both drones must maintain communication range at all times as a forbidden state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (drones.outOfCommunicationRange)",
+              "explanation": "This query uses A[] not to ensure that the state where drones are out of communication range never occurs, directly matching the constraint that both drones must maintain communication range at all times as a forbidden state.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (drones.outOfCommunicationRange)"
+          },
+          "total_time": 16.48487615585327,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "All sections eventually inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 13.308136940002441,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"eventually\", \"inspected\", \"all\", \"sections\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.741316080093384,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> all_sections_inspected\",\n  \"explanation\": \"This query uses the A<> operator to ensure that it is inevitable for all sections to be inspected eventually, directly matching the eventual_completion pattern where something must happen globally.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> all_sections_inspected",
+              "explanation": "This query uses the A<> operator to ensure that it is inevitable for all sections to be inspected eventually, directly matching the eventual_completion pattern where something must happen globally.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_sections_inspected"
+          },
+          "total_time": 27.069292068481445,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "classification": {
+            "step": "classification",
+            "timing": 5.79536509513855,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"visibility\", \"30%\", \"returning\", \"surface\"],\n  \"cues\": [\"If\", \"<\"],\n  \"trigger_text\": \"If visibility < 30%\",\n  \"response_text\": \"both start returning to surface\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.726240158081055,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(visibility < 30) --> (DroneA.at_surface && DroneB.at_surface)\",\n  \"explanation\": \"The query uses the --> operator to represent that if visibility is less than 30%, then eventually both drones will reach the surface, aligning with the conditional_response pattern where a condition leads to an eventual action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(visibility < 30) --> (DroneA.at_surface && DroneB.at_surface)",
+              "explanation": "The query uses the --> operator to represent that if visibility is less than 30%, then eventually both drones will reach the surface, aligning with the conditional_response pattern where a condition leads to an eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 30) --> (DroneA.at_surface && DroneB.at_surface)"
+          },
+          "total_time": 12.55224609375,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "Both drones maintain communication range at all times",
+          "classification": {
+            "step": "classification",
+            "timing": 48.27622103691101,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"drones\", \"communication\", \"range\", \"maintain\"],\n  \"cues\": [\"maintain\", \"at all times\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 101.49750566482544,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] not (Drone1.commsLost || Drone2.commsLost)\",\n  \"explanation\": \"This query uses the forbidden_state pattern with A[] not to specify that the bad state (where either drone loses communication range) must never occur, directly translating the constraint that both drones maintain communication range at all times.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "uppaal_result": {
+              "query": "A[] not (Drone1.commsLost || Drone2.commsLost)",
+              "explanation": "This query uses the forbidden_state pattern with A[] not to specify that the bad state (where either drone loses communication range) must never occur, directly translating the constraint that both drones maintain communication range at all times.",
+              "confidence": 0.85,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Drone1.commsLost || Drone2.commsLost)"
+          },
+          "total_time": 149.82553815841675,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "All sections eventually inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 33.49868822097778,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"sections\", \"inspected\", \"eventually\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 71.89444208145142,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> all_sections_inspected\",\n  \"explanation\": \"The constraint 'All sections eventually inspected' contains the keyword 'eventually' and involves completion of a task (inspecting sections), which aligns with the eventual_completion pattern for liveness properties where something must eventually happen. The UPPAAL query A<> all_sections_inspected uses the operator A<> to assert that in all possible execution paths, the condition 'all_sections_inspected' (representing that all sections have been inspected) will eventually hold true.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> all_sections_inspected",
+              "explanation": "The constraint 'All sections eventually inspected' contains the keyword 'eventually' and involves completion of a task (inspecting sections), which aligns with the eventual_completion pattern for liveness properties where something must eventually happen. The UPPAAL query A<> all_sections_inspected uses the operator A<> to assert that in all possible execution paths, the condition 'all_sections_inspected' (representing that all sections have been inspected) will eventually hold true.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_sections_inspected"
+          },
+          "total_time": 105.42886877059937,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "classification": {
+            "step": "classification",
+            "timing": 46.33177709579468,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"visibility\", \"surface\", \"return\", \"30%\"],\n  \"cues\": [\"If\", \"<\", \"%\"],\n  \"trigger_text\": \"visibility < 30%\",\n  \"response_text\": \"both start returning to surface\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 102.77822279930115,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)\",\n  \"explanation\": \"This query follows the conditional_response pattern using the '-->' operator to represent that if visibility is less than 30%, eventually both drones start returning to the surface, which aligns with the natural language constraint's triggered eventual behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)",
+              "explanation": "This query follows the conditional_response pattern using the '-->' operator to represent that if visibility is less than 30%, eventually both drones start returning to the surface, which aligns with the natural language constraint's triggered eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)"
+          },
+          "total_time": 149.13073897361755,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "Both drones maintain communication range at all times",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9043819904327393,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"communication\", \"range\", \"maintain\", \"drones\"],\n  \"cues\": [],\n  \"trigger_text\": \"Both drones\",\n  \"response_text\": \"maintain communication range at all times\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.4826900959014893,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (Drone1.commRange < 0 or Drone2.commRange < 0)\",\n  \"explanation\": \"The constraint 'Both drones maintain communication range at all times' translates to 'it is always the case that neither drone is out of communication range'. `commRange < 0` is used here as placeholder for what the actual communication range check would be.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (Drone1.commRange < 0 or Drone2.commRange < 0)",
+              "explanation": "The constraint 'Both drones maintain communication range at all times' translates to 'it is always the case that neither drone is out of communication range'. `commRange < 0` is used here as placeholder for what the actual communication range check would be.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (Drone1.commRange < 0 or Drone2.commRange < 0)"
+          },
+          "total_time": 2.4138097763061523,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "All sections eventually inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9396858215332031,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"inspection\",\n    \"sections\",\n    \"completion\",\n    \"eventually\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0228118896484375,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> inspected_all_sections\",\n  \"explanation\": \"The constraint \\\"All sections eventually inspected\\\" implies a liveness property, indicating that the state 'inspected_all_sections' must eventually be reached. The `A<>` operator in UPPAAL is used to express that something must eventually happen.  We assume there's a boolean variable `inspected_all_sections` that becomes true when all sections are inspected.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> inspected_all_sections",
+              "explanation": "The constraint \"All sections eventually inspected\" implies a liveness property, indicating that the state 'inspected_all_sections' must eventually be reached. The `A<>` operator in UPPAAL is used to express that something must eventually happen.  We assume there's a boolean variable `inspected_all_sections` that becomes true when all sections are inspected.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> inspected_all_sections"
+          },
+          "total_time": 1.9900791645050049,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "classification": {
+            "step": "classification",
+            "timing": 1.1368589401245117,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"visibility\", \"return\", \"surface\", \"low visibility\"],\n  \"cues\": [\"if\", \"<\"],\n  \"trigger_text\": \"visibility < 30%\",\n  \"response_text\": \"both start returning to surface\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7244222164154053,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)\",\n  \"explanation\": \"The constraint \\\"If visibility < 30%, both start returning to surface\\\" fits the conditional_response pattern.  The condition is \\\"visibility < 30\\\" and the response is \\\"both start returning to surface\\\".  The \\\"-->\\\" operator is used to denote the eventual triggered behavior.  I am assuming a state variable 'returning_to_surface' exists for both drones. Using start returning to surface as eventual goal state for both drones.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)",
+              "explanation": "The constraint \"If visibility < 30%, both start returning to surface\" fits the conditional_response pattern.  The condition is \"visibility < 30\" and the response is \"both start returning to surface\".  The \"-->\" operator is used to denote the eventual triggered behavior.  I am assuming a state variable 'returning_to_surface' exists for both drones. Using start returning to surface as eventual goal state for both drones.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 30) --> (DroneA.returning_to_surface && DroneB.returning_to_surface)"
+          },
+          "total_time": 2.891711950302124,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "Both drones maintain communication range at all times",
+          "classification": {
+            "step": "classification",
+            "timing": 7.41364312171936,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"drones\",\n    \"communication\",\n    \"range\"\n  ],\n  \"cues\": [\n    \"maintain\",\n    \"at all times\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.086188793182373,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (System.out_of_range)\",\n  \"explanation\": \"The constraint \\\"maintain communication range at all times\\\" is a safety property specifying a condition that must never be violated. This maps directly to the 'forbidden_state' pattern. The 'A[]' operator enforces the property globally ('at all times'). The 'not' operator negates the forbidden state. 'System.out_of_range' is a boolean expression representing the bad state where the drones are outside their communication range. The query thus asserts that the system is never in a state where the drones are out of range.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] not (System.out_of_range)",
+              "explanation": "The constraint \"maintain communication range at all times\" is a safety property specifying a condition that must never be violated. This maps directly to the 'forbidden_state' pattern. The 'A[]' operator enforces the property globally ('at all times'). The 'not' operator negates the forbidden state. 'System.out_of_range' is a boolean expression representing the bad state where the drones are outside their communication range. The query thus asserts that the system is never in a state where the drones are out of range.",
+              "confidence": 0.95,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (System.out_of_range)"
+          },
+          "total_time": 27.52457284927368,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "All sections eventually inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 11.479093074798584,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"sections\",\n    \"inspected\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ],\n  \"response_text\": \"inspected\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.60299587249756,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> System.all_sections_inspected\",\n  \"explanation\": \"The constraint \\\"All sections eventually inspected\\\" is a liveness property, stating that the system must eventually reach a state where the inspection of all sections is complete. The `A<>` operator checks all possible paths to ensure that this state is *eventually* reached. `System.all_sections_inspected` represents the target boolean state or location where this condition holds true.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"A<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> System.all_sections_inspected",
+              "explanation": "The constraint \"All sections eventually inspected\" is a liveness property, stating that the system must eventually reach a state where the inspection of all sections is complete. The `A<>` operator checks all possible paths to ensure that this state is *eventually* reached. `System.all_sections_inspected` represents the target boolean state or location where this condition holds true.",
+              "confidence": 0.95,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> System.all_sections_inspected"
+          },
+          "total_time": 32.11553192138672,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "classification": {
+            "step": "classification",
+            "timing": 7.438811779022217,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"visibility\",\n    \"returning\",\n    \"surface\"\n  ],\n  \"cues\": [\n    \"if\",\n    \"<\",\n    \"%\"\n  ],\n  \"trigger_text\": \"visibility < 30%\",\n  \"response_text\": \"both start returning to surface\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.784218311309814,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(visibility < 30) --> (DroneA.Returning && DroneB.Returning)\",\n  \"explanation\": \"The constraint specifies a conditional response. The trigger condition 'visibility < 30%' is translated to the expression `visibility < 30`. The response 'both start returning to surface' is translated as both `DroneA` and `DroneB` eventually entering the `Returning` state. The 'if...then' causal relationship, where the response happens sometime after the trigger, is captured by the `-->` (leads to) operator, which is the standard for the conditional_response pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(visibility < 30) --> (DroneA.Returning && DroneB.Returning)",
+              "explanation": "The constraint specifies a conditional response. The trigger condition 'visibility < 30%' is translated to the expression `visibility < 30`. The response 'both start returning to surface' is translated as both `DroneA` and `DroneB` eventually entering the `Returning` state. The 'if...then' causal relationship, where the response happens sometime after the trigger, is captured by the `-->` (leads to) operator, which is the standard for the conditional_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(visibility < 30) --> (DroneA.Returning && DroneB.Returning)"
+          },
+          "total_time": 19.240797996520996,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

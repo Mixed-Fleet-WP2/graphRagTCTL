@@ -1,0 +1,313 @@
+{
+  "id": "scenario_0010",
+  "domain": "logistics",
+  "prompt": "A restocking AMR refills shelves while a drone verifies stock levels. The drone can only scan shelves when the AMR is idle. Both must stop if any obstacle is detected within 1 meters.",
+  "robots": [
+    "Amr",
+    "Drone"
+  ],
+  "constraints": [
+    "StockDrone scans only when RestockAMR is idle",
+    "Amr must stop if any obstacle is detected within 1 meters",
+    "Drone must stop if any obstacle is detected within 1 meters"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 2.5280539989471436,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 8.489335060119629,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 15.029748916625977,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 1.0811781883239746,
+      "tokens": 746,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 3.310047149658203,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 1.3100531101226807,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 10.546956062316895,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 9.93325424194336,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 31.13077402114868,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.1649672985076904,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 1,
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 27.702791929244995,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 2,
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}

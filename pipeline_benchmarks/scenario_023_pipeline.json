@@ -1,0 +1,921 @@
+{
+  "id": "scenario_023",
+  "domain": "disaster_response",
+  "prompt": "A drone scans for survivors and a ground robot delivers medical kits. It\u2019s always possible to reach a state where both have completed their missions. If battery < 10%, drone must return to base within 20 seconds.",
+  "robots": [
+    "RescueDrone",
+    "MedicBot"
+  ],
+  "constraints": [
+    "Always possible for both to complete missions",
+    "RescueDrone returns to base within 20 seconds when battery < 10%"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "Always possible for both to complete missions",
+          "classification": {
+            "step": "classification",
+            "timing": 1.9150800704956055,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"always possible\",\"both\",\"complete\",\"missions\",\"reachability\",\"opportunity\"],\"cues\":[\"always\",\"possible\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.738035202026367,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"E<> (RobotA.mission_complete && RobotB.mission_complete)\",\"explanation\":\"The constraint talks about it being possible for both (implicitly, two agents/robots) to complete their missions. This is a reachability property about possibility, so we use the existential reachability operator E<>. The state we require to be reachable is that both agents are in their mission-complete locations/states, modeled here as RobotA.mission_complete and RobotB.mission_complete.\",\"confidence\":0.86,\"pattern_used\":\"reachability\",\"operator_used\":[\"E<>\"]}",
+            "uppaal_result": {
+              "query": "E<> (RobotA.mission_complete && RobotB.mission_complete)",
+              "explanation": "The constraint talks about it being possible for both (implicitly, two agents/robots) to complete their missions. This is a reachability property about possibility, so we use the existential reachability operator E<>. The state we require to be reachable is that both agents are in their mission-complete locations/states, modeled here as RobotA.mission_complete and RobotB.mission_complete.",
+              "confidence": 0.86,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> (RobotA.mission_complete && RobotB.mission_complete)"
+          },
+          "total_time": 4.686611890792847,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "classification": {
+            "step": "classification",
+            "timing": 2.3127951622009277,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"RescueDrone\",\"returns to base\",\"within 20 seconds\",\"battery < 10%\",\"low battery\",\"time bound\"],\"cues\":[\"within\",\"when\",\"<\",\"%\"],\"trigger_text\":\"battery < 10%\",\"response_text\":\"RescueDrone returns to base within 20 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.3847460746765137,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (RescueDrone.battery < 10 && !RescueDrone.at_base imply RescueDrone.t <= 20)\",\"explanation\":\"The constraint says that when the RescueDrone\u2019s battery is below 10%, it must return to base within 20 seconds. Using the time-bounded constraint pattern, we express this as a safety property over all states (A[]). The condition combines the low-battery trigger and the fact that the drone is not yet at base. The clock RescueDrone.t is assumed to be reset when the battery becomes low (or at the start of the return process). The implication ensures that in any state where the battery is low and the drone is not at base, the elapsed time since that trigger cannot exceed 20 seconds, thus enforcing the deadline.\",\"confidence\":0.9,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"A[]\",\"imply\"]}",
+            "uppaal_result": {
+              "query": "A[] (RescueDrone.battery < 10 && !RescueDrone.at_base imply RescueDrone.t <= 20)",
+              "explanation": "The constraint says that when the RescueDrone\u2019s battery is below 10%, it must return to base within 20 seconds. Using the time-bounded constraint pattern, we express this as a safety property over all states (A[]). The condition combines the low-battery trigger and the fact that the drone is not yet at base. The clock RescueDrone.t is assumed to be reset when the battery becomes low (or at the start of the return process). The implication ensures that in any state where the battery is low and the drone is not at base, the elapsed time since that trigger cannot exceed 20 seconds, thus enforcing the deadline.",
+              "confidence": 0.9,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RescueDrone.battery < 10 && !RescueDrone.at_base imply RescueDrone.t <= 20)"
+          },
+          "total_time": 5.720399856567383,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "Always possible for both to complete missions",
+          "classification": {
+            "step": "classification",
+            "timing": 34.463775873184204,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"always possible\",\"both complete\",\"complete missions\",\"reachable\",\"can complete\",\"mission completion\"],\"cues\":[\"always\",\"possible\",\"both\",\"complete\",\"missions\",\"can\",\"must\"],\"trigger_text\":null,\"response_text\":\"a state where both agents have completed their missions must be reachable\"}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.474134922027588,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"E<> (Agent1.mission_complete && Agent2.mission_complete)\",\"explanation\":\"This is a reachability check (E<>) asserting there exists a reachable state in which both agents have completed their missions, matching the requirement that it must always be possible for both to complete their missions.\",\"confidence\":0.85,\"pattern_used\":\"reachability\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "E<> (Agent1.mission_complete && Agent2.mission_complete)",
+              "explanation": "This is a reachability check (E<>) asserting there exists a reachable state in which both agents have completed their missions, matching the requirement that it must always be possible for both to complete their missions.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> (Agent1.mission_complete && Agent2.mission_complete)"
+          },
+          "total_time": 40.994261026382446,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "classification": {
+            "step": "classification",
+            "timing": 7.1095428466796875,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"RescueDrone\",\"return to base\",\"battery < 10%\",\"low battery\",\"within 20 seconds\",\"emergency return\",\"battery threshold\"],\"cues\":[\"when\",\"<\",\"%\",\"within\",\"seconds\",\"must\",\"returns\",\"to\",\"base\"],\"trigger_text\":\"battery < 10%\",\"response_text\":\"RescueDrone returns to base within 20 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.967899799346924,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)\",\n  \"explanation\": \"This is a time-bounded safety property: whenever the RescueDrone's battery is below 10% and it is not at base, the global clock 'clock' must be <= 20, enforcing that the drone returns to base within 20 seconds. (The model should reset 'clock' when the low-battery condition is triggered so the bound measures the correct interval.)\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}",
+            "uppaal_result": {
+              "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)",
+              "explanation": "This is a time-bounded safety property: whenever the RescueDrone's battery is below 10% and it is not at base, the global clock 'clock' must be <= 20, enforcing that the drone returns to base within 20 seconds. (The model should reset 'clock' when the low-battery condition is triggered so the bound measures the correct interval.)",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)"
+          },
+          "total_time": 19.09774613380432,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "Always possible for both to complete missions",
+          "classification": {
+            "step": "classification",
+            "timing": 14.8121919631958,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"completion\",\"eventual\",\"liveness\",\"guarantee\",\"mission\",\"both\"],\"cues\":[\"always\",\"possible\",\"complete\",\"eventual\",\"mission\",\"both\"],\"trigger_text\":\"Always possible for both to complete missions\",\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 18.928965091705322,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> (DroneA.mission_complete && DroneB.mission_complete)\",\"explanation\":\"The constraint states that both missions must eventually complete on all execution paths. This is expressed as a global liveness property in UPPAAL by A<> followed by the condition that DroneA and DroneB have completed their missions.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> (DroneA.mission_complete && DroneB.mission_complete)",
+              "explanation": "The constraint states that both missions must eventually complete on all execution paths. This is expressed as a global liveness property in UPPAAL by A<> followed by the condition that DroneA and DroneB have completed their missions.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (DroneA.mission_complete && DroneB.mission_complete)"
+          },
+          "total_time": 33.77585411071777,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "classification": {
+            "step": "classification",
+            "timing": 9.798370122909546,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"time_bounded_constraint\",\"keywords\":[\"return_to_base\",\"battery\",\"10_percent\",\"20_seconds\",\"time_bound\"],\"cues\":[\"when\",\"<\",\"then\"],\"trigger_text\":\"battery < 10%\",\"response_text\":\"return to base within 20 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 26.615171194076538,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (RescueDrone.battery < 10 && not RescueDrone.at_base --> clock <= 20)\",\"explanation\":\"This encodes that whenever RescueDrone.battery < 10 and the drone is not at base, it must be back at base within 20 seconds, i.e., a maximum residence time after the trigger. It uses a global clock and the time-bounded constraint form within an A[] property.\",\"confidence\":0.85,\"pattern_used\":\"time_bounded_constraint\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base --> clock <= 20)",
+              "explanation": "This encodes that whenever RescueDrone.battery < 10 and the drone is not at base, it must be back at base within 20 seconds, i.e., a maximum residence time after the trigger. It uses a global clock and the time-bounded constraint form within an A[] property.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base --> clock <= 20)"
+          },
+          "total_time": 36.44611096382141,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "Always possible for both to complete missions",
+          "classification": {
+            "step": "classification",
+            "timing": 1.098097324371338,
+            "tokens": 163,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"always\", \"possible\", \"complete\", \"missions\"],\n  \"cues\": [\"always\", \"possible\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8303883075714111,
+            "tokens": 534,
+            "raw_text": "{\n  \"query\": \"A[] (possible --> A<> (MissionA.complete && MissionB.complete))\",\n  \"explanation\": \"The constraint 'Always possible for both to complete missions' suggests that whenever it is possible, both missions must eventually be completed. The use of '-->' indicates that the eventual completion of both missions is triggered by the possibility condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (possible --> A<> (MissionA.complete && MissionB.complete))",
+              "explanation": "The constraint 'Always possible for both to complete missions' suggests that whenever it is possible, both missions must eventually be completed. The use of '-->' indicates that the eventual completion of both missions is triggered by the possibility condition.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (possible --> A<> (MissionA.complete && MissionB.complete))"
+          },
+          "total_time": 2.944430112838745,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.5215070247650146,
+            "tokens": 211,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"returns to base\", \"within 20 seconds\", \"battery < 10%\"],\n  \"cues\": [\"within\", \"<\", \"%\", \"when\"],\n  \"trigger_text\": \"battery < 10%\",\n  \"response_text\": \"RescueDrone returns to base within 20 seconds\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9425201416015625,
+            "tokens": 757,
+            "raw_text": "{\n  \"query\": \"A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)\",\n  \"explanation\": \"This query enforces that when the RescueDrone's battery is below 10%, it must return to base within 20 seconds. The 'imply' operator is used to ensure an immediate response within the specified time limit, aligning with the time_bounded_constraint pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)",
+              "explanation": "This query enforces that when the RescueDrone's battery is below 10%, it must return to base within 20 seconds. The 'imply' operator is used to ensure an immediate response within the specified time limit, aligning with the time_bounded_constraint pattern.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)"
+          },
+          "total_time": 3.4835808277130127,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "Always possible for both to complete missions",
+          "classification": {
+            "step": "classification",
+            "timing": 4.57978081703186,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"always\", \"possible\", \"both\", \"complete\", \"missions\"],\n  \"cues\": [\"always\", \"possible\"],\n  \"trigger_text\": null,\n  \"response_text\": \"both complete missions\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.877825021743774,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"E<> (Robot1.mission_complete && Robot2.mission_complete)\",\n  \"explanation\": \"The constraint asks if it's always possible for both to complete missions. The word 'possible' indicates a reachability check using E<>. The query checks if there exists a path where both Robot1 and Robot2 reach their mission_complete states simultaneously.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "E<> (Robot1.mission_complete && Robot2.mission_complete)",
+              "explanation": "The constraint asks if it's always possible for both to complete missions. The word 'possible' indicates a reachability check using E<>. The query checks if there exists a path where both Robot1 and Robot2 reach their mission_complete states simultaneously.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> (Robot1.mission_complete && Robot2.mission_complete)"
+          },
+          "total_time": 9.479969024658203,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "classification": {
+            "step": "classification",
+            "timing": 3.3781869411468506,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"RescueDrone\", \"returns\", \"base\", \"battery\", \"seconds\", \"when\"],\n  \"cues\": [\"when\", \"<\", \"%\", \"within\"],\n  \"trigger_text\": \"battery < 10%\",\n  \"response_text\": \"RescueDrone returns to base within 20 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.803924083709717,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)\",\n  \"explanation\": \"This query enforces that whenever the RescueDrone's battery drops below 10% and it is not yet at base, the clock (measuring time since the low battery condition) must not exceed 20 seconds. The A[] operator ensures this time bound holds always, and 'imply' checks that at any moment when the condition is true, the time constraint is satisfied immediately.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)",
+              "explanation": "This query enforces that whenever the RescueDrone's battery drops below 10% and it is not yet at base, the clock (measuring time since the low battery condition) must not exceed 20 seconds. The A[] operator ensures this time bound holds always, and 'imply' checks that at any moment when the condition is true, the time constraint is satisfied immediately.",
+              "confidence": 0.95,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)"
+          },
+          "total_time": 8.201613664627075,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "Always possible for both to complete missions",
+          "classification": {
+            "step": "classification",
+            "timing": 1.299299955368042,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"possible\", \"complete\", \"missions\", \"both\"],\n  \"cues\": [\"always\", \"possible\"],\n  \"trigger_text\": \"both to complete missions\",\n  \"response_text\": \"always possible\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.731736183166504,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"E<> (Robot1.mission_complete && Robot2.mission_complete)\",\n  \"explanation\": \"The constraint 'Always possible for both to complete missions' uses the cue 'possible' which indicates reachability. The pattern requires checking if a state CAN be reached. The query verifies that there EXISTS a path where both robots can reach a state where their missions are complete, matching the reachability pattern E<> template.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "E<> (Robot1.mission_complete && Robot2.mission_complete)",
+              "explanation": "The constraint 'Always possible for both to complete missions' uses the cue 'possible' which indicates reachability. The pattern requires checking if a state CAN be reached. The query verifies that there EXISTS a path where both robots can reach a state where their missions are complete, matching the reachability pattern E<> template.",
+              "confidence": 0.92,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> (Robot1.mission_complete && Robot2.mission_complete)"
+          },
+          "total_time": 3.055999994277954,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2057368755340576,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"returns to base\", \"battery\", \"20 seconds\", \"RescueDrone\"],\n  \"cues\": [\"<\", \"within\"],\n  \"trigger_text\": \"when battery < 10%\",\n  \"response_text\": \"RescueDrone returns to base within 20 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.865753173828125,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)\",\n  \"explanation\": \"This query enforces that whenever the RescueDrone's battery drops below 10% AND it is not already at base, it must return to base within 20 seconds (clock <= 20). The A[] operator ensures this holds in all states, and 'imply' enforces the immediate time constraint requirement. The clock is implicitly reset when the battery condition triggers.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)",
+              "explanation": "This query enforces that whenever the RescueDrone's battery drops below 10% AND it is not already at base, it must return to base within 20 seconds (clock <= 20). The A[] operator ensures this holds in all states, and 'imply' enforces the immediate time constraint requirement. The clock is implicitly reset when the battery condition triggers.",
+              "confidence": 0.95,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)"
+          },
+          "total_time": 3.0916337966918945,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "Always possible for both to complete missions",
+          "classification": {
+            "step": "classification",
+            "timing": 17.670949935913086,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"reachability\", \"keywords\": [\"complete\", \"missions\", \"possible\"], \"cues\": [\"always\"]}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 31.90355682373047,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A[] E<> both_complete_missions\", \"explanation\": \"The constraint 'Always possible for both to complete missions' is interpreted as checking that in all states (A[]), it is possible (E<>) to reach a state where both complete their missions, extending the reachability pattern to account for the 'always' cue.\", \"confidence\": 0.85, \"pattern_used\": \"reachability\", \"operator_used\": [\"A[]\", \"E<>\"]}",
+            "uppaal_result": {
+              "query": "A[] E<> both_complete_missions",
+              "explanation": "The constraint 'Always possible for both to complete missions' is interpreted as checking that in all states (A[]), it is possible (E<>) to reach a state where both complete their missions, extending the reachability pattern to account for the 'always' cue.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "A[]",
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] E<> both_complete_missions"
+          },
+          "total_time": 49.591580867767334,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "classification": {
+            "step": "classification",
+            "timing": 14.058852195739746,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"battery\", \"return\", \"base\"], \"cues\": [\"when\", \"<\", \"%\", \"within\"], \"trigger_text\": \"when battery < 10%\", \"response_text\": \"returns to base within 20 seconds\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.034584999084473,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(RescueDrone.battery < 10) --> (RescueDrone.at_base within 20)\", \"explanation\": \"The constraint describes a conditional eventual response where low battery triggers a timed return to base, matching the conditional_response pattern with the --> operator for eventual behavior.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(RescueDrone.battery < 10) --> (RescueDrone.at_base within 20)",
+              "explanation": "The constraint describes a conditional eventual response where low battery triggers a timed return to base, matching the conditional_response pattern with the --> operator for eventual behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "(RescueDrone.battery < 10) --> (RescueDrone.at_base within 20)"
+          },
+          "total_time": 29.126510858535767,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "Always possible for both to complete missions",
+          "classification": {
+            "step": "classification",
+            "timing": 5.000623941421509,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"always\", \"possible\", \"complete\", \"missions\"],\n  \"cues\": [\"always\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.432459115982056,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"E<> (RobotA.missionCompleted && RobotB.missionCompleted)\",\n  \"explanation\": \"The query checks if it is possible for both robots to reach a state where their missions are completed, matching the 'possible' aspect of the constraint 'Always possible for both to complete missions', using the reachability pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "E<> (RobotA.missionCompleted && RobotB.missionCompleted)",
+              "explanation": "The query checks if it is possible for both robots to reach a state where their missions are completed, matching the 'possible' aspect of the constraint 'Always possible for both to complete missions', using the reachability pattern.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> (RobotA.missionCompleted && RobotB.missionCompleted)"
+          },
+          "total_time": 17.46919894218445,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "classification": {
+            "step": "classification",
+            "timing": 7.199997901916504,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"battery\", \"returns\", \"within\", \"seconds\"],\n  \"cues\": [\"when\", \"<\", \"%\", \"within\"],\n  \"trigger_text\": \"when battery < 10%\",\n  \"response_text\": \"returns to base within 20 seconds\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.325293064117432,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)\",\n  \"explanation\": \"This query ensures that when the RescueDrone's battery is below 10% and it is not at base, the clock does not exceed 20 seconds, enforcing the time-bounded constraint as per the pattern template.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)",
+              "explanation": "This query ensures that when the RescueDrone's battery is below 10% and it is not at base, the clock does not exceed 20 seconds, enforcing the time-bounded constraint as per the pattern template.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)"
+          },
+          "total_time": 20.55345392227173,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "Always possible for both to complete missions",
+          "classification": {
+            "step": "classification",
+            "timing": 43.15675687789917,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"always\", \"possible\", \"complete\", \"missions\"],\n  \"cues\": [\"always\", \"possible\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 95.5455060005188,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"E<> (Agent1.mission_complete && Agent2.mission_complete)\",\n  \"explanation\": \"The constraint 'Always possible for both to complete missions' focuses on the possibility of both agents completing their missions, which aligns with the reachability pattern. The query uses E<> to check if there exists a path where both agents are in a mission-completed state, verifying that this outcome can happen.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}",
+            "uppaal_result": {
+              "query": "E<> (Agent1.mission_complete && Agent2.mission_complete)",
+              "explanation": "The constraint 'Always possible for both to complete missions' focuses on the possibility of both agents completing their missions, which aligns with the reachability pattern. The query uses E<> to check if there exists a path where both agents are in a mission-completed state, verifying that this outcome can happen.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> (Agent1.mission_complete && Agent2.mission_complete)"
+          },
+          "total_time": 138.73309111595154,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "classification": {
+            "step": "classification",
+            "timing": 57.70815706253052,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"RescueDrone\", \"returns to base\", \"battery\", \"10%\", \"20 seconds\"],\n  \"cues\": [\"when\", \"<\", \"%\"],\n  \"trigger_text\": \"battery < 10%\",\n  \"response_text\": \"returns to base within 20 seconds\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 87.22034001350403,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)\",\n  \"explanation\": \"This query matches the constraint by enforcing that whenever RescueDrone's battery is below 10% and it is not at the base, the elapsed time (clock) must be less than or equal to 20 seconds, ensuring the drone returns to base within 20 seconds when the battery is low, following the time_bounded_constraint pattern with an immediate response using imply.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)",
+              "explanation": "This query matches the constraint by enforcing that whenever RescueDrone's battery is below 10% and it is not at the base, the elapsed time (clock) must be less than or equal to 20 seconds, ensuring the drone returns to base within 20 seconds when the battery is low, following the time_bounded_constraint pattern with an immediate response using imply.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)"
+          },
+          "total_time": 144.9618821144104,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "Always possible for both to complete missions",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2205748558044434,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"possible\", \"complete\", \"missions\"],\n  \"cues\": [],\n  \"trigger_text\": \"Always\",\n  \"response_text\": \"complete missions\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2366280555725098,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] E<> missionA_completed && missionB_completed\",\n  \"explanation\": \"The constraint 'Always possible for both to complete missions' means that in every state (A[]), it is possible (E<>) for both missionA and missionB to be completed.  Therefore, we use the reachability pattern (E<>) inside a safety property (A[]) to ensure that from every state, the state where both missions are complete is reachable.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] E<> missionA_completed && missionB_completed",
+              "explanation": "The constraint 'Always possible for both to complete missions' means that in every state (A[]), it is possible (E<>) for both missionA and missionB to be completed.  Therefore, we use the reachability pattern (E<>) inside a safety property (A[]) to ensure that from every state, the state where both missions are complete is reachable.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] E<> missionA_completed && missionB_completed"
+          },
+          "total_time": 2.4813778400421143,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9590921401977539,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"RescueDrone\", \"battery\", \"time\", \"return\", \"base\"],\n  \"cues\": [\"<\", \"when\", \"within\"],\n  \"trigger_text\": \"battery < 10%\",\n  \"response_text\": \"RescueDrone returns to base within 20 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.3597478866577148,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (RescueDrone.battery < 10 and not RescueDrone.at_base imply clock <= 20)\",\n  \"explanation\": \"This query uses the time_bounded_constraint pattern to ensure that whenever the RescueDrone's battery is less than 10% AND it is not at the base, the time elapsed (clock) must be less than or equal to 20 seconds. The 'imply' operator is used within the A[] to enforce the time bound.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (RescueDrone.battery < 10 and not RescueDrone.at_base imply clock <= 20)",
+              "explanation": "This query uses the time_bounded_constraint pattern to ensure that whenever the RescueDrone's battery is less than 10% AND it is not at the base, the time elapsed (clock) must be less than or equal to 20 seconds. The 'imply' operator is used within the A[] to enforce the time bound.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (RescueDrone.battery < 10 and not RescueDrone.at_base imply clock <= 20)"
+          },
+          "total_time": 2.3405649662017822,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "Always possible for both to complete missions",
+          "classification": {
+            "step": "classification",
+            "timing": 6.622607946395874,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\n    \"possible\",\n    \"complete\",\n    \"missions\"\n  ],\n  \"cues\": [\n    \"always\",\n    \"possible\",\n    \"can\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 23.13524103164673,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"E<> (Process1.MissionComplete && Process2.MissionComplete)\",\n  \"explanation\": \"The query uses the 'exists eventually' operator (E<>) to check if a state is reachable. This directly corresponds to the keyword 'possible' in the constraint. The target state `Process1.MissionComplete && Process2.MissionComplete` represents the condition where 'both... complete missions'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\n    \"E<>\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "E<> (Process1.MissionComplete && Process2.MissionComplete)",
+              "explanation": "The query uses the 'exists eventually' operator (E<>) to check if a state is reachable. This directly corresponds to the keyword 'possible' in the constraint. The target state `Process1.MissionComplete && Process2.MissionComplete` represents the condition where 'both... complete missions'.",
+              "confidence": 0.85,
+              "pattern_used": "reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> (Process1.MissionComplete && Process2.MissionComplete)"
+          },
+          "total_time": 29.78100609779358,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "classification": {
+            "step": "classification",
+            "timing": 10.605559587478638,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"RescueDrone\",\n    \"battery\",\n    \"base\",\n    \"return\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"<\",\n    \"within\"\n  ],\n  \"trigger_text\": \"battery < 10%\",\n  \"response_text\": \"RescueDrone returns to base within 20 seconds\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 48.553691148757935,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"RescueDrone.battery < 10 --> RescueDrone.ReturningToBase\",\n  \"explanation\": \"This query uses the 'leads to' (-->) operator, which is shorthand for A[] (trigger imply A<> response). It specifies that for all paths, whenever the trigger condition (RescueDrone.battery < 10) becomes true, the response (the drone must be in the 'ReturningToBase' state) must eventually occur. The '-->' operator is used instead of 'imply' because the response happens 'within 20 seconds', which is an eventual, time-bounded action, not an immediate one.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "RescueDrone.battery < 10 --> RescueDrone.ReturningToBase",
+              "explanation": "This query uses the 'leads to' (-->) operator, which is shorthand for A[] (trigger imply A<> response). It specifies that for all paths, whenever the trigger condition (RescueDrone.battery < 10) becomes true, the response (the drone must be in the 'ReturningToBase' state) must eventually occur. The '-->' operator is used instead of 'imply' because the response happens 'within 20 seconds', which is an eventual, time-bounded action, not an immediate one.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "RescueDrone.battery < 10 --> RescueDrone.ReturningToBase"
+          },
+          "total_time": 59.18526577949524,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    }
+  ]
+}

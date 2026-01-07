@@ -1,0 +1,2574 @@
+{
+  "id": "scenario_031",
+  "domain": "industrial_maintenance",
+  "prompt": "An autonomous maintenance rover patrols an underground facility inspecting power panels, pipes, and sensors. It must finish inspection of a zone before moving to the next. If gas concentration exceeds 3%, the rover immediately activates ventilation mode and halts movement until the level drops below 1%. If battery drops below 25%, it must head to the nearest charging dock. The rover records every anomaly before proceeding, and all inspection reports must eventually be uploaded to the central server.",
+  "robots": [
+    "MaintenanceRover"
+  ],
+  "constraints": [
+    "MaintenanceRover completes zone inspection before moving to the next",
+    "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+    "MaintenanceRover resumes when gas concentration < 1%",
+    "MaintenanceRover heads to charging when battery < 25%",
+    "MaintenanceRover records every anomaly before proceeding",
+    "All inspection reports eventually uploaded"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "results": [
+        {
+          "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+          "classification": {
+            "step": "classification",
+            "timing": 4.025675058364868,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"MaintenanceRover\",\"completes\",\"zone inspection\",\"before\",\"moving to the next\",\"order\",\"sequence\"],\"cues\":[\"before\"],\"trigger_text\":\"completes zone inspection\",\"response_text\":\"moving to the next zone\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.9743878841400146,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"MaintenanceRover.zone_inspection_complete --> MaintenanceRover.next_zone\",\"explanation\":\"The constraint states that whenever the MaintenanceRover completes a zone inspection, it will (in sequence) move to the next zone. This is a sequential workflow, so the template action1 --> action2 is used, with action1 as the completion of the zone inspection and action2 as the rover moving to the next zone.\",\"confidence\":0.86,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.next_zone",
+              "explanation": "The constraint states that whenever the MaintenanceRover completes a zone inspection, it will (in sequence) move to the next zone. This is a sequential workflow, so the template action1 --> action2 is used, with action1 as the completion of the zone inspection and action2 as the rover moving to the next zone.",
+              "confidence": 0.86,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.next_zone"
+          },
+          "total_time": 7.067589282989502,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+          "classification": {
+            "step": "classification",
+            "timing": 2.5769429206848145,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"MaintenanceRover\",\"halts\",\"activates ventilation\",\"gas concentration > 3%\",\"safety\"],\"cues\":[\">\",\"when\"],\"trigger_text\":\"gas concentration > 3%\",\"response_text\":\"MaintenanceRover halts and activates ventilation\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.6499459743499756,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_on)\",\"explanation\":\"The condition 'gas concentration > 3%' is modeled as (gas_concentration > 3). The required response 'MaintenanceRover halts and activates ventilation' is modeled as (MaintenanceRover.halted && MaintenanceRover.ventilation_on). Using the conditional response pattern with the --> operator expresses that whenever the gas concentration exceeds 3%, it will eventually lead to the rover being halted and its ventilation activated.\",\"confidence\":0.9,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_on)",
+              "explanation": "The condition 'gas concentration > 3%' is modeled as (gas_concentration > 3). The required response 'MaintenanceRover halts and activates ventilation' is modeled as (MaintenanceRover.halted && MaintenanceRover.ventilation_on). Using the conditional response pattern with the --> operator expresses that whenever the gas concentration exceeds 3%, it will eventually lead to the rover being halted and its ventilation activated.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_on)"
+          },
+          "total_time": 6.254125118255615,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7052927017211914,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"MaintenanceRover\",\"resumes\",\"gas concentration\",\"less than 1%\",\"safety condition\",\"restart condition\"],\"cues\":[\"when\",\"<\",\"%\"],\"trigger_text\":\"gas concentration < 1%\",\"response_text\":\"MaintenanceRover resumes\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.446380138397217,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(gas_concentration < 1) --> MaintenanceRover.resumes\",\"explanation\":\"The constraint states that when the gas concentration becomes less than 1%, the MaintenanceRover eventually resumes. This is a conditional-response pattern, so the trigger condition (gas_concentration < 1) is placed on the left of the '-->' operator and the required eventual response state (MaintenanceRover.resumes) is on the right. The query thus captures that whenever the gas concentration drops below 1%, it will eventually lead to the rover resuming.\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(gas_concentration < 1) --> MaintenanceRover.resumes",
+              "explanation": "The constraint states that when the gas concentration becomes less than 1%, the MaintenanceRover eventually resumes. This is a conditional-response pattern, so the trigger condition (gas_concentration < 1) is placed on the left of the '-->' operator and the required eventual response state (MaintenanceRover.resumes) is on the right. The query thus captures that whenever the gas concentration drops below 1%, it will eventually lead to the rover resuming.",
+              "confidence": 0.86,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(gas_concentration < 1) --> MaintenanceRover.resumes"
+          },
+          "total_time": 4.175724029541016,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "MaintenanceRover heads to charging when battery < 25%",
+          "classification": {
+            "step": "classification",
+            "timing": 3.9667930603027344,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"MaintenanceRover\",\"heads to charging\",\"battery < 25%\",\"charging behavior\",\"low battery\"],\"cues\":[\"when\",\"<\",\"%\"],\"trigger_text\":\"battery < 25%\",\"response_text\":\"MaintenanceRover heads to charging\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.113813877105713,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(MaintenanceRover.battery < 25) --> MaintenanceRover.heads_to_charging\",\"explanation\":\"The condition is the rover\u2019s battery level dropping below 25, and the required response is that MaintenanceRover heads to charging. The conditional response pattern is captured with the \\\"-->\\\" operator, meaning whenever the battery is below 25, it will eventually reach a state representing heading to charging (here modeled as MaintenanceRover.heads_to_charging).\",\"confidence\":0.9,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.heads_to_charging",
+              "explanation": "The condition is the rover\u2019s battery level dropping below 25, and the required response is that MaintenanceRover heads to charging. The conditional response pattern is captured with the \"-->\" operator, meaning whenever the battery is below 25, it will eventually reach a state representing heading to charging (here modeled as MaintenanceRover.heads_to_charging).",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.heads_to_charging"
+          },
+          "total_time": 7.104360342025757,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "MaintenanceRover records every anomaly before proceeding",
+          "classification": {
+            "step": "classification",
+            "timing": 2.889676809310913,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"MaintenanceRover\",\"records\",\"anomaly\",\"before proceeding\",\"sequence\",\"order\",\"logging first\"],\"cues\":[\"before\",\"must\"],\"trigger_text\":\"MaintenanceRover encounters an anomaly\",\"response_text\":\"MaintenanceRover records the anomaly before proceeding\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.095750331878662,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"MaintenanceRover.encounter_anomaly --> MaintenanceRover.record_anomaly\",\"explanation\":\"The constraint says that whenever the MaintenanceRover encounters an anomaly, it must record that anomaly before proceeding. This is a sequential workflow: the anomaly encounter step is followed (eventually) by the recording step. The query uses the sequential pattern action1 --> action2, where encountering an anomaly is the trigger and recording the anomaly is the required subsequent action.\",\"confidence\":0.86,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.encounter_anomaly --> MaintenanceRover.record_anomaly",
+              "explanation": "The constraint says that whenever the MaintenanceRover encounters an anomaly, it must record that anomaly before proceeding. This is a sequential workflow: the anomaly encounter step is followed (eventually) by the recording step. The query uses the sequential pattern action1 --> action2, where encountering an anomaly is the trigger and recording the anomaly is the required subsequent action.",
+              "confidence": 0.86,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.encounter_anomaly --> MaintenanceRover.record_anomaly"
+          },
+          "total_time": 5.009037017822266,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "All inspection reports eventually uploaded",
+          "classification": {
+            "step": "classification",
+            "timing": 1.5530469417572021,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"inspection reports\",\"uploaded\",\"eventually\",\"completion\"],\"cues\":[\"eventually\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.249262809753418,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> all_inspection_reports_uploaded\",\"explanation\":\"The constraint says that all inspection reports must eventually be uploaded, which is a liveness requirement. The pattern for such eventual completion is A<> state, so we model a state predicate all_inspection_reports_uploaded that holds exactly when every inspection report is uploaded, and require that this state is eventually reached on all executions.\",\"confidence\":0.9,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> all_inspection_reports_uploaded",
+              "explanation": "The constraint says that all inspection reports must eventually be uploaded, which is a liveness requirement. The pattern for such eventual completion is A<> state, so we model a state predicate all_inspection_reports_uploaded that holds exactly when every inspection report is uploaded, and require that this state is eventually reached on all executions.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_inspection_reports_uploaded"
+          },
+          "total_time": 4.828749895095825,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "results": [
+        {
+          "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+          "classification": {
+            "step": "classification",
+            "timing": 7.16409707069397,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"MaintenanceRover\",\"zone inspection\",\"complete\",\"inspection complete\",\"move to next zone\",\"next zone\",\"before\"],\"cues\":[\"before\",\"after\",\"then\",\"must\",\"complete\",\"next\",\"move\"],\"trigger_text\":\"completes zone inspection\",\"response_text\":\"move to the next zone\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.714460849761963,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"MaintenanceRover.inspection_complete --> MaintenanceRover.move_to_next_zone\",\"explanation\":\"This sequential-workflow query states that whenever the MaintenanceRover completes a zone inspection (inspection_complete), it will eventually move to the next zone (move_to_next_zone), matching the requirement that inspection completion precedes moving on.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.inspection_complete --> MaintenanceRover.move_to_next_zone",
+              "explanation": "This sequential-workflow query states that whenever the MaintenanceRover completes a zone inspection (inspection_complete), it will eventually move to the next zone (move_to_next_zone), matching the requirement that inspection completion precedes moving on.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.inspection_complete --> MaintenanceRover.move_to_next_zone"
+          },
+          "total_time": 12.900465726852417,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+          "classification": {
+            "step": "classification",
+            "timing": 4.059494733810425,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"MaintenanceRover\",\"halts\",\"activates ventilation\",\"gas concentration\",\"3%\",\"gas\",\"ventilation\",\"halt\",\"stop\",\">\",\"percent\"],\"cues\":[\"when\",\">\",\"%\",\"must\",\"activates\",\"halts\",\"if\"],\"trigger_text\":\"gas concentration > 3%\",\"response_text\":\"MaintenanceRover halts and activates ventilation\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.392788171768188,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (MaintenanceRover.gas_concentration > 3 imply (MaintenanceRover.halted && MaintenanceRover.ventilation_active))\",\"explanation\":\"This is a safety immediate-response property: it uses A[] to state the requirement always holds, and an implication so that whenever the trigger (gas_concentration > 3) is true the required instantaneous actions (MaintenanceRover.halted and MaintenanceRover.ventilation_active) must also be true immediately.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A[] (MaintenanceRover.gas_concentration > 3 imply (MaintenanceRover.halted && MaintenanceRover.ventilation_active))",
+              "explanation": "This is a safety immediate-response property: it uses A[] to state the requirement always holds, and an implication so that whenever the trigger (gas_concentration > 3) is true the required instantaneous actions (MaintenanceRover.halted and MaintenanceRover.ventilation_active) must also be true immediately.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (MaintenanceRover.gas_concentration > 3 imply (MaintenanceRover.halted && MaintenanceRover.ventilation_active))"
+          },
+          "total_time": 19.552369832992554,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+          "classification": {
+            "step": "classification",
+            "timing": 3.6686172485351562,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"resumes\",\"gas concentration\",\"<1%\",\"MaintenanceRover\",\"resume\",\"gas\",\"<\",\"%\",\"when\"],\"cues\":[\"when\",\"<\",\"%\"],\"trigger_text\":\"gas concentration < 1%\",\"response_text\":\"MaintenanceRover resumes\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 23.7311749458313,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(gas_concentration < 1) --> MaintenanceRover.resumed\",\n  \"explanation\": \"Using the conditional_response pattern, this query states that whenever the condition gas_concentration < 1 holds, the MaintenanceRover will eventually reach the 'resumed' location (i.e., it resumes). The '-->' operator encodes the triggered eventual response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(gas_concentration < 1) --> MaintenanceRover.resumed",
+              "explanation": "Using the conditional_response pattern, this query states that whenever the condition gas_concentration < 1 holds, the MaintenanceRover will eventually reach the 'resumed' location (i.e., it resumes). The '-->' operator encodes the triggered eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(gas_concentration < 1) --> MaintenanceRover.resumed"
+          },
+          "total_time": 27.423250913619995,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "MaintenanceRover heads to charging when battery < 25%",
+          "classification": {
+            "step": "classification",
+            "timing": 9.096108198165894,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"MaintenanceRover\",\"battery\",\"charging\",\"charge\",\"<25%\",\"low battery\"],\"cues\":[\"when\",\"<\",\"%\"],\"trigger_text\":\"battery < 25%\",\"response_text\":\"MaintenanceRover heads to charging\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.06528902053833,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging_station\",\"explanation\":\"Specifies that whenever MaintenanceRover's battery is below 25%, the rover must eventually reach the charging station. This follows the conditional_response template (condition --> response) to express a triggered eventual action.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging_station",
+              "explanation": "Specifies that whenever MaintenanceRover's battery is below 25%, the rover must eventually reach the charging station. This follows the conditional_response template (condition --> response) to express a triggered eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging_station"
+          },
+          "total_time": 17.191673040390015,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "MaintenanceRover records every anomaly before proceeding",
+          "classification": {
+            "step": "classification",
+            "timing": 10.29505205154419,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"record\",\"anomaly\",\"log\",\"before proceeding\",\"maintenance rover\",\"precedence\"],\"cues\":[\"before\",\"every\",\"anomaly\",\"proceed\",\"when\"],\"trigger_text\":\"anomaly detected\",\"response_text\":\"record the anomaly\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.81407380104065,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"MaintenanceRover.anomaly_detected --> MaintenanceRover.record_anomaly\",\"explanation\":\"This query uses the sequential_workflow pattern: when the MaintenanceRover emits the anomaly_detected event (trigger), it must eventually perform the record_anomaly action (response). It captures the requirement that every detected anomaly leads to recording the anomaly before the rover proceeds, by making recording the required follow-up to anomaly detection in the workflow model.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.anomaly_detected --> MaintenanceRover.record_anomaly",
+              "explanation": "This query uses the sequential_workflow pattern: when the MaintenanceRover emits the anomaly_detected event (trigger), it must eventually perform the record_anomaly action (response). It captures the requirement that every detected anomaly leads to recording the anomaly before the rover proceeds, by making recording the required follow-up to anomaly detection in the workflow model.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.anomaly_detected --> MaintenanceRover.record_anomaly"
+          },
+          "total_time": 19.126961946487427,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "All inspection reports eventually uploaded",
+          "classification": {
+            "step": "classification",
+            "timing": 7.1625800132751465,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"eventually\",\"upload\",\"uploaded\",\"inspection report\",\"inspection reports\",\"reports\",\"all\"],\"cues\":[\"all\",\"eventually\",\"uploaded\",\"must\"],\"trigger_text\":\"inspection reports exist\",\"response_text\":\"inspection reports uploaded\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.61242389678955,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> forall (i : int[0..NUM_REPORTS-1]) InspectionReport[i].uploaded\",\"explanation\":\"This liveness query states that for every inspection report index i (0..NUM_REPORTS-1) the state InspectionReport[i].uploaded will eventually hold, matching the requirement that all inspection reports must eventually be uploaded. It uses the eventual_completion pattern (A<>) to assert the required eventuality for every report.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> forall (i : int[0..NUM_REPORTS-1]) InspectionReport[i].uploaded",
+              "explanation": "This liveness query states that for every inspection report index i (0..NUM_REPORTS-1) the state InspectionReport[i].uploaded will eventually hold, matching the requirement that all inspection reports must eventually be uploaded. It uses the eventual_completion pattern (A<>) to assert the required eventuality for every report.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A<> forall (i : int[0..NUM_REPORTS-1]) InspectionReport[i].uploaded"
+          },
+          "total_time": 20.802613973617554,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "results": [
+        {
+          "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+          "classification": {
+            "step": "classification",
+            "timing": 13.585844993591309,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"zone_inspection\",\"sequence\",\"precedes\",\"next_zone\",\"maintenance_rover\"],\"cues\":[\"before\",\"then\",\"must\",\"completes\",\"inspection\",\"zone\"],\"trigger_text\":\"Complete zone inspection before moving to the next zone\",\"response_text\":\"Proceed to the next zone only after completion of the current zone inspection\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.71934175491333,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"MaintenanceRover.zone_inspection_complete --> MaintenanceRover.move_to_next_zone\",\"explanation\":\"Models the constraint as a sequential workflow where the action 'zone_inspection_complete' must occur before the action 'move_to_next_zone', reflecting that completing the zone inspection precedes moving to the next zone.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.move_to_next_zone",
+              "explanation": "Models the constraint as a sequential workflow where the action 'zone_inspection_complete' must occur before the action 'move_to_next_zone', reflecting that completing the zone inspection precedes moving to the next zone.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.move_to_next_zone"
+          },
+          "total_time": 24.330544233322144,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+          "classification": {
+            "step": "classification",
+            "timing": 26.136255979537964,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"safety_immediate_response\",\"keywords\":[\"halt\",\"activate ventilation\",\"gas concentration\",\"threshold\",\"3%\"],\"cues\":[\"when\",\">\",\"%\"],\"trigger_text\":\"gas concentration > 3%\",\"response_text\":\"halt and activate ventilation\"}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 20.431693077087402,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] (gas_concentration > 0.03 imply (MaintenanceRover.halt && MaintenanceRover.activateVentilation))\",\"explanation\":\"The constraint is an immediate safety response: whenever gas concentration exceeds 3% (0.03 in UPPAAL), the rover must halt and activate ventilation immediately, with no delay. This is captured by A[] (trigger imply action) using imply for the immediate consequential state and a conjunction of actions in the consequent.\",\"confidence\":0.85,\"pattern_used\":\"safety_immediate_response\",\"operator_used\":[\"A[]\",\"imply\",\"&&\"]}",
+            "uppaal_result": {
+              "query": "A[] (gas_concentration > 0.03 imply (MaintenanceRover.halt && MaintenanceRover.activateVentilation))",
+              "explanation": "The constraint is an immediate safety response: whenever gas concentration exceeds 3% (0.03 in UPPAAL), the rover must halt and activate ventilation immediately, with no delay. This is captured by A[] (trigger imply action) using imply for the immediate consequential state and a conjunction of actions in the consequent.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply",
+                "&&"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (gas_concentration > 0.03 imply (MaintenanceRover.halt && MaintenanceRover.activateVentilation))"
+          },
+          "total_time": 46.59446096420288,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+          "classification": {
+            "step": "classification",
+            "timing": 14.205428838729858,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"gas_concentration\",\"resume\",\"conditional\",\"safety\"],\"cues\":[\"when\",\"<\",\"%\"],\"trigger_text\":\"gas concentration < 1%\",\"response_text\":\"resume operations\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.322876930236816,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"gas_concentration < 1 --> MaintenanceRover.resume_operations\",\"explanation\":\"Pattern conditional_response: when gas_concentration < 1, an eventual response is MaintenanceRover.resume_operations.\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "gas_concentration < 1 --> MaintenanceRover.resume_operations",
+              "explanation": "Pattern conditional_response: when gas_concentration < 1, an eventual response is MaintenanceRover.resume_operations.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "gas_concentration < 1 --> MaintenanceRover.resume_operations"
+          },
+          "total_time": 28.550330877304077,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "MaintenanceRover heads to charging when battery < 25%",
+          "classification": {
+            "step": "classification",
+            "timing": 14.717740774154663,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"battery\",\"charging\",\"threshold\",\"condition\",\"response\"],\"cues\":[\"when\",\"<\",\"%\",\"then\",\"battery\",\"charging\"],\"trigger_text\":\"when battery < 25%\",\"response_text\":\"head to charging\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.679712057113647,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging_station\",\"explanation\":\"Maps the NL constraint 'MaintenanceRover heads to charging when battery < 25%' to a conditional_response UPPAAL query: condition (battery < 25) leads to an eventual response to reach the charging state (at_charging_station).\",\"confidence\":0.85,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging_station",
+              "explanation": "Maps the NL constraint 'MaintenanceRover heads to charging when battery < 25%' to a conditional_response UPPAAL query: condition (battery < 25) leads to an eventual response to reach the charging state (at_charging_station).",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging_station"
+          },
+          "total_time": 25.424039840698242,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "MaintenanceRover records every anomaly before proceeding",
+          "classification": {
+            "step": "classification",
+            "timing": 21.64601707458496,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"record\",\"anomaly\",\"log\",\"before proceeding\",\"proceed\"],\"cues\":[\"before\",\"then\",\"must\",\"record\",\"anomaly\",\"proceed\"],\"trigger_text\":\"MaintenanceRover records every anomaly before proceeding\",\"response_text\":\"Proceed once all anomalies have been logged.\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 21.388202905654907,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"MaintenanceRover.record_anomaly --> MaintenanceRover.proceed\",\"explanation\":\"The constraint specifies a two-step sequential flow: first an anomaly is recorded, then the rover proceeds. The arrow indicates that proceeding is contingent on the prior recording, matching the 'before proceeding' wording in the constraint.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.record_anomaly --> MaintenanceRover.proceed",
+              "explanation": "The constraint specifies a two-step sequential flow: first an anomaly is recorded, then the rover proceeds. The arrow indicates that proceeding is contingent on the prior recording, matching the 'before proceeding' wording in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.record_anomaly --> MaintenanceRover.proceed"
+          },
+          "total_time": 43.05659508705139,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "All inspection reports eventually uploaded",
+          "classification": {
+            "step": "classification",
+            "timing": 12.511887073516846,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"eventual_completion\",\"keywords\":[\"upload\",\"reports\",\"inspection\",\"all\",\"eventually\"],\"cues\":[\"eventually\",\"when\",\"after\",\"then\",\"must\",\"never\",\"<\",\">\",\"%\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.54105496406555,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A<> InspectionBot.all_reports_uploaded\",\"explanation\":\"The constraint requires that every inspection report is uploaded eventually. This is a global liveness property, expressed in UPPAAL as that eventually the system reaches a state where all reports are uploaded, represented by InspectionBot.all_reports_uploaded.\",\"confidence\":0.85,\"pattern_used\":\"eventual_completion\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "A<> InspectionBot.all_reports_uploaded",
+              "explanation": "The constraint requires that every inspection report is uploaded eventually. This is a global liveness property, expressed in UPPAAL as that eventually the system reaches a state where all reports are uploaded, represented by InspectionBot.all_reports_uploaded.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> InspectionBot.all_reports_uploaded"
+          },
+          "total_time": 30.07771325111389,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "results": [
+        {
+          "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+          "classification": {
+            "step": "classification",
+            "timing": 2.0547420978546143,
+            "tokens": 187,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"completes\", \"before\", \"moving\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"completes zone inspection\",\n  \"response_text\": \"moving to the next\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.328528881072998,
+            "tokens": 586,
+            "raw_text": "{\n  \"query\": \"MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next\",\n  \"explanation\": \"The constraint describes a sequential workflow where the MaintenanceRover must complete the zone inspection before it can move to the next zone. This aligns with the 'sequential_workflow' pattern, which is used for processes where one action eventually follows another. The '-->' operator is appropriate here as it indicates an eventual triggered behavior, matching the constraint's requirement.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next",
+              "explanation": "The constraint describes a sequential workflow where the MaintenanceRover must complete the zone inspection before it can move to the next zone. This aligns with the 'sequential_workflow' pattern, which is used for processes where one action eventually follows another. The '-->' operator is appropriate here as it indicates an eventual triggered behavior, matching the constraint's requirement.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next"
+          },
+          "total_time": 4.4076149463653564,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7204570770263672,
+            "tokens": 200,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"halts\", \"activates\", \"ventilation\", \"gas concentration\", \">\"],\n  \"cues\": [\"when\", \">\", \"must\"],\n  \"trigger_text\": \"gas concentration > 3%\",\n  \"response_text\": \"halts and activates ventilation\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.0853078365325928,
+            "tokens": 595,
+            "raw_text": "{\n  \"query\": \"(gas_concentration > 3) --> (MaintenanceRover.halts && MaintenanceRover.activates_ventilation)\",\n  \"explanation\": \"The query matches the constraint by using the 'conditional_response' pattern, which is appropriate for scenarios where a condition (gas concentration > 3%) leads to an eventual response (halts and activates ventilation). The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(gas_concentration > 3) --> (MaintenanceRover.halts && MaintenanceRover.activates_ventilation)",
+              "explanation": "The query matches the constraint by using the 'conditional_response' pattern, which is appropriate for scenarios where a condition (gas concentration > 3%) leads to an eventual response (halts and activates ventilation). The '-->' operator is used to represent this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(gas_concentration > 3) --> (MaintenanceRover.halts && MaintenanceRover.activates_ventilation)"
+          },
+          "total_time": 3.821831226348877,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+          "classification": {
+            "step": "classification",
+            "timing": 0.9568021297454834,
+            "tokens": 188,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"resumes\", \"gas concentration\", \"<\", \"%\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"gas concentration < 1%\",\n  \"response_text\": \"MaintenanceRover resumes\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.132204055786133,
+            "tokens": 560,
+            "raw_text": "{\n  \"query\": \"(gas_concentration < 1) --> MaintenanceRover.resumes\",\n  \"explanation\": \"The query follows the conditional_response pattern where the condition 'gas concentration < 1%' triggers the eventual response 'MaintenanceRover resumes'. The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(gas_concentration < 1) --> MaintenanceRover.resumes",
+              "explanation": "The query follows the conditional_response pattern where the condition 'gas concentration < 1%' triggers the eventual response 'MaintenanceRover resumes'. The '-->' operator is used to represent this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(gas_concentration < 1) --> MaintenanceRover.resumes"
+          },
+          "total_time": 3.110421895980835,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "MaintenanceRover heads to charging when battery < 25%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2013940811157227,
+            "tokens": 192,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"MaintenanceRover\", \"charging\", \"battery\", \"<\", \"25%\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"battery < 25%\",\n  \"response_text\": \"heads to charging\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.2441320419311523,
+            "tokens": 565,
+            "raw_text": "{\n  \"query\": \"(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging\",\n  \"explanation\": \"The query follows the conditional_response pattern where the condition 'battery < 25%' triggers the eventual response 'heads to charging'. The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging",
+              "explanation": "The query follows the conditional_response pattern where the condition 'battery < 25%' triggers the eventual response 'heads to charging'. The '-->' operator is used to represent this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging"
+          },
+          "total_time": 2.4636411666870117,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "MaintenanceRover records every anomaly before proceeding",
+          "classification": {
+            "step": "classification",
+            "timing": 1.7959020137786865,
+            "tokens": 192,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"records\", \"before\", \"proceeding\"],\n  \"cues\": [\"before\"],\n  \"trigger_text/response_text\": {\n    \"trigger_text\": \"records every anomaly\",\n    \"response_text\": \"proceeding\"\n  }\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.5982952117919922,
+            "tokens": 565,
+            "raw_text": "{\n  \"query\": \"MaintenanceRover.recording_anomaly --> MaintenanceRover.proceeding\",\n  \"explanation\": \"The constraint specifies that the MaintenanceRover must record every anomaly before proceeding. This aligns with the sequential_workflow pattern where one action (recording an anomaly) eventually leads to another action (proceeding). The 'before' cue indicates a sequential dependency, which is captured by the '-->' operator.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.recording_anomaly --> MaintenanceRover.proceeding",
+              "explanation": "The constraint specifies that the MaintenanceRover must record every anomaly before proceeding. This aligns with the sequential_workflow pattern where one action (recording an anomaly) eventually leads to another action (proceeding). The 'before' cue indicates a sequential dependency, which is captured by the '-->' operator.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.recording_anomaly --> MaintenanceRover.proceeding"
+          },
+          "total_time": 3.431748151779175,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "All inspection reports eventually uploaded",
+          "classification": {
+            "step": "classification",
+            "timing": 1.504925012588501,
+            "tokens": 154,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"inspection reports\", \"uploaded\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8509840965270996,
+            "tokens": 523,
+            "raw_text": "{\n  \"query\": \"A<> InspectionReports.uploaded\",\n  \"explanation\": \"The constraint 'All inspection reports eventually uploaded' indicates a liveness property where the task of uploading inspection reports must eventually be completed. The pattern 'eventual_completion' is used, and the operator A<> is appropriate for expressing that something must eventually happen globally.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> InspectionReports.uploaded",
+              "explanation": "The constraint 'All inspection reports eventually uploaded' indicates a liveness property where the task of uploading inspection reports must eventually be completed. The pattern 'eventual_completion' is used, and the operator A<> is appropriate for expressing that something must eventually happen globally.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> InspectionReports.uploaded"
+          },
+          "total_time": 3.373544931411743,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "results": [
+        {
+          "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+          "classification": {
+            "step": "classification",
+            "timing": 3.386475086212158,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"completes\", \"before\", \"moving\", \"next\", \"zone inspection\", \"MaintenanceRover\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"zone inspection\",\n  \"response_text\": \"moving to the next\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.591483116149902,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next\",\n  \"explanation\": \"This query captures the sequential workflow where the MaintenanceRover must complete zone inspection before moving to the next location. The --> operator ensures that once zone_inspection_complete state is reached, the system will eventually transition to moving_to_next state, enforcing the ordering constraint that inspection completes before movement begins.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next",
+              "explanation": "This query captures the sequential workflow where the MaintenanceRover must complete zone inspection before moving to the next location. The --> operator ensures that once zone_inspection_complete state is reached, the system will eventually transition to moving_to_next state, enforcing the ordering constraint that inspection completes before movement begins.",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next"
+          },
+          "total_time": 8.99573302268982,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+          "classification": {
+            "step": "classification",
+            "timing": 3.526042938232422,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"MaintenanceRover\", \"halts\", \"activates\", \"ventilation\", \"gas concentration\", \"threshold\", \"safety\"],\n  \"cues\": [\">\", \"when\"],\n  \"trigger_text\": \"gas concentration > 3%\",\n  \"response_text\": \"halts and activates ventilation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.3595640659332275,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (MaintenanceRover.gas_concentration > 3 imply (MaintenanceRover.halted and MaintenanceRover.ventilation_active))\",\n  \"explanation\": \"This query uses the safety_immediate_response pattern to ensure that whenever the gas concentration exceeds 3%, the MaintenanceRover must immediately be in a halted state AND have ventilation active. The A[] operator ensures this holds in all reachable states, and 'imply' enforces the immediate same-state response required for safety.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (MaintenanceRover.gas_concentration > 3 imply (MaintenanceRover.halted and MaintenanceRover.ventilation_active))",
+              "explanation": "This query uses the safety_immediate_response pattern to ensure that whenever the gas concentration exceeds 3%, the MaintenanceRover must immediately be in a halted state AND have ventilation active. The A[] operator ensures this holds in all reachable states, and 'imply' enforces the immediate same-state response required for safety.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (MaintenanceRover.gas_concentration > 3 imply (MaintenanceRover.halted and MaintenanceRover.ventilation_active))"
+          },
+          "total_time": 8.901314735412598,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+          "classification": {
+            "step": "classification",
+            "timing": 3.562563896179199,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"MaintenanceRover\", \"resumes\", \"gas\", \"concentration\", \"threshold\", \"condition\"],\n  \"cues\": [\"when\", \"<\", \"%\"],\n  \"trigger_text\": \"gas concentration < 1%\",\n  \"response_text\": \"MaintenanceRover resumes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.7147088050842285,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(gas_concentration < 1) --> MaintenanceRover.resumed\",\n  \"explanation\": \"This query uses the conditional_response pattern with the --> operator to express that when the gas concentration falls below 1%, the MaintenanceRover will eventually resume operations. The trigger condition (gas_concentration < 1) leads to the eventual response (MaintenanceRover.resumed state).\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(gas_concentration < 1) --> MaintenanceRover.resumed",
+              "explanation": "This query uses the conditional_response pattern with the --> operator to express that when the gas concentration falls below 1%, the MaintenanceRover will eventually resume operations. The trigger condition (gas_concentration < 1) leads to the eventual response (MaintenanceRover.resumed state).",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(gas_concentration < 1) --> MaintenanceRover.resumed"
+          },
+          "total_time": 7.294126749038696,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "MaintenanceRover heads to charging when battery < 25%",
+          "classification": {
+            "step": "classification",
+            "timing": 3.6854500770568848,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"MaintenanceRover\", \"charging\", \"battery\", \"25%\"],\n  \"cues\": [\"when\", \"<\", \"%\"],\n  \"trigger_text\": \"battery < 25%\",\n  \"response_text\": \"MaintenanceRover heads to charging\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.644223928451538,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(MaintenanceRover.battery < 25) --> MaintenanceRover.charging\",\n  \"explanation\": \"This query uses the conditional response pattern with the --> operator to express that when the battery level drops below 25%, the MaintenanceRover will eventually reach the charging state. The --> operator is appropriate here because we're describing a triggered behavior where the low battery condition leads to an eventual response (going to charging), rather than an immediate same-state implication.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.charging",
+              "explanation": "This query uses the conditional response pattern with the --> operator to express that when the battery level drops below 25%, the MaintenanceRover will eventually reach the charging state. The --> operator is appropriate here because we're describing a triggered behavior where the low battery condition leads to an eventual response (going to charging), rather than an immediate same-state implication.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.charging"
+          },
+          "total_time": 8.347442150115967,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "MaintenanceRover records every anomaly before proceeding",
+          "classification": {
+            "step": "classification",
+            "timing": 2.78877592086792,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"records\", \"anomaly\", \"before\", \"proceeding\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"records every anomaly\",\n  \"response_text\": \"proceeding\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 4.660893201828003,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"MaintenanceRover.anomaly_detected --> MaintenanceRover.anomaly_recorded\",\n  \"explanation\": \"This query ensures that whenever MaintenanceRover detects an anomaly, it will eventually record it before proceeding. The --> operator captures the sequential workflow where anomaly recording must follow detection.\",\n  \"confidence\": 0.82,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "MaintenanceRover.anomaly_detected --> MaintenanceRover.anomaly_recorded",
+              "explanation": "This query ensures that whenever MaintenanceRover detects an anomaly, it will eventually record it before proceeding. The --> operator captures the sequential workflow where anomaly recording must follow detection.",
+              "confidence": 0.82,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.anomaly_detected --> MaintenanceRover.anomaly_recorded"
+          },
+          "total_time": 7.467437744140625,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "All inspection reports eventually uploaded",
+          "classification": {
+            "step": "classification",
+            "timing": 5.103201866149902,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"inspection\", \"reports\", \"uploaded\", \"eventually\", \"all\"],\n  \"cues\": [\"eventually\", \"all\"],\n  \"trigger_text\": \"inspection reports\",\n  \"response_text\": \"uploaded\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.7671799659729004,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> InspectionReports.uploaded\",\n  \"explanation\": \"This query verifies that all inspection reports must eventually reach the uploaded state. The A<> operator ensures this is a liveness property - the system must eventually satisfy the condition that reports are uploaded.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> InspectionReports.uploaded",
+              "explanation": "This query verifies that all inspection reports must eventually reach the uploaded state. The A<> operator ensures this is a liveness property - the system must eventually satisfy the condition that reports are uploaded.",
+              "confidence": 0.92,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> InspectionReports.uploaded"
+          },
+          "total_time": 8.90193486213684,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "results": [
+        {
+          "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4109840393066406,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"completes\",\n    \"before\",\n    \"moving to next\",\n    \"zone inspection\",\n    \"MaintenanceRover\"\n  ],\n  \"cues\": [\n    \"before\",\n    \"completes\"\n  ],\n  \"trigger_text\": \"zone inspection\",\n  \"response_text\": \"moving to the next\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.713409185409546,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next\",\n  \"explanation\": \"The constraint specifies a sequential workflow where zone inspection must complete before moving to the next zone. The '-->' operator captures this eventual triggered behavior: once zone_inspection_complete occurs in MaintenanceRover, the moving_to_next state will eventually follow. This matches the sequential_workflow pattern and aligns with similar examples like c009 (inspection_complete --> welding).\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next",
+              "explanation": "The constraint specifies a sequential workflow where zone inspection must complete before moving to the next zone. The '-->' operator captures this eventual triggered behavior: once zone_inspection_complete occurs in MaintenanceRover, the moving_to_next state will eventually follow. This matches the sequential_workflow pattern and aligns with similar examples like c009 (inspection_complete --> welding).",
+              "confidence": 0.9,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next"
+          },
+          "total_time": 3.14119291305542,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2234280109405518,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"halts\", \"activates\", \"ventilation\", \"gas concentration\"],\n  \"cues\": [\">\", \"when\"],\n  \"trigger_text\": \"gas concentration > 3%\",\n  \"response_text\": \"halts and activates ventilation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.8235459327697754,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(MaintenanceRover.gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_active)\",\n  \"explanation\": \"This constraint follows the conditional_response pattern where a condition (gas concentration > 3%) triggers an eventual response (halts and activates ventilation). The '-->' operator is appropriate here as it represents a sequential workflow where the condition leads to the eventual achievement of both response states. The condition is evaluated as a boolean expression, and the response is a conjunction of two states that should be reached.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(MaintenanceRover.gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_active)",
+              "explanation": "This constraint follows the conditional_response pattern where a condition (gas concentration > 3%) triggers an eventual response (halts and activates ventilation). The '-->' operator is appropriate here as it represents a sequential workflow where the condition leads to the eventual achievement of both response states. The condition is evaluated as a boolean expression, and the response is a conjunction of two states that should be reached.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(MaintenanceRover.gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_active)"
+          },
+          "total_time": 3.069835901260376,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2070960998535156,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"MaintenanceRover\", \"resumes\", \"gas concentration\", \"threshold\"],\n  \"cues\": [\"<\"],\n  \"trigger_text\": \"gas concentration < 1%\",\n  \"response_text\": \"MaintenanceRover resumes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.7719149589538574,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(gas_concentration < 1) --> MaintenanceRover.resumes\",\n  \"explanation\": \"This constraint describes a conditional response pattern where a condition (gas concentration dropping below 1%) triggers an eventual response (MaintenanceRover resumes operations). The '-->' operator is appropriate for sequential workflows where the condition leads to eventual action, not immediate response. The condition is evaluated as a state comparison, and the response is a state change in the MaintenanceRover process.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(gas_concentration < 1) --> MaintenanceRover.resumes",
+              "explanation": "This constraint describes a conditional response pattern where a condition (gas concentration dropping below 1%) triggers an eventual response (MaintenanceRover resumes operations). The '-->' operator is appropriate for sequential workflows where the condition leads to eventual action, not immediate response. The condition is evaluated as a state comparison, and the response is a state change in the MaintenanceRover process.",
+              "confidence": 0.92,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(gas_concentration < 1) --> MaintenanceRover.resumes"
+          },
+          "total_time": 2.9942619800567627,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "MaintenanceRover heads to charging when battery < 25%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.0872130393981934,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"battery level\", \"charging\", \"threshold\", \"MaintenanceRover\"],\n  \"cues\": [\"<\", \"when\"],\n  \"trigger_text\": \"battery < 25%\",\n  \"response_text\": \"heads to charging\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.6473851203918457,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(MaintenanceRover.battery < 25) --> MaintenanceRover.heads_to_charging\",\n  \"explanation\": \"This constraint describes a conditional_response pattern where the condition 'battery < 25%' triggers the eventual response 'heads to charging'. The '-->' operator is appropriate here because it represents a sequential workflow where the battery threshold condition leads to the rover eventually heading to the charging station. This is not an immediate same-state response, but rather an eventual behavior triggered by the condition.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.heads_to_charging",
+              "explanation": "This constraint describes a conditional_response pattern where the condition 'battery < 25%' triggers the eventual response 'heads to charging'. The '-->' operator is appropriate here because it represents a sequential workflow where the battery threshold condition leads to the rover eventually heading to the charging station. This is not an immediate same-state response, but rather an eventual behavior triggered by the condition.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.heads_to_charging"
+          },
+          "total_time": 2.756610155105591,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "MaintenanceRover records every anomaly before proceeding",
+          "classification": {
+            "step": "classification",
+            "timing": 1.5748391151428223,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"records\", \"anomaly\", \"before\", \"proceeding\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"proceeding\",\n  \"response_text\": \"records every anomaly\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.3350861072540283,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"MaintenanceRover.recording_anomaly --> MaintenanceRover.proceeding\",\n  \"explanation\": \"The constraint states that MaintenanceRover must record every anomaly BEFORE proceeding. This is a sequential workflow where the recording action must occur and complete before the proceeding action can happen. The '-->' operator captures this eventual sequential dependency: the recording of anomalies must be triggered/completed before proceeding begins.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "MaintenanceRover.recording_anomaly --> MaintenanceRover.proceeding",
+              "explanation": "The constraint states that MaintenanceRover must record every anomaly BEFORE proceeding. This is a sequential workflow where the recording action must occur and complete before the proceeding action can happen. The '-->' operator captures this eventual sequential dependency: the recording of anomalies must be triggered/completed before proceeding begins.",
+              "confidence": 0.88,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.recording_anomaly --> MaintenanceRover.proceeding"
+          },
+          "total_time": 3.9333009719848633,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "All inspection reports eventually uploaded",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8310627937316895,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"inspection reports\", \"uploaded\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"All inspection reports\",\n  \"response_text\": \"uploaded\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.9334189891815186,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> InspectionReport.all_uploaded\",\n  \"explanation\": \"The constraint 'All inspection reports eventually uploaded' expresses a liveness property where the system must eventually reach a state where all inspection reports are uploaded. This matches the eventual_completion pattern with the A<> operator, which specifies that all execution paths must eventually reach the final state (all_uploaded). The keyword 'eventually' directly indicates a must-eventually-happen property.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> InspectionReport.all_uploaded",
+              "explanation": "The constraint 'All inspection reports eventually uploaded' expresses a liveness property where the system must eventually reach a state where all inspection reports are uploaded. This matches the eventual_completion pattern with the A<> operator, which specifies that all execution paths must eventually reach the final state (all_uploaded). The keyword 'eventually' directly indicates a must-eventually-happen property.",
+              "confidence": 0.92,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> InspectionReport.all_uploaded"
+          },
+          "total_time": 3.786353826522827,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "results": [
+        {
+          "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+          "classification": {
+            "step": "classification",
+            "timing": 12.071619033813477,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"before\",\"sequential\"],\"cues\":[\"before\"],\"trigger_text\":\"completes zone inspection\",\"response_text\":\"moving to the next\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.101973056793213,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next\", \"explanation\": \"The constraint specifies that completing zone inspection happens before moving to the next, which matches the sequential_workflow pattern where one action (completing inspection) eventually leads to another (moving to the next). The --> operator captures this eventual triggered behavior.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next",
+              "explanation": "The constraint specifies that completing zone inspection happens before moving to the next, which matches the sequential_workflow pattern where one action (completing inspection) eventually leads to another (moving to the next). The --> operator captures this eventual triggered behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next"
+          },
+          "total_time": 24.193321228027344,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+          "classification": {
+            "step": "classification",
+            "timing": 10.095834970474243,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": \"conditional response\", \"cues\": [\"when\", \">\", \"%\"], \"trigger_text\": \"gas concentration > 3%\", \"response_text\": \"halts and activates ventilation\"}"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 10.143770217895508,
+          "success": false,
+          "error": "GraphRAG retrieval failed: {neo4j_code: Neo.ClientError.Statement.SyntaxError} {message: Type mismatch for parameter 'keywords': expected List<T> but was String (line 4, column 63 (offset: 149))\n\"             size([kw IN coalesce(e.keywords, []) WHERE kw IN $keywords]) AS overlap\"\n                                                               ^} {gql_status: 22G03} {gql_status_description: error: data exception - invalid value type}",
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+          "classification": {
+            "step": "classification",
+            "timing": 9.164453268051147,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"resumes\", \"when\"], \"cues\": [\"when\", \"<\", \"%\"], \"trigger_text\": \"gas concentration < 1%\", \"response_text\": \"MaintenanceRover resumes\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.811337232589722,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(gas_concentration < 1) --> MaintenanceRover.resumes\", \"explanation\": \"The constraint indicates a conditional response where a low gas concentration (less than 1%) triggers an eventual resumption of the MaintenanceRover. The leadsto operator (-->) in UPPAAL checks that whenever the condition holds, the response (resumption) will eventually occur, matching the 'when' trigger for eventual action.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(gas_concentration < 1) --> MaintenanceRover.resumes",
+              "explanation": "The constraint indicates a conditional response where a low gas concentration (less than 1%) triggers an eventual resumption of the MaintenanceRover. The leadsto operator (-->) in UPPAAL checks that whenever the condition holds, the response (resumption) will eventually occur, matching the 'when' trigger for eventual action.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(gas_concentration < 1) --> MaintenanceRover.resumes"
+          },
+          "total_time": 24.99602699279785,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "MaintenanceRover heads to charging when battery < 25%",
+          "classification": {
+            "step": "classification",
+            "timing": 10.166903018951416,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"conditional_response\", \"keywords\": [\"battery\", \"charging\"], \"cues\": [\"when\", \"<\", \"%\"], \"trigger_text\": \"battery < 25%\", \"response_text\": \"heads to charging\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.224224090576172,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging\", \"explanation\": \"This query uses the conditional_response pattern to model that when the battery level drops below 25%, the MaintenanceRover will eventually head to the charging station, matching the eventual triggered behavior described in the constraint.\", \"confidence\": 0.85, \"pattern_used\": \"conditional_response\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging",
+              "explanation": "This query uses the conditional_response pattern to model that when the battery level drops below 25%, the MaintenanceRover will eventually head to the charging station, matching the eventual triggered behavior described in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging"
+          },
+          "total_time": 22.40584707260132,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "MaintenanceRover records every anomaly before proceeding",
+          "classification": {
+            "step": "classification",
+            "timing": 11.407857179641724,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"record\", \"before\", \"proceeding\"], \"cues\": [\"before\"], \"trigger_text\": \"records every anomaly\", \"response_text\": \"proceeding\"}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.506393909454346,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"MaintenanceRover.records_anomaly --> MaintenanceRover.proceeding\", \"explanation\": \"The constraint indicates that for every anomaly, the MaintenanceRover must record it before proceeding, matching the sequential_workflow pattern where one action (recording) eventually leads to another (proceeding).\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.records_anomaly --> MaintenanceRover.proceeding",
+              "explanation": "The constraint indicates that for every anomaly, the MaintenanceRover must record it before proceeding, matching the sequential_workflow pattern where one action (recording) eventually leads to another (proceeding).",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.records_anomaly --> MaintenanceRover.proceeding"
+          },
+          "total_time": 24.93802809715271,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "All inspection reports eventually uploaded",
+          "classification": {
+            "step": "classification",
+            "timing": 12.175428867340088,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"eventual_completion\", \"keywords\": [\"eventually\", \"uploaded\"], \"cues\": [\"eventually\"], \"response_text\": \"uploaded\"}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.682355165481567,
+            "tokens": 0,
+            "raw_text": "{\"query\": \"A<> all_inspection_reports_uploaded\", \"explanation\": \"The constraint requires that all inspection reports must eventually be uploaded, which is a global liveness property matching the eventual_completion pattern using A<> to ensure it happens eventually.\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"A<>\"]}",
+            "uppaal_result": {
+              "query": "A<> all_inspection_reports_uploaded",
+              "explanation": "The constraint requires that all inspection reports must eventually be uploaded, which is a global liveness property matching the eventual_completion pattern using A<> to ensure it happens eventually.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_inspection_reports_uploaded"
+          },
+          "total_time": 24.87847113609314,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "results": [
+        {
+          "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+          "classification": {
+            "step": "classification",
+            "timing": 5.616662979125977,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"completes\", \"before\", \"moving\", \"next\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"completes zone inspection\",\n  \"response_text\": \"moving to the next\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.405632972717285,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"MaintenanceRover.zoneInspectionComplete --> MaintenanceRover.movingToNext\",\n  \"explanation\": \"The query uses the --> operator to ensure that the state where MaintenanceRover completes zone inspection is eventually followed by the state of moving to the next, aligning with the sequential_workflow pattern as it represents one action leading to another with possible delays.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.zoneInspectionComplete --> MaintenanceRover.movingToNext",
+              "explanation": "The query uses the --> operator to ensure that the state where MaintenanceRover completes zone inspection is eventually followed by the state of moving to the next, aligning with the sequential_workflow pattern as it represents one action leading to another with possible delays.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.zoneInspectionComplete --> MaintenanceRover.movingToNext"
+          },
+          "total_time": 12.035197973251343,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+          "classification": {
+            "step": "classification",
+            "timing": 6.173064947128296,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"halts\", \"activates\", \"ventilation\", \"gas concentration\", \">\"],\n  \"cues\": [\"when\", \">\"],\n  \"trigger_text\": \"gas concentration > 3%\",\n  \"response_text\": \"halts and activates ventilation\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.446261882781982,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_active)\",\n  \"explanation\": \"The query matches the constraint by using the eventual implication operator --> to represent that when the condition 'gas concentration > 3%' is true, the MaintenanceRover will eventually halt and activate ventilation, aligning with the conditional_response pattern for triggered behaviors.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_active)",
+              "explanation": "The query matches the constraint by using the eventual implication operator --> to represent that when the condition 'gas concentration > 3%' is true, the MaintenanceRover will eventually halt and activate ventilation, aligning with the conditional_response pattern for triggered behaviors.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_active)"
+          },
+          "total_time": 12.631659984588623,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+          "classification": {
+            "step": "classification",
+            "timing": 6.409759998321533,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"MaintenanceRover\", \"resumes\", \"gas concentration\", \"1%\"],\n  \"cues\": [\"when\", \"<\", \"%\"],\n  \"trigger_text\": \"gas concentration < 1%\",\n  \"response_text\": \"MaintenanceRover resumes\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.099390983581543,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(gas_concentration < 1) --> MaintenanceRover.resumes\",\n  \"explanation\": \"This query uses the --> operator to represent that when the condition 'gas concentration < 1%' is met, the MaintenanceRover will eventually resume, aligning with the conditional_response pattern where a condition leads to an eventual response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(gas_concentration < 1) --> MaintenanceRover.resumes",
+              "explanation": "This query uses the --> operator to represent that when the condition 'gas concentration < 1%' is met, the MaintenanceRover will eventually resume, aligning with the conditional_response pattern where a condition leads to an eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(gas_concentration < 1) --> MaintenanceRover.resumes"
+          },
+          "total_time": 12.527579069137573,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "MaintenanceRover heads to charging when battery < 25%",
+          "classification": {
+            "step": "classification",
+            "timing": 4.971841812133789,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"MaintenanceRover\", \"heads to charging\", \"battery\", \"25%\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"battery < 25%\",\n  \"response_text\": \"heads to charging\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 6.021679162979126,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(MaintenanceRover.battery < 25) --> MaintenanceRover.heads_to_charging\",\n  \"explanation\": \"This query uses the --> operator to represent the eventual response pattern, where the condition 'MaintenanceRover.battery < 25' triggers the action 'MaintenanceRover heads to charging', directly matching the given constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.heads_to_charging",
+              "explanation": "This query uses the --> operator to represent the eventual response pattern, where the condition 'MaintenanceRover.battery < 25' triggers the action 'MaintenanceRover heads to charging', directly matching the given constraint.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.heads_to_charging"
+          },
+          "total_time": 11.021828889846802,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "MaintenanceRover records every anomaly before proceeding",
+          "classification": {
+            "step": "classification",
+            "timing": 5.381010055541992,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"records\", \"anomaly\", \"before\", \"proceeding\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"detects an anomaly\",\n  \"response_text\": \"records it before proceeding\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.513376712799072,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"MaintenanceRover.records_anomaly --> MaintenanceRover.proceeding\",\n  \"explanation\": \"This query uses the sequential_workflow pattern to ensure that after the MaintenanceRover records an anomaly, proceeding eventually follows, directly matching the constraint that recording must happen before proceeding as a triggered sequential behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.records_anomaly --> MaintenanceRover.proceeding",
+              "explanation": "This query uses the sequential_workflow pattern to ensure that after the MaintenanceRover records an anomaly, proceeding eventually follows, directly matching the constraint that recording must happen before proceeding as a triggered sequential behavior.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.records_anomaly --> MaintenanceRover.proceeding"
+          },
+          "total_time": 17.91560196876526,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "All inspection reports eventually uploaded",
+          "classification": {
+            "step": "classification",
+            "timing": 6.8473498821258545,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"inspection\", \"reports\", \"uploaded\", \"eventually\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.080127954483032,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> all_inspection_reports_uploaded\",\n  \"explanation\": \"This query matches the constraint 'All inspection reports eventually uploaded' by using the A<> operator to ensure that the state where all reports are uploaded is inevitably reached, following the eventual_completion pattern template for global liveness properties.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> all_inspection_reports_uploaded",
+              "explanation": "This query matches the constraint 'All inspection reports eventually uploaded' by using the A<> operator to ensure that the state where all reports are uploaded is inevitably reached, following the eventual_completion pattern template for global liveness properties.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_inspection_reports_uploaded"
+          },
+          "total_time": 17.951615810394287,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+          "classification": {
+            "step": "classification",
+            "timing": 45.60123634338379,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"MaintenanceRover\", \"zone inspection\", \"completes\", \"moving\", \"next\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"completes zone inspection\",\n  \"response_text\": \"moving to the next\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 47.7223858833313,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"MaintenanceRover.inspection_complete --> MaintenanceRover.moving_next\",\n  \"explanation\": \"The constraint uses 'before' to indicate a temporal sequence where completing zone inspection must happen before moving to the next zone, aligning with the sequential_workflow pattern of one action eventually following another. The '-->' operator is appropriate as it models eventual triggered behavior, not immediate response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.inspection_complete --> MaintenanceRover.moving_next",
+              "explanation": "The constraint uses 'before' to indicate a temporal sequence where completing zone inspection must happen before moving to the next zone, aligning with the sequential_workflow pattern of one action eventually following another. The '-->' operator is appropriate as it models eventual triggered behavior, not immediate response.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.inspection_complete --> MaintenanceRover.moving_next"
+          },
+          "total_time": 93.34494519233704,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+          "classification": {
+            "step": "classification",
+            "timing": 38.07696795463562,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"MaintenanceRover\", \"halts\", \"activates ventilation\", \"gas concentration\", \"3%\"],\n  \"cues\": [\"when\", \">\", \"%\"],\n  \"trigger_text\": \"gas concentration > 3%\",\n  \"response_text\": \"halts and activates ventilation\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 58.727538108825684,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_on)\",\n  \"explanation\": \"The constraint uses 'when' to indicate a condition (gas concentration > 3%) that triggers an eventual response (halts and activates ventilation), aligning with the conditional_response pattern. The '-->' operator is used for such triggered eventual behaviors, as per the pattern template and similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_on)",
+              "explanation": "The constraint uses 'when' to indicate a condition (gas concentration > 3%) that triggers an eventual response (halts and activates ventilation), aligning with the conditional_response pattern. The '-->' operator is used for such triggered eventual behaviors, as per the pattern template and similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_on)"
+          },
+          "total_time": 96.8219358921051,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+          "classification": {
+            "step": "classification",
+            "timing": 46.213518142700195,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"MaintenanceRover\", \"resumes\", \"gas concentration\", \"1%\"],\n  \"cues\": [\"when\", \"<\", \"%\"],\n  \"trigger_text\": \"gas concentration < 1%\",\n  \"response_text\": \"MaintenanceRover resumes\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 59.28328490257263,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(gas_concentration < 1) --> MaintenanceRover.resumes\",\n  \"explanation\": \"The constraint uses 'when' to indicate a conditional response where the condition (gas concentration < 1%) triggers the eventual action (MaintenanceRover resuming). This aligns with the conditional_response pattern and the --> operator for eventual triggered behavior, as seen in similar examples like 'When battery is low, robot goes to charging station'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(gas_concentration < 1) --> MaintenanceRover.resumes",
+              "explanation": "The constraint uses 'when' to indicate a conditional response where the condition (gas concentration < 1%) triggers the eventual action (MaintenanceRover resuming). This aligns with the conditional_response pattern and the --> operator for eventual triggered behavior, as seen in similar examples like 'When battery is low, robot goes to charging station'.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(gas_concentration < 1) --> MaintenanceRover.resumes"
+          },
+          "total_time": 105.52394795417786,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "MaintenanceRover heads to charging when battery < 25%",
+          "classification": {
+            "step": "classification",
+            "timing": 36.63931918144226,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"MaintenanceRover\", \"charging\", \"battery\", \"low\"],\n  \"cues\": [\"when\", \"<\", \"%\"],\n  \"trigger_text\": \"battery < 25%\",\n  \"response_text\": \"heads to charging\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 57.44271206855774,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging_station\",\n  \"explanation\": \"The constraint uses 'when' to specify a condition (battery < 25%) that triggers an eventual action (heads to charging), matching the conditional_response pattern with the --> operator for sequential workflows and conditional eventual responses, as seen in similar examples.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging_station",
+              "explanation": "The constraint uses 'when' to specify a condition (battery < 25%) that triggers an eventual action (heads to charging), matching the conditional_response pattern with the --> operator for sequential workflows and conditional eventual responses, as seen in similar examples.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging_station"
+          },
+          "total_time": 94.1266279220581,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "MaintenanceRover records every anomaly before proceeding",
+          "classification": {
+            "step": "classification",
+            "timing": 57.701268911361694,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"records\", \"anomaly\", \"before\", \"proceeding\"],\n  \"cues\": [\"before\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 83.49913191795349,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"MaintenanceRover.anomaly_recorded --> MaintenanceRover.proceeding\",\n  \"explanation\": \"This query uses the leadsto operator '-->' to enforce that recording an anomaly eventually triggers proceeding, matching the 'before' cue and sequential workflow pattern where one action must occur before another.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.anomaly_recorded --> MaintenanceRover.proceeding",
+              "explanation": "This query uses the leadsto operator '-->' to enforce that recording an anomaly eventually triggers proceeding, matching the 'before' cue and sequential workflow pattern where one action must occur before another.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.anomaly_recorded --> MaintenanceRover.proceeding"
+          },
+          "total_time": 141.24252796173096,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "All inspection reports eventually uploaded",
+          "classification": {
+            "step": "classification",
+            "timing": 41.82052183151245,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"inspection\", \"reports\", \"uploaded\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 65.40632009506226,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> InspectionReportsUploaded\",\n  \"explanation\": \"The constraint 'All inspection reports eventually uploaded' expresses a liveness property where the task must eventually complete, matching the eventual_completion pattern. The A<> operator is used to assert that in all paths, eventually the state 'InspectionReportsUploaded' holds, ensuring all reports are uploaded.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> InspectionReportsUploaded",
+              "explanation": "The constraint 'All inspection reports eventually uploaded' expresses a liveness property where the task must eventually complete, matching the eventual_completion pattern. The A<> operator is used to assert that in all paths, eventually the state 'InspectionReportsUploaded' holds, ensuring all reports are uploaded.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> InspectionReportsUploaded"
+          },
+          "total_time": 107.2739851474762,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "results": [
+        {
+          "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+          "classification": {
+            "step": "classification",
+            "timing": 0.874704122543335,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"maintenance rover\", \"zone inspection\", \"moving\", \"next\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"MaintenanceRover completes zone inspection\",\n  \"response_text\": \"moving to the next\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.8795278072357178,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next\",\n  \"explanation\": \"The constraint describes a sequential workflow where completing zone inspection eventually leads to moving to the next zone. The '-->' operator in UPPAAL represents this eventual triggering relationship.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next",
+              "explanation": "The constraint describes a sequential workflow where completing zone inspection eventually leads to moving to the next zone. The '-->' operator in UPPAAL represents this eventual triggering relationship.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next"
+          },
+          "total_time": 1.7805819511413574,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8949477672576904,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"maintenance rover\", \"gas concentration\", \"halts\", \"activates\", \"ventilation\", \"threshold\"],\n  \"cues\": [\">\", \"when\"],\n  \"trigger_text\": \"gas concentration > 3%\",\n  \"response_text\": \"MaintenanceRover halts and activates ventilation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.53981614112854,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(GasConcentration > 3) --> (MaintenanceRover.Halted && MaintenanceRover.VentilationActive)\",\n  \"explanation\": \"The constraint states that when the gas concentration exceeds 3%, the MaintenanceRover eventually halts and activates ventilation. This aligns with the 'conditional_response' pattern, where a condition triggers an eventual response. The '-->' operator is used to represent this eventual response. The state of MaintenanceRover halting is represented by MaintenanceRover.Halted and ventilation activation by MaintenanceRover.VentilationActive. GasConcentration > 3 represents the condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(GasConcentration > 3) --> (MaintenanceRover.Halted && MaintenanceRover.VentilationActive)",
+              "explanation": "The constraint states that when the gas concentration exceeds 3%, the MaintenanceRover eventually halts and activates ventilation. This aligns with the 'conditional_response' pattern, where a condition triggers an eventual response. The '-->' operator is used to represent this eventual response. The state of MaintenanceRover halting is represented by MaintenanceRover.Halted and ventilation activation by MaintenanceRover.VentilationActive. GasConcentration > 3 represents the condition.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(GasConcentration > 3) --> (MaintenanceRover.Halted && MaintenanceRover.VentilationActive)"
+          },
+          "total_time": 2.4546470642089844,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8182640075683594,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"maintenance\", \"rover\", \"gas\", \"concentration\", \"resume\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"gas concentration < 1%\",\n  \"response_text\": \"MaintenanceRover resumes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0130441188812256,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(gas_concentration < 1) --> MaintenanceRover.resumes\",\n  \"explanation\": \"The constraint follows the conditional_response pattern: when condition, then eventual response. The gas concentration being less than 1% triggers the MaintenanceRover to eventually resume. The '-->' operator is used because it is an eventual response, not an immediate one.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(gas_concentration < 1) --> MaintenanceRover.resumes",
+              "explanation": "The constraint follows the conditional_response pattern: when condition, then eventual response. The gas concentration being less than 1% triggers the MaintenanceRover to eventually resume. The '-->' operator is used because it is an eventual response, not an immediate one.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(gas_concentration < 1) --> MaintenanceRover.resumes"
+          },
+          "total_time": 1.8440558910369873,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "MaintenanceRover heads to charging when battery < 25%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.53422212600708,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"battery\", \"charging\", \"maintenance rover\", \"low battery\"],\n  \"cues\": [\"when\", \"<\"],\n  \"trigger_text\": \"battery < 25%\",\n  \"response_text\": \"MaintenanceRover heads to charging\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 0.9636359214782715,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(MaintenanceRover.battery < 25) --> MaintenanceRover.charging\",\n  \"explanation\": \"The constraint states that when the MaintenanceRover's battery is less than 25%, it eventually heads to charging. This matches the conditional_response pattern, so the '-->' (eventual response) operator is used. `MaintenanceRover.battery < 25` represents the condition and `MaintenanceRover.charging` represents the eventual response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.charging",
+              "explanation": "The constraint states that when the MaintenanceRover's battery is less than 25%, it eventually heads to charging. This matches the conditional_response pattern, so the '-->' (eventual response) operator is used. `MaintenanceRover.battery < 25` represents the condition and `MaintenanceRover.charging` represents the eventual response.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.charging"
+          },
+          "total_time": 2.5198068618774414,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "MaintenanceRover records every anomaly before proceeding",
+          "classification": {
+            "step": "classification",
+            "timing": 0.8528509140014648,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"maintenance rover\", \"anomaly\", \"record\", \"proceed\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"anomaly\",\n  \"response_text\": \"record\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.0743029117584229,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"MaintenanceRover.anomaly --> MaintenanceRover.record\",\n  \"explanation\": \"The constraint specifies a sequential workflow: the rover encounters an anomaly, and *eventually* records it before proceeding. This matches the 'sequential_workflow' pattern, using the '-->' operator to represent the eventual triggering of the 'record' state after the 'anomaly' state. The prompt specifies that 'proceeding' means recording every anomaly.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "uppaal_result": {
+              "query": "MaintenanceRover.anomaly --> MaintenanceRover.record",
+              "explanation": "The constraint specifies a sequential workflow: the rover encounters an anomaly, and *eventually* records it before proceeding. This matches the 'sequential_workflow' pattern, using the '-->' operator to represent the eventual triggering of the 'record' state after the 'anomaly' state. The prompt specifies that 'proceeding' means recording every anomaly.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.anomaly --> MaintenanceRover.record"
+          },
+          "total_time": 1.948124885559082,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "All inspection reports eventually uploaded",
+          "classification": {
+            "step": "classification",
+            "timing": 1.133749008178711,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"inspection reports\",\n    \"upload\",\n    \"eventually\"\n  ],\n  \"cues\": [\n    \"eventually\"\n  ]\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 1.429912805557251,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A<> all_reports_uploaded\",\n  \"explanation\": \"The constraint 'All inspection reports eventually uploaded' indicates a liveness property, meaning something must eventually happen.  The 'eventual_completion' pattern with the A<> operator directly addresses this. 'all_reports_uploaded' is assumed to be a boolean variable or condition that becomes true when all reports are uploaded.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}\n```",
+            "uppaal_result": {
+              "query": "A<> all_reports_uploaded",
+              "explanation": "The constraint 'All inspection reports eventually uploaded' indicates a liveness property, meaning something must eventually happen.  The 'eventual_completion' pattern with the A<> operator directly addresses this. 'all_reports_uploaded' is assumed to be a boolean variable or condition that becomes true when all reports are uploaded.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> all_reports_uploaded"
+          },
+          "total_time": 2.590772867202759,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "results": [
+        {
+          "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+          "classification": {
+            "step": "classification",
+            "timing": 7.435643196105957,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"MaintenanceRover\",\n    \"zone inspection\",\n    \"moving\"\n  ],\n  \"cues\": [\n    \"before\"\n  ],\n  \"trigger_text\": \"MaintenanceRover completes zone inspection\",\n  \"response_text\": \"moving to the next\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.912121057510376,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"MaintenanceRover.InspectionComplete --> MaintenanceRover.Moving\",\n  \"explanation\": \"The constraint describes a sequential workflow where the 'MaintenanceRover' first completes a 'zone inspection' and then eventually starts 'moving'. The word 'before' establishes this order. This is captured by the 'leads to' operator (-->), which asserts that whenever the state 'MaintenanceRover.InspectionComplete' is reached, the state 'MaintenanceRover.Moving' must eventually follow.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "MaintenanceRover.InspectionComplete --> MaintenanceRover.Moving",
+              "explanation": "The constraint describes a sequential workflow where the 'MaintenanceRover' first completes a 'zone inspection' and then eventually starts 'moving'. The word 'before' establishes this order. This is captured by the 'leads to' operator (-->), which asserts that whenever the state 'MaintenanceRover.InspectionComplete' is reached, the state 'MaintenanceRover.Moving' must eventually follow.",
+              "confidence": 0.95,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.InspectionComplete --> MaintenanceRover.Moving"
+          },
+          "total_time": 20.36678910255432,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+          "classification": {
+            "step": "classification",
+            "timing": 9.835370063781738,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\n    \"maintenance rover\",\n    \"halts\",\n    \"activates\",\n    \"ventilation\",\n    \"gas concentration\"\n  ],\n  \"cues\": [\n    \"when\",\n    \">\",\n    \"%\"\n  ],\n  \"trigger_text\": \"gas concentration > 3%\",\n  \"response_text\": \"MaintenanceRover halts and activates ventilation\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 43.088709115982056,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"A[] (gas_concentration > 3 imply MaintenanceRover.Halted and Ventilation.Active)\",\n  \"explanation\": \"This query uses A[] (always) to enforce a safety property. It checks that in any state where the trigger `gas_concentration > 3` is true, it is immediately implied that the `MaintenanceRover` process is in its `Halted` state and the `Ventilation` process is in its `Active` state. The `imply` operator ensures this instantaneous, same-state response, matching the 'when' clause.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\n    \"A[]\",\n    \"imply\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "A[] (gas_concentration > 3 imply MaintenanceRover.Halted and Ventilation.Active)",
+              "explanation": "This query uses A[] (always) to enforce a safety property. It checks that in any state where the trigger `gas_concentration > 3` is true, it is immediately implied that the `MaintenanceRover` process is in its `Halted` state and the `Ventilation` process is in its `Active` state. The `imply` operator ensures this instantaneous, same-state response, matching the 'when' clause.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (gas_concentration > 3 imply MaintenanceRover.Halted and Ventilation.Active)"
+          },
+          "total_time": 52.94230890274048,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+          "classification": {
+            "step": "classification",
+            "timing": 6.335324048995972,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"MaintenanceRover\",\n    \"resumes\",\n    \"gas concentration\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"<\",\n    \"%\"\n  ],\n  \"trigger_text\": \"gas concentration < 1%\",\n  \"response_text\": \"MaintenanceRover resumes\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.971508026123047,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(gas_concentration < 1) --> MaintenanceRover.Resumed\",\n  \"explanation\": \"The query uses the 'leads to' (-->) operator to model the specified conditional response. It asserts that any state where the `gas_concentration` is less than 1 must eventually be followed by a state where the `MaintenanceRover` process is in its `Resumed` location.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(gas_concentration < 1) --> MaintenanceRover.Resumed",
+              "explanation": "The query uses the 'leads to' (-->) operator to model the specified conditional response. It asserts that any state where the `gas_concentration` is less than 1 must eventually be followed by a state where the `MaintenanceRover` process is in its `Resumed` location.",
+              "confidence": 0.95,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(gas_concentration < 1) --> MaintenanceRover.Resumed"
+          },
+          "total_time": 18.334152221679688,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "MaintenanceRover heads to charging when battery < 25%",
+          "classification": {
+            "step": "classification",
+            "timing": 6.2762451171875,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\n    \"maintenance\",\n    \"rover\",\n    \"battery\",\n    \"charging\"\n  ],\n  \"cues\": [\n    \"when\",\n    \"<\",\n    \"%\"\n  ],\n  \"trigger_text\": \"battery < 25%\",\n  \"response_text\": \"MaintenanceRover heads to charging\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.343892097473145,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"(MaintenanceRover.battery < 25) --> MaintenanceRover.Charging\",\n  \"explanation\": \"The constraint 'when battery < 25%, MaintenanceRover heads to charging' describes a conditional response. The `-->` (leads to) operator is used to verify that whenever the trigger condition (`MaintenanceRover.battery < 25`) becomes true, it is eventually followed by the response, which is the rover reaching its `Charging` state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.Charging",
+              "explanation": "The constraint 'when battery < 25%, MaintenanceRover heads to charging' describes a conditional response. The `-->` (leads to) operator is used to verify that whenever the trigger condition (`MaintenanceRover.battery < 25`) becomes true, it is eventually followed by the response, which is the rover reaching its `Charging` state.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.Charging"
+          },
+          "total_time": 19.63795518875122,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "MaintenanceRover records every anomaly before proceeding",
+          "classification": {
+            "step": "classification",
+            "timing": 9.709245920181274,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"maintenance rover\",\n    \"records\",\n    \"anomaly\",\n    \"proceeding\"\n  ],\n  \"cues\": [\n    \"before\"\n  ],\n  \"trigger_text\": \"records every anomaly\",\n  \"response_text\": \"proceeding\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.648814678192139,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"MaintenanceRover.RecordingAnomaly --> MaintenanceRover.Proceeding\",\n  \"explanation\": \"The constraint specifies a sequential process where the MaintenanceRover records an anomaly and then proceeds. The 'leads to' operator (-->) correctly models this workflow, ensuring that after entering the 'RecordingAnomaly' state, the rover will eventually enter the 'Proceeding' state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "MaintenanceRover.RecordingAnomaly --> MaintenanceRover.Proceeding",
+              "explanation": "The constraint specifies a sequential process where the MaintenanceRover records an anomaly and then proceeds. The 'leads to' operator (-->) correctly models this workflow, ensuring that after entering the 'RecordingAnomaly' state, the rover will eventually enter the 'Proceeding' state.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.RecordingAnomaly --> MaintenanceRover.Proceeding"
+          },
+          "total_time": 20.38195300102234,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "All inspection reports eventually uploaded",
+          "classification": {
+            "step": "classification",
+            "timing": 11.184853076934814,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\n    \"inspection reports\",\n    \"uploaded\"\n  ],\n  \"cues\": [\n    \"all\",\n    \"eventually\"\n  ],\n  \"trigger_text\": \"an inspection report is created\",\n  \"response_text\": \"it is uploaded\"\n}\n```"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 17.44291090965271,
+            "tokens": 0,
+            "raw_text": "```json\n{\n  \"query\": \"InspectionReport.Created --> InspectionReport.Uploaded\",\n  \"explanation\": \"The query uses the 'leads-to' operator (-->) to model a triggered eventual response. `InspectionReport.Created` represents the trigger state where a report has been created. `InspectionReport.Uploaded` represents the required final state. The query verifies that whenever a report enters the 'Created' state, it is guaranteed to eventually reach the 'Uploaded' state, thus ensuring all created reports are eventually uploaded.\",\n  \"confidence\": 0.9,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "uppaal_result": {
+              "query": "InspectionReport.Created --> InspectionReport.Uploaded",
+              "explanation": "The query uses the 'leads-to' operator (-->) to model a triggered eventual response. `InspectionReport.Created` represents the trigger state where a report has been created. `InspectionReport.Uploaded` represents the required final state. The query verifies that whenever a report enters the 'Created' state, it is guaranteed to eventually reach the 'Uploaded' state, thus ensuring all created reports are eventually uploaded.",
+              "confidence": 0.9,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectionReport.Created --> InspectionReport.Uploaded"
+          },
+          "total_time": 28.657598972320557,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        }
+      ]
+    }
+  ]
+}

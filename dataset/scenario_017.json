@@ -1,0 +1,22 @@
+{
+  "id": "scenario_017",
+  "domain": "agriculture",
+  "prompt": "A drone surveys crop zones while a rover collects soil samples. Every zone must be inspected at least once. The rover begins sampling only after the drone finishes the zone. If communication is lost, both must halt.",
+  "robots": ["AgriDrone", "SoilRover"],
+  "constraints": [
+    "Drone inspects all zones eventually",
+    "Rover samples only after drone finishes scanning zone",
+    "AgriDrone and SoilRover halt if communication lost"
+  ],
+  "reference_properties": [
+    "A<> (AgriDrone.ZoneCompletedAll==true)",
+    "A[] (SoilRover.Sampling) imply (AgriDrone.ZoneInspected)",
+    "A[] (Environment.commLost imply (AgriDrone.halted && SoilRover.halted))"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-10",
+    "validation_status": "validated"
+  }
+}

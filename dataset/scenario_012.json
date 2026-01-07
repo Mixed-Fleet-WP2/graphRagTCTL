@@ -1,0 +1,21 @@
+{
+  "id": "scenario_012",
+  "domain": "manufacturing",
+  "prompt": "A robotic arm assembles components while a vision robot checks alignment. The vision robot must verify after each assembly step. If misalignment > 2 mm, assembly halts until correction is confirmed.",
+  "robots": ["ArmBot", "VisionBot"],
+  "constraints": [
+    "VisionBot verifies alignment after each ArmBot assembly step",
+    "ArmBot stops if misalignment exceeds 2 mm",
+    "Assembly resumes after correction confirmation"
+  ],
+  "reference_properties": [
+    "(ArmBot.AssemblyStepDone) -->  (VisionBot.Verify)",
+    "A[] (misalignment > 2 && ArmBot.stopped)",
+    "(VisionBot.CorrectionConfirmed) --> (ArmBot.ResumeAssembly)"
+  ],
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-11"
+  }
+}

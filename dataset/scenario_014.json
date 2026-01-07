@@ -1,0 +1,22 @@
+{
+  "id": "scenario_014",
+  "domain": "construction",
+  "prompt": "A maintenance drone inspects bridge cables while a repair robot seals cracks. The repair robot must wait until the inspection of the cable segment is completed. Both must stop if vibration exceeds threshold 5.0 g.",
+  "robots": ["InspectionDrone", "RepairBot"],
+  "constraints": [
+    "RepairBot starts after InspectionDrone finishes inspection",
+    "InspectionDrone stop when vibration exceeds 5 g",
+    "RepairBot stop when vibration exceeds 5 g"
+  ],
+  "reference_properties": [
+    "InspectionDrone.inspection_finished --> RepairBot.starting",
+    "A[] (InspectionDrone.vibration > 5 imply InspectionDrone.stopped)",
+    "A[] (RepairBot.vibration > 5 imply RepairBot.stopped)"
+  ],
+  
+  "llm_output_properties": [],
+  "metadata": {
+    "annotator": "hamza_haoui",
+    "creation_date": "2025-11-11"
+  }
+}

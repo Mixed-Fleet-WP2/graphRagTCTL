@@ -1,0 +1,580 @@
+{
+  "id": "scenario_032",
+  "domain": "agriculture",
+  "prompt": "A high-altitude agricultural drone surveys crop zones for moisture and pest indicators. It divides fields into ten sub-zones, capturing spectral data for each. The drone must not descend below 40 meters except for calibration at designated points. If wind speed exceeds 35 km/h, it climbs to safe altitude and hovers until conditions stabilize. When battery capacity falls under 20%, it must return to base within 60 seconds. Eventually, all zones must be scanned and their data transmitted to the control center.",
+  "robots": [
+    "AgroDrone"
+  ],
+  "constraints": [
+    "AgroDrone maintains altitude \u2265 40 m except during calibration",
+    "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+    "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+    "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+    "AgroDrone returns to base within 60 seconds when battery < 20%",
+    "Eventually all data transmitted to control center",
+    "Eventually AgroDrone must scan all ten sub-zones"
+  ],
+  "results": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "timing": 4.8690268993377686,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "AgroDrone returns to base within 60 seconds when battery < 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all data transmitted to control center",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually AgroDrone must scan all ten sub-zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "timing": 13.935550928115845,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "AgroDrone returns to base within 60 seconds when battery < 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all data transmitted to control center",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually AgroDrone must scan all ten sub-zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-nano",
+      "timing": 33.49863386154175,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "AgroDrone returns to base within 60 seconds when battery < 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all data transmitted to control center",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually AgroDrone must scan all ten sub-zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "timing": 2.6933560371398926,
+      "tokens": 1002,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "AgroDrone returns to base within 60 seconds when battery < 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all data transmitted to control center",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually AgroDrone must scan all ten sub-zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "timing": 4.630055904388428,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "AgroDrone returns to base within 60 seconds when battery < 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all data transmitted to control center",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually AgroDrone must scan all ten sub-zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "timing": 2.069689989089966,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (altitude < 40m except during calibration)"
+        },
+        {
+          "index": 1,
+          "constraint": "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (wind_speed > 35 imply climb_to_safe_altitude)"
+        },
+        {
+          "index": 2,
+          "constraint": "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+          "pattern_name": "conditional_response",
+          "template": "(wind_speed > 35 AND safe_altitude) --> hover"
+        },
+        {
+          "index": 3,
+          "constraint": "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+          "pattern_name": "conditional_response",
+          "template": "(hovering AND wind_speed <= 35) --> resume_survey"
+        },
+        {
+          "index": 4,
+          "constraint": "AgroDrone returns to base within 60 seconds when battery < 20%",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (battery < 20 imply return_to_base_within_60s)"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all data transmitted to control center",
+          "pattern_name": "eventual_completion",
+          "template": "A<> (all_data_transmitted_to_control_center)"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually AgroDrone must scan all ten sub-zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> (all_ten_sub_zones_scanned)"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "timing": 24.723965883255005,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 4,
+          "constraint": "AgroDrone returns to base within 60 seconds when battery < 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all data transmitted to control center",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually AgroDrone must scan all ten sub-zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "xai",
+      "model": "grok-3-mini",
+      "timing": 12.34266996383667,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 2,
+          "constraint": "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "AgroDrone returns to base within 60 seconds when battery < 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all data transmitted to control center",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually AgroDrone must scan all ten sub-zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "timing": 79.88203001022339,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 3,
+          "constraint": "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "AgroDrone returns to base within 60 seconds when battery < 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all data transmitted to control center",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually AgroDrone must scan all ten sub-zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.0-flash",
+      "timing": 1.9597899913787842,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "AgroDrone returns to base within 60 seconds when battery < 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all data transmitted to control center",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually AgroDrone must scan all ten sub-zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "timing": 19.65441107749939,
+      "tokens": 0,
+      "classified": [
+        {
+          "index": 0,
+          "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+          "pattern_name": "forbidden_state",
+          "template": "A[] not (bad_state)"
+        },
+        {
+          "index": 1,
+          "constraint": "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 2,
+          "constraint": "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+          "pattern_name": "safety_immediate_response",
+          "template": "A[] (trigger_condition imply safety_action)"
+        },
+        {
+          "index": 3,
+          "constraint": "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 4,
+          "constraint": "AgroDrone returns to base within 60 seconds when battery < 20%",
+          "pattern_name": "conditional_response",
+          "template": "condition --> response"
+        },
+        {
+          "index": 5,
+          "constraint": "Eventually all data transmitted to control center",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        },
+        {
+          "index": 6,
+          "constraint": "Eventually AgroDrone must scan all ten sub-zones",
+          "pattern_name": "eventual_completion",
+          "template": "A<> final_state"
+        }
+      ],
+      "parse_error": false
+    }
+  ]
+}
