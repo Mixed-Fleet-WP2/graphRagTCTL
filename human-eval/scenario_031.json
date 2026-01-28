@@ -1,0 +1,747 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-09T08:19:55.098Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_031",
+      "domain": "industrial_maintenance",
+      "prompt": "An autonomous maintenance rover patrols an underground facility inspecting power panels, pipes, and sensors. It must finish inspection of a zone before moving to the next. If gas concentration exceeds 3%, the rover immediately activates ventilation mode and halts movement until the level drops below 1%. If battery drops below 25%, it must head to the nearest charging dock. The rover records every anomaly before proceeding, and all inspection reports must eventually be uploaded to the central server.",
+      "gold_standard": {
+        "constraints": [
+          "MaintenanceRover completes zone inspection before moving to the next",
+          "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+          "MaintenanceRover resumes when gas concentration < 1%",
+          "MaintenanceRover heads to charging when battery < 25%",
+          "MaintenanceRover records every anomaly before proceeding",
+          "All inspection reports eventually uploaded"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+                "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.next_zone",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+                "query": "(gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_on)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+                "query": "(gas_concentration < 1) --> MaintenanceRover.resumes",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "MaintenanceRover heads to charging when battery < 25%",
+                "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.heads_to_charging",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "MaintenanceRover records every anomaly before proceeding",
+                "query": "MaintenanceRover.encounter_anomaly --> MaintenanceRover.record_anomaly",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "All inspection reports eventually uploaded",
+                "query": "A<> all_inspection_reports_uploaded",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+                "query": "MaintenanceRover.inspection_complete --> MaintenanceRover.move_to_next_zone",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+                "query": "A[] (MaintenanceRover.gas_concentration > 3 imply (MaintenanceRover.halted && MaintenanceRover.ventilation_active))",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+                "query": "(gas_concentration < 1) --> MaintenanceRover.resumed",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "MaintenanceRover heads to charging when battery < 25%",
+                "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging_station",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "MaintenanceRover records every anomaly before proceeding",
+                "query": "MaintenanceRover.anomaly_detected --> MaintenanceRover.record_anomaly",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "All inspection reports eventually uploaded",
+                "query": "A<> forall (i : int[0..NUM_REPORTS-1]) InspectionReport[i].uploaded",
+                "valid": false,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 5,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+                "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.move_to_next_zone",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+                "query": "A[] (gas_concentration > 0.03 imply (MaintenanceRover.halt && MaintenanceRover.activateVentilation))",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+                "query": "gas_concentration < 1 --> MaintenanceRover.resume_operations",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "MaintenanceRover heads to charging when battery < 25%",
+                "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging_station",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "MaintenanceRover records every anomaly before proceeding",
+                "query": "MaintenanceRover.record_anomaly --> MaintenanceRover.proceed",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "All inspection reports eventually uploaded",
+                "query": "A<> InspectionBot.all_reports_uploaded",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+                "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+                "query": "(gas_concentration > 3) --> (MaintenanceRover.halts && MaintenanceRover.activates_ventilation)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+                "query": "(gas_concentration < 1) --> MaintenanceRover.resumes",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "MaintenanceRover heads to charging when battery < 25%",
+                "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "MaintenanceRover records every anomaly before proceeding",
+                "query": "MaintenanceRover.recording_anomaly --> MaintenanceRover.proceeding",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "All inspection reports eventually uploaded",
+                "query": "A<> InspectionReports.uploaded",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+                "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+                "query": "A[] (MaintenanceRover.gas_concentration > 3 imply (MaintenanceRover.halted and MaintenanceRover.ventilation_active))",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+                "query": "(gas_concentration < 1) --> MaintenanceRover.resumed",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "MaintenanceRover heads to charging when battery < 25%",
+                "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.charging",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "MaintenanceRover records every anomaly before proceeding",
+                "query": "MaintenanceRover.anomaly_detected --> MaintenanceRover.anomaly_recorded",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "All inspection reports eventually uploaded",
+                "query": "A<> InspectionReports.uploaded",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+                "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+                "query": "(MaintenanceRover.gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_active)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+                "query": "(gas_concentration < 1) --> MaintenanceRover.resumes",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "MaintenanceRover heads to charging when battery < 25%",
+                "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.heads_to_charging",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "MaintenanceRover records every anomaly before proceeding",
+                "query": "MaintenanceRover.recording_anomaly --> MaintenanceRover.proceeding",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "All inspection reports eventually uploaded",
+                "query": "A<> InspectionReport.all_uploaded",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+                "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+                "query": "",
+                "valid": false,
+                "pattern": "",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+                "query": "(gas_concentration < 1) --> MaintenanceRover.resumes",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "MaintenanceRover heads to charging when battery < 25%",
+                "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "MaintenanceRover records every anomaly before proceeding",
+                "query": "MaintenanceRover.records_anomaly --> MaintenanceRover.proceeding",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "All inspection reports eventually uploaded",
+                "query": "A<> all_inspection_reports_uploaded",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 5,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+                "query": "MaintenanceRover.zoneInspectionComplete --> MaintenanceRover.movingToNext",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+                "query": "(gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_active)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+                "query": "(gas_concentration < 1) --> MaintenanceRover.resumes",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "MaintenanceRover heads to charging when battery < 25%",
+                "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.heads_to_charging",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "MaintenanceRover records every anomaly before proceeding",
+                "query": "MaintenanceRover.records_anomaly --> MaintenanceRover.proceeding",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "All inspection reports eventually uploaded",
+                "query": "A<> all_inspection_reports_uploaded",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+                "query": "MaintenanceRover.inspection_complete --> MaintenanceRover.moving_next",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+                "query": "(gas_concentration > 3) --> (MaintenanceRover.halted && MaintenanceRover.ventilation_on)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+                "query": "(gas_concentration < 1) --> MaintenanceRover.resumes",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "MaintenanceRover heads to charging when battery < 25%",
+                "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.at_charging_station",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "MaintenanceRover records every anomaly before proceeding",
+                "query": "MaintenanceRover.anomaly_recorded --> MaintenanceRover.proceeding",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "All inspection reports eventually uploaded",
+                "query": "A<> InspectionReportsUploaded",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+                "query": "MaintenanceRover.zone_inspection_complete --> MaintenanceRover.moving_to_next",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+                "query": "(GasConcentration > 3) --> (MaintenanceRover.Halted && MaintenanceRover.VentilationActive)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+                "query": "(gas_concentration < 1) --> MaintenanceRover.resumes",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "MaintenanceRover heads to charging when battery < 25%",
+                "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.charging",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "MaintenanceRover records every anomaly before proceeding",
+                "query": "MaintenanceRover.anomaly --> MaintenanceRover.record",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "All inspection reports eventually uploaded",
+                "query": "A<> all_reports_uploaded",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+                "query": "MaintenanceRover.InspectionComplete --> MaintenanceRover.Moving",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+                "query": "A[] (gas_concentration > 3 imply MaintenanceRover.Halted and Ventilation.Active)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+                "query": "(gas_concentration < 1) --> MaintenanceRover.Resumed",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "MaintenanceRover heads to charging when battery < 25%",
+                "query": "(MaintenanceRover.battery < 25) --> MaintenanceRover.Charging",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "MaintenanceRover records every anomaly before proceeding",
+                "query": "MaintenanceRover.RecordingAnomaly --> MaintenanceRover.Proceeding",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "All inspection reports eventually uploaded",
+                "query": "InspectionReport.Created --> InspectionReport.Uploaded",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 5,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 63,
+    "inferred": 0,
+    "hallucination": 3,
+    "unlabeled": 0,
+    "total": 66
+  },
+  "performance_metrics": {
+    "precision": 0.9545454545454546,
+    "recall": 10.5,
+    "f1": 1.75
+  }
+}

@@ -1,0 +1,836 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-27T08:47:24.364Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_035",
+      "domain": "exploration",
+      "prompt": "An autonomous rover explores a volcanic terrain. It collects temperature and seismic data every 200 meters and must not approach closer than 5 meters to lava zones. If terrain slope exceeds 30°, it activates stabilizers before proceeding. If a data packet fails transmission three times, it must log the failure and continue. Eventually, all checkpoints must be reached and at least 90% of data successfully transmitted.",
+      "gold_standard": {
+        "constraints": [
+          "ExploroRover collects data every 200 m",
+          "ExploroRover avoids lava zones by ≥ 5 m",
+          "ExploroRover activates stabilizers when slope > 30°",
+          "ExploroRover logs transmission failure after 3 retries",
+          "ExploroRover fails transmission three times, ExploroRover continues.",
+          "ExploroRover must eventually reach all checkpoints.",
+          "Eventually ≥ 90% data must be successfully transmitted "
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "ExploroRover collects data every 200 m",
+                "query": "A<> ExploroRover.data_collected",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ExploroRover avoids lava zones by ≥ 5 m",
+                "query": "A[] not (ExploroRover.distToLava < 5)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "ExploroRover activates stabilizers when slope > 30°",
+                "query": "(slope > 30) --> ExploroRover.stabilizers_activated",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "ExploroRover logs transmission failure after 3 retries",
+                "query": "A<> ExploroRover.transmission_failure_logged",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+                "query": "A[] not (ExploroRover.failedTransmissions >= 3 && ExploroRover.continues)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "ExploroRover must eventually reach all checkpoints.",
+                "query": "A<> ExploroRover.all_checkpoints_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Eventually ≥ 90% data must be successfully transmitted ",
+                "query": "A<> DataTransmitter.success_ratio_ge_90",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 4,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "ExploroRover collects data every 200 m",
+                "query": "A[] (ExploroRover.moving && not ExploroRover.data_collected imply d <= 200)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ExploroRover avoids lava zones by ≥ 5 m",
+                "query": "A[] not (ExploroRover.dist_to_lava < 5)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "ExploroRover activates stabilizers when slope > 30°",
+                "query": "(ExploroRover.slope > 30) --> ExploroRover.stabilizers_active",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "ExploroRover logs transmission failure after 3 retries",
+                "query": "(ExploroRover.retries >= 3 && ExploroRover.transmission_failure) --> A<> ExploroRover.logs_transmission_failure",
+                "valid": false,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+                "query": "(ExploroRover.transmission_failures == 3) --> ExploroRover.continues",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "ExploroRover must eventually reach all checkpoints.",
+                "query": "A<> ExploroRover.all_checkpoints_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Eventually ≥ 90% data must be successfully transmitted ",
+                "query": "A<> (data_transmitted * 100 >= 90 * data_total)",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 5,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "ExploroRover collects data every 200 m",
+                "query": "A[] (ExploroRover.distance_since_last_sample >= 200 imply t <= T_sample)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ExploroRover avoids lava zones by ≥ 5 m",
+                "query": "A[] not (lava_proximity < 5)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "ExploroRover activates stabilizers when slope > 30°",
+                "query": "(slope > 30) --> Stabilizers.activated",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "ExploroRover logs transmission failure after 3 retries",
+                "query": "A[] (ExploroRover.retries >= 3 --> ExploroRover.transmissionFailureLogged)",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+                "query": "(transmission_failure == 3) --> ExploroRover.continues",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "ExploroRover must eventually reach all checkpoints.",
+                "query": "A<> ExploroRover.all_checkpoints_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Eventually ≥ 90% data must be successfully transmitted ",
+                "query": "A<> (total > 0 && transmitted * 10 >= total * 9)",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 4,
+            "valid_inferred": 0,
+            "hallucinations": 3,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "ExploroRover collects data every 200 m",
+                "query": "A[] (ExploroRover.moving && not ExploroRover.data_collected --> ExploroRover.distance >= 200)",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ExploroRover avoids lava zones by ≥ 5 m",
+                "query": "A[] not (ExploroRover.distance_to_lava < 5)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "ExploroRover activates stabilizers when slope > 30°",
+                "query": "(slope > 30) --> ExploroRover.activates_stabilizers",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "ExploroRover logs transmission failure after 3 retries",
+                "query": "A<> (ExploroRover.transmission_failure && ExploroRover.retries == 3)",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+                "query": "A[] (ExploroRover.fails_transmission >= 3 --> A<> ExploroRover.continues)",
+                "valid": false,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "ExploroRover must eventually reach all checkpoints.",
+                "query": "A<> ExploroRover.all_checkpoints_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Eventually ≥ 90% data must be successfully transmitted ",
+                "query": "A<> DataTransmission.successful >= 0.9 * DataTransmission.total",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 4,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "ExploroRover collects data every 200 m",
+                "query": "ExploroRover.traveled_200m --> ExploroRover.collecting_data",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ExploroRover avoids lava zones by ≥ 5 m",
+                "query": "A[] not (ExploroRover.distance_to_lava < 5)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "ExploroRover activates stabilizers when slope > 30°",
+                "query": "(slope > 30) --> ExploroRover.stabilizers_active",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "ExploroRover logs transmission failure after 3 retries",
+                "query": "ExploroRover.retry_count_3 --> ExploroRover.logging_failure",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+                "query": "(ExploroRover.transmission_failures >= 3) --> ExploroRover.continues",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "ExploroRover must eventually reach all checkpoints.",
+                "query": "A<> ExploroRover.all_checkpoints_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Eventually ≥ 90% data must be successfully transmitted ",
+                "query": "A<> (transmitted_data >= 0.9 * total_data)",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 4,
+            "valid_inferred": 0,
+            "hallucinations": 3,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "ExploroRover collects data every 200 m",
+                "query": "ExploroRover.distance_traveled_200m --> ExploroRover.collecting_data",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ExploroRover avoids lava zones by ≥ 5 m",
+                "query": "A[] not (ExploroRover.position.distance_to_lava < 5)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "ExploroRover activates stabilizers when slope > 30°",
+                "query": "(ExploroRover.slope > 30) --> ExploroRover.stabilizers_active",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "ExploroRover logs transmission failure after 3 retries",
+                "query": "ExploroRover.retries >= 3 --> ExploroRover.transmission_failure_logged",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+                "query": "(ExploroRover.transmission_failures == 3) --> ExploroRover.continues",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "ExploroRover must eventually reach all checkpoints.",
+                "query": "A<> (ExploroRover.checkpoint1 && ExploroRover.checkpoint2 && ExploroRover.checkpoint3)",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Eventually ≥ 90% data must be successfully transmitted ",
+                "query": "A<> (data_transmission.complete && transmission_success_rate >= 90)",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 4,
+            "valid_inferred": 0,
+            "hallucinations": 3,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "ExploroRover collects data every 200 m",
+                "query": "A[] ((ExploroRover.distance % 200 == 0) --> ExploroRover.collects_data)",
+                "valid": false,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ExploroRover avoids lava zones by ≥ 5 m",
+                "query": "A[] not (ExploroRover.distance_to_lava < 5)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "ExploroRover activates stabilizers when slope > 30°",
+                "query": "(slope > 30) --> ExploroRover.stabilizers_activated",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "ExploroRover logs transmission failure after 3 retries",
+                "query": "(ExploroRover.retries == 3) --> ExploroRover.logs_transmission_failure",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+                "query": "(ExploroRover.transmission_failures == 3) --> ExploroRover.continues",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "ExploroRover must eventually reach all checkpoints.",
+                "query": "A<> ExploroRover.all_checkpoints_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Eventually ≥ 90% data must be successfully transmitted ",
+                "query": "A<> (data_transmitted >= 90)",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 5,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "ExploroRover collects data every 200 m",
+                "query": "A[] (rover.needs_data_collection imply clock <= 200)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ExploroRover avoids lava zones by ≥ 5 m",
+                "query": "A[] not (ExploroRover.distance_to_lava <= 5)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "ExploroRover activates stabilizers when slope > 30°",
+                "query": "(slope > 30) --> ExploroRover.stabilizers_active",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "ExploroRover logs transmission failure after 3 retries",
+                "query": "(retries == 3) --> ExploroRover.logs_transmission_failure",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+                "query": "(transmissionFailures >= 3) --> roverContinues",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "ExploroRover must eventually reach all checkpoints.",
+                "query": "A<> ExploroRover.all_checkpoints_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Eventually ≥ 90% data must be successfully transmitted ",
+                "query": "A<> (transmitted_data >= 90)",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 4,
+            "valid_inferred": 0,
+            "hallucinations": 3,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "ExploroRover collects data every 200 m",
+                "query": "(ExploroRover.distance % 200 == 0) --> ExploroRover.data_collected",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ExploroRover avoids lava zones by ≥ 5 m",
+                "query": "A[] not (distance_to_lava < 5)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "ExploroRover activates stabilizers when slope > 30°",
+                "query": "(slope > 30) --> ExploroRover.activates_stabilizers",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "ExploroRover logs transmission failure after 3 retries",
+                "query": "(ExploroRover.retries == 3 && ExploroRover.transmission_failure_detected) --> ExploroRover.logs_failure",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+                "query": "(ExploroRover.fail_count == 3) --> ExploroRover.active",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "ExploroRover must eventually reach all checkpoints.",
+                "query": "A<> ExploroRover.all_checkpoints_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Eventually ≥ 90% data must be successfully transmitted ",
+                "query": "A<> (transmitted_data * 100 >= 90 * total_data)",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 5,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "ExploroRover collects data every 200 m",
+                "query": "A[] ExploroRover.collecting_data --> distance <= 200",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ExploroRover avoids lava zones by ≥ 5 m",
+                "query": "A[] ExploroRover.distanceToLava >= 5",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "ExploroRover activates stabilizers when slope > 30°",
+                "query": "(ExploroRover.slope > 30) --> ExploroRover.stabilizers_active",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "ExploroRover logs transmission failure after 3 retries",
+                "query": "ExploroRover.retries >= 3 --> ExploroRover.log_failure",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+                "query": "ExploroRover.fail_count >= 3 --> ExploroRover.continues",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "ExploroRover must eventually reach all checkpoints.",
+                "query": "A<> ExploroRover.all_checkpoints_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Eventually ≥ 90% data must be successfully transmitted ",
+                "query": "A<> data_transmitted >= 90",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 5,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "ExploroRover collects data every 200 m",
+                "query": "ExploroRover.Traveled200m --> ExploroRover.CollectingData",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ExploroRover avoids lava zones by ≥ 5 m",
+                "query": "A[] not (ExploroRover.distance_to_lava < 5)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "ExploroRover activates stabilizers when slope > 30°",
+                "query": "A[] (ExploroRover.slope > 30 imply ExploroRover.stabilizers_active)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "ExploroRover logs transmission failure after 3 retries",
+                "query": "ExploroRover.retries == 3 --> ExploroRover.TransmissionFailureLogged",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+                "query": "ExploroRover.transmission_failures == 3 --> ExploroRover.Continuing",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "ExploroRover must eventually reach all checkpoints.",
+                "query": "A<> ExploroRover.all_checkpoints_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Eventually ≥ 90% data must be successfully transmitted ",
+                "query": "A<> System.data_transmitted_percent >= 90",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 48,
+    "inferred": 0,
+    "hallucination": 29,
+    "unlabeled": 0,
+    "total": 77
+  },
+  "performance_metrics": {
+    "precision": 0.6233766233766234,
+    "recall": 6.857142857142857,
+    "f1": 1.1428571428571428
+  }
+}

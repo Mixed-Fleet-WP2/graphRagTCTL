@@ -10,8 +10,8 @@
     "Eventually all containers reach storage area"
   ],
   "reference_properties": [
-    "A[] ((AGV1.StartLoading || AGV2.StartLoading) imply CraneBot.UnloadDone)",
-    "A[] (Forklift.Active) imply (AGV1.AtTransferZone || AGV2.AtTransferZone)",
+    "CraneBot.signals_unloading_complete --> (!AGV1.waiting && !AGV2.waiting)",
+    "AGV.transfer_zone_reached --> Forklift.starting",
     "A[] (DroneSupervisor.DistanceToCraneBot >= 20)",
     "A<> (Environment.ContainersInStorage == TotalContainers)"
   ],

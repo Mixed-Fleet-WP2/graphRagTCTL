@@ -1,0 +1,323 @@
+{
+  "analysis_date": "2026-01-28",
+  "total_wrong_samples": 425,
+  "error_patterns": {
+    "by_pattern": {
+      "safety_immediate_response": {
+        "count": 36
+      },
+      "forbidden_state": {
+        "count": 63
+      },
+      "conditional_response": {
+        "count": 149
+      },
+      "time_bounded_constraint": {
+        "count": 38
+      },
+      "eventual_completion": {
+        "count": 39
+      },
+      "reachability": {
+        "count": 39
+      },
+      "sequential_workflow": {
+        "count": 52
+      },
+      "": {
+        "count": 6
+      },
+      "existential_reachability": {
+        "count": 3
+      }
+    },
+    "by_scenario": {
+      "unknown": 425
+    }
+  },
+  "common_mistakes": {
+    "syntax": {
+      "empty_query": 6
+    },
+    "temporal_logic": {
+      "ctl_instead_of_tctl": 188,
+      "missing_clock_constraints": 94
+    },
+    "semantic": {
+      "eventually_not_captured": 18,
+      "always_not_captured": 26,
+      "negation_missing": 1
+    },
+    "variables": {
+      "variable_mismatch": 55
+    }
+  },
+  "recommendations": {
+    "high_priority": [
+      {
+        "issue": "Most Problematic Patterns",
+        "patterns": [
+          "conditional_response",
+          "forbidden_state",
+          "sequential_workflow"
+        ],
+        "error_count": 264,
+        "recommendation": "Focus on improving conditional_response, forbidden_state, sequential_workflow. These patterns account for the majority of errors.",
+        "actions": [
+          "Create specialized training examples for conditional_response",
+          "Add pattern-specific validation rules",
+          "Enhance prompt engineering for these patterns"
+        ]
+      },
+      {
+        "issue": "Syntax Errors",
+        "error_count": 6,
+        "breakdown": {
+          "empty_query": 6
+        },
+        "recommendation": "Implement syntax validation and post-processing",
+        "actions": [
+          "Add parenthesis balancing checks",
+          "Implement automatic whitespace normalization",
+          "Add empty query detection and retry logic"
+        ]
+      },
+      {
+        "issue": "Temporal Logic Errors",
+        "error_count": 282,
+        "breakdown": {
+          "ctl_instead_of_tctl": 188,
+          "missing_clock_constraints": 94
+        },
+        "recommendation": "Strengthen temporal logic understanding",
+        "actions": [
+          "Clarify TCTL vs CTL differences in prompts",
+          "Add examples showing clock variable usage",
+          "Include temporal constraint patterns in few-shot examples"
+        ]
+      }
+    ],
+    "medium_priority": [
+      {
+        "issue": "Semantic Mapping Errors",
+        "error_count": 45,
+        "breakdown": {
+          "eventually_not_captured": 18,
+          "always_not_captured": 26,
+          "negation_missing": 1
+        },
+        "recommendation": "Improve natural language to formal logic mapping",
+        "actions": [
+          "Add keyword-to-operator mapping examples (always\u2192A[], eventually\u2192E<>)",
+          "Include negation handling examples",
+          "Strengthen semantic verification in validation step"
+        ]
+      },
+      {
+        "issue": "Variable Handling Errors",
+        "error_count": 55,
+        "breakdown": {
+          "variable_mismatch": 55
+        },
+        "recommendation": "Improve variable extraction and usage",
+        "actions": [
+          "Add variable extraction from constraints",
+          "Include variable scope validation",
+          "Provide examples showing correct variable usage in queries"
+        ]
+      },
+      {
+        "issue": "Scenario Hotspots",
+        "scenarios": [
+          "unknown"
+        ],
+        "error_counts": {
+          "unknown": 425
+        },
+        "recommendation": "Some scenarios are particularly challenging",
+        "actions": [
+          "Review unknown - it has the most errors (425)",
+          "Analyze what makes these scenarios difficult",
+          "Create targeted examples based on these scenarios"
+        ]
+      }
+    ],
+    "low_priority": [],
+    "model_specific": {},
+    "pattern_specific": {
+      "safety_immediate_response": [
+        {
+          "issue": "High failure rate (36 errors)",
+          "recommendation": "Pattern 'safety_immediate_response' needs significant improvement",
+          "actions": [
+            "Review and enhance pattern definition",
+            "Add more diverse training examples",
+            "Consider breaking down into sub-patterns",
+            "Implement pattern-specific validation rules"
+          ]
+        }
+      ],
+      "forbidden_state": [
+        {
+          "issue": "High failure rate (63 errors)",
+          "recommendation": "Pattern 'forbidden_state' needs significant improvement",
+          "actions": [
+            "Review and enhance pattern definition",
+            "Add more diverse training examples",
+            "Consider breaking down into sub-patterns",
+            "Implement pattern-specific validation rules"
+          ]
+        }
+      ],
+      "conditional_response": [
+        {
+          "issue": "High failure rate (149 errors)",
+          "recommendation": "Pattern 'conditional_response' needs significant improvement",
+          "actions": [
+            "Review and enhance pattern definition",
+            "Add more diverse training examples",
+            "Consider breaking down into sub-patterns",
+            "Implement pattern-specific validation rules"
+          ]
+        }
+      ],
+      "time_bounded_constraint": [
+        {
+          "issue": "High failure rate (38 errors)",
+          "recommendation": "Pattern 'time_bounded_constraint' needs significant improvement",
+          "actions": [
+            "Review and enhance pattern definition",
+            "Add more diverse training examples",
+            "Consider breaking down into sub-patterns",
+            "Implement pattern-specific validation rules"
+          ]
+        }
+      ],
+      "eventual_completion": [
+        {
+          "issue": "High failure rate (39 errors)",
+          "recommendation": "Pattern 'eventual_completion' needs significant improvement",
+          "actions": [
+            "Review and enhance pattern definition",
+            "Add more diverse training examples",
+            "Consider breaking down into sub-patterns",
+            "Implement pattern-specific validation rules"
+          ]
+        }
+      ],
+      "reachability": [
+        {
+          "issue": "High failure rate (39 errors)",
+          "recommendation": "Pattern 'reachability' needs significant improvement",
+          "actions": [
+            "Review and enhance pattern definition",
+            "Add more diverse training examples",
+            "Consider breaking down into sub-patterns",
+            "Implement pattern-specific validation rules"
+          ]
+        }
+      ],
+      "sequential_workflow": [
+        {
+          "issue": "High failure rate (52 errors)",
+          "recommendation": "Pattern 'sequential_workflow' needs significant improvement",
+          "actions": [
+            "Review and enhance pattern definition",
+            "Add more diverse training examples",
+            "Consider breaking down into sub-patterns",
+            "Implement pattern-specific validation rules"
+          ]
+        }
+      ]
+    }
+  },
+  "improvement_plan": {
+    "immediate_actions": [
+      {
+        "priority": "CRITICAL",
+        "action": "Implement syntax validation layer",
+        "details": [
+          "Add parenthesis balancing checks",
+          "Implement automatic whitespace normalization",
+          "Add empty query detection and retry logic"
+        ],
+        "estimated_impact": "High - could fix 10-20% of errors"
+      }
+    ],
+    "short_term": [
+      {
+        "priority": "HIGH",
+        "action": "Address Most Problematic Patterns",
+        "details": [
+          "Create specialized training examples for conditional_response",
+          "Add pattern-specific validation rules",
+          "Enhance prompt engineering for these patterns"
+        ],
+        "estimated_impact": "Medium-High - could fix 15-25% of errors"
+      },
+      {
+        "priority": "HIGH",
+        "action": "Address Temporal Logic Errors",
+        "details": [
+          "Clarify TCTL vs CTL differences in prompts",
+          "Add examples showing clock variable usage",
+          "Include temporal constraint patterns in few-shot examples"
+        ],
+        "estimated_impact": "Medium-High - could fix 15-25% of errors"
+      },
+      {
+        "priority": "MEDIUM",
+        "action": "Improve Semantic Mapping Errors",
+        "details": [
+          "Add keyword-to-operator mapping examples (always\u2192A[], eventually\u2192E<>)",
+          "Include negation handling examples",
+          "Strengthen semantic verification in validation step"
+        ],
+        "estimated_impact": "Medium - could fix 5-15% of errors"
+      },
+      {
+        "priority": "MEDIUM",
+        "action": "Improve Variable Handling Errors",
+        "details": [
+          "Add variable extraction from constraints",
+          "Include variable scope validation",
+          "Provide examples showing correct variable usage in queries"
+        ],
+        "estimated_impact": "Medium - could fix 5-15% of errors"
+      },
+      {
+        "priority": "MEDIUM",
+        "action": "Improve Scenario Hotspots",
+        "details": [
+          "Review unknown - it has the most errors (425)",
+          "Analyze what makes these scenarios difficult",
+          "Create targeted examples based on these scenarios"
+        ],
+        "estimated_impact": "Medium - could fix 5-15% of errors"
+      }
+    ],
+    "long_term": [],
+    "quick_wins": [
+      {
+        "action": "Add parenthesis balancing post-processor",
+        "effort": "Low",
+        "impact": "Medium"
+      },
+      {
+        "action": "Implement whitespace normalization",
+        "effort": "Low",
+        "impact": "Low-Medium"
+      },
+      {
+        "action": "Add empty query retry logic",
+        "effort": "Low",
+        "impact": "Low"
+      },
+      {
+        "action": "Create keyword-to-operator mapping table",
+        "effort": "Medium",
+        "impact": "Medium-High"
+      }
+    ]
+  }
+}

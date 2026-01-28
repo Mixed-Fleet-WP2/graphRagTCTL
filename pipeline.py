@@ -143,7 +143,8 @@ PATTERN_ENUM = [
     "safety_immediate_response",
     "sequential_workflow",
     "eventual_completion",
-    "reachability",
+    "existential_reachability",
+    "universal_reachability",
     "forbidden_state",
     "conditional_response",
     "time_bounded_constraint"

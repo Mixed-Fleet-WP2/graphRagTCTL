@@ -13,10 +13,10 @@
   ],
   "reference_properties": [
     "A[] (PedestrianDistance < 2 imply CleanBot.Pause)",
-    "A[] (CleanBot.ContainerFull imply CleanBot.ReturnDepot)",
-    "CleanBot.AtDepot && CleanBot.Unloaded --> CleanBot.ResumeRoute",
-    "A[] (RainIntensity > 30 imply CleanBot.Suspended)",
-    "A[] (RainIntensity > 30 imply CleanBot.AtShelter)",
+    "(CleanBot.debris_full) --> CleanBot.at_depot",
+    "CleanBot.Unloaded --> CleanBot.ResumeRoute",
+    "A[] not (rain_intensity > 30 && CleanBot.operating)",
+    "A[] not (rain_intensity > 30 && CleanBot.outside_shelter)",
     "A<> CleanBot.AllRoutesCleaned"
   ],
   "llm_output_constraints": [],
