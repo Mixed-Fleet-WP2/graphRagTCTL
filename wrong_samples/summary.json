@@ -1,0 +1,50 @@
+{
+  "total_models": 11,
+  "total_wrong_samples": 425,
+  "models": {
+    "anthropic_claude_haiku_4_5_20251001": {
+      "total_wrong": 43,
+      "file": "anthropic_claude_haiku_4_5_20251001_wrong_samples.json"
+    },
+    "anthropic_claude_sonnet_4_5_20250929": {
+      "total_wrong": 33,
+      "file": "anthropic_claude_sonnet_4_5_20250929_wrong_samples.json"
+    },
+    "deepseek_deepseek_reasoner": {
+      "total_wrong": 39,
+      "file": "deepseek_deepseek_reasoner_wrong_samples.json"
+    },
+    "google_gemini_2.0_flash": {
+      "total_wrong": 47,
+      "file": "google_gemini_2.0_flash_wrong_samples.json"
+    },
+    "google_gemini_2.5_pro": {
+      "total_wrong": 29,
+      "file": "google_gemini_2.5_pro_wrong_samples.json"
+    },
+    "openai_gpt_4o": {
+      "total_wrong": 31,
+      "file": "openai_gpt_4o_wrong_samples.json"
+    },
+    "openai_gpt_5.1": {
+      "total_wrong": 33,
+      "file": "openai_gpt_5.1_wrong_samples.json"
+    },
+    "openai_gpt_5_mini": {
+      "total_wrong": 35,
+      "file": "openai_gpt_5_mini_wrong_samples.json"
+    },
+    "openai_gpt_5_nano": {
+      "total_wrong": 44,
+      "file": "openai_gpt_5_nano_wrong_samples.json"
+    },
+    "xai_grok_3_mini": {
+      "total_wrong": 47,
+      "file": "xai_grok_3_mini_wrong_samples.json"
+    },
+    "xai_grok_code_fast_1": {
+      "total_wrong": 44,
+      "file": "xai_grok_code_fast_1_wrong_samples.json"
+    }
+  }
+}

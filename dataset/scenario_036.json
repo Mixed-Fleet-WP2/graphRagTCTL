@@ -13,7 +13,7 @@
   ],
   "reference_properties": [
     "A[] (FrostBot.Measuring imply FrostBot.WarmupTime >= 30)",
-    "A[] (Temperature < -25 imply FrostBot.Standby)",
+    "(temperature < -25) --> FrostBot.standby_mode",
     "(Temperature > -15 && FrostBot.Standby) --> FrostBot.Active",
     "A<> FrostBot.VibrationAnalysisDone",
     "A<> FrostBot.AnomalyLogged",

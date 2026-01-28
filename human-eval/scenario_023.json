@@ -1,0 +1,391 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-08T08:06:51.168Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_023",
+      "domain": "disaster_response",
+      "prompt": "A drone scans for survivors and a ground robot delivers medical kits. It’s always possible to reach a state where both have completed their missions. If battery < 10%, drone must return to base within 20 seconds.",
+      "gold_standard": {
+        "constraints": [
+          "Always possible for both to complete missions",
+          "RescueDrone returns to base within 20 seconds when battery < 10%"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Always possible for both to complete missions",
+                "query": "E<> (RescueDrone.mission_complete && MedicBot.mission_complete)",
+                "valid": true,
+                "pattern": "existential_reachability",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+                "query": "A[] (RescueDrone.battery < 10 && !RescueDrone.at_base imply RescueDrone.clock <= 20)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Always possible for both to complete missions",
+                "query": "A<> (RescueDrone.mission_complete && MedicBot.mission_complete)",
+                "valid": true,
+                "pattern": "universal_reachability",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+                "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Always possible for both to complete missions",
+                "query": "A<> (RescueDrone.mission_complete && MedicBot.mission_complete)",
+                "valid": true,
+                "pattern": "universal_reachability",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+                "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base --> clock <= 20)",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Always possible for both to complete missions",
+                "query": "A<> (RescueDrone.complete_mission && MedicBot.complete_mission)",
+                "valid": true,
+                "pattern": "universal_reachability",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+                "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Always possible for both to complete missions",
+                "query": "A<> (RescueDrone.missionComplete && MedicBot.missionComplete)",
+                "valid": true,
+                "pattern": "universal_reachability",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+                "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply RescueDrone.clock <= 20)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Always possible for both to complete missions",
+                "query": "E<> (RescueDrone.missions_complete && MedicBot.missions_complete)",
+                "valid": true,
+                "pattern": "existential_reachability",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+                "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Always possible for both to complete missions",
+                "query": "A<> (RescueDrone.mission_complete && MedicBot.mission_complete)",
+                "valid": true,
+                "pattern": "universal_reachability",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+                "query": "RescueDrone.battery < 10 --> RescueDrone.at_base",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Always possible for both to complete missions",
+                "query": "A<> (RescueDrone.mission_completed && MedicBot.mission_completed)",
+                "valid": true,
+                "pattern": "universal_reachability",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+                "query": "A[] (RescueDrone.battery < 10 && not RescueDrone.at_base imply clock <= 20)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Always possible for both to complete missions",
+                "query": "A<> (RescueDrone.mission_complete && MedicBot.mission_complete)",
+                "valid": true,
+                "pattern": "universal_reachability",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+                "query": "A[] (RescueDrone.battery < 10 imply RescueDrone.returning_to_base)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Always possible for both to complete missions",
+                "query": "RescueDrone.mission_complete && MedicBot.mission_complete --> E<> true",
+                "valid": false,
+                "pattern": "existential_reachability",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+                "query": "A[] (RescueDrone.battery < 10 imply RescueDrone.clock <= 20)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Always possible for both to complete missions",
+                "query": "E<> (RescueDrone.MissionComplete and MedicBot.MissionComplete)",
+                "valid": true,
+                "pattern": "existential_reachability",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+                "query": "A[] (RescueDrone.battery < 10 and not RescueDrone.at_base imply RescueDrone.clock <= 20)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 15,
+    "inferred": 0,
+    "hallucination": 7,
+    "unlabeled": 0,
+    "total": 22
+  },
+  "performance_metrics": {
+    "precision": 0.6818181818181818,
+    "recall": 7.5,
+    "f1": 1.25
+  }
+}

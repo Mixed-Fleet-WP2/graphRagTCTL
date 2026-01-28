@@ -597,7 +597,7 @@
                 "query": "A[] (SorterA.misalignment_detected imply SorterA.ConveyorStopped)",
                 "valid": true,
                 "pattern": "safety_immediate_response",
-                "label": "unlabeled"
+                "label": "correct"
               },
               {
                 "constraint_index": 1,
@@ -605,7 +605,7 @@
                 "query": "SorterB.AlignmentCorrection_Complete --> SorterB.Resuming",
                 "valid": true,
                 "pattern": "sequential_workflow",
-                "label": "unlabeled"
+                "label": "correct"
               },
               {
                 "constraint_index": 2,
@@ -613,7 +613,7 @@
                 "query": "Package.Corrected --> SorterA.NormalOperation",
                 "valid": true,
                 "pattern": "conditional_response",
-                "label": "unlabeled"
+                "label": "correct"
               },
               {
                 "constraint_index": 3,
@@ -621,7 +621,7 @@
                 "query": "Package.Corrected --> SorterB.NormalOperation",
                 "valid": true,
                 "pattern": "conditional_response",
-                "label": "unlabeled"
+                "label": "correct"
               },
               {
                 "constraint_index": 4,
@@ -629,25 +629,25 @@
                 "query": "A[] (Conveyor.stopped imply Conveyor.t <= 10)",
                 "valid": true,
                 "pattern": "time_bounded_constraint",
-                "label": "unlabeled"
+                "label": "correct"
               }
             ]
           },
           "evaluation_summary": {
-            "correct": 0,
+            "correct": 5,
             "valid_inferred": 0,
             "hallucinations": 0,
-            "unlabeled": 5
+            "unlabeled": 0
           }
         }
       ]
     }
   ],
   "overall_statistics": {
-    "correct": 34,
+    "correct": 39,
     "inferred": 0,
     "hallucination": 16,
-    "unlabeled": 5,
+    "unlabeled": 0,
     "total": 55
   },
   "performance_metrics": {

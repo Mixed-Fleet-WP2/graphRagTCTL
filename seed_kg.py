@@ -40,16 +40,18 @@ PATTERNS: List[Dict[str, Any]] = [
         "decision_rules": ["Keywords: eventually, will, must complete, finish"],
     },
     {
-        "name": "reachability",
-        "description": "Check if state is reachable",
-        "template": "E<> target_state OR A<> target_state",
-        "when_to_use": "To verify reachability. Use E<> for existential (there exists a path), A<> for universal (all paths can reach).",
-        "decision_rules": [
-            "Use E<> when: possible, can, might, feasible, exists a way",
-            "Use A<> when: all paths, always possible, guaranteed reachable, must be able to reach",
-            "E<> = weaker (at least one path)",
-            "A<> = stronger (every path)"
-        ],
+        "name": "existential_reachability",
+        "description": "Check if state is possible to reach (there exists a path)",
+        "template": "E<> target_state",
+        "when_to_use": "To verify that something CAN happen or is POSSIBLE. Checks if at least one execution path exists.",
+        "decision_rules": ["Keywords: possible, can, might, able to, feasible, exists a way, could reach"],
+    },
+    {
+        "name": "universal_reachability",
+        "description": "Check if state is guaranteed reachable from any state (all paths can reach)",
+        "template": "A<> target_state",
+        "when_to_use": "To verify that from ANY state, it's always POSSIBLE to eventually reach target. Stronger than existential.",
+        "decision_rules": ["Keywords: all paths, guaranteed reachable, always possible, every path allows, must be able to reach"],
     },
     {
         "name": "forbidden_state",
@@ -128,7 +130,8 @@ PATTERN_TO_OPERATORS: Dict[str, List[str]] = {
     "safety_immediate_response": ["A[]", "imply"],
     "sequential_workflow": ["-->"],
     "eventual_completion": ["A<>"],
-    "reachability": ["E<>", "A<>"],
+    "existential_reachability": ["E<>"],
+    "universal_reachability": ["A<>"],
     "forbidden_state": ["A[]", "not"],
     "conditional_response": ["-->"],
     "time_bounded_constraint": ["A[]", "imply"]
@@ -176,10 +179,10 @@ CONSTRAINT_EXAMPLES: List[Dict[str, Any]] = [
         "id": "c005",
         "nl": "It's possible for both robots to reach the charging station",
         "query": "E<> (RobotA.at_charging_station && RobotB.at_charging_station)",
-        "pattern": "reachability",
+        "pattern": "existential_reachability",
         "operators": ["E<>", "&&"],
         "keywords": ["possible", "both", "robots", "reach", "charging", "station"],
-        "explanation": "Use E<> to check if something is POSSIBLE."
+        "explanation": "Existential reachability - checks if at least one path exists where both robots reach charging station."
     },
     {
         "id": "c006",
@@ -257,10 +260,10 @@ CONSTRAINT_EXAMPLES: List[Dict[str, Any]] = [
         "id": "c014",
         "nl": "Can the drone reach the target location",
         "query": "E<> Drone.at_target",
-        "pattern": "reachability",
+        "pattern": "existential_reachability",
         "operators": ["E<>"],
         "keywords": ["can", "drone", "reach", "target", "location"],
-        "explanation": "Reachability check - is it possible to reach target?"
+        "explanation": "Existential reachability - is it possible to reach target? Checks if at least one path exists."
     },
     {
         "id": "c015",
@@ -365,16 +368,16 @@ CONSTRAINT_EXAMPLES: List[Dict[str, Any]] = [
         "id": "c026",
         "nl": "All paths guarantee the robot can reach the safe zone",
         "query": "A<> Robot.at_safe_zone",
-        "pattern": "reachability",
+        "pattern": "universal_reachability",
         "operators": ["A<>"],
         "keywords": ["all", "paths", "guarantee", "robot", "reach", "safe", "zone"],
-        "explanation": "Universal reachability - on every execution path, the robot can eventually reach the safe zone."
+        "explanation": "Universal reachability - on every execution path, reaching safe zone is always possible."
     },
     {
         "id": "c027",
         "nl": "Every execution path allows the drone to return home",
         "query": "A<> Drone.at_home",
-        "pattern": "reachability",
+        "pattern": "universal_reachability",
         "operators": ["A<>"],
         "keywords": ["every", "execution", "path", "allows", "drone", "return", "home"],
         "explanation": "Universal reachability - all paths must be able to reach home state."
@@ -383,7 +386,7 @@ CONSTRAINT_EXAMPLES: List[Dict[str, Any]] = [
         "id": "c028",
         "nl": "System is guaranteed to be able to reach idle state",
         "query": "A<> System.idle",
-        "pattern": "reachability",
+        "pattern": "universal_reachability",
         "operators": ["A<>"],
         "keywords": ["system", "guaranteed", "able", "reach", "idle", "state"],
         "explanation": "Universal reachability - from any state, it's always possible to eventually reach idle."

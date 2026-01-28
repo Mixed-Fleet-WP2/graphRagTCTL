@@ -1,0 +1,1021 @@
+{
+  "model": {
+    "provider": "anthropic",
+    "model": "claude-haiku-4-5-20251001"
+  },
+  "total_wrong_samples": 43,
+  "wrong_samples": [
+    {
+      "scenario_id": "scenario_0010",
+      "domain": "logistics",
+      "scenario_prompt": "A restocking AMR refills shelves while a drone verifies stock levels. The drone can only scan shelves when the AMR is idle. Both must stop if any obstacle is detected within 1 meters.",
+      "gold_standard": {
+        "constraints": [
+          "StockDrone scans only when RestockAMR is idle",
+          "Amr must stop if any obstacle is detected within 1 meters",
+          "Drone must stop if any obstacle is detected within 1 meters"
+        ]
+      },
+      "constraint_index": 1,
+      "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+      "generated_query": "A[] (Amr.obstacle_detected imply Amr.stopped)",
+      "valid": true,
+      "pattern": "safety_immediate_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_0010",
+      "domain": "logistics",
+      "scenario_prompt": "A restocking AMR refills shelves while a drone verifies stock levels. The drone can only scan shelves when the AMR is idle. Both must stop if any obstacle is detected within 1 meters.",
+      "gold_standard": {
+        "constraints": [
+          "StockDrone scans only when RestockAMR is idle",
+          "Amr must stop if any obstacle is detected within 1 meters",
+          "Drone must stop if any obstacle is detected within 1 meters"
+        ]
+      },
+      "constraint_index": 2,
+      "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+      "generated_query": "A[] (Drone.obstacle_detected_within_1m imply Drone.stopped)",
+      "valid": true,
+      "pattern": "safety_immediate_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_003",
+      "domain": "manufacturing",
+      "scenario_prompt": "A mobile inspector robot navigates the factory floor scanning inventory. If battery drops below 20%, it must return to charging station. An AMR collector follows to pick up items, all robots maintain safe distance from humans and other robots. If path blocked, robots must find alternative routes within 30 seconds.",
+      "gold_standard": {
+        "constraints": [
+          "InspectorBot returns to charging when battery below 20%",
+          "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+          "InspectorBot maintains safe distance from humans",
+          "InspectorBot maintains safe distance from robots",
+          "CollectorAMR maintains safe distance from humans",
+          "CollectorAMR maintains safe distance from robots",
+          "Inspector find alternative routes within 30 seconds",
+          "CollectorAMR find alternative routes within 30 seconds"
+        ]
+      },
+      "constraint_index": 5,
+      "constraint": "CollectorAMR maintains safe distance from robots",
+      "generated_query": "A[] not (CollectorAMR.position == Robot.position || distance(CollectorAMR.position, Robot.position) < SAFE_DISTANCE_THRESHOLD)",
+      "valid": false,
+      "pattern": "forbidden_state",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_004",
+      "domain": "manufacturing",
+      "scenario_prompt": "An assembly robot welds metal frames while a quality inspection drone hovers to scan the joints. The drone can start scanning only after welding is complete. If temperature exceeds 90\u00b0C, welding must pause until it drops below 70\u00b0C.",
+      "gold_standard": {
+        "constraints": [
+          "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "WelderBot resumes welding when temperature drops below 70\u00b0C"
+        ]
+      },
+      "constraint_index": 1,
+      "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+      "generated_query": "(WelderBot.temperature > 90) --> WelderBot.paused",
+      "valid": true,
+      "pattern": "conditional_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_006",
+      "domain": "agriculture",
+      "scenario_prompt": "A drone sprays pesticide across fields while a ground rover monitors soil humidity. The drone must not spray if wind speed exceeds 25 km/h. The rover reports humidity every 10 minutes, and if humidity < 20%, the drone must pause spraying.",
+      "gold_standard": {
+        "constraints": [
+          "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "SoilRover reports humidity every 10 minutes",
+          "SprayDrone pauses spraying if humidity below 20%"
+        ]
+      },
+      "constraint_index": 0,
+      "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+      "generated_query": "(SprayDrone.wind_speed > 25) --> SprayDrone.spraying == false",
+      "valid": true,
+      "pattern": "conditional_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_006",
+      "domain": "agriculture",
+      "scenario_prompt": "A drone sprays pesticide across fields while a ground rover monitors soil humidity. The drone must not spray if wind speed exceeds 25 km/h. The rover reports humidity every 10 minutes, and if humidity < 20%, the drone must pause spraying.",
+      "gold_standard": {
+        "constraints": [
+          "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "SoilRover reports humidity every 10 minutes",
+          "SprayDrone pauses spraying if humidity below 20%"
+        ]
+      },
+      "constraint_index": 1,
+      "constraint": "SoilRover reports humidity every 10 minutes",
+      "generated_query": "A[] (SoilRover.report_trigger --> SoilRover.reporting_humidity)",
+      "valid": false,
+      "pattern": "sequential_workflow",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_006",
+      "domain": "agriculture",
+      "scenario_prompt": "A drone sprays pesticide across fields while a ground rover monitors soil humidity. The drone must not spray if wind speed exceeds 25 km/h. The rover reports humidity every 10 minutes, and if humidity < 20%, the drone must pause spraying.",
+      "gold_standard": {
+        "constraints": [
+          "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "SoilRover reports humidity every 10 minutes",
+          "SprayDrone pauses spraying if humidity below 20%"
+        ]
+      },
+      "constraint_index": 2,
+      "constraint": "SprayDrone pauses spraying if humidity below 20%",
+      "generated_query": "(humidity < 20) --> SprayDrone.paused",
+      "valid": true,
+      "pattern": "conditional_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_008",
+      "domain": "harbor",
+      "scenario_prompt": "An unmanned crane unloads containers onto automated trucks. Trucks can move only after the crane signals unloading complete. If wind gusts exceed 40 km/h, unloading must be paused for safety.",
+      "gold_standard": {
+        "constraints": [
+          "TruckAMR starts moving only after CraneBot finishes unloading",
+          "CraneBot pauses unloading when wind gusts exceed 40 km/h"
+        ]
+      },
+      "constraint_index": 1,
+      "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+      "generated_query": "(CraneBot.wind_gusts > 40) --> CraneBot.paused_unloading",
+      "valid": true,
+      "pattern": "conditional_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_009",
+      "domain": "construction",
+      "scenario_prompt": "A crane lifts steel beams while a ground robot bolts them in place. The ground robot begins only after crane placement is confirmed. If a human enters the safety zone, both robots must halt within 5 seconds.",
+      "gold_standard": {
+        "constraints": [
+          "GroundBot starts bolting after CraneBot confirms placement",
+          "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "If a human enters the safety zone, GroundBot  must halt within 5 seconds"
+        ]
+      },
+      "constraint_index": 2,
+      "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+      "generated_query": "A[] (GroundBot.human_in_safety_zone imply GroundBot.halting)",
+      "valid": true,
+      "pattern": "safety_immediate_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_011",
+      "domain": "agriculture",
+      "scenario_prompt": "A harvester collects crops while a trailer follows to gather the load. The trailer must stay within 5 meters of the harvester. If distance exceeds 10 meters, both must stop and resynchronize within 15 seconds.",
+      "gold_standard": {
+        "constraints": [
+          "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "If distance > 10 meters, Harvester stop",
+          "If distance > 10 meters, TrailerBot stop",
+          "Harvester and TrailerBot must resynchronize within 15 seconds of stopping"
+        ]
+      },
+      "constraint_index": 0,
+      "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+      "generated_query": "A[] not (distance(TrailerBot, Harvester) > 5)",
+      "valid": false,
+      "pattern": "forbidden_state",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_012",
+      "domain": "manufacturing",
+      "scenario_prompt": "A robotic arm assembles components while a vision robot checks alignment. The vision robot must verify after each assembly step. If misalignment > 2 mm, assembly halts until correction is confirmed.",
+      "gold_standard": {
+        "constraints": [
+          "VisionBot verifies alignment after each ArmBot assembly step",
+          "ArmBot stops if misalignment exceeds 2 mm",
+          "Assembly resumes after correction confirmation"
+        ]
+      },
+      "constraint_index": 2,
+      "constraint": "Assembly resumes after correction confirmation",
+      "generated_query": "CorrectionConfirmation.confirmed --> Assembly.resumes",
+      "valid": true,
+      "pattern": "conditional_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_015",
+      "domain": "harbor",
+      "scenario_prompt": "A loading robot stacks containers while a drone monitors alignment. The drone starts inspection after every 5 containers are stacked. If container tilt exceeds 3 degrees, stacking stops immediately.",
+      "gold_standard": {
+        "constraints": [
+          "MonitorDrone inspects after every 5 containers stacked",
+          "LoaderBot stops stacking when tilt exceeds 3 degrees"
+        ]
+      },
+      "constraint_index": 0,
+      "constraint": "MonitorDrone inspects after every 5 containers stacked",
+      "generated_query": "Container.stacked_count >= 5 --> MonitorDrone.inspects",
+      "valid": true,
+      "pattern": "sequential_workflow",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_016",
+      "domain": "logistics",
+      "scenario_prompt": "Two sorting robots coordinate on a conveyor. If a package is misaligned, SorterA stops the belt while SorterB repositions it. Once corrected, both return to normal operation. Belt must not stop for more than 10 seconds.",
+      "gold_standard": {
+        "constraints": [
+          "SorterA stops conveyor when misalignment detected",
+          "SorterB corrects package alignment before resuming",
+          "SorterA returns to normal operation once the package is corrected",
+          "SorterB returns to normal operation once the package is corrected",
+          "Conveyor must not stop for more than 10 seconds"
+        ]
+      },
+      "constraint_index": 3,
+      "constraint": "SorterB returns to normal operation once the package is corrected",
+      "generated_query": "package_corrected --> A<> SorterB.normal_operation",
+      "valid": false,
+      "pattern": "eventual_completion",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_019",
+      "domain": "healthcare",
+      "scenario_prompt": "A medication robot delivers supplies across hospital floors. If elevator is busy, it waits; otherwise it proceeds. Every request should eventually be fulfilled, and the robot should always remain within safe areas.",
+      "gold_standard": {
+        "constraints": [
+          "MediBot waits if elevator busy",
+          "Each delivery request eventually fulfilled",
+          "MediBot never leaves safe areas"
+        ]
+      },
+      "constraint_index": 0,
+      "constraint": "MediBot waits if elevator busy",
+      "generated_query": "Elevator.busy --> MediBot.waiting",
+      "valid": true,
+      "pattern": "conditional_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_019",
+      "domain": "healthcare",
+      "scenario_prompt": "A medication robot delivers supplies across hospital floors. If elevator is busy, it waits; otherwise it proceeds. Every request should eventually be fulfilled, and the robot should always remain within safe areas.",
+      "gold_standard": {
+        "constraints": [
+          "MediBot waits if elevator busy",
+          "Each delivery request eventually fulfilled",
+          "MediBot never leaves safe areas"
+        ]
+      },
+      "constraint_index": 1,
+      "constraint": "Each delivery request eventually fulfilled",
+      "generated_query": "A<> (DeliveryRequest.received --> DeliveryRequest.fulfilled)",
+      "valid": false,
+      "pattern": "eventual_completion",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_019",
+      "domain": "healthcare",
+      "scenario_prompt": "A medication robot delivers supplies across hospital floors. If elevator is busy, it waits; otherwise it proceeds. Every request should eventually be fulfilled, and the robot should always remain within safe areas.",
+      "gold_standard": {
+        "constraints": [
+          "MediBot waits if elevator busy",
+          "Each delivery request eventually fulfilled",
+          "MediBot never leaves safe areas"
+        ]
+      },
+      "constraint_index": 2,
+      "constraint": "MediBot never leaves safe areas",
+      "generated_query": "A[] not (MediBot.location == unsafe_area)",
+      "valid": true,
+      "pattern": "forbidden_state",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_020",
+      "domain": "space",
+      "scenario_prompt": "An external repair drone fixes solar panels, while an inspection bot verifies alignment. at some point repair drone have to to reach a safe shutdown state. If misalignment persists for over 60 seconds we must switch inspection bot to emergency stop.",
+      "gold_standard": {
+        "constraints": [
+          "At some point RepairDrone have to reach a safe shutdown state",
+          "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers"
+        ]
+      },
+      "constraint_index": 1,
+      "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+      "generated_query": "A[] (InspectBot.misalignment && clock >= 60 --> InspectBot.emergency_stop)",
+      "valid": false,
+      "pattern": "time_bounded_constraint",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_023",
+      "domain": "disaster_response",
+      "scenario_prompt": "A drone scans for survivors and a ground robot delivers medical kits. It\u2019s always possible to reach a state where both have completed their missions. If battery < 10%, drone must return to base within 20 seconds.",
+      "gold_standard": {
+        "constraints": [
+          "Always possible for both to complete missions",
+          "RescueDrone returns to base within 20 seconds when battery < 10%"
+        ]
+      },
+      "constraint_index": 0,
+      "constraint": "Always possible for both to complete missions",
+      "generated_query": "E<> (RescueDrone.missions_complete && MedicBot.missions_complete)",
+      "valid": true,
+      "pattern": "existential_reachability",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_024",
+      "domain": "harbor",
+      "scenario_prompt": "Two cranes move heavy parts alternately. It must always be true that only one crane moves at a time. Eventually, both parts reach their target zones.",
+      "gold_standard": {
+        "constraints": [
+          "Only one crane moves at a time",
+          "Eventually CraneA reach target zones",
+          "Eventually CraneB reach target zones"
+        ]
+      },
+      "constraint_index": 0,
+      "constraint": "Only one crane moves at a time",
+      "generated_query": "A[] not (Crane1.moving && Crane2.moving) && A[] not (Crane1.moving && Crane3.moving) && A[] not (Crane2.moving && Crane3.moving)",
+      "valid": false,
+      "pattern": "forbidden_state",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_024",
+      "domain": "harbor",
+      "scenario_prompt": "Two cranes move heavy parts alternately. It must always be true that only one crane moves at a time. Eventually, both parts reach their target zones.",
+      "gold_standard": {
+        "constraints": [
+          "Only one crane moves at a time",
+          "Eventually CraneA reach target zones",
+          "Eventually CraneB reach target zones"
+        ]
+      },
+      "constraint_index": 1,
+      "constraint": "Eventually CraneA reach target zones",
+      "generated_query": "E<> CraneA.reach_target_zones",
+      "valid": true,
+      "pattern": "reachability",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_024",
+      "domain": "harbor",
+      "scenario_prompt": "Two cranes move heavy parts alternately. It must always be true that only one crane moves at a time. Eventually, both parts reach their target zones.",
+      "gold_standard": {
+        "constraints": [
+          "Only one crane moves at a time",
+          "Eventually CraneA reach target zones",
+          "Eventually CraneB reach target zones"
+        ]
+      },
+      "constraint_index": 2,
+      "constraint": "Eventually CraneB reach target zones",
+      "generated_query": "E<> CraneB.target_zones",
+      "valid": true,
+      "pattern": "reachability",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_025",
+      "domain": "harbor",
+      "scenario_prompt": "Three AMRs operate at a dock. At any time, at least one must be charging. Eventually, they can operate again after recharging.",
+      "gold_standard": {
+        "constraints": [
+          "At least one AMR must always be charging",
+          "DockAMR1 can operate after DockAMR1 has recharged",
+          "DockAMR2 can operate after DockAMR2 has recharged",
+          "DockAMR3 can operate after DockAMR3 has recharged"
+        ]
+      },
+      "constraint_index": 0,
+      "constraint": "At least one AMR must always be charging",
+      "generated_query": "A[] (exists(i : int[0, NUM_AMRS-1]) amr[i].charging)",
+      "valid": false,
+      "pattern": "forbidden_state",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_027",
+      "domain": "harbor",
+      "scenario_prompt": "A crane unloads containers onto AGV1 and AGV2. A drone supervises from above, and a forklift transports the containers to storage. Both AGVs wait until crane signals unloading complete. Forklift starts after any AGV reaches the transfer zone. Drone must maintain 20 m distance from crane at all times. Eventually, all containers must be in storage.",
+      "gold_standard": {
+        "constraints": [
+          "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+          "Forklift starts only after at least one AGV reaches transfer zone",
+          "DroneSupervisor maintains at least 20 m distance from CraneBot",
+          "Eventually all containers reach storage area"
+        ]
+      },
+      "constraint_index": 0,
+      "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+      "generated_query": "CraneBot.unloading_complete --> (AGV1.waiting && AGV2.waiting)",
+      "valid": true,
+      "pattern": "sequential_workflow",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_027",
+      "domain": "harbor",
+      "scenario_prompt": "A crane unloads containers onto AGV1 and AGV2. A drone supervises from above, and a forklift transports the containers to storage. Both AGVs wait until crane signals unloading complete. Forklift starts after any AGV reaches the transfer zone. Drone must maintain 20 m distance from crane at all times. Eventually, all containers must be in storage.",
+      "gold_standard": {
+        "constraints": [
+          "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+          "Forklift starts only after at least one AGV reaches transfer zone",
+          "DroneSupervisor maintains at least 20 m distance from CraneBot",
+          "Eventually all containers reach storage area"
+        ]
+      },
+      "constraint_index": 2,
+      "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+      "generated_query": "A[] not (distance(DroneSupervisor, CraneBot) < 20)",
+      "valid": false,
+      "pattern": "forbidden_state",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_030",
+      "domain": "disaster_response",
+      "scenario_prompt": "A drone maps the disaster area, two search robots locate survivors, a medical robot delivers aid, and a transport AMR carries victims to safety. SearchRobots must not enter overlapping zones. MedicalBot waits for confirmation from at least one SearchRobot before starting aid delivery. TransportAMR operates only after MedicalBot finishes. It must always be possible to reach a state where all survivors are rescued.",
+      "gold_standard": {
+        "constraints": [
+          "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "Always possible to reach a state where all survivors are rescued"
+        ]
+      },
+      "constraint_index": 1,
+      "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+      "generated_query": "(SearchBot.confirmed) --> (MedicalBot.delivers_aid)",
+      "valid": true,
+      "pattern": "conditional_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_030",
+      "domain": "disaster_response",
+      "scenario_prompt": "A drone maps the disaster area, two search robots locate survivors, a medical robot delivers aid, and a transport AMR carries victims to safety. SearchRobots must not enter overlapping zones. MedicalBot waits for confirmation from at least one SearchRobot before starting aid delivery. TransportAMR operates only after MedicalBot finishes. It must always be possible to reach a state where all survivors are rescued.",
+      "gold_standard": {
+        "constraints": [
+          "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "Always possible to reach a state where all survivors are rescued"
+        ]
+      },
+      "constraint_index": 3,
+      "constraint": "Always possible to reach a state where all survivors are rescued",
+      "generated_query": "E<> (all_survivors_rescued)",
+      "valid": true,
+      "pattern": "reachability",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_032",
+      "domain": "agriculture",
+      "scenario_prompt": "A high-altitude agricultural drone surveys crop zones for moisture and pest indicators. It divides fields into ten sub-zones, capturing spectral data for each. The drone must not descend below 40 meters except for calibration at designated points. If wind speed exceeds 35 km/h, it climbs to safe altitude and hovers until conditions stabilize. When battery capacity falls under 20%, it must return to base within 60 seconds. Eventually, all zones must be scanned and their data transmitted to the control center.",
+      "gold_standard": {
+        "constraints": [
+          "AgroDrone maintains altitude \u2265 40 m except during calibration",
+          "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+          "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+          "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+          "AgroDrone returns to base within 60 seconds when battery < 20%",
+          "Eventually all data transmitted to control center",
+          "Eventually AgroDrone must scan all ten sub-zones"
+        ]
+      },
+      "constraint_index": 0,
+      "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+      "generated_query": "A[] (AgroDrone.calibration imply AgroDrone.altitude < 40) && A[] (not AgroDrone.calibration imply AgroDrone.altitude >= 40)",
+      "valid": false,
+      "pattern": "forbidden_state",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_033",
+      "domain": "manufacturing",
+      "scenario_prompt": "An indoor inspection drone autonomously navigates a multi-floor factory. It must spend no more than 120 seconds in each section. If temperature exceeds 60\u00b0C, the drone activates thermal protection and skips the current section. In case of lost localization, it switches to mapping mode until position is reacquired. When all sections are inspected, it must land at the maintenance dock and upload sensor logs. It is always possible to reach a safe state where the drone is landed.",
+      "gold_standard": {
+        "constraints": [
+          "InspectDrone spends \u2264 120 s per section",
+          "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+          "InspectDrone skips section when temperature > 60\u00b0C",
+          "InspectDrone switches to mapping mode if localization lost",
+          "InspectDrone lands at maintenance dock after all sections inspected",
+          "InspectDrone uploads sensor logs after landing",
+          "Always possible to reach safe landed state"
+        ]
+      },
+      "constraint_index": 6,
+      "constraint": "Always possible to reach safe landed state",
+      "generated_query": "E<> System.safe_landed_state",
+      "valid": true,
+      "pattern": "reachability",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_034",
+      "domain": "logistics",
+      "scenario_prompt": "A mobile manipulator robot performs order picking in a warehouse. It identifies shelves via QR codes and must verify the item before grasping. If weight exceeds its maximum capacity, it must abort the pick and notify the supervisor. When humans are detected within 2 meters, speed is reduced to 0.3 m/s. If obstacle blocking persists longer than 10 seconds, the robot must request assistance. Eventually, all orders should be completed and reported.",
+      "gold_standard": {
+        "constraints": [
+          "PickerBot verifies item via QR before grasping",
+          "PickerBot aborts pick  when load exceeds limit",
+          "when load exceeds limit PickerBot notifies supervisor",
+          "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "PickerBot requests help if obstacle persists > 10 s",
+          "Eventually all orders completed",
+          "Eventually all orders reported"
+        ]
+      },
+      "constraint_index": 3,
+      "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+      "generated_query": "(PickerBot.distance_to_human < 2) --> (PickerBot.speed == 0.3)",
+      "valid": true,
+      "pattern": "conditional_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_034",
+      "domain": "logistics",
+      "scenario_prompt": "A mobile manipulator robot performs order picking in a warehouse. It identifies shelves via QR codes and must verify the item before grasping. If weight exceeds its maximum capacity, it must abort the pick and notify the supervisor. When humans are detected within 2 meters, speed is reduced to 0.3 m/s. If obstacle blocking persists longer than 10 seconds, the robot must request assistance. Eventually, all orders should be completed and reported.",
+      "gold_standard": {
+        "constraints": [
+          "PickerBot verifies item via QR before grasping",
+          "PickerBot aborts pick  when load exceeds limit",
+          "when load exceeds limit PickerBot notifies supervisor",
+          "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "PickerBot requests help if obstacle persists > 10 s",
+          "Eventually all orders completed",
+          "Eventually all orders reported"
+        ]
+      },
+      "constraint_index": 4,
+      "constraint": "PickerBot requests help if obstacle persists > 10 s",
+      "generated_query": "A[] (PickerBot.obstacle_persists && clock > 10 --> PickerBot.requests_help)",
+      "valid": false,
+      "pattern": "time_bounded_constraint",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_035",
+      "domain": "exploration",
+      "scenario_prompt": "An autonomous rover explores a volcanic terrain. It collects temperature and seismic data every 200 meters and must not approach closer than 5 meters to lava zones. If terrain slope exceeds 30\u00b0, it activates stabilizers before proceeding. If a data packet fails transmission three times, it must log the failure and continue. Eventually, all checkpoints must be reached and at least 90% of data successfully transmitted.",
+      "gold_standard": {
+        "constraints": [
+          "ExploroRover collects data every 200 m",
+          "ExploroRover avoids lava zones by \u2265 5 m",
+          "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "ExploroRover logs transmission failure after 3 retries",
+          "ExploroRover fails transmission three times, ExploroRover continues.",
+          "ExploroRover must eventually reach all checkpoints.",
+          "Eventually \u2265 90% data must be successfully transmitted "
+        ]
+      },
+      "constraint_index": 0,
+      "constraint": "ExploroRover collects data every 200 m",
+      "generated_query": "ExploroRover.distance_traveled_200m --> ExploroRover.collecting_data",
+      "valid": true,
+      "pattern": "sequential_workflow",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_035",
+      "domain": "exploration",
+      "scenario_prompt": "An autonomous rover explores a volcanic terrain. It collects temperature and seismic data every 200 meters and must not approach closer than 5 meters to lava zones. If terrain slope exceeds 30\u00b0, it activates stabilizers before proceeding. If a data packet fails transmission three times, it must log the failure and continue. Eventually, all checkpoints must be reached and at least 90% of data successfully transmitted.",
+      "gold_standard": {
+        "constraints": [
+          "ExploroRover collects data every 200 m",
+          "ExploroRover avoids lava zones by \u2265 5 m",
+          "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "ExploroRover logs transmission failure after 3 retries",
+          "ExploroRover fails transmission three times, ExploroRover continues.",
+          "ExploroRover must eventually reach all checkpoints.",
+          "Eventually \u2265 90% data must be successfully transmitted "
+        ]
+      },
+      "constraint_index": 2,
+      "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+      "generated_query": "(ExploroRover.slope > 30) --> ExploroRover.stabilizers_active",
+      "valid": true,
+      "pattern": "conditional_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_035",
+      "domain": "exploration",
+      "scenario_prompt": "An autonomous rover explores a volcanic terrain. It collects temperature and seismic data every 200 meters and must not approach closer than 5 meters to lava zones. If terrain slope exceeds 30\u00b0, it activates stabilizers before proceeding. If a data packet fails transmission three times, it must log the failure and continue. Eventually, all checkpoints must be reached and at least 90% of data successfully transmitted.",
+      "gold_standard": {
+        "constraints": [
+          "ExploroRover collects data every 200 m",
+          "ExploroRover avoids lava zones by \u2265 5 m",
+          "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "ExploroRover logs transmission failure after 3 retries",
+          "ExploroRover fails transmission three times, ExploroRover continues.",
+          "ExploroRover must eventually reach all checkpoints.",
+          "Eventually \u2265 90% data must be successfully transmitted "
+        ]
+      },
+      "constraint_index": 5,
+      "constraint": "ExploroRover must eventually reach all checkpoints.",
+      "generated_query": "A<> (ExploroRover.checkpoint1 && ExploroRover.checkpoint2 && ExploroRover.checkpoint3)",
+      "valid": true,
+      "pattern": "reachability",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_036",
+      "domain": "industrial",
+      "scenario_prompt": "A maintenance bot operates in a refrigerated warehouse maintaining conveyor motors. It must warm up sensors for 30 seconds before measurements. If temperature drops below \u221225\u00b0C, it enters standby mode until heating pads raise it above \u221215\u00b0C. The robot performs vibration analysis for each motor and logs anomalies. It is always possible for the bot to recover from standby to active operation.",
+      "gold_standard": {
+        "constraints": [
+          "FrostBot warms sensors for 30 s before measurements",
+          "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "FrostBot resumes when temperature > \u221215\u00b0C",
+          "FrostBot performs vibration analysis for each motor",
+          "FrostBot logs anomalies for each motor",
+          "Always possible to recover from standby to active"
+        ]
+      },
+      "constraint_index": 0,
+      "constraint": "FrostBot warms sensors for 30 s before measurements",
+      "generated_query": "FrostBot.warming --> FrostBot.measuring",
+      "valid": true,
+      "pattern": "sequential_workflow",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_036",
+      "domain": "industrial",
+      "scenario_prompt": "A maintenance bot operates in a refrigerated warehouse maintaining conveyor motors. It must warm up sensors for 30 seconds before measurements. If temperature drops below \u221225\u00b0C, it enters standby mode until heating pads raise it above \u221215\u00b0C. The robot performs vibration analysis for each motor and logs anomalies. It is always possible for the bot to recover from standby to active operation.",
+      "gold_standard": {
+        "constraints": [
+          "FrostBot warms sensors for 30 s before measurements",
+          "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "FrostBot resumes when temperature > \u221215\u00b0C",
+          "FrostBot performs vibration analysis for each motor",
+          "FrostBot logs anomalies for each motor",
+          "Always possible to recover from standby to active"
+        ]
+      },
+      "constraint_index": 2,
+      "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+      "generated_query": "(temperature > -15) --> FrostBot.resumes",
+      "valid": true,
+      "pattern": "conditional_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_036",
+      "domain": "industrial",
+      "scenario_prompt": "A maintenance bot operates in a refrigerated warehouse maintaining conveyor motors. It must warm up sensors for 30 seconds before measurements. If temperature drops below \u221225\u00b0C, it enters standby mode until heating pads raise it above \u221215\u00b0C. The robot performs vibration analysis for each motor and logs anomalies. It is always possible for the bot to recover from standby to active operation.",
+      "gold_standard": {
+        "constraints": [
+          "FrostBot warms sensors for 30 s before measurements",
+          "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "FrostBot resumes when temperature > \u221215\u00b0C",
+          "FrostBot performs vibration analysis for each motor",
+          "FrostBot logs anomalies for each motor",
+          "Always possible to recover from standby to active"
+        ]
+      },
+      "constraint_index": 3,
+      "constraint": "FrostBot performs vibration analysis for each motor",
+      "generated_query": "FrostBot.vibration_analysis --> FrostBot.vibration_analysis",
+      "valid": true,
+      "pattern": "sequential_workflow",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_036",
+      "domain": "industrial",
+      "scenario_prompt": "A maintenance bot operates in a refrigerated warehouse maintaining conveyor motors. It must warm up sensors for 30 seconds before measurements. If temperature drops below \u221225\u00b0C, it enters standby mode until heating pads raise it above \u221215\u00b0C. The robot performs vibration analysis for each motor and logs anomalies. It is always possible for the bot to recover from standby to active operation.",
+      "gold_standard": {
+        "constraints": [
+          "FrostBot warms sensors for 30 s before measurements",
+          "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "FrostBot resumes when temperature > \u221215\u00b0C",
+          "FrostBot performs vibration analysis for each motor",
+          "FrostBot logs anomalies for each motor",
+          "Always possible to recover from standby to active"
+        ]
+      },
+      "constraint_index": 4,
+      "constraint": "FrostBot logs anomalies for each motor",
+      "generated_query": "Motor.anomaly_detected --> FrostBot.logging_anomaly",
+      "valid": true,
+      "pattern": "sequential_workflow",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_036",
+      "domain": "industrial",
+      "scenario_prompt": "A maintenance bot operates in a refrigerated warehouse maintaining conveyor motors. It must warm up sensors for 30 seconds before measurements. If temperature drops below \u221225\u00b0C, it enters standby mode until heating pads raise it above \u221215\u00b0C. The robot performs vibration analysis for each motor and logs anomalies. It is always possible for the bot to recover from standby to active operation.",
+      "gold_standard": {
+        "constraints": [
+          "FrostBot warms sensors for 30 s before measurements",
+          "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "FrostBot resumes when temperature > \u221215\u00b0C",
+          "FrostBot performs vibration analysis for each motor",
+          "FrostBot logs anomalies for each motor",
+          "Always possible to recover from standby to active"
+        ]
+      },
+      "constraint_index": 5,
+      "constraint": "Always possible to recover from standby to active",
+      "generated_query": "E<> (System.standby --> System.active)",
+      "valid": false,
+      "pattern": "reachability",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_037",
+      "domain": "harbor",
+      "scenario_prompt": "A harbor inspection drone flies along dock sections capturing video of hulls and cranes. It must maintain altitude between 8 and 20 meters and avoid restricted air corridors. If strong magnetic interference is detected, it must ascend above 25 meters until interference clears. The drone uploads each section\u2019s footage before starting the next and must always return to base at the end of its patrol.",
+      "gold_standard": {
+        "constraints": [
+          "HarborDrone altitude between 8\u201320 m",
+          "HarborDrone avoids restricted corridors",
+          "HarborDrone ascends above 25 m when magnetic interference detected",
+          "HarborDrone uploads footage before moving to next section",
+          "Always returns to base at end of patrol"
+        ]
+      },
+      "constraint_index": 4,
+      "constraint": "Always returns to base at end of patrol",
+      "generated_query": "A<> Patrol.end --> Robot.at_base",
+      "valid": false,
+      "pattern": "eventual_completion",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_038",
+      "domain": "healthcare",
+      "scenario_prompt": "An autonomous delivery robot transports medication trays across hospital wards. It must check elevator availability before entering and disinfect its tray every 15 minutes of operation. When any emergency alarm is active, it must stop and move to a safe corridor. If communication with control is lost, it stores all pending deliveries locally. All deliveries must eventually be completed.",
+      "gold_standard": {
+        "constraints": [
+          "MediRover checks elevator availability before entering",
+          "MediRover disinfects tray every 15 minutes",
+          "MediRover stops  when emergency alarm active",
+          "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "MediRover stores pending deliveries locally if comm lost",
+          "Eventually all deliveries completed"
+        ]
+      },
+      "constraint_index": 2,
+      "constraint": "MediRover stops  when emergency alarm active",
+      "generated_query": "A[] (emergency_alarm_active --> MediRover.stopped)",
+      "valid": false,
+      "pattern": "forbidden_state",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_038",
+      "domain": "healthcare",
+      "scenario_prompt": "An autonomous delivery robot transports medication trays across hospital wards. It must check elevator availability before entering and disinfect its tray every 15 minutes of operation. When any emergency alarm is active, it must stop and move to a safe corridor. If communication with control is lost, it stores all pending deliveries locally. All deliveries must eventually be completed.",
+      "gold_standard": {
+        "constraints": [
+          "MediRover checks elevator availability before entering",
+          "MediRover disinfects tray every 15 minutes",
+          "MediRover stops  when emergency alarm active",
+          "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "MediRover stores pending deliveries locally if comm lost",
+          "Eventually all deliveries completed"
+        ]
+      },
+      "constraint_index": 4,
+      "constraint": "MediRover stores pending deliveries locally if comm lost",
+      "generated_query": "MediRover.comm_lost --> MediRover.stores_locally",
+      "valid": true,
+      "pattern": "eventual_completion",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_040",
+      "domain": "urban_service",
+      "scenario_prompt": "A street cleaning robot patrols city sidewalks every night. pausing automatically when pedestrians are detected within 2 meters. If debris container is full, it must return to depot for unloading and then resume the same route. If weather sensors detect rain intensity above 30%, it suspends cleaning and waits under shelter. All routes must eventually be cleaned before sunrise.",
+      "gold_standard": {
+        "constraints": [
+          "CleanBot pauses when pedestrians < 2 m",
+          "CleanBot returns to depot when debris container full",
+          "CleanBot after unloading container at depot it resume in the same route",
+          "CleanBot suspends operation in rain > 30% intensity",
+          "CleanBot must wait under shelter when rain intensity above 30%",
+          "Eventually all routes cleaned "
+        ]
+      },
+      "constraint_index": 0,
+      "constraint": "CleanBot pauses when pedestrians < 2 m",
+      "generated_query": "(pedestrians < 2) --> CleanBot.pauses",
+      "valid": true,
+      "pattern": "conditional_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    },
+    {
+      "scenario_id": "scenario_040",
+      "domain": "urban_service",
+      "scenario_prompt": "A street cleaning robot patrols city sidewalks every night. pausing automatically when pedestrians are detected within 2 meters. If debris container is full, it must return to depot for unloading and then resume the same route. If weather sensors detect rain intensity above 30%, it suspends cleaning and waits under shelter. All routes must eventually be cleaned before sunrise.",
+      "gold_standard": {
+        "constraints": [
+          "CleanBot pauses when pedestrians < 2 m",
+          "CleanBot returns to depot when debris container full",
+          "CleanBot after unloading container at depot it resume in the same route",
+          "CleanBot suspends operation in rain > 30% intensity",
+          "CleanBot must wait under shelter when rain intensity above 30%",
+          "Eventually all routes cleaned "
+        ]
+      },
+      "constraint_index": 4,
+      "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+      "generated_query": "(rain_intensity > 30) --> CleanBot.at_shelter",
+      "valid": true,
+      "pattern": "conditional_response",
+      "label": "wrong",
+      "model": {
+        "provider": "anthropic",
+        "model": "claude-haiku-4-5-20251001"
+      }
+    }
+  ]
+}

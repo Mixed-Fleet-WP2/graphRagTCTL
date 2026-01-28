@@ -10,9 +10,9 @@
     "Eventually all robots reach idle state"
   ],
   "reference_properties": [
-    "A[] (WelderBot.Active) imply (AssemblerBot.Done)",
-    "A[] (PainterBot.Active) imply (WelderBot.Done)",
-    "A[] (InspectorBot.Active) imply (PainterBot.Done)",
+    "AssemblerBot.completes_assembly --> WelderBot.starts",
+    "WelderBot.finishes_welding --> PainterBot.starts",
+    "PainterBot.finishes_painting --> InspectorBot.starts",
     "A<> (AssemblerBot.Idle && WelderBot.Idle && PainterBot.Idle && InspectorBot.Idle)"
   ],
   "llm_output_properties": [],

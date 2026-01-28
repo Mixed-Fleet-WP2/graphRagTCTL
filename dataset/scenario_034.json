@@ -13,11 +13,11 @@
     "Eventually all orders reported"
   ],
   "reference_properties": [
-    "A[] (PickerBot.Grasping imply PickerBot.ItemVerified)",
-    "A[] (PickerBot.load_exceeds_limit imply PickerBot.abort_pick)",
+    "PickerBot.qr_verified --> PickerBot.grasping",
+    "A[] not (PickerBot.load_exceeds_limit && PickerBot.picking)",
     "PickerBot.load_exceeds_limit --> PickerBot.notify_supervisor",
     "A[] (HumanDistance < 2 imply PickerBot.Speed <= 0.3)",
-    "A[] ((ObstacleDetected && ObstacleTimer > 10) imply PickerBot.RequestHelp)",
+    "A[] (PickerBot.obstacle_persist && not PickerBot.request_help imply obst_timer <= 10)",
     "A<> (PickerBot.AllOrdersDone )",
     "A<> (PickerBot.ReportSent)"
   ],

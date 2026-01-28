@@ -11,10 +11,10 @@
     "Eventually all satellites serviced"
   ],
   "reference_properties": [
-    "A[] ( ( OrbitalServicer.AlignmentError <= 2 && OrbitalServicer.AlignmentError >= 2) imply OrbitalServicer.DockingAllowed )",
+    "A[] ( ( OrbitalServicer.AlignmentError <= 2 || OrbitalServicer.AlignmentError >= -2) imply OrbitalServicer.DockingAllowed )",
     "A[] (Radiation > Threshold) imply  (OrbitalServicer.InShield)",
-    "A[] (OrbitalServicer.MaintenanceDone) imply (OrbitalServicer.diagnosticsDone && OrbitalServicer.DiagnosticsTime >= 120)",
-    "A[] (OrbitalServicer.AlignmentAchieved) imply  (OrbitalServicer.DockingTime < 300  && OrbitalServicer.Docked)",
+    "A[] (OrbitalServicer.diagnostics_completed imply OrbitalServicer.t_diag >= 120)",
+    "A[] (OrbitalServicer.Docked) imply  (OrbitalServicer.DockingTime < 300)",
     "A<> OrbitalServicer.AllSatellitesServiced"
   ],
   "llm_output_properties": [],

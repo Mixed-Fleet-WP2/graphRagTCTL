@@ -12,11 +12,11 @@
     "Eventually all deliveries completed"
   ],
   "reference_properties": [
-    "A[] (MediRover.UsingElevator imply Elevator.Available)",
-    "A[] (MediRover.OperatingTime % 900 == 0 imply MediRover.Disinfect)",
+    "MediRover.checks_elevator_availability --> MediRover.enters_elevator",
+    "A[] (MediRover.disinfecting imply t <= 15)",
     "A[] (EmergencyAlarm imply MediRover.Stopped)",
-    "(MediRover.Stopped && EmergencyAlarm) --> (MediRover.MoveToSafeCorridor)",
-    "A[] (CommLost imply MediRover.LocalStore)",
+    "MediRover.Stopped and MediRover.emergency_alarm_active --> MediRover.MovingToSafeCorridor)",
+    "A[] (CommLost imply MediRover.PendingDeliveriesStored)",
     "A<> MediRover.AllDeliveriesDone"
   ],
   "llm_output_properties": [],

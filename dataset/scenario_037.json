@@ -13,9 +13,9 @@
     "Always returns to base at end of patrol"
   ],
   "reference_properties": [
-    "A[] ((HarborDrone.Altitude >= 8 && HarborDrone.Altitude <= 20) || MagInterference==true)",
+    "A[] not (HarborDrone.altitude < 8 || HarborDrone.altitude > 20)",
     "A[] not (HarborDrone.InRestrictedCorridor)",
-    "A[] (MagInterference) imply  (HarborDrone.Altitude >= 25)",
+    "(magnetic_interference_detected) --> (HarborDrone.altitude > 25)",
     " HarborDrone.UploadDone --> HarborDrone.NextSectionStart",
     "A<> HarborDrone.AtBase"
   ],

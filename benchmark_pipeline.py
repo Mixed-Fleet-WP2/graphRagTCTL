@@ -78,7 +78,8 @@ PATTERN_ENUM = [
     "safety_immediate_response",
     "sequential_workflow",
     "eventual_completion",
-    "reachability",
+    "existential_reachability",
+    "universal_reachability",
     "forbidden_state",
     "conditional_response",
     "time_bounded_constraint"
@@ -404,9 +405,17 @@ class LLMClient:
         # OLLAMA
         # ------------------------------
         if self.provider == "ollama":
+            payload = {
+                "model": self.model,
+                "prompt": prompt,
+                "stream": False
+            }
+            if json_schema:
+                payload["format"] = "json"
+                
             raw = requests.post(
                 "http://localhost:11434/api/generate",
-                json={"model": self.model, "prompt": prompt}
+                json=payload
             ).json()
             text = raw.get("response", "") or ""
             return text.strip(), time.time() - start, 0
@@ -514,7 +523,7 @@ Constraint:
         return None, metadata
 
 
-def generate_uppaal(llm: LLMClient, constraint: str, cls: Classification, ctx: GraphContext) -> Tuple[Optional[Dict], Dict[str, Any]]:
+def generate_uppaal(llm: LLMClient, constraint: str, cls: Classification, ctx: GraphContext, robot_names: Optional[List[str]] = None) -> Tuple[Optional[Dict], Dict[str, Any]]:
     """Step 3: Generate UPPAAL query."""
     
     out_schema = {
@@ -552,6 +561,16 @@ Decision rules: {ctx.pattern.decision_rules}
         for e in ctx.examples
     ) or "- (no examples)"
 
+    robot_context = ""
+    if robot_names:
+        robot_context = f"""
+
+Available robot/agent names in this scenario:
+{', '.join(robot_names)}
+
+IMPORTANT: Use these EXACT robot names in your query. Do NOT invent names like Robot1, Robot2, AgentA, AgentB.
+"""
+
     instructions = f"""
 Translate ONE natural-language constraint into ONE UPPAAL query.
 
@@ -560,7 +579,7 @@ Classifier output:
 - cues={cls.cues}
 - keywords={cls.keywords}
 - trigger_text={cls.trigger_text}
-- response_text={cls.response_text}
+- response_text={cls.response_text}{robot_context}
 
 GraphRAG pattern context:
 {pattern_txt}
@@ -581,6 +600,8 @@ Rules:
 - Use A<> for "must eventually happen" global liveness.
 - Use E<> for "possible/can happen".
 - Use A[] not(...) for "never/must not".
+- When robot names are provided, use them EXACTLY as given. Do NOT use generic names.
+- For multiple unnamed entities, use suffix A/B (e.g., RobotA, RobotB) only if no names provided.
 
 CRITICAL: Return ONLY valid JSON with these EXACT fields:
 {{
@@ -649,6 +670,7 @@ def run_pipeline(
     llm: LLMClient,
     kg: GraphRAG,
     constraint: str,
+    robot_names: Optional[List[str]] = None,
     k_examples: int = 5
 ) -> Dict[str, Any]:
     """Run complete pipeline: classify → retrieve → generate → validate."""
@@ -691,7 +713,7 @@ def run_pipeline(
             return result
         
         # Step 3: UPPAAL generation
-        uppaal_result, gen_meta = generate_uppaal(llm, constraint, cls, ctx)
+        uppaal_result, gen_meta = generate_uppaal(llm, constraint, cls, ctx, robot_names)
         result["generation"] = gen_meta
         
         if not uppaal_result:
@@ -814,7 +836,8 @@ def benchmark_folder(
                 
                 try:
                     llm = LLMClient(cfg["provider"], cfg["model"])
-                    result = run_pipeline(llm, kg, constraint, k_examples=k_examples)
+                    robot_names = scenario.get("robots", [])
+                    result = run_pipeline(llm, kg, constraint, robot_names=robot_names, k_examples=k_examples)
                     result["constraint_index"] = idx
                     
                     # Remove provider/model from individual result (already in parent)
@@ -870,11 +893,11 @@ if __name__ == "__main__":
         {"provider": "anthropic", "model": "claude-haiku-4-5-20251001"},
         {"provider": "xai", "model": "grok-code-fast-1"},
         {"provider": "xai", "model": "grok-3-mini"},
-        {"provider": "deepseek", "model": "deepseek-reasoner"},
+        # {"provider": "deepseek", "model": "deepseek-reasoner"},
         {"provider": "google", "model": "gemini-2.0-flash"},
         {"provider": "google", "model": "gemini-2.5-pro"},
-        # Optional local baseline:
-        # {"provider": "ollama", "model": "llama3.1"},
+        # Local Ollama models:
+        {"provider": "ollama", "model": "deepseek-r1:14b"},
     ]
 
     # Neo4j connection

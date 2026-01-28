@@ -1,0 +1,836 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-12T09:54:54.126Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_033",
+      "domain": "manufacturing",
+      "prompt": "An indoor inspection drone autonomously navigates a multi-floor factory. It must spend no more than 120 seconds in each section. If temperature exceeds 60°C, the drone activates thermal protection and skips the current section. In case of lost localization, it switches to mapping mode until position is reacquired. When all sections are inspected, it must land at the maintenance dock and upload sensor logs. It is always possible to reach a safe state where the drone is landed.",
+      "gold_standard": {
+        "constraints": [
+          "InspectDrone spends ≤ 120 s per section",
+          "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+          "InspectDrone skips section when temperature > 60°C",
+          "InspectDrone switches to mapping mode if localization lost",
+          "InspectDrone lands at maintenance dock after all sections inspected",
+          "InspectDrone uploads sensor logs after landing",
+          "Always possible to reach safe landed state"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "query": "A[] (InspectDrone.in_section imply InspectDrone.t_inspect <= 120)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "query": "(temperature > 60) --> InspectDrone.thermal_protection_active",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "query": "A[] not (temperature > 60 && InspectDrone.skips_section)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "InspectDrone switches to mapping mode if localization lost",
+                "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+                "query": "A<> InspectDrone.landed_at_maintenance_dock",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "InspectDrone uploads sensor logs after landing",
+                "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Always possible to reach safe landed state",
+                "query": "E<> safe_landed_state",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 5,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "query": "A[] (InspectDrone.inspecting_section imply InspectDrone.t <= 120)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "query": "(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "query": "(InspectDrone.temperature > 60) --> InspectDrone.skips_section",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "InspectDrone switches to mapping mode if localization lost",
+                "query": "InspectDrone.localization_lost --> InspectDrone.mode == mapping",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+                "query": "all_sections_inspected --> InspectDrone.at_maintenance_dock",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "InspectDrone uploads sensor logs after landing",
+                "query": "(InspectDrone.landing) --> InspectDrone.uploads_sensor_logs",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Always possible to reach safe landed state",
+                "query": "A[] E<> SafeLanded",
+                "valid": false,
+                "pattern": "reachability",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "query": "A[] (InspectDrone.in_section && not InspectDrone.section_completed imply clock <= 120)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "query": "(temperature > 60) --> InspectDrone.thermal_protection_activated",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "query": "(InspectDrone.temperature > 60) --> InspectDrone.section_skipped",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "InspectDrone switches to mapping mode if localization lost",
+                "query": "LocalizationLost --> InspectDrone.mapping_mode",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+                "query": "InspectDrone.sections_inspected --> InspectDrone.lands_at_maintenance_dock",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "InspectDrone uploads sensor logs after landing",
+                "query": "InspectDrone.landing_complete --> InspectDrone.upload_sensor_logs",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Always possible to reach safe landed state",
+                "query": "E<> (Drone.safe_state && Drone.landed_state)",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "query": "A[] (InspectDrone.in_section imply clock <= 120)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "query": "(temperature > 60) --> InspectDrone.thermal_protection_activated",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "query": "(temperature > 60) --> InspectDrone.skips_section",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "InspectDrone switches to mapping mode if localization lost",
+                "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+                "query": "AllSections.inspected --> InspectDrone.lands_at_maintenance_dock",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "InspectDrone uploads sensor logs after landing",
+                "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Always possible to reach safe landed state",
+                "query": "E<> SafeLandedState",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "query": "A[] (InspectDrone.inspecting imply clock <= 120)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "query": "(temperature > 60) --> InspectDrone.thermal_protection_active",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "query": "A[] not (temperature > 60 && InspectDrone.skipping)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "InspectDrone switches to mapping mode if localization lost",
+                "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+                "query": "InspectDrone.all_sections_inspected --> InspectDrone.landing_at_maintenance_dock",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "InspectDrone uploads sensor logs after landing",
+                "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Always possible to reach safe landed state",
+                "query": "E<> safe_landed",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 5,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "query": "A[] (InspectDrone.inspecting_section imply section_clock <= 120)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "query": "(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "query": "(InspectDrone.temperature > 60) --> InspectDrone.skips_section",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "InspectDrone switches to mapping mode if localization lost",
+                "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+                "query": "InspectDrone.sections_inspected --> InspectDrone.lands_at_maintenance_dock",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "InspectDrone uploads sensor logs after landing",
+                "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Always possible to reach safe landed state",
+                "query": "E<> System.safe_landed_state",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "query": "A[] (InspectDrone.in_section imply clock <= 120)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "query": "(temperature > 60) --> InspectDrone.thermal_protection",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "query": "(temperature > 60) --> InspectDrone.skips_section",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "InspectDrone switches to mapping mode if localization lost",
+                "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+                "query": "InspectDrone.all_sections_inspected --> InspectDrone.lands_at_maintenance_dock",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "InspectDrone uploads sensor logs after landing",
+                "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Always possible to reach safe landed state",
+                "query": "A[] (E<> safe_landed)",
+                "valid": false,
+                "pattern": "reachability",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "query": "A[] (InspectDrone.in_section imply section_clock <= 120)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "query": "(temperature > 60) --> InspectDrone.thermal_protection",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "query": "(temperature > 60) --> InspectDrone.skips_section",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "InspectDrone switches to mapping mode if localization lost",
+                "query": "InspectDrone.localization_lost --> InspectDrone.in_mapping_mode",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+                "query": "all_sections_inspected --> InspectDrone.landed_at_dock",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "InspectDrone uploads sensor logs after landing",
+                "query": "InspectDrone.landing --> InspectDrone.uploads_sensor_logs",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Always possible to reach safe landed state",
+                "query": "E<> safe_landed",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "query": "A[] (InspectDrone.inspecting imply c <= 120)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "query": "(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "query": "(temperature > 60) --> InspectDrone.skip_section",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "InspectDrone switches to mapping mode if localization lost",
+                "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+                "query": "sections_inspected --> InspectDrone.lands_at_maintenance_dock",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "InspectDrone uploads sensor logs after landing",
+                "query": "InspectDrone.landing_complete --> InspectDrone.uploading_sensor_logs",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Always possible to reach safe landed state",
+                "query": "E<> safe_landed",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "query": "A[] (InspectDrone.inspecting imply clock <= 120)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "query": "InspectDrone.temperature > 60 --> InspectDrone.thermal_protection_active",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "query": "(temperature > 60) --> InspectDrone.skips_section",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "InspectDrone switches to mapping mode if localization lost",
+                "query": "InspectDrone.localization_lost --> InspectDrone.mapping_mode",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+                "query": "InspectDrone.all_sections_inspected --> InspectDrone.lands_at_maintenance_dock",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "InspectDrone uploads sensor logs after landing",
+                "query": "InspectDrone.landing --> InspectDrone.logs_uploaded",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Always possible to reach safe landed state",
+                "query": "E<> safe_landed_state",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "query": "A[] (InspectDrone.Inspecting imply InspectDrone.t <= 120)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "query": "A[] (InspectDrone.temperature > 60 imply InspectDrone.thermal_protection_active)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "query": "(temperature > 60) --> InspectDrone.SkippingSection",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "InspectDrone switches to mapping mode if localization lost",
+                "query": "A[] (InspectDrone.localization_lost imply InspectDrone.MappingMode)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+                "query": "System.all_sections_inspected --> InspectDrone.landing",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "InspectDrone uploads sensor logs after landing",
+                "query": "InspectDrone.Landed --> InspectDrone.UploadingLogs",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Always possible to reach safe landed state",
+                "query": "A[] E<> System.SafeLanded",
+                "valid": false,
+                "pattern": "reachability",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 6,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 64,
+    "inferred": 0,
+    "hallucination": 13,
+    "unlabeled": 0,
+    "total": 77
+  },
+  "performance_metrics": {
+    "precision": 0.8311688311688312,
+    "recall": 9.142857142857142,
+    "f1": 1.523809523809524
+  }
+}

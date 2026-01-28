@@ -1,0 +1,480 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-01-08T08:15:26.541Z",
+    "total_scenarios": 1,
+    "total_models": 11
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_024",
+      "domain": "harbor",
+      "prompt": "Two cranes move heavy parts alternately. It must always be true that only one crane moves at a time. Eventually, both parts reach their target zones.",
+      "gold_standard": {
+        "constraints": [
+          "Only one crane moves at a time",
+          "Eventually CraneA reach target zones",
+          "Eventually CraneB reach target zones"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5.1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Only one crane moves at a time",
+                "query": "A[] not (Crane1.moving && Crane2.moving)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Eventually CraneA reach target zones",
+                "query": "A<> CraneA.target_zones_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Eventually CraneB reach target zones",
+                "query": "A<> CraneB.target_zones",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Only one crane moves at a time",
+                "query": "A[] not (Crane1.moving && Crane2.moving)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Eventually CraneA reach target zones",
+                "query": "A<> CraneA.at_target_zones",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Eventually CraneB reach target zones",
+                "query": "E<> CraneB.at_target_zones",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-5-nano"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Only one crane moves at a time",
+                "query": "A[] not (Crane[0].moving && Crane[1].moving)",
+                "valid": false,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Eventually CraneA reach target zones",
+                "query": "A<> CraneA.target_zones_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Eventually CraneB reach target zones",
+                "query": "A<> CraneB.targetZonesReached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "openai",
+            "model": "gpt-4o"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Only one crane moves at a time",
+                "query": "A[] not (Crane1.moving && Crane2.moving)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Eventually CraneA reach target zones",
+                "query": "A<> CraneA.target_zones_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Eventually CraneB reach target zones",
+                "query": "A<> CraneB.target_zones_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-sonnet-4-5-20250929"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Only one crane moves at a time",
+                "query": "A[] not (exists(i:crane_t, j:crane_t) i != j && Crane(i).moving && Crane(j).moving)",
+                "valid": false,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Eventually CraneA reach target zones",
+                "query": "A<> CraneA.target_zones",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Eventually CraneB reach target zones",
+                "query": "A<> CraneB.target_zones",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "anthropic",
+            "model": "claude-haiku-4-5-20251001"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Only one crane moves at a time",
+                "query": "A[] not (Crane1.moving && Crane2.moving) && A[] not (Crane1.moving && Crane3.moving) && A[] not (Crane2.moving && Crane3.moving)",
+                "valid": false,
+                "pattern": "forbidden_state",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Eventually CraneA reach target zones",
+                "query": "E<> CraneA.reach_target_zones",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Eventually CraneB reach target zones",
+                "query": "E<> CraneB.target_zones",
+                "valid": true,
+                "pattern": "reachability",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 3,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-code-fast-1"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Only one crane moves at a time",
+                "query": "A[] not (Crane1.moving && Crane2.moving)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Eventually CraneA reach target zones",
+                "query": "A<> CraneA.reach_target_zones",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Eventually CraneB reach target zones",
+                "query": "A<> CraneB.target_zones_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "xai",
+            "model": "grok-3-mini"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Only one crane moves at a time",
+                "query": "A[] not (Crane1.moving && Crane2.moving)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Eventually CraneA reach target zones",
+                "query": "A<> CraneA.at_target_zones",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Eventually CraneB reach target zones",
+                "query": "A<> CraneB.at_target_zones",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "deepseek",
+            "model": "deepseek-reasoner"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Only one crane moves at a time",
+                "query": "A[] not (Crane1.moving && Crane2.moving)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Eventually CraneA reach target zones",
+                "query": "A<> CraneA.target_zones_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Eventually CraneB reach target zones",
+                "query": "A<> CraneB.target_zones_reached",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.0-flash"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Only one crane moves at a time",
+                "query": "A[] not (Crane1.moving and Crane2.moving)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Eventually CraneA reach target zones",
+                "query": "A<> CraneA.target_zones",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Eventually CraneB reach target zones",
+                "query": "A<> CraneB.target",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "google",
+            "model": "gemini-2.5-pro"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Only one crane moves at a time",
+                "query": "A[] not (Crane1.Moving and Crane2.Moving)",
+                "valid": true,
+                "pattern": "forbidden_state",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Eventually CraneA reach target zones",
+                "query": "A<> CraneA.TargetZone",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Eventually CraneB reach target zones",
+                "query": "A<> CraneB.TargetZones",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 27,
+    "inferred": 0,
+    "hallucination": 6,
+    "unlabeled": 0,
+    "total": 33
+  },
+  "performance_metrics": {
+    "precision": 0.8181818181818182,
+    "recall": 9,
+    "f1": 1.5
+  }
+}

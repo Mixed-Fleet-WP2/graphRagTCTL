@@ -24,86 +24,9 @@
           "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
           "classification": {
             "step": "classification",
-            "timing": 2.4421730041503906,
+            "timing": 3.4149932861328125,
             "tokens": 0,
-            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"SprayerDrone\",\"SurveyDrone\",\"starts only after\",\"marks zone safe\",\"sequence\",\"ordering\",\"precedence\"],\"cues\":[\"only after\"],\"trigger_text\":\"SurveyDrone marks zone safe\",\"response_text\":\"SprayerDrone starts\"}"
-          },
-          "graph_context": {
-            "pattern": "sequential_workflow",
-            "operators_count": 1,
-            "examples_count": 3
-          },
-          "generation": {
-            "step": "generation",
-            "timing": 2.751335859298706,
-            "tokens": 0,
-            "raw_text": "{\"query\":\"SurveyDrone.zone_safe_marked --> SprayerDrone.start\",\"explanation\":\"The constraint states that the SprayerDrone may start only after the SurveyDrone has marked the zone safe. Using the sequential_workflow pattern, we model this as a precedence relation where the event/state `SurveyDrone.zone_safe_marked` must occur before the event/state `SprayerDrone.start` can eventually occur. The `-->` operator encodes that whenever the trigger (SurveyDrone marks zone safe) happens, it is eventually followed by the response (SprayerDrone starts), capturing the required ordering.\",\"confidence\":0.86,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
-            "uppaal_result": {
-              "query": "SurveyDrone.zone_safe_marked --> SprayerDrone.start",
-              "explanation": "The constraint states that the SprayerDrone may start only after the SurveyDrone has marked the zone safe. Using the sequential_workflow pattern, we model this as a precedence relation where the event/state `SurveyDrone.zone_safe_marked` must occur before the event/state `SprayerDrone.start` can eventually occur. The `-->` operator encodes that whenever the trigger (SurveyDrone marks zone safe) happens, it is eventually followed by the response (SprayerDrone starts), capturing the required ordering.",
-              "confidence": 0.86,
-              "pattern_used": "sequential_workflow",
-              "operator_used": [
-                "-->"
-              ]
-            }
-          },
-          "validation": {
-            "valid": true,
-            "error": null,
-            "query": "SurveyDrone.zone_safe_marked --> SprayerDrone.start"
-          },
-          "total_time": 5.20562481880188,
-          "success": true,
-          "error": null,
-          "constraint_index": 0
-        },
-        {
-          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
-          "classification": {
-            "step": "classification",
-            "timing": 1.83723783493042,
-            "tokens": 0,
-            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"SampleRover1\",\"SampleRover2\",\"never\",\"same zone\",\"simultaneously\",\"mutual exclusion\",\"concurrency\"],\"cues\":[\"never\",\"same\",\"simultaneously\"],\"trigger_text\":\"SampleRover1 and SampleRover2 collect in the same zone simultaneously\",\"response_text\":null}"
-          },
-          "graph_context": {
-            "pattern": "forbidden_state",
-            "operators_count": 2,
-            "examples_count": 3
-          },
-          "generation": {
-            "step": "generation",
-            "timing": 1.926948070526123,
-            "tokens": 0,
-            "raw_text": "{\"query\":\"A[] not (SampleRover1.zone == SampleRover2.zone && SampleRover1.collecting && SampleRover2.collecting)\",\"explanation\":\"The constraint says that SampleRover1 and SampleRover2 must never collect in the same zone at the same time. Using the forbidden_state pattern, we express this as a state that must never occur: both rovers are in the same zone and both are collecting. The query A[] not (...) enforces that in all reachable states it is never the case that they are in the same zone while both are collecting simultaneously.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\"]}",
-            "uppaal_result": {
-              "query": "A[] not (SampleRover1.zone == SampleRover2.zone && SampleRover1.collecting && SampleRover2.collecting)",
-              "explanation": "The constraint says that SampleRover1 and SampleRover2 must never collect in the same zone at the same time. Using the forbidden_state pattern, we express this as a state that must never occur: both rovers are in the same zone and both are collecting. The query A[] not (...) enforces that in all reachable states it is never the case that they are in the same zone while both are collecting simultaneously.",
-              "confidence": 0.9,
-              "pattern_used": "forbidden_state",
-              "operator_used": [
-                "A[]",
-                "not"
-              ]
-            }
-          },
-          "validation": {
-            "valid": true,
-            "error": null,
-            "query": "A[] not (SampleRover1.zone == SampleRover2.zone && SampleRover1.collecting && SampleRover2.collecting)"
-          },
-          "total_time": 3.788084030151367,
-          "success": true,
-          "error": null,
-          "constraint_index": 1
-        },
-        {
-          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
-          "classification": {
-            "step": "classification",
-            "timing": 2.852957010269165,
-            "tokens": 0,
-            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"TransportAMR\",\"SampleRovers\",\"starts only after\",\"finish collecting\",\"both\"],\"cues\":[\"only after\",\"after\",\"both\"],\"trigger_text\":\"both SampleRovers finish collecting\",\"response_text\":\"TransportAMR starts\"}"
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"SprayerDrone\",\"SurveyDrone\",\"starts only after\",\"marks zone safe\",\"dependency\",\"precondition\"],\"cues\":[\"only after\"],\"trigger_text\":\"SurveyDrone marks zone safe\",\"response_text\":\"SprayerDrone starts\"}"
           },
           "graph_context": {
             "pattern": "conditional_response",
@@ -112,13 +35,13 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 2.1388659477233887,
+            "timing": 3.5169548988342285,
             "tokens": 0,
-            "raw_text": "{\"query\":\"(SampleRover1.collecting_done && SampleRover2.collecting_done) --> TransportAMR.started\",\"explanation\":\"The condition part encodes \u201cboth SampleRovers finish collecting\u201d as SampleRover1.collecting_done && SampleRover2.collecting_done. The response part encodes \u201cTransportAMR starts\u201d as TransportAMR.started. Using the conditional response operator --> expresses that once both SampleRovers have finished collecting, it will eventually become true that the TransportAMR has started, which matches the \u201cstarts only after both finish collecting\u201d requirement (start cannot occur before the condition, and is guaranteed after it).\",\"confidence\":0.83,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "raw_text": "{\"query\":\"SurveyDrone.zone_safe_marked --> SprayerDrone.started\",\"explanation\":\"The natural-language constraint says that the SprayerDrone may start only after the SurveyDrone has marked the zone safe. Using the conditional_response pattern, we express that whenever the condition (SurveyDrone has marked the zone safe) becomes true, it will eventually be followed by the response (SprayerDrone starts). The atomic propositions `SurveyDrone.zone_safe_marked` and `SprayerDrone.started` represent, respectively, that the SurveyDrone has marked the zone safe and that the SprayerDrone has started its spraying operation.\",\"confidence\":0.86,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
             "uppaal_result": {
-              "query": "(SampleRover1.collecting_done && SampleRover2.collecting_done) --> TransportAMR.started",
-              "explanation": "The condition part encodes \u201cboth SampleRovers finish collecting\u201d as SampleRover1.collecting_done && SampleRover2.collecting_done. The response part encodes \u201cTransportAMR starts\u201d as TransportAMR.started. Using the conditional response operator --> expresses that once both SampleRovers have finished collecting, it will eventually become true that the TransportAMR has started, which matches the \u201cstarts only after both finish collecting\u201d requirement (start cannot occur before the condition, and is guaranteed after it).",
-              "confidence": 0.83,
+              "query": "SurveyDrone.zone_safe_marked --> SprayerDrone.started",
+              "explanation": "The natural-language constraint says that the SprayerDrone may start only after the SurveyDrone has marked the zone safe. Using the conditional_response pattern, we express that whenever the condition (SurveyDrone has marked the zone safe) becomes true, it will eventually be followed by the response (SprayerDrone starts). The atomic propositions `SurveyDrone.zone_safe_marked` and `SprayerDrone.started` represent, respectively, that the SurveyDrone has marked the zone safe and that the SprayerDrone has started its spraying operation.",
+              "confidence": 0.86,
               "pattern_used": "conditional_response",
               "operator_used": [
                 "-->"
@@ -128,9 +51,88 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "(SampleRover1.collecting_done && SampleRover2.collecting_done) --> TransportAMR.started"
+            "query": "SurveyDrone.zone_safe_marked --> SprayerDrone.started"
           },
-          "total_time": 5.011652708053589,
+          "total_time": 6.964469909667969,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "classification": {
+            "step": "classification",
+            "timing": 3.4399359226226807,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"never\",\"simultaneously\",\"same zone\",\"SampleRover1\",\"SampleRover2\",\"mutual exclusion\",\"concurrent collection\"],\"cues\":[\"never\",\"simultaneously\"],\"trigger_text\":null,\"response_text\":null}"
+          },
+          "graph_context": {
+            "pattern": "forbidden_state",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 3.887653112411499,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)\",\"explanation\":\"This query states that in all reachable states (A[]), it is never the case (not) that SampleRover1 and SampleRover2 are both collecting while being in the same zone simultaneously. This directly encodes the mutual exclusion constraint on concurrent collection in the same zone.\",\"confidence\":0.9,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"A[]\",\"not\",\"&&\",\"==\"]}",
+            "uppaal_result": {
+              "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)",
+              "explanation": "This query states that in all reachable states (A[]), it is never the case (not) that SampleRover1 and SampleRover2 are both collecting while being in the same zone simultaneously. This directly encodes the mutual exclusion constraint on concurrent collection in the same zone.",
+              "confidence": 0.9,
+              "pattern_used": "forbidden_state",
+              "operator_used": [
+                "A[]",
+                "not",
+                "&&",
+                "=="
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)"
+          },
+          "total_time": 7.357068061828613,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "classification": {
+            "step": "classification",
+            "timing": 10.253971815109253,
+            "tokens": 0,
+            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"TransportAMR\",\"SampleRovers\",\"starts only after\",\"finish collecting\",\"dependency\",\"precondition\"],\"cues\":[\"only after\",\"after\",\"both\",\"finish\"],\"trigger_text\":\"both SampleRovers finish collecting\",\"response_text\":\"TransportAMR starts\"}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 2.544863224029541,
+            "tokens": 0,
+            "raw_text": "{\"query\":\"(SampleRover1.done_collecting && SampleRover2.done_collecting) --> TransportAMR.started\",\"explanation\":\"The constraint says TransportAMR may start only after both SampleRover1 and SampleRover2 have finished collecting. Using the conditional_response pattern, the trigger condition is both SampleRovers having finished (modeled as SampleRover1.done_collecting && SampleRover2.done_collecting), and the eventual response is TransportAMR starting (TransportAMR.started). The --> operator expresses that whenever the trigger becomes true, it will eventually be followed by the response, enforcing the required dependency.\",\"confidence\":0.8,\"pattern_used\":\"conditional_response\",\"operator_used\":[\"-->\"]}",
+            "uppaal_result": {
+              "query": "(SampleRover1.done_collecting && SampleRover2.done_collecting) --> TransportAMR.started",
+              "explanation": "The constraint says TransportAMR may start only after both SampleRover1 and SampleRover2 have finished collecting. Using the conditional_response pattern, the trigger condition is both SampleRovers having finished (modeled as SampleRover1.done_collecting && SampleRover2.done_collecting), and the eventual response is TransportAMR starting (TransportAMR.started). The --> operator expresses that whenever the trigger becomes true, it will eventually be followed by the response, enforcing the required dependency.",
+              "confidence": 0.8,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(SampleRover1.done_collecting && SampleRover2.done_collecting) --> TransportAMR.started"
+          },
+          "total_time": 12.824493885040283,
           "success": true,
           "error": null,
           "constraint_index": 2
@@ -139,25 +141,25 @@
           "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
           "classification": {
             "step": "classification",
-            "timing": 1.410170078277588,
+            "timing": 3.2183830738067627,
             "tokens": 0,
-            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"always possible\",\"reach a state\",\"all zones fertilized\",\"samples collected\",\"reachability\"],\"cues\":[\"always\",\"possible\",\"reach\",\"state\"],\"trigger_text\":null,\"response_text\":null}"
+            "raw_text": "{\"pattern\":\"existential_reachability\",\"keywords\":[\"always possible\",\"reach a state\",\"zones fertilized\",\"samples collected\",\"existential\",\"reachability\"],\"cues\":[\"always\",\"possible\",\"reach\",\"state\"],\"trigger_text\":null,\"response_text\":\"a state where all zones are fertilized and samples collected\"}"
           },
           "graph_context": {
-            "pattern": "reachability",
+            "pattern": "existential_reachability",
             "operators_count": 1,
             "examples_count": 2
           },
           "generation": {
             "step": "generation",
-            "timing": 2.260411262512207,
+            "timing": 4.98856782913208,
             "tokens": 0,
-            "raw_text": "{\"query\":\"E<> (all_zones_fertilized && samples_collected)\",\"explanation\":\"The constraint asks whether it is ALWAYS POSSIBLE to reach a state where all zones are fertilized and samples collected. This is a reachability/possibility question, so we use the existential reachability operator E<>. The state predicate combines both required conditions with logical AND, meaning we are checking if there exists some execution where eventually both all zones are fertilized and all samples are collected.\",\"confidence\":0.9,\"pattern_used\":\"reachability\",\"operator_used\":[\"E<>\"]}",
+            "raw_text": "{\"query\":\"E<> (SurveyDrone.all_zones_fertilized && SampleRover1.all_samples_collected && SampleRover2.all_samples_collected)\",\"explanation\":\"The constraint asks whether it is always possible to reach a state where all zones are fertilized and samples are collected. Interpreting this as an existential reachability question (\\\"possible to reach such a state\\\"), we use the existential reachability pattern E<>. The state predicate encodes that all zones are fertilized (handled by SurveyDrone) and all samples are collected (by SampleRover1 and SampleRover2). Thus the query checks that there exists at least one execution path leading to a state where these conditions hold simultaneously.\",\"confidence\":0.79,\"pattern_used\":\"existential_reachability\",\"operator_used\":[\"E<>\"]}",
             "uppaal_result": {
-              "query": "E<> (all_zones_fertilized && samples_collected)",
-              "explanation": "The constraint asks whether it is ALWAYS POSSIBLE to reach a state where all zones are fertilized and samples collected. This is a reachability/possibility question, so we use the existential reachability operator E<>. The state predicate combines both required conditions with logical AND, meaning we are checking if there exists some execution where eventually both all zones are fertilized and all samples are collected.",
-              "confidence": 0.9,
-              "pattern_used": "reachability",
+              "query": "E<> (SurveyDrone.all_zones_fertilized && SampleRover1.all_samples_collected && SampleRover2.all_samples_collected)",
+              "explanation": "The constraint asks whether it is always possible to reach a state where all zones are fertilized and samples are collected. Interpreting this as an existential reachability question (\"possible to reach such a state\"), we use the existential reachability pattern E<>. The state predicate encodes that all zones are fertilized (handled by SurveyDrone) and all samples are collected (by SampleRover1 and SampleRover2). Thus the query checks that there exists at least one execution path leading to a state where these conditions hold simultaneously.",
+              "confidence": 0.79,
+              "pattern_used": "existential_reachability",
               "operator_used": [
                 "E<>"
               ]
@@ -166,9 +168,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "E<> (all_zones_fertilized && samples_collected)"
+            "query": "E<> (SurveyDrone.all_zones_fertilized && SampleRover1.all_samples_collected && SampleRover2.all_samples_collected)"
           },
-          "total_time": 3.6916451454162598,
+          "total_time": 8.234001159667969,
           "success": true,
           "error": null,
           "constraint_index": 3
@@ -183,25 +185,25 @@
           "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
           "classification": {
             "step": "classification",
-            "timing": 9.285033941268921,
+            "timing": 12.283583879470825,
             "tokens": 0,
-            "raw_text": "{\"pattern\":\"conditional_response\",\"keywords\":[\"SprayerDrone\",\"SurveyDrone\",\"starts\",\"marks\",\"zone safe\",\"only after\",\"start only after\",\"safe\"],\"cues\":[\"after\",\"only\",\"must\",\"starts\",\"marks\",\"safe\"],\"trigger_text\":\"SurveyDrone marks zone safe\",\"response_text\":\"SprayerDrone starts\"}"
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"SprayerDrone\",\"SurveyDrone\",\"starts only after\",\"marks zone safe\",\"start\",\"after\",\"only after\",\"precede\",\"ordering\",\"sequence\",\"precondition\",\"safe\"],\"cues\":[\"after\",\"only after\",\"starts\",\"marks\",\"safe\",\"when\",\"must\"],\"trigger_text\":\"SurveyDrone marks zone safe\",\"response_text\":\"SprayerDrone starts\"}"
           },
           "graph_context": {
-            "pattern": "conditional_response",
+            "pattern": "sequential_workflow",
             "operators_count": 1,
             "examples_count": 3
           },
           "generation": {
             "step": "generation",
-            "timing": 16.183140993118286,
+            "timing": 11.941356897354126,
             "tokens": 0,
-            "raw_text": "{\n  \"query\": \"(SurveyDrone.marks_zone_safe) --> (SprayerDrone.starts)\",\n  \"explanation\": \"Uses the conditional_response pattern: if the SurveyDrone marks the zone safe (SurveyDrone.marks_zone_safe), then eventually the SprayerDrone must start (SprayerDrone.starts). The '-->' operator captures the required eventual, post-condition ordering (SprayerDrone starts only after SurveyDrone marks zone safe).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "raw_text": "{\"query\":\"SurveyDrone.marks_zone_safe --> SprayerDrone.starts\",\"explanation\":\"This sequential_workflow query states that when SurveyDrone marks the zone safe, SprayerDrone will eventually start. It enforces the required ordering (\u2018starts only after\u2019) by using the '-->' operator to ensure SprayerDrone.start follows SurveyDrone.marks_zone_safe.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
             "uppaal_result": {
-              "query": "(SurveyDrone.marks_zone_safe) --> (SprayerDrone.starts)",
-              "explanation": "Uses the conditional_response pattern: if the SurveyDrone marks the zone safe (SurveyDrone.marks_zone_safe), then eventually the SprayerDrone must start (SprayerDrone.starts). The '-->' operator captures the required eventual, post-condition ordering (SprayerDrone starts only after SurveyDrone marks zone safe).",
+              "query": "SurveyDrone.marks_zone_safe --> SprayerDrone.starts",
+              "explanation": "This sequential_workflow query states that when SurveyDrone marks the zone safe, SprayerDrone will eventually start. It enforces the required ordering (\u2018starts only after\u2019) by using the '-->' operator to ensure SprayerDrone.start follows SurveyDrone.marks_zone_safe.",
               "confidence": 0.85,
-              "pattern_used": "conditional_response",
+              "pattern_used": "sequential_workflow",
               "operator_used": [
                 "-->"
               ]
@@ -210,9 +212,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "(SurveyDrone.marks_zone_safe) --> (SprayerDrone.starts)"
+            "query": "SurveyDrone.marks_zone_safe --> SprayerDrone.starts"
           },
-          "total_time": 25.49753499031067,
+          "total_time": 24.373358011245728,
           "success": true,
           "error": null,
           "constraint_index": 0
@@ -221,9 +223,9 @@
           "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
           "classification": {
             "step": "classification",
-            "timing": 10.119578123092651,
+            "timing": 11.431886196136475,
             "tokens": 0,
-            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"never\",\"simultaneously\",\"same zone\",\"collect\",\"mutual exclusion\",\"SampleRover1\",\"SampleRover2\",\"forbidden\",\"concurrent\"],\"cues\":[\"never\",\"simultaneously\",\"same\",\"zone\",\"collect\",\"must not\",\"cannot\"],\"trigger_text\":\"SampleRover1 and SampleRover2 collect in the same zone at the same time\",\"response_text\":\"must not occur / forbidden\"}"
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"never\",\"simultaneously\",\"collect\",\"same zone\",\"SampleRover1\",\"SampleRover2\"],\"cues\":[\"never\",\"simultaneously\",\"same\",\"collect\",\"in\",\"zone\",\"and\"],\"trigger_text\":\"SampleRover1 and SampleRover2 collect in the same zone at the same time\",\"response_text\":\"This must not occur \u2014 the two rovers must not collect simultaneously in the same zone\"}"
           },
           "graph_context": {
             "pattern": "forbidden_state",
@@ -232,12 +234,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 10.902897357940674,
+            "timing": 12.60270094871521,
             "tokens": 0,
-            "raw_text": "{\"query\":\"A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)\",\"explanation\":\"This enforces the forbidden_state: it is always true that the bad state (both SampleRover1 and SampleRover2 collecting while in the same zone) does not occur. The A[] not(...) pattern prevents simultaneous collection in the same zone.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "raw_text": "{\"query\":\"A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)\",\"explanation\":\"Forbids the state where both SampleRover1 and SampleRover2 are collecting at the same time in the same zone by negating the condition that both are in collecting mode and their zone identifiers are equal.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
             "uppaal_result": {
               "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)",
-              "explanation": "This enforces the forbidden_state: it is always true that the bad state (both SampleRover1 and SampleRover2 collecting while in the same zone) does not occur. The A[] not(...) pattern prevents simultaneous collection in the same zone.",
+              "explanation": "Forbids the state where both SampleRover1 and SampleRover2 are collecting at the same time in the same zone by negating the condition that both are in collecting mode and their zone identifiers are equal.",
               "confidence": 0.85,
               "pattern_used": "forbidden_state",
               "operator_used": [
@@ -250,7 +252,7 @@
             "error": null,
             "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)"
           },
-          "total_time": 21.041917085647583,
+          "total_time": 24.05486011505127,
           "success": true,
           "error": null,
           "constraint_index": 1
@@ -259,9 +261,9 @@
           "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
           "classification": {
             "step": "classification",
-            "timing": 8.068733930587769,
+            "timing": 7.472235918045044,
             "tokens": 0,
-            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"starts only after\",\"start after\",\"finish collecting\",\"both\",\"SampleRovers\",\"TransportAMR\",\"precedence\"],\"cues\":[\"after\",\"only\",\"both\",\"finish\",\"start\",\"starts\",\"must\",\"and\"],\"trigger_text\":\"both SampleRovers finish collecting\",\"response_text\":\"TransportAMR starts\"}"
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"TransportAMR\",\"SampleRovers\",\"finish collecting\",\"starts only after\",\"both\",\"start after\",\"finish\"],\"cues\":[\"only after\",\"after\",\"both\",\"finish\",\"starts\",\"when\",\"then\"],\"trigger_text\":\"both SampleRovers finish collecting\",\"response_text\":\"TransportAMR starts\"}"
           },
           "graph_context": {
             "pattern": "sequential_workflow",
@@ -270,12 +272,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 19.96498990058899,
+            "timing": 10.817749977111816,
             "tokens": 0,
-            "raw_text": "{\"query\":\"(SampleRover1.collecting_done and SampleRover2.collecting_done) --> TransportAMR.start\",\"explanation\":\"This encodes the sequential-workflow constraint: once both SampleRover1 and SampleRover2 have finished collecting (collecting_done), the system requires that TransportAMR.start eventually occurs. The left side is the conjunction of the two rover completion signals and the --> operator captures the eventual triggered behavior (TransportAMR starts after both finish).\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "raw_text": "{\"query\":\"(SampleRover1.collecting_finished && SampleRover2.collecting_finished) --> TransportAMR.start\",\"explanation\":\"Specifies that TransportAMR starting must follow (eventually) the condition that both SampleRover1 and SampleRover2 have finished collecting. The conjunction of the two rover completion predicates triggers the eventual TransportAMR.start, matching the sequential workflow requirement that TransportAMR starts only after both rovers finish collecting.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
             "uppaal_result": {
-              "query": "(SampleRover1.collecting_done and SampleRover2.collecting_done) --> TransportAMR.start",
-              "explanation": "This encodes the sequential-workflow constraint: once both SampleRover1 and SampleRover2 have finished collecting (collecting_done), the system requires that TransportAMR.start eventually occurs. The left side is the conjunction of the two rover completion signals and the --> operator captures the eventual triggered behavior (TransportAMR starts after both finish).",
+              "query": "(SampleRover1.collecting_finished && SampleRover2.collecting_finished) --> TransportAMR.start",
+              "explanation": "Specifies that TransportAMR starting must follow (eventually) the condition that both SampleRover1 and SampleRover2 have finished collecting. The conjunction of the two rover completion predicates triggers the eventual TransportAMR.start, matching the sequential workflow requirement that TransportAMR starts only after both rovers finish collecting.",
               "confidence": 0.85,
               "pattern_used": "sequential_workflow",
               "operator_used": [
@@ -286,9 +288,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "(SampleRover1.collecting_done and SampleRover2.collecting_done) --> TransportAMR.start"
+            "query": "(SampleRover1.collecting_finished && SampleRover2.collecting_finished) --> TransportAMR.start"
           },
-          "total_time": 28.04409098625183,
+          "total_time": 18.31555199623108,
           "success": true,
           "error": null,
           "constraint_index": 2
@@ -297,36 +299,36 @@
           "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
           "classification": {
             "step": "classification",
-            "timing": 8.483820915222168,
+            "timing": 9.022494077682495,
             "tokens": 0,
-            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"reachability\",\"reach\",\"reachable\",\"possible to reach\",\"all zones\",\"fertilized\",\"samples collected\",\"goal state\"],\"cues\":[\"always\",\"possible\",\"reach\",\"all\",\"zones\",\"fertilized\",\"samples\",\"collected\",\"where\"],\"trigger_text\":null,\"response_text\":\"reach a state where all zones are fertilized and samples collected\"}"
+            "raw_text": "{\"pattern\":\"universal_reachability\",\"keywords\":[\"reachability\",\"always possible\",\"reach\",\"all zones fertilized\",\"samples collected\",\"reachable\",\"goal state\"],\"cues\":[\"always\",\"possible\",\"reach\",\"all\",\"zones\",\"fertilized\",\"samples\",\"collected\",\"eventually\"],\"trigger_text\":\"Always possible to reach a state\",\"response_text\":\"all zones are fertilized and samples collected\"}"
           },
           "graph_context": {
-            "pattern": "reachability",
+            "pattern": "universal_reachability",
             "operators_count": 1,
-            "examples_count": 2
+            "examples_count": 3
           },
           "generation": {
             "step": "generation",
-            "timing": 11.858130931854248,
+            "timing": 13.518985986709595,
             "tokens": 0,
-            "raw_text": "{\"query\":\"A[] E<> (all_zones_fertilized && samples_collected)\",\"explanation\":\"This uses A[] E<> to express that in every reachable state it is possible to eventually reach a state where all_zones_fertilized and samples_collected hold, matching the requirement that it is always possible to reach such a state (reachability pattern).\",\"confidence\":0.85,\"pattern_used\":\"reachability\",\"operator_used\":[\"-->\"]}",
+            "raw_text": "{\"query\":\"A<> (SprayerDrone.all_zones_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)\",\"explanation\":\"This A<> query asserts universal liveness: from any reachable state the system is guaranteed to eventually reach a state where the SprayerDrone has fertilized all zones and both SampleRover1 and SampleRover2 have collected their samples, matching the requirement that it is always possible to reach that combined goal state.\",\"confidence\":0.85,\"pattern_used\":\"universal_reachability\",\"operator_used\":[\"-->\"]}",
             "uppaal_result": {
-              "query": "A[] E<> (all_zones_fertilized && samples_collected)",
-              "explanation": "This uses A[] E<> to express that in every reachable state it is possible to eventually reach a state where all_zones_fertilized and samples_collected hold, matching the requirement that it is always possible to reach such a state (reachability pattern).",
+              "query": "A<> (SprayerDrone.all_zones_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)",
+              "explanation": "This A<> query asserts universal liveness: from any reachable state the system is guaranteed to eventually reach a state where the SprayerDrone has fertilized all zones and both SampleRover1 and SampleRover2 have collected their samples, matching the requirement that it is always possible to reach that combined goal state.",
               "confidence": 0.85,
-              "pattern_used": "reachability",
+              "pattern_used": "universal_reachability",
               "operator_used": [
                 "-->"
               ]
             }
           },
           "validation": {
-            "valid": false,
-            "error": "Validation error: sequence item 0: expected str instance, dict found",
-            "query": "A[] E<> (all_zones_fertilized && samples_collected)"
+            "valid": true,
+            "error": null,
+            "query": "A<> (SprayerDrone.all_zones_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)"
           },
-          "total_time": 20.36603307723999,
+          "total_time": 22.570306062698364,
           "success": true,
           "error": null,
           "constraint_index": 3
@@ -341,9 +343,9 @@
           "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
           "classification": {
             "step": "classification",
-            "timing": 10.835936069488525,
+            "timing": 27.374128818511963,
             "tokens": 0,
-            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"survey\",\"zone_safe\",\"sprayer\",\"start\",\"sequence\",\"conditional\"],\"cues\":[\"after\",\"then\",\"when\",\"must\"],\"trigger_text\":\"SurveyDrone marks zone safe\",\"response_text\":\"SprayerDrone starts after zone safe\"}"
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"sequential_workflow\",\"sequence\",\"start\",\"zone_safe\",\"SurveyDrone\",\"SprayerDrone\"],\"cues\":[\"after\",\"only\",\"starts\",\"zone\",\"safe\"],\"trigger_text\":\"SprayerDrone starts only after SurveyDrone marks zone safe\",\"response_text\":null}"
           },
           "graph_context": {
             "pattern": "sequential_workflow",
@@ -352,12 +354,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 20.56332278251648,
+            "timing": 11.6530020236969,
             "tokens": 0,
-            "raw_text": "{\"query\":\"SurveyDrone.zone_safe --> SprayerDrone.spraying\",\"explanation\":\"Translates the constraint into a sequential workflow: SurveyDrone.zone_safe must occur before SprayerDrone.spraying, using the --> edge to denote that SprayerDrone starts after the zone is marked safe.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "raw_text": "{\"query\":\"SurveyDrone.zone_safe --> SprayerDrone.start\",\"explanation\":\"This encodes a sequential_workflow: SprayerDrone.start occurs after SurveyDrone.zone_safe, using the template action1 --> action2 with exact robot names as given.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
             "uppaal_result": {
-              "query": "SurveyDrone.zone_safe --> SprayerDrone.spraying",
-              "explanation": "Translates the constraint into a sequential workflow: SurveyDrone.zone_safe must occur before SprayerDrone.spraying, using the --> edge to denote that SprayerDrone starts after the zone is marked safe.",
+              "query": "SurveyDrone.zone_safe --> SprayerDrone.start",
+              "explanation": "This encodes a sequential_workflow: SprayerDrone.start occurs after SurveyDrone.zone_safe, using the template action1 --> action2 with exact robot names as given.",
               "confidence": 0.85,
               "pattern_used": "sequential_workflow",
               "operator_used": [
@@ -368,9 +370,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "SurveyDrone.zone_safe --> SprayerDrone.spraying"
+            "query": "SurveyDrone.zone_safe --> SprayerDrone.start"
           },
-          "total_time": 31.416404962539673,
+          "total_time": 39.05154204368591,
           "success": true,
           "error": null,
           "constraint_index": 0
@@ -379,9 +381,9 @@
           "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
           "classification": {
             "step": "classification",
-            "timing": 10.285974025726318,
+            "timing": 12.781319856643677,
             "tokens": 0,
-            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"forbidden_state\",\"in_same_zone\",\"simultaneously\",\"never\",\"collision\",\"rover\"],\"cues\":[\"never\",\"in\",\"same_zone\",\"simultaneously\",\"cannot\",\"must\",\"then\"],\"trigger_text\":\"SampleRover1 and SampleRover2 never collect in the same zone simultaneously\",\"response_text\":\"Forbidden state: both SampleRover1 and SampleRover2 occupying the same zone at the same time is disallowed.\"}"
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"SampleRover1\",\"SampleRover2\",\"zone\",\"simultaneously\",\"safety\",\"co-location\"],\"cues\":[\"never\"],\"trigger_text\":null,\"response_text\":null}"
           },
           "graph_context": {
             "pattern": "forbidden_state",
@@ -390,12 +392,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 10.48425006866455,
+            "timing": 19.351083993911743,
             "tokens": 0,
-            "raw_text": "{\"query\":\"A[] not (SampleRover1.zone == SampleRover2.zone)\",\"explanation\":\"This encodes the constraint as a global forbidden state: rovers must never occupy the same zone at the same time. It uses A[] not(...) consistent with the 'never/must not' pattern.\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
+            "raw_text": "{\"query\":\"A[] not (SampleRover1.zone == SampleRover2.zone)\",\"explanation\":\"This encodes the constraint as a forbidden state: SampleRover1 and SampleRover2 must never share the same zone at any time, i.e., co-location is disallowed. It uses the exact robot names and expresses a safety invariant (forbidden_state).\",\"confidence\":0.85,\"pattern_used\":\"forbidden_state\",\"operator_used\":[\"-->\"]}",
             "uppaal_result": {
               "query": "A[] not (SampleRover1.zone == SampleRover2.zone)",
-              "explanation": "This encodes the constraint as a global forbidden state: rovers must never occupy the same zone at the same time. It uses A[] not(...) consistent with the 'never/must not' pattern.",
+              "explanation": "This encodes the constraint as a forbidden state: SampleRover1 and SampleRover2 must never share the same zone at any time, i.e., co-location is disallowed. It uses the exact robot names and expresses a safety invariant (forbidden_state).",
               "confidence": 0.85,
               "pattern_used": "forbidden_state",
               "operator_used": [
@@ -408,7 +410,7 @@
             "error": null,
             "query": "A[] not (SampleRover1.zone == SampleRover2.zone)"
           },
-          "total_time": 20.790417194366455,
+          "total_time": 32.152058839797974,
           "success": true,
           "error": null,
           "constraint_index": 1
@@ -417,9 +419,9 @@
           "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
           "classification": {
             "step": "classification",
-            "timing": 13.496597051620483,
+            "timing": 11.542677164077759,
             "tokens": 0,
-            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"sequential_workflow\",\"dependency\",\"start_after_completion\",\"finish\",\"collecting\"],\"cues\":[\"after\",\"then\",\"must\",\"finish\",\"collecting\"],\"trigger_text\":\"TransportAMR starts only after both SampleRovers finish collecting\",\"response_text\":\"TransportAMR will start after both SampleRovers have finished collecting\"}"
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"TransportAMR\", \"starts\", \"after\", \"finish\", \"collecting\", \"SampleRovers\"],\n  \"cues\": [\"after\", \"then\", \"finish\", \"collecting\", \"must\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
           },
           "graph_context": {
             "pattern": "sequential_workflow",
@@ -428,12 +430,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 18.010474920272827,
+            "timing": 28.4528648853302,
             "tokens": 0,
-            "raw_text": "{\"query\":\"SampleRover1.collecting_done && SampleRover2.collecting_done --> TransportAMR.start\",\"explanation\":\"Expresses a sequential_workflow where TransportAMR.start occurs after both SampleRovers have finished collecting; the left side uses a conjunction to represent the 'both' prerequisite before the subsequent action.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
+            "raw_text": "{\"query\":\"SampleRover1.collecting_done && SampleRover2.collecting_done --> TransportAMR.start\",\"explanation\":\"The constraint requires TransportAMR to start only after both SampleRover1 and SampleRover2 have finished collecting. This is expressed as a sequential_workflow where the left side asserts both collecting_done conditions are true, and the right side triggers TransportAMR.start.\",\"confidence\":0.85,\"pattern_used\":\"sequential_workflow\",\"operator_used\":[\"-->\"]}",
             "uppaal_result": {
               "query": "SampleRover1.collecting_done && SampleRover2.collecting_done --> TransportAMR.start",
-              "explanation": "Expresses a sequential_workflow where TransportAMR.start occurs after both SampleRovers have finished collecting; the left side uses a conjunction to represent the 'both' prerequisite before the subsequent action.",
+              "explanation": "The constraint requires TransportAMR to start only after both SampleRover1 and SampleRover2 have finished collecting. This is expressed as a sequential_workflow where the left side asserts both collecting_done conditions are true, and the right side triggers TransportAMR.start.",
               "confidence": 0.85,
               "pattern_used": "sequential_workflow",
               "operator_used": [
@@ -446,7 +448,7 @@
             "error": null,
             "query": "SampleRover1.collecting_done && SampleRover2.collecting_done --> TransportAMR.start"
           },
-          "total_time": 31.529345989227295,
+          "total_time": 40.01651692390442,
           "success": true,
           "error": null,
           "constraint_index": 2
@@ -455,36 +457,36 @@
           "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
           "classification": {
             "step": "classification",
-            "timing": 10.62578010559082,
+            "timing": 24.45494294166565,
             "tokens": 0,
-            "raw_text": "{\"pattern\":\"reachability\",\"keywords\":[\"reachability\",\"state\",\"zones\",\"fertilized\",\"samples\",\"possible\",\"always\"],\"cues\":[\"eventually\",\"can\"],\"trigger_text\":null,\"response_text\":null}"
+            "raw_text": "{\"pattern\":\"existential_reachability\",\"keywords\":[\"reachability\",\"target_state\",\"zones_fertilized\",\"samples_collected\"],\"cues\":[\"can\",\"eventually\",\"reach\",\"state\",\"target\"],\"trigger_text\":null,\"response_text\":null}"
           },
           "graph_context": {
-            "pattern": "reachability",
+            "pattern": "existential_reachability",
             "operators_count": 1,
             "examples_count": 2
           },
           "generation": {
             "step": "generation",
-            "timing": 26.99748182296753,
+            "timing": 25.445611000061035,
             "tokens": 0,
-            "raw_text": "{\"query\":\"A[] E<> (AllZonesFertilized && AllSamplesCollected)\",\"explanation\":\"Expresses that from every state in the system (A[]), there exists a future state (E<>) in which AllZonesFertilized and AllSamplesCollected hold; i.e., it is always possible to eventually reach a state where all zones are fertilized and all samples collected.\",\"confidence\":0.85,\"pattern_used\":\"reachability\",\"operator_used\":[\"-->\"]}",
+            "raw_text": "{\"query\":\"E<> (zones_fertilized && samples_collected)\", \"explanation\":\"The constraint states that it is always possible to reach a state where all zones are fertilized and all samples are collected. This is captured by an existential reachability query that asks if there exists a path to a global state in which zones_fertilized and samples_collected are both true.\", \"confidence\":0.85, \"pattern_used\":\"existential_reachability\", \"operator_used\":[\"E<>\"]}",
             "uppaal_result": {
-              "query": "A[] E<> (AllZonesFertilized && AllSamplesCollected)",
-              "explanation": "Expresses that from every state in the system (A[]), there exists a future state (E<>) in which AllZonesFertilized and AllSamplesCollected hold; i.e., it is always possible to eventually reach a state where all zones are fertilized and all samples collected.",
+              "query": "E<> (zones_fertilized && samples_collected)",
+              "explanation": "The constraint states that it is always possible to reach a state where all zones are fertilized and all samples are collected. This is captured by an existential reachability query that asks if there exists a path to a global state in which zones_fertilized and samples_collected are both true.",
               "confidence": 0.85,
-              "pattern_used": "reachability",
+              "pattern_used": "existential_reachability",
               "operator_used": [
-                "-->"
+                "E<>"
               ]
             }
           },
           "validation": {
-            "valid": false,
-            "error": "Validation error: sequence item 0: expected str instance, dict found",
-            "query": "A[] E<> (AllZonesFertilized && AllSamplesCollected)"
+            "valid": true,
+            "error": null,
+            "query": "E<> (zones_fertilized && samples_collected)"
           },
-          "total_time": 37.643527030944824,
+          "total_time": 49.91647386550903,
           "success": true,
           "error": null,
           "constraint_index": 3
@@ -499,25 +501,25 @@
           "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
           "classification": {
             "step": "classification",
-            "timing": 1.436805248260498,
-            "tokens": 189,
-            "raw_text": "{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"starts\", \"after\", \"marks\", \"safe\"],\n  \"cues\": [\"only\", \"after\"],\n  \"trigger_text\": \"SurveyDrone marks zone safe\",\n  \"response_text\": \"SprayerDrone starts\"\n}"
+            "timing": 2.489748954772949,
+            "tokens": 199,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"marks\", \"safe\"],\n  \"cues\": [\"only after\"],\n  \"trigger_text\": \"SurveyDrone marks zone safe\",\n  \"response_text\": \"SprayerDrone starts\"\n}"
           },
           "graph_context": {
-            "pattern": "conditional_response",
+            "pattern": "sequential_workflow",
             "operators_count": 1,
             "examples_count": 3
           },
           "generation": {
             "step": "generation",
-            "timing": 1.5290019512176514,
-            "tokens": 581,
-            "raw_text": "{\n  \"query\": \"SurveyDrone.marks_zone_safe --> SprayerDrone.starts\",\n  \"explanation\": \"The constraint specifies that the SprayerDrone starts only after the SurveyDrone marks the zone safe. This aligns with the conditional_response pattern, where a condition (SurveyDrone marks zone safe) leads to an eventual response (SprayerDrone starts). The '-->' operator is used to represent this eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "timing": 3.8693180084228516,
+            "tokens": 669,
+            "raw_text": "{\n  \"query\": \"SurveyDrone.marks_zone_safe --> SprayerDrone.starts\",\n  \"explanation\": \"The query uses the sequential_workflow pattern to express that the action of SprayerDrone starting occurs only after SurveyDrone marks the zone as safe. The '-->' operator is used to indicate that one action eventually follows another, which matches the constraint provided.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
             "uppaal_result": {
               "query": "SurveyDrone.marks_zone_safe --> SprayerDrone.starts",
-              "explanation": "The constraint specifies that the SprayerDrone starts only after the SurveyDrone marks the zone safe. This aligns with the conditional_response pattern, where a condition (SurveyDrone marks zone safe) leads to an eventual response (SprayerDrone starts). The '-->' operator is used to represent this eventual triggered behavior.",
+              "explanation": "The query uses the sequential_workflow pattern to express that the action of SprayerDrone starting occurs only after SurveyDrone marks the zone as safe. The '-->' operator is used to indicate that one action eventually follows another, which matches the constraint provided.",
               "confidence": 0.85,
-              "pattern_used": "conditional_response",
+              "pattern_used": "sequential_workflow",
               "operator_used": [
                 "-->"
               ]
@@ -528,7 +530,7 @@
             "error": null,
             "query": "SurveyDrone.marks_zone_safe --> SprayerDrone.starts"
           },
-          "total_time": 2.9856300354003906,
+          "total_time": 6.377990961074829,
           "success": true,
           "error": null,
           "constraint_index": 0
@@ -537,9 +539,9 @@
           "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
           "classification": {
             "step": "classification",
-            "timing": 1.0990829467773438,
-            "tokens": 176,
-            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"never\", \"simultaneously\", \"collect\", \"same zone\"],\n  \"cues\": [\"never\", \"simultaneously\"]\n}"
+            "timing": 1.003103256225586,
+            "tokens": 181,
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"never\", \"collect\", \"same zone\", \"simultaneously\"],\n  \"cues\": [\"never\"]\n}"
           },
           "graph_context": {
             "pattern": "forbidden_state",
@@ -548,12 +550,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 1.5101568698883057,
-            "tokens": 603,
-            "raw_text": "{\n  \"query\": \"A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)\",\n  \"explanation\": \"This query ensures that the state where both SampleRover1 and SampleRover2 are collecting in the same zone simultaneously never occurs. It uses the forbidden_state pattern to prevent this dangerous or invalid state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
+            "timing": 3.1074140071868896,
+            "tokens": 701,
+            "raw_text": "{\n  \"query\": \"A[] not (SampleRover1.zone == SampleRover2.zone && SampleRover1.collecting && SampleRover2.collecting)\",\n  \"explanation\": \"This query ensures that SampleRover1 and SampleRover2 are never collecting in the same zone at the same time, which matches the constraint of preventing them from collecting simultaneously in the same zone.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
             "uppaal_result": {
-              "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)",
-              "explanation": "This query ensures that the state where both SampleRover1 and SampleRover2 are collecting in the same zone simultaneously never occurs. It uses the forbidden_state pattern to prevent this dangerous or invalid state.",
+              "query": "A[] not (SampleRover1.zone == SampleRover2.zone && SampleRover1.collecting && SampleRover2.collecting)",
+              "explanation": "This query ensures that SampleRover1 and SampleRover2 are never collecting in the same zone at the same time, which matches the constraint of preventing them from collecting simultaneously in the same zone.",
               "confidence": 0.85,
               "pattern_used": "forbidden_state",
               "operator_used": [
@@ -565,9 +567,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)"
+            "query": "A[] not (SampleRover1.zone == SampleRover2.zone && SampleRover1.collecting && SampleRover2.collecting)"
           },
-          "total_time": 2.641523838043213,
+          "total_time": 4.129693031311035,
           "success": true,
           "error": null,
           "constraint_index": 1
@@ -576,9 +578,9 @@
           "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
           "classification": {
             "step": "classification",
-            "timing": 0.7978203296661377,
-            "tokens": 170,
-            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finish\", \"collecting\"],\n  \"cues\": [\"after\", \"only\"]\n}"
+            "timing": 2.7879250049591064,
+            "tokens": 203,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finish\", \"collecting\"],\n  \"cues\": [\"after\", \"only\"],\n  \"trigger_text\": \"SampleRovers finish collecting\",\n  \"response_text\": \"TransportAMR starts\"\n}"
           },
           "graph_context": {
             "pattern": "sequential_workflow",
@@ -587,12 +589,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 1.6252400875091553,
-            "tokens": 579,
-            "raw_text": "{\n  \"query\": \"SampleRover1.collecting_complete and SampleRover2.collecting_complete --> TransportAMR.start\",\n  \"explanation\": \"The constraint specifies that TransportAMR can only start after both SampleRovers have finished collecting. This aligns with the 'sequential_workflow' pattern where one action follows another. The 'after' keyword indicates a sequential dependency, and the use of '-->' operator is appropriate for eventual triggered behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "timing": 4.195838928222656,
+            "tokens": 696,
+            "raw_text": "{\n  \"query\": \"SampleRover1.collecting_complete and SampleRover2.collecting_complete --> TransportAMR.start\",\n  \"explanation\": \"This query ensures that the TransportAMR starts only after both SampleRover1 and SampleRover2 have completed their collecting tasks. The 'sequential_workflow' pattern is used here to represent the eventual sequence of events, where the completion of collecting by both SampleRovers triggers the start of TransportAMR.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
             "uppaal_result": {
               "query": "SampleRover1.collecting_complete and SampleRover2.collecting_complete --> TransportAMR.start",
-              "explanation": "The constraint specifies that TransportAMR can only start after both SampleRovers have finished collecting. This aligns with the 'sequential_workflow' pattern where one action follows another. The 'after' keyword indicates a sequential dependency, and the use of '-->' operator is appropriate for eventual triggered behavior.",
+              "explanation": "This query ensures that the TransportAMR starts only after both SampleRover1 and SampleRover2 have completed their collecting tasks. The 'sequential_workflow' pattern is used here to represent the eventual sequence of events, where the completion of collecting by both SampleRovers triggers the start of TransportAMR.",
               "confidence": 0.85,
               "pattern_used": "sequential_workflow",
               "operator_used": [
@@ -605,7 +607,7 @@
             "error": null,
             "query": "SampleRover1.collecting_complete and SampleRover2.collecting_complete --> TransportAMR.start"
           },
-          "total_time": 2.443593978881836,
+          "total_time": 7.005496025085449,
           "success": true,
           "error": null,
           "constraint_index": 2
@@ -614,36 +616,34 @@
           "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
           "classification": {
             "step": "classification",
-            "timing": 1.3202788829803467,
-            "tokens": 182,
-            "raw_text": "{\n    \"pattern\": \"reachability\",\n    \"keywords\": [\"reach\", \"state\", \"zones\", \"fertilized\", \"samples\", \"collected\"],\n    \"cues\": [\"always\", \"possible\", \"reach\"]\n}"
+            "timing": 0.7982900142669678,
+            "tokens": 198,
+            "raw_text": "{\n  \"pattern\": \"existential_reachability\",\n  \"keywords\": [\"possible\", \"reach\", \"state\", \"zones\", \"fertilized\", \"samples\", \"collected\"],\n  \"cues\": [\"always\", \"possible\", \"reach\"]\n}"
           },
           "graph_context": {
-            "pattern": "reachability",
+            "pattern": "existential_reachability",
             "operators_count": 1,
             "examples_count": 2
           },
           "generation": {
             "step": "generation",
-            "timing": 1.0355629920959473,
-            "tokens": 526,
-            "raw_text": "{\n  \"query\": \"E<> (AllZonesFertilized && SamplesCollected)\",\n  \"explanation\": \"The query checks if it is possible to reach a state where all zones are fertilized and samples are collected, which matches the constraint of 'always possible to reach' such a state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}",
+            "timing": 4.180315017700195,
+            "tokens": 694,
+            "raw_text": "{\n  \"query\": \"E<> (SurveyDrone.all_zones_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)\",\n  \"explanation\": \"The query checks if there exists a path where all zones are fertilized by the SurveyDrone and samples are collected by both SampleRover1 and SampleRover2. This matches the constraint of it being always possible to reach such a state.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"existential_reachability\",\n  \"operator_used\": []\n}",
             "uppaal_result": {
-              "query": "E<> (AllZonesFertilized && SamplesCollected)",
-              "explanation": "The query checks if it is possible to reach a state where all zones are fertilized and samples are collected, which matches the constraint of 'always possible to reach' such a state.",
+              "query": "E<> (SurveyDrone.all_zones_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)",
+              "explanation": "The query checks if there exists a path where all zones are fertilized by the SurveyDrone and samples are collected by both SampleRover1 and SampleRover2. This matches the constraint of it being always possible to reach such a state.",
               "confidence": 0.85,
-              "pattern_used": "reachability",
-              "operator_used": [
-                "E<>"
-              ]
+              "pattern_used": "existential_reachability",
+              "operator_used": []
             }
           },
           "validation": {
             "valid": true,
             "error": null,
-            "query": "E<> (AllZonesFertilized && SamplesCollected)"
+            "query": "E<> (SurveyDrone.all_zones_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)"
           },
-          "total_time": 2.4083361625671387,
+          "total_time": 5.0042619705200195,
           "success": true,
           "error": null,
           "constraint_index": 3
@@ -658,15 +658,15 @@
           "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
           "classification": {
             "step": "classification",
-            "timing": 3.4471590518951416,
+            "timing": 6.643289804458618,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"SprayerDrone\", \"starts\", \"after\", \"SurveyDrone\", \"marks\", \"zone\", \"safe\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"SurveyDrone marks zone safe\",\n  \"response_text\": \"SprayerDrone starts\"",
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"SprayerDrone\", \"starts\", \"after\", \"SurveyDrone\", \"marks\", \"zone\", \"safe\"],\n  \"cues\": [\"after\", \"only after\"],\n  \"trigger_text\": \"SurveyDrone marks zone safe\",\n  \"response_text\": \"SprayerDrone starts\"",
             "error": "Failed to parse JSON"
           },
           "graph_context": null,
           "generation": null,
           "validation": null,
-          "total_time": 3.4473018646240234,
+          "total_time": 6.643460035324097,
           "success": false,
           "error": "Classification failed",
           "constraint_index": 0
@@ -675,9 +675,9 @@
           "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
           "classification": {
             "step": "classification",
-            "timing": 3.307713031768799,
+            "timing": 3.6723530292510986,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"SampleRover1\", \"SampleRover2\", \"never\", \"collect\", \"same zone\", \"simultaneously\"],\n  \"cues\": [\"never\", \"simultaneously\"],\n  \"trigger_text\": \"SampleRover1 and SampleRover2 collect in same zone simultaneously\"\n}\n```"
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"SampleRover1\", \"SampleRover2\", \"never\", \"collect\", \"same zone\", \"simultaneously\"],\n  \"cues\": [\"never\", \"simultaneously\"],\n  \"trigger_text\": \"SampleRover1 and SampleRover2 collect in same zone simultaneously\",\n  \"response_text\": null\n}\n```"
           },
           "graph_context": {
             "pattern": "forbidden_state",
@@ -686,12 +686,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 4.76968789100647,
+            "timing": 4.392473936080933,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"query\": \"A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)\",\n  \"explanation\": \"This query uses the forbidden_state pattern to ensure that SampleRover1 and SampleRover2 are never simultaneously in a collecting state while being in the same zone. The A[] operator checks this property globally across all states, and 'not' negates the conjunction of both rovers collecting in the same zone.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)\",\n  \"explanation\": \"This query uses the forbidden_state pattern with A[] not to ensure that SampleRover1 and SampleRover2 never collect in the same zone simultaneously. It checks that it's never the case that both rovers are in a collecting state while occupying the same zone.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
             "uppaal_result": {
               "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)",
-              "explanation": "This query uses the forbidden_state pattern to ensure that SampleRover1 and SampleRover2 are never simultaneously in a collecting state while being in the same zone. The A[] operator checks this property globally across all states, and 'not' negates the conjunction of both rovers collecting in the same zone.",
+              "explanation": "This query uses the forbidden_state pattern with A[] not to ensure that SampleRover1 and SampleRover2 never collect in the same zone simultaneously. It checks that it's never the case that both rovers are in a collecting state while occupying the same zone.",
               "confidence": 0.92,
               "pattern_used": "forbidden_state",
               "operator_used": [
@@ -705,7 +705,7 @@
             "error": null,
             "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)"
           },
-          "total_time": 8.098009824752808,
+          "total_time": 8.078557014465332,
           "success": true,
           "error": null,
           "constraint_index": 1
@@ -714,9 +714,9 @@
           "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
           "classification": {
             "step": "classification",
-            "timing": 3.9753289222717285,
+            "timing": 3.8855979442596436,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"TransportAMR\", \"starts\", \"after\", \"SampleRovers\", \"finish\", \"collecting\"],\n  \"cues\": [\"after\", \"only\"],\n  \"trigger_text\": \"both SampleRovers finish collecting\",\n  \"response_text\": \"TransportAMR starts\"\n}\n```"
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"TransportAMR\", \"starts\", \"after\", \"SampleRovers\", \"finish\", \"collecting\"],\n  \"cues\": [\"after\", \"only after\", \"both\"],\n  \"trigger_text\": \"both SampleRovers finish collecting\",\n  \"response_text\": \"TransportAMR starts\"\n}\n```"
           },
           "graph_context": {
             "pattern": "sequential_workflow",
@@ -725,12 +725,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 5.341061115264893,
+            "timing": 4.787806272506714,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"query\": \"(SampleRover1.collecting_complete and SampleRover2.collecting_complete) --> TransportAMR.starting\",\n  \"explanation\": \"This query uses the sequential workflow pattern with the --> operator to express that TransportAMR starts only after both SampleRovers finish collecting. The left side checks that both rovers have completed collecting (the trigger condition), and the right side specifies that TransportAMR eventually starts (the response). The --> operator allows for the eventual sequential behavior where the transport action follows the completion of both collection tasks.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "raw_text": "```json\n{\n  \"query\": \"(SampleRover1.collecting_done and SampleRover2.collecting_done) --> TransportAMR.starting\",\n  \"explanation\": \"This query captures the sequential workflow where TransportAMR starts only after both SampleRover1 and SampleRover2 finish collecting. The conjunction of both rovers' completion states triggers the eventual start of TransportAMR using the --> operator for sequential dependency.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
             "uppaal_result": {
-              "query": "(SampleRover1.collecting_complete and SampleRover2.collecting_complete) --> TransportAMR.starting",
-              "explanation": "This query uses the sequential workflow pattern with the --> operator to express that TransportAMR starts only after both SampleRovers finish collecting. The left side checks that both rovers have completed collecting (the trigger condition), and the right side specifies that TransportAMR eventually starts (the response). The --> operator allows for the eventual sequential behavior where the transport action follows the completion of both collection tasks.",
+              "query": "(SampleRover1.collecting_done and SampleRover2.collecting_done) --> TransportAMR.starting",
+              "explanation": "This query captures the sequential workflow where TransportAMR starts only after both SampleRover1 and SampleRover2 finish collecting. The conjunction of both rovers' completion states triggers the eventual start of TransportAMR using the --> operator for sequential dependency.",
               "confidence": 0.9,
               "pattern_used": "sequential_workflow",
               "operator_used": [
@@ -741,9 +741,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "(SampleRover1.collecting_complete and SampleRover2.collecting_complete) --> TransportAMR.starting"
+            "query": "(SampleRover1.collecting_done and SampleRover2.collecting_done) --> TransportAMR.starting"
           },
-          "total_time": 9.336566925048828,
+          "total_time": 8.706345081329346,
           "success": true,
           "error": null,
           "constraint_index": 2
@@ -752,15 +752,15 @@
           "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
           "classification": {
             "step": "classification",
-            "timing": 3.6770992279052734,
+            "timing": 3.655646800994873,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"possible\", \"reach\", \"state\", \"all zones\", \"fertilized\", \"samples collected\"],\n  \"cues\": [\"always\", \"possible\", \"reach\", \"all",
+            "raw_text": "```json\n{\n  \"pattern\": \"existential_reachability\",\n  \"keywords\": [\"possible\", \"reach\", \"state\", \"all zones\", \"fertilized\", \"samples collected\"],\n  \"cues\": [\"possible\", \"reach\", \"all",
             "error": "Failed to parse JSON"
           },
           "graph_context": null,
           "generation": null,
           "validation": null,
-          "total_time": 3.677175998687744,
+          "total_time": 3.6557137966156006,
           "success": false,
           "error": "Classification failed",
           "constraint_index": 3
@@ -775,25 +775,25 @@
           "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
           "classification": {
             "step": "classification",
-            "timing": 1.9200849533081055,
+            "timing": 1.0902519226074219,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"SprayerDrone\", \"SurveyDrone\", \"starts\", \"marks\", \"safe\", \"after\"],\n  \"cues\": [\"after\", \"only after\"],\n  \"trigger_text\": \"SurveyDrone marks zone safe\",\n  \"response_text\": \"SprayerDrone starts\"\n}\n```"
+            "raw_text": "```json\n{\n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"SprayerDrone\", \"SurveyDrone\", \"starts\", \"marks zone safe\", \"after\"],\n  \"cues\": [\"after\", \"only\"],\n  \"trigger_text\": \"SurveyDrone marks zone safe\",\n  \"response_text\": \"SprayerDrone starts\"\n}\n```"
           },
           "graph_context": {
-            "pattern": "sequential_workflow",
+            "pattern": "conditional_response",
             "operators_count": 1,
             "examples_count": 3
           },
           "generation": {
             "step": "generation",
-            "timing": 1.7213146686553955,
+            "timing": 2.3478121757507324,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"query\": \"SurveyDrone.safe --> SprayerDrone.starts\",\n  \"explanation\": \"The constraint specifies a sequential workflow where SprayerDrone's start is triggered only after SurveyDrone marks the zone safe. The '-->' operator captures this eventual sequential dependency: the trigger event (SurveyDrone.safe) must occur before the response event (SprayerDrone.starts) can happen. The 'only after' cue reinforces this ordering constraint.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "raw_text": "```json\n{\n  \"query\": \"SurveyDrone.zone_marked_safe --> SprayerDrone.starts\",\n  \"explanation\": \"This constraint expresses a conditional response pattern where SprayerDrone's action (starts) is triggered only after SurveyDrone completes its action (marks zone safe). The '-->' operator captures the sequential workflow: the trigger condition (SurveyDrone.zone_marked_safe) must eventually lead to the response (SprayerDrone.starts). The word 'only after' indicates a conditional dependency that is not immediate but eventual, making '-->' the appropriate operator rather than imply.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}\n```",
             "uppaal_result": {
-              "query": "SurveyDrone.safe --> SprayerDrone.starts",
-              "explanation": "The constraint specifies a sequential workflow where SprayerDrone's start is triggered only after SurveyDrone marks the zone safe. The '-->' operator captures this eventual sequential dependency: the trigger event (SurveyDrone.safe) must occur before the response event (SprayerDrone.starts) can happen. The 'only after' cue reinforces this ordering constraint.",
-              "confidence": 0.92,
-              "pattern_used": "sequential_workflow",
+              "query": "SurveyDrone.zone_marked_safe --> SprayerDrone.starts",
+              "explanation": "This constraint expresses a conditional response pattern where SprayerDrone's action (starts) is triggered only after SurveyDrone completes its action (marks zone safe). The '-->' operator captures the sequential workflow: the trigger condition (SurveyDrone.zone_marked_safe) must eventually lead to the response (SprayerDrone.starts). The word 'only after' indicates a conditional dependency that is not immediate but eventual, making '-->' the appropriate operator rather than imply.",
+              "confidence": 0.9,
+              "pattern_used": "conditional_response",
               "operator_used": [
                 "-->"
               ]
@@ -802,9 +802,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "SurveyDrone.safe --> SprayerDrone.starts"
+            "query": "SurveyDrone.zone_marked_safe --> SprayerDrone.starts"
           },
-          "total_time": 3.6672911643981934,
+          "total_time": 3.4673118591308594,
           "success": true,
           "error": null,
           "constraint_index": 0
@@ -813,9 +813,9 @@
           "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
           "classification": {
             "step": "classification",
-            "timing": 1.5335211753845215,
+            "timing": 1.2233679294586182,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"never\", \"same zone\", \"simultaneously\", \"SampleRover1\", \"SampleRover2\", \"collect\"],\n  \"cues\": [\"never\"],\n  \"trigger_text\": \"SampleRover1 and SampleRover2 collect in same zone\",\n  \"response_text\": \"must not occur simultaneously\"\n}\n```"
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"never\", \"same zone\", \"simultaneously\", \"SampleRover1\", \"SampleRover2\", \"collect\"],\n  \"cues\": [\"never\"],\n  \"trigger_text\": \"SampleRover1 and SampleRover2 collect in same zone\",\n  \"response_text\": \"forbidden\"\n}\n```"
           },
           "graph_context": {
             "pattern": "forbidden_state",
@@ -824,13 +824,13 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 2.2161478996276855,
+            "timing": 1.626535177230835,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"query\": \"A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)\",\n  \"explanation\": \"This query enforces that it is never allowed for both SampleRover1 and SampleRover2 to be in the collecting state simultaneously while occupying the same zone. The A[] (for all paths, always) operator combined with negation ensures this forbidden state never occurs throughout any execution. This directly translates the natural language constraint that the two rovers 'must not occur simultaneously' when collecting in the same zone.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)\",\n  \"explanation\": \"This query enforces that it is never the case (A[] not) that both SampleRover1 and SampleRover2 are simultaneously collecting (collecting == true) while located in the same zone. This directly prevents the forbidden state where both rovers collect in the same zone at the same time.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
             "uppaal_result": {
               "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)",
-              "explanation": "This query enforces that it is never allowed for both SampleRover1 and SampleRover2 to be in the collecting state simultaneously while occupying the same zone. The A[] (for all paths, always) operator combined with negation ensures this forbidden state never occurs throughout any execution. This directly translates the natural language constraint that the two rovers 'must not occur simultaneously' when collecting in the same zone.",
-              "confidence": 0.92,
+              "explanation": "This query enforces that it is never the case (A[] not) that both SampleRover1 and SampleRover2 are simultaneously collecting (collecting == true) while located in the same zone. This directly prevents the forbidden state where both rovers collect in the same zone at the same time.",
+              "confidence": 0.9,
               "pattern_used": "forbidden_state",
               "operator_used": [
                 "A[]",
@@ -843,7 +843,7 @@
             "error": null,
             "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)"
           },
-          "total_time": 3.766408920288086,
+          "total_time": 2.8648087978363037,
           "success": true,
           "error": null,
           "constraint_index": 1
@@ -852,9 +852,9 @@
           "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
           "classification": {
             "step": "classification",
-            "timing": 1.1262011528015137,
+            "timing": 1.3004207611083984,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finish\", \"collecting\", \"dependency\"],\n  \"cues\": [\"after\", \"only\"],\n  \"trigger_text\": \"both SampleRovers finish collecting\",\n  \"response_text\": \"TransportAMR starts\"\n}\n```"
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finish\", \"collecting\", \"TransportAMR\", \"SampleRovers\"],\n  \"cues\": [\"after\", \"only after\"],\n  \"trigger_text\": \"both SampleRovers finish collecting\",\n  \"response_text\": \"TransportAMR starts\"\n}\n```"
           },
           "graph_context": {
             "pattern": "sequential_workflow",
@@ -863,13 +863,13 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 1.7226948738098145,
+            "timing": 2.872836112976074,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"query\": \"SampleRover1.collecting_done && SampleRover2.collecting_done --> TransportAMR.starts\",\n  \"explanation\": \"The constraint specifies that TransportAMR starts only after both SampleRovers finish collecting. This is a sequential workflow where the completion of collecting by both rovers (trigger) must precede the start of TransportAMR (response). The '-->' operator captures this eventual triggered behavior: once both rovers reach their collecting_done states, TransportAMR will eventually start.\",\n  \"confidence\": 0.88,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "raw_text": "```json\n{\n  \"query\": \"(SampleRover1.collecting_complete && SampleRover2.collecting_complete) --> TransportAMR.starts\",\n  \"explanation\": \"This query captures the sequential workflow where TransportAMR's start action is triggered only after both SampleRover1 and SampleRover2 have completed their collecting activities. The conjunction (&&) represents the requirement that both rovers must finish, and the --> operator represents the eventual sequential trigger of TransportAMR starting after this condition is met.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
             "uppaal_result": {
-              "query": "SampleRover1.collecting_done && SampleRover2.collecting_done --> TransportAMR.starts",
-              "explanation": "The constraint specifies that TransportAMR starts only after both SampleRovers finish collecting. This is a sequential workflow where the completion of collecting by both rovers (trigger) must precede the start of TransportAMR (response). The '-->' operator captures this eventual triggered behavior: once both rovers reach their collecting_done states, TransportAMR will eventually start.",
-              "confidence": 0.88,
+              "query": "(SampleRover1.collecting_complete && SampleRover2.collecting_complete) --> TransportAMR.starts",
+              "explanation": "This query captures the sequential workflow where TransportAMR's start action is triggered only after both SampleRover1 and SampleRover2 have completed their collecting activities. The conjunction (&&) represents the requirement that both rovers must finish, and the --> operator represents the eventual sequential trigger of TransportAMR starting after this condition is met.",
+              "confidence": 0.92,
               "pattern_used": "sequential_workflow",
               "operator_used": [
                 "-->"
@@ -879,9 +879,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "SampleRover1.collecting_done && SampleRover2.collecting_done --> TransportAMR.starts"
+            "query": "(SampleRover1.collecting_complete && SampleRover2.collecting_complete) --> TransportAMR.starts"
           },
-          "total_time": 2.8667309284210205,
+          "total_time": 4.184625864028931,
           "success": true,
           "error": null,
           "constraint_index": 2
@@ -890,25 +890,25 @@
           "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
           "classification": {
             "step": "classification",
-            "timing": 1.3854742050170898,
+            "timing": 2.452782154083252,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"reach\", \"state\", \"all zones\", \"fertilized\", \"samples collected\"],\n  \"cues\": [\"always possible\", \"reach\"],\n  \"trigger_text\": \"a state where all zones are fertilized and samples collected\",\n  \"response_text\": null\n}\n```"
+            "raw_text": "```json\n{\n  \"pattern\": \"existential_reachability\",\n  \"keywords\": [\n    \"always possible\",\n    \"reach a state\",\n    \"all zones fertilized\",\n    \"samples collected\"\n  ],\n  \"cues\": [\n    \"always\",\n    \"possible\",\n    \"reach\",\n    \"all\"\n  ],\n  \"trigger_text\": \"Always possible to reach a state where\",\n  \"response_text\": \"all zones are fertilized and samples collected\"\n}\n```"
           },
           "graph_context": {
-            "pattern": "reachability",
+            "pattern": "existential_reachability",
             "operators_count": 1,
             "examples_count": 2
           },
           "generation": {
             "step": "generation",
-            "timing": 1.5290920734405518,
+            "timing": 1.963665246963501,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"query\": \"E<> (all_zones_fertilized && samples_collected)\",\n  \"explanation\": \"The constraint states it is 'always possible to reach' a state with specific conditions. The reachability pattern with E<> operator checks if a state CAN be reached (is possible). The target state is defined by the conjunction of two conditions: all zones being fertilized AND samples being collected.\",\n  \"confidence\": 0.92,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}\n```",
+            "raw_text": "```json\n{\n  \"query\": \"E<> (SprayerDrone.all_zones_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)\",\n  \"explanation\": \"The constraint uses 'always possible to reach a state where', which indicates existential reachability (E<>). It asks if there exists at least one execution path where all zones are fertilized (SprayerDrone's responsibility) AND samples are collected (SampleRover1 and SampleRover2's responsibility). The E<> operator verifies that this goal state is reachable in at least one possible execution.\",\n  \"confidence\": 0.90,\n  \"pattern_used\": \"existential_reachability\",\n  \"operator_used\": [\"E<>\"]\n}\n```",
             "uppaal_result": {
-              "query": "E<> (all_zones_fertilized && samples_collected)",
-              "explanation": "The constraint states it is 'always possible to reach' a state with specific conditions. The reachability pattern with E<> operator checks if a state CAN be reached (is possible). The target state is defined by the conjunction of two conditions: all zones being fertilized AND samples being collected.",
-              "confidence": 0.92,
-              "pattern_used": "reachability",
+              "query": "E<> (SprayerDrone.all_zones_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)",
+              "explanation": "The constraint uses 'always possible to reach a state where', which indicates existential reachability (E<>). It asks if there exists at least one execution path where all zones are fertilized (SprayerDrone's responsibility) AND samples are collected (SampleRover1 and SampleRover2's responsibility). The E<> operator verifies that this goal state is reachable in at least one possible execution.",
+              "confidence": 0.9,
+              "pattern_used": "existential_reachability",
               "operator_used": [
                 "E<>"
               ]
@@ -917,9 +917,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "E<> (all_zones_fertilized && samples_collected)"
+            "query": "E<> (SprayerDrone.all_zones_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)"
           },
-          "total_time": 2.932487964630127,
+          "total_time": 4.454985857009888,
           "success": true,
           "error": null,
           "constraint_index": 3
@@ -934,9 +934,9 @@
           "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
           "classification": {
             "step": "classification",
-            "timing": 11.6029691696167,
+            "timing": 16.504026174545288,
             "tokens": 0,
-            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"starts\", \"after\", \"marks\"], \"cues\": [\"after\"], \"trigger_text\": \"SurveyDrone marks zone safe\", \"response_text\": \"SprayerDrone starts\"}"
+            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"starts only after\"], \"cues\": [\"only after\"], \"trigger_text\": \"SurveyDrone marks zone safe\", \"response_text\": \"SprayerDrone starts\"}"
           },
           "graph_context": {
             "pattern": "sequential_workflow",
@@ -945,12 +945,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 10.87031865119934,
+            "timing": 14.104732751846313,
             "tokens": 0,
-            "raw_text": "{\"query\": \"SurveyDrone.marks_zone_safe --> SprayerDrone.starts\", \"explanation\": \"The constraint specifies that SprayerDrone starts only after SurveyDrone marks the zone safe, fitting the sequential_workflow pattern where one action eventually triggers another, using the --> operator for eventual triggered behavior.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "raw_text": "{\"query\": \"SurveyDrone.marks_zone_safe --> SprayerDrone.starts\", \"explanation\": \"This query enforces a sequential workflow where SprayerDrone starts only after SurveyDrone marks the zone safe, using the eventual implication operator --> to indicate that the response occurs eventually following the trigger.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
             "uppaal_result": {
               "query": "SurveyDrone.marks_zone_safe --> SprayerDrone.starts",
-              "explanation": "The constraint specifies that SprayerDrone starts only after SurveyDrone marks the zone safe, fitting the sequential_workflow pattern where one action eventually triggers another, using the --> operator for eventual triggered behavior.",
+              "explanation": "This query enforces a sequential workflow where SprayerDrone starts only after SurveyDrone marks the zone safe, using the eventual implication operator --> to indicate that the response occurs eventually following the trigger.",
               "confidence": 0.85,
               "pattern_used": "sequential_workflow",
               "operator_used": [
@@ -963,7 +963,7 @@
             "error": null,
             "query": "SurveyDrone.marks_zone_safe --> SprayerDrone.starts"
           },
-          "total_time": 22.493530750274658,
+          "total_time": 30.674697875976562,
           "success": true,
           "error": null,
           "constraint_index": 0
@@ -972,9 +972,9 @@
           "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
           "classification": {
             "step": "classification",
-            "timing": 9.209040880203247,
+            "timing": 17.02531909942627,
             "tokens": 0,
-            "raw_text": "{\"pattern\": \"forbidden_state\", \"keywords\": [\"never\", \"simultaneously\"], \"cues\": [\"never\"]}"
+            "raw_text": "{\"pattern\":\"forbidden_state\",\"keywords\":[\"collect\",\"same zone\"],\"cues\":[\"never\",\"simultaneously\"]}"
           },
           "graph_context": {
             "pattern": "forbidden_state",
@@ -983,12 +983,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 14.638622999191284,
+            "timing": 35.29101490974426,
             "tokens": 0,
-            "raw_text": "{\"query\": \"A[] not (SampleRover1.collect && SampleRover2.collect && SampleRover1.zone == SampleRover2.zone)\", \"explanation\": \"The constraint specifies that the two sample rovers must never collect in the same zone simultaneously, which fits the forbidden_state pattern to prevent this bad state from ever occurring, using A[] not to ensure it's always not true.\", \"confidence\": 0.85, \"pattern_used\": \"forbidden_state\", \"operator_used\": [\"A[]\", \"not\"]}",
+            "raw_text": "{\"query\": \"A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)\", \"explanation\": \"This query matches the forbidden_state pattern by ensuring that the state where both SampleRover1 and SampleRover2 are collecting in the same zone never occurs, using the A[] operator for global invariance and not for negation.\", \"confidence\": 0.85, \"pattern_used\": \"forbidden_state\", \"operator_used\": [\"A[]\", \"not\"]}",
             "uppaal_result": {
-              "query": "A[] not (SampleRover1.collect && SampleRover2.collect && SampleRover1.zone == SampleRover2.zone)",
-              "explanation": "The constraint specifies that the two sample rovers must never collect in the same zone simultaneously, which fits the forbidden_state pattern to prevent this bad state from ever occurring, using A[] not to ensure it's always not true.",
+              "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)",
+              "explanation": "This query matches the forbidden_state pattern by ensuring that the state where both SampleRover1 and SampleRover2 are collecting in the same zone never occurs, using the A[] operator for global invariance and not for negation.",
               "confidence": 0.85,
               "pattern_used": "forbidden_state",
               "operator_used": [
@@ -1000,9 +1000,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "A[] not (SampleRover1.collect && SampleRover2.collect && SampleRover1.zone == SampleRover2.zone)"
+            "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)"
           },
-          "total_time": 23.88008189201355,
+          "total_time": 52.335139751434326,
           "success": true,
           "error": null,
           "constraint_index": 1
@@ -1011,9 +1011,9 @@
           "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
           "classification": {
             "step": "classification",
-            "timing": 13.023319005966187,
+            "timing": 15.019811153411865,
             "tokens": 0,
-            "raw_text": "{\"pattern\": \"sequential_workflow\", \"keywords\": [\"starts\", \"after\", \"finish\"], \"cues\": [\"after\"], \"trigger_text\": \"both SampleRovers finish collecting\", \"response_text\": \"TransportAMR starts\"}"
+            "raw_text": "{\"pattern\":\"sequential_workflow\",\"keywords\":[\"starts\",\"only\",\"after\",\"finish\",\"collecting\"],\"cues\":[\"after\",\"only\"],\"trigger_text\":\"both SampleRovers finish collecting\",\"response_text\":\"TransportAMR starts\"}"
           },
           "graph_context": {
             "pattern": "sequential_workflow",
@@ -1022,12 +1022,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 14.859243869781494,
+            "timing": 18.934727907180786,
             "tokens": 0,
-            "raw_text": "{\"query\": \"SampleRover1.collecting_complete && SampleRover2.collecting_complete --> TransportAMR.starting\", \"explanation\": \"The constraint specifies that TransportAMR starts only after both SampleRovers finish collecting, which fits the sequential_workflow pattern where one action (both rovers finishing) eventually leads to another (TransportAMR starting). The leadsto operator ensures eventual response after the combined trigger.\", \"confidence\": 0.85, \"pattern_used\": \"sequential_workflow\", \"operator_used\": [\"-->\"]}",
+            "raw_text": "{\n  \"query\": \"(SampleRover1.collecting_done and SampleRover2.collecting_done) --> TransportAMR.starting\",\n  \"explanation\": \"The constraint specifies that TransportAMR starts only after both SampleRover1 and SampleRover2 finish collecting, which matches the sequential_workflow pattern where the trigger is the completion of both collecting actions leading eventually to TransportAMR starting.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
             "uppaal_result": {
-              "query": "SampleRover1.collecting_complete && SampleRover2.collecting_complete --> TransportAMR.starting",
-              "explanation": "The constraint specifies that TransportAMR starts only after both SampleRovers finish collecting, which fits the sequential_workflow pattern where one action (both rovers finishing) eventually leads to another (TransportAMR starting). The leadsto operator ensures eventual response after the combined trigger.",
+              "query": "(SampleRover1.collecting_done and SampleRover2.collecting_done) --> TransportAMR.starting",
+              "explanation": "The constraint specifies that TransportAMR starts only after both SampleRover1 and SampleRover2 finish collecting, which matches the sequential_workflow pattern where the trigger is the completion of both collecting actions leading eventually to TransportAMR starting.",
               "confidence": 0.85,
               "pattern_used": "sequential_workflow",
               "operator_used": [
@@ -1038,9 +1038,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "SampleRover1.collecting_complete && SampleRover2.collecting_complete --> TransportAMR.starting"
+            "query": "(SampleRover1.collecting_done and SampleRover2.collecting_done) --> TransportAMR.starting"
           },
-          "total_time": 27.90277600288391,
+          "total_time": 33.978965044021606,
           "success": true,
           "error": null,
           "constraint_index": 2
@@ -1049,36 +1049,36 @@
           "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
           "classification": {
             "step": "classification",
-            "timing": 13.658915758132935,
+            "timing": 29.69234609603882,
             "tokens": 0,
-            "raw_text": "{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"reach\", \"state\", \"zones\", \"fertilized\", \"samples\", \"collected\"],\n  \"cues\": [\"always\", \"possible\", \"reach\", \"state\"]\n}"
+            "raw_text": "{\"pattern\": \"universal_reachability\", \"keywords\": [\"reach\", \"state\", \"always\", \"possible\", \"zones\", \"fertilized\", \"samples\", \"collected\"], \"cues\": [\"always\", \"possible\"]}"
           },
           "graph_context": {
-            "pattern": "reachability",
+            "pattern": "universal_reachability",
             "operators_count": 1,
-            "examples_count": 2
+            "examples_count": 3
           },
           "generation": {
             "step": "generation",
-            "timing": 31.03690791130066,
+            "timing": 62.95563077926636,
             "tokens": 0,
-            "raw_text": "{\"query\": \"A[] true --> E<> (all_zones_fertilized && samples_collected)\", \"explanation\": \"The constraint requires that it is always possible to reach a state where all zones are fertilized and samples are collected. The query uses A[] to ensure this holds globally, true --> to imply the possibility, and E<> to check if such a state is reachable in some execution path.\", \"confidence\": 0.85, \"pattern_used\": \"reachability\", \"operator_used\": [\"-->\"]}",
+            "raw_text": "{\"query\": \"A<> (SprayerDrone.zones_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)\", \"explanation\": \"The constraint requires that from any state, it is always possible to eventually reach a state where all zones are fertilized (by SprayerDrone) and samples are collected (by SampleRover1 and SampleRover2). This matches the universal_reachability pattern using A<> to check global liveness for guaranteed reachability.\", \"confidence\": 0.85, \"pattern_used\": \"universal_reachability\", \"operator_used\": [\"A<>\"]}",
             "uppaal_result": {
-              "query": "A[] true --> E<> (all_zones_fertilized && samples_collected)",
-              "explanation": "The constraint requires that it is always possible to reach a state where all zones are fertilized and samples are collected. The query uses A[] to ensure this holds globally, true --> to imply the possibility, and E<> to check if such a state is reachable in some execution path.",
+              "query": "A<> (SprayerDrone.zones_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)",
+              "explanation": "The constraint requires that from any state, it is always possible to eventually reach a state where all zones are fertilized (by SprayerDrone) and samples are collected (by SampleRover1 and SampleRover2). This matches the universal_reachability pattern using A<> to check global liveness for guaranteed reachability.",
               "confidence": 0.85,
-              "pattern_used": "reachability",
+              "pattern_used": "universal_reachability",
               "operator_used": [
-                "-->"
+                "A<>"
               ]
             }
           },
           "validation": {
-            "valid": false,
-            "error": "Validation error: sequence item 0: expected str instance, dict found",
-            "query": "A[] true --> E<> (all_zones_fertilized && samples_collected)"
+            "valid": true,
+            "error": null,
+            "query": "A<> (SprayerDrone.zones_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)"
           },
-          "total_time": 44.72102499008179,
+          "total_time": 95.64088296890259,
           "success": true,
           "error": null,
           "constraint_index": 3
@@ -1093,9 +1093,9 @@
           "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
           "classification": {
             "step": "classification",
-            "timing": 8.412187099456787,
+            "timing": 12.3788480758667,
             "tokens": 0,
-            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"SprayerDrone\", \"starts\", \"after\", \"SurveyDrone\", \"marks\", \"zone\", \"safe\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"SurveyDrone marks zone safe\",\n  \"response_text\": \"SprayerDrone starts\"\n}"
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"SprayerDrone\", \"starts\", \"SurveyDrone\", \"marks\", \"zone\", \"safe\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"SurveyDrone marks zone safe\",\n  \"response_text\": \"SprayerDrone starts\"\n}"
           },
           "graph_context": {
             "pattern": "sequential_workflow",
@@ -1104,12 +1104,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 6.93279504776001,
+            "timing": 7.217479944229126,
             "tokens": 0,
-            "raw_text": "{\n  \"query\": \"SurveyDrone.marks_zone_safe --> SprayerDrone.starts\",\n  \"explanation\": \"This query uses the sequential_workflow pattern to ensure that SprayerDrone starts only after SurveyDrone marks the zone safe, matching the constraint's 'after' cue for an eventual response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "raw_text": "{\n  \"query\": \"SurveyDrone.marks_zone_safe --> SprayerDrone.starts\",\n  \"explanation\": \"This query uses the --> operator to represent that SprayerDrone.starts occurs only after SurveyDrone.marks_zone_safe, aligning with the sequential_workflow pattern where one action eventually follows another, as indicated by the 'after' cue in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
             "uppaal_result": {
               "query": "SurveyDrone.marks_zone_safe --> SprayerDrone.starts",
-              "explanation": "This query uses the sequential_workflow pattern to ensure that SprayerDrone starts only after SurveyDrone marks the zone safe, matching the constraint's 'after' cue for an eventual response.",
+              "explanation": "This query uses the --> operator to represent that SprayerDrone.starts occurs only after SurveyDrone.marks_zone_safe, aligning with the sequential_workflow pattern where one action eventually follows another, as indicated by the 'after' cue in the constraint.",
               "confidence": 0.85,
               "pattern_used": "sequential_workflow",
               "operator_used": [
@@ -1122,7 +1122,7 @@
             "error": null,
             "query": "SurveyDrone.marks_zone_safe --> SprayerDrone.starts"
           },
-          "total_time": 15.373695135116577,
+          "total_time": 19.619589805603027,
           "success": true,
           "error": null,
           "constraint_index": 0
@@ -1131,9 +1131,9 @@
           "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
           "classification": {
             "step": "classification",
-            "timing": 6.877479791641235,
+            "timing": 6.3220179080963135,
             "tokens": 0,
-            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"never\", \"collect\", \"same zone\", \"simultaneously\"],\n  \"cues\": [\"never\"]\n}"
+            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"never\", \"collect\", \"same zone\", \"simultaneously\"],\n  \"cues\": [\"never\", \"simultaneously\"]\n}"
           },
           "graph_context": {
             "pattern": "forbidden_state",
@@ -1142,12 +1142,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 8.437246084213257,
+            "timing": 10.458426237106323,
             "tokens": 0,
-            "raw_text": "{\n  \"query\": \"A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)\",\n  \"explanation\": \"This query uses the A[] not operator to ensure that the forbidden state, where both SampleRover1 and SampleRover2 are collecting in the same zone simultaneously, never occurs, directly matching the forbidden_state pattern for the given constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
+            "raw_text": "{\n  \"query\": \"A[] not (SampleRover1.isCollecting && SampleRover2.isCollecting && SampleRover1.zone == SampleRover2.zone)\",\n  \"explanation\": \"This query uses the A[] operator to ensure that the forbidden state, where SampleRover1 and SampleRover2 are collecting in the same zone simultaneously, never occurs, directly matching the constraint and the forbidden_state pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"-->\"]\n}",
             "uppaal_result": {
-              "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)",
-              "explanation": "This query uses the A[] not operator to ensure that the forbidden state, where both SampleRover1 and SampleRover2 are collecting in the same zone simultaneously, never occurs, directly matching the forbidden_state pattern for the given constraint.",
+              "query": "A[] not (SampleRover1.isCollecting && SampleRover2.isCollecting && SampleRover1.zone == SampleRover2.zone)",
+              "explanation": "This query uses the A[] operator to ensure that the forbidden state, where SampleRover1 and SampleRover2 are collecting in the same zone simultaneously, never occurs, directly matching the constraint and the forbidden_state pattern.",
               "confidence": 0.85,
               "pattern_used": "forbidden_state",
               "operator_used": [
@@ -1158,9 +1158,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)"
+            "query": "A[] not (SampleRover1.isCollecting && SampleRover2.isCollecting && SampleRover1.zone == SampleRover2.zone)"
           },
-          "total_time": 15.335088729858398,
+          "total_time": 16.805469036102295,
           "success": true,
           "error": null,
           "constraint_index": 1
@@ -1169,9 +1169,9 @@
           "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
           "classification": {
             "step": "classification",
-            "timing": 6.750571012496948,
+            "timing": 6.77339506149292,
             "tokens": 0,
-            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"TransportAMR\", \"SampleRovers\", \"starts\", \"finish\", \"collecting\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"both SampleRovers finish collecting\",\n  \"response_text\": \"TransportAMR starts\"\n}"
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\", \"finish\", \"collecting\", \"TransportAMR\", \"SampleRovers\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"both SampleRovers finish collecting\",\n  \"response_text\": \"TransportAMR starts\"\n}"
           },
           "graph_context": {
             "pattern": "sequential_workflow",
@@ -1180,12 +1180,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 9.610897064208984,
+            "timing": 8.59083890914917,
             "tokens": 0,
-            "raw_text": "{\n  \"query\": \"(SampleRover1.collecting_finished && SampleRover2.collecting_finished) --> TransportAMR.starts\",\n  \"explanation\": \"This query matches the constraint by using the --> operator to ensure that TransportAMR starts only after both SampleRovers have finished collecting, following the sequential_workflow pattern where one action eventually follows another.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "raw_text": "{\n  \"query\": \"(SampleRover1.collecting_finished && SampleRover2.collecting_finished) --> TransportAMR.start\",\n  \"explanation\": \"This query matches the constraint by using the sequential_workflow pattern, where the completion of collecting by both SampleRover1 and SampleRover2 (combined with &&) eventually leads to TransportAMR starting, ensuring the 'after' relationship as specified.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
             "uppaal_result": {
-              "query": "(SampleRover1.collecting_finished && SampleRover2.collecting_finished) --> TransportAMR.starts",
-              "explanation": "This query matches the constraint by using the --> operator to ensure that TransportAMR starts only after both SampleRovers have finished collecting, following the sequential_workflow pattern where one action eventually follows another.",
+              "query": "(SampleRover1.collecting_finished && SampleRover2.collecting_finished) --> TransportAMR.start",
+              "explanation": "This query matches the constraint by using the sequential_workflow pattern, where the completion of collecting by both SampleRover1 and SampleRover2 (combined with &&) eventually leads to TransportAMR starting, ensuring the 'after' relationship as specified.",
               "confidence": 0.85,
               "pattern_used": "sequential_workflow",
               "operator_used": [
@@ -1196,9 +1196,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "(SampleRover1.collecting_finished && SampleRover2.collecting_finished) --> TransportAMR.starts"
+            "query": "(SampleRover1.collecting_finished && SampleRover2.collecting_finished) --> TransportAMR.start"
           },
-          "total_time": 16.378278732299805,
+          "total_time": 15.386993885040283,
           "success": true,
           "error": null,
           "constraint_index": 2
@@ -1207,195 +1207,36 @@
           "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
           "classification": {
             "step": "classification",
-            "timing": 6.433470964431763,
+            "timing": 10.52607011795044,
             "tokens": 0,
-            "raw_text": "{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"always\", \"possible\", \"reach\", \"state\", \"zones\", \"fertilized\", \"samples\", \"collected\"],\n  \"cues\": [\"always\", \"possible\", \"reach\"]\n}"
+            "raw_text": "{\n  \"pattern\": \"universal_reachability\",\n  \"keywords\": [\"always\", \"possible\", \"reach\", \"state\", \"zones\", \"fertilized\", \"samples\", \"collected\"],\n  \"cues\": [\"always\"]\n}"
           },
           "graph_context": {
-            "pattern": "reachability",
-            "operators_count": 1,
-            "examples_count": 2
-          },
-          "generation": {
-            "step": "generation",
-            "timing": 12.971497774124146,
-            "tokens": 0,
-            "raw_text": "{\n  \"query\": \"E<> (all_zones_fertilized && all_samples_collected)\",\n  \"explanation\": \"The query uses the reachability pattern to check if it is possible to reach the state where all zones are fertilized and all samples are collected, which directly matches the constraint's requirement for such a state being possible.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}",
-            "uppaal_result": {
-              "query": "E<> (all_zones_fertilized && all_samples_collected)",
-              "explanation": "The query uses the reachability pattern to check if it is possible to reach the state where all zones are fertilized and all samples are collected, which directly matches the constraint's requirement for such a state being possible.",
-              "confidence": 0.85,
-              "pattern_used": "reachability",
-              "operator_used": [
-                "E<>"
-              ]
-            }
-          },
-          "validation": {
-            "valid": true,
-            "error": null,
-            "query": "E<> (all_zones_fertilized && all_samples_collected)"
-          },
-          "total_time": 19.420372009277344,
-          "success": true,
-          "error": null,
-          "constraint_index": 3
-        }
-      ]
-    },
-    {
-      "provider": "deepseek",
-      "model": "deepseek-reasoner",
-      "results": [
-        {
-          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
-          "classification": {
-            "step": "classification",
-            "timing": 45.596521854400635,
-            "tokens": 0,
-            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"SprayerDrone\", \"starts\", \"SurveyDrone\", \"marks\", \"zone\", \"safe\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"SurveyDrone marks zone safe\",\n  \"response_text\": \"SprayerDrone starts\"\n}"
-          },
-          "graph_context": {
-            "pattern": "sequential_workflow",
+            "pattern": "universal_reachability",
             "operators_count": 1,
             "examples_count": 3
           },
           "generation": {
             "step": "generation",
-            "timing": 71.00018692016602,
+            "timing": 17.598697185516357,
             "tokens": 0,
-            "raw_text": "{\n  \"query\": \"SurveyDrone.safe_marked --> SprayerDrone.start\",\n  \"explanation\": \"This query matches the constraint 'SprayerDrone starts only after SurveyDrone marks zone safe' by using the sequential_workflow pattern, which is indicated by the cue 'after' and keywords. The trigger event 'SurveyDrone marks zone safe' is modeled as 'SurveyDrone.safe_marked', and the response 'SprayerDrone starts' as 'SprayerDrone.start'. The '-->' operator is used to express that the response eventually follows the trigger, accounting for possible delays as per the pattern description.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "raw_text": "{\n  \"query\": \"A<> (all_zones_fertilized && all_samples_collected)\",\n  \"explanation\": \"The query uses the A<> operator to verify that from any state, it is always possible to eventually reach the state where all zones are fertilized and all samples are collected, directly matching the universal reachability pattern for the given constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"universal_reachability\",\n  \"operator_used\": [\"A<>\"]\n}",
             "uppaal_result": {
-              "query": "SurveyDrone.safe_marked --> SprayerDrone.start",
-              "explanation": "This query matches the constraint 'SprayerDrone starts only after SurveyDrone marks zone safe' by using the sequential_workflow pattern, which is indicated by the cue 'after' and keywords. The trigger event 'SurveyDrone marks zone safe' is modeled as 'SurveyDrone.safe_marked', and the response 'SprayerDrone starts' as 'SprayerDrone.start'. The '-->' operator is used to express that the response eventually follows the trigger, accounting for possible delays as per the pattern description.",
+              "query": "A<> (all_zones_fertilized && all_samples_collected)",
+              "explanation": "The query uses the A<> operator to verify that from any state, it is always possible to eventually reach the state where all zones are fertilized and all samples are collected, directly matching the universal reachability pattern for the given constraint.",
               "confidence": 0.85,
-              "pattern_used": "sequential_workflow",
+              "pattern_used": "universal_reachability",
               "operator_used": [
-                "-->"
+                "A<>"
               ]
             }
           },
           "validation": {
             "valid": true,
             "error": null,
-            "query": "SurveyDrone.safe_marked --> SprayerDrone.start"
+            "query": "A<> (all_zones_fertilized && all_samples_collected)"
           },
-          "total_time": 116.62492990493774,
-          "success": true,
-          "error": null,
-          "constraint_index": 0
-        },
-        {
-          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
-          "classification": {
-            "step": "classification",
-            "timing": 39.66129922866821,
-            "tokens": 0,
-            "raw_text": "{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\"SampleRover1\", \"SampleRover2\", \"collect\", \"zone\", \"simultaneously\"],\n  \"cues\": [\"never\"]\n}"
-          },
-          "graph_context": {
-            "pattern": "forbidden_state",
-            "operators_count": 2,
-            "examples_count": 3
-          },
-          "generation": {
-            "step": "generation",
-            "timing": 89.0924551486969,
-            "tokens": 0,
-            "raw_text": "{\n  \"query\": \"A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)\",\n  \"explanation\": \"This query matches the constraint 'SampleRover1 and SampleRover2 never collect in same zone simultaneously' because it uses the forbidden_state pattern with the cue 'never'. The bad state is defined as both rovers collecting while in the same zone, encapsulated in the condition. The template A[] not(bad_state) ensures this state never occurs, aligning with the safety property required.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}",
-            "uppaal_result": {
-              "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)",
-              "explanation": "This query matches the constraint 'SampleRover1 and SampleRover2 never collect in same zone simultaneously' because it uses the forbidden_state pattern with the cue 'never'. The bad state is defined as both rovers collecting while in the same zone, encapsulated in the condition. The template A[] not(bad_state) ensures this state never occurs, aligning with the safety property required.",
-              "confidence": 0.85,
-              "pattern_used": "forbidden_state",
-              "operator_used": [
-                "A[]",
-                "not"
-              ]
-            }
-          },
-          "validation": {
-            "valid": true,
-            "error": null,
-            "query": "A[] not (SampleRover1.collecting && SampleRover2.collecting && SampleRover1.zone == SampleRover2.zone)"
-          },
-          "total_time": 128.78717231750488,
-          "success": true,
-          "error": null,
-          "constraint_index": 1
-        },
-        {
-          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
-          "classification": {
-            "step": "classification",
-            "timing": 32.48416590690613,
-            "tokens": 0,
-            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"TransportAMR\", \"starts\", \"after\", \"SampleRovers\", \"finish\", \"collecting\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"both SampleRovers finish collecting\",\n  \"response_text\": \"TransportAMR starts\"\n}"
-          },
-          "graph_context": {
-            "pattern": "sequential_workflow",
-            "operators_count": 1,
-            "examples_count": 3
-          },
-          "generation": {
-            "step": "generation",
-            "timing": 57.3435640335083,
-            "tokens": 0,
-            "raw_text": "{\n  \"query\": \"SampleRovers.collecting_finished --> TransportAMR.starts\",\n  \"explanation\": \"This query uses the sequential_workflow pattern with the --> operator to specify that once both SampleRovers finish collecting (modeled as a single event or state 'collecting_finished'), TransportAMR will eventually start. It matches the constraint 'TransportAMR starts only after both SampleRovers finish collecting' by ensuring the start is triggered after the completion of both rovers' actions, similar to provided examples like 'InspectorDrone.inspection_complete --> Welder.welding'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
-            "uppaal_result": {
-              "query": "SampleRovers.collecting_finished --> TransportAMR.starts",
-              "explanation": "This query uses the sequential_workflow pattern with the --> operator to specify that once both SampleRovers finish collecting (modeled as a single event or state 'collecting_finished'), TransportAMR will eventually start. It matches the constraint 'TransportAMR starts only after both SampleRovers finish collecting' by ensuring the start is triggered after the completion of both rovers' actions, similar to provided examples like 'InspectorDrone.inspection_complete --> Welder.welding'.",
-              "confidence": 0.85,
-              "pattern_used": "sequential_workflow",
-              "operator_used": [
-                "-->"
-              ]
-            }
-          },
-          "validation": {
-            "valid": true,
-            "error": null,
-            "query": "SampleRovers.collecting_finished --> TransportAMR.starts"
-          },
-          "total_time": 89.85376787185669,
-          "success": true,
-          "error": null,
-          "constraint_index": 2
-        },
-        {
-          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
-          "classification": {
-            "step": "classification",
-            "timing": 62.65281796455383,
-            "tokens": 0,
-            "raw_text": "{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"reach\", \"state\", \"zones\", \"fertilized\", \"samples\", \"collected\"],\n  \"cues\": [\"always\", \"where\"]\n}"
-          },
-          "graph_context": {
-            "pattern": "reachability",
-            "operators_count": 1,
-            "examples_count": 2
-          },
-          "generation": {
-            "step": "generation",
-            "timing": 91.4554398059845,
-            "tokens": 0,
-            "raw_text": "{\n  \"query\": \"E<> (all_zones_fertilized && samples_collected)\",\n  \"explanation\": \"The constraint 'Always possible to reach a state where all zones are fertilized and samples collected' focuses on the possibility of reaching a target state. The UPPAAL query E<> (all_zones_fertilized && samples_collected) uses the reachability pattern to check if there exists a path where eventually the condition all_zones_fertilized && samples_collected holds, which directly corresponds to the 'possible to reach' aspect. The word 'always' in the natural language might imply a stronger condition, but the pattern and similar examples indicate E<> is appropriate for expressing possibility.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}",
-            "uppaal_result": {
-              "query": "E<> (all_zones_fertilized && samples_collected)",
-              "explanation": "The constraint 'Always possible to reach a state where all zones are fertilized and samples collected' focuses on the possibility of reaching a target state. The UPPAAL query E<> (all_zones_fertilized && samples_collected) uses the reachability pattern to check if there exists a path where eventually the condition all_zones_fertilized && samples_collected holds, which directly corresponds to the 'possible to reach' aspect. The word 'always' in the natural language might imply a stronger condition, but the pattern and similar examples indicate E<> is appropriate for expressing possibility.",
-              "confidence": 0.85,
-              "pattern_used": "reachability",
-              "operator_used": [
-                "E<>"
-              ]
-            }
-          },
-          "validation": {
-            "valid": true,
-            "error": null,
-            "query": "E<> (all_zones_fertilized && samples_collected)"
-          },
-          "total_time": 154.13609528541565,
+          "total_time": 28.144196033477783,
           "success": true,
           "error": null,
           "constraint_index": 3
@@ -1410,9 +1251,9 @@
           "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
           "classification": {
             "step": "classification",
-            "timing": 0.9012088775634766,
+            "timing": 1.5253050327301025,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"sprayerdrone\", \"surveydrone\", \"start\", \"after\", \"mark\", \"safe\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"SurveyDrone marks zone safe\",\n  \"response_text\": \"SprayerDrone starts\"\n}\n```"
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"drone\", \"start\", \"after\", \"mark\", \"safe\", \"sprayer\", \"survey\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"SurveyDrone marks zone safe\",\n  \"response_text\": \"SprayerDrone starts\"\n}\n```"
           },
           "graph_context": {
             "pattern": "sequential_workflow",
@@ -1421,12 +1262,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 1.2322161197662354,
+            "timing": 1.4198191165924072,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"query\": \"SurveyDrone.mark_safe --> SprayerDrone.start\",\n  \"explanation\": \"The constraint states that the 'SprayerDrone starts only after SurveyDrone marks zone safe', which indicates a sequential workflow where 'SurveyDrone.mark_safe' precedes 'SprayerDrone.start'. Therefore, the '-->' operator (eventually follows) is the correct choice to represent this behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "raw_text": "```json\n{\n  \"query\": \"SurveyDrone.mark_safe --> SprayerDrone.start\",\n  \"explanation\": \"The constraint 'SprayerDrone starts only after SurveyDrone marks zone safe' describes a sequential workflow. The SurveyDrone marking the zone safe eventually leads to the SprayerDrone starting. The '-->' operator represents this eventual triggering behavior.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
             "uppaal_result": {
               "query": "SurveyDrone.mark_safe --> SprayerDrone.start",
-              "explanation": "The constraint states that the 'SprayerDrone starts only after SurveyDrone marks zone safe', which indicates a sequential workflow where 'SurveyDrone.mark_safe' precedes 'SprayerDrone.start'. Therefore, the '-->' operator (eventually follows) is the correct choice to represent this behavior.",
+              "explanation": "The constraint 'SprayerDrone starts only after SurveyDrone marks zone safe' describes a sequential workflow. The SurveyDrone marking the zone safe eventually leads to the SprayerDrone starting. The '-->' operator represents this eventual triggering behavior.",
               "confidence": 0.85,
               "pattern_used": "sequential_workflow",
               "operator_used": [
@@ -1439,7 +1280,7 @@
             "error": null,
             "query": "SurveyDrone.mark_safe --> SprayerDrone.start"
           },
-          "total_time": 2.1605758666992188,
+          "total_time": 2.9682209491729736,
           "success": true,
           "error": null,
           "constraint_index": 0
@@ -1448,9 +1289,9 @@
           "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
           "classification": {
             "step": "classification",
-            "timing": 0.9705569744110107,
+            "timing": 0.9030539989471436,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"never\",\n    \"simultaneously\",\n    \"same zone\",\n    \"collection\",\n    \"SampleRover1\",\n    \"SampleRover2\"\n  ],\n  \"cues\": [\n    \"never\",\n    \"simultaneously\"\n  ]\n}\n```"
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"SampleRover1\",\n    \"SampleRover2\",\n    \"zone\",\n    \"simultaneously\"\n  ],\n  \"cues\": [\n    \"never\"\n  ]\n}\n```"
           },
           "graph_context": {
             "pattern": "forbidden_state",
@@ -1459,12 +1300,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 1.436439037322998,
+            "timing": 1.3256797790527344,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"query\": \"A[] not (SampleRover1.zone == SampleRover2.zone)\",\n  \"explanation\": \"The constraint states that SampleRover1 and SampleRover2 should never be in the same zone simultaneously. This is a 'forbidden_state' pattern, which translates to 'A[] not (bad_state)'. Here, the 'bad_state' is 'SampleRover1.zone == SampleRover2.zone'. Thus, the UPPAAL query becomes 'A[] not (SampleRover1.zone == SampleRover2.zone)'.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (SampleRover1.zone == SampleRover2.zone)\",\n  \"explanation\": \"The constraint states that SampleRover1 and SampleRover2 should never be in the same zone at the same time. This is a 'forbidden_state' pattern. The A[] operator means 'always' and the 'not' operator negates the condition inside the parenthesis. Therefore, the query A[] not (SampleRover1.zone == SampleRover2.zone) asserts that it is always false that SampleRover1 and SampleRover2 are in the same zone.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\"A[]\", \"not\"]\n}\n```",
             "uppaal_result": {
               "query": "A[] not (SampleRover1.zone == SampleRover2.zone)",
-              "explanation": "The constraint states that SampleRover1 and SampleRover2 should never be in the same zone simultaneously. This is a 'forbidden_state' pattern, which translates to 'A[] not (bad_state)'. Here, the 'bad_state' is 'SampleRover1.zone == SampleRover2.zone'. Thus, the UPPAAL query becomes 'A[] not (SampleRover1.zone == SampleRover2.zone)'.",
+              "explanation": "The constraint states that SampleRover1 and SampleRover2 should never be in the same zone at the same time. This is a 'forbidden_state' pattern. The A[] operator means 'always' and the 'not' operator negates the condition inside the parenthesis. Therefore, the query A[] not (SampleRover1.zone == SampleRover2.zone) asserts that it is always false that SampleRover1 and SampleRover2 are in the same zone.",
               "confidence": 0.85,
               "pattern_used": "forbidden_state",
               "operator_used": [
@@ -1478,7 +1319,7 @@
             "error": null,
             "query": "A[] not (SampleRover1.zone == SampleRover2.zone)"
           },
-          "total_time": 2.427639961242676,
+          "total_time": 2.246338129043579,
           "success": true,
           "error": null,
           "constraint_index": 1
@@ -1487,9 +1328,9 @@
           "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
           "classification": {
             "step": "classification",
-            "timing": 1.4197940826416016,
+            "timing": 1.2130460739135742,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"start\", \"after\", \"finish\", \"collect\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"SampleRovers finish collecting\",\n  \"response_text\": \"TransportAMR starts\"\n}\n```"
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"start\",\n    \"after\",\n    \"finish\",\n    \"collecting\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"SampleRovers finish collecting\",\n  \"response_text\": \"TransportAMR starts\"\n}\n```"
           },
           "graph_context": {
             "pattern": "sequential_workflow",
@@ -1498,12 +1339,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 1.0524077415466309,
+            "timing": 1.4221808910369873,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"query\": \"SampleRovers.collecting_finished --> TransportAMR.starting\",\n  \"explanation\": \"The constraint specifies a sequential workflow where TransportAMR starting is triggered after SampleRovers finish collecting. The '-->' operator models this eventual trigger.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
+            "raw_text": "```json\n{\n  \"query\": \"(SampleRover1.collecting_done && SampleRover2.collecting_done) --> TransportAMR.start\",\n  \"explanation\": \"The constraint 'TransportAMR starts only after both SampleRovers finish collecting' fits the sequential_workflow pattern. The query uses '-->' to express that TransportAMR.start will eventually be true after both SampleRovers have their collecting_done flag set to true. The condition (SampleRover1.collecting_done && SampleRover2.collecting_done) represents that both robots have finished collecting.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}\n```",
             "uppaal_result": {
-              "query": "SampleRovers.collecting_finished --> TransportAMR.starting",
-              "explanation": "The constraint specifies a sequential workflow where TransportAMR starting is triggered after SampleRovers finish collecting. The '-->' operator models this eventual trigger.",
+              "query": "(SampleRover1.collecting_done && SampleRover2.collecting_done) --> TransportAMR.start",
+              "explanation": "The constraint 'TransportAMR starts only after both SampleRovers finish collecting' fits the sequential_workflow pattern. The query uses '-->' to express that TransportAMR.start will eventually be true after both SampleRovers have their collecting_done flag set to true. The condition (SampleRover1.collecting_done && SampleRover2.collecting_done) represents that both robots have finished collecting.",
               "confidence": 0.85,
               "pattern_used": "sequential_workflow",
               "operator_used": [
@@ -1514,9 +1355,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "SampleRovers.collecting_finished --> TransportAMR.starting"
+            "query": "(SampleRover1.collecting_done && SampleRover2.collecting_done) --> TransportAMR.start"
           },
-          "total_time": 2.4876699447631836,
+          "total_time": 2.655097007751465,
           "success": true,
           "error": null,
           "constraint_index": 2
@@ -1525,25 +1366,25 @@
           "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
           "classification": {
             "step": "classification",
-            "timing": 0.8124721050262451,
+            "timing": 1.150773048400879,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\"possible\", \"reach\", \"state\", \"fertilized\", \"samples collected\"],\n  \"cues\": [\"possible\"],\n  \"trigger_text\": \"always possible\",\n  \"response_text\": \"state where all zones are fertilized and samples collected\"\n}\n```"
+            "raw_text": "```json\n{\n  \"pattern\": \"existential_reachability\",\n  \"keywords\": [\"possible\", \"reach\", \"state\", \"fertilized\", \"samples\", \"collected\"],\n  \"cues\": [\"possible\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}\n```"
           },
           "graph_context": {
-            "pattern": "reachability",
+            "pattern": "existential_reachability",
             "operators_count": 1,
             "examples_count": 2
           },
           "generation": {
             "step": "generation",
-            "timing": 1.7884819507598877,
+            "timing": 2.5052621364593506,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"query\": \"E<> forall (i : id_t) zone[i].fertilized && forall (i : id_t) zone[i].samples_collected\",\n  \"explanation\": \"The constraint states it's *always possible* to reach a state where all zones are fertilized and samples collected. 'Always possible' means we are looking for a reachability query using E<>. The target state is defined by all zones having both the 'fertilized' and 'samples_collected' properties being true. The 'forall' quantifiers check this condition across all zones.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\"E<>\"]\n}\n```",
+            "raw_text": "```json\n{\n  \"query\": \"E<> (forall (i : int[0, ZONE_COUNT - 1]) zone_fertilized[i] and forall (i : int[0, SAMPLE_COUNT - 1]) sample_collected[i])\",\n  \"explanation\": \"The constraint states that it is *possible* to reach a state where all zones are fertilized and all samples are collected. This matches the existential_reachability pattern, which uses `E<>`. The `forall` quantifiers ensure that every zone is fertilized and every sample is collected. Note that the arrays `zone_fertilized` and `sample_collected` are assumed to be defined in the UPPAAL model and properly sized (ZONE_COUNT, SAMPLE_COUNT respectively). The robots which perform these tasks are not relevant here as the question simply asks for the possibility of a global state to be reached.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"existential_reachability\",\n  \"operator_used\": [\"E<>\"]\n}\n```",
             "uppaal_result": {
-              "query": "E<> forall (i : id_t) zone[i].fertilized && forall (i : id_t) zone[i].samples_collected",
-              "explanation": "The constraint states it's *always possible* to reach a state where all zones are fertilized and samples collected. 'Always possible' means we are looking for a reachability query using E<>. The target state is defined by all zones having both the 'fertilized' and 'samples_collected' properties being true. The 'forall' quantifiers check this condition across all zones.",
+              "query": "E<> (forall (i : int[0, ZONE_COUNT - 1]) zone_fertilized[i] and forall (i : int[0, SAMPLE_COUNT - 1]) sample_collected[i])",
+              "explanation": "The constraint states that it is *possible* to reach a state where all zones are fertilized and all samples are collected. This matches the existential_reachability pattern, which uses `E<>`. The `forall` quantifiers ensure that every zone is fertilized and every sample is collected. Note that the arrays `zone_fertilized` and `sample_collected` are assumed to be defined in the UPPAAL model and properly sized (ZONE_COUNT, SAMPLE_COUNT respectively). The robots which perform these tasks are not relevant here as the question simply asks for the possibility of a global state to be reached.",
               "confidence": 0.85,
-              "pattern_used": "reachability",
+              "pattern_used": "existential_reachability",
               "operator_used": [
                 "E<>"
               ]
@@ -1552,9 +1393,9 @@
           "validation": {
             "valid": false,
             "error": "Validation error: sequence item 0: expected str instance, dict found",
-            "query": "E<> forall (i : id_t) zone[i].fertilized && forall (i : id_t) zone[i].samples_collected"
+            "query": "E<> (forall (i : int[0, ZONE_COUNT - 1]) zone_fertilized[i] and forall (i : int[0, SAMPLE_COUNT - 1]) sample_collected[i])"
           },
-          "total_time": 2.624627113342285,
+          "total_time": 3.685521125793457,
           "success": true,
           "error": null,
           "constraint_index": 3
@@ -1569,9 +1410,9 @@
           "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
           "classification": {
             "step": "classification",
-            "timing": 7.870615005493164,
+            "timing": 10.223232984542847,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"SprayerDrone\",\n    \"SurveyDrone\",\n    \"starts\",\n    \"marks\",\n    \"zone\",\n    \"safe\",\n    \"after\"\n  ],\n  \"cues\": [\n    \"only after\",\n    \"after\"\n  ],\n  \"trigger_text\": \"SurveyDrone marks zone safe\",\n  \"response_text\": \"SprayerDrone starts\"\n}\n```"
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"SprayerDrone\",\n    \"SurveyDrone\",\n    \"starts\",\n    \"marks\",\n    \"zone\",\n    \"safe\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"SurveyDrone marks zone safe\",\n  \"response_text\": \"SprayerDrone starts\"\n}\n```"
           },
           "graph_context": {
             "pattern": "sequential_workflow",
@@ -1580,12 +1421,12 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 10.846508026123047,
+            "timing": 16.264086961746216,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"query\": \"SurveyDrone.ZoneSafe --> SprayerDrone.Spraying\",\n  \"explanation\": \"The constraint \\\"SprayerDrone starts only after SurveyDrone marks zone safe\\\" describes a sequential workflow where one action triggers another. The `-->` (leads to) operator models this by asserting that whenever the trigger condition (`SurveyDrone.ZoneSafe`) becomes true, the response (`SprayerDrone.Spraying`) must eventually follow.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "raw_text": "```json\n{\n  \"query\": \"SurveyDrone.zone_safe --> SprayerDrone.spraying\",\n  \"explanation\": \"The constraint describes a sequential workflow where one action follows another, indicated by the keyword 'after'. The '-->' (leads to) operator models this relationship, ensuring that once the 'SurveyDrone' enters a state signifying the zone is safe (SurveyDrone.zone_safe), the 'SprayerDrone' must eventually start its task (SprayerDrone.spraying).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
             "uppaal_result": {
-              "query": "SurveyDrone.ZoneSafe --> SprayerDrone.Spraying",
-              "explanation": "The constraint \"SprayerDrone starts only after SurveyDrone marks zone safe\" describes a sequential workflow where one action triggers another. The `-->` (leads to) operator models this by asserting that whenever the trigger condition (`SurveyDrone.ZoneSafe`) becomes true, the response (`SprayerDrone.Spraying`) must eventually follow.",
+              "query": "SurveyDrone.zone_safe --> SprayerDrone.spraying",
+              "explanation": "The constraint describes a sequential workflow where one action follows another, indicated by the keyword 'after'. The '-->' (leads to) operator models this relationship, ensuring that once the 'SurveyDrone' enters a state signifying the zone is safe (SurveyDrone.zone_safe), the 'SprayerDrone' must eventually start its task (SprayerDrone.spraying).",
               "confidence": 0.85,
               "pattern_used": "sequential_workflow",
               "operator_used": [
@@ -1596,9 +1437,9 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "SurveyDrone.ZoneSafe --> SprayerDrone.Spraying"
+            "query": "SurveyDrone.zone_safe --> SprayerDrone.spraying"
           },
-          "total_time": 18.73070216178894,
+          "total_time": 26.50736904144287,
           "success": true,
           "error": null,
           "constraint_index": 0
@@ -1607,9 +1448,9 @@
           "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
           "classification": {
             "step": "classification",
-            "timing": 6.683511018753052,
+            "timing": 6.9562060832977295,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"rover\",\n    \"collect\",\n    \"zone\",\n    \"simultaneously\"\n  ],\n  \"cues\": [\n    \"never\",\n    \"simultaneously\"\n  ]\n}\n```"
+            "raw_text": "```json\n{\n  \"pattern\": \"forbidden_state\",\n  \"keywords\": [\n    \"rover\",\n    \"collect\",\n    \"zone\",\n    \"simultaneously\"\n  ],\n  \"cues\": [\n    \"never\"\n  ]\n}\n```"
           },
           "graph_context": {
             "pattern": "forbidden_state",
@@ -1618,25 +1459,26 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 16.43709897994995,
+            "timing": 20.29944396018982,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"query\": \"A[] not (SampleRover1.Collecting and SampleRover2.Collecting and SampleRover1.zone == SampleRover2.zone)\",\n  \"explanation\": \"The constraint 'never ... simultaneously' specifies a safety property, which is modeled using the 'A[] not (...)' pattern. This asserts that a 'bad state' must never be reached. The bad state is defined as the conjunction of three conditions: SampleRover1 is in its 'Collecting' state, SampleRover2 is also in its 'Collecting' state, and their respective 'zone' variables are equal.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\"\n  ]\n}\n```",
+            "raw_text": "```json\n{\n  \"query\": \"A[] not (SampleRover1.Collecting && SampleRover2.Collecting && SampleRover1.zone == SampleRover2.zone)\",\n  \"explanation\": \"The query uses the safety operator `A[]` (globally) with `not` to specify a forbidden state. The forbidden state is defined as the conjunction (`&&`) of three conditions: `SampleRover1` is in its `Collecting` state, `SampleRover2` is in its `Collecting` state, and their respective `zone` variables are equal. This directly translates the constraint that they must \\\"never collect in the same zone simultaneously\\\".\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"forbidden_state\",\n  \"operator_used\": [\n    \"A[]\",\n    \"not\"\n  ]\n}\n```",
             "uppaal_result": {
-              "query": "A[] not (SampleRover1.Collecting and SampleRover2.Collecting and SampleRover1.zone == SampleRover2.zone)",
-              "explanation": "The constraint 'never ... simultaneously' specifies a safety property, which is modeled using the 'A[] not (...)' pattern. This asserts that a 'bad state' must never be reached. The bad state is defined as the conjunction of three conditions: SampleRover1 is in its 'Collecting' state, SampleRover2 is also in its 'Collecting' state, and their respective 'zone' variables are equal.",
+              "query": "A[] not (SampleRover1.Collecting && SampleRover2.Collecting && SampleRover1.zone == SampleRover2.zone)",
+              "explanation": "The query uses the safety operator `A[]` (globally) with `not` to specify a forbidden state. The forbidden state is defined as the conjunction (`&&`) of three conditions: `SampleRover1` is in its `Collecting` state, `SampleRover2` is in its `Collecting` state, and their respective `zone` variables are equal. This directly translates the constraint that they must \"never collect in the same zone simultaneously\".",
               "confidence": 0.95,
               "pattern_used": "forbidden_state",
               "operator_used": [
-                "A[]"
+                "A[]",
+                "not"
               ]
             }
           },
           "validation": {
             "valid": true,
             "error": null,
-            "query": "A[] not (SampleRover1.Collecting and SampleRover2.Collecting and SampleRover1.zone == SampleRover2.zone)"
+            "query": "A[] not (SampleRover1.Collecting && SampleRover2.Collecting && SampleRover1.zone == SampleRover2.zone)"
           },
-          "total_time": 23.147241830825806,
+          "total_time": 27.279524087905884,
           "success": true,
           "error": null,
           "constraint_index": 1
@@ -1645,9 +1487,9 @@
           "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
           "classification": {
             "step": "classification",
-            "timing": 7.827363967895508,
+            "timing": 10.596567869186401,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"TransportAMR\",\n    \"starts\",\n    \"after\",\n    \"SampleRovers\",\n    \"finish\",\n    \"collecting\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"both SampleRovers finish collecting\",\n  \"response_text\": \"TransportAMR starts\"\n}\n```"
+            "raw_text": "```json\n{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\n    \"TransportAMR\",\n    \"starts\",\n    \"SampleRovers\",\n    \"finish\",\n    \"collecting\"\n  ],\n  \"cues\": [\n    \"after\"\n  ],\n  \"trigger_text\": \"both SampleRovers finish collecting\",\n  \"response_text\": \"TransportAMR starts\"\n}\n```"
           },
           "graph_context": {
             "pattern": "sequential_workflow",
@@ -1656,13 +1498,13 @@
           },
           "generation": {
             "step": "generation",
-            "timing": 21.758368968963623,
+            "timing": 12.88374400138855,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"query\": \"(SampleRover(0).CollectionComplete and SampleRover(1).CollectionComplete) --> TransportAMR.Transporting\",\n  \"explanation\": \"The constraint describes a sequential workflow where one action follows another. The trigger is \\\"both SampleRovers finish collecting\\\", which is represented as a conjunction of the two rovers being in their `CollectionComplete` state. The response is \\\"TransportAMR starts\\\", represented by the `TransportAMR` process entering its `Transporting` state. The `-->` (leads to) operator correctly models the \\\"after\\\" relationship, verifying that once the trigger condition is met, the response must eventually occur.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
+            "raw_text": "```json\n{\n  \"query\": \"(SampleRover1.CollectingDone and SampleRover2.CollectingDone) --> TransportAMR.Transporting\",\n  \"explanation\": \"This query models a sequential workflow. The `-->` (leads to) operator checks that once the trigger condition `(SampleRover1.CollectingDone and SampleRover2.CollectingDone)` is met, the response `TransportAMR.Transporting` must eventually occur. This directly translates the constraint that the TransportAMR starts only after both SampleRovers have finished collecting.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\n    \"-->\"\n  ]\n}\n```",
             "uppaal_result": {
-              "query": "(SampleRover(0).CollectionComplete and SampleRover(1).CollectionComplete) --> TransportAMR.Transporting",
-              "explanation": "The constraint describes a sequential workflow where one action follows another. The trigger is \"both SampleRovers finish collecting\", which is represented as a conjunction of the two rovers being in their `CollectionComplete` state. The response is \"TransportAMR starts\", represented by the `TransportAMR` process entering its `Transporting` state. The `-->` (leads to) operator correctly models the \"after\" relationship, verifying that once the trigger condition is met, the response must eventually occur.",
-              "confidence": 0.85,
+              "query": "(SampleRover1.CollectingDone and SampleRover2.CollectingDone) --> TransportAMR.Transporting",
+              "explanation": "This query models a sequential workflow. The `-->` (leads to) operator checks that once the trigger condition `(SampleRover1.CollectingDone and SampleRover2.CollectingDone)` is met, the response `TransportAMR.Transporting` must eventually occur. This directly translates the constraint that the TransportAMR starts only after both SampleRovers have finished collecting.",
+              "confidence": 0.95,
               "pattern_used": "sequential_workflow",
               "operator_used": [
                 "-->"
@@ -1670,11 +1512,11 @@
             }
           },
           "validation": {
-            "valid": false,
-            "error": "Validation error: sequence item 0: expected str instance, dict found",
-            "query": "(SampleRover(0).CollectionComplete and SampleRover(1).CollectionComplete) --> TransportAMR.Transporting"
+            "valid": true,
+            "error": null,
+            "query": "(SampleRover1.CollectingDone and SampleRover2.CollectingDone) --> TransportAMR.Transporting"
           },
-          "total_time": 29.630815982818604,
+          "total_time": 23.505367040634155,
           "success": true,
           "error": null,
           "constraint_index": 2
@@ -1683,25 +1525,25 @@
           "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
           "classification": {
             "step": "classification",
-            "timing": 12.240930080413818,
+            "timing": 14.408740997314453,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"pattern\": \"reachability\",\n  \"keywords\": [\n    \"reach\",\n    \"fertilized\",\n    \"samples collected\",\n    \"zones\"\n  ],\n  \"cues\": [\n    \"Always\",\n    \"possible to reach\"\n  ]\n}\n```"
+            "raw_text": "```json\n{\n  \"pattern\": \"existential_reachability\",\n  \"keywords\": [\n    \"reach\",\n    \"state\",\n    \"fertilized\",\n    \"samples\",\n    \"zones\"\n  ],\n  \"cues\": [\n    \"Always\",\n    \"possible\",\n    \"reach\"\n  ]\n}\n```"
           },
           "graph_context": {
-            "pattern": "reachability",
+            "pattern": "existential_reachability",
             "operators_count": 1,
             "examples_count": 2
           },
           "generation": {
             "step": "generation",
-            "timing": 27.41666007041931,
+            "timing": 27.245775938034058,
             "tokens": 0,
-            "raw_text": "```json\n{\n  \"query\": \"E<> System.all_zones_fertilized and System.all_samples_collected\",\n  \"explanation\": \"The query uses the `E<>` operator, which means 'it is possible to eventually reach'. It checks for the existence of at least one execution path to a state where both `System.all_zones_fertilized` and `System.all_samples_collected` are true. This directly follows the provided 'reachability' pattern template `E<> target_state`, interpreting 'Always possible to reach' as a check for possibility.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"reachability\",\n  \"operator_used\": [\n    \"E<>\"\n  ]\n}\n```",
+            "raw_text": "```json\n{\n  \"query\": \"E<> SprayerDrone.DoneFertilizing && SampleRover1.HasSample && SampleRover2.HasSample\",\n  \"explanation\": \"This query uses the existential reachability operator `E<>` to check if it's possible for the system to reach a state where all primary tasks are complete. The target state is a conjunction (`&&`) of three conditions: `SprayerDrone.DoneFertilizing` (indicating all zones are fertilized), `SampleRover1.HasSample`, and `SampleRover2.HasSample` (indicating both rovers have collected their samples). This directly translates the constraint \\\"possible to reach a state where all zones are fertilized and samples collected.\\\"\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"existential_reachability\",\n  \"operator_used\": [\n    \"E<>\"\n  ]\n}\n```",
             "uppaal_result": {
-              "query": "E<> System.all_zones_fertilized and System.all_samples_collected",
-              "explanation": "The query uses the `E<>` operator, which means 'it is possible to eventually reach'. It checks for the existence of at least one execution path to a state where both `System.all_zones_fertilized` and `System.all_samples_collected` are true. This directly follows the provided 'reachability' pattern template `E<> target_state`, interpreting 'Always possible to reach' as a check for possibility.",
+              "query": "E<> SprayerDrone.DoneFertilizing && SampleRover1.HasSample && SampleRover2.HasSample",
+              "explanation": "This query uses the existential reachability operator `E<>` to check if it's possible for the system to reach a state where all primary tasks are complete. The target state is a conjunction (`&&`) of three conditions: `SprayerDrone.DoneFertilizing` (indicating all zones are fertilized), `SampleRover1.HasSample`, and `SampleRover2.HasSample` (indicating both rovers have collected their samples). This directly translates the constraint \"possible to reach a state where all zones are fertilized and samples collected.\"",
               "confidence": 0.85,
-              "pattern_used": "reachability",
+              "pattern_used": "existential_reachability",
               "operator_used": [
                 "E<>"
               ]
@@ -1710,9 +1552,123 @@
           "validation": {
             "valid": true,
             "error": null,
-            "query": "E<> System.all_zones_fertilized and System.all_samples_collected"
+            "query": "E<> SprayerDrone.DoneFertilizing && SampleRover1.HasSample && SampleRover2.HasSample"
           },
-          "total_time": 39.673606872558594,
+          "total_time": 41.67123985290527,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-reasoner",
+      "results": [
+        {
+          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+          "classification": {
+            "step": "classification",
+            "timing": 23.68738889694214,
+            "tokens": 0,
+            "raw_text": "{\n\n\n\"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"drone\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"SurveyDrone marks zone safe\",\n  \"response_text\": \"SprayerDrone starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 28.18407130241394,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"SurveyDrone.survey_safe --> SprayerDrone.start\",\n  \"explanation\": \"This UPPAAL query enforces that the SprayerDrone will only start after the SurveyDrone has marked the zone as safe. The '-->' operator ensures that this is an eventual behavior, meaning there may be some delay between the SurveyDrone completing its survey and the SprayerDrone starting.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "SurveyDrone.survey_safe --> SprayerDrone.start",
+              "explanation": "This UPPAAL query enforces that the SprayerDrone will only start after the SurveyDrone has marked the zone as safe. The '-->' operator ensures that this is an eventual behavior, meaning there may be some delay between the SurveyDrone completing its survey and the SprayerDrone starting.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SurveyDrone.survey_safe --> SprayerDrone.start"
+          },
+          "total_time": 51.93210697174072,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "classification": {
+            "step": "classification",
+            "timing": 9.406653881072998,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"...\", \n  \"keywords\": [\"...\"], \n  \"cues\": [\"...\"], \n  \"trigger_text\": \"...\",\n  \"response_text\": \"...\"\n}"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 9.541033029556274,
+          "success": false,
+          "error": "GraphRAG retrieval failed: Pattern not found in Neo4j: ...",
+          "constraint_index": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "classification": {
+            "step": "classification",
+            "timing": 8.76305603981018,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"???\", \n  \"keywords\": [\"???\"], \n  \"cues\": [\"after\"], \n  \"trigger_text\": \"both SampleRovers finish collecting\" \n}"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 8.773762941360474,
+          "success": false,
+          "error": "GraphRAG retrieval failed: Pattern not found in Neo4j: ???",
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+          "classification": {
+            "step": "classification",
+            "timing": 15.88044786453247,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"always\", \"possible\", \"reach\", \"state\", \"all\", \"zones\", \"fertilized\", \"samples\", \"collected\"],\n  \"cues\": [],\n  \"trigger_text\": \"Always possible to reach a state where all zones are fertilized and samples collected\"\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 25.40345788002014,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> (SprayerDrone.zone_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)\",\n  \"explanation\": \"The query ensures that eventually all zones are fertilized by the SprayerDrone and samples are collected by both SampleRovers, fulfilling the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (SprayerDrone.zone_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)",
+              "explanation": "The query ensures that eventually all zones are fertilized by the SprayerDrone and samples are collected by both SampleRovers, fulfilling the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (SprayerDrone.zone_fertilized && SampleRover1.samples_collected && SampleRover2.samples_collected)"
+          },
+          "total_time": 41.33863973617554,
           "success": true,
           "error": null,
           "constraint_index": 3
