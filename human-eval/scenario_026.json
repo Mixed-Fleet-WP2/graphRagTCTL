@@ -506,7 +506,7 @@
         {
           "model": {
             "provider": "deepseek",
-            "model": "deepseek-reasoner",
+            "model": "deepseek-reasoner"
           },
           "llm_output": {
             "queries": [

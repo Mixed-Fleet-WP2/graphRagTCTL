@@ -1,0 +1,125 @@
+{
+  "denominator_per_model": 161,
+  "total_models": 11,
+  "total_generated_all_models": 1771,
+  "total_syntax_errors": 133,
+  "total_semantic_errors": 292,
+  "total_wrong": 425,
+  "syntax_percentage": 31.29,
+  "semantic_percentage": 68.71,
+  "total_syntax_error_percentage_overall": 7.51,
+  "total_semantics_error_percentage_overall": 16.49,
+  "total_error_percentage_overall": 24.0,
+  "by_model": {
+    "anthropic/claude-haiku-4-5-20251001": {
+      "syntax_errors": 14,
+      "semantic_errors": 29,
+      "total": 43,
+      "syntax_percentage": 32.56,
+      "semantic_percentage": 67.44,
+      "syntax_error_percentage_overall": 8.7,
+      "semantics_error_percentage_overall": 18.01,
+      "total_error_percentage_overall": 26.71
+    },
+    "anthropic/claude-sonnet-4-5-20250929": {
+      "syntax_errors": 9,
+      "semantic_errors": 24,
+      "total": 33,
+      "syntax_percentage": 27.27,
+      "semantic_percentage": 72.73,
+      "syntax_error_percentage_overall": 5.59,
+      "semantics_error_percentage_overall": 14.91,
+      "total_error_percentage_overall": 20.5
+    },
+    "deepseek/deepseek-reasoner": {
+      "syntax_errors": 5,
+      "semantic_errors": 34,
+      "total": 39,
+      "syntax_percentage": 12.82,
+      "semantic_percentage": 87.18,
+      "syntax_error_percentage_overall": 3.11,
+      "semantics_error_percentage_overall": 21.12,
+      "total_error_percentage_overall": 24.22
+    },
+    "google/gemini-2.0-flash": {
+      "syntax_errors": 15,
+      "semantic_errors": 32,
+      "total": 47,
+      "syntax_percentage": 31.91,
+      "semantic_percentage": 68.09,
+      "syntax_error_percentage_overall": 9.32,
+      "semantics_error_percentage_overall": 19.88,
+      "total_error_percentage_overall": 29.19
+    },
+    "google/gemini-2.5-pro": {
+      "syntax_errors": 10,
+      "semantic_errors": 19,
+      "total": 29,
+      "syntax_percentage": 34.48,
+      "semantic_percentage": 65.52,
+      "syntax_error_percentage_overall": 6.21,
+      "semantics_error_percentage_overall": 11.8,
+      "total_error_percentage_overall": 18.01
+    },
+    "openai/gpt-4o": {
+      "syntax_errors": 10,
+      "semantic_errors": 21,
+      "total": 31,
+      "syntax_percentage": 32.26,
+      "semantic_percentage": 67.74,
+      "syntax_error_percentage_overall": 6.21,
+      "semantics_error_percentage_overall": 13.04,
+      "total_error_percentage_overall": 19.25
+    },
+    "openai/gpt-5.1": {
+      "syntax_errors": 10,
+      "semantic_errors": 23,
+      "total": 33,
+      "syntax_percentage": 30.3,
+      "semantic_percentage": 69.7,
+      "syntax_error_percentage_overall": 6.21,
+      "semantics_error_percentage_overall": 14.29,
+      "total_error_percentage_overall": 20.5
+    },
+    "openai/gpt-5-mini": {
+      "syntax_errors": 21,
+      "semantic_errors": 14,
+      "total": 35,
+      "syntax_percentage": 60.0,
+      "semantic_percentage": 40.0,
+      "syntax_error_percentage_overall": 13.04,
+      "semantics_error_percentage_overall": 8.7,
+      "total_error_percentage_overall": 21.74
+    },
+    "openai/gpt-5-nano": {
+      "syntax_errors": 17,
+      "semantic_errors": 27,
+      "total": 44,
+      "syntax_percentage": 38.64,
+      "semantic_percentage": 61.36,
+      "syntax_error_percentage_overall": 10.56,
+      "semantics_error_percentage_overall": 16.77,
+      "total_error_percentage_overall": 27.33
+    },
+    "xai/grok-3-mini": {
+      "syntax_errors": 4,
+      "semantic_errors": 43,
+      "total": 47,
+      "syntax_percentage": 8.51,
+      "semantic_percentage": 91.49,
+      "syntax_error_percentage_overall": 2.48,
+      "semantics_error_percentage_overall": 26.71,
+      "total_error_percentage_overall": 29.19
+    },
+    "xai/grok-code-fast-1": {
+      "syntax_errors": 18,
+      "semantic_errors": 26,
+      "total": 44,
+      "syntax_percentage": 40.91,
+      "semantic_percentage": 59.09,
+      "syntax_error_percentage_overall": 11.18,
+      "semantics_error_percentage_overall": 16.15,
+      "total_error_percentage_overall": 27.33
+    }
+  }
+}

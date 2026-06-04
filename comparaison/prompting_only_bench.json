@@ -1,0 +1,106 @@
+{
+  "evaluation_date": "2026-01-29",
+  "evaluation_source": "human-eval folder",
+  "total_models_evaluated": 11,
+  "models_ranked_by_precision": [
+    {
+      "model": "anthropic::claude-sonnet-4-5-20250929",
+      "precision": 73.86363636363636,
+      "accuracy": 73.86363636363636,
+      "correct": 130,
+      "wrong": 46,
+      "total": 176,
+      "rank": 1
+    },
+    {
+      "model": "openai::gpt-5.1",
+      "precision": 73.33333333333333,
+      "accuracy": 73.33333333333333,
+      "correct": 121,
+      "wrong": 44,
+      "total": 165,
+      "rank": 2
+    },
+    {
+      "model": "google::gemini-2.5-pro",
+      "precision": 69.1358024691358,
+      "accuracy": 69.1358024691358,
+      "correct": 112,
+      "wrong": 50,
+      "total": 162,
+      "rank": 3
+    },
+    {
+      "model": "openai::gpt-4o",
+      "precision": 62.732919254658384,
+      "accuracy": 62.732919254658384,
+      "correct": 101,
+      "wrong": 60,
+      "total": 161,
+      "rank": 4
+    },
+    {
+      "model": "google::gemini-2.0-flash",
+      "precision": 55.757575757575765,
+      "accuracy": 55.757575757575765,
+      "correct": 92,
+      "wrong": 73,
+      "total": 165,
+      "rank": 5
+    },
+    {
+      "model": "openai::gpt-5-mini",
+      "precision": 55.08982035928144,
+      "accuracy": 55.08982035928144,
+      "correct": 92,
+      "wrong": 75,
+      "total": 167,
+      "rank": 6
+    },
+    {
+      "model": "deepseek::deepseek-reasoner",
+      "precision": 54.93827160493827,
+      "accuracy": 54.93827160493827,
+      "correct": 89,
+      "wrong": 73,
+      "total": 162,
+      "rank": 7
+    },
+    {
+      "model": "xai::grok-3-mini",
+      "precision": 43.82716049382716,
+      "accuracy": 43.82716049382716,
+      "correct": 71,
+      "wrong": 91,
+      "total": 162,
+      "rank": 8
+    },
+    {
+      "model": "anthropic::claude-haiku-4-5-20251001",
+      "precision": 40.35087719298245,
+      "accuracy": 40.35087719298245,
+      "correct": 69,
+      "wrong": 102,
+      "total": 171,
+      "rank": 9
+    },
+    {
+      "model": "xai::grok-code-fast-1",
+      "precision": 25.443786982248522,
+      "accuracy": 25.443786982248522,
+      "correct": 43,
+      "wrong": 126,
+      "total": 169,
+      "rank": 10
+    },
+    {
+      "model": "openai::gpt-5-nano",
+      "precision": 20.57142857142857,
+      "accuracy": 20.57142857142857,
+      "correct": 36,
+      "wrong": 139,
+      "total": 175,
+      "rank": 11
+    }
+  ]
+}

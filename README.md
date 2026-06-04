@@ -25,7 +25,7 @@ This pipeline transforms natural language safety constraints, workflow specifica
 
 **Example:**
 ```bash
-Input:  "if Drone battery < 10% it should be in charging"
+Input:  "if Drone battery < 10% it should come back to charging"
 Output: (Drone.battery < 10) --> Drone.charging
 ```
 
