@@ -1,0 +1,62 @@
+{
+  "total_syntax_errors": 133,
+  "total_semantic_errors": 292,
+  "total_wrong": 425,
+  "by_model": {
+    "anthropic/claude-haiku-4-5-20251001": {
+      "syntax_errors": 14,
+      "semantic_errors": 29,
+      "total": 43
+    },
+    "anthropic/claude-sonnet-4-5-20250929": {
+      "syntax_errors": 9,
+      "semantic_errors": 24,
+      "total": 33
+    },
+    "deepseek/deepseek-reasoner": {
+      "syntax_errors": 5,
+      "semantic_errors": 34,
+      "total": 39
+    },
+    "google/gemini-2.0-flash": {
+      "syntax_errors": 15,
+      "semantic_errors": 32,
+      "total": 47
+    },
+    "google/gemini-2.5-pro": {
+      "syntax_errors": 10,
+      "semantic_errors": 19,
+      "total": 29
+    },
+    "openai/gpt-4o": {
+      "syntax_errors": 10,
+      "semantic_errors": 21,
+      "total": 31
+    },
+    "openai/gpt-5.1": {
+      "syntax_errors": 10,
+      "semantic_errors": 23,
+      "total": 33
+    },
+    "openai/gpt-5-mini": {
+      "syntax_errors": 21,
+      "semantic_errors": 14,
+      "total": 35
+    },
+    "openai/gpt-5-nano": {
+      "syntax_errors": 17,
+      "semantic_errors": 27,
+      "total": 44
+    },
+    "xai/grok-3-mini": {
+      "syntax_errors": 4,
+      "semantic_errors": 43,
+      "total": 47
+    },
+    "xai/grok-code-fast-1": {
+      "syntax_errors": 18,
+      "semantic_errors": 26,
+      "total": 44
+    }
+  }
+}

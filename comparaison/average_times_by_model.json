@@ -1,0 +1,72 @@
+{
+  "description": "Average total_time per model across all scenarios",
+  "total_scenarios_analyzed": 40,
+  "models": {
+    "openai/gpt-5.1": {
+      "average_total_time": 5.7102,
+      "total_constraints": 161,
+      "min_time": 3.2451,
+      "max_time": 59.5142
+    },
+    "openai/gpt-5-mini": {
+      "average_total_time": 20.8606,
+      "total_constraints": 161,
+      "min_time": 10.2214,
+      "max_time": 48.2207
+    },
+    "openai/gpt-5-nano": {
+      "average_total_time": 35.2363,
+      "total_constraints": 161,
+      "min_time": 15.6698,
+      "max_time": 540.7738
+    },
+    "openai/gpt-4o": {
+      "average_total_time": 3.6888,
+      "total_constraints": 161,
+      "min_time": 1.9127,
+      "max_time": 7.2513
+    },
+    "anthropic/claude-sonnet-4-5-20250929": {
+      "average_total_time": 42.8918,
+      "total_constraints": 161,
+      "min_time": 3.0807,
+      "max_time": 5596.9646
+    },
+    "anthropic/claude-haiku-4-5-20251001": {
+      "average_total_time": 3.4132,
+      "total_constraints": 161,
+      "min_time": 2.4655,
+      "max_time": 5.7934
+    },
+    "xai/grok-code-fast-1": {
+      "average_total_time": 53.4203,
+      "total_constraints": 161,
+      "min_time": 10.1438,
+      "max_time": 2845.5276
+    },
+    "xai/grok-3-mini": {
+      "average_total_time": 24.6348,
+      "total_constraints": 161,
+      "min_time": 9.505,
+      "max_time": 989.4987
+    },
+    "deepseek/deepseek-reasoner": {
+      "average_total_time": 112.5197,
+      "total_constraints": 161,
+      "min_time": 0.8233,
+      "max_time": 219.1764
+    },
+    "google/gemini-2.0-flash": {
+      "average_total_time": 2.4038,
+      "total_constraints": 161,
+      "min_time": 1.739,
+      "max_time": 4.3542
+    },
+    "google/gemini-2.5-pro": {
+      "average_total_time": 53.1001,
+      "total_constraints": 161,
+      "min_time": 14.2853,
+      "max_time": 1649.3456
+    }
+  }
+}

@@ -1983,8 +1983,8 @@
       ]
     },
     {
-      "provider": "ollama",
-      "model": "deepseek-r1:14b",
+     "provider": "deepseek",
+      "model": "deepseek-reasoner",
       "results": [
         {
           "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
