@@ -7,7 +7,7 @@
     },
     "evaluation_date": "2026-01-02T09:41:11.790Z",
     "total_scenarios": 1,
-    "total_models": 11
+    "total_models": 12
   },
   "scenarios": [
     {
@@ -459,6 +459,46 @@
             "correct": 1,
             "valid_inferred": 0,
             "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+                "query": "A[] (SprayDrone.wind_speed >25 imply SprayDrone.stopped_spraying)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SoilRover reports humidity every 10 minutes",
+                "query": "A[] (SoilRover.humidity_report_period < 10 imply SoilRover.reporting_humidity)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "SprayDrone pauses spraying if humidity below 20%",
+                "query": "",
+                "valid": false,
+                "pattern": "",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 3,
             "unlabeled": 0
           }
         }

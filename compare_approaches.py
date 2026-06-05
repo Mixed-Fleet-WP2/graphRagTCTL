@@ -21,6 +21,22 @@ def load_benchmark_data():
     
     return prompting_data, graphrag_data
 
+def normalize_model_name(model_name: str) -> str:
+    """Normalize model names so different separators and providers match across benchmark files."""
+    name = (model_name or "").strip().lower()
+    name = name.replace("::", "/")
+    name = name.replace("deepseek-r1-14b", "deepseek-r1:14b")
+    name = name.replace("deepseek-r1:14b", "deepseek-r1:14b")
+    # Use the model slug only, ignoring provider prefixes like openai/, ollama/, deepseek/.
+    if "/" in name:
+        name = name.split("/")[-1]
+    return name
+
+
+def display_model_name(model_name: str) -> str:
+    """Return a compact label for chart axes."""
+    return normalize_model_name(model_name)
+
 def extract_model_performance(data):
     """Extract model names and their accuracy scores"""
     models = []
@@ -28,11 +44,22 @@ def extract_model_performance(data):
     
     for model_data in data["models_ranked_by_precision"]:
         # Clean up model names for better display
-        model_name = model_data["model"].replace("::", "/").replace("anthropic/", "").replace("openai/", "").replace("google/", "").replace("xai/", "").replace("deepseek/", "")
-        models.append(model_name)
+        models.append(display_model_name(model_data["model"]))
         accuracy_scores.append(model_data["accuracy"])
     
     return models, accuracy_scores
+
+def extract_model_map(data):
+    """Return normalized model keys mapped to accuracy scores and display labels."""
+    model_map = {}
+    label_map = {}
+
+    for model_data in data["models_ranked_by_precision"]:
+        key = normalize_model_name(model_data["model"])
+        model_map[key] = model_data["accuracy"]
+        label_map[key] = display_model_name(model_data["model"])
+
+    return model_map, label_map
 
 def create_comparison_plots():
     """Create comprehensive comparison visualizations"""
@@ -223,6 +250,49 @@ def create_comparison_plots():
     plt.tight_layout()
     plt.savefig('approach_comparison.png', dpi=300, bbox_inches='tight')
     print("✓ Comparison visualization saved to approach_comparison.png")
+
+    # Also regenerate the focused vertical comparison chart.
+    prompting_map, prompting_labels = extract_model_map(prompting_data)
+    graphrag_map, graphrag_labels = extract_model_map(graphrag_data)
+
+    common_keys = [m for m in prompting_map.keys() if m in graphrag_map]
+    common_keys = sorted(common_keys, key=lambda m: graphrag_map[m], reverse=True)
+    prompting_vertical = [prompting_map[m] for m in common_keys]
+    graphrag_vertical = [graphrag_map[m] for m in common_keys]
+    xtick_labels = [graphrag_labels.get(m, prompting_labels.get(m, m)) for m in common_keys]
+
+    fig2, axv = plt.subplots(figsize=(14, 7))
+    x2 = np.arange(len(common_keys))
+    width2 = 0.36
+    bars1 = axv.bar(x2 - width2/2, prompting_vertical, width2, label='Few-shot Prompting', color='#4C78A8')
+    bars2 = axv.bar(x2 + width2/2, graphrag_vertical, width2, label='GraphRAG', color='#F58518')
+
+    axv.set_title('Few-shot Prompting vs GraphRAG Performance by Model', fontsize=14, pad=12)
+    axv.set_ylabel('Accuracy (%)')
+    axv.set_xticks(x2)
+    axv.set_xticklabels(xtick_labels, rotation=35, ha='right', fontsize=9)
+    axv.set_ylim(0, 100)
+    axv.grid(axis='y', linestyle='--', alpha=0.35)
+    axv.legend(loc='upper left')
+
+    for bars in (bars1, bars2):
+        for b in bars:
+            h = b.get_height()
+            axv.annotate(f'{h:.1f}', (b.get_x() + b.get_width()/2, h),
+                         xytext=(0, 10), textcoords='offset points',
+                         ha='center', va='bottom', fontsize=8,
+                         clip_on=False,
+                         bbox=dict(boxstyle='round,pad=0.15', facecolor='white', alpha=0.85, edgecolor='none'))
+
+    avg_p = float(np.mean(prompting_vertical)) if prompting_vertical else 0.0
+    avg_g = float(np.mean(graphrag_vertical)) if graphrag_vertical else 0.0
+    summary = f'Avg Few-shot: {avg_p:.2f}%\nAvg GraphRAG: {avg_g:.2f}%\nImprovement: +{(avg_g-avg_p):.2f} pts'
+    axv.text(0.985, 0.985, summary, transform=axv.transAxes, ha='right', va='top',
+             fontsize=10, bbox=dict(boxstyle='round', facecolor='white', alpha=0.9, edgecolor='#CCCCCC'))
+
+    fig2.tight_layout(rect=[0, 0, 1, 0.97])
+    fig2.savefig('comparaison/fewshot_vs_graphrag_vertical.png', dpi=300, bbox_inches='tight')
+    print("✓ Comparison visualization saved to comparaison/fewshot_vs_graphrag_vertical.png")
     
     # Print summary statistics
     print("\n" + "="*60)

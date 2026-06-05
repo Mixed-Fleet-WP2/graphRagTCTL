@@ -1,0 +1,2169 @@
+{
+  "source_folder": "human-eval-deepseek-14b",
+  "rules": {
+    "semantic_if_query_empty": true,
+    "syntax_if_query_non_empty_and_valid_false": true,
+    "semantic_if_label_wrong_and_valid_true": true,
+    "precedence": [
+      "query == \"\" => semantic",
+      "query != \"\" and valid == false => syntax",
+      "label == \"wrong\" and valid == true => semantic"
+    ]
+  },
+  "totals": {
+    "counted": 161,
+    "semantic": 74,
+    "syntax": 38,
+    "other": 49,
+    "labeled_correct": 49,
+    "labeled_correct_percentage": 30.434782608695656,
+    "labeled_wrong": 112,
+    "labeled_wrong_percentage": 69.56521739130434
+  },
+  "scenarios": [
+    {
+      "file": "scenario_001.json",
+      "counted": 2,
+      "semantic": 0,
+      "syntax": 0,
+      "other": 2,
+      "details": [
+        {
+          "scenario_id": "scenario_001",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+          "query": "Drone.scanning_done --> UGV.collecting_container",
+          "label": "correct",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_001",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+          "query": "UGV.arrives_collect_container --> Forklift.loads_truck",
+          "label": "correct",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "other"
+        }
+      ]
+    },
+    {
+      "file": "scenario_0010.json",
+      "counted": 3,
+      "semantic": 3,
+      "syntax": 0,
+      "other": 0,
+      "details": [
+        {
+          "scenario_id": "scenario_0010",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "query": "(StockDrone.scanning) --> (RestockAMR.idle)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "conditional_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_0010",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "query": "A[] (Amr.obstacle_detected imply Amr.stopped)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_0010",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "query": "A[] (Drone.obstacle_detected imply Drone.stopped)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_002.json",
+      "counted": 3,
+      "semantic": 0,
+      "syntax": 0,
+      "other": 3,
+      "details": [
+        {
+          "scenario_id": "scenario_002",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "query": "Camera.scan --> Agv.move",
+          "label": "correct",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_002",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "query": "(Conveyor.moving) --> (Agv.loaded)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "conditional_response",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_002",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "query": "Conveyor.move --> RobotArm.place_pallet_onto_shelf",
+          "label": "correct",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "other"
+        }
+      ]
+    },
+    {
+      "file": "scenario_003.json",
+      "counted": 8,
+      "semantic": 8,
+      "syntax": 0,
+      "other": 0,
+      "details": [
+        {
+          "scenario_id": "scenario_003",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "InspectorBot returns to charging when battery below 20%",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_003",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+          "query": "InspectorBot.scanning_finish --> CollectorAMR.picking_start",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_003",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "InspectorBot maintains safe distance from humans",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_003",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "InspectorBot maintains safe distance from robots",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_003",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 4,
+          "constraint": "CollectorAMR maintains safe distance from humans",
+          "query": "A[] (CollectorAMR.distance_from_humans < safe_threshold imply CollectorAMR.maintaining_safe_distance)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_003",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 5,
+          "constraint": "CollectorAMR maintains safe distance from robots",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_003",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 6,
+          "constraint": "Inspector find alternative routes within 30 seconds",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_003",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 7,
+          "constraint": "CollectorAMR find alternative routes within 30 seconds",
+          "query": "A[] (CollectorAMR.search_alternative_routes imply clock <= 30)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "time_bounded_constraint",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_004.json",
+      "counted": 3,
+      "semantic": 1,
+      "syntax": 1,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_004",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "query": "WelderBot.welding --> InspectorDrone.scanning",
+          "label": "correct",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_004",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_004",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "query": "A[] (WelderBot.temperature < 70\u00b0C imply WelderBot.resuming_welding)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        }
+      ]
+    },
+    {
+      "file": "scenario_005.json",
+      "counted": 2,
+      "semantic": 1,
+      "syntax": 0,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_005",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "query": "Conveyor.start_moving --> Forklift.done_placing_boxes",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_005",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "query": "A[] (PickerBot.operate imply not Human.distance_to_PickerBot < 2)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "other"
+        }
+      ]
+    },
+    {
+      "file": "scenario_006.json",
+      "counted": 3,
+      "semantic": 3,
+      "syntax": 0,
+      "other": 0,
+      "details": [
+        {
+          "scenario_id": "scenario_006",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "query": "A[] (SprayDrone.wind_speed >25 imply SprayDrone.stopped_spraying)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_006",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "query": "A[] (SoilRover.humidity_report_period < 10 imply SoilRover.reporting_humidity)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_006",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_007.json",
+      "counted": 2,
+      "semantic": 1,
+      "syntax": 1,
+      "other": 0,
+      "details": [
+        {
+          "scenario_id": "scenario_007",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+          "query": "A[] (UAV.distance_from_obstacles < 3 imply UAV.maintaining_safe_distance)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_007",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "UAV must eventually return to base",
+          "query": "A<>.UAV.return_to_base()",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "eventual_completion",
+          "category": "syntax"
+        }
+      ]
+    },
+    {
+      "file": "scenario_008.json",
+      "counted": 2,
+      "semantic": 2,
+      "syntax": 0,
+      "other": 0,
+      "details": [
+        {
+          "scenario_id": "scenario_008",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_008",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_009.json",
+      "counted": 3,
+      "semantic": 2,
+      "syntax": 0,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_009",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "query": "CraneBot.confirms_placement --> GroundBot.bolting",
+          "label": "correct",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_009",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_009",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_011.json",
+      "counted": 4,
+      "semantic": 1,
+      "syntax": 3,
+      "other": 0,
+      "details": [
+        {
+          "scenario_id": "scenario_011",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "query": "A[] (TrailerBot.distance_from_Harvester \u2264 5 imply TrailerBot.response)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_011",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "query": "A[] (Harvester.distance > 10 meters imply Harvester.stop)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_011",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "query": "A[] (TrailerBot.distance > 10 implies TrailerBot.stopped)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_011",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "query": "A[] (Harvester.stopped imply TrailerBot.resynchronize)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_012.json",
+      "counted": 3,
+      "semantic": 2,
+      "syntax": 1,
+      "other": 0,
+      "details": [
+        {
+          "scenario_id": "scenario_012",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "Assembly resumes after correction confirmation",
+          "query": "A[] (VisionBot.correction_confirmed imply ArmBot.resumes_assembly)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_012",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_012",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "query": "A[] (ArmBot.misalignment > 2 mm imply ArmBot.stopped)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        }
+      ]
+    },
+    {
+      "file": "scenario_013.json",
+      "counted": 3,
+      "semantic": 1,
+      "syntax": 1,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_013",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "query": "A[] (SurveillanceDrone.flying implies SurveillanceDrone.altitude >= 10 and SurveillanceDrone.altitude <= 50)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_013",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_013",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "PatrolAGV stops when SurveillanceDrone is landing nearby",
+          "query": "A[] (SurveillanceDrone.landing_nearby imply PatrolAGV.stopped)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "other"
+        }
+      ]
+    },
+    {
+      "file": "scenario_014.json",
+      "counted": 3,
+      "semantic": 1,
+      "syntax": 1,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_014",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_014",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "query": "A[] (InspectionDrone.vibration > 5 imply not InspectionDrone.moving)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_014",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "query": "A[] (RepairBot.vibration > 5g imply not RepairBot.operating)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        }
+      ]
+    },
+    {
+      "file": "scenario_015.json",
+      "counted": 2,
+      "semantic": 2,
+      "syntax": 0,
+      "other": 0,
+      "details": [
+        {
+          "scenario_id": "scenario_015",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "query": "LoaderBot.stack_containers -->(MonitorDrone.monitor)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_015",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_016.json",
+      "counted": 5,
+      "semantic": 2,
+      "syntax": 0,
+      "other": 3,
+      "details": [
+        {
+          "scenario_id": "scenario_016",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "SorterA stops conveyor when misalignment detected",
+          "query": "(SorterA.misalignment_detected) --> (SorterA.conveyor_stop)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "conditional_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_016",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 4,
+          "constraint": "Conveyor must not stop for more than 10 seconds",
+          "query": "A[] (Conveyor.stopped imply Conveyor.stopped_duration <= 10)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_016",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "SorterB returns to normal operation once the package is corrected",
+          "query": "A[] (SorterB.package_correct imply SorterB.normal_operation)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_016",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "SorterB corrects package alignment before resuming",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_016",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "SorterA returns to normal operation once the package is corrected",
+          "query": "A[] (SorterA.package_correct imply SorterA.returning_to_normal_operation)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "other"
+        }
+      ]
+    },
+    {
+      "file": "scenario_017.json",
+      "counted": 3,
+      "semantic": 2,
+      "syntax": 0,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_017",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "Drone inspects all zones eventually",
+          "query": "A<> (AgriDrone.inspects_all_zones)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_017",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "Rover samples only after drone finishes scanning zone",
+          "query": "AgriDrone.drone_scanning_done --> SoilRover.rover_sampling",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_017",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "AgriDrone and SoilRover halt if communication lost",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_018.json",
+      "counted": 3,
+      "semantic": 2,
+      "syntax": 1,
+      "other": 0,
+      "details": [
+        {
+          "scenario_id": "scenario_018",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "query": "A[] (DeliveryDrone.battery < 15% imply DeliveryDrone.lands)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_018",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "query": "A[] (DeliveryDrone.arrived imply LiftBot.stacking)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_018",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "Delivery eventually completes",
+          "query": "A<> DeliveryDrone.delivery_complete",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_019.json",
+      "counted": 3,
+      "semantic": 1,
+      "syntax": 0,
+      "other": 2,
+      "details": [
+        {
+          "scenario_id": "scenario_019",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "MediBot waits if elevator busy",
+          "query": "A[] (MediBot.elevator_busy imply MediBot.wait)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_019",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "Each delivery request eventually fulfilled",
+          "query": "A<> (MediBot.delivery_request_fulfilled)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_019",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "MediBot never leaves safe areas",
+          "query": "A[] (MediBot.leaving_safe_area imply false)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_020.json",
+      "counted": 2,
+      "semantic": 0,
+      "syntax": 1,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_020",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "query": "...",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_020",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "query": "A<> RepairDrone.safe_shutdown",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        }
+      ]
+    },
+    {
+      "file": "scenario_021.json",
+      "counted": 3,
+      "semantic": 1,
+      "syntax": 1,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_021",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "All sections eventually inspected",
+          "query": "A<> (SubDroneA.inspected && SubDroneB.inspected)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_021",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "Both drones maintain communication range at all times",
+          "query": "A[] (SubDroneA.communication_range Maintained imply SubDroneB.communication_range Maintained)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_021",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_022.json",
+      "counted": 5,
+      "semantic": 1,
+      "syntax": 0,
+      "other": 4,
+      "details": [
+        {
+          "scenario_id": "scenario_022",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "ArmA and ArmB never weld the same section simultaneously",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_022",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "ArmA eventually completes its tasks",
+          "query": "A<> ArmA.tasks_done",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_022",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "ArmB eventually completes its tasks",
+          "query": "A<> ArmB.tasks_completed",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_022",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "ArmA eventually reach idle state",
+          "query": "A<> ArmA.idle_state",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_022",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 4,
+          "constraint": "ArmB eventually reach idle state",
+          "query": "A<> ArmB.idle_state",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        }
+      ]
+    },
+    {
+      "file": "scenario_023.json",
+      "counted": 2,
+      "semantic": 0,
+      "syntax": 1,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_023",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "Always possible for both to complete missions",
+          "query": "A<> RescueDrone.mission_complete and MedicBot.mission_complete",
+          "label": "correct",
+          "valid": true,
+          "pattern": "universal_reachability",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_023",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "query": "A[] (RescueDrone.battery < 10% imply RescueDrone.returning_to_base)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        }
+      ]
+    },
+    {
+      "file": "scenario_024.json",
+      "counted": 3,
+      "semantic": 0,
+      "syntax": 1,
+      "other": 2,
+      "details": [
+        {
+          "scenario_id": "scenario_024",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "Only one crane moves at a time",
+          "query": "A[] (CraneA.moving implies not CraneB.moving)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_024",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "Eventually CraneA reach target zones",
+          "query": "A<> CraneA.reach_target_zones",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_024",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "Eventually CraneB reach target zones",
+          "query": "A<> (CraneB.reach_target_zones)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        }
+      ]
+    },
+    {
+      "file": "scenario_025.json",
+      "counted": 4,
+      "semantic": 1,
+      "syntax": 0,
+      "other": 3,
+      "details": [
+        {
+          "scenario_id": "scenario_025",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "At least one AMR must always be charging",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_025",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "query": "DockAMR1.recharge --> DockAMR1.operate",
+          "label": "correct",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_025",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "query": "DockAMR2.recharge --> DockAMR2.operate",
+          "label": "correct",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_025",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "query": "DockAMR3.recharged --> DockAMR3.operate",
+          "label": "correct",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "other"
+        }
+      ]
+    },
+    {
+      "file": "scenario_026.json",
+      "counted": 4,
+      "semantic": 2,
+      "syntax": 1,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_026",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_026",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "PainterBot starts only after WelderBot finishes welding",
+          "query": "...",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "sequential_workflow",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_026",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "Eventually all robots reach idle state",
+          "query": "A<> (AssemblerBot.idle && WelderBot.idle && PainterBot.idle && InspectorBot.idle)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_026",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "InspectorBot starts only after PainterBot finishes painting",
+          "query": "InspectorBot.start --> PainterBot.painting_finish",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_027.json",
+      "counted": 4,
+      "semantic": 3,
+      "syntax": 0,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_027",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+          "query": "CraneBot.unloading_complete --> AGV1.waiting_for_unload && AGV2.waiting_for_unload",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_027",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+          "query": "A[] (DroneSupervisor.distance_from_CraneBot < 20 imply DroneSupervisor.move_away_from_CraneBot)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_027",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "Forklift starts only after at least one AGV reaches transfer zone",
+          "query": "Forklift.start --> AGV.reach_transfer_zone",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_027",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "Eventually all containers reach storage area",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_028.json",
+      "counted": 4,
+      "semantic": 2,
+      "syntax": 1,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_028",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+          "query": "SprayerDrone.starts --> SurveyDrone.marks_zone_safe",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_028",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_028",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "query": "???",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "sequential_workflow",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_028",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+          "query": "A<> (SurveyDrone.zone_fertilized && SprayerDrone.samples_collected)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        }
+      ]
+    },
+    {
+      "file": "scenario_029.json",
+      "counted": 4,
+      "semantic": 3,
+      "syntax": 0,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_029",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "query": "DeliveryAMR1.delivers --> DeliveryAMR2.delivers",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_029",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "query": "CraneA.lift_finish --> WelderBot.start_lifting",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_029",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "query": "A[] (MonitorDrone.remaining_battery < 10 imply MonitorDrone.return_to_base)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_029",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "query": "A<>\t(MonitorDrone.completion_report)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        }
+      ]
+    },
+    {
+      "file": "scenario_030.json",
+      "counted": 4,
+      "semantic": 2,
+      "syntax": 2,
+      "other": 0,
+      "details": [
+        {
+          "scenario_id": "scenario_030",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "query": "MedicalBot.delivery_aid --> SearchBot.confirmed",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_030",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "query": "A[] (SearchBot1.entering_zone implies not SearchBot2.entering_zone)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_030",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "query": "MedicalBot.finish AidDelivery --> TransportAMR.start AidDelivery",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "sequential_workflow",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_030",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "query": "A<> (SurveyDrone.rescue_survivors && SearchBot1.rescue_survivors && SearchBot2.rescue_survivors && MedicalBot.rescue_survivors && TransportAMR.rescue_survivors)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_031.json",
+      "counted": 6,
+      "semantic": 5,
+      "syntax": 0,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_031",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+          "query": "MaintenanceRover.inspection_complete --> MaintenanceRover.moving",
+          "label": "correct",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_031",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+          "query": "(MaintenanceRover.gas_concentration > 3) --> (MaintenanceRover.halt && MaintenanceRover.ventilation_activate)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "conditional_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_031",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_031",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "MaintenanceRover heads to charging when battery < 25%",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_031",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 4,
+          "constraint": "MaintenanceRover records every anomaly before proceeding",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_031",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 5,
+          "constraint": "All inspection reports eventually uploaded",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_032.json",
+      "counted": 7,
+      "semantic": 0,
+      "syntax": 3,
+      "other": 4,
+      "details": [
+        {
+          "scenario_id": "scenario_032",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+          "query": "(wind_speed > 35) --> (AgroDrone.altitude >= safe_altitude)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "conditional_response",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_032",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+          "query": "A[] (AgroDrone.wind_speed \u226435 \u2227 AgroDrone.hovering imply AgroDrone.resuming_survey)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_032",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 5,
+          "constraint": "Eventually all data transmitted to control center",
+          "query": "A<> AgroDrone.data_transmitted_to_control_center",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_032",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+          "query": "A[] (AgroDrone.height >=40 m imply AgroDrone.calibration)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_032",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+          "query": "A[] (AgroDrone.wind_speed >35 imply AgroDrone.hover)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_032",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 4,
+          "constraint": "AgroDrone returns to base within 60 seconds when battery < 20%",
+          "query": "A[] (AgroDrone.battery < 20% && not AgroDrone.at_base imply clock <= 60)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "time_bounded_constraint",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_032",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 6,
+          "constraint": "Eventually AgroDrone must scan all ten sub-zones",
+          "query": "A<> AgroDrone.scan_all_sub_zones",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        }
+      ]
+    },
+    {
+      "file": "scenario_033.json",
+      "counted": 7,
+      "semantic": 2,
+      "syntax": 3,
+      "other": 2,
+      "details": [
+        {
+          "scenario_id": "scenario_033",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "InspectDrone spends \u2264 120 s per section",
+          "query": "A[] (InspectDrone.inspects_section imply clock <= 120)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "time_bounded_constraint",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_033",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
+          "query": "A[] (InspectDrone.temperature > 60\u00b0C imply clock <= 0)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "time_bounded_constraint",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_033",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "InspectDrone switches to mapping mode if localization lost",
+          "query": "A[] (InspectDrone.localization_lost imply InspectDrone.mapping_mode)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_033",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 5,
+          "constraint": "InspectDrone uploads sensor logs after landing",
+          "query": "InspectDrone.sensor_log_upload --> InspectDrone.landed",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_033",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+          "query": "A[] (InspectDrone.temperature > 60\u00b0C imply InspectDrone.thermal_protection)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_033",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 4,
+          "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+          "query": "InspectDrone.landed_at_dock --> {all_sections_inspected}",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_033",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 6,
+          "constraint": "Always possible to reach safe landed state",
+          "query": "...",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "eventual_completion",
+          "category": "syntax"
+        }
+      ]
+    },
+    {
+      "file": "scenario_034.json",
+      "counted": 7,
+      "semantic": 3,
+      "syntax": 2,
+      "other": 2,
+      "details": [
+        {
+          "scenario_id": "scenario_034",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "query": "A[] (PickerBot.load > limit imply PickerBot.notifies_supervisor)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_034",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "query": "A[] (PickerBot.human_proximity < 2 imply PickerBot.speed = 0.3)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_034",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 4,
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "query": "A[] (PickerBot.obstacle_persisting imply clock <= 10)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "time_bounded_constraint",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_034",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 5,
+          "constraint": "Eventually all orders completed",
+          "query": "A<> PickerBot.orders_completed",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_034",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 6,
+          "constraint": "Eventually all orders reported",
+          "query": "A<> (PickerBot.orders_reported)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_034",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_034",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "query": "A[] (when PickerBot.load > limit imply not PickerBot.picking)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        }
+      ]
+    },
+    {
+      "file": "scenario_035.json",
+      "counted": 7,
+      "semantic": 3,
+      "syntax": 3,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_035",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "query": "E<> (ExploroRover.avoid_lava_zones >= 5)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "existential_reachability",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_035",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "query": "A[] (ExploroRover.slope > 30\u00b0 imply ExploroRover.stabilizers_activated)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_035",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 4,
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "query": "A[] (ExploroRover.transmission_failures >= 3 imply ExploroRover.continuing)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_035",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 5,
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "query": "A<> (ExploroRover.checkpoint_reached)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_035",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 6,
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "query": "A<> (ExploroRover\u6210\u529f\u4f20\u8f93\u7684\u6570\u636e\u91cf \u2265 90)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "eventual_completion",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_035",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "ExploroRover collects data every 200 m",
+          "query": "A[] (ExploroRover.collecting_data implies ExploroRover.data_collected)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_035",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "query": "A[] (ExploroRover.transmission_failure implies ExploroRover.safety_response)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        }
+      ]
+    },
+    {
+      "file": "scenario_036.json",
+      "counted": 6,
+      "semantic": 3,
+      "syntax": 3,
+      "other": 0,
+      "details": [
+        {
+          "scenario_id": "scenario_036",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "FrostBot warms sensors for 30 s before measurements",
+          "query": "A[] (FrostBot.sensor_warming AND FrostBot.measurement_in_progress)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_036",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "query": "A[] (FrostBot.temperature < -25\u00b0C imply FrostBot.standby)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_036",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+          "query": "A[] (FrostBot.temperature > -15\u00b0C imply FrostBot.resuming)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_036",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "FrostBot performs vibration analysis for each motor",
+          "query": "A[] (FrostBot.vibration_exceeds_limit imply FrostBot.analyze_vibration)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_036",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 4,
+          "constraint": "FrostBot logs anomalies for each motor",
+          "query": "A[] (FrostBot.logging_anomalies imply FrostBot.motor_response)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_036",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 5,
+          "constraint": "Always possible to recover from standby to active",
+          "query": "A[] (FrostBot.standby imply FrostBot.active)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_037.json",
+      "counted": 5,
+      "semantic": 3,
+      "syntax": 2,
+      "other": 0,
+      "details": [
+        {
+          "scenario_id": "scenario_037",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "query": "A[] (HarborDrone.altitude < 8 implies HarborDrone.stop)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_037",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "HarborDrone avoids restricted corridors",
+          "query": "A[] (HarborDrone.avoid_restricted_corridors imply true)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_037",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "query": "A[] (HarborDrone.magnetic_interference_detected imply HarborDrone.ascends_above_25m)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_037",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "query": "HarborDrone.uploads_footage --> HarborDrone.move_to_next_section",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_037",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 4,
+          "constraint": "Always returns to base at end of patrol",
+          "query": "A[] (HarborDrone.end_patrol implies HarborDrone.returning_to_base)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        }
+      ]
+    },
+    {
+      "file": "scenario_038.json",
+      "counted": 6,
+      "semantic": 1,
+      "syntax": 2,
+      "other": 3,
+      "details": [
+        {
+          "scenario_id": "scenario_038",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "MediRover checks elevator availability before entering",
+          "query": "A[] (MediRover.enter imply MediRover.elevator_available)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_038",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "query": "A[] (MediRover.stopped and MediRover.emergency_alarm_active imply MediRover.moving_to_safe_corridor)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_038",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "MediRover disinfects tray every 15 minutes",
+          "query": "A[] (MediRover.disinfecting imply clock <= 15)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "time_bounded_constraint",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_038",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "MediRover stops  when emergency alarm active",
+          "query": "A[] (MediRover.emergency_alarm_active imply MediRover.stopped)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_038",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 4,
+          "constraint": "MediRover stores pending deliveries locally if comm lost",
+          "query": "E<> (MediRover.comm_lost implies MediRover.pending_deliveries_locally)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "existential_reachability",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_038",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 5,
+          "constraint": "Eventually all deliveries completed",
+          "query": "...",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "eventual_completion",
+          "category": "syntax"
+        }
+      ]
+    },
+    {
+      "file": "scenario_039.json",
+      "counted": 5,
+      "semantic": 4,
+      "syntax": 0,
+      "other": 1,
+      "details": [
+        {
+          "scenario_id": "scenario_039",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "query": "",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_039",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "Docking completes within 300 s after alignment",
+          "query": "A[] (OrbitalServicer.docking imply clock <= 300)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "time_bounded_constraint",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_039",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "query": "A[] (OrbitalServicer.alignment <= 2 imply OrbitalServicer.docking)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_039",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "query": "(OrbitalServicer.radiation > threshold)",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "conditional_response",
+          "category": "semantic"
+        },
+        {
+          "scenario_id": "scenario_039",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 4,
+          "constraint": "Eventually all satellites serviced",
+          "query": "Satellite.serviced --> OrbitalServicer.servicing",
+          "label": "wrong",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "semantic"
+        }
+      ]
+    },
+    {
+      "file": "scenario_040.json",
+      "counted": 6,
+      "semantic": 0,
+      "syntax": 3,
+      "other": 3,
+      "details": [
+        {
+          "scenario_id": "scenario_040",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 3,
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "query": "A[] (CleanBot.rain_intensity > 30% imply CleanBot.operation_suspended)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_040",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 5,
+          "constraint": "Eventually all routes cleaned ",
+          "query": "A<> (CleanBot.routes_clean)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "eventual_completion",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_040",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 0,
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "query": "A[] (CleanBot.pedestrians < 2 imply CleanBot.paused)",
+          "label": "correct",
+          "valid": true,
+          "pattern": "safety_immediate_response",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_040",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 1,
+          "constraint": "CleanBot returns to depot when debris container full",
+          "query": "A<> CleanBot.depot_return AND CleanBot.debris_container_full",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "eventual_completion",
+          "category": "syntax"
+        },
+        {
+          "scenario_id": "scenario_040",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 2,
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "query": "CleanBot.unloading_complete --> CleanBot.resume_operation",
+          "label": "correct",
+          "valid": true,
+          "pattern": "sequential_workflow",
+          "category": "other"
+        },
+        {
+          "scenario_id": "scenario_040",
+          "model": "ollama/deepseek-r1:14b",
+          "constraint_index": 4,
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "query": "A[] (CleanBot.rain_intensity > 30% imply CleanBot.waiting_under_shelter)",
+          "label": "wrong",
+          "valid": false,
+          "pattern": "safety_immediate_response",
+          "category": "syntax"
+        }
+      ]
+    }
+  ],
+  "percentages": {
+    "semantic": 45.962732919254655,
+    "syntax": 23.60248447204969,
+    "other": 30.434782608695656
+  },
+  "label_summary": {
+    "correct_count": 49,
+    "wrong_count": 112,
+    "other_count": 0,
+    "correct_percentage": 30.434782608695656,
+    "wrong_percentage": 69.56521739130434,
+    "denominator": 161
+  }
+}

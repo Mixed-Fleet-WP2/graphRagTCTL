@@ -1,0 +1,98 @@
+{
+  "id": "scenario_005",
+  "domain": "logistics",
+  "prompt": "A forklift places boxes on a conveyor belt. The belt starts moving only when the forklift is Done placing. The mobile picker robot retrieves packages from the belt and must not operate if any human worker is within 2 meters.",
+  "robots": [
+    "Forklift",
+    "Conveyor",
+    "PickerBot"
+  ],
+  "constraints": [
+    "Conveyor must start moving only when Forklift is done placing boxes",
+    "PickerBot operates only if no human is within 2 meters"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+          "classification": {
+            "step": "classification",
+            "timing": 4.83915114402771,
+            "tokens": 0,
+            "raw_text": "{\n\n\n    \"pattern\": \"sequential_workflow\",\n    \"keywords\": [\"conveyor\", \"start\", \"moving\", \"forklift\", \"done\", \"placing\", \"boxes\"],\n    \"cues\": [\"when\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.947389125823975,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Conveyor.start_moving --> Forklift.done_placing_boxes\",\n  \"explanation\": \"This UPPAAL query represents the sequential workflow where Conveyor starting to move follows eventually after Forklift has finished placing boxes. The '-->' operator captures this eventual trigger where one action leads to another, adhering to the pattern template of action1 leading to action2 with possible delays.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Conveyor.start_moving --> Forklift.done_placing_boxes",
+              "explanation": "This UPPAAL query represents the sequential workflow where Conveyor starting to move follows eventually after Forklift has finished placing boxes. The '-->' operator captures this eventual trigger where one action leads to another, adhering to the pattern template of action1 leading to action2 with possible delays.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Conveyor.start_moving --> Forklift.done_placing_boxes"
+          },
+          "total_time": 18.042141914367676,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "PickerBot operates only if no human is within 2 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 3.882633924484253,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"operate\", \"only if\"],\n    \"cues\": [\"if\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.25581693649292,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (PickerBot.operate imply not Human.distance_to_PickerBot < 2)\",\n  \"explanation\": \"This UPPAAL query enforces that the PickerBot must only operate if no human is within 2 meters. The 'imply' operator ensures an immediate response, aligning with the safety_immediate_response pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (PickerBot.operate imply not Human.distance_to_PickerBot < 2)",
+              "explanation": "This UPPAAL query enforces that the PickerBot must only operate if no human is within 2 meters. The 'imply' operator ensures an immediate response, aligning with the safety_immediate_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (PickerBot.operate imply not Human.distance_to_PickerBot < 2)"
+          },
+          "total_time": 17.183869123458862,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    }
+  ]
+}

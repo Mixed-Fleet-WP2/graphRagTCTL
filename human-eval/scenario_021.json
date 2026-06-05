@@ -7,7 +7,7 @@
     },
     "evaluation_date": "2026-01-07T13:14:41.679Z",
     "total_scenarios": 1,
-    "total_models": 11
+    "total_models": 12
   },
   "scenarios": [
     {
@@ -459,6 +459,46 @@
             "correct": 2,
             "valid_inferred": 0,
             "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 1,
+                "constraint": "All sections eventually inspected",
+                "query": "A<> (SubDroneA.inspected && SubDroneB.inspected)",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 0,
+                "constraint": "Both drones maintain communication range at all times",
+                "query": "A[] (SubDroneA.communication_range Maintained imply SubDroneB.communication_range Maintained)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "If visibility < 30%, both start returning to surface ",
+                "query": "",
+                "valid": false,
+                "pattern": "",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
             "unlabeled": 0
           }
         }

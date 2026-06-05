@@ -7,18 +7,18 @@
     },
     "evaluation_date": "2026-01-27T12:17:12.306Z",
     "total_scenarios": 1,
-    "total_models": 11
+    "total_models": 12
   },
   "scenarios": [
     {
       "scenario_id": "scenario_039",
       "domain": "space",
-      "prompt": "An orbital maintenance robot services communication satellites. It must align within ±2° before docking. If solar radiation spikes above threshold, it retreats to shield position until radiation returns to normal. After each maintenance operation, it performs diagnostics lasting at least 120 seconds. Docking must be completed within 300 seconds after alignment achieved, and all satellites must eventually be serviced.",
+      "prompt": "An orbital maintenance robot services communication satellites. It must align within \u00b12\u00b0 before docking. If solar radiation spikes above threshold, it retreats to shield position until radiation returns to normal. After each maintenance operation, it performs diagnostics lasting at least 120 seconds. Docking must be completed within 300 seconds after alignment achieved, and all satellites must eventually be serviced.",
       "gold_standard": {
         "constraints": [
-          "OrbitalServicer aligns within ±2° before docking",
+          "OrbitalServicer aligns within \u00b12\u00b0 before docking",
           "OrbitalServicer retreats to shield when radiation above threshold",
-          "OrbitalServicer performs diagnostics ≥ 120 s after maintenance",
+          "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
           "Docking completes within 300 s after alignment",
           "Eventually all satellites serviced"
         ]
@@ -33,7 +33,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "OrbitalServicer aligns within ±2° before docking",
+                "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
                 "query": "A[] (OrbitalServicer.docking imply OrbitalServicer.alignment_within_2deg)",
                 "valid": false,
                 "pattern": "safety_immediate_response",
@@ -43,13 +43,13 @@
                 "constraint_index": 1,
                 "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
                 "query": "(radiation > threshold) --> OrbitalServicer.at_shield",
-                "valid": false,
+                "valid": true,
                 "pattern": "conditional_response",
                 "label": "correct"
               },
               {
                 "constraint_index": 2,
-                "constraint": "OrbitalServicer performs diagnostics ≥ 120 s after maintenance",
+                "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
                 "query": "A[] (OrbitalServicer.diagnostics && OrbitalServicer.t_maint < 120 imply false)",
                 "valid": false,
                 "pattern": "time_bounded_constraint",
@@ -59,7 +59,7 @@
                 "constraint_index": 3,
                 "constraint": "Docking completes within 300 s after alignment",
                 "query": "A[] (OrbitalServicer.alignment && not OrbitalServicer.docking_complete imply t <= 300)",
-                "valid": false,
+                "valid": true,
                 "pattern": "time_bounded_constraint",
                 "label": "correct"
               },
@@ -67,7 +67,7 @@
                 "constraint_index": 4,
                 "constraint": "Eventually all satellites serviced",
                 "query": "A<> OrbitalServicer.all_satellites_serviced",
-                "valid": false,
+                "valid": true,
                 "pattern": "eventual_completion",
                 "label": "correct"
               }
@@ -89,7 +89,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "OrbitalServicer aligns within ±2° before docking",
+                "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
                 "query": "(OrbitalServicer.docking) --> (OrbitalServicer.alignment_error <= 2 && OrbitalServicer.alignment_error >= -2)",
                 "valid": false,
                 "pattern": "conditional_response",
@@ -99,13 +99,13 @@
                 "constraint_index": 1,
                 "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
                 "query": "A[] (OrbitalServicer.radiation > threshold imply OrbitalServicer.retreats_to_shield)",
-                "valid": false,
+                "valid": true,
                 "pattern": "safety_immediate_response",
                 "label": "correct"
               },
               {
                 "constraint_index": 2,
-                "constraint": "OrbitalServicer performs diagnostics ≥ 120 s after maintenance",
+                "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
                 "query": "A[] (OrbitalServicer.maintenance --> (OrbitalServicer.diagnostics && clock >= 120))",
                 "valid": false,
                 "pattern": "time_bounded_constraint",
@@ -115,7 +115,7 @@
                 "constraint_index": 3,
                 "constraint": "Docking completes within 300 s after alignment",
                 "query": "A[] (OrbitalServicer.aligned && not OrbitalServicer.docked imply t <= 300)",
-                "valid": false,
+                "valid": true,
                 "pattern": "time_bounded_constraint",
                 "label": "correct"
               },
@@ -123,7 +123,7 @@
                 "constraint_index": 4,
                 "constraint": "Eventually all satellites serviced",
                 "query": "A<> OrbitalServicer.all_satellites_serviced",
-                "valid": false,
+                "valid": true,
                 "pattern": "universal_reachability",
                 "label": "correct"
               }
@@ -145,7 +145,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "OrbitalServicer aligns within ±2° before docking",
+                "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
                 "query": "(OrbitalServicer.before_docking) --> (OrbitalServicer.aligned_within_2_deg)",
                 "valid": false,
                 "pattern": "conditional_response",
@@ -161,7 +161,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "OrbitalServicer performs diagnostics ≥ 120 s after maintenance",
+                "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
                 "query": "A[] (OrbitalServicer.maintenance_done imply (clock >= 120 --> OrbitalServicer.diagnostics))",
                 "valid": false,
                 "pattern": "time_bounded_constraint",
@@ -171,7 +171,7 @@
                 "constraint_index": 3,
                 "constraint": "Docking completes within 300 s after alignment",
                 "query": "A[] (OrbitalServicer.aligned && not OrbitalServicer.docking_complete imply clock <= 300)",
-                "valid": false,
+                "valid": true,
                 "pattern": "time_bounded_constraint",
                 "label": "correct"
               },
@@ -179,7 +179,7 @@
                 "constraint_index": 4,
                 "constraint": "Eventually all satellites serviced",
                 "query": "A<> OrbitalServicer.all_satellites_serviced",
-                "valid": false,
+                "valid": true,
                 "pattern": "eventual_completion",
                 "label": "correct"
               }
@@ -201,7 +201,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "OrbitalServicer aligns within ±2° before docking",
+                "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
                 "query": "(OrbitalServicer.aligned_within_2_degrees) --> OrbitalServicer.docking",
                 "valid": false,
                 "pattern": "conditional_response",
@@ -211,13 +211,13 @@
                 "constraint_index": 1,
                 "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
                 "query": "(radiation > threshold) --> OrbitalServicer.at_shield",
-                "valid": false,
+                "valid": true,
                 "pattern": "conditional_response",
                 "label": "correct"
               },
               {
                 "constraint_index": 2,
-                "constraint": "OrbitalServicer performs diagnostics ≥ 120 s after maintenance",
+                "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
                 "query": "A[] (OrbitalServicer.maintenance --> OrbitalServicer.diagnostics && clock >= 120)",
                 "valid": false,
                 "pattern": "time_bounded_constraint",
@@ -227,7 +227,7 @@
                 "constraint_index": 3,
                 "constraint": "Docking completes within 300 s after alignment",
                 "query": "A[] (OrbitalServicer.alignment_done && not OrbitalServicer.docking_complete imply clock <= 300)",
-                "valid": false,
+                "valid": true,
                 "pattern": "time_bounded_constraint",
                 "label": "correct"
               },
@@ -235,7 +235,7 @@
                 "constraint_index": 4,
                 "constraint": "Eventually all satellites serviced",
                 "query": "A<> OrbitalServicer.all_satellites_serviced",
-                "valid": false,
+                "valid": true,
                 "pattern": "eventual_completion",
                 "label": "correct"
               }
@@ -257,7 +257,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "OrbitalServicer aligns within ±2° before docking",
+                "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
                 "query": "A[] (OrbitalServicer.docking imply OrbitalServicer.aligned)",
                 "valid": false,
                 "pattern": "safety_immediate_response",
@@ -273,7 +273,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "OrbitalServicer performs diagnostics ≥ 120 s after maintenance",
+                "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
                 "query": "OrbitalServicer.maintenance --> (OrbitalServicer.diagnostics && OrbitalServicer.clock >= 120)",
                 "valid": false,
                 "pattern": "conditional_response",
@@ -283,7 +283,7 @@
                 "constraint_index": 3,
                 "constraint": "Docking completes within 300 s after alignment",
                 "query": "A[] (OrbitalServicer.aligned && not OrbitalServicer.docked imply clock <= 300)",
-                "valid": false,
+                "valid": true,
                 "pattern": "time_bounded_constraint",
                 "label": "correct"
               },
@@ -291,7 +291,7 @@
                 "constraint_index": 4,
                 "constraint": "Eventually all satellites serviced",
                 "query": "A<> OrbitalServicer.all_satellites_serviced",
-                "valid": false,
+                "valid": true,
                 "pattern": "eventual_completion",
                 "label": "correct"
               }
@@ -313,7 +313,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "OrbitalServicer aligns within ±2° before docking",
+                "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
                 "query": "A[] (OrbitalServicer.before_docking imply OrbitalServicer.aligned_within_tolerance)",
                 "valid": false,
                 "pattern": "safety_immediate_response",
@@ -329,9 +329,9 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "OrbitalServicer performs diagnostics ≥ 120 s after maintenance",
+                "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
                 "query": "A[] (OrbitalServicer.maintenance imply OrbitalServicer.diagnostics_clock >= 120)",
-                "valid": false,
+                "valid": true,
                 "pattern": "time_bounded_constraint",
                 "label": "correct"
               },
@@ -339,7 +339,7 @@
                 "constraint_index": 3,
                 "constraint": "Docking completes within 300 s after alignment",
                 "query": "A[] (OrbitalServicer.alignment imply OrbitalServicer.docking_clock <= 300)",
-                "valid": false,
+                "valid": true,
                 "pattern": "time_bounded_constraint",
                 "label": "correct"
               },
@@ -347,7 +347,7 @@
                 "constraint_index": 4,
                 "constraint": "Eventually all satellites serviced",
                 "query": "A<> OrbitalServicer.all_satellites_serviced",
-                "valid": false,
+                "valid": true,
                 "pattern": "eventual_completion",
                 "label": "correct"
               }
@@ -369,7 +369,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "OrbitalServicer aligns within ±2° before docking",
+                "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
                 "query": "OrbitalServicer.aligning --> OrbitalServicer.docking",
                 "valid": false,
                 "pattern": "sequential_workflow",
@@ -379,13 +379,13 @@
                 "constraint_index": 1,
                 "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
                 "query": "(radiation > threshold) --> OrbitalServicer.at_shield",
-                "valid": false,
+                "valid": true,
                 "pattern": "conditional_response",
                 "label": "correct"
               },
               {
                 "constraint_index": 2,
-                "constraint": "OrbitalServicer performs diagnostics ≥ 120 s after maintenance",
+                "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
                 "query": "OrbitalServicer.maintenance --> (OrbitalServicer.diagnostics and clock >= 120)",
                 "valid": false,
                 "pattern": "time_bounded_constraint",
@@ -395,7 +395,7 @@
                 "constraint_index": 3,
                 "constraint": "Docking completes within 300 s after alignment",
                 "query": "A[] (OrbitalServicer.alignment && not OrbitalServicer.docking_completed imply clock <= 300)",
-                "valid": false,
+                "valid": true,
                 "pattern": "time_bounded_constraint",
                 "label": "correct"
               },
@@ -403,7 +403,7 @@
                 "constraint_index": 4,
                 "constraint": "Eventually all satellites serviced",
                 "query": "A<> OrbitalServicer.all_satellites_serviced",
-                "valid": false,
+                "valid": true,
                 "pattern": "eventual_completion",
                 "label": "correct"
               }
@@ -425,7 +425,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "OrbitalServicer aligns within ±2° before docking",
+                "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
                 "query": "OrbitalServicer.aligns --> OrbitalServicer.docking",
                 "valid": false,
                 "pattern": "sequential_workflow",
@@ -441,7 +441,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "OrbitalServicer performs diagnostics ≥ 120 s after maintenance",
+                "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
                 "query": "A[] (OrbitalServicer.maintenance --> OrbitalServicer.diagnostics and OrbitalServicer.clock >= 120)",
                 "valid": false,
                 "pattern": "time_bounded_constraint",
@@ -451,7 +451,7 @@
                 "constraint_index": 3,
                 "constraint": "Docking completes within 300 s after alignment",
                 "query": "A[] (OrbitalServicer.aligned && !OrbitalServicer.docking_completed imply OrbitalServicer.clock <= 300)",
-                "valid": false,
+                "valid": true,
                 "pattern": "time_bounded_constraint",
                 "label": "correct"
               },
@@ -459,7 +459,7 @@
                 "constraint_index": 4,
                 "constraint": "Eventually all satellites serviced",
                 "query": "A<> OrbitalServicer.all_satellites_serviced",
-                "valid": false,
+                "valid": true,
                 "pattern": "eventual_completion",
                 "label": "correct"
               }
@@ -481,7 +481,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "OrbitalServicer aligns within ±2° before docking",
+                "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
                 "query": "A[] (OrbitalServicer.aligning --> OrbitalServicer.docking imply clock <= 2)",
                 "valid": false,
                 "pattern": "time_bounded_constraint",
@@ -491,13 +491,13 @@
                 "constraint_index": 1,
                 "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
                 "query": "radiation_above_threshold --> OrbitalServicer.at_shield",
-                "valid": false,
+                "valid": true,
                 "pattern": "conditional_response",
                 "label": "correct"
               },
               {
                 "constraint_index": 2,
-                "constraint": "OrbitalServicer performs diagnostics ≥ 120 s after maintenance",
+                "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
                 "query": "OrbitalServicer.maintenance --> (OrbitalServicer.diagnostics && clock >= 120)",
                 "valid": false,
                 "pattern": "time_bounded_constraint",
@@ -515,7 +515,7 @@
                 "constraint_index": 4,
                 "constraint": "Eventually all satellites serviced",
                 "query": "A<> OrbitalServicer.all_satellites_serviced",
-                "valid": false,
+                "valid": true,
                 "pattern": "eventual_completion",
                 "label": "correct"
               }
@@ -537,7 +537,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "OrbitalServicer aligns within ±2° before docking",
+                "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
                 "query": "OrbitalServicer.Aligned --> OrbitalServicer.Docking",
                 "valid": false,
                 "pattern": "sequential_workflow",
@@ -553,7 +553,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "OrbitalServicer performs diagnostics ≥ 120 s after maintenance",
+                "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
                 "query": "OrbitalServicer.Maintenance --> (OrbitalServicer.Diagnostics and clock >= 120)",
                 "valid": false,
                 "pattern": "time_bounded_constraint",
@@ -563,7 +563,7 @@
                 "constraint_index": 3,
                 "constraint": "Docking completes within 300 s after alignment",
                 "query": "A[] (OrbitalServicer.Alignment && not OrbitalServicer.DockingCompletes imply clock <= 300)",
-                "valid": false,
+                "valid": true,
                 "pattern": "time_bounded_constraint",
                 "label": "correct"
               },
@@ -571,7 +571,7 @@
                 "constraint_index": 4,
                 "constraint": "Eventually all satellites serviced",
                 "query": "A<> OrbitalServicer.AllSatellitesServiced",
-                "valid": false,
+                "valid": true,
                 "pattern": "universal_reachability",
                 "label": "correct"
               }
@@ -593,7 +593,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "OrbitalServicer aligns within ±2° before docking",
+                "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
                 "query": "A[] (OrbitalServicer.angle < -2 || OrbitalServicer.angle > 2 imply OrbitalServicer.docking)",
                 "valid": false,
                 "pattern": "safety_immediate_response",
@@ -609,7 +609,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "OrbitalServicer performs diagnostics ≥ 120 s after maintenance",
+                "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
                 "query": "A[] (OrbitalServicer.diagnostics && not OrbitalServicer.maintenance imply clock <= 120)",
                 "valid": false,
                 "pattern": "time_bounded_constraint",
@@ -619,7 +619,7 @@
                 "constraint_index": 3,
                 "constraint": "Docking completes within 300 s after alignment",
                 "query": "A[] (OrbitalServicer.docking completes within 300 s imply clock <= 300)",
-                "valid": false,
+                "valid": true,
                 "pattern": "time_bounded_constraint",
                 "label": "correct"
               },
@@ -629,6 +629,62 @@
                 "query": "A<> (OrbitalServicer.satellites_serviced)",
                 "valid": false,
                 "pattern": "eventual_completion",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 4,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 2,
+                "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+                "query": "",
+                "valid": false,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "Docking completes within 300 s after alignment",
+                "query": "A[] (OrbitalServicer.docking imply clock <= 300)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 0,
+                "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+                "query": "A[] (OrbitalServicer.alignment <= 2 imply OrbitalServicer.docking)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+                "query": "(OrbitalServicer.radiation > threshold)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "Eventually all satellites serviced",
+                "query": "Satellite.serviced --> OrbitalServicer.servicing",
+                "valid": true,
+                "pattern": "sequential_workflow",
                 "label": "wrong"
               }
             ]

@@ -1,0 +1,155 @@
+{
+  "id": "scenario_025",
+  "domain": "harbor",
+  "prompt": "Three AMRs operate at a dock. At any time, at least one must be charging. Eventually, they can operate again after recharging.",
+  "robots": [
+    "DockAMR1",
+    "DockAMR2",
+    "DockAMR3"
+  ],
+  "constraints": [
+    "At least one AMR must always be charging",
+    "DockAMR1 can operate after DockAMR1 has recharged",
+    "DockAMR2 can operate after DockAMR2 has recharged",
+    "DockAMR3 can operate after DockAMR3 has recharged"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "At least one AMR must always be charging",
+          "classification": {
+            "step": "classification",
+            "timing": 4.1107399463653564,
+            "tokens": 0,
+            "raw_text": "{ \"constraint\": { \"pattern\": \"safety_immediate_response\", \"keywords\": [\"AMR\", \"charge\"], \"cues\": [\"must\"] }, \"response\": null }",
+            "error": "Invalid classification structure: 'pattern'"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 4.110970973968506,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 0
+        },
+        {
+          "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 5.050265073776245,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"DockAMR1\", \"operate\", \"after\", \"recharge\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DockAMR1 can operate after DockAMR1 has recharged\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.000315189361572,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"DockAMR1.recharge --> DockAMR1.operate\",\n    \"explanation\": \"This UPPAAL query represents that DockAMR1's operate action will eventually follow its recharge action, which aligns with the constraint stating that DockAMR1 can operate after recharging.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"sequential_workflow\",\n    \"operator_used\": [\"-->\"]\n  }",
+            "uppaal_result": {
+              "query": "DockAMR1.recharge --> DockAMR1.operate",
+              "explanation": "This UPPAAL query represents that DockAMR1's operate action will eventually follow its recharge action, which aligns with the constraint stating that DockAMR1 can operate after recharging.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR1.recharge --> DockAMR1.operate"
+          },
+          "total_time": 18.118119955062866,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 4.422400951385498,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"recharge\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"has recharged\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.096131086349487,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"DockAMR2.recharge --> DockAMR2.operate\",\n  \"explanation\": \"This query represents that DockAMR2 can only operate after it has recharged. The '-->' operator is used here because the charging must eventually lead to operation, fitting the sequential_workflow pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DockAMR2.recharge --> DockAMR2.operate",
+              "explanation": "This query represents that DockAMR2 can only operate after it has recharged. The '-->' operator is used here because the charging must eventually lead to operation, fitting the sequential_workflow pattern.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR2.recharge --> DockAMR2.operate"
+          },
+          "total_time": 16.752180099487305,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+          "classification": {
+            "step": "classification",
+            "timing": 5.4267802238464355,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"dockamr3\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DockAMR3 can operate after DockAMR3 has recharged\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.507138967514038,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"DockAMR3.recharged --> DockAMR3.operate\",\n    \"explanation\": \"This UPPAAL query represents the sequential workflow where DockAMR3's recharging leads to its operation. The 'after' keyword in the constraint is captured by the '-->' operator, indicating that after recharging, the robot will eventually operate.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"sequential_workflow\",\n    \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "DockAMR3.recharged --> DockAMR3.operate",
+              "explanation": "This UPPAAL query represents the sequential workflow where DockAMR3's recharging leads to its operation. The 'after' keyword in the constraint is captured by the '-->' operator, indicating that after recharging, the robot will eventually operate.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DockAMR3.recharged --> DockAMR3.operate"
+          },
+          "total_time": 17.99514889717102,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
+    }
+  ]
+}

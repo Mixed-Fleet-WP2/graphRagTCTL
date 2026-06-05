@@ -1,0 +1,71 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-06-05T08:18:44.596Z",
+    "total_scenarios": 1,
+    "total_models": 1
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_007",
+      "domain": "drone_inspection",
+      "prompt": "A UAV performs an inspection flight around a building. It must maintain a distance of at least 3 meters from any obstacle and return to the base after completing the inspection.",
+      "gold_standard": {
+        "constraints": [
+          "UAV must maintain a safe distance of 3 meters from obstacles",
+          "UAV must eventually return to base"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+                "query": "A[] (UAV.distance_from_obstacles < 3 imply UAV.maintaining_safe_distance)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "UAV must eventually return to base",
+                "query": "A<>.UAV.return_to_base()",
+                "valid": false,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 0,
+    "inferred": 0,
+    "hallucination": 2,
+    "unlabeled": 0,
+    "total": 2
+  },
+  "performance_metrics": {
+    "precision": 0,
+    "recall": 0,
+    "f1": 0
+  }
+}

@@ -7,7 +7,7 @@
     },
     "evaluation_date": "2026-01-05T10:26:17.473Z",
     "total_scenarios": 1,
-    "total_models": 11
+    "total_models": 12
   },
   "scenarios": [
     {
@@ -459,6 +459,46 @@
             "correct": 3,
             "valid_inferred": 0,
             "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+                "query": "",
+                "valid": false,
+                "pattern": "",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+                "query": "A[] (InspectionDrone.vibration > 5 imply not InspectionDrone.moving)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "RepairBot stop when vibration exceeds 5 g",
+                "query": "A[] (RepairBot.vibration > 5g imply not RepairBot.operating)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
             "unlabeled": 0
           }
         }

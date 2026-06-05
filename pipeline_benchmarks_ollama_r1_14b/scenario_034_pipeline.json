@@ -1,0 +1,272 @@
+{
+  "id": "scenario_034",
+  "domain": "logistics",
+  "prompt": "A mobile manipulator robot performs order picking in a warehouse. It identifies shelves via QR codes and must verify the item before grasping. If weight exceeds its maximum capacity, it must abort the pick and notify the supervisor. When humans are detected within 2 meters, speed is reduced to 0.3 m/s. If obstacle blocking persists longer than 10 seconds, the robot must request assistance. Eventually, all orders should be completed and reported.",
+  "robots": [
+    "PickerBot"
+  ],
+  "constraints": [
+    "PickerBot verifies item via QR before grasping",
+    "PickerBot aborts pick  when load exceeds limit",
+    "when load exceeds limit PickerBot notifies supervisor",
+    "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+    "PickerBot requests help if obstacle persists > 10 s",
+    "Eventually all orders completed",
+    "Eventually all orders reported"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "when load exceeds limit PickerBot notifies supervisor",
+          "classification": {
+            "step": "classification",
+            "timing": 4.447050094604492,
+            "tokens": 0,
+            "raw_text": "{ \n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"load\", \"exceeds\", \"limit\", \"PickerBot\", \"notifies\", \"supervisor\"],\n    \"cues\": [\"when\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.814819097518921,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (PickerBot.load > limit imply PickerBot.notifies_supervisor)\",\n    \"explanation\": \"The UPPAAL query enforces that whenever the load on PickerBot exceeds the limit, it must immediately notify the supervisor. This matches the constraint precisely by ensuring an immediate response to dangerous conditions.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (PickerBot.load > limit imply PickerBot.notifies_supervisor)",
+              "explanation": "The UPPAAL query enforces that whenever the load on PickerBot exceeds the limit, it must immediately notify the supervisor. This matches the constraint precisely by ensuring an immediate response to dangerous conditions.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (PickerBot.load > limit imply PickerBot.notifies_supervisor)"
+          },
+          "total_time": 17.287961721420288,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 6.553016901016235,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"speed reduction\", \"human proximity\"],\n    \"cues\": [\"when\", \"<\"],\n    \"trigger_text\": \"when human < 2 m\",\n    \"response_text\": \"reduces speed to 0.3 m/s\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.28778886795044,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (PickerBot.human_proximity < 2 imply PickerBot.speed = 0.3)\",\n    \"explanation\": \"This UPPAAL query enforces that whenever the human proximity is less than 2 meters, the PickerBot must immediately reduce its speed to 0.3 m/s, ensuring safety by an immediate response.\",\n    \"confidence\": 1,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (PickerBot.human_proximity < 2 imply PickerBot.speed = 0.3)",
+              "explanation": "This UPPAAL query enforces that whenever the human proximity is less than 2 meters, the PickerBot must immediately reduce its speed to 0.3 m/s, ensuring safety by an immediate response.",
+              "confidence": 1,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (PickerBot.human_proximity < 2 imply PickerBot.speed = 0.3)"
+          },
+          "total_time": 19.91845202445984,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "PickerBot requests help if obstacle persists > 10 s",
+          "classification": {
+            "step": "classification",
+            "timing": 6.274240016937256,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"time_bounded_constraint\",\n\"keywords\": [\"help\", \"obstacle\", \"persists\", \"10 seconds\"],\n\"cues\": [\"must\"], \n\"trigger_text\": \"if obstacle persists > 10 s\", \n\"response_text\": \"requests help\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.502334833145142,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (PickerBot.obstacle_persisting imply clock <= 10)\",\n    \"explanation\": \"The UPPAAL query enforces that if the obstacle persists for more than 10 seconds, it must request help immediately.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"time_bounded_constraint\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (PickerBot.obstacle_persisting imply clock <= 10)",
+              "explanation": "The UPPAAL query enforces that if the obstacle persists for more than 10 seconds, it must request help immediately.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (PickerBot.obstacle_persisting imply clock <= 10)"
+          },
+          "total_time": 18.835315942764282,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "Eventually all orders completed",
+          "classification": {
+            "step": "classification",
+            "timing": 3.409191131591797,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"eventual_completion\", \"keywords\": [\"orders\", \"completed\"], \"cues\": [\"eventually\"] }"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.378361701965332,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A<> PickerBot.orders_completed\",\n    \"explanation\": \"This UPPAAL query ensures that the PickerBot's orders will eventually be completed.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"eventual_completion\",\n    \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> PickerBot.orders_completed",
+              "explanation": "This UPPAAL query ensures that the PickerBot's orders will eventually be completed.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> PickerBot.orders_completed"
+          },
+          "total_time": 12.880290031433105,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually all orders reported",
+          "classification": {
+            "step": "classification",
+            "timing": 4.4572649002075195,
+            "tokens": 0,
+            "raw_text": "{ \n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"orders\", \"reported\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"all orders are eventually reported\"\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.363308668136597,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A<> (PickerBot.orders_reported)\",\n    \"explanation\": \"The UPPAAL query uses the A<> operator to express that all orders reported by PickerBot must eventually happen. This matches the constraint 'Eventually all orders are reported' as it ensures liveness in the system.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"eventual_completion\",\n    \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (PickerBot.orders_reported)",
+              "explanation": "The UPPAAL query uses the A<> operator to express that all orders reported by PickerBot must eventually happen. This matches the constraint 'Eventually all orders are reported' as it ensures liveness in the system.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (PickerBot.orders_reported)"
+          },
+          "total_time": 15.854791164398193,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        },
+        {
+          "constraint": "PickerBot verifies item via QR before grasping",
+          "classification": {
+            "step": "classification",
+            "timing": 0.3487396240234375,
+            "tokens": 0,
+            "raw_text": "{ }",
+            "error": "Failed to parse JSON"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 0.3488290309906006,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 0,
+          "attempt": 3
+        },
+        {
+          "constraint": "PickerBot aborts pick  when load exceeds limit",
+          "classification": {
+            "step": "classification",
+            "timing": 3.8131818771362305,
+            "tokens": 0,
+            "raw_text": "{\n   \"pattern\": \"safety_immediate_response\",\n   \"keywords\": [\"aborts\", \"exceeds\"],\n   \"cues\": [\"when\"],\n   \"trigger_text\": \"when load exceeds limit\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.200886011123657,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (when PickerBot.load > limit imply not PickerBot.picking)\",\n  \"explanation\": \"This UPPAAL query enforces that whenever the load exceeds the limit, the picking action must immediately abort. The A[] operator ensures this is a safety property that must always hold, with 'imply' enforcing an immediate response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (when PickerBot.load > limit imply not PickerBot.picking)",
+              "explanation": "This UPPAAL query enforces that whenever the load exceeds the limit, the picking action must immediately abort. The A[] operator ensures this is a safety property that must always hold, with 'imply' enforcing an immediate response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (when PickerBot.load > limit imply not PickerBot.picking)"
+          },
+          "total_time": 17.048454999923706,
+          "success": true,
+          "error": null,
+          "constraint_index": 1,
+          "attempt": 2
+        }
+      ]
+    }
+  ]
+}

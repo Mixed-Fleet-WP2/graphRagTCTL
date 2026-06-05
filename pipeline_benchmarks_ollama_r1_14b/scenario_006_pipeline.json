@@ -1,0 +1,115 @@
+{
+  "id": "scenario_006",
+  "domain": "agriculture",
+  "prompt": "A drone sprays pesticide across fields while a ground rover monitors soil humidity. The drone must not spray if wind speed exceeds 25 km/h. The rover reports humidity every 10 minutes, and if humidity < 20%, the drone must pause spraying.",
+  "robots": [
+    "SprayDrone",
+    "SoilRover"
+  ],
+  "constraints": [
+    "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+    "SoilRover reports humidity every 10 minutes",
+    "SprayDrone pauses spraying if humidity below 20%"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 6.33861517906189,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"spraydrone\", \"stop\", \"spraying\", \"wind\", \"speed\", \"exceed\"],\n  \"cues\": [\"when\"], \n  \"trigger_text\": \"wind speed exceeds 25 km/h\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.983927011489868,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (SprayDrone.wind_speed >25 imply SprayDrone.stopped_spraying)\",\n  \"explanation\": \"The constraint requires an immediate response when wind speed exceeds 25 km/h. The UPPAAL query uses A[] to enforce a safety property that must always hold, ensuring that the SprayDrone stops spraying immediately under dangerous conditions.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (SprayDrone.wind_speed >25 imply SprayDrone.stopped_spraying)",
+              "explanation": "The constraint requires an immediate response when wind speed exceeds 25 km/h. The UPPAAL query uses A[] to enforce a safety property that must always hold, ensuring that the SprayDrone stops spraying immediately under dangerous conditions.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SprayDrone.wind_speed >25 imply SprayDrone.stopped_spraying)"
+          },
+          "total_time": 20.37944221496582,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SoilRover reports humidity every 10 minutes",
+          "classification": {
+            "step": "classification",
+            "timing": 4.010362863540649,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"report\", \"humidity\", \"every\"],\n    \"cues\": [\"every\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.412712097167969,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (SoilRover.humidity_report_period < 10 imply SoilRover.reporting_humidity)\",\n    \"explanation\": \"The constraint requires that SoilRover reports humidity every 10 minutes. The UPPAAL query uses A[], indicating a safety property that must always hold, and the 'imply' operator enforces an immediate response by ensuring that if the report period is less than 10 minutes, the robot immediately proceeds to report humidity.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (SoilRover.humidity_report_period < 10 imply SoilRover.reporting_humidity)",
+              "explanation": "The constraint requires that SoilRover reports humidity every 10 minutes. The UPPAAL query uses A[], indicating a safety property that must always hold, and the 'imply' operator enforces an immediate response by ensuring that if the report period is less than 10 minutes, the robot immediately proceeds to report humidity.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SoilRover.humidity_report_period < 10 imply SoilRover.reporting_humidity)"
+          },
+          "total_time": 19.493767976760864,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SprayDrone pauses spraying if humidity below 20%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4426028728485107,
+            "tokens": 0,
+            "raw_text": "{ }",
+            "error": "Failed to parse JSON"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 1.4426538944244385,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

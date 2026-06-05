@@ -1,0 +1,71 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-06-05T09:17:15.077Z",
+    "total_scenarios": 1,
+    "total_models": 1
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_020",
+      "domain": "space",
+      "prompt": "An external repair drone fixes solar panels, while an inspection bot verifies alignment. at some point repair drone have to to reach a safe shutdown state. If misalignment persists for over 60 seconds we must switch inspection bot to emergency stop.",
+      "gold_standard": {
+        "constraints": [
+          "At some point RepairDrone have to reach a safe shutdown state",
+          "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 1,
+                "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+                "query": "...",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 0,
+                "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+                "query": "A<> RepairDrone.safe_shutdown",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 1,
+    "inferred": 0,
+    "hallucination": 1,
+    "unlabeled": 0,
+    "total": 2
+  },
+  "performance_metrics": {
+    "precision": 0.5,
+    "recall": 0.5,
+    "f1": 0.5
+  }
+}

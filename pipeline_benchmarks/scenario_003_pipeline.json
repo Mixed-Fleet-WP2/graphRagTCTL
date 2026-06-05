@@ -3464,6 +3464,212 @@
           "constraint_index": 7
         }
       ]
+    },
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "InspectorBot returns to charging when battery below 20%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8078501224517822,
+            "tokens": 0,
+            "raw_text": "{ }",
+            "error": "Failed to parse JSON"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 1.8081300258636475,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 0
+        },
+        {
+          "constraint": "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+          "classification": {
+            "step": "classification",
+            "timing": 5.052811861038208,
+            "tokens": 0,
+            "raw_text": "{\n\n\n\"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"finish\", \"scan\", \"start\", \"picking\"],\n  \"cues\": [\"then\"],\n  \"trigger_text\": \"InspectorBot finishes scanning\",\n  \"response_text\": \"CollectorAMR starts picking items\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.492508888244629,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"InspectorBot.scanning_finish --> CollectorAMR.picking_start\",\n    \"explanation\": \"This UPPAAL query represents the sequential workflow where InspectorBot finishing scanning eventually leads to CollectorAMR starting picking. The '-->' operator is used because it captures the eventual triggering of one action after another, aligning with the 'sequential_workflow' pattern and the presence of the trigger cue 'then'.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"sequential_workflow\",\n    \"operator_used\": [\"-->\"]\n  }",
+            "uppaal_result": {
+              "query": "InspectorBot.scanning_finish --> CollectorAMR.picking_start",
+              "explanation": "This UPPAAL query represents the sequential workflow where InspectorBot finishing scanning eventually leads to CollectorAMR starting picking. The '-->' operator is used because it captures the eventual triggering of one action after another, aligning with the 'sequential_workflow' pattern and the presence of the trigger cue 'then'.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "InspectorBot.scanning_finish --> CollectorAMR.picking_start"
+          },
+          "total_time": 18.595362901687622,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "InspectorBot maintains safe distance from humans",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2675349712371826,
+            "tokens": 0,
+            "raw_text": "{\n\n\n}",
+            "error": "Failed to parse JSON"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 1.2676410675048828,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 2
+        },
+        {
+          "constraint": "InspectorBot maintains safe distance from robots",
+          "classification": {
+            "step": "classification",
+            "timing": 0.37667179107666016,
+            "tokens": 0,
+            "raw_text": "{ }",
+            "error": "Failed to parse JSON"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 0.37671804428100586,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 3
+        },
+        {
+          "constraint": "CollectorAMR maintains safe distance from humans",
+          "classification": {
+            "step": "classification",
+            "timing": 4.249575138092041,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"safe\", \"distance\", \"human\"],\n  \"cues\": [\"must\"],\n  \"trigger_text\": \"Maintains safe distance from humans\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.440684080123901,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (CollectorAMR.distance_from_humans < safe_threshold imply CollectorAMR.maintaining_safe_distance)\",\n    \"explanation\": \"This UPPAAL query enforces that whenever the distance from humans is below a safe threshold, the robot must immediately respond by maintaining a safe distance. The use of 'imply' ensures an immediate response, aligning with the pattern's requirement for no delay.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"A[]\", \"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (CollectorAMR.distance_from_humans < safe_threshold imply CollectorAMR.maintaining_safe_distance)",
+              "explanation": "This UPPAAL query enforces that whenever the distance from humans is below a safe threshold, the robot must immediately respond by maintaining a safe distance. The use of 'imply' ensures an immediate response, aligning with the pattern's requirement for no delay.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (CollectorAMR.distance_from_humans < safe_threshold imply CollectorAMR.maintaining_safe_distance)"
+          },
+          "total_time": 19.789947271347046,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "CollectorAMR maintains safe distance from robots",
+          "classification": {
+            "step": "classification",
+            "timing": 1.231787919998169,
+            "tokens": 0,
+            "raw_text": "{\n\n\n}",
+            "error": "Failed to parse JSON"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 1.231935977935791,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Inspector find alternative routes within 30 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 9.06536602973938,
+            "tokens": 0,
+            "raw_text": "{ \"@context\": \"https://schema.org/extensions/activitystreams-v1.2\",\n    \"@type\": \"Message\",\n    \"id\": \"http://example.com/inspectors/log/12345\",\n    \"actor\": {\n        \"@type\": \"Person\",\n        \"name\": \"Inspector\"\n    },\n    \"verb\": \"find\",\n    \"object\": {\n        \"@type\": \"AlternativeRoute\",\n        \"name\": \"alternative routes\"\n    },\n    \"context\": \"within 30 seconds\"\n}",
+            "error": "Invalid classification structure: 'pattern'"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 9.065473079681396,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 6
+        },
+        {
+          "constraint": "CollectorAMR find alternative routes within 30 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 5.070724010467529,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"time_bounded_constraint\",\n  \"keywords\": [\"alternative routes\", \"within 30 seconds\"],\n  \"cues\": [\"within\", \"seconds\"],\n  \"trigger_text\": \"CollectorAMR must find alternative routes within 30 seconds.\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.51218581199646,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (CollectorAMR.search_alternative_routes imply clock <= 30)\",\n    \"explanation\": \"This UPPAAL query enforces that whenever CollectorAMR is searching for alternative routes, it must do so within 30 seconds. The 'imply' operator ensures an immediate response, aligning with the natural language constraint of a time limit.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"time_bounded_constraint\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (CollectorAMR.search_alternative_routes imply clock <= 30)",
+              "explanation": "This UPPAAL query enforces that whenever CollectorAMR is searching for alternative routes, it must do so within 30 seconds. The 'imply' operator ensures an immediate response, aligning with the natural language constraint of a time limit.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (CollectorAMR.search_alternative_routes imply clock <= 30)"
+          },
+          "total_time": 19.68909502029419,
+          "success": true,
+          "error": null,
+          "constraint_index": 7
+        }
+      ]
     }
   ]
 }

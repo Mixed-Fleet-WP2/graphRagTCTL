@@ -7,18 +7,18 @@
     },
     "evaluation_date": "2026-01-12T09:54:54.126Z",
     "total_scenarios": 1,
-    "total_models": 11
+    "total_models": 12
   },
   "scenarios": [
     {
       "scenario_id": "scenario_033",
       "domain": "manufacturing",
-      "prompt": "An indoor inspection drone autonomously navigates a multi-floor factory. It must spend no more than 120 seconds in each section. If temperature exceeds 60°C, the drone activates thermal protection and skips the current section. In case of lost localization, it switches to mapping mode until position is reacquired. When all sections are inspected, it must land at the maintenance dock and upload sensor logs. It is always possible to reach a safe state where the drone is landed.",
+      "prompt": "An indoor inspection drone autonomously navigates a multi-floor factory. It must spend no more than 120 seconds in each section. If temperature exceeds 60\u00b0C, the drone activates thermal protection and skips the current section. In case of lost localization, it switches to mapping mode until position is reacquired. When all sections are inspected, it must land at the maintenance dock and upload sensor logs. It is always possible to reach a safe state where the drone is landed.",
       "gold_standard": {
         "constraints": [
-          "InspectDrone spends ≤ 120 s per section",
-          "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
-          "InspectDrone skips section when temperature > 60°C",
+          "InspectDrone spends \u2264 120 s per section",
+          "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+          "InspectDrone skips section when temperature > 60\u00b0C",
           "InspectDrone switches to mapping mode if localization lost",
           "InspectDrone lands at maintenance dock after all sections inspected",
           "InspectDrone uploads sensor logs after landing",
@@ -35,7 +35,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "constraint": "InspectDrone spends \u2264 120 s per section",
                 "query": "A[] (InspectDrone.in_section imply InspectDrone.t_inspect <= 120)",
                 "valid": true,
                 "pattern": "time_bounded_constraint",
@@ -43,7 +43,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
                 "query": "(temperature > 60) --> InspectDrone.thermal_protection_active",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -51,7 +51,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
                 "query": "A[] not (temperature > 60 && InspectDrone.skips_section)",
                 "valid": true,
                 "pattern": "forbidden_state",
@@ -107,7 +107,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "constraint": "InspectDrone spends \u2264 120 s per section",
                 "query": "A[] (InspectDrone.inspecting_section imply InspectDrone.t <= 120)",
                 "valid": true,
                 "pattern": "time_bounded_constraint",
@@ -115,7 +115,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
                 "query": "(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -123,7 +123,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
                 "query": "(InspectDrone.temperature > 60) --> InspectDrone.skips_section",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -179,7 +179,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "constraint": "InspectDrone spends \u2264 120 s per section",
                 "query": "A[] (InspectDrone.in_section && not InspectDrone.section_completed imply clock <= 120)",
                 "valid": true,
                 "pattern": "time_bounded_constraint",
@@ -187,7 +187,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
                 "query": "(temperature > 60) --> InspectDrone.thermal_protection_activated",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -195,7 +195,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
                 "query": "(InspectDrone.temperature > 60) --> InspectDrone.section_skipped",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -251,7 +251,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "constraint": "InspectDrone spends \u2264 120 s per section",
                 "query": "A[] (InspectDrone.in_section imply clock <= 120)",
                 "valid": true,
                 "pattern": "time_bounded_constraint",
@@ -259,7 +259,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
                 "query": "(temperature > 60) --> InspectDrone.thermal_protection_activated",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -267,7 +267,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
                 "query": "(temperature > 60) --> InspectDrone.skips_section",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -323,7 +323,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "constraint": "InspectDrone spends \u2264 120 s per section",
                 "query": "A[] (InspectDrone.inspecting imply clock <= 120)",
                 "valid": true,
                 "pattern": "time_bounded_constraint",
@@ -331,7 +331,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
                 "query": "(temperature > 60) --> InspectDrone.thermal_protection_active",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -339,7 +339,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
                 "query": "A[] not (temperature > 60 && InspectDrone.skipping)",
                 "valid": true,
                 "pattern": "forbidden_state",
@@ -395,7 +395,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "constraint": "InspectDrone spends \u2264 120 s per section",
                 "query": "A[] (InspectDrone.inspecting_section imply section_clock <= 120)",
                 "valid": true,
                 "pattern": "time_bounded_constraint",
@@ -403,7 +403,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
                 "query": "(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -411,7 +411,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
                 "query": "(InspectDrone.temperature > 60) --> InspectDrone.skips_section",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -467,7 +467,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "constraint": "InspectDrone spends \u2264 120 s per section",
                 "query": "A[] (InspectDrone.in_section imply clock <= 120)",
                 "valid": true,
                 "pattern": "time_bounded_constraint",
@@ -475,7 +475,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
                 "query": "(temperature > 60) --> InspectDrone.thermal_protection",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -483,7 +483,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
                 "query": "(temperature > 60) --> InspectDrone.skips_section",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -539,7 +539,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "constraint": "InspectDrone spends \u2264 120 s per section",
                 "query": "A[] (InspectDrone.in_section imply section_clock <= 120)",
                 "valid": true,
                 "pattern": "time_bounded_constraint",
@@ -547,7 +547,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
                 "query": "(temperature > 60) --> InspectDrone.thermal_protection",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -555,7 +555,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
                 "query": "(temperature > 60) --> InspectDrone.skips_section",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -611,7 +611,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "constraint": "InspectDrone spends \u2264 120 s per section",
                 "query": "A[] (InspectDrone.inspecting imply c <= 120)",
                 "valid": true,
                 "pattern": "time_bounded_constraint",
@@ -619,7 +619,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
                 "query": "(InspectDrone.temperature > 60) --> InspectDrone.thermal_protection_active",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -627,7 +627,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
                 "query": "(temperature > 60) --> InspectDrone.skip_section",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -683,7 +683,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "constraint": "InspectDrone spends \u2264 120 s per section",
                 "query": "A[] (InspectDrone.inspecting imply clock <= 120)",
                 "valid": true,
                 "pattern": "time_bounded_constraint",
@@ -691,7 +691,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
                 "query": "InspectDrone.temperature > 60 --> InspectDrone.thermal_protection_active",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -699,7 +699,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
                 "query": "(temperature > 60) --> InspectDrone.skips_section",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -755,7 +755,7 @@
             "queries": [
               {
                 "constraint_index": 0,
-                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "constraint": "InspectDrone spends \u2264 120 s per section",
                 "query": "A[] (InspectDrone.Inspecting imply InspectDrone.t <= 120)",
                 "valid": true,
                 "pattern": "time_bounded_constraint",
@@ -763,7 +763,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
                 "query": "A[] (InspectDrone.temperature > 60 imply InspectDrone.thermal_protection_active)",
                 "valid": true,
                 "pattern": "safety_immediate_response",
@@ -771,7 +771,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
                 "query": "(temperature > 60) --> InspectDrone.SkippingSection",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -815,6 +815,78 @@
             "correct": 6,
             "valid_inferred": 0,
             "hallucinations": 1,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectDrone spends \u2264 120 s per section",
+                "query": "A[] (InspectDrone.inspects_section imply clock <= 120)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
+                "query": "A[] (InspectDrone.temperature > 60\u00b0C imply clock <= 0)",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "InspectDrone switches to mapping mode if localization lost",
+                "query": "A[] (InspectDrone.localization_lost imply InspectDrone.mapping_mode)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "InspectDrone uploads sensor logs after landing",
+                "query": "InspectDrone.sensor_log_upload --> InspectDrone.landed",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+                "query": "A[] (InspectDrone.temperature > 60\u00b0C imply InspectDrone.thermal_protection)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+                "query": "InspectDrone.landed_at_dock --> {all_sections_inspected}",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Always possible to reach safe landed state",
+                "query": "...",
+                "valid": false,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 5,
             "unlabeled": 0
           }
         }

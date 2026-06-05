@@ -7,7 +7,7 @@
     },
     "evaluation_date": "2026-01-05T10:38:26.442Z",
     "total_scenarios": 1,
-    "total_models": 11
+    "total_models": 12
   },
   "scenarios": [
     {
@@ -370,6 +370,38 @@
             "correct": 2,
             "valid_inferred": 0,
             "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MonitorDrone inspects after every 5 containers stacked",
+                "query": "LoaderBot.stack_containers -->(MonitorDrone.monitor)",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+                "query": "",
+                "valid": false,
+                "pattern": "",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 2,
             "unlabeled": 0
           }
         }

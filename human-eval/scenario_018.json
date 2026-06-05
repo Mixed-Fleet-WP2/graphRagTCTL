@@ -7,7 +7,7 @@
     },
     "evaluation_date": "2026-01-05T12:38:24.297Z",
     "total_scenarios": 1,
-    "total_models": 11
+    "total_models": 12
   },
   "scenarios": [
     {
@@ -459,6 +459,46 @@
             "correct": 3,
             "valid_inferred": 0,
             "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 1,
+                "constraint": "DeliveryDrone lands when battery < 15%",
+                "query": "A[] (DeliveryDrone.battery < 15% imply DeliveryDrone.lands)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 0,
+                "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+                "query": "A[] (DeliveryDrone.arrived imply LiftBot.stacking)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Delivery eventually completes",
+                "query": "A<> DeliveryDrone.delivery_complete",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 3,
             "unlabeled": 0
           }
         }

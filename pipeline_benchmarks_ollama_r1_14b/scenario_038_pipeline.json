@@ -1,0 +1,256 @@
+{
+  "id": "scenario_038",
+  "domain": "healthcare",
+  "prompt": "An autonomous delivery robot transports medication trays across hospital wards. It must check elevator availability before entering and disinfect its tray every 15 minutes of operation. When any emergency alarm is active, it must stop and move to a safe corridor. If communication with control is lost, it stores all pending deliveries locally. All deliveries must eventually be completed.",
+  "robots": [
+    "MediRover"
+  ],
+  "constraints": [
+    "MediRover checks elevator availability before entering",
+    "MediRover disinfects tray every 15 minutes",
+    "MediRover stops  when emergency alarm active",
+    "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+    "MediRover stores pending deliveries locally if comm lost",
+    "Eventually all deliveries completed"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "MediRover checks elevator availability before entering",
+          "classification": {
+            "step": "classification",
+            "timing": 2.8827850818634033,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\", \"keywords\": [\"elevator\", \"availability\"], \"cues\": [\"before\"] }"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.160705089569092,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (MediRover.enter imply MediRover.elevator_available)\",\n    \"explanation\": \"This ensures that the MediRover robot only enters an area if the elevator is available, maintaining safety by checking availability immediately before entry.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (MediRover.enter imply MediRover.elevator_available)",
+              "explanation": "This ensures that the MediRover robot only enters an area if the elevator is available, maintaining safety by checking availability immediately before entry.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (MediRover.enter imply MediRover.elevator_available)"
+          },
+          "total_time": 16.135814905166626,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+          "classification": {
+            "step": "classification",
+            "timing": 6.073987007141113,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"emergency alarm\", \"safe corridor\"],\n  \"cues\": [],\n  \"trigger_text\": \"MediRover is stopped and emergency alarm is active\",\n  \"response_text\": \"MediRover has to move to safe corridor\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.538510084152222,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (MediRover.stopped and MediRover.emergency_alarm_active imply MediRover.moving_to_safe_corridor)\",\n  \"explanation\": \"This UPPAAL query uses the safety_immediate_response pattern to enforce that whenever the MediRover is stopped and the emergency alarm is active, it must immediately move to a safe corridor. The use of A[] ensures that this condition is always checked and the response happens without delay.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (MediRover.stopped and MediRover.emergency_alarm_active imply MediRover.moving_to_safe_corridor)",
+              "explanation": "This UPPAAL query uses the safety_immediate_response pattern to enforce that whenever the MediRover is stopped and the emergency alarm is active, it must immediately move to a safe corridor. The use of A[] ensures that this condition is always checked and the response happens without delay.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (MediRover.stopped and MediRover.emergency_alarm_active imply MediRover.moving_to_safe_corridor)"
+          },
+          "total_time": 21.705048084259033,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "MediRover disinfects tray every 15 minutes",
+          "classification": {
+            "step": "classification",
+            "timing": 5.7024970054626465,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"time_bounded_constraint\",\n    \"keywords\": [\"disinfects\", \"tray\", \"every\", \"15\", \"minutes\"],\n    \"cues\": [\"every\", \"15\", \"minutes\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.583897113800049,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (MediRover.disinfecting imply clock <= 15)\",\n  \"explanation\": \"The constraint specifies that the disinfection action must be completed within a time frame of 15 minutes. Using A[], we enforce this condition to ensure it always holds true. The implication ensures that once the state is entered, the time limit is respected.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (MediRover.disinfecting imply clock <= 15)",
+              "explanation": "The constraint specifies that the disinfection action must be completed within a time frame of 15 minutes. Using A[], we enforce this condition to ensure it always holds true. The implication ensures that once the state is entered, the time limit is respected.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (MediRover.disinfecting imply clock <= 15)"
+          },
+          "total_time": 20.415449142456055,
+          "success": true,
+          "error": null,
+          "constraint_index": 1,
+          "attempt": 1
+        },
+        {
+          "constraint": "MediRover stops  when emergency alarm active",
+          "classification": {
+            "step": "classification",
+            "timing": 4.857413053512573,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"MediRover\", \"stops\"],\n    \"cues\": [\"when\"],\n    \"trigger_text\": \"emergency alarm active\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.341136932373047,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (MediRover.emergency_alarm_active imply MediRover.stopped)\",\n  \"explanation\": \"This UPPAAL query ensures that whenever the emergency alarm is active, the MediRover immediately stops. It uses A[] to enforce a safety property where if the condition is met, the response must happen without delay.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (MediRover.emergency_alarm_active imply MediRover.stopped)",
+              "explanation": "This UPPAAL query ensures that whenever the emergency alarm is active, the MediRover immediately stops. It uses A[] to enforce a safety property where if the condition is met, the response must happen without delay.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (MediRover.emergency_alarm_active imply MediRover.stopped)"
+          },
+          "total_time": 18.274461269378662,
+          "success": true,
+          "error": null,
+          "constraint_index": 2,
+          "attempt": 1
+        },
+        {
+          "constraint": "MediRover stores pending deliveries locally if comm lost",
+          "classification": {
+            "step": "classification",
+            "timing": 3.612687110900879,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"existential_reachability\",\n  \"keywords\": [\"store\", \"pending\", \"deliveries\", \"locally\", \"comm\"],\n  \"cues\": [\"if\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "existential_reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.006675243377686,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"E<> (MediRover.comm_lost implies MediRover.pending_deliveries_locally)\",\n  \"explanation\": \"This query uses E<>, which is used to check if a state can be reached or something is possible. The constraint states that if the communication is lost, pending deliveries are stored locally by MediRover. This UPPAAL query models exactly that condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"existential_reachability\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "E<> (MediRover.comm_lost implies MediRover.pending_deliveries_locally)",
+              "explanation": "This query uses E<>, which is used to check if a state can be reached or something is possible. The constraint states that if the communication is lost, pending deliveries are stored locally by MediRover. This UPPAAL query models exactly that condition.",
+              "confidence": 0.85,
+              "pattern_used": "existential_reachability",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "E<> (MediRover.comm_lost implies MediRover.pending_deliveries_locally)"
+          },
+          "total_time": 17.671876907348633,
+          "success": true,
+          "error": null,
+          "constraint_index": 4,
+          "attempt": 3
+        },
+        {
+          "constraint": "Eventually all deliveries completed",
+          "classification": {
+            "step": "classification",
+            "timing": 2.76133394241333,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"deliveries\", \"completed\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.210501194000244,
+            "tokens": 0,
+            "raw_text": "{ \"query\": \"...\", \"explanation\": \"...\", \"confidence\": 0.85, \"pattern_used\": \"eventual_completion\", \"operator_used\": [\"-->\"] }",
+            "uppaal_result": {
+              "query": "...",
+              "explanation": "...",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "..."
+          },
+          "total_time": 10.053033113479614,
+          "success": true,
+          "error": null,
+          "constraint_index": 5,
+          "attempt": 2
+        }
+      ]
+    }
+  ]
+}

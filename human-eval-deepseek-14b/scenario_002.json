@@ -1,0 +1,80 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-06-05T07:51:11.369Z",
+    "total_scenarios": 1,
+    "total_models": 1
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_002",
+      "domain": "warehouse",
+      "prompt": "A camera scans pallet barcodes. After scanning, an Agv moves to pick the pallet. Once the AGV is loaded, the conveyor moves then the robot arm places the pallet onto a shelf.",
+      "gold_standard": {
+        "constraints": [
+          "AGV moves to pick the pallet after scanning.",
+          "Conveyor moves only after Agv is loaded",
+          "Conveyor must move before RobotArm places the pallet onto a shelf"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "AGV moves to pick the pallet after scanning.",
+                "query": "Camera.scan --> Agv.move",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Conveyor moves only after Agv is loaded",
+                "query": "(Conveyor.moving) --> (Agv.loaded)",
+                "valid": true,
+                "pattern": "conditional_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+                "query": "Conveyor.move --> RobotArm.place_pallet_onto_shelf",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 3,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 3,
+    "inferred": 0,
+    "hallucination": 0,
+    "unlabeled": 0,
+    "total": 3
+  },
+  "performance_metrics": {
+    "precision": 1,
+    "recall": 1,
+    "f1": 1
+  }
+}

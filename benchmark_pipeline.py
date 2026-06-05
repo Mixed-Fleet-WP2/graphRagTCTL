@@ -750,7 +750,8 @@ def benchmark_folder(
     start: int = 0,
     end: Optional[int] = None,
     output_dir: str = "pipeline_benchmarks",
-    k_examples: int = 5
+    k_examples: int = 5,
+    max_attempts: int = 3
 ):
     """Run pipeline benchmark across all scenarios and models."""
     
@@ -829,42 +830,84 @@ def benchmark_folder(
                 ]
                 
                 if existing:
-                    print(f"    → SKIP (already exists)")
-                    continue
+                    prev = existing[0]
+                    # Skip only if previous run was successful.
+                    # If previous run failed/incomplete, remove it and rerun.
+                    if prev.get("success") is True:
+                        print(f"    → SKIP (already successful)")
+                        continue
 
-                print(f"    → RUN")
-                
-                try:
-                    llm = LLMClient(cfg["provider"], cfg["model"])
-                    robot_names = scenario.get("robots", [])
-                    result = run_pipeline(llm, kg, constraint, robot_names=robot_names, k_examples=k_examples)
-                    result["constraint_index"] = idx
-                    
-                    # Remove provider/model from individual result (already in parent)
-                    result.pop("provider", None)
-                    result.pop("model", None)
-                    
-                    model_entry["results"].append(result)
-                    
-                    # Save incrementally
-                    with open(out_path, "w") as f:
-                        json.dump(scenario_result, f, indent=2)
-                    
-                    status = "✓ SUCCESS" if result["success"] else "✗ FAILED"
-                    print(f"    {status} (time: {result['total_time']:.2f}s)")
-                    
-                except Exception as e:
-                    print(f"    ✗ ERROR: {e}")
-                    error_result = {
+                    print(f"    → RETRY (previous attempt failed)")
+                    model_entry["results"] = [
+                        r for r in model_entry["results"]
+                        if r.get("constraint_index") != idx
+                    ]
+
+                llm = LLMClient(cfg["provider"], cfg["model"])
+                robot_names = scenario.get("robots", [])
+
+                final_result = None
+                for attempt in range(1, max_attempts + 1):
+                    print(f"    → RUN (attempt {attempt}/{max_attempts})")
+
+                    try:
+                        result = run_pipeline(
+                            llm,
+                            kg,
+                            constraint,
+                            robot_names=robot_names,
+                            k_examples=k_examples,
+                        )
+                        result["constraint_index"] = idx
+                        result["attempt"] = attempt
+
+                        # Remove provider/model from individual result (already in parent)
+                        result.pop("provider", None)
+                        result.pop("model", None)
+
+                        final_result = result
+
+                        if result["success"]:
+                            break
+
+                        if attempt < max_attempts:
+                            print("    ↻ RETRYING failed constraint")
+                            continue
+
+                        break
+
+                    except Exception as e:
+                        final_result = {
+                            "constraint_index": idx,
+                            "constraint": constraint,
+                            "error": str(e),
+                            "success": False,
+                            "attempt": attempt,
+                        }
+
+                        if attempt < max_attempts:
+                            print("    ↻ RETRYING after error")
+                            continue
+
+                        break
+
+                if final_result is None:
+                    final_result = {
                         "constraint_index": idx,
                         "constraint": constraint,
-                        "error": str(e),
-                        "success": False
+                        "error": "No result produced",
+                        "success": False,
+                        "attempt": max_attempts,
                     }
-                    model_entry["results"].append(error_result)
-                    
-                    with open(out_path, "w") as f:
-                        json.dump(scenario_result, f, indent=2)
+
+                model_entry["results"].append(final_result)
+
+                # Save incrementally after the final attempt
+                with open(out_path, "w") as f:
+                    json.dump(scenario_result, f, indent=2)
+
+                status = "✓ SUCCESS" if final_result["success"] else "✗ FAILED"
+                print(f"    {status} (time: {final_result.get('total_time', 0):.2f}s)")
 
     print(f"\n{'='*80}")
     print("BENCHMARK COMPLETE ✓")
@@ -881,6 +924,8 @@ if __name__ == "__main__":
     parser.add_argument("--end", type=int, default=None, help="End index (exclusive)")
     parser.add_argument("--output", type=str, default="pipeline_benchmarks", help="Output directory")
     parser.add_argument("--k", type=int, default=3, help="Number of examples to retrieve")
+    parser.add_argument("--provider", type=str, default=None, help="Run only this provider (e.g., ollama)")
+    parser.add_argument("--model", type=str, default=None, help="Run only this model (e.g., deepseek-r1:14b)")
     args = parser.parse_args()
 
     # All LLMs from multi_llm_constraint_classifier.py
@@ -900,6 +945,24 @@ if __name__ == "__main__":
         {"provider": "ollama", "model": "deepseek-r1:14b"},
     ]
 
+    selected_models = MODELS
+    if args.provider or args.model:
+        if not (args.provider and args.model):
+            print("ERROR: --provider and --model must be provided together for single-model run")
+            exit(1)
+
+        selected_models = [
+            m for m in MODELS
+            if m["provider"].lower() == args.provider.lower()
+            and m["model"].lower() == args.model.lower()
+        ]
+
+        if not selected_models:
+            print(f"ERROR: Model not found in MODELS list: {args.provider}/{args.model}")
+            exit(1)
+
+        print(f"Running single model: {selected_models[0]['provider']}/{selected_models[0]['model']}")
+
     # Neo4j connection
     neo4j_uri = os.getenv("NEO4J_URI")
     neo4j_user = os.getenv("NEO4J_USER")
@@ -914,7 +977,7 @@ if __name__ == "__main__":
     try:
         benchmark_folder(
             folder=args.folder,
-            models=MODELS,
+            models=selected_models,
             kg=kg,
             start=args.start,
             end=args.end,

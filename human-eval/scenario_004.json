@@ -7,18 +7,18 @@
     },
     "evaluation_date": "2026-01-02T08:14:36.910Z",
     "total_scenarios": 1,
-    "total_models": 11
+    "total_models": 12
   },
   "scenarios": [
     {
       "scenario_id": "scenario_004",
       "domain": "manufacturing",
-      "prompt": "An assembly robot welds metal frames while a quality inspection drone hovers to scan the joints. The drone can start scanning only after welding is complete. If temperature exceeds 90°C, welding must pause until it drops below 70°C.",
+      "prompt": "An assembly robot welds metal frames while a quality inspection drone hovers to scan the joints. The drone can start scanning only after welding is complete. If temperature exceeds 90\u00b0C, welding must pause until it drops below 70\u00b0C.",
       "gold_standard": {
         "constraints": [
           "InspectorDrone starts scanning only after WelderBot finishes welding",
-          "WelderBot pauses welding when temperature exceeds 90°C",
-          "WelderBot resumes welding when temperature drops below 70°C"
+          "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "WelderBot resumes welding when temperature drops below 70\u00b0C"
         ]
       },
       "model_evaluations": [
@@ -39,7 +39,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
                 "query": "(temperature > 90) --> WelderBot.pausing_welding",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -47,7 +47,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
                 "query": "(temperature < 70) --> WelderBot.welding",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -79,7 +79,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
                 "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
                 "valid": true,
                 "pattern": "safety_immediate_response",
@@ -87,7 +87,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
                 "query": "(WelderBot.temperature < 70) --> WelderBot.welding",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -119,7 +119,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
                 "query": "A[] (Welder.temperature > 90 --> Welder.paused)",
                 "valid": false,
                 "pattern": "safety_immediate_response",
@@ -127,7 +127,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
                 "query": "(temperature < 70) --> WelderBot.resume_welding",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -159,7 +159,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
                 "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
                 "valid": true,
                 "pattern": "safety_immediate_response",
@@ -167,7 +167,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
                 "query": "(temperature < 70) --> WelderBot.resumes_welding",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -199,7 +199,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
                 "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
                 "valid": true,
                 "pattern": "safety_immediate_response",
@@ -207,7 +207,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
                 "query": "(temperature < 70) --> WelderBot.welding",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -239,7 +239,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
                 "query": "(WelderBot.temperature > 90) --> WelderBot.paused",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -247,7 +247,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
                 "query": "(WelderBot.temperature < 70) --> WelderBot.welding",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -279,7 +279,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
                 "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
                 "valid": true,
                 "pattern": "safety_immediate_response",
@@ -287,7 +287,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
                 "query": "(temperature < 70) --> WelderBot.welding",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -319,7 +319,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
                 "query": "(temperature > 90) --> WelderBot.paused",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -327,7 +327,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
                 "query": "(temperature < 70) --> WelderBot.welding",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -359,7 +359,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
                 "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
                 "valid": true,
                 "pattern": "safety_immediate_response",
@@ -367,7 +367,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
                 "query": "(temperature < 70) --> WelderBot.welding",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -399,7 +399,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
                 "query": "(temperature > 90) --> WelderBot.paused",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -407,7 +407,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
                 "query": "(temperature < 70) --> WelderBot.welding",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -439,7 +439,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "WelderBot pauses welding when temperature exceeds 90°C",
+                "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
                 "query": "A[] (WelderBot.temperature > 90 imply WelderBot.paused)",
                 "valid": true,
                 "pattern": "safety_immediate_response",
@@ -447,7 +447,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "WelderBot resumes welding when temperature drops below 70°C",
+                "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
                 "query": "(temperature < 70) --> WelderBot.Welding",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -459,6 +459,46 @@
             "correct": 3,
             "valid_inferred": 0,
             "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+                "query": "WelderBot.welding --> InspectorDrone.scanning",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+                "query": "",
+                "valid": false,
+                "pattern": "",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+                "query": "A[] (WelderBot.temperature < 70\u00b0C imply WelderBot.resuming_welding)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
             "unlabeled": 0
           }
         }

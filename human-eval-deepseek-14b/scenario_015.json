@@ -1,0 +1,71 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-06-05T08:50:06.905Z",
+    "total_scenarios": 1,
+    "total_models": 1
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_015",
+      "domain": "harbor",
+      "prompt": "A loading robot stacks containers while a drone monitors alignment. The drone starts inspection after every 5 containers are stacked. If container tilt exceeds 3 degrees, stacking stops immediately.",
+      "gold_standard": {
+        "constraints": [
+          "MonitorDrone inspects after every 5 containers stacked",
+          "LoaderBot stops stacking when tilt exceeds 3 degrees"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "MonitorDrone inspects after every 5 containers stacked",
+                "query": "LoaderBot.stack_containers -->(MonitorDrone.monitor)",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+                "query": "",
+                "valid": false,
+                "pattern": "",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 0,
+    "inferred": 0,
+    "hallucination": 2,
+    "unlabeled": 0,
+    "total": 2
+  },
+  "performance_metrics": {
+    "precision": 0,
+    "recall": 0,
+    "f1": 0
+  }
+}

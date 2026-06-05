@@ -1,0 +1,54 @@
+{
+  "id": "scenario_008",
+  "domain": "harbor",
+  "prompt": "An unmanned crane unloads containers onto automated trucks. Trucks can move only after the crane signals unloading complete. If wind gusts exceed 40 km/h, unloading must be paused for safety.",
+  "robots": [
+    "CraneBot",
+    "TruckAMR"
+  ],
+  "constraints": [
+    "TruckAMR starts moving only after CraneBot finishes unloading",
+    "CraneBot pauses unloading when wind gusts exceed 40 km/h"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+          "classification": {
+            "step": "classification",
+            "timing": 1.4230868816375732,
+            "tokens": 0,
+            "raw_text": "{ }",
+            "error": "Failed to parse JSON"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 1.4231600761413574,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 0
+        },
+        {
+          "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 5.6336939334869385,
+            "tokens": 0,
+            "raw_text": "{ \"@context\": \"https://schema.org/extensions/activity-patterns.jsonld\",\n   \"@type\": \"PatternClassification\",\n   \"pattern\": \"string\", \n   \"keywords\": [\"strings\"],\n   \"cues\": [\"strings\"],\n   \"trigger_text\": \"optional string\",\n   \"response_text\": \"optional string\"\n}"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 5.685920000076294,
+          "success": false,
+          "error": "GraphRAG retrieval failed: Pattern not found in Neo4j: string",
+          "constraint_index": 1
+        }
+      ]
+    }
+  ]
+}

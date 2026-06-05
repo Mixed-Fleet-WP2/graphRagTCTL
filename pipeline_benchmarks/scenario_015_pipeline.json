@@ -895,6 +895,67 @@
           "constraint_index": 1
         }
       ]
+    },
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "MonitorDrone inspects after every 5 containers stacked",
+          "classification": {
+            "step": "classification",
+            "timing": 5.245537996292114,
+            "tokens": 0,
+            "raw_text": "{ \n    \"pattern\": \"sequential_workflow\",\n    \"keywords\": [\"monitor\", \"drone\", \"containers\"],\n    \"cues\": [\"after\", \"every\"],\n    \"trigger_text\": \"after every 5 containers stacked\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.542603969573975,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"LoaderBot.stack_containers -->(MonitorDrone.monitor)\",\n    \"explanation\": \"This constraint models a sequential workflow where the LoaderBot's action of stacking containers eventually leads to the MonitorDrone performing its monitoring action. The '-->' operator is appropriate here as it enforces that after every 5 containers are stacked by LoaderBot, the MonitorDrone will monitor, following the 'after every' cue.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"sequential_workflow\",\n    \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "LoaderBot.stack_containers -->(MonitorDrone.monitor)",
+              "explanation": "This constraint models a sequential workflow where the LoaderBot's action of stacking containers eventually leads to the MonitorDrone performing its monitoring action. The '-->' operator is appropriate here as it enforces that after every 5 containers are stacked by LoaderBot, the MonitorDrone will monitor, following the 'after every' cue.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "LoaderBot.stack_containers -->(MonitorDrone.monitor)"
+          },
+          "total_time": 18.910617113113403,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+          "classification": {
+            "step": "classification",
+            "timing": 1.2139880657196045,
+            "tokens": 0,
+            "raw_text": "{ }",
+            "error": "Failed to parse JSON"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 1.2140491008758545,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 1
+        }
+      ]
     }
   ]
 }

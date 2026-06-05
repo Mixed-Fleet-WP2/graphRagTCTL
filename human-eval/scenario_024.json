@@ -7,7 +7,7 @@
     },
     "evaluation_date": "2026-01-08T08:15:26.541Z",
     "total_scenarios": 1,
-    "total_models": 11
+    "total_models": 12
   },
   "scenarios": [
     {
@@ -459,6 +459,46 @@
             "correct": 3,
             "valid_inferred": 0,
             "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Only one crane moves at a time",
+                "query": "A[] (CraneA.moving implies not CraneB.moving)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Eventually CraneA reach target zones",
+                "query": "A<> CraneA.reach_target_zones",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Eventually CraneB reach target zones",
+                "query": "A<> (CraneB.reach_target_zones)",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
             "unlabeled": 0
           }
         }

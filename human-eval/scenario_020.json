@@ -7,7 +7,7 @@
     },
     "evaluation_date": "2026-01-07T13:06:37.749Z",
     "total_scenarios": 1,
-    "total_models": 11
+    "total_models": 12
   },
   "scenarios": [
     {
@@ -370,6 +370,38 @@
             "correct": 2,
             "valid_inferred": 0,
             "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 1,
+                "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+                "query": "...",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 0,
+                "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+                "query": "A<> RepairDrone.safe_shutdown",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 1,
             "unlabeled": 0
           }
         }

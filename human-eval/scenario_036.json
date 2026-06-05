@@ -7,18 +7,18 @@
     },
     "evaluation_date": "2026-01-27T09:25:46.417Z",
     "total_scenarios": 1,
-    "total_models": 11
+    "total_models": 12
   },
   "scenarios": [
     {
       "scenario_id": "scenario_036",
       "domain": "industrial",
-      "prompt": "A maintenance bot operates in a refrigerated warehouse maintaining conveyor motors. It must warm up sensors for 30 seconds before measurements. If temperature drops below −25°C, it enters standby mode until heating pads raise it above −15°C. The robot performs vibration analysis for each motor and logs anomalies. It is always possible for the bot to recover from standby to active operation.",
+      "prompt": "A maintenance bot operates in a refrigerated warehouse maintaining conveyor motors. It must warm up sensors for 30 seconds before measurements. If temperature drops below \u221225\u00b0C, it enters standby mode until heating pads raise it above \u221215\u00b0C. The robot performs vibration analysis for each motor and logs anomalies. It is always possible for the bot to recover from standby to active operation.",
       "gold_standard": {
         "constraints": [
           "FrostBot warms sensors for 30 s before measurements",
-          "FrostBot enters standby when temperature < −25°C",
-          "FrostBot resumes when temperature > −15°C",
+          "FrostBot enters standby when temperature < \u221225\u00b0C",
+          "FrostBot resumes when temperature > \u221215\u00b0C",
           "FrostBot performs vibration analysis for each motor",
           "FrostBot logs anomalies for each motor",
           "Always possible to recover from standby to active"
@@ -42,7 +42,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "FrostBot enters standby when temperature < −25°C",
+                "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
                 "query": "(temperature < -25) --> FrostBot.standby_mode",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -50,7 +50,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "FrostBot resumes when temperature > −15°C",
+                "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
                 "query": "(temperature > -15) --> FrostBot.resumed",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -106,7 +106,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "FrostBot enters standby when temperature < −25°C",
+                "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
                 "query": "(temperature < -25) --> FrostBot.standby",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -114,7 +114,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "FrostBot resumes when temperature > −15°C",
+                "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
                 "query": "(temperature > -15) --> FrostBot.resumes",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -170,7 +170,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "FrostBot enters standby when temperature < −25°C",
+                "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
                 "query": "UPPAAL=(temperature < -25) --> FrostBot.in_standby",
                 "valid": false,
                 "pattern": "conditional_response",
@@ -178,7 +178,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "FrostBot resumes when temperature > −15°C",
+                "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
                 "query": "(FrostBot.temperature > -15) --> FrostBot.resumes",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -234,7 +234,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "FrostBot enters standby when temperature < −25°C",
+                "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
                 "query": "(temperature < -25) --> FrostBot.enters_standby",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -242,7 +242,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "FrostBot resumes when temperature > −15°C",
+                "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
                 "query": "(temperature > -15) --> FrostBot.resumes",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -298,7 +298,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "FrostBot enters standby when temperature < −25°C",
+                "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
                 "query": "(temperature < -25) --> FrostBot.standby",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -306,7 +306,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "FrostBot resumes when temperature > −15°C",
+                "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
                 "query": "(temperature > -15) --> FrostBot.resumed",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -362,7 +362,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "FrostBot enters standby when temperature < −25°C",
+                "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
                 "query": "(temperature < -25) --> FrostBot.standby",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -370,7 +370,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "FrostBot resumes when temperature > −15°C",
+                "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
                 "query": "(temperature > -15) --> FrostBot.resumes",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -426,7 +426,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "FrostBot enters standby when temperature < −25°C",
+                "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
                 "query": "(temperature < -25) --> FrostBot.standby",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -434,7 +434,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "FrostBot resumes when temperature > −15°C",
+                "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
                 "query": "(temperature > -15) --> FrostBot.resumes",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -490,7 +490,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "FrostBot enters standby when temperature < −25°C",
+                "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
                 "query": "(temperature < -25) --> FrostBot.in_standby",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -498,7 +498,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "FrostBot resumes when temperature > −15°C",
+                "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
                 "query": "(temperature > -15) --> FrostBot.resumes",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -548,13 +548,13 @@
                 "constraint_index": 0,
                 "constraint": "FrostBot warms sensors for 30 s before measurements",
                 "query": "A[] (FrostBot.measuring --> clock >= 30)",
-                "valid": false,
+                "valid": true,
                 "pattern": "time_bounded_constraint",
                 "label": "correct"
               },
               {
                 "constraint_index": 1,
-                "constraint": "FrostBot enters standby when temperature < −25°C",
+                "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
                 "query": "(temperature < -25) --> FrostBot.standby",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -562,7 +562,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "FrostBot resumes when temperature > −15°C",
+                "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
                 "query": "(temperature > -15) --> FrostBot.resumes",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -612,13 +612,13 @@
                 "constraint_index": 0,
                 "constraint": "FrostBot warms sensors for 30 s before measurements",
                 "query": "A[] (FrostBot.warming_sensors --> clock <= 30)",
-                "valid": false,
+                "valid": true,
                 "pattern": "time_bounded_constraint",
                 "label": "correct"
               },
               {
                 "constraint_index": 1,
-                "constraint": "FrostBot enters standby when temperature < −25°C",
+                "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
                 "query": "(temperature < -25) --> FrostBot.standby",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -626,7 +626,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "FrostBot resumes when temperature > −15°C",
+                "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
                 "query": "(temperature > -15) --> FrostBot.resumes",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -682,7 +682,7 @@
               },
               {
                 "constraint_index": 1,
-                "constraint": "FrostBot enters standby when temperature < −25°C",
+                "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
                 "query": "(temperature < -25) --> FrostBot.standby",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -690,7 +690,7 @@
               },
               {
                 "constraint_index": 2,
-                "constraint": "FrostBot resumes when temperature > −15°C",
+                "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
                 "query": "(temperature > -15) --> FrostBot.Resumed",
                 "valid": true,
                 "pattern": "conditional_response",
@@ -726,6 +726,70 @@
             "correct": 3,
             "valid_inferred": 0,
             "hallucinations": 3,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "FrostBot warms sensors for 30 s before measurements",
+                "query": "A[] (FrostBot.sensor_warming AND FrostBot.measurement_in_progress)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+                "query": "A[] (FrostBot.temperature < -25\u00b0C imply FrostBot.standby)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+                "query": "A[] (FrostBot.temperature > -15\u00b0C imply FrostBot.resuming)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "FrostBot performs vibration analysis for each motor",
+                "query": "A[] (FrostBot.vibration_exceeds_limit imply FrostBot.analyze_vibration)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "FrostBot logs anomalies for each motor",
+                "query": "A[] (FrostBot.logging_anomalies imply FrostBot.motor_response)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "Always possible to recover from standby to active",
+                "query": "A[] (FrostBot.standby imply FrostBot.active)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 6,
             "unlabeled": 0
           }
         }

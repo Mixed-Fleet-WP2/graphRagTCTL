@@ -1,0 +1,136 @@
+{
+  "id": "scenario_0010",
+  "domain": "logistics",
+  "prompt": "A restocking AMR refills shelves while a drone verifies stock levels. The drone can only scan shelves when the AMR is idle. Both must stop if any obstacle is detected within 1 meters.",
+  "robots": [
+    "Amr",
+    "Drone"
+  ],
+  "constraints": [
+    "StockDrone scans only when RestockAMR is idle",
+    "Amr must stop if any obstacle is detected within 1 meters",
+    "Drone must stop if any obstacle is detected within 1 meters"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "StockDrone scans only when RestockAMR is idle",
+          "classification": {
+            "step": "classification",
+            "timing": 3.8609519004821777,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"conditional_response\",\n  \"keywords\": [\"RestockAMR\", \"scan\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"RestockAMR is idle\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.808750867843628,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"(StockDrone.scanning) --> (RestockAMR.idle)\",\n    \"explanation\": \"This UPPAAL query captures the conditional response where StockDrone's scanning action only occurs when RestockAMR is idle. The operator '-->' ensures that if StockDrone is scanning, it will eventually lead to RestockAMR being idle.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"conditional_response\",\n    \"operator_used\": [\"-->\"]\n    }",
+            "uppaal_result": {
+              "query": "(StockDrone.scanning) --> (RestockAMR.idle)",
+              "explanation": "This UPPAAL query captures the conditional response where StockDrone's scanning action only occurs when RestockAMR is idle. The operator '-->' ensures that if StockDrone is scanning, it will eventually lead to RestockAMR being idle.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(StockDrone.scanning) --> (RestockAMR.idle)"
+          },
+          "total_time": 16.76254391670227,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 4.370362281799316,
+            "tokens": 0,
+            "raw_text": "{\n   \"pattern\": \"safety_immediate_response\",\n   \"keywords\": [\"obstacle\", \"detected\", \"stop\"],\n   \"cues\": [\"if\", \"within\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.475977897644043,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (Amr.obstacle_detected imply Amr.stopped)\",\n  \"explanation\": \"This ensures that whenever an obstacle is detected by Amr, it must immediately stop.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Amr.obstacle_detected imply Amr.stopped)",
+              "explanation": "This ensures that whenever an obstacle is detected by Amr, it must immediately stop.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Amr.obstacle_detected imply Amr.stopped)"
+          },
+          "total_time": 14.894089221954346,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+          "classification": {
+            "step": "classification",
+            "timing": 5.749619007110596,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"drone\", \"stop\", \"obstacle\", \"detected\"],\n  \"cues\": [\"if\", \"within\"],\n  \"trigger_text\": \"any obstacle is detected within 1 meters\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.772139072418213,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (Drone.obstacle_detected imply Drone.stopped)\",\n    \"explanation\": \"This UPPAAL formula enforces that whenever an obstacle is detected by the Drone, it must immediately stop. The use of 'imply' ensures an immediate response, aligning with the safety requirement.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Drone.obstacle_detected imply Drone.stopped)",
+              "explanation": "This UPPAAL formula enforces that whenever an obstacle is detected by the Drone, it must immediately stop. The use of 'imply' ensures an immediate response, aligning with the safety requirement.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Drone.obstacle_detected imply Drone.stopped)"
+          },
+          "total_time": 18.578693866729736,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

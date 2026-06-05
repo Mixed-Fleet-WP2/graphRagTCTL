@@ -1,0 +1,181 @@
+{
+  "id": "scenario_030",
+  "domain": "disaster_response",
+  "prompt": "A drone maps the disaster area, two search robots locate survivors, a medical robot delivers aid, and a transport AMR carries victims to safety. SearchRobots must not enter overlapping zones. MedicalBot waits for confirmation from at least one SearchRobot before starting aid delivery. TransportAMR operates only after MedicalBot finishes. It must always be possible to reach a state where all survivors are rescued.",
+  "robots": [
+    "SurveyDrone",
+    "SearchBot1",
+    "SearchBot2",
+    "MedicalBot",
+    "TransportAMR"
+  ],
+  "constraints": [
+    "SearchBot1 and SearchBot2 must not enter overlapping zones",
+    "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+    "TransportAMR starts only after MedicalBot finishes aid delivery",
+    "Always possible to reach a state where all survivors are rescued"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+          "classification": {
+            "step": "classification",
+            "timing": 4.902751922607422,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"only after\", \"confirmation\", \"at least one\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"After receiving confirmation from at least one SearchBot, MedicalBot delivers aid.\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.510188817977905,
+            "tokens": 0,
+            "raw_text": "{ \n  \"query\": \"MedicalBot.delivery_aid --> SearchBot.confirmed\",\n  \"explanation\": \"This UPPAAL query specifies that the MedicalBot delivering aid must eventually happen after a SearchBot has been confirmed. The '-->' operator is used because this represents a sequential workflow where one action (confirmation) leads to another (delivery of aid).\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "MedicalBot.delivery_aid --> SearchBot.confirmed",
+              "explanation": "This UPPAAL query specifies that the MedicalBot delivering aid must eventually happen after a SearchBot has been confirmed. The '-->' operator is used because this represents a sequential workflow where one action (confirmation) leads to another (delivery of aid).",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MedicalBot.delivery_aid --> SearchBot.confirmed"
+          },
+          "total_time": 17.49567699432373,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+          "classification": {
+            "step": "classification",
+            "timing": 8.711347818374634,
+            "tokens": 0,
+            "raw_text": "{ \"@context\": \"https://schema.org/safety\",\n  \"@type\": \"SafetyConstraint\",\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"overlap\", \"must\"],\n  \"cues\": [],\n  \"trigger_text\": \"SearchBot1 and SearchBot2 must not enter overlapping zones\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.051837921142578,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (SearchBot1.entering_zone implies not SearchBot2.entering_zone)\",\n    \"explanation\": \"This ensures that when SearchBot1 is entering a zone, SearchBot2 does not enter the same zone immediately, preventing overlap.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (SearchBot1.entering_zone implies not SearchBot2.entering_zone)",
+              "explanation": "This ensures that when SearchBot1 is entering a zone, SearchBot2 does not enter the same zone immediately, preventing overlap.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (SearchBot1.entering_zone implies not SearchBot2.entering_zone)"
+          },
+          "total_time": 20.977057933807373,
+          "success": true,
+          "error": null,
+          "constraint_index": 0,
+          "attempt": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+          "classification": {
+            "step": "classification",
+            "timing": 4.6431779861450195,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"starts\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"MedicalBot finishes aid delivery\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.24901819229126,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"MedicalBot.finish AidDelivery --> TransportAMR.start AidDelivery\",\n  \"explanation\": \"This UPPAAL query enforces that the TransportAMR's start of aid delivery action happens only after the MedicalBot has finished its aid delivery. The '-->' operator is used because it signifies an eventual triggered behavior, aligning with the sequential_workflow pattern and the 'after' cue.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "MedicalBot.finish AidDelivery --> TransportAMR.start AidDelivery",
+              "explanation": "This UPPAAL query enforces that the TransportAMR's start of aid delivery action happens only after the MedicalBot has finished its aid delivery. The '-->' operator is used because it signifies an eventual triggered behavior, aligning with the sequential_workflow pattern and the 'after' cue.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "MedicalBot.finish AidDelivery --> TransportAMR.start AidDelivery"
+          },
+          "total_time": 17.967959880828857,
+          "success": true,
+          "error": null,
+          "constraint_index": 2,
+          "attempt": 1
+        },
+        {
+          "constraint": "Always possible to reach a state where all survivors are rescued",
+          "classification": {
+            "step": "classification",
+            "timing": 4.698078870773315,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"rescue\", \"survivors\"],\n  \"cues\": [],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.451828002929688,
+            "tokens": 0,
+            "raw_text": "{ \n\n  \"query\": \"A<> (SurveyDrone.rescue_survivors && SearchBot1.rescue_survivors && SearchBot2.rescue_survivors && MedicalBot.rescue_survivors && TransportAMR.rescue_survivors)\",\n  \"explanation\": \"This query ensures that all robots will eventually rescue the survivors, fulfilling the constraint of eventual completion.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (SurveyDrone.rescue_survivors && SearchBot1.rescue_survivors && SearchBot2.rescue_survivors && MedicalBot.rescue_survivors && TransportAMR.rescue_survivors)",
+              "explanation": "This query ensures that all robots will eventually rescue the survivors, fulfilling the constraint of eventual completion.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (SurveyDrone.rescue_survivors && SearchBot1.rescue_survivors && SearchBot2.rescue_survivors && MedicalBot.rescue_survivors && TransportAMR.rescue_survivors)"
+          },
+          "total_time": 17.211527109146118,
+          "success": true,
+          "error": null,
+          "constraint_index": 3,
+          "attempt": 1
+        }
+      ]
+    }
+  ]
+}

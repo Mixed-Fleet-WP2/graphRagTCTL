@@ -7,7 +7,7 @@
     },
     "evaluation_date": "2026-01-08T10:23:22.903Z",
     "total_scenarios": 1,
-    "total_models": 11
+    "total_models": 12
   },
   "scenarios": [
     {
@@ -466,7 +466,7 @@
                 "constraint_index": 0,
                 "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
                 "query": "CraneBot.unloading_complete -> AGV1.wait && AGV2.wait",
-                "valid": false,
+                "valid": true,
                 "pattern": "eventual_completion",
                 "label": "correct"
               },
@@ -548,6 +548,54 @@
             "correct": 2,
             "valid_inferred": 0,
             "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+                "query": "CraneBot.unloading_complete --> AGV1.waiting_for_unload && AGV2.waiting_for_unload",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+                "query": "A[] (DroneSupervisor.distance_from_CraneBot < 20 imply DroneSupervisor.move_away_from_CraneBot)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Forklift starts only after at least one AGV reaches transfer zone",
+                "query": "Forklift.start --> AGV.reach_transfer_zone",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "Eventually all containers reach storage area",
+                "query": "",
+                "valid": false,
+                "pattern": "",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 3,
             "unlabeled": 0
           }
         }

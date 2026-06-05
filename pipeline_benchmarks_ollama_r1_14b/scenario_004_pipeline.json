@@ -1,0 +1,114 @@
+{
+  "id": "scenario_004",
+  "domain": "manufacturing",
+  "prompt": "An assembly robot welds metal frames while a quality inspection drone hovers to scan the joints. The drone can start scanning only after welding is complete. If temperature exceeds 90\u00b0C, welding must pause until it drops below 70\u00b0C.",
+  "robots": [
+    "WelderBot",
+    "InspectorDrone"
+  ],
+  "constraints": [
+    "InspectorDrone starts scanning only after WelderBot finishes welding",
+    "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+    "WelderBot resumes welding when temperature drops below 70\u00b0C"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+          "classification": {
+            "step": "classification",
+            "timing": 6.290050029754639,
+            "tokens": 0,
+            "raw_text": "{\"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"WelderBot\", \"welding\", \"inspect\", \"scan\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"after WelderBot finishes welding\",\n  \"response_text\": \"InspectorDrone starts scanning\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.113874912261963,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"WelderBot.welding --> InspectorDrone.scanning\",\n  \"explanation\": \"This query uses the '-->' operator to represent a sequential workflow where WelderBot's welding action eventually leads to InspectorDrone's scanning action. The '-->' operator is appropriate here because it indicates that the scanning by InspectorDrone will occur after the welding by WelderBot, which aligns with the natural language constraint stating that InspectorDrone starts scanning only after WelderBot finishes welding.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "WelderBot.welding --> InspectorDrone.scanning",
+              "explanation": "This query uses the '-->' operator to represent a sequential workflow where WelderBot's welding action eventually leads to InspectorDrone's scanning action. The '-->' operator is appropriate here because it indicates that the scanning by InspectorDrone will occur after the welding by WelderBot, which aligns with the natural language constraint stating that InspectorDrone starts scanning only after WelderBot finishes welding.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "WelderBot.welding --> InspectorDrone.scanning"
+          },
+          "total_time": 21.502156019210815,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 2.8950698375701904,
+            "tokens": 0,
+            "raw_text": "{ \n  \"pattern\": \"???\",  \n  \"keywords\": [\"???\"] \n  }"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 3.1080031394958496,
+          "success": false,
+          "error": "GraphRAG retrieval failed: Pattern not found in Neo4j: ???",
+          "constraint_index": 1
+        },
+        {
+          "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+          "classification": {
+            "step": "classification",
+            "timing": 4.455518960952759,
+            "tokens": 0,
+            "raw_text": "{\n   \"pattern\": \"safety_immediate_response\",\n   \"keywords\": [\"temperature\", \"drops\", \"below\"],\n   \"cues\": [\"when\"],\n   \"trigger_text\": \"when temperature drops below 70\u00b0C\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.48619294166565,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (WelderBot.temperature < 70\u00b0C imply WelderBot.resuming_welding)\",\n  \"explanation\": \"This UPPAAL query ensures that whenever the temperature drops below 70\u00b0C, WelderBot immediately resumes welding. The pattern safety_immediate_response requires an immediate response to dangerous conditions, which in this case is resuming welding when the temperature condition is met.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (WelderBot.temperature < 70\u00b0C imply WelderBot.resuming_welding)",
+              "explanation": "This UPPAAL query ensures that whenever the temperature drops below 70\u00b0C, WelderBot immediately resumes welding. The pattern safety_immediate_response requires an immediate response to dangerous conditions, which in this case is resuming welding when the temperature condition is met.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (WelderBot.temperature < 70\u00b0C imply WelderBot.resuming_welding)"
+          },
+          "total_time": 18.995718955993652,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
+    }
+  ]
+}

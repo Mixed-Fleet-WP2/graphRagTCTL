@@ -1336,6 +1336,105 @@
           "constraint_index": 2
         }
       ]
+    },
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "Drone inspects all zones eventually",
+          "classification": {
+            "step": "classification",
+            "timing": 3.6386680603027344,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"inspect\", \"all\", \"zones\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.950079202651978,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> (AgriDrone.inspects_all_zones)\",\n  \"explanation\": \"The UPPAAL query ensures that the AgriDrone will eventually inspect all zones. This matches the constraint which specifies that the drone's inspection task must complete eventually.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"<>\"]\n  }",
+            "uppaal_result": {
+              "query": "A<> (AgriDrone.inspects_all_zones)",
+              "explanation": "The UPPAAL query ensures that the AgriDrone will eventually inspect all zones. This matches the constraint which specifies that the drone's inspection task must complete eventually.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (AgriDrone.inspects_all_zones)"
+          },
+          "total_time": 14.649617910385132,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Rover samples only after drone finishes scanning zone",
+          "classification": {
+            "step": "classification",
+            "timing": 5.009902000427246,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"samples\", \"drone\", \"scanning\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"Rover samples only after drone finishes scanning zone\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.84273076057434,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"AgriDrone.drone_scanning_done --> SoilRover.rover_sampling\",\n    \"explanation\": \"This UPPAAL query represents the constraint that the SoilRover will only perform sampling after the AgriDrone has completed its scanning. The '-->' operator ensures that roverSampling eventually follows droneScanningDone, adhering to the sequential_workflow pattern.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"sequential_workflow\",\n    \"operator_used\": [\"-->\"]\n  }",
+            "uppaal_result": {
+              "query": "AgriDrone.drone_scanning_done --> SoilRover.rover_sampling",
+              "explanation": "This UPPAAL query represents the constraint that the SoilRover will only perform sampling after the AgriDrone has completed its scanning. The '-->' operator ensures that roverSampling eventually follows droneScanningDone, adhering to the sequential_workflow pattern.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "AgriDrone.drone_scanning_done --> SoilRover.rover_sampling"
+          },
+          "total_time": 17.90550184249878,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "AgriDrone and SoilRover halt if communication lost",
+          "classification": {
+            "step": "classification",
+            "timing": 5.028347969055176,
+            "tokens": 0,
+            "raw_text": "{ \"constraint\": {\n    \"pattern\": \"...\",\n    \"keywords\": [\"\"],\n    \"cues\": [\"if\"],\n    \"trigger_text\": \"communication lost\",\n    \"response_text\": \"halt\"\n}\n}",
+            "error": "Invalid classification structure: 'pattern'"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 5.028732776641846,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 2
+        }
+      ]
     }
   ]
 }

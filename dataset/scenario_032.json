@@ -17,7 +17,7 @@
   "reference_properties": [
     "not AgroDrone.Calibrating --> AgroDrone.Altitude >= 40",
     "(Environement.WindSpeed > 35 --> AgroDrone.SafeAltitude)",
-    "Environement.WindSpeed > 35 && SafeAltitude --> AgroDrone.Hovering",
+    "A[] (Environement.WindSpeed > 35 && AgroDrone.SafeAltitude imply AgroDrone.Hovering)",
     "AgroDrone.Hovering and Environement.WindSpeed <= 35 --> AgroDrone.Surveying",
     "(AgroDrone.battery < 20 and t > 60 --> AgroDrone.AtBase)",
     "A<> (AgroDrone.DataTransmitted)",

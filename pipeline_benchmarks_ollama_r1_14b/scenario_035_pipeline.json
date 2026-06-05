@@ -1,0 +1,293 @@
+{
+  "id": "scenario_035",
+  "domain": "exploration",
+  "prompt": "An autonomous rover explores a volcanic terrain. It collects temperature and seismic data every 200 meters and must not approach closer than 5 meters to lava zones. If terrain slope exceeds 30\u00b0, it activates stabilizers before proceeding. If a data packet fails transmission three times, it must log the failure and continue. Eventually, all checkpoints must be reached and at least 90% of data successfully transmitted.",
+  "robots": [
+    "ExploroRover"
+  ],
+  "constraints": [
+    "ExploroRover collects data every 200 m",
+    "ExploroRover avoids lava zones by \u2265 5 m",
+    "ExploroRover activates stabilizers when slope > 30\u00b0",
+    "ExploroRover logs transmission failure after 3 retries",
+    "ExploroRover fails transmission three times, ExploroRover continues.",
+    "ExploroRover must eventually reach all checkpoints.",
+    "Eventually \u2265 90% data must be successfully transmitted "
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+          "classification": {
+            "step": "classification",
+            "timing": 4.083595037460327,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"existential_reachability\",\n  \"keywords\": [\"avoid\", \"lava\", \"zones\"],\n  \"cues\": [],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "existential_reachability",
+            "operators_count": 1,
+            "examples_count": 2
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.753940105438232,
+            "tokens": 0,
+            "raw_text": "{ \n  \"query\": \"E<> (ExploroRover.avoid_lava_zones >= 5)\",\n  \"explanation\": \"This UPPAAL query checks if there exists a possible execution where the ExploroRover maintains at least a 5-meter distance from lava zones, ensuring it avoids them as required.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"existential_reachability\",\n  \"operator_used\": [\"E<>\"]\n}",
+            "uppaal_result": {
+              "query": "E<> (ExploroRover.avoid_lava_zones >= 5)",
+              "explanation": "This UPPAAL query checks if there exists a possible execution where the ExploroRover maintains at least a 5-meter distance from lava zones, ensuring it avoids them as required.",
+              "confidence": 0.85,
+              "pattern_used": "existential_reachability",
+              "operator_used": [
+                "E<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "E<> (ExploroRover.avoid_lava_zones >= 5)"
+          },
+          "total_time": 15.889976024627686,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+          "classification": {
+            "step": "classification",
+            "timing": 5.323237895965576,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"activates\", \"stabilizers\", \"slope\"],\n    \"cues\": [\"when\"],\n    \"trigger_text\": \"when slope > 30\u00b0\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.689595699310303,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (ExploroRover.slope > 30\u00b0 imply ExploroRover.stabilizers_activated)\",\n  \"explanation\": \"This UPPAAL query enforces that whenever the slope is greater than 30 degrees, the stabilizers must immediately activate. The 'imply' operator ensures an immediate response to the trigger condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (ExploroRover.slope > 30\u00b0 imply ExploroRover.stabilizers_activated)",
+              "explanation": "This UPPAAL query enforces that whenever the slope is greater than 30 degrees, the stabilizers must immediately activate. The 'imply' operator ensures an immediate response to the trigger condition.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (ExploroRover.slope > 30\u00b0 imply ExploroRover.stabilizers_activated)"
+          },
+          "total_time": 19.0711452960968,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+          "classification": {
+            "step": "classification",
+            "timing": 5.868653059005737,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"transmission\", \"fail\"],\n  \"cues\": [\"when\", \"then\"],\n  \"trigger_text\": \"ExploroRover fails transmission\",\n  \"response_text\": \"ExploroRover continues\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.48139214515686,
+            "tokens": 0,
+            "raw_text": "{ \n\n\"query\": \"A[] (ExploroRover.transmission_failures >= 3 imply ExploroRover.continuing)\",\n  \"explanation\": \"This UPPAAL query enforces that when ExploroRover fails to transmit three times, it must immediately continue. The pattern uses the immediate response logic from safety_immediate_response, ensuring no delay in action.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (ExploroRover.transmission_failures >= 3 imply ExploroRover.continuing)",
+              "explanation": "This UPPAAL query enforces that when ExploroRover fails to transmit three times, it must immediately continue. The pattern uses the immediate response logic from safety_immediate_response, ensuring no delay in action.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (ExploroRover.transmission_failures >= 3 imply ExploroRover.continuing)"
+          },
+          "total_time": 19.393125772476196,
+          "success": true,
+          "error": null,
+          "constraint_index": 4
+        },
+        {
+          "constraint": "ExploroRover must eventually reach all checkpoints.",
+          "classification": {
+            "step": "classification",
+            "timing": 4.943773031234741,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"must\", \"reach\"],\n  \"cues\": [\"eventually\", \"must\"],\n  \"trigger_text\": \"ExploroRover must eventually reach all checkpoints.\"\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.622801303863525,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A<> (ExploroRover.checkpoint_reached)\",\n    \"explanation\": \"This query uses the A<> operator to ensure that ExploroRover must eventually reach all checkpoints. The 'eventual_completion' pattern is applied here because it specifies that something must happen in the future, which aligns with the constraint stating that the rover must eventually reach all checkpoints.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"eventual_completion\",\n    \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (ExploroRover.checkpoint_reached)",
+              "explanation": "This query uses the A<> operator to ensure that ExploroRover must eventually reach all checkpoints. The 'eventual_completion' pattern is applied here because it specifies that something must happen in the future, which aligns with the constraint stating that the rover must eventually reach all checkpoints.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (ExploroRover.checkpoint_reached)"
+          },
+          "total_time": 17.624974966049194,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+          "classification": {
+            "step": "classification",
+            "timing": 3.515833854675293,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"data transmission\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.35491394996643,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> (ExploroRover\u6210\u529f\u4f20\u8f93\u7684\u6570\u636e\u91cf \u2265 90)\",\n  \"explanation\": \"The UPPAAL query uses A<>, which enforces that the condition must eventually hold. The condition is that the successfully transmitted data by ExploroRover reaches or exceeds 90%. This matches the constraint of eventually achieving at least 90% successful data transmission.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (ExploroRover\u6210\u529f\u4f20\u8f93\u7684\u6570\u636e\u91cf \u2265 90)",
+              "explanation": "The UPPAAL query uses A<>, which enforces that the condition must eventually hold. The condition is that the successfully transmitted data by ExploroRover reaches or exceeds 90%. This matches the constraint of eventually achieving at least 90% successful data transmission.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A<> (ExploroRover\u6210\u529f\u4f20\u8f93\u7684\u6570\u636e\u91cf \u2265 90)"
+          },
+          "total_time": 16.956931114196777,
+          "success": true,
+          "error": null,
+          "constraint_index": 6
+        },
+        {
+          "constraint": "ExploroRover collects data every 200 m",
+          "classification": {
+            "step": "classification",
+            "timing": 5.634081125259399,
+            "tokens": 0,
+            "raw_text": "{    \n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"collects data\", \"every 200 meters\"],\n    \"cues\": [],\n    \"trigger_text\": null,\n    \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.070426225662231,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (ExploroRover.collecting_data implies ExploroRover.data_collected)\",\n  \"explanation\": \"This UPPAAL query ensures that whenever the ExploroRover is collecting data, it immediately results in data being collected. This matches the constraint of 'collects data every 200 meters' by enforcing an immediate response upon starting to collect data.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (ExploroRover.collecting_data implies ExploroRover.data_collected)",
+              "explanation": "This UPPAAL query ensures that whenever the ExploroRover is collecting data, it immediately results in data being collected. This matches the constraint of 'collects data every 200 meters' by enforcing an immediate response upon starting to collect data.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (ExploroRover.collecting_data implies ExploroRover.data_collected)"
+          },
+          "total_time": 19.74784779548645,
+          "success": true,
+          "error": null,
+          "constraint_index": 0,
+          "attempt": 1
+        },
+        {
+          "constraint": "ExploroRover logs transmission failure after 3 retries",
+          "classification": {
+            "step": "classification",
+            "timing": 5.033073902130127,
+            "tokens": 0,
+            "raw_text": "{  \n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"logs\", \"transmission_failure\", \"after\", \"3_retries\"],\n    \"cues\": [\"after\", \"retries\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.70358681678772,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (ExploroRover.transmission_failure implies ExploroRover.safety_response)\",\n  \"explanation\": \"This UPPAAL query enforces that whenever the transmission failure occurs in the ExploroRover, an immediate safety response must be triggered. This aligns with the constraint of requiring an immediate action after a transmission issue.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (ExploroRover.transmission_failure implies ExploroRover.safety_response)",
+              "explanation": "This UPPAAL query enforces that whenever the transmission failure occurs in the ExploroRover, an immediate safety response must be triggered. This aligns with the constraint of requiring an immediate action after a transmission issue.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (ExploroRover.transmission_failure implies ExploroRover.safety_response)"
+          },
+          "total_time": 18.82284641265869,
+          "success": true,
+          "error": null,
+          "constraint_index": 3,
+          "attempt": 1
+        }
+      ]
+    }
+  ]
+}

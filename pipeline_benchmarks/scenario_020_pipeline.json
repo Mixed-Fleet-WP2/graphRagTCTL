@@ -912,6 +912,89 @@
           "constraint_index": 1
         }
       ]
+    },
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+          "classification": {
+            "step": "classification",
+            "timing": 4.15304708480835,
+            "tokens": 0,
+            "raw_text": "{\t\t    \t\t\"pattern\": \"safety_immediate_response\",\n\t\t    \t\t\"keywords\": [\"misalignment\", \"persist\", \"InspectBot\", \"emergency\"],\n\t\t    \t\t\"cues\": [\"if\", \"then\"]\n\t\t    \t}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 8.74691367149353,
+            "tokens": 0,
+            "raw_text": "{    \"query\": \"...\",    \n    \"explanation\": \"...\",    \n    \"confidence\": 0.85,    \n    \"pattern_used\": \"safety_immediate_response\",    \n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "...",
+              "explanation": "...",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "..."
+          },
+          "total_time": 12.978329181671143,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+          "classification": {
+            "step": "classification",
+            "timing": 3.3173470497131348,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"safe shutdown\"],\n  \"cues\": [],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 9.683488845825195,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> RepairDrone.safe_shutdown\",\n  \"explanation\": \"This query ensures that the RepairDrone will eventually reach a safe shutdown state, which aligns with the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> RepairDrone.safe_shutdown",
+              "explanation": "This query ensures that the RepairDrone will eventually reach a safe shutdown state, which aligns with the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> RepairDrone.safe_shutdown"
+          },
+          "total_time": 13.055357217788696,
+          "success": true,
+          "error": null,
+          "constraint_index": 0,
+          "attempt": 2
+        }
+      ]
     }
   ]
 }

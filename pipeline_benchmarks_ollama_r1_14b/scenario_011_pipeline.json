@@ -1,0 +1,179 @@
+{
+  "id": "scenario_011",
+  "domain": "agriculture",
+  "prompt": "A harvester collects crops while a trailer follows to gather the load. The trailer must stay within 5 meters of the harvester. If distance exceeds 10 meters, both must stop and resynchronize within 15 seconds.",
+  "robots": [
+    "Harvester",
+    "TrailerBot"
+  ],
+  "constraints": [
+    "TrailerBot maintains distance \u2264 5 meters from Harvester",
+    "If distance > 10 meters, Harvester stop",
+    "If distance > 10 meters, TrailerBot stop",
+    "Harvester and TrailerBot must resynchronize within 15 seconds of stopping"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+          "classification": {
+            "step": "classification",
+            "timing": 17.80028796195984,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"distance\", \"maintains\"],\n  \"cues\": [\"\u2264\", \"meters\"],\n  \"trigger_text\": \"TrailerBot maintains distance \u2264 5 meters from Harvester\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.212879180908203,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (TrailerBot.distance_from_Harvester \u2264 5 imply TrailerBot.response)\",\n  \"explanation\": \"The query ensures that if the distance between TrailerBot and Harvester is ever less than or equal to 5 meters, then TrailerBot must respond immediately. This matches the constraint of maintaining a safe distance by requiring an immediate response when the condition is met.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (TrailerBot.distance_from_Harvester \u2264 5 imply TrailerBot.response)",
+              "explanation": "The query ensures that if the distance between TrailerBot and Harvester is ever less than or equal to 5 meters, then TrailerBot must respond immediately. This matches the constraint of maintaining a safe distance by requiring an immediate response when the condition is met.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (TrailerBot.distance_from_Harvester \u2264 5 imply TrailerBot.response)"
+          },
+          "total_time": 32.24778985977173,
+          "success": true,
+          "error": null,
+          "constraint_index": 0,
+          "attempt": 1
+        },
+        {
+          "constraint": "If distance > 10 meters, Harvester stop",
+          "classification": {
+            "step": "classification",
+            "timing": 5.802443027496338,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"Harvester\", \"stop\"],\n    \"cues\": [\"if\"],\n    \"trigger_text\": \"If distance is greater than 10 meters, the harvester must stop.\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.131510019302368,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (Harvester.distance > 10 meters imply Harvester.stop)\",\n  \"explanation\": \"This query enforces that if the distance is greater than 10 meters, the harvester must immediately stop. It follows the safety_immediate_response pattern by using A[] with an 'imply' operator for immediate response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Harvester.distance > 10 meters imply Harvester.stop)",
+              "explanation": "This query enforces that if the distance is greater than 10 meters, the harvester must immediately stop. It follows the safety_immediate_response pattern by using A[] with an 'imply' operator for immediate response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (Harvester.distance > 10 meters imply Harvester.stop)"
+          },
+          "total_time": 18.99868369102478,
+          "success": true,
+          "error": null,
+          "constraint_index": 1,
+          "attempt": 1
+        },
+        {
+          "constraint": "If distance > 10 meters, TrailerBot stop",
+          "classification": {
+            "step": "classification",
+            "timing": 4.714909076690674,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"distance\", \"stop\"],\n  \"cues\": [\"if\"],\n  \"trigger_text\": \"If distance > 10 meters\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.126670837402344,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (TrailerBot.distance > 10 implies TrailerBot.stopped)\",\n  \"explanation\": \"This UPPAAL query uses the safety_immediate_response pattern. The condition is 'distance > 10 meters', which triggers an immediate response for TrailerBot to stop. This ensures that the constraint is enforced without any delay.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (TrailerBot.distance > 10 implies TrailerBot.stopped)",
+              "explanation": "This UPPAAL query uses the safety_immediate_response pattern. The condition is 'distance > 10 meters', which triggers an immediate response for TrailerBot to stop. This ensures that the constraint is enforced without any delay.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (TrailerBot.distance > 10 implies TrailerBot.stopped)"
+          },
+          "total_time": 17.890202045440674,
+          "success": true,
+          "error": null,
+          "constraint_index": 2,
+          "attempt": 1
+        },
+        {
+          "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+          "classification": {
+            "step": "classification",
+            "timing": 2.9188599586486816,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"resynchronize\", \"within\", \"seconds\"],\n  \"cues\": [\"within\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.208192110061646,
+            "tokens": 0,
+            "raw_text": "{    \n    \"query\": \"A[] (Harvester.stopped imply TrailerBot.resynchronize)\",\n    \"explanation\": \"This UPPAAL query ensures that when the Harvester stops, the TrailerBot immediately initiates resynchronization. The 'imply' operator is used here because it enforces an immediate response in safety-critical situations.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (Harvester.stopped imply TrailerBot.resynchronize)",
+              "explanation": "This UPPAAL query ensures that when the Harvester stops, the TrailerBot immediately initiates resynchronization. The 'imply' operator is used here because it enforces an immediate response in safety-critical situations.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (Harvester.stopped imply TrailerBot.resynchronize)"
+          },
+          "total_time": 16.17778992652893,
+          "success": true,
+          "error": null,
+          "constraint_index": 3,
+          "attempt": 3
+        }
+      ]
+    }
+  ]
+}

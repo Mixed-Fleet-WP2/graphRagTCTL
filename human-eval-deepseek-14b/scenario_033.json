@@ -1,0 +1,116 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-06-05T11:48:38.336Z",
+    "total_scenarios": 1,
+    "total_models": 1
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_033",
+      "domain": "manufacturing",
+      "prompt": "An indoor inspection drone autonomously navigates a multi-floor factory. It must spend no more than 120 seconds in each section. If temperature exceeds 60°C, the drone activates thermal protection and skips the current section. In case of lost localization, it switches to mapping mode until position is reacquired. When all sections are inspected, it must land at the maintenance dock and upload sensor logs. It is always possible to reach a safe state where the drone is landed.",
+      "gold_standard": {
+        "constraints": [
+          "InspectDrone spends ≤ 120 s per section",
+          "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+          "InspectDrone skips section when temperature > 60°C",
+          "InspectDrone switches to mapping mode if localization lost",
+          "InspectDrone lands at maintenance dock after all sections inspected",
+          "InspectDrone uploads sensor logs after landing",
+          "Always possible to reach safe landed state"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "InspectDrone spends ≤ 120 s per section",
+                "query": "A[] (InspectDrone.inspects_section imply clock <= 120)",
+                "valid": true,
+                "pattern": "time_bounded_constraint",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "InspectDrone skips section when temperature > 60°C",
+                "query": "A[] (InspectDrone.temperature > 60°C imply clock <= 0)",
+                "valid": false,
+                "pattern": "time_bounded_constraint",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "InspectDrone switches to mapping mode if localization lost",
+                "query": "A[] (InspectDrone.localization_lost imply InspectDrone.mapping_mode)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 5,
+                "constraint": "InspectDrone uploads sensor logs after landing",
+                "query": "InspectDrone.sensor_log_upload --> InspectDrone.landed",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If temperature exceeds 60°C, InspectDrone must activate thermal protection",
+                "query": "A[] (InspectDrone.temperature > 60°C imply InspectDrone.thermal_protection)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 4,
+                "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+                "query": "InspectDrone.landed_at_dock --> {all_sections_inspected}",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 6,
+                "constraint": "Always possible to reach safe landed state",
+                "query": "...",
+                "valid": false,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 5,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 2,
+    "inferred": 0,
+    "hallucination": 5,
+    "unlabeled": 0,
+    "total": 7
+  },
+  "performance_metrics": {
+    "precision": 0.2857142857142857,
+    "recall": 0.2857142857142857,
+    "f1": 0.2857142857142857
+  }
+}
