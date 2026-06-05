@@ -1,0 +1,80 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-06-05T11:12:23.320Z",
+    "total_scenarios": 1,
+    "total_models": 1
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_024",
+      "domain": "harbor",
+      "prompt": "Two cranes move heavy parts alternately. It must always be true that only one crane moves at a time. Eventually, both parts reach their target zones.",
+      "gold_standard": {
+        "constraints": [
+          "Only one crane moves at a time",
+          "Eventually CraneA reach target zones",
+          "Eventually CraneB reach target zones"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Only one crane moves at a time",
+                "query": "A[] (CraneA.moving implies not CraneB.moving)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Eventually CraneA reach target zones",
+                "query": "A<> CraneA.reach_target_zones",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Eventually CraneB reach target zones",
+                "query": "A<> (CraneB.reach_target_zones)",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 1,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 2,
+    "inferred": 0,
+    "hallucination": 1,
+    "unlabeled": 0,
+    "total": 3
+  },
+  "performance_metrics": {
+    "precision": 0.6666666666666666,
+    "recall": 0.6666666666666666,
+    "f1": 0.6666666666666666
+  }
+}

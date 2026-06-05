@@ -1,0 +1,80 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-06-05T09:06:55.423Z",
+    "total_scenarios": 1,
+    "total_models": 1
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_017",
+      "domain": "agriculture",
+      "prompt": "A drone surveys crop zones while a rover collects soil samples. Every zone must be inspected at least once. The rover begins sampling only after the drone finishes the zone. If communication is lost, both must halt.",
+      "gold_standard": {
+        "constraints": [
+          "Drone inspects all zones eventually",
+          "Rover samples only after drone finishes scanning zone",
+          "AgriDrone and SoilRover halt if communication lost"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Drone inspects all zones eventually",
+                "query": "A<> (AgriDrone.inspects_all_zones)",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "Rover samples only after drone finishes scanning zone",
+                "query": "AgriDrone.drone_scanning_done --> SoilRover.rover_sampling",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "AgriDrone and SoilRover halt if communication lost",
+                "query": "",
+                "valid": false,
+                "pattern": "",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 1,
+    "inferred": 0,
+    "hallucination": 2,
+    "unlabeled": 0,
+    "total": 3
+  },
+  "performance_metrics": {
+    "precision": 0.3333333333333333,
+    "recall": 0.3333333333333333,
+    "f1": 0.3333333333333333
+  }
+}

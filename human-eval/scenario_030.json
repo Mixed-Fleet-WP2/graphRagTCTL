@@ -7,7 +7,7 @@
     },
     "evaluation_date": "2026-01-08T12:51:52.691Z",
     "total_scenarios": 1,
-    "total_models": 11
+    "total_models": 12
   },
   "scenarios": [
     {
@@ -548,6 +548,54 @@
             "correct": 2,
             "valid_inferred": 0,
             "hallucinations": 2,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 1,
+                "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+                "query": "MedicalBot.delivery_aid --> SearchBot.confirmed",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 0,
+                "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+                "query": "A[] (SearchBot1.entering_zone implies not SearchBot2.entering_zone)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+                "query": "MedicalBot.finish AidDelivery --> TransportAMR.start AidDelivery",
+                "valid": false,
+                "pattern": "sequential_workflow",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 3,
+                "constraint": "Always possible to reach a state where all survivors are rescued",
+                "query": "A<> (SurveyDrone.rescue_survivors && SearchBot1.rescue_survivors && SearchBot2.rescue_survivors && MedicalBot.rescue_survivors && TransportAMR.rescue_survivors)",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 4,
             "unlabeled": 0
           }
         }

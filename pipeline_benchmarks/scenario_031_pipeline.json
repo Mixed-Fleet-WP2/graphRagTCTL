@@ -2569,6 +2569,157 @@
           "constraint_index": 5
         }
       ]
+    },
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+          "classification": {
+            "step": "classification",
+            "timing": 4.109399080276489,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"maintenance rover\", \"zone inspection\", \"next\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"completes zone inspection before moving\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.210098028182983,
+            "tokens": 0,
+            "raw_text": "{ \n    \"query\": \"MaintenanceRover.inspection_complete --> MaintenanceRover.moving\",\n    \"explanation\": \"This UPPAAL query enforces that the maintenance rover must eventually complete its zone inspection before it moves to the next step. The '-->' operator is appropriate here as it represents an eventual sequential workflow, aligning with the natural language constraint which specifies a delay between completing the inspection and moving on.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"sequential_workflow\",\n    \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "MaintenanceRover.inspection_complete --> MaintenanceRover.moving",
+              "explanation": "This UPPAAL query enforces that the maintenance rover must eventually complete its zone inspection before it moves to the next step. The '-->' operator is appropriate here as it represents an eventual sequential workflow, aligning with the natural language constraint which specifies a delay between completing the inspection and moving on.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "MaintenanceRover.inspection_complete --> MaintenanceRover.moving"
+          },
+          "total_time": 17.391114234924316,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+          "classification": {
+            "step": "classification",
+            "timing": 6.85487174987793,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"conditional_response\",\n    \"keywords\": [\"halts\", \"activates\", \"ventilation\", \"when\", \"gas concentration\", \">\"],\n    \"cues\": [\"when\"],\n    \"trigger_text\": \"when gas concentration > 3%\",\n    \"response_text\": \"halts and activates ventilation\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.827543020248413,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"(MaintenanceRover.gas_concentration > 3) --> (MaintenanceRover.halt && MaintenanceRover.ventilation_activate)\",\n    \"explanation\": \"The UPPAAL query represents the conditional response where if the gas concentration exceeds 3%, the MaintenanceRover robot will eventually halt and activate ventilation. This aligns with the constraint provided.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"conditional_response\",\n    \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(MaintenanceRover.gas_concentration > 3) --> (MaintenanceRover.halt && MaintenanceRover.ventilation_activate)",
+              "explanation": "The UPPAAL query represents the conditional response where if the gas concentration exceeds 3%, the MaintenanceRover robot will eventually halt and activate ventilation. This aligns with the constraint provided.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(MaintenanceRover.gas_concentration > 3) --> (MaintenanceRover.halt && MaintenanceRover.ventilation_activate)"
+          },
+          "total_time": 19.752240896224976,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+          "classification": {
+            "step": "classification",
+            "timing": 0.344127893447876,
+            "tokens": 0,
+            "raw_text": "{ }",
+            "error": "Failed to parse JSON"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 0.3441946506500244,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 2,
+          "attempt": 3
+        },
+        {
+          "constraint": "MaintenanceRover heads to charging when battery < 25%",
+          "classification": {
+            "step": "classification",
+            "timing": 4.420080900192261,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"battery\", \"charging\"],\n    \"cues\": [\"when\"],\n    \"trigger_text\": \"battery < 25%\",\n    \"response_text\": \"heads to charging\"\n}"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 4.433694124221802,
+          "success": false,
+          "error": "GraphRAG retrieval failed: {neo4j_code: Neo.ClientError.Security.AuthenticationRateLimit} {message: The client has provided incorrect authentication details too many times in a row.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}",
+          "constraint_index": 3,
+          "attempt": 3
+        },
+        {
+          "constraint": "MaintenanceRover records every anomaly before proceeding",
+          "classification": {
+            "step": "classification",
+            "timing": 3.4841148853302,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\", \n  \"keywords\": [\"maintenance_rover\", \"anomaly\"], \n  \"cues\": [\"before\", \"proceeding\"] \n}"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 3.5009679794311523,
+          "success": false,
+          "error": "GraphRAG retrieval failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}",
+          "constraint_index": 4,
+          "attempt": 3
+        },
+        {
+          "constraint": "All inspection reports eventually uploaded",
+          "classification": {
+            "step": "classification",
+            "timing": 3.9351119995117188,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"inspection\", \"reports\", \"uploaded\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 3.95025897026062,
+          "success": false,
+          "error": "GraphRAG retrieval failed: {neo4j_code: Neo.ClientError.Security.Unauthorized} {message: The client is unauthorized due to authentication failure.} {gql_status: 42NFF} {gql_status_description: error: syntax error or access rule violation - permission/access denied. Access denied, see the security logs for details.}",
+          "constraint_index": 5,
+          "attempt": 3
+        }
+      ]
     }
   ]
 }

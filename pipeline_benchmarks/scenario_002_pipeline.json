@@ -1333,6 +1333,126 @@
           "constraint_index": 2
         }
       ]
+    },
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "AGV moves to pick the pallet after scanning.",
+          "classification": {
+            "step": "classification",
+            "timing": 4.090780258178711,
+            "tokens": 0,
+            "raw_text": "{ \n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"move\", \"scan\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"scan\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.495560884475708,
+            "tokens": 0,
+            "raw_text": "{ \n  \"query\": \"Camera.scan --> Agv.move\",\n  \"explanation\": \"This UPPAAL query represents the sequential workflow where the Agv's move action is triggered after the Camera's scan action. The '-->' operator is used to denote that eventually, after the scan is completed, the AGV will move to pick up the pallet.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Camera.scan --> Agv.move",
+              "explanation": "This UPPAAL query represents the sequential workflow where the Agv's move action is triggered after the Camera's scan action. The '-->' operator is used to denote that eventually, after the scan is completed, the AGV will move to pick up the pallet.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Camera.scan --> Agv.move"
+          },
+          "total_time": 16.683714151382446,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Conveyor moves only after Agv is loaded",
+          "classification": {
+            "step": "classification",
+            "timing": 4.113893032073975,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"conditional_response\",\n  \"keywords\": [\"conveyor\", \"moves\", \"after\", \"agv\", \"loaded\"],\n  \"cues\": [\"after\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.940449953079224,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(Conveyor.moving) --> (Agv.loaded)\",\n  \"explanation\": \"The UPPAAL query states that if the conveyor is moving, it will eventually lead to the AGV being loaded. This aligns with the constraint which specifies that the conveyor moves only after the AGV is loaded.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(Conveyor.moving) --> (Agv.loaded)",
+              "explanation": "The UPPAAL query states that if the conveyor is moving, it will eventually lead to the AGV being loaded. This aligns with the constraint which specifies that the conveyor moves only after the AGV is loaded.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(Conveyor.moving) --> (Agv.loaded)"
+          },
+          "total_time": 16.15021514892578,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+          "classification": {
+            "step": "classification",
+            "timing": 5.765760183334351,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"must\", \"before\"],\n  \"cues\": [\"before\"],\n  \"trigger_text\": \"Conveyor must move\",\n  \"response_text\": \"RobotArm places the pallet onto a shelf\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.971335172653198,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"Conveyor.move --> RobotArm.place_pallet_onto_shelf\",\n  \"explanation\": \"This query enforces that the Conveyor's move action must eventually lead to the RobotArm placing the pallet onto a shelf. It aligns with the sequential_workflow pattern by ensuring one action (Conveyor moving) precedes another (RobotArm placing). The '-->' operator is used here because it represents an eventual triggered behavior, which fits the 'must' condition in the constraint.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Conveyor.move --> RobotArm.place_pallet_onto_shelf",
+              "explanation": "This query enforces that the Conveyor's move action must eventually lead to the RobotArm placing the pallet onto a shelf. It aligns with the sequential_workflow pattern by ensuring one action (Conveyor moving) precedes another (RobotArm placing). The '-->' operator is used here because it represents an eventual triggered behavior, which fits the 'must' condition in the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Conveyor.move --> RobotArm.place_pallet_onto_shelf"
+          },
+          "total_time": 20.838835954666138,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
     }
   ]
 }

@@ -7,7 +7,7 @@
     },
     "evaluation_date": "2025-12-30T17:23:08.928Z",
     "total_scenarios": 1,
-    "total_models": 11
+    "total_models": 12
   },
   "scenarios": [
     {
@@ -360,6 +360,38 @@
                 "constraint_index": 1,
                 "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
                 "query": "UGV.ArrivedToCollect --> Forklift.LoadingTruck",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        },
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+                "query": "Drone.scanning_done --> UGV.collecting_container",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+                "query": "UGV.arrives_collect_container --> Forklift.loads_truck",
                 "valid": true,
                 "pattern": "sequential_workflow",
                 "label": "correct"

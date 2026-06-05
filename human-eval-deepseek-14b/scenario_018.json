@@ -1,0 +1,80 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-06-05T09:12:46.295Z",
+    "total_scenarios": 1,
+    "total_models": 1
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_018",
+      "domain": "construction",
+      "prompt": "A drone delivers bricks to the upper floor, and a lifting robot waits to stack them. If the drone battery drops below 15%, it must land for charging, but there exists a possible sequence where delivery still completes successfully.",
+      "gold_standard": {
+        "constraints": [
+          "LiftBot stacks only after DeliveryDrone arrives",
+          "DeliveryDrone lands when battery < 15%",
+          "Delivery eventually completes"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 1,
+                "constraint": "DeliveryDrone lands when battery < 15%",
+                "query": "A[] (DeliveryDrone.battery < 15% imply DeliveryDrone.lands)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 0,
+                "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+                "query": "A[] (DeliveryDrone.arrived imply LiftBot.stacking)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "Delivery eventually completes",
+                "query": "A<> DeliveryDrone.delivery_complete",
+                "valid": true,
+                "pattern": "eventual_completion",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 3,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 0,
+    "inferred": 0,
+    "hallucination": 3,
+    "unlabeled": 0,
+    "total": 3
+  },
+  "performance_metrics": {
+    "precision": 0,
+    "recall": 0,
+    "f1": 0
+  }
+}

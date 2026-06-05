@@ -1674,6 +1674,142 @@
           "constraint_index": 3
         }
       ]
+    },
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+          "classification": {
+            "step": "classification",
+            "timing": 3.590549945831299,
+            "tokens": 0,
+            "raw_text": "{\n\n\n\"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"SprayerDrone\", \"SurveyDrone\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"starts\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.96784496307373,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"SprayerDrone.starts --> SurveyDrone.marks_zone_safe\",\n  \"explanation\": \"The UPPAAL query enforces that SprayerDrone's start action only occurs after SurveyDrone has marked the zone as safe. The '-->' operator is used because this is a sequential workflow where one action must eventually follow another, aligning with the pattern description.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "SprayerDrone.starts --> SurveyDrone.marks_zone_safe",
+              "explanation": "The UPPAAL query enforces that SprayerDrone's start action only occurs after SurveyDrone has marked the zone as safe. The '-->' operator is used because this is a sequential workflow where one action must eventually follow another, aligning with the pattern description.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "SprayerDrone.starts --> SurveyDrone.marks_zone_safe"
+          },
+          "total_time": 16.631195783615112,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+          "classification": {
+            "step": "classification",
+            "timing": 3.823944091796875,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"...\", \"keywords\": [\"...\"], \"cues\": [\"...\"], \"trigger_text\": \"...\", \"response_text\": \"...\" }"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 3.8650639057159424,
+          "success": false,
+          "error": "GraphRAG retrieval failed: Pattern not found in Neo4j: ...",
+          "constraint_index": 1
+        },
+        {
+          "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+          "classification": {
+            "step": "classification",
+            "timing": 4.392108201980591,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"start\", \"finish\", \"collecting\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"TransportAMR starts only after both SampleRovers finish collecting\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.838748216629028,
+            "tokens": 0,
+            "raw_text": "{ \n\"query\": \"???\", \n  \"explanation\": \"???\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "???",
+              "explanation": "???",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "???"
+          },
+          "total_time": 12.26659893989563,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+          "classification": {
+            "step": "classification",
+            "timing": 6.148112773895264,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"always\", \"reach\", \"state\", \"all\", \"zones\", \"fertilized\", \"samples\", \"collected\"],\n  \"cues\": [],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.998125076293945,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A<> (SurveyDrone.zone_fertilized && SprayerDrone.samples_collected)\",\n    \"explanation\": \"This query ensures that eventually, both the SurveyDrone will have fertilized all zones and the SprayerDrone will have collected all samples. The A<> operator is used because the constraint requires that these states must eventually be reached.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"eventual_completion\",\n    \"operator_used\": [\"A<\"]\n  }",
+            "uppaal_result": {
+              "query": "A<> (SurveyDrone.zone_fertilized && SprayerDrone.samples_collected)",
+              "explanation": "This query ensures that eventually, both the SurveyDrone will have fertilized all zones and the SprayerDrone will have collected all samples. The A<> operator is used because the constraint requires that these states must eventually be reached.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (SurveyDrone.zone_fertilized && SprayerDrone.samples_collected)"
+          },
+          "total_time": 19.186781883239746,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        }
+      ]
     }
   ]
 }

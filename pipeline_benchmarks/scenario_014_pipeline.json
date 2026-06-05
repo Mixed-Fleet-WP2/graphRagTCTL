@@ -1338,6 +1338,105 @@
           "constraint_index": 2
         }
       ]
+    },
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+          "classification": {
+            "step": "classification",
+            "timing": 1.241609811782837,
+            "tokens": 0,
+            "raw_text": "{ }",
+            "error": "Failed to parse JSON"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 1.2416808605194092,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 0
+        },
+        {
+          "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 3.2569830417633057,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"vibration\", \"exceeds\", \"g\"],\n  \"cues\": [\"when\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.042945861816406,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (InspectionDrone.vibration > 5 imply not InspectionDrone.moving)\",\n    \"explanation\": \"This UPPAAL query enforces that when the InspectionDrone's vibration exceeds 5 g, it must immediately stop moving. This ensures safety by preventing operation under dangerous conditions.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (InspectionDrone.vibration > 5 imply not InspectionDrone.moving)",
+              "explanation": "This UPPAAL query enforces that when the InspectionDrone's vibration exceeds 5 g, it must immediately stop moving. This ensures safety by preventing operation under dangerous conditions.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (InspectionDrone.vibration > 5 imply not InspectionDrone.moving)"
+          },
+          "total_time": 16.353137016296387,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "RepairBot stop when vibration exceeds 5 g",
+          "classification": {
+            "step": "classification",
+            "timing": 5.118243217468262,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"vibration\", \"exceeds\", \"5g\"],\n  \"cues\": [],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.021601915359497,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (RepairBot.vibration > 5g imply not RepairBot.operating)\",\n  \"explanation\": \"This UPPAAL query enforces that when the vibration exceeds 5 g, the RepairBot must immediately stop operating. The use of 'imply' ensures an immediate response to the dangerous condition.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (RepairBot.vibration > 5g imply not RepairBot.operating)",
+              "explanation": "This UPPAAL query enforces that when the vibration exceeds 5 g, the RepairBot must immediately stop operating. The use of 'imply' ensures an immediate response to the dangerous condition.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (RepairBot.vibration > 5g imply not RepairBot.operating)"
+          },
+          "total_time": 18.227334022521973,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
     }
   ]
 }

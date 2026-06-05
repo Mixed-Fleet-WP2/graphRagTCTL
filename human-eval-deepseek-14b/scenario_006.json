@@ -1,0 +1,80 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-06-05T08:18:02.592Z",
+    "total_scenarios": 1,
+    "total_models": 1
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_006",
+      "domain": "agriculture",
+      "prompt": "A drone sprays pesticide across fields while a ground rover monitors soil humidity. The drone must not spray if wind speed exceeds 25 km/h. The rover reports humidity every 10 minutes, and if humidity < 20%, the drone must pause spraying.",
+      "gold_standard": {
+        "constraints": [
+          "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+          "SoilRover reports humidity every 10 minutes",
+          "SprayDrone pauses spraying if humidity below 20%"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+                "query": "A[] (SprayDrone.wind_speed >25 imply SprayDrone.stopped_spraying)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "SoilRover reports humidity every 10 minutes",
+                "query": "A[] (SoilRover.humidity_report_period < 10 imply SoilRover.reporting_humidity)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "SprayDrone pauses spraying if humidity below 20%",
+                "query": "",
+                "valid": false,
+                "pattern": "",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 3,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 0,
+    "inferred": 0,
+    "hallucination": 3,
+    "unlabeled": 0,
+    "total": 3
+  },
+  "performance_metrics": {
+    "precision": 0,
+    "recall": 0,
+    "f1": 0
+  }
+}

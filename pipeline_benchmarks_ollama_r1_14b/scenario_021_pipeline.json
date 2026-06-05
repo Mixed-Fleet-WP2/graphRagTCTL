@@ -1,0 +1,117 @@
+{
+  "id": "scenario_021",
+  "domain": "marine",
+  "prompt": "Two underwater drones inspect ship hulls. They must always remain within communication range. Eventually, all sections must be inspected. If visibility < 30%, will both start returning to surface.",
+  "robots": [
+    "SubDroneA",
+    "SubDroneB"
+  ],
+  "constraints": [
+    "Both drones maintain communication range at all times",
+    "All sections eventually inspected",
+    "If visibility < 30%, both start returning to surface "
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "All sections eventually inspected",
+          "classification": {
+            "step": "classification",
+            "timing": 3.6640141010284424,
+            "tokens": 0,
+            "raw_text": "{ \n\n\"pattern\": \"eventual_completion\",\n  \"keywords\": [\"sections\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"inspected\"\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.948105096817017,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> (SubDroneA.inspected && SubDroneB.inspected)\",\n  \"explanation\": \"This UPPAAL query uses the A<> operator to ensure that both SubDroneA and SubDroneB will eventually inspect all sections. The pattern 'eventual_completion' is applied here because the task of completing inspections must happen eventually.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (SubDroneA.inspected && SubDroneB.inspected)",
+              "explanation": "This UPPAAL query uses the A<> operator to ensure that both SubDroneA and SubDroneB will eventually inspect all sections. The pattern 'eventual_completion' is applied here because the task of completing inspections must happen eventually.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (SubDroneA.inspected && SubDroneB.inspected)"
+          },
+          "total_time": 16.70105504989624,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "Both drones maintain communication range at all times",
+          "classification": {
+            "step": "classification",
+            "timing": 3.7746119499206543,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"communication range\", \"maintain\"],\n  \"cues\": [\"at all times\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.685404777526855,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (SubDroneA.communication_range Maintained imply SubDroneB.communication_range Maintained)\",\n    \"explanation\": \"This ensures that whenever SubDroneA maintains its communication range, SubDroneB must also maintain its communication range immediately.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (SubDroneA.communication_range Maintained imply SubDroneB.communication_range Maintained)",
+              "explanation": "This ensures that whenever SubDroneA maintains its communication range, SubDroneB must also maintain its communication range immediately.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (SubDroneA.communication_range Maintained imply SubDroneB.communication_range Maintained)"
+          },
+          "total_time": 15.558655023574829,
+          "success": true,
+          "error": null,
+          "constraint_index": 0,
+          "attempt": 1
+        },
+        {
+          "constraint": "If visibility < 30%, both start returning to surface ",
+          "classification": {
+            "step": "classification",
+            "timing": 1.8766250610351562,
+            "tokens": 0,
+            "raw_text": "{ \"visibility\": \"less than 30%\", \"start\": \"returning to surface\" }",
+            "error": "Invalid classification structure: 'pattern'"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 1.8767271041870117,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 2,
+          "attempt": 3
+        }
+      ]
+    }
+  ]
+}

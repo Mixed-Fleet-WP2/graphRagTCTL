@@ -1,0 +1,256 @@
+{
+  "id": "scenario_040",
+  "domain": "urban_service",
+  "prompt": "A street cleaning robot patrols city sidewalks every night. pausing automatically when pedestrians are detected within 2 meters. If debris container is full, it must return to depot for unloading and then resume the same route. If weather sensors detect rain intensity above 30%, it suspends cleaning and waits under shelter. All routes must eventually be cleaned before sunrise.",
+  "robots": [
+    "CleanBot"
+  ],
+  "constraints": [
+    "CleanBot pauses when pedestrians < 2 m",
+    "CleanBot returns to depot when debris container full",
+    "CleanBot after unloading container at depot it resume in the same route",
+    "CleanBot suspends operation in rain > 30% intensity",
+    "CleanBot must wait under shelter when rain intensity above 30%",
+    "Eventually all routes cleaned "
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "CleanBot suspends operation in rain > 30% intensity",
+          "classification": {
+            "step": "classification",
+            "timing": 4.888499021530151,
+            "tokens": 0,
+            "raw_text": "{ \n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"cleaning\", \"bot\", \"operation\", \"suspend\"],\n    \"cues\": [\"when\", \">\"],\n    \"trigger_text\": \"rain > 30% intensity\"\n   }"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.792453050613403,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (CleanBot.rain_intensity > 30% imply CleanBot.operation_suspended)\",\n    \"explanation\": \"This constraint specifies that whenever the rain intensity exceeds 30%, the CleanBot must immediately suspend its operation. This ensures safety by preventing operations in dangerous conditions.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (CleanBot.rain_intensity > 30% imply CleanBot.operation_suspended)",
+              "explanation": "This constraint specifies that whenever the rain intensity exceeds 30%, the CleanBot must immediately suspend its operation. This ensures safety by preventing operations in dangerous conditions.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (CleanBot.rain_intensity > 30% imply CleanBot.operation_suspended)"
+          },
+          "total_time": 17.74506688117981,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Eventually all routes cleaned ",
+          "classification": {
+            "step": "classification",
+            "timing": 5.004047870635986,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"routes\", \"cleaned\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"all routes must be eventually cleaned\",\n  \"response_text\": \"all routes are cleaned\"\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 10.884089231491089,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A<> (CleanBot.routes_clean)\",\n    \"explanation\": \"This query ensures that all routes will eventually be cleaned by the CleanBot. It uses A<>, which indicates a liveness property requiring eventual completion.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"eventual_completion\",\n    \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (CleanBot.routes_clean)",
+              "explanation": "This query ensures that all routes will eventually be cleaned by the CleanBot. It uses A<>, which indicates a liveness property requiring eventual completion.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (CleanBot.routes_clean)"
+          },
+          "total_time": 16.0145320892334,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "CleanBot pauses when pedestrians < 2 m",
+          "classification": {
+            "step": "classification",
+            "timing": 4.974471092224121,
+            "tokens": 0,
+            "raw_text": "{ \n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"pedestrians\"],\n    \"cues\": [\"when\"], \n    \"trigger_text\": \"CleanBot pauses when pedestrians < 2 m\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.352860927581787,
+            "tokens": 0,
+            "raw_text": "{    \n    \"query\": \"A[] (CleanBot.pedestrians < 2 imply CleanBot.paused)\",\n    \"explanation\": \"This UPPAAL query enforces that whenever there are pedestrians within less than 2 meters, the CleanBot must immediately pause. The 'imply' operator ensures an immediate response, aligning with the safety_immediate_response pattern.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (CleanBot.pedestrians < 2 imply CleanBot.paused)",
+              "explanation": "This UPPAAL query enforces that whenever there are pedestrians within less than 2 meters, the CleanBot must immediately pause. The 'imply' operator ensures an immediate response, aligning with the safety_immediate_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (CleanBot.pedestrians < 2 imply CleanBot.paused)"
+          },
+          "total_time": 18.399170875549316,
+          "success": true,
+          "error": null,
+          "constraint_index": 0,
+          "attempt": 1
+        },
+        {
+          "constraint": "CleanBot returns to depot when debris container full",
+          "classification": {
+            "step": "classification",
+            "timing": 4.599342107772827,
+            "tokens": 0,
+            "raw_text": "{ \n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"cleanbot\", \"deport\", \"returns\", \"full\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"CleanBot returns to depot when debris container is full\"\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.104650974273682,
+            "tokens": 0,
+            "raw_text": "{  \n\"query\": \"A<> CleanBot.depot_return AND CleanBot.debris_container_full\",\n  \"explanation\": \"This UPPAAL query ensures that CleanBot must eventually return to the depot when its debris container is full. The 'eventual_completion' pattern is applied here because we are enforcing a condition that must happen in the future.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> CleanBot.depot_return AND CleanBot.debris_container_full",
+              "explanation": "This UPPAAL query ensures that CleanBot must eventually return to the depot when its debris container is full. The 'eventual_completion' pattern is applied here because we are enforcing a condition that must happen in the future.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A<> CleanBot.depot_return AND CleanBot.debris_container_full"
+          },
+          "total_time": 16.740600109100342,
+          "success": true,
+          "error": null,
+          "constraint_index": 1,
+          "attempt": 3
+        },
+        {
+          "constraint": "CleanBot after unloading container at depot it resume in the same route",
+          "classification": {
+            "step": "classification",
+            "timing": 4.141793727874756,
+            "tokens": 0,
+            "raw_text": "{ \n    \"pattern\": \"sequential_workflow\",\n    \"keywords\": [\"after\"],\n    \"cues\": [\"after\"],\n    \"trigger_text\": \"after\"\n  }"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.849194049835205,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"CleanBot.unloading_complete --> CleanBot.resume_operation\",\n    \"explanation\": \"This UPPAAL query represents the sequential workflow where CleanBot first unloads a container at the depot and then resumes its operation on the same route. The '-->' operator is used here because it signifies that after the unloading action ('unloading_complete'), the next step of resuming operation will eventually occur, fitting the pattern of a sequential process with possible delays.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"sequential_workflow\",\n    \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "CleanBot.unloading_complete --> CleanBot.resume_operation",
+              "explanation": "This UPPAAL query represents the sequential workflow where CleanBot first unloads a container at the depot and then resumes its operation on the same route. The '-->' operator is used here because it signifies that after the unloading action ('unloading_complete'), the next step of resuming operation will eventually occur, fitting the pattern of a sequential process with possible delays.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CleanBot.unloading_complete --> CleanBot.resume_operation"
+          },
+          "total_time": 18.065377950668335,
+          "success": true,
+          "error": null,
+          "constraint_index": 2,
+          "attempt": 1
+        },
+        {
+          "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+          "classification": {
+            "step": "classification",
+            "timing": 5.810832262039185,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"shelter\", \"rain intensity\"],\n    \"cues\": [\"when\"],\n    \"trigger_text\": \"when rain intensity above 30%\",\n    \"response_text\": \"wait under shelter\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.485718011856079,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (CleanBot.rain_intensity > 30% imply CleanBot.waiting_under_shelter)\",\n  \"explanation\": \"This UPPAAL query ensures that whenever the rain intensity exceeds 30%, the CleanBot immediately takes action by waiting under shelter. The use of 'imply' operator enforces an immediate response, aligning with the safety requirement for instant reactions to dangerous conditions.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (CleanBot.rain_intensity > 30% imply CleanBot.waiting_under_shelter)",
+              "explanation": "This UPPAAL query ensures that whenever the rain intensity exceeds 30%, the CleanBot immediately takes action by waiting under shelter. The use of 'imply' operator enforces an immediate response, aligning with the safety requirement for instant reactions to dangerous conditions.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (CleanBot.rain_intensity > 30% imply CleanBot.waiting_under_shelter)"
+          },
+          "total_time": 20.34402108192444,
+          "success": true,
+          "error": null,
+          "constraint_index": 4,
+          "attempt": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "evaluation_date": "2026-01-29",
   "evaluation_source": "human-eval folder",
-  "total_models_evaluated": 11,
+  "total_models_evaluated": 12,
   "models_ranked_by_precision": [
     {
       "rank": 1,
@@ -100,6 +100,15 @@
       "accuracy": 68.32298136645963,
       "correct": 110,
       "wrong": 51,
+      "total": 161
+    },
+    {
+      "rank": 12,
+      "model": "ollama/deepseek-r1:14b",
+      "precision": 30.434782608695656,
+      "accuracy": 30.434782608695656,
+      "correct": 49,
+      "wrong": 112,
       "total": 161
     }
   ],
@@ -15802,6 +15811,1425 @@
           }
         ]
       }
+    },
+    "ollama/deepseek-r1:14b": {
+      "model": "ollama/deepseek-r1:14b",
+      "total_constraints": 161,
+      "correct_constraints": 49,
+      "wrong_constraints": 112,
+      "accuracy": 30.434782608695656,
+      "precision": 30.434782608695656,
+      "error_rate": 69.56521739130434,
+      "scenarios_count": 40,
+      "labels_distribution": {
+        "correct": 49,
+        "wrong": 112
+      },
+      "labels_by_pattern": {
+        "sequential_workflow": {
+          "correct": 11,
+          "wrong": 20
+        },
+        "conditional_response": {
+          "wrong": 4,
+          "correct": 2
+        },
+        "safety_immediate_response": {
+          "wrong": 49,
+          "correct": 13
+        },
+        "": {
+          "wrong": 26
+        },
+        "time_bounded_constraint": {
+          "wrong": 4,
+          "correct": 3
+        },
+        "eventual_completion": {
+          "wrong": 7,
+          "correct": 19
+        },
+        "universal_reachability": {
+          "correct": 1
+        },
+        "existential_reachability": {
+          "wrong": 2
+        }
+      },
+      "patterns_distribution": {
+        "sequential_workflow": 31,
+        "conditional_response": 6,
+        "safety_immediate_response": 62,
+        "": 26,
+        "time_bounded_constraint": 7,
+        "eventual_completion": 26,
+        "universal_reachability": 1,
+        "existential_reachability": 2
+      },
+      "pattern_accuracy": {
+        "sequential_workflow": {
+          "total": 31,
+          "correct": 11,
+          "wrong": 20,
+          "accuracy": 35.483870967741936
+        },
+        "conditional_response": {
+          "total": 6,
+          "correct": 2,
+          "wrong": 4,
+          "accuracy": 33.33333333333333
+        },
+        "safety_immediate_response": {
+          "total": 62,
+          "correct": 13,
+          "wrong": 49,
+          "accuracy": 20.967741935483872
+        },
+        "": {
+          "total": 26,
+          "correct": 0,
+          "wrong": 26,
+          "accuracy": 0.0
+        },
+        "time_bounded_constraint": {
+          "total": 7,
+          "correct": 3,
+          "wrong": 4,
+          "accuracy": 42.857142857142854
+        },
+        "eventual_completion": {
+          "total": 26,
+          "correct": 19,
+          "wrong": 7,
+          "accuracy": 73.07692307692307
+        },
+        "universal_reachability": {
+          "total": 1,
+          "correct": 1,
+          "wrong": 0,
+          "accuracy": 100.0
+        },
+        "existential_reachability": {
+          "total": 2,
+          "correct": 0,
+          "wrong": 2,
+          "accuracy": 0.0
+        }
+      },
+      "most_used_pattern": "safety_immediate_response",
+      "best_pattern": "universal_reachability",
+      "worst_pattern": "",
+      "correct_by_pattern": {
+        "sequential_workflow": 11,
+        "conditional_response": 2,
+        "safety_immediate_response": 13,
+        "eventual_completion": 19,
+        "universal_reachability": 1,
+        "time_bounded_constraint": 3
+      },
+      "wrong_by_pattern": {
+        "conditional_response": 4,
+        "safety_immediate_response": 49,
+        "": 26,
+        "sequential_workflow": 20,
+        "time_bounded_constraint": 4,
+        "eventual_completion": 7,
+        "existential_reachability": 2
+      },
+      "constraints_by_label": {
+        "correct": [
+          {
+            "scenario": "scenario_001",
+            "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+            "query": "Drone.scanning_done --> UGV.collecting_container",
+            "label": "correct",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_001",
+            "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+            "query": "UGV.arrives_collect_container --> Forklift.loads_truck",
+            "label": "correct",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_002",
+            "constraint": "AGV moves to pick the pallet after scanning.",
+            "query": "Camera.scan --> Agv.move",
+            "label": "correct",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_002",
+            "constraint": "Conveyor moves only after Agv is loaded",
+            "query": "(Conveyor.moving) --> (Agv.loaded)",
+            "label": "correct",
+            "pattern": "conditional_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_002",
+            "constraint": "Conveyor must move before RobotArm places the pallet onto a shelf",
+            "query": "Conveyor.move --> RobotArm.place_pallet_onto_shelf",
+            "label": "correct",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_004",
+            "constraint": "InspectorDrone starts scanning only after WelderBot finishes welding",
+            "query": "WelderBot.welding --> InspectorDrone.scanning",
+            "label": "correct",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_005",
+            "constraint": "PickerBot operates only if no human is within 2 meters",
+            "query": "A[] (PickerBot.operate imply not Human.distance_to_PickerBot < 2)",
+            "label": "correct",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_009",
+            "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+            "query": "CraneBot.confirms_placement --> GroundBot.bolting",
+            "label": "correct",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_013",
+            "constraint": "PatrolAGV stops when SurveillanceDrone is landing nearby",
+            "query": "A[] (SurveillanceDrone.landing_nearby imply PatrolAGV.stopped)",
+            "label": "correct",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_014",
+            "constraint": "InspectionDrone stop when vibration exceeds 5 g",
+            "query": "A[] (InspectionDrone.vibration > 5 imply not InspectionDrone.moving)",
+            "label": "correct",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_016",
+            "constraint": "Conveyor must not stop for more than 10 seconds",
+            "query": "A[] (Conveyor.stopped imply Conveyor.stopped_duration <= 10)",
+            "label": "correct",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_016",
+            "constraint": "SorterB returns to normal operation once the package is corrected",
+            "query": "A[] (SorterB.package_correct imply SorterB.normal_operation)",
+            "label": "correct",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_016",
+            "constraint": "SorterA returns to normal operation once the package is corrected",
+            "query": "A[] (SorterA.package_correct imply SorterA.returning_to_normal_operation)",
+            "label": "correct",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_017",
+            "constraint": "Drone inspects all zones eventually",
+            "query": "A<> (AgriDrone.inspects_all_zones)",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_019",
+            "constraint": "MediBot waits if elevator busy",
+            "query": "A[] (MediBot.elevator_busy imply MediBot.wait)",
+            "label": "correct",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_019",
+            "constraint": "Each delivery request eventually fulfilled",
+            "query": "A<> (MediBot.delivery_request_fulfilled)",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_020",
+            "constraint": "At some point RepairDrone have to reach a safe shutdown state",
+            "query": "A<> RepairDrone.safe_shutdown",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_021",
+            "constraint": "All sections eventually inspected",
+            "query": "A<> (SubDroneA.inspected && SubDroneB.inspected)",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_022",
+            "constraint": "ArmA eventually completes its tasks",
+            "query": "A<> ArmA.tasks_done",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_022",
+            "constraint": "ArmB eventually completes its tasks",
+            "query": "A<> ArmB.tasks_completed",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_022",
+            "constraint": "ArmA eventually reach idle state",
+            "query": "A<> ArmA.idle_state",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_022",
+            "constraint": "ArmB eventually reach idle state",
+            "query": "A<> ArmB.idle_state",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_023",
+            "constraint": "Always possible for both to complete missions",
+            "query": "A<> RescueDrone.mission_complete and MedicBot.mission_complete",
+            "label": "correct",
+            "pattern": "universal_reachability",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_024",
+            "constraint": "Eventually CraneA reach target zones",
+            "query": "A<> CraneA.reach_target_zones",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_024",
+            "constraint": "Eventually CraneB reach target zones",
+            "query": "A<> (CraneB.reach_target_zones)",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_025",
+            "constraint": "DockAMR1 can operate after DockAMR1 has recharged",
+            "query": "DockAMR1.recharge --> DockAMR1.operate",
+            "label": "correct",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_025",
+            "constraint": "DockAMR2 can operate after DockAMR2 has recharged",
+            "query": "DockAMR2.recharge --> DockAMR2.operate",
+            "label": "correct",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_025",
+            "constraint": "DockAMR3 can operate after DockAMR3 has recharged",
+            "query": "DockAMR3.recharged --> DockAMR3.operate",
+            "label": "correct",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_026",
+            "constraint": "Eventually all robots reach idle state",
+            "query": "A<> (AssemblerBot.idle && WelderBot.idle && PainterBot.idle && InspectorBot.idle)",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_027",
+            "constraint": "DroneSupervisor maintains at least 20 m distance from CraneBot",
+            "query": "A[] (DroneSupervisor.distance_from_CraneBot < 20 imply DroneSupervisor.move_away_from_CraneBot)",
+            "label": "correct",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_028",
+            "constraint": "Always possible to reach a state where all zones are fertilized and samples collected",
+            "query": "A<> (SurveyDrone.zone_fertilized && SprayerDrone.samples_collected)",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_029",
+            "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+            "query": "A<>\t(MonitorDrone.completion_report)",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_031",
+            "constraint": "MaintenanceRover completes zone inspection before moving to the next",
+            "query": "MaintenanceRover.inspection_complete --> MaintenanceRover.moving",
+            "label": "correct",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_032",
+            "constraint": "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+            "query": "(wind_speed > 35) --> (AgroDrone.altitude >= safe_altitude)",
+            "label": "correct",
+            "pattern": "conditional_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_032",
+            "constraint": "Eventually all data transmitted to control center",
+            "query": "A<> AgroDrone.data_transmitted_to_control_center",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_032",
+            "constraint": "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+            "query": "A[] (AgroDrone.wind_speed >35 imply AgroDrone.hover)",
+            "label": "correct",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_032",
+            "constraint": "Eventually AgroDrone must scan all ten sub-zones",
+            "query": "A<> AgroDrone.scan_all_sub_zones",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_033",
+            "constraint": "InspectDrone spends \u2264 120 s per section",
+            "query": "A[] (InspectDrone.inspects_section imply clock <= 120)",
+            "label": "correct",
+            "pattern": "time_bounded_constraint",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_033",
+            "constraint": "InspectDrone switches to mapping mode if localization lost",
+            "query": "A[] (InspectDrone.localization_lost imply InspectDrone.mapping_mode)",
+            "label": "correct",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_034",
+            "constraint": "Eventually all orders completed",
+            "query": "A<> PickerBot.orders_completed",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_034",
+            "constraint": "Eventually all orders reported",
+            "query": "A<> (PickerBot.orders_reported)",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_035",
+            "constraint": "ExploroRover must eventually reach all checkpoints.",
+            "query": "A<> (ExploroRover.checkpoint_reached)",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_038",
+            "constraint": "MediRover checks elevator availability before entering",
+            "query": "A[] (MediRover.enter imply MediRover.elevator_available)",
+            "label": "correct",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_038",
+            "constraint": "MediRover disinfects tray every 15 minutes",
+            "query": "A[] (MediRover.disinfecting imply clock <= 15)",
+            "label": "correct",
+            "pattern": "time_bounded_constraint",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_038",
+            "constraint": "MediRover stops  when emergency alarm active",
+            "query": "A[] (MediRover.emergency_alarm_active imply MediRover.stopped)",
+            "label": "correct",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_039",
+            "constraint": "Docking completes within 300 s after alignment",
+            "query": "A[] (OrbitalServicer.docking imply clock <= 300)",
+            "label": "correct",
+            "pattern": "time_bounded_constraint",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_040",
+            "constraint": "Eventually all routes cleaned ",
+            "query": "A<> (CleanBot.routes_clean)",
+            "label": "correct",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_040",
+            "constraint": "CleanBot pauses when pedestrians < 2 m",
+            "query": "A[] (CleanBot.pedestrians < 2 imply CleanBot.paused)",
+            "label": "correct",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_040",
+            "constraint": "CleanBot after unloading container at depot it resume in the same route",
+            "query": "CleanBot.unloading_complete --> CleanBot.resume_operation",
+            "label": "correct",
+            "pattern": "sequential_workflow",
+            "valid": true
+          }
+        ],
+        "wrong": [
+          {
+            "scenario": "scenario_0010",
+            "constraint": "StockDrone scans only when RestockAMR is idle",
+            "query": "(StockDrone.scanning) --> (RestockAMR.idle)",
+            "label": "wrong",
+            "pattern": "conditional_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_0010",
+            "constraint": "Amr must stop if any obstacle is detected within 1 meters",
+            "query": "A[] (Amr.obstacle_detected imply Amr.stopped)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_0010",
+            "constraint": "Drone must stop if any obstacle is detected within 1 meters",
+            "query": "A[] (Drone.obstacle_detected imply Drone.stopped)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_003",
+            "constraint": "InspectorBot returns to charging when battery below 20%",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_003",
+            "constraint": "InspectorBot finishes scanning then the CollectorAMR starts picking itemns",
+            "query": "InspectorBot.scanning_finish --> CollectorAMR.picking_start",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_003",
+            "constraint": "InspectorBot maintains safe distance from humans",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_003",
+            "constraint": "InspectorBot maintains safe distance from robots",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_003",
+            "constraint": "CollectorAMR maintains safe distance from humans",
+            "query": "A[] (CollectorAMR.distance_from_humans < safe_threshold imply CollectorAMR.maintaining_safe_distance)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_003",
+            "constraint": "CollectorAMR maintains safe distance from robots",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_003",
+            "constraint": "Inspector find alternative routes within 30 seconds",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_003",
+            "constraint": "CollectorAMR find alternative routes within 30 seconds",
+            "query": "A[] (CollectorAMR.search_alternative_routes imply clock <= 30)",
+            "label": "wrong",
+            "pattern": "time_bounded_constraint",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_004",
+            "constraint": "WelderBot pauses welding when temperature exceeds 90\u00b0C",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_004",
+            "constraint": "WelderBot resumes welding when temperature drops below 70\u00b0C",
+            "query": "A[] (WelderBot.temperature < 70\u00b0C imply WelderBot.resuming_welding)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_005",
+            "constraint": "Conveyor must start moving only when Forklift is done placing boxes",
+            "query": "Conveyor.start_moving --> Forklift.done_placing_boxes",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_006",
+            "constraint": "SprayDrone stops spraying when wind speed exceeds 25 km/h",
+            "query": "A[] (SprayDrone.wind_speed >25 imply SprayDrone.stopped_spraying)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_006",
+            "constraint": "SoilRover reports humidity every 10 minutes",
+            "query": "A[] (SoilRover.humidity_report_period < 10 imply SoilRover.reporting_humidity)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_006",
+            "constraint": "SprayDrone pauses spraying if humidity below 20%",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_007",
+            "constraint": "UAV must maintain a safe distance of 3 meters from obstacles",
+            "query": "A[] (UAV.distance_from_obstacles < 3 imply UAV.maintaining_safe_distance)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_007",
+            "constraint": "UAV must eventually return to base",
+            "query": "A<>.UAV.return_to_base()",
+            "label": "wrong",
+            "pattern": "eventual_completion",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_008",
+            "constraint": "TruckAMR starts moving only after CraneBot finishes unloading",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_008",
+            "constraint": "CraneBot pauses unloading when wind gusts exceed 40 km/h",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_009",
+            "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+            "query": "",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_009",
+            "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_011",
+            "constraint": "TrailerBot maintains distance \u2264 5 meters from Harvester",
+            "query": "A[] (TrailerBot.distance_from_Harvester \u2264 5 imply TrailerBot.response)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_011",
+            "constraint": "If distance > 10 meters, Harvester stop",
+            "query": "A[] (Harvester.distance > 10 meters imply Harvester.stop)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_011",
+            "constraint": "If distance > 10 meters, TrailerBot stop",
+            "query": "A[] (TrailerBot.distance > 10 implies TrailerBot.stopped)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_011",
+            "constraint": "Harvester and TrailerBot must resynchronize within 15 seconds of stopping",
+            "query": "A[] (Harvester.stopped imply TrailerBot.resynchronize)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_012",
+            "constraint": "Assembly resumes after correction confirmation",
+            "query": "A[] (VisionBot.correction_confirmed imply ArmBot.resumes_assembly)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_012",
+            "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_012",
+            "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+            "query": "A[] (ArmBot.misalignment > 2 mm imply ArmBot.stopped)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_013",
+            "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+            "query": "A[] (SurveillanceDrone.flying implies SurveillanceDrone.altitude >= 10 and SurveillanceDrone.altitude <= 50)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_013",
+            "constraint": "SurveillanceDrone lands when visibility below 50%",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_014",
+            "constraint": "RepairBot starts after InspectionDrone finishes inspection",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_014",
+            "constraint": "RepairBot stop when vibration exceeds 5 g",
+            "query": "A[] (RepairBot.vibration > 5g imply not RepairBot.operating)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_015",
+            "constraint": "MonitorDrone inspects after every 5 containers stacked",
+            "query": "LoaderBot.stack_containers -->(MonitorDrone.monitor)",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_015",
+            "constraint": "LoaderBot stops stacking when tilt exceeds 3 degrees",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_016",
+            "constraint": "SorterA stops conveyor when misalignment detected",
+            "query": "(SorterA.misalignment_detected) --> (SorterA.conveyor_stop)",
+            "label": "wrong",
+            "pattern": "conditional_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_016",
+            "constraint": "SorterB corrects package alignment before resuming",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_017",
+            "constraint": "Rover samples only after drone finishes scanning zone",
+            "query": "AgriDrone.drone_scanning_done --> SoilRover.rover_sampling",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_017",
+            "constraint": "AgriDrone and SoilRover halt if communication lost",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_018",
+            "constraint": "DeliveryDrone lands when battery < 15%",
+            "query": "A[] (DeliveryDrone.battery < 15% imply DeliveryDrone.lands)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_018",
+            "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+            "query": "A[] (DeliveryDrone.arrived imply LiftBot.stacking)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_018",
+            "constraint": "Delivery eventually completes",
+            "query": "A<> DeliveryDrone.delivery_complete",
+            "label": "wrong",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_019",
+            "constraint": "MediBot never leaves safe areas",
+            "query": "A[] (MediBot.leaving_safe_area imply false)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_020",
+            "constraint": "If misalignment persists for 60 seconds,InspectBot apply emergency stop triggers",
+            "query": "...",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_021",
+            "constraint": "Both drones maintain communication range at all times",
+            "query": "A[] (SubDroneA.communication_range Maintained imply SubDroneB.communication_range Maintained)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_021",
+            "constraint": "If visibility < 30%, both start returning to surface ",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_022",
+            "constraint": "ArmA and ArmB never weld the same section simultaneously",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_023",
+            "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+            "query": "A[] (RescueDrone.battery < 10% imply RescueDrone.returning_to_base)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_024",
+            "constraint": "Only one crane moves at a time",
+            "query": "A[] (CraneA.moving implies not CraneB.moving)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_025",
+            "constraint": "At least one AMR must always be charging",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_026",
+            "constraint": "WelderBot starts only after AssemblerBot completes assembly",
+            "query": "",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_026",
+            "constraint": "PainterBot starts only after WelderBot finishes welding",
+            "query": "...",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_026",
+            "constraint": "InspectorBot starts only after PainterBot finishes painting",
+            "query": "InspectorBot.start --> PainterBot.painting_finish",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_027",
+            "constraint": "AGV1 and AGV2 wait until CraneBot signals unloading complete",
+            "query": "CraneBot.unloading_complete --> AGV1.waiting_for_unload && AGV2.waiting_for_unload",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_027",
+            "constraint": "Forklift starts only after at least one AGV reaches transfer zone",
+            "query": "Forklift.start --> AGV.reach_transfer_zone",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_027",
+            "constraint": "Eventually all containers reach storage area",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_028",
+            "constraint": "SprayerDrone starts only after SurveyDrone marks zone safe",
+            "query": "SprayerDrone.starts --> SurveyDrone.marks_zone_safe",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_028",
+            "constraint": "SampleRover1 and SampleRover2 never collect in same zone simultaneously",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_028",
+            "constraint": "TransportAMR starts only after both SampleRovers finish collecting",
+            "query": "???",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_029",
+            "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+            "query": "DeliveryAMR1.delivers --> DeliveryAMR2.delivers",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_029",
+            "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+            "query": "CraneA.lift_finish --> WelderBot.start_lifting",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_029",
+            "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+            "query": "A[] (MonitorDrone.remaining_battery < 10 imply MonitorDrone.return_to_base)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_030",
+            "constraint": "MedicalBot delivers aid only after confirmation from at least one SearchBot",
+            "query": "MedicalBot.delivery_aid --> SearchBot.confirmed",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_030",
+            "constraint": "SearchBot1 and SearchBot2 must not enter overlapping zones",
+            "query": "A[] (SearchBot1.entering_zone implies not SearchBot2.entering_zone)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_030",
+            "constraint": "TransportAMR starts only after MedicalBot finishes aid delivery",
+            "query": "MedicalBot.finish AidDelivery --> TransportAMR.start AidDelivery",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_030",
+            "constraint": "Always possible to reach a state where all survivors are rescued",
+            "query": "A<> (SurveyDrone.rescue_survivors && SearchBot1.rescue_survivors && SearchBot2.rescue_survivors && MedicalBot.rescue_survivors && TransportAMR.rescue_survivors)",
+            "label": "wrong",
+            "pattern": "eventual_completion",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_031",
+            "constraint": "MaintenanceRover halts and activates ventilation when gas concentration > 3%",
+            "query": "(MaintenanceRover.gas_concentration > 3) --> (MaintenanceRover.halt && MaintenanceRover.ventilation_activate)",
+            "label": "wrong",
+            "pattern": "conditional_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_031",
+            "constraint": "MaintenanceRover resumes when gas concentration < 1%",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_031",
+            "constraint": "MaintenanceRover heads to charging when battery < 25%",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_031",
+            "constraint": "MaintenanceRover records every anomaly before proceeding",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_031",
+            "constraint": "All inspection reports eventually uploaded",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_032",
+            "constraint": "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+            "query": "A[] (AgroDrone.wind_speed \u226435 \u2227 AgroDrone.hovering imply AgroDrone.resuming_survey)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_032",
+            "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+            "query": "A[] (AgroDrone.height >=40 m imply AgroDrone.calibration)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_032",
+            "constraint": "AgroDrone returns to base within 60 seconds when battery < 20%",
+            "query": "A[] (AgroDrone.battery < 20% && not AgroDrone.at_base imply clock <= 60)",
+            "label": "wrong",
+            "pattern": "time_bounded_constraint",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_033",
+            "constraint": "InspectDrone skips section when temperature > 60\u00b0C",
+            "query": "A[] (InspectDrone.temperature > 60\u00b0C imply clock <= 0)",
+            "label": "wrong",
+            "pattern": "time_bounded_constraint",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_033",
+            "constraint": "InspectDrone uploads sensor logs after landing",
+            "query": "InspectDrone.sensor_log_upload --> InspectDrone.landed",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_033",
+            "constraint": "If temperature exceeds 60\u00b0C, InspectDrone must activate thermal protection",
+            "query": "A[] (InspectDrone.temperature > 60\u00b0C imply InspectDrone.thermal_protection)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_033",
+            "constraint": "InspectDrone lands at maintenance dock after all sections inspected",
+            "query": "InspectDrone.landed_at_dock --> {all_sections_inspected}",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_033",
+            "constraint": "Always possible to reach safe landed state",
+            "query": "...",
+            "label": "wrong",
+            "pattern": "eventual_completion",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_034",
+            "constraint": "when load exceeds limit PickerBot notifies supervisor",
+            "query": "A[] (PickerBot.load > limit imply PickerBot.notifies_supervisor)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_034",
+            "constraint": "PickerBot reduces speed to 0.3 m/s when human < 2 m",
+            "query": "A[] (PickerBot.human_proximity < 2 imply PickerBot.speed = 0.3)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_034",
+            "constraint": "PickerBot requests help if obstacle persists > 10 s",
+            "query": "A[] (PickerBot.obstacle_persisting imply clock <= 10)",
+            "label": "wrong",
+            "pattern": "time_bounded_constraint",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_034",
+            "constraint": "PickerBot verifies item via QR before grasping",
+            "query": "",
+            "label": "wrong",
+            "pattern": "",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_034",
+            "constraint": "PickerBot aborts pick  when load exceeds limit",
+            "query": "A[] (when PickerBot.load > limit imply not PickerBot.picking)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_035",
+            "constraint": "ExploroRover avoids lava zones by \u2265 5 m",
+            "query": "E<> (ExploroRover.avoid_lava_zones >= 5)",
+            "label": "wrong",
+            "pattern": "existential_reachability",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_035",
+            "constraint": "ExploroRover activates stabilizers when slope > 30\u00b0",
+            "query": "A[] (ExploroRover.slope > 30\u00b0 imply ExploroRover.stabilizers_activated)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_035",
+            "constraint": "ExploroRover fails transmission three times, ExploroRover continues.",
+            "query": "A[] (ExploroRover.transmission_failures >= 3 imply ExploroRover.continuing)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_035",
+            "constraint": "Eventually \u2265 90% data must be successfully transmitted ",
+            "query": "A<> (ExploroRover\u6210\u529f\u4f20\u8f93\u7684\u6570\u636e\u91cf \u2265 90)",
+            "label": "wrong",
+            "pattern": "eventual_completion",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_035",
+            "constraint": "ExploroRover collects data every 200 m",
+            "query": "A[] (ExploroRover.collecting_data implies ExploroRover.data_collected)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_035",
+            "constraint": "ExploroRover logs transmission failure after 3 retries",
+            "query": "A[] (ExploroRover.transmission_failure implies ExploroRover.safety_response)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_036",
+            "constraint": "FrostBot warms sensors for 30 s before measurements",
+            "query": "A[] (FrostBot.sensor_warming AND FrostBot.measurement_in_progress)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_036",
+            "constraint": "FrostBot enters standby when temperature < \u221225\u00b0C",
+            "query": "A[] (FrostBot.temperature < -25\u00b0C imply FrostBot.standby)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_036",
+            "constraint": "FrostBot resumes when temperature > \u221215\u00b0C",
+            "query": "A[] (FrostBot.temperature > -15\u00b0C imply FrostBot.resuming)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_036",
+            "constraint": "FrostBot performs vibration analysis for each motor",
+            "query": "A[] (FrostBot.vibration_exceeds_limit imply FrostBot.analyze_vibration)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_036",
+            "constraint": "FrostBot logs anomalies for each motor",
+            "query": "A[] (FrostBot.logging_anomalies imply FrostBot.motor_response)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_036",
+            "constraint": "Always possible to recover from standby to active",
+            "query": "A[] (FrostBot.standby imply FrostBot.active)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_037",
+            "constraint": "HarborDrone altitude between 8\u201320 m",
+            "query": "A[] (HarborDrone.altitude < 8 implies HarborDrone.stop)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_037",
+            "constraint": "HarborDrone avoids restricted corridors",
+            "query": "A[] (HarborDrone.avoid_restricted_corridors imply true)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_037",
+            "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+            "query": "A[] (HarborDrone.magnetic_interference_detected imply HarborDrone.ascends_above_25m)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_037",
+            "constraint": "HarborDrone uploads footage before moving to next section",
+            "query": "HarborDrone.uploads_footage --> HarborDrone.move_to_next_section",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_037",
+            "constraint": "Always returns to base at end of patrol",
+            "query": "A[] (HarborDrone.end_patrol implies HarborDrone.returning_to_base)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_038",
+            "constraint": "MediRover is stopped and emergency alarm is active, MediRover has to move to safe corridor ",
+            "query": "A[] (MediRover.stopped and MediRover.emergency_alarm_active imply MediRover.moving_to_safe_corridor)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_038",
+            "constraint": "MediRover stores pending deliveries locally if comm lost",
+            "query": "E<> (MediRover.comm_lost implies MediRover.pending_deliveries_locally)",
+            "label": "wrong",
+            "pattern": "existential_reachability",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_038",
+            "constraint": "Eventually all deliveries completed",
+            "query": "...",
+            "label": "wrong",
+            "pattern": "eventual_completion",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_039",
+            "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+            "query": "",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_039",
+            "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+            "query": "A[] (OrbitalServicer.alignment <= 2 imply OrbitalServicer.docking)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_039",
+            "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+            "query": "(OrbitalServicer.radiation > threshold)",
+            "label": "wrong",
+            "pattern": "conditional_response",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_039",
+            "constraint": "Eventually all satellites serviced",
+            "query": "Satellite.serviced --> OrbitalServicer.servicing",
+            "label": "wrong",
+            "pattern": "sequential_workflow",
+            "valid": true
+          },
+          {
+            "scenario": "scenario_040",
+            "constraint": "CleanBot suspends operation in rain > 30% intensity",
+            "query": "A[] (CleanBot.rain_intensity > 30% imply CleanBot.operation_suspended)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_040",
+            "constraint": "CleanBot returns to depot when debris container full",
+            "query": "A<> CleanBot.depot_return AND CleanBot.debris_container_full",
+            "label": "wrong",
+            "pattern": "eventual_completion",
+            "valid": false
+          },
+          {
+            "scenario": "scenario_040",
+            "constraint": "CleanBot must wait under shelter when rain intensity above 30%",
+            "query": "A[] (CleanBot.rain_intensity > 30% imply CleanBot.waiting_under_shelter)",
+            "label": "wrong",
+            "pattern": "safety_immediate_response",
+            "valid": false
+          }
+        ]
+      }
     }
   },
   "comparative_analysis": {
@@ -15813,10 +17241,10 @@
       "total": 161
     },
     "worst_precision": {
-      "model": "google/gemini-2.0-flash",
-      "precision": 68.32298136645963,
-      "accuracy": 68.32298136645963,
-      "correct": 110,
+      "model": "ollama/deepseek-r1:14b",
+      "precision": 30.434782608695656,
+      "accuracy": 30.434782608695656,
+      "correct": 49,
       "total": 161
     }
   }

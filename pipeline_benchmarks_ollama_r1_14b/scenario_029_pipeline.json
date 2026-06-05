@@ -1,0 +1,182 @@
+{
+  "id": "scenario_029",
+  "domain": "construction",
+  "prompt": "Two cranes lift beams, a welder seals them, a drone monitors progress, and two delivery AMRs supply materials. Welding can begin only after both cranes finish lifting. Drone must remain within 50 m radius of cranes. DeliveryAMRs must alternate: while one delivers, the other waits. Eventually, all beams are welded and drone reports completion.",
+  "robots": [
+    "CraneA",
+    "CraneB",
+    "WelderBot",
+    "MonitorDrone",
+    "DeliveryAMR1",
+    "DeliveryAMR2"
+  ],
+  "constraints": [
+    "WelderBot starts only after CraneA and CraneB finish lifting",
+    "MonitorDrone must remain within 50 m radius of both cranes",
+    "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+    "Eventually all beams welded and MonitorDrone reports completion"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "DeliveryAMR1 and DeliveryAMR2 alternate deliveries (mutual exclusion)",
+          "classification": {
+            "step": "classification",
+            "timing": 4.349348068237305,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"DeliveryAMR1\", \"DeliveryAMR2\", \"alternate\"],\n  \"cues\": [\"then\"], \n  \"trigger_text\": \"DeliveryAMR1 delivers\" \n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.845824003219604,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"DeliveryAMR1.delivers --> DeliveryAMR2.delivers\",\n    \"explanation\": \"This query represents the sequential workflow where DeliveryAMR1's delivery eventually triggers DeliveryAMR2's delivery. The '-->' operator is used to enforce this eventual dependency between the two actions, ensuring that DeliveryAMR2 delivers only after DeliveryAMR1 has completed its delivery. This maintains mutual exclusion as per the constraint.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"sequential_workflow\",\n    \"operator_used\": [\"-->\"]\n  }",
+            "uppaal_result": {
+              "query": "DeliveryAMR1.delivers --> DeliveryAMR2.delivers",
+              "explanation": "This query represents the sequential workflow where DeliveryAMR1's delivery eventually triggers DeliveryAMR2's delivery. The '-->' operator is used to enforce this eventual dependency between the two actions, ensuring that DeliveryAMR2 delivers only after DeliveryAMR1 has completed its delivery. This maintains mutual exclusion as per the constraint.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "DeliveryAMR1.delivers --> DeliveryAMR2.delivers"
+          },
+          "total_time": 18.246263027191162,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "WelderBot starts only after CraneA and CraneB finish lifting",
+          "classification": {
+            "step": "classification",
+            "timing": 100.24847221374512,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"start\", \"after\", \"finish\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"starts only after CraneA and CraneB finish lifting\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.782297134399414,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"CraneA.lift_finish --> WelderBot.start_lifting\",\n    \"explanation\": \"The UPPAAL query specifies that the start of WelderBot's lifting action happens only after CraneA has finished its lifting. This enforces a sequential workflow where one action follows another.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"sequential_workflow\",\n    \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "CraneA.lift_finish --> WelderBot.start_lifting",
+              "explanation": "The UPPAAL query specifies that the start of WelderBot's lifting action happens only after CraneA has finished its lifting. This enforces a sequential workflow where one action follows another.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneA.lift_finish --> WelderBot.start_lifting"
+          },
+          "total_time": 112.15091705322266,
+          "success": true,
+          "error": null,
+          "constraint_index": 0,
+          "attempt": 3
+        },
+        {
+          "constraint": "MonitorDrone must remain within 50 m radius of both cranes",
+          "classification": {
+            "step": "classification",
+            "timing": 4.793864011764526,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"cranes\"],\n  \"cues\": [],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.143697023391724,
+            "tokens": 0,
+            "raw_text": "{    \n    \"query\": \"A[] (MonitorDrone.remaining_battery < 10 imply MonitorDrone.return_to_base)\",\n    \"explanation\": \"This ensures that the MonitorDrone immediately returns to base when its battery is low, preventing it from becoming inoperative mid-air.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (MonitorDrone.remaining_battery < 10 imply MonitorDrone.return_to_base)",
+              "explanation": "This ensures that the MonitorDrone immediately returns to base when its battery is low, preventing it from becoming inoperative mid-air.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (MonitorDrone.remaining_battery < 10 imply MonitorDrone.return_to_base)"
+          },
+          "total_time": 17.025032997131348,
+          "success": true,
+          "error": null,
+          "constraint_index": 1,
+          "attempt": 1
+        },
+        {
+          "constraint": "Eventually all beams welded and MonitorDrone reports completion",
+          "classification": {
+            "step": "classification",
+            "timing": 4.397301912307739,
+            "tokens": 0,
+            "raw_text": "{  \n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"beams\", \"welded\", \"MonitorDrone\", \"completion\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.445255994796753,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A<>\\t(MonitorDrone.completion_report)\",\n    \"explanation\": \"This UPPAAL query ensures that the MonitorDrone will eventually report completion. The use of A<> signifies that this event must happen as a global liveness property.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"eventual_completion\",\n    \"operator_used\": [\"A<>\\t\"]\n}",
+            "uppaal_result": {
+              "query": "A<>\t(MonitorDrone.completion_report)",
+              "explanation": "This UPPAAL query ensures that the MonitorDrone will eventually report completion. The use of A<> signifies that this event must happen as a global liveness property.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>\t"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<>\t(MonitorDrone.completion_report)"
+          },
+          "total_time": 15.894638061523438,
+          "success": true,
+          "error": null,
+          "constraint_index": 3,
+          "attempt": 1
+        }
+      ]
+    }
+  ]
+}

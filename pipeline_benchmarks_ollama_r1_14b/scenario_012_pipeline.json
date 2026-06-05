@@ -1,0 +1,115 @@
+{
+  "id": "scenario_012",
+  "domain": "manufacturing",
+  "prompt": "A robotic arm assembles components while a vision robot checks alignment. The vision robot must verify after each assembly step. If misalignment > 2 mm, assembly halts until correction is confirmed.",
+  "robots": [
+    "ArmBot",
+    "VisionBot"
+  ],
+  "constraints": [
+    "VisionBot verifies alignment after each ArmBot assembly step",
+    "ArmBot stops if misalignment exceeds 2 mm",
+    "Assembly resumes after correction confirmation"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "Assembly resumes after correction confirmation",
+          "classification": {
+            "step": "classification",
+            "timing": 3.717820882797241,
+            "tokens": 0,
+            "raw_text": "{  \n   \"pattern\": \"safety_immediate_response\",\n   \"keywords\": [\"assembly\", \"resumes\", \"correction\", \"confirmation\"],\n   \"cues\": [\"after\"]\n  }"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.340688943862915,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (VisionBot.correction_confirmed imply ArmBot.resumes_assembly)\",\n  \"explanation\": \"This constraint ensures that as soon as a correction is confirmed, the assembly resumes immediately. The use of 'imply' within A[] guarantees an immediate response with no delay.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (VisionBot.correction_confirmed imply ArmBot.resumes_assembly)",
+              "explanation": "This constraint ensures that as soon as a correction is confirmed, the assembly resumes immediately. The use of 'imply' within A[] guarantees an immediate response with no delay.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (VisionBot.correction_confirmed imply ArmBot.resumes_assembly)"
+          },
+          "total_time": 16.16937494277954,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+          "classification": {
+            "step": "classification",
+            "timing": 14.998371124267578,
+            "tokens": 0,
+            "raw_text": "{ \"schema\": { \"$schema\": \"http://json-schema.org/draft-04/schema#\", \"type\": \"object\", \"required\": [\"pattern\", \"keywords\"], \"properties\": { \"pattern\": {\"enum\": [\"safety_immediate_response\", \"sequential_workflow\", \"eventual_completion\", \"existential_reachability\", \"universal_reachability\", \"forbidden_state\", \"conditional_response\", \"time_bounded_constraint\"] }, \"keywords\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } }, \"cues\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } }, \"trigger_text\": { \"type\": \"string\" }, \"response_text\": { \"type\": \"string\" } } } }",
+            "error": "Invalid classification structure: 'pattern'"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 14.998420000076294,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 0
+        },
+        {
+          "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+          "classification": {
+            "step": "classification",
+            "timing": 4.050908803939819,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"exceed\"],\n    \"cues\": [\"if\"], \n    \"trigger_text\": \"misalignment exceeds 2 mm\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.52220106124878,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (ArmBot.misalignment > 2 mm imply ArmBot.stopped)\",\n    \"explanation\": \"This UPPAAL query enforces that whenever the misalignment exceeds 2 mm, the ArmBot must immediately stop. It follows the safety_immediate_response pattern by using 'imply' within an A[] operator to ensure an instantaneous response.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (ArmBot.misalignment > 2 mm imply ArmBot.stopped)",
+              "explanation": "This UPPAAL query enforces that whenever the misalignment exceeds 2 mm, the ArmBot must immediately stop. It follows the safety_immediate_response pattern by using 'imply' within an A[] operator to ensure an instantaneous response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (ArmBot.misalignment > 2 mm imply ArmBot.stopped)"
+          },
+          "total_time": 17.65905499458313,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    }
+  ]
+}

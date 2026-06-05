@@ -1335,6 +1335,105 @@
           "constraint_index": 2
         }
       ]
+    },
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "SurveillanceDrone maintains altitude between 10 and 50 meters when flying",
+          "classification": {
+            "step": "classification",
+            "timing": 4.451139211654663,
+            "tokens": 0,
+            "raw_text": "{ \n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"surveillance_drone\", \"altitude\"],\n  \"cues\": [\"between\", \"must\"],\n  \"trigger_text\": \"when surveillance_drone is flying\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.23732304573059,
+            "tokens": 0,
+            "raw_text": "{    \"query\": \"A[] (SurveillanceDrone.flying implies SurveillanceDrone.altitude >= 10 and SurveillanceDrone.altitude <= 50)\",\n    \"explanation\": \"This ensures that whenever the surveillance drone is flying, its altitude must be within the specified range immediately.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (SurveillanceDrone.flying implies SurveillanceDrone.altitude >= 10 and SurveillanceDrone.altitude <= 50)",
+              "explanation": "This ensures that whenever the surveillance drone is flying, its altitude must be within the specified range immediately.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (SurveillanceDrone.flying implies SurveillanceDrone.altitude >= 10 and SurveillanceDrone.altitude <= 50)"
+          },
+          "total_time": 16.738746643066406,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "SurveillanceDrone lands when visibility below 50%",
+          "classification": {
+            "step": "classification",
+            "timing": 1.455491065979004,
+            "tokens": 0,
+            "raw_text": "{ }",
+            "error": "Failed to parse JSON"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 1.4555552005767822,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 1
+        },
+        {
+          "constraint": "PatrolAGV stops when SurveillanceDrone is landing nearby",
+          "classification": {
+            "step": "classification",
+            "timing": 3.895426034927368,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stop\", \"landing\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"SurveillanceDrone is landing nearby\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.742891073226929,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (SurveillanceDrone.landing_nearby imply PatrolAGV.stopped)\",\n    \"explanation\": \"The constraint requires that PatrolAGV must stop immediately when SurveillanceDrone is landing nearby. This uses the safety_immediate_response pattern with A[] and imply to enforce an immediate reaction.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n  }",
+            "uppaal_result": {
+              "query": "A[] (SurveillanceDrone.landing_nearby imply PatrolAGV.stopped)",
+              "explanation": "The constraint requires that PatrolAGV must stop immediately when SurveillanceDrone is landing nearby. This uses the safety_immediate_response pattern with A[] and imply to enforce an immediate reaction.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (SurveillanceDrone.landing_nearby imply PatrolAGV.stopped)"
+          },
+          "total_time": 16.705071210861206,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
     }
   ]
 }

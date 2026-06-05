@@ -1,0 +1,214 @@
+{
+  "id": "scenario_037",
+  "domain": "harbor",
+  "prompt": "A harbor inspection drone flies along dock sections capturing video of hulls and cranes. It must maintain altitude between 8 and 20 meters and avoid restricted air corridors. If strong magnetic interference is detected, it must ascend above 25 meters until interference clears. The drone uploads each section\u2019s footage before starting the next and must always return to base at the end of its patrol.",
+  "robots": [
+    "HarborDrone"
+  ],
+  "constraints": [
+    "HarborDrone altitude between 8\u201320 m",
+    "HarborDrone avoids restricted corridors",
+    "HarborDrone ascends above 25 m when magnetic interference detected",
+    "HarborDrone uploads footage before moving to next section",
+    "Always returns to base at end of patrol"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "HarborDrone altitude between 8\u201320 m",
+          "classification": {
+            "step": "classification",
+            "timing": 5.777093887329102,
+            "tokens": 0,
+            "raw_text": "{    \n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"altitude\"],\n    \"cues\": [],\n    \"trigger_text\": \"HarborDrone must maintain an altitude between 8\u201320 m.\",\n    \"response_text\": \"\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.398930072784424,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (HarborDrone.altitude < 8 implies HarborDrone.stop)\",\n  \"explanation\": \"This ensures that if the HarborDrone's altitude drops below 8 meters, it must immediately stop to maintain safety.\",\n  \"confidence\": 0.95,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (HarborDrone.altitude < 8 implies HarborDrone.stop)",
+              "explanation": "This ensures that if the HarborDrone's altitude drops below 8 meters, it must immediately stop to maintain safety.",
+              "confidence": 0.95,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (HarborDrone.altitude < 8 implies HarborDrone.stop)"
+          },
+          "total_time": 17.24537181854248,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "HarborDrone avoids restricted corridors",
+          "classification": {
+            "step": "classification",
+            "timing": 4.486801862716675,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"restricted corridors\"],\n  \"cues\": [\"avoid\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.947277069091797,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (HarborDrone.avoid_restricted_corridors imply true)\",\n  \"explanation\": \"This UPPAAL query enforces that whenever HarborDrone detects a restricted corridor, it must immediately take an action to avoid it. The implication here is that the avoidance condition directly leads to the safety response without delay.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (HarborDrone.avoid_restricted_corridors imply true)",
+              "explanation": "This UPPAAL query enforces that whenever HarborDrone detects a restricted corridor, it must immediately take an action to avoid it. The implication here is that the avoidance condition directly leads to the safety response without delay.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (HarborDrone.avoid_restricted_corridors imply true)"
+          },
+          "total_time": 17.52387285232544,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "HarborDrone ascends above 25 m when magnetic interference detected",
+          "classification": {
+            "step": "classification",
+            "timing": 5.119218826293945,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"HarborDrone\", \"ascends\", \"above\", \"25\", \"m\"],\n  \"cues\": [\"when\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.234818935394287,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (HarborDrone.magnetic_interference_detected imply HarborDrone.ascends_above_25m)\",\n    \"explanation\": \"This UPPAAL query enforces that whenever magnetic interference is detected by the HarborDrone, it must immediately ascend above 25 meters. This ensures an immediate response to a dangerous condition, aligning with the safety_immediate_response pattern.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (HarborDrone.magnetic_interference_detected imply HarborDrone.ascends_above_25m)",
+              "explanation": "This UPPAAL query enforces that whenever magnetic interference is detected by the HarborDrone, it must immediately ascend above 25 meters. This ensures an immediate response to a dangerous condition, aligning with the safety_immediate_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (HarborDrone.magnetic_interference_detected imply HarborDrone.ascends_above_25m)"
+          },
+          "total_time": 19.42397403717041,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "HarborDrone uploads footage before moving to next section",
+          "classification": {
+            "step": "classification",
+            "timing": 4.292303085327148,
+            "tokens": 0,
+            "raw_text": "{ \n  \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"uploads\", \"before\"],\n  \"cues\": [\"before\"], \n  \"trigger_text\": \"uploads\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.410706996917725,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"HarborDrone.uploads_footage --> HarborDrone.move_to_next_section\",\n    \"explanation\": \"This UPPAAL query captures the sequential workflow where the HarborDrone must upload footage before moving to the next section of its operation. The '-->' operator is used here because it signifies that one event (uploading footage) must eventually lead to another (moving to the next section), which aligns with the pattern of a sequential_workflow. This ensures that the drone follows the proper order of operations without any immediate or simultaneous actions.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"sequential_workflow\",\n    \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "HarborDrone.uploads_footage --> HarborDrone.move_to_next_section",
+              "explanation": "This UPPAAL query captures the sequential workflow where the HarborDrone must upload footage before moving to the next section of its operation. The '-->' operator is used here because it signifies that one event (uploading footage) must eventually lead to another (moving to the next section), which aligns with the pattern of a sequential_workflow. This ensures that the drone follows the proper order of operations without any immediate or simultaneous actions.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "HarborDrone.uploads_footage --> HarborDrone.move_to_next_section"
+          },
+          "total_time": 19.751601219177246,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Always returns to base at end of patrol",
+          "classification": {
+            "step": "classification",
+            "timing": 3.1324350833892822,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"patrol\", \"base\"],\n  \"cues\": [\"always\", \"end\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.69224214553833,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (HarborDrone.end_patrol implies HarborDrone.returning_to_base)\",\n    \"explanation\": \"This UPPAAL query ensures that whenever the HarborDrone completes its patrol (end_patrol condition is met), it immediately starts returning to base. The implication operator 'implies' enforces an immediate response, aligning with the pattern's requirement for no delay in safety-critical actions.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (HarborDrone.end_patrol implies HarborDrone.returning_to_base)",
+              "explanation": "This UPPAAL query ensures that whenever the HarborDrone completes its patrol (end_patrol condition is met), it immediately starts returning to base. The implication operator 'implies' enforces an immediate response, aligning with the pattern's requirement for no delay in safety-critical actions.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (HarborDrone.end_patrol implies HarborDrone.returning_to_base)"
+          },
+          "total_time": 17.92025399208069,
+          "success": true,
+          "error": null,
+          "constraint_index": 4,
+          "attempt": 3
+        }
+      ]
+    }
+  ]
+}

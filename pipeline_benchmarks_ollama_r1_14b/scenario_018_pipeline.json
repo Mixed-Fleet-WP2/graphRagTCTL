@@ -1,0 +1,138 @@
+{
+  "id": "scenario_018",
+  "domain": "construction",
+  "prompt": "A drone delivers bricks to the upper floor, and a lifting robot waits to stack them. If the drone battery drops below 15%, it must land for charging, but there exists a possible sequence where delivery still completes successfully.",
+  "robots": [
+    "DeliveryDrone",
+    "LiftBot"
+  ],
+  "constraints": [
+    "LiftBot stacks only after DeliveryDrone arrives",
+    "DeliveryDrone lands when battery < 15%",
+    "Delivery eventually completes"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "DeliveryDrone lands when battery < 15%",
+          "classification": {
+            "step": "classification",
+            "timing": 5.0444066524505615,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"battery\"],\n    \"cues\": [\"when\", \"<\"],\n    \"trigger_text\": \"DeliveryDrone lands when battery < 15%\",\n    \"response_text\": \"lands\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.517807006835938,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (DeliveryDrone.battery < 15% imply DeliveryDrone.lands)\",\n  \"explanation\": \"This UPPAAL query ensures that the DeliveryDrone immediately responds by landing whenever its battery level drops below 15%, adhering to the safety requirement of an immediate response.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (DeliveryDrone.battery < 15% imply DeliveryDrone.lands)",
+              "explanation": "This UPPAAL query ensures that the DeliveryDrone immediately responds by landing whenever its battery level drops below 15%, adhering to the safety requirement of an immediate response.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (DeliveryDrone.battery < 15% imply DeliveryDrone.lands)"
+          },
+          "total_time": 18.604438066482544,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "LiftBot stacks only after DeliveryDrone arrives",
+          "classification": {
+            "step": "classification",
+            "timing": 15.827423095703125,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"stacks\", \"after\"],\n  \"cues\": [\"after\"],\n  \"trigger_text\": \"DeliveryDrone arrives\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.922287940979004,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (DeliveryDrone.arrived imply LiftBot.stacking)\",\n  \"explanation\": \"This query ensures that the LiftBot only starts stacking after the DeliveryDrone has arrived. The use of 'imply' enforces an immediate response once the trigger condition is met, aligning with the safety_immediate_response pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (DeliveryDrone.arrived imply LiftBot.stacking)",
+              "explanation": "This query ensures that the LiftBot only starts stacking after the DeliveryDrone has arrived. The use of 'imply' enforces an immediate response once the trigger condition is met, aligning with the safety_immediate_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (DeliveryDrone.arrived imply LiftBot.stacking)"
+          },
+          "total_time": 29.05082106590271,
+          "success": true,
+          "error": null,
+          "constraint_index": 0,
+          "attempt": 1
+        },
+        {
+          "constraint": "Delivery eventually completes",
+          "classification": {
+            "step": "classification",
+            "timing": 4.4249489307403564,
+            "tokens": 0,
+            "raw_text": "{ \n   \"pattern\": \"eventual_completion\",\n   \"keywords\": [\"delivery\", \"complete\"],\n   \"cues\": [\"eventually\"],\n   \"trigger_text\": \"delivery eventually completes\"\n  }"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.111704111099243,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A<> DeliveryDrone.delivery_complete\",\n    \"explanation\": \"This UPPAAL query ensures that the delivery task must eventually complete. The 'A<>' operator is used because the constraint specifies that something must happen eventually (liveness property). The exact robot name 'DeliveryDrone' is used as provided, ensuring specificity.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"eventual_completion\",\n    \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> DeliveryDrone.delivery_complete",
+              "explanation": "This UPPAAL query ensures that the delivery task must eventually complete. The 'A<>' operator is used because the constraint specifies that something must happen eventually (liveness property). The exact robot name 'DeliveryDrone' is used as provided, ensuring specificity.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> DeliveryDrone.delivery_complete"
+          },
+          "total_time": 16.613216876983643,
+          "success": true,
+          "error": null,
+          "constraint_index": 2,
+          "attempt": 1
+        }
+      ]
+    }
+  ]
+}

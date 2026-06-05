@@ -1337,6 +1337,103 @@
           "constraint_index": 2
         }
       ]
+    },
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+          "classification": {
+            "step": "classification",
+            "timing": 4.07350492477417,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"sequential_workflow\", \"keywords\": [\"start\", \"bolt\", \"after\", \"confirm\", \"placement\"], \"cues\": [\"after\"], \"trigger_text\": \"CraneBot confirms placement\" }"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.865966081619263,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"CraneBot.confirms_placement --> GroundBot.bolting\",\n    \"explanation\": \"The UPPAAL query models the constraint where GroundBot starts bolting after CraneBot confirms placement. The 'sequential_workflow' pattern is used because one action (bolting) follows another (confirming placement). The '-->' operator captures this eventual triggering, indicating that once CraneBot confirms placement, GroundBot will eventually start bolting.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"sequential_workflow\",\n    \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "CraneBot.confirms_placement --> GroundBot.bolting",
+              "explanation": "The UPPAAL query models the constraint where GroundBot starts bolting after CraneBot confirms placement. The 'sequential_workflow' pattern is used because one action (bolting) follows another (confirming placement). The '-->' operator captures this eventual triggering, indicating that once CraneBot confirms placement, GroundBot will eventually start bolting.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "CraneBot.confirms_placement --> GroundBot.bolting"
+          },
+          "total_time": 17.991119861602783,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 4.912919998168945,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"human\", \"safety zone\", \"CraneBot\", \"halt\"],\n    \"cues\": [\"must\", \"<5 seconds\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.952523946762085,
+            "tokens": 0,
+            "raw_text": "{ \n\"query\": \"\",\n  \"explanation\": \"\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": []\n}",
+            "uppaal_result": {
+              "query": "",
+              "explanation": "",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": []
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Empty query",
+            "query": ""
+          },
+          "total_time": 12.896342992782593,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+          "classification": {
+            "step": "classification",
+            "timing": 1.386139154434204,
+            "tokens": 0,
+            "raw_text": "{ }",
+            "error": "Failed to parse JSON"
+          },
+          "graph_context": null,
+          "generation": null,
+          "validation": null,
+          "total_time": 1.3862190246582031,
+          "success": false,
+          "error": "Classification failed",
+          "constraint_index": 2
+        }
+      ]
     }
   ]
 }

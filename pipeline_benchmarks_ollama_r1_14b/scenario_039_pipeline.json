@@ -1,0 +1,215 @@
+{
+  "id": "scenario_039",
+  "domain": "space",
+  "prompt": "An orbital maintenance robot services communication satellites. It must align within \u00b12\u00b0 before docking. If solar radiation spikes above threshold, it retreats to shield position until radiation returns to normal. After each maintenance operation, it performs diagnostics lasting at least 120 seconds. Docking must be completed within 300 seconds after alignment achieved, and all satellites must eventually be serviced.",
+  "robots": [
+    "OrbitalServicer"
+  ],
+  "constraints": [
+    "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+    "OrbitalServicer retreats to shield when radiation above threshold",
+    "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+    "Docking completes within 300 s after alignment",
+    "Eventually all satellites serviced"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "OrbitalServicer performs diagnostics \u2265 120 s after maintenance",
+          "classification": {
+            "step": "classification",
+            "timing": 3.5681889057159424,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"sequential_workflow\",\n    \"keywords\": [\"diagnostics\", \"maintenance\"],\n    \"cues\": [\"after\"],\n    \"trigger_text\": \"perform diagnostics\"\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 7.475771903991699,
+            "tokens": 0,
+            "raw_text": "{ \n  \"query\": \"\",\n  \"explanation\": \"\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"sequential_workflow\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "",
+              "explanation": "",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Empty query",
+            "query": ""
+          },
+          "total_time": 11.079639196395874,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        },
+        {
+          "constraint": "Docking completes within 300 s after alignment",
+          "classification": {
+            "step": "classification",
+            "timing": 6.272162914276123,
+            "tokens": 0,
+            "raw_text": "{ \n   \"pattern\": \"time_bounded_constraint\",\n   \"keywords\": [\"dock\", \"complete\", \"within\", \"after\", \"alignment\"],\n   \"cues\": [\"within\", \"after\"],\n   \"trigger_text\": \".Docking completes within 300 s after alignment\"\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.634768724441528,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (OrbitalServicer.docking imply clock <= 300)\",\n  \"explanation\": \"This UPPAAL query enforces that the docking action of OrbitalServicer must complete within 300 seconds. The 'imply' keyword ensures immediate response, aligning with the constraint's requirement for timely completion after alignment.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"time_bounded_constraint\",\n  \"operator_used\": [\"A[]\", \"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (OrbitalServicer.docking imply clock <= 300)",
+              "explanation": "This UPPAAL query enforces that the docking action of OrbitalServicer must complete within 300 seconds. The 'imply' keyword ensures immediate response, aligning with the constraint's requirement for timely completion after alignment.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "A[]",
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (OrbitalServicer.docking imply clock <= 300)"
+          },
+          "total_time": 21.199655055999756,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "OrbitalServicer aligns within \u00b12\u00b0 before docking",
+          "classification": {
+            "step": "classification",
+            "timing": 4.059484958648682,
+            "tokens": 0,
+            "raw_text": "{ \n\n\"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"docking\"],\n  \"cues\": [\"within\", \"before\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.180300951004028,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (OrbitalServicer.alignment <= 2 imply OrbitalServicer.docking)\",\n    \"explanation\": \"This UPPAAL query enforces that the OrbitalServicer must dock immediately when its alignment is within \u00b12\u00b0.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n  }",
+            "uppaal_result": {
+              "query": "A[] (OrbitalServicer.alignment <= 2 imply OrbitalServicer.docking)",
+              "explanation": "This UPPAAL query enforces that the OrbitalServicer must dock immediately when its alignment is within \u00b12\u00b0.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (OrbitalServicer.alignment <= 2 imply OrbitalServicer.docking)"
+          },
+          "total_time": 16.286224126815796,
+          "success": true,
+          "error": null,
+          "constraint_index": 0,
+          "attempt": 1
+        },
+        {
+          "constraint": "OrbitalServicer retreats to shield when radiation above threshold",
+          "classification": {
+            "step": "classification",
+            "timing": 4.639227867126465,
+            "tokens": 0,
+            "raw_text": "{  \n  \"pattern\": \"conditional_response\",\n  \"keywords\": [\"shield\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"radiation above threshold\"\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 5.686920166015625,
+            "tokens": 0,
+            "raw_text": "{ \"query\": \"(OrbitalServicer.radiation > threshold)\" \n               }",
+            "uppaal_result": {
+              "query": "(OrbitalServicer.radiation > threshold)",
+              "explanation": "",
+              "confidence": 0.0,
+              "pattern_used": "conditional_response",
+              "operator_used": []
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(OrbitalServicer.radiation > threshold)"
+          },
+          "total_time": 10.397340774536133,
+          "success": true,
+          "error": null,
+          "constraint_index": 1,
+          "attempt": 1
+        },
+        {
+          "constraint": "Eventually all satellites serviced",
+          "classification": {
+            "step": "classification",
+            "timing": 4.2015368938446045,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"sequential_workflow\",\n  \"keywords\": [\"satellites\", \"serviced\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": null,\n  \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "sequential_workflow",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.875273942947388,
+            "tokens": 0,
+            "raw_text": "{ \n    \"query\": \"Satellite.serviced --> OrbitalServicer.servicing\",\n    \"explanation\": \"This UPPAAL query indicates that after a satellite is serviced, the OrbitalServicer will eventually perform servicing on another or the same satellite. It follows the sequential_workflow pattern where one event (satellite being serviced) leads to another action by the OrbitalServicer.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"sequential_workflow\",\n    \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "Satellite.serviced --> OrbitalServicer.servicing",
+              "explanation": "This UPPAAL query indicates that after a satellite is serviced, the OrbitalServicer will eventually perform servicing on another or the same satellite. It follows the sequential_workflow pattern where one event (satellite being serviced) leads to another action by the OrbitalServicer.",
+              "confidence": 0.85,
+              "pattern_used": "sequential_workflow",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "Satellite.serviced --> OrbitalServicer.servicing"
+          },
+          "total_time": 17.161048889160156,
+          "success": true,
+          "error": null,
+          "constraint_index": 4,
+          "attempt": 2
+        }
+      ]
+    }
+  ]
+}

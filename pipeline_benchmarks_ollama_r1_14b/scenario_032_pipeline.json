@@ -1,0 +1,295 @@
+{
+  "id": "scenario_032",
+  "domain": "agriculture",
+  "prompt": "A high-altitude agricultural drone surveys crop zones for moisture and pest indicators. It divides fields into ten sub-zones, capturing spectral data for each. The drone must not descend below 40 meters except for calibration at designated points. If wind speed exceeds 35 km/h, it climbs to safe altitude and hovers until conditions stabilize. When battery capacity falls under 20%, it must return to base within 60 seconds. Eventually, all zones must be scanned and their data transmitted to the control center.",
+  "robots": [
+    "AgroDrone"
+  ],
+  "constraints": [
+    "AgroDrone maintains altitude \u2265 40 m except during calibration",
+    "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+    "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+    "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+    "AgroDrone returns to base within 60 seconds when battery < 20%",
+    "Eventually all data transmitted to control center",
+    "Eventually AgroDrone must scan all ten sub-zones"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "AgroDrone climbs to safe altitude when wind speed > 35 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 2.8795199394226074,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"conditional_response\",\n  \"keywords\": [\"safety\", \"altitude\", \"wind\"],\n  \"cues\": [\"when\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "conditional_response",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.614981174468994,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"(wind_speed > 35) --> (AgroDrone.altitude >= safe_altitude)\",\n  \"explanation\": \"This UPPAAL query represents the condition where if the wind speed exceeds 35 km/h, the AgroDrone must eventually climb to a safe altitude. The operator '->>' is used here because it signifies an eventual response to the condition, aligning with the conditional_response pattern.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"conditional_response\",\n  \"operator_used\": [\"-->\"]\n}",
+            "uppaal_result": {
+              "query": "(wind_speed > 35) --> (AgroDrone.altitude >= safe_altitude)",
+              "explanation": "This UPPAAL query represents the condition where if the wind speed exceeds 35 km/h, the AgroDrone must eventually climb to a safe altitude. The operator '->>' is used here because it signifies an eventual response to the condition, aligning with the conditional_response pattern.",
+              "confidence": 0.85,
+              "pattern_used": "conditional_response",
+              "operator_used": [
+                "-->"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "(wind_speed > 35) --> (AgroDrone.altitude >= safe_altitude)"
+          },
+          "total_time": 16.55226492881775,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "AgroDrone when hovering, it resumes survey when wind speed \u2264 35 km/h",
+          "classification": {
+            "step": "classification",
+            "timing": 4.892189979553223,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"wind speed\", \"hovering\"],\n  \"cues\": [\"when\"],\n  \"trigger_text\": \"when wind speed \u2264 35 km/h and AgroDrone is hovering\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.549660205841064,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (AgroDrone.wind_speed \u226435 \u2227 AgroDrone.hovering imply AgroDrone.resuming_survey)\",\n    \"explanation\": \"This UPPAAL query enforces that when the wind speed is at or below 35 km/h and the AgroDrone is hovering, it must immediately resume its survey mission. This ensures an immediate response to safe conditions, aligning with the pattern's requirement for no delay in critical actions.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (AgroDrone.wind_speed \u226435 \u2227 AgroDrone.hovering imply AgroDrone.resuming_survey)",
+              "explanation": "This UPPAAL query enforces that when the wind speed is at or below 35 km/h and the AgroDrone is hovering, it must immediately resume its survey mission. This ensures an immediate response to safe conditions, aligning with the pattern's requirement for no delay in critical actions.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (AgroDrone.wind_speed \u226435 \u2227 AgroDrone.hovering imply AgroDrone.resuming_survey)"
+          },
+          "total_time": 20.513844966888428,
+          "success": true,
+          "error": null,
+          "constraint_index": 3
+        },
+        {
+          "constraint": "Eventually all data transmitted to control center",
+          "classification": {
+            "step": "classification",
+            "timing": 4.199611186981201,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"control center\", \"transmitted\"],\n  \"cues\": [\"eventually\"],\n  \"trigger_text\": \"Eventually all data transmitted to control center\"\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.497563123703003,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A<> AgroDrone.data_transmitted_to_control_center\",\n  \"explanation\": \"The UPPAAL query uses A<>, which ensures that the data transmission to the control center must eventually happen. This directly corresponds to the constraint stating 'Eventually all data transmitted to control center'. The operator A<> is used here because it enforces liveness properties, ensuring that the task of transmitting all data will complete.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"eventual_completion\",\n  \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> AgroDrone.data_transmitted_to_control_center",
+              "explanation": "The UPPAAL query uses A<>, which ensures that the data transmission to the control center must eventually happen. This directly corresponds to the constraint stating 'Eventually all data transmitted to control center'. The operator A<> is used here because it enforces liveness properties, ensuring that the task of transmitting all data will complete.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> AgroDrone.data_transmitted_to_control_center"
+          },
+          "total_time": 17.764822721481323,
+          "success": true,
+          "error": null,
+          "constraint_index": 5
+        },
+        {
+          "constraint": "AgroDrone maintains altitude \u2265 40 m except during calibration",
+          "classification": {
+            "step": "classification",
+            "timing": 4.105567932128906,
+            "tokens": 0,
+            "raw_text": "{\n   \"pattern\": \"safety_immediate_response\",\n   \"keywords\": [\"calibration\"],\n   \"cues\": [\"except\", \"during\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.984256029129028,
+            "tokens": 0,
+            "raw_text": "{ \n\n\"query\": \"A[] (AgroDrone.height >=40 m imply AgroDrone.calibration)\",\n  \"explanation\": \"This ensures that the AgroDrrone's altitude stays at or above 40 meters unless it is in calibration mode.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (AgroDrone.height >=40 m imply AgroDrone.calibration)",
+              "explanation": "This ensures that the AgroDrrone's altitude stays at or above 40 meters unless it is in calibration mode.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (AgroDrone.height >=40 m imply AgroDrone.calibration)"
+          },
+          "total_time": 16.24957513809204,
+          "success": true,
+          "error": null,
+          "constraint_index": 0,
+          "attempt": 1
+        },
+        {
+          "constraint": "AgroDrone when wind speed > 35 km/h and AgroDrone is in a safe altitude, it must hover",
+          "classification": {
+            "step": "classification",
+            "timing": 5.445588111877441,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"wind speed\", \"safe altitude\", \"hover\"],\n  \"cues\": [\"must\"],\n  \"trigger_text\": \"when wind speed > 35 km/h and AgroDrime is in a safe altitude, it must hover\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 14.574904203414917,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (AgroDrone.wind_speed >35 imply AgroDrone.hover)\",\n    \"explanation\": \"This constraint requires that whenever the wind speed exceeds 35 km/h and AgroDrone is at a safe altitude, it must immediately start hovering. The operator 'imply' ensures that if the condition is met, the action follows without delay.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"safety_immediate_response\",\n    \"operator_used\": [\"imply\"]\n  }",
+            "uppaal_result": {
+              "query": "A[] (AgroDrone.wind_speed >35 imply AgroDrone.hover)",
+              "explanation": "This constraint requires that whenever the wind speed exceeds 35 km/h and AgroDrone is at a safe altitude, it must immediately start hovering. The operator 'imply' ensures that if the condition is met, the action follows without delay.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (AgroDrone.wind_speed >35 imply AgroDrone.hover)"
+          },
+          "total_time": 20.087525844573975,
+          "success": true,
+          "error": null,
+          "constraint_index": 2,
+          "attempt": 3
+        },
+        {
+          "constraint": "AgroDrone returns to base within 60 seconds when battery < 20%",
+          "classification": {
+            "step": "classification",
+            "timing": 4.510084867477417,
+            "tokens": 0,
+            "raw_text": "{\n    \"pattern\": \"time_bounded_constraint\",\n    \"keywords\": [\"return\", \"base\", \"within\", \"battery\"],\n    \"cues\": [\"when\", \"<\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "time_bounded_constraint",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 16.714044094085693,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A[] (AgroDrone.battery < 20% && not AgroDrone.at_base imply clock <= 60)\",\n    \"explanation\": \"This UPPAAL query enforces that if the battery level of AgroDroene is below 20% and it is not at the base, then the time elapsed (clock) must be less than or equal to 60 seconds. This ensures that the drone returns to base within the specified time frame when its battery is low.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"time_bounded_constraint\",\n    \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (AgroDrone.battery < 20% && not AgroDrone.at_base imply clock <= 60)",
+              "explanation": "This UPPAAL query enforces that if the battery level of AgroDroene is below 20% and it is not at the base, then the time elapsed (clock) must be less than or equal to 60 seconds. This ensures that the drone returns to base within the specified time frame when its battery is low.",
+              "confidence": 0.85,
+              "pattern_used": "time_bounded_constraint",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (AgroDrone.battery < 20% && not AgroDrone.at_base imply clock <= 60)"
+          },
+          "total_time": 21.310044050216675,
+          "success": true,
+          "error": null,
+          "constraint_index": 4,
+          "attempt": 1
+        },
+        {
+          "constraint": "Eventually AgroDrone must scan all ten sub-zones",
+          "classification": {
+            "step": "classification",
+            "timing": 3.7601499557495117,
+            "tokens": 0,
+            "raw_text": "{\n  \"pattern\": \"eventual_completion\",\n  \"keywords\": [\"AgroDrone\", \"scan\", \"all\", \"ten\", \"sub-zones\"],\n  \"cues\": [\"eventually\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.644454956054688,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A<> AgroDrone.scan_all_sub_zones\",\n    \"explanation\": \"This UPPAAL query ensures that the AgroDrone must eventually complete the task of scanning all ten sub-zones. The 'eventually' keyword in the constraint indicates a liveness property, which aligns with using the A<> operator for global liveness.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"eventual_completion\",\n    \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> AgroDrone.scan_all_sub_zones",
+              "explanation": "This UPPAAL query ensures that the AgroDrone must eventually complete the task of scanning all ten sub-zones. The 'eventually' keyword in the constraint indicates a liveness property, which aligns with using the A<> operator for global liveness.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> AgroDrone.scan_all_sub_zones"
+          },
+          "total_time": 16.448579788208008,
+          "success": true,
+          "error": null,
+          "constraint_index": 6,
+          "attempt": 2
+        }
+      ]
+    }
+  ]
+}

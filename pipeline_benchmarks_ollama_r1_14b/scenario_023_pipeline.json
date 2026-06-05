@@ -1,0 +1,97 @@
+{
+  "id": "scenario_023",
+  "domain": "disaster_response",
+  "prompt": "A drone scans for survivors and a ground robot delivers medical kits. It\u2019s always possible to reach a state where both have completed their missions. If battery < 10%, drone must return to base within 20 seconds.",
+  "robots": [
+    "RescueDrone",
+    "MedicBot"
+  ],
+  "constraints": [
+    "Always possible for both to complete missions",
+    "RescueDrone returns to base within 20 seconds when battery < 10%"
+  ],
+  "results": [
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "Always possible for both to complete missions",
+          "classification": {
+            "step": "classification",
+            "timing": 4.740046262741089,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"universal_reachability\",\n  \"keywords\": [\"always\", \"possible\"],\n  \"cues\": [\"always\"],\n  \"trigger_text\": \"Always possible for both to complete missions\"\n}"
+          },
+          "graph_context": {
+            "pattern": "universal_reachability",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.88650107383728,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A<> RescueDrone.mission_complete and MedicBot.mission_complete\",\n    \"explanation\": \"This UPPAAL query checks that both RescueDrone and MedicBot are guaranteed to complete their missions eventually. The use of 'A<>' ensures that from any state, both robots must reach the mission completion state.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"universal_reachability\",\n    \"operator_used\": [\"A<>\"]\n  }",
+            "uppaal_result": {
+              "query": "A<> RescueDrone.mission_complete and MedicBot.mission_complete",
+              "explanation": "This UPPAAL query checks that both RescueDrone and MedicBot are guaranteed to complete their missions eventually. The use of 'A<>' ensures that from any state, both robots must reach the mission completion state.",
+              "confidence": 0.85,
+              "pattern_used": "universal_reachability",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> RescueDrone.mission_complete and MedicBot.mission_complete"
+          },
+          "total_time": 17.71628189086914,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "RescueDrone returns to base within 20 seconds when battery < 10%",
+          "classification": {
+            "step": "classification",
+            "timing": 4.359936952590942,
+            "tokens": 0,
+            "raw_text": "{\n\n\n    \"pattern\": \"safety_immediate_response\",\n    \"keywords\": [\"battery\", \"base\", \"within\"],\n    \"cues\": [\"when\", \"<\"]\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 15.016452074050903,
+            "tokens": 0,
+            "raw_text": "{ \n  \"query\": \"A[] (RescueDrone.battery < 10% imply RescueDrone.returning_to_base)\",\n  \"explanation\": \"This UPPAAL query enforces that whenever the RescueDrone's battery level is below 10%, it immediately initiates its return to base. This ensures safety by preventing the drone from operating with critically low power, which could lead to failure in mission-critical situations.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (RescueDrone.battery < 10% imply RescueDrone.returning_to_base)",
+              "explanation": "This UPPAAL query enforces that whenever the RescueDrone's battery level is below 10%, it immediately initiates its return to base. This ensures safety by preventing the drone from operating with critically low power, which could lead to failure in mission-critical situations.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": false,
+            "error": "Validation error: sequence item 0: expected str instance, dict found",
+            "query": "A[] (RescueDrone.battery < 10% imply RescueDrone.returning_to_base)"
+          },
+          "total_time": 19.431676149368286,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        }
+      ]
+    }
+  ]
+}

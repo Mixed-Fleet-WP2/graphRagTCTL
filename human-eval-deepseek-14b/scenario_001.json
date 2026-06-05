@@ -1,0 +1,71 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-06-05T07:50:03.413Z",
+    "total_scenarios": 1,
+    "total_models": 1
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_001",
+      "domain": "harbor_logistics",
+      "prompt": "A drone scans container stacks. Once scanning is finished, a UGV moves to collect the container. The forklift then loads the container onto the truck.",
+      "gold_standard": {
+        "constraints": [
+          "Drone scanning is finished, UGV moves to collect the container.",
+          "once the UGV arrives to collect the container, the Forklift loads the container onto the truck."
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "Drone scanning is finished, UGV moves to collect the container.",
+                "query": "Drone.scanning_done --> UGV.collecting_container",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "once the UGV arrives to collect the container, the Forklift loads the container onto the truck.",
+                "query": "UGV.arrives_collect_container --> Forklift.loads_truck",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 2,
+            "valid_inferred": 0,
+            "hallucinations": 0,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 2,
+    "inferred": 0,
+    "hallucination": 0,
+    "unlabeled": 0,
+    "total": 2
+  },
+  "performance_metrics": {
+    "precision": 1,
+    "recall": 1,
+    "f1": 1
+  }
+}

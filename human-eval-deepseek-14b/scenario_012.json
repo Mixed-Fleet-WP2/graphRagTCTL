@@ -1,0 +1,80 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-06-05T08:48:02.579Z",
+    "total_scenarios": 1,
+    "total_models": 1
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_012",
+      "domain": "manufacturing",
+      "prompt": "A robotic arm assembles components while a vision robot checks alignment. The vision robot must verify after each assembly step. If misalignment > 2 mm, assembly halts until correction is confirmed.",
+      "gold_standard": {
+        "constraints": [
+          "VisionBot verifies alignment after each ArmBot assembly step",
+          "ArmBot stops if misalignment exceeds 2 mm",
+          "Assembly resumes after correction confirmation"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 2,
+                "constraint": "Assembly resumes after correction confirmation",
+                "query": "A[] (VisionBot.correction_confirmed imply ArmBot.resumes_assembly)",
+                "valid": true,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 0,
+                "constraint": "VisionBot verifies alignment after each ArmBot assembly step",
+                "query": "",
+                "valid": false,
+                "pattern": "",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "ArmBot stops if misalignment exceeds 2 mm",
+                "query": "A[] (ArmBot.misalignment > 2 mm imply ArmBot.stopped)",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 0,
+            "valid_inferred": 0,
+            "hallucinations": 3,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 0,
+    "inferred": 0,
+    "hallucination": 3,
+    "unlabeled": 0,
+    "total": 3
+  },
+  "performance_metrics": {
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+  }
+}

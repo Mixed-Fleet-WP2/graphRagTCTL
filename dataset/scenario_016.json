@@ -13,8 +13,8 @@
   "reference_properties": [
     "A[] (SorterA.MisalignmentDetected imply not Conveyor.Running)",
     "SorterB.corrects_alignment --> SorterB.resuming",
-    "(SorterA.package_corrected) --> (SorterA.normal_operation)",
-    "(SorterB.package_corrected) --> (SorterB.normal_operation)",
+    "A[] (SorterA.package_correct imply SorterA.normal_operation)",
+    "A[] (SorterB.package_correct imply SorterB.normal_operation)",
     "A[] (Conveyor.Stopped imply ConveyorStopTime <= 10)"
   ],
   "llm_output_properties": [],

@@ -1,0 +1,80 @@
+{
+  "evaluation_metadata": {
+    "evaluator": "manual",
+    "model_evaluated": {
+      "provider": "all",
+      "model": "aggregated"
+    },
+    "evaluation_date": "2026-06-05T08:19:39.738Z",
+    "total_scenarios": 1,
+    "total_models": 1
+  },
+  "scenarios": [
+    {
+      "scenario_id": "scenario_009",
+      "domain": "construction",
+      "prompt": "A crane lifts steel beams while a ground robot bolts them in place. The ground robot begins only after crane placement is confirmed. If a human enters the safety zone, both robots must halt within 5 seconds.",
+      "gold_standard": {
+        "constraints": [
+          "GroundBot starts bolting after CraneBot confirms placement",
+          "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+          "If a human enters the safety zone, GroundBot  must halt within 5 seconds"
+        ]
+      },
+      "model_evaluations": [
+        {
+          "model": {
+            "provider": "ollama",
+            "model": "deepseek-r1:14b"
+          },
+          "llm_output": {
+            "queries": [
+              {
+                "constraint_index": 0,
+                "constraint": "GroundBot starts bolting after CraneBot confirms placement",
+                "query": "CraneBot.confirms_placement --> GroundBot.bolting",
+                "valid": true,
+                "pattern": "sequential_workflow",
+                "label": "correct"
+              },
+              {
+                "constraint_index": 1,
+                "constraint": "If a human enters the safety zone, CraneBot must halt within 5 seconds",
+                "query": "",
+                "valid": false,
+                "pattern": "safety_immediate_response",
+                "label": "wrong"
+              },
+              {
+                "constraint_index": 2,
+                "constraint": "If a human enters the safety zone, GroundBot  must halt within 5 seconds",
+                "query": "",
+                "valid": false,
+                "pattern": "",
+                "label": "wrong"
+              }
+            ]
+          },
+          "evaluation_summary": {
+            "correct": 1,
+            "valid_inferred": 0,
+            "hallucinations": 2,
+            "unlabeled": 0
+          }
+        }
+      ]
+    }
+  ],
+  "overall_statistics": {
+    "correct": 1,
+    "inferred": 0,
+    "hallucination": 2,
+    "unlabeled": 0,
+    "total": 3
+  },
+  "performance_metrics": {
+    "precision": 0.3333333333333333,
+    "recall": 0.3333333333333333,
+    "f1": 0.3333333333333333
+  }
+}

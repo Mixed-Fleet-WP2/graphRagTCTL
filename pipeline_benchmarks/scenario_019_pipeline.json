@@ -1340,6 +1340,126 @@
           "constraint_index": 2
         }
       ]
+    },
+    {
+      "provider": "ollama",
+      "model": "deepseek-r1:14b",
+      "results": [
+        {
+          "constraint": "MediBot waits if elevator busy",
+          "classification": {
+            "step": "classification",
+            "timing": 5.799635887145996,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"wait\", \"elevator\"],\n  \"cues\": [\"if\", \"busy\"],\n  \"trigger_text\": \"Wait, the elevator is busy.\",\n  \"response_text\": \"Elevator is busy; I'll wait.\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 13.379873037338257,
+            "tokens": 0,
+            "raw_text": "{\n  \"query\": \"A[] (MediBot.elevator_busy imply MediBot.wait)\",\n  \"explanation\": \"This UPPAAL query ensures that if the elevator is busy, the MediBot immediately starts waiting. It follows the safety_immediate_response pattern by using A[], which enforces an immediate response to dangerous conditions.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (MediBot.elevator_busy imply MediBot.wait)",
+              "explanation": "This UPPAAL query ensures that if the elevator is busy, the MediBot immediately starts waiting. It follows the safety_immediate_response pattern by using A[], which enforces an immediate response to dangerous conditions.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (MediBot.elevator_busy imply MediBot.wait)"
+          },
+          "total_time": 19.249906063079834,
+          "success": true,
+          "error": null,
+          "constraint_index": 0
+        },
+        {
+          "constraint": "Each delivery request eventually fulfilled",
+          "classification": {
+            "step": "classification",
+            "timing": 5.011380910873413,
+            "tokens": 0,
+            "raw_text": "{  \n   \"pattern\": \"eventual_completion\",\n   \"keywords\": [\"delivery\", \"request\", \"fulfilled\"],\n   \"cues\": [],\n   \"trigger_text\": null,\n   \"response_text\": null\n}"
+          },
+          "graph_context": {
+            "pattern": "eventual_completion",
+            "operators_count": 1,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 12.102843999862671,
+            "tokens": 0,
+            "raw_text": "{\n    \"query\": \"A<> (MediBot.delivery_request_fulfilled)\",\n    \"explanation\": \"This UPPAAL query ensures that each delivery request eventually becomes fulfilled by MediBot. The A<> operator is used here because the constraint specifies that something must happen eventually, aligning with the 'eventual_completion' pattern.\",\n    \"confidence\": 0.85,\n    \"pattern_used\": \"eventual_completion\",\n    \"operator_used\": [\"A<>\"]\n}",
+            "uppaal_result": {
+              "query": "A<> (MediBot.delivery_request_fulfilled)",
+              "explanation": "This UPPAAL query ensures that each delivery request eventually becomes fulfilled by MediBot. The A<> operator is used here because the constraint specifies that something must happen eventually, aligning with the 'eventual_completion' pattern.",
+              "confidence": 0.85,
+              "pattern_used": "eventual_completion",
+              "operator_used": [
+                "A<>"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A<> (MediBot.delivery_request_fulfilled)"
+          },
+          "total_time": 17.16194725036621,
+          "success": true,
+          "error": null,
+          "constraint_index": 1
+        },
+        {
+          "constraint": "MediBot never leaves safe areas",
+          "classification": {
+            "step": "classification",
+            "timing": 4.402764081954956,
+            "tokens": 0,
+            "raw_text": "{ \"pattern\": \"safety_immediate_response\",\n  \"keywords\": [\"safe\"],\n  \"cues\": [\"never\"],\n  \"trigger_text\": \"MediBot never leaves safe areas\"\n}"
+          },
+          "graph_context": {
+            "pattern": "safety_immediate_response",
+            "operators_count": 2,
+            "examples_count": 3
+          },
+          "generation": {
+            "step": "generation",
+            "timing": 11.484894275665283,
+            "tokens": 0,
+            "raw_text": "{    \n  \"query\": \"A[] (MediBot.leaving_safe_area imply false)\",\n  \"explanation\": \"This enforces that if MediBot ever attempts to leave a safe area, it must immediately stop doing so.\",\n  \"confidence\": 0.85,\n  \"pattern_used\": \"safety_immediate_response\",\n  \"operator_used\": [\"imply\"]\n}",
+            "uppaal_result": {
+              "query": "A[] (MediBot.leaving_safe_area imply false)",
+              "explanation": "This enforces that if MediBot ever attempts to leave a safe area, it must immediately stop doing so.",
+              "confidence": 0.85,
+              "pattern_used": "safety_immediate_response",
+              "operator_used": [
+                "imply"
+              ]
+            }
+          },
+          "validation": {
+            "valid": true,
+            "error": null,
+            "query": "A[] (MediBot.leaving_safe_area imply false)"
+          },
+          "total_time": 15.977658987045288,
+          "success": true,
+          "error": null,
+          "constraint_index": 2
+        }
+      ]
     }
   ]
 }
