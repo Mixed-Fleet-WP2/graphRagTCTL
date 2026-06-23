@@ -1,0 +1,73 @@
+{
+  "constraint": "Robot must be at  base  when battery is below 10%",
+  "expected_pattern": "safety_immediate_response",
+  "embedding_model": "text-embedding-3-small",
+  "index_files": {
+    "metadata": "/Users/xhn957/Desktop/projects/Nl2Ltl/graphRagTCTL/rag_baseline/rag_index/metadata.json",
+    "embeddings": "/Users/xhn957/Desktop/projects/Nl2Ltl/graphRagTCTL/rag_baseline/rag_index/embeddings.npy",
+    "metadata_sha256": "95fbfe81ddfa234e42f15ecddae901b6bff9dc553bcf181b7d945f71f207103d",
+    "embedding_shape": [
+      43,
+      1536
+    ]
+  },
+  "top_k": 7,
+  "top_chunks": [
+    {
+      "rank": 1,
+      "id": "c029",
+      "type": "example",
+      "pattern": "conditional_response",
+      "score": 0.6542,
+      "nl": "Robot must be at base when battery is below 10%"
+    },
+    {
+      "rank": 2,
+      "id": "c022",
+      "type": "example",
+      "pattern": "time_bounded_constraint",
+      "score": 0.612,
+      "nl": "Robot must reach base within 20 seconds when battery is low"
+    },
+    {
+      "rank": 3,
+      "id": "c030",
+      "type": "example",
+      "pattern": "time_bounded_constraint",
+      "score": 0.5955,
+      "nl": "Robot must be at base when battery is below 10%"
+    },
+    {
+      "rank": 4,
+      "id": "c012",
+      "type": "example",
+      "pattern": "conditional_response",
+      "score": 0.5779,
+      "nl": "When battery is low, robot goes to charging station"
+    },
+    {
+      "rank": 5,
+      "id": "c001",
+      "type": "example",
+      "pattern": "safety_immediate_response",
+      "score": 0.52,
+      "nl": "Drone must return to base when battery is below 10%"
+    },
+    {
+      "rank": 6,
+      "id": "c017",
+      "type": "example",
+      "pattern": "eventual_completion",
+      "score": 0.5059,
+      "nl": "Robot will eventually return to base"
+    },
+    {
+      "rank": 7,
+      "id": "c010",
+      "type": "example",
+      "pattern": "forbidden_state",
+      "score": 0.4767,
+      "nl": "Robot cannot move while charging"
+    }
+  ]
+}

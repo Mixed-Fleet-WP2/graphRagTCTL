@@ -1,0 +1,57 @@
+{
+  "constraint": "Drone must be at base when battery is below 10%",
+  "expected_pattern": "safety_immediate_response",
+  "embedding_model": "text-embedding-3-small",
+  "index_files": {
+    "metadata": "/Users/xhn957/Desktop/projects/Nl2Ltl/graphRagTCTL/rag_baseline/rag_index/metadata.json",
+    "embeddings": "/Users/xhn957/Desktop/projects/Nl2Ltl/graphRagTCTL/rag_baseline/rag_index/embeddings.npy",
+    "metadata_sha256": "acc30705c537337491fa8ec6a073cb8026b5a1272c442f736f3d6190792e95d2",
+    "embedding_shape": [
+      41,
+      1536
+    ]
+  },
+  "top_k": 5,
+  "top_chunks": [
+    {
+      "rank": 1,
+      "id": "c001",
+      "type": "example",
+      "pattern": "safety_immediate_response",
+      "score": 0.625,
+      "nl": "Drone must return to base when battery is below 10%"
+    },
+    {
+      "rank": 2,
+      "id": "c022",
+      "type": "example",
+      "pattern": "time_bounded_constraint",
+      "score": 0.5182,
+      "nl": "Robot must reach base within 20 seconds when battery is low"
+    },
+    {
+      "rank": 3,
+      "id": "c007",
+      "type": "example",
+      "pattern": "conditional_response",
+      "score": 0.4751,
+      "nl": "Visibility below 30% causes both drones to surface"
+    },
+    {
+      "rank": 4,
+      "id": "c021",
+      "type": "example",
+      "pattern": "time_bounded_constraint",
+      "score": 0.4631,
+      "nl": "Drone must stop after 10 minutes of flying"
+    },
+    {
+      "rank": 5,
+      "id": "c012",
+      "type": "example",
+      "pattern": "conditional_response",
+      "score": 0.439,
+      "nl": "When battery is low, robot goes to charging station"
+    }
+  ]
+}

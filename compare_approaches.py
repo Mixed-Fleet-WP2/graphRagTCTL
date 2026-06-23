@@ -92,7 +92,7 @@ def create_comparison_plots():
     graphrag_common = [graphrag_common[i] for i in sorted_indices]
     
     # Create figure with subplots
-    fig = plt.figure(figsize=(20, 16))
+    fig = plt.figure(figsize=(24, 18))
     
     # 1. Side-by-side bar comparison
     ax1 = plt.subplot(2, 3, 1)
@@ -248,7 +248,7 @@ def create_comparison_plots():
     ax6.grid(True, alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('approach_comparison.png', dpi=300, bbox_inches='tight')
+    plt.savefig('approach_comparison.png', dpi=450, bbox_inches='tight')
     print("✓ Comparison visualization saved to approach_comparison.png")
 
     # Also regenerate the focused vertical comparison chart.
@@ -261,26 +261,27 @@ def create_comparison_plots():
     graphrag_vertical = [graphrag_map[m] for m in common_keys]
     xtick_labels = [graphrag_labels.get(m, prompting_labels.get(m, m)) for m in common_keys]
 
-    fig2, axv = plt.subplots(figsize=(14, 7))
+    fig2, axv = plt.subplots(figsize=(20, 10))
     x2 = np.arange(len(common_keys))
     width2 = 0.36
     bars1 = axv.bar(x2 - width2/2, prompting_vertical, width2, label='Few-shot Prompting', color='#4C78A8')
     bars2 = axv.bar(x2 + width2/2, graphrag_vertical, width2, label='GraphRAG', color='#F58518')
 
-    axv.set_title('Few-shot Prompting vs GraphRAG Performance by Model', fontsize=14, pad=12)
-    axv.set_ylabel('Accuracy (%)')
+    axv.set_title('Few-shot Prompting vs GraphRAG Performance by Model', fontsize=20, pad=14)
+    axv.set_ylabel('Accuracy (%)', fontsize=14)
     axv.set_xticks(x2)
-    axv.set_xticklabels(xtick_labels, rotation=35, ha='right', fontsize=9)
+    axv.set_xticklabels(xtick_labels, rotation=30, ha='right', fontsize=12)
+    axv.tick_params(axis='y', labelsize=12)
     axv.set_ylim(0, 100)
     axv.grid(axis='y', linestyle='--', alpha=0.35)
-    axv.legend(loc='upper left')
+    axv.legend(loc='upper left', fontsize=12)
 
     for bars in (bars1, bars2):
         for b in bars:
             h = b.get_height()
             axv.annotate(f'{h:.1f}', (b.get_x() + b.get_width()/2, h),
                          xytext=(0, 10), textcoords='offset points',
-                         ha='center', va='bottom', fontsize=8,
+                         ha='center', va='bottom', fontsize=10,
                          clip_on=False,
                          bbox=dict(boxstyle='round,pad=0.15', facecolor='white', alpha=0.85, edgecolor='none'))
 
@@ -288,10 +289,10 @@ def create_comparison_plots():
     avg_g = float(np.mean(graphrag_vertical)) if graphrag_vertical else 0.0
     summary = f'Avg Few-shot: {avg_p:.2f}%\nAvg GraphRAG: {avg_g:.2f}%\nImprovement: +{(avg_g-avg_p):.2f} pts'
     axv.text(0.985, 0.985, summary, transform=axv.transAxes, ha='right', va='top',
-             fontsize=10, bbox=dict(boxstyle='round', facecolor='white', alpha=0.9, edgecolor='#CCCCCC'))
+             fontsize=12, bbox=dict(boxstyle='round', facecolor='white', alpha=0.9, edgecolor='#CCCCCC'))
 
     fig2.tight_layout(rect=[0, 0, 1, 0.97])
-    fig2.savefig('comparaison/fewshot_vs_graphrag_vertical.png', dpi=300, bbox_inches='tight')
+    fig2.savefig('comparaison/fewshot_vs_graphrag_vertical.png', dpi=600, bbox_inches='tight')
     print("✓ Comparison visualization saved to comparaison/fewshot_vs_graphrag_vertical.png")
     
     # Print summary statistics

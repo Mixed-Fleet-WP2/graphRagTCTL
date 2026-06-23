@@ -1,0 +1,346 @@
+[
+  {
+    "id": "pat_safety_immediate_response",
+    "type": "pattern",
+    "name": "safety_immediate_response",
+    "template": "A[] (trigger_condition imply safety_action)",
+    "when_to_use": "When response must be instantaneous. No delay allowed between trigger and response.",
+    "text": "Pattern: safety_immediate_response. Immediate response to dangerous conditions. Template: A[] (trigger_condition imply safety_action). Use when response must be instantaneous. No delay allowed between trigger and response. Keywords: immediately, when, must, stop, abort, pause."
+  },
+  {
+    "id": "pat_sequential_workflow",
+    "type": "pattern",
+    "name": "sequential_workflow",
+    "template": "action1 --> action2",
+    "when_to_use": "For multi-step processes where one step leads to another with possible delays.",
+    "text": "Pattern: sequential_workflow. One action eventually follows another. Template: action1 --> action2. Use for multi-step processes where one step leads to another with possible delays. Keywords: after, once, then, eventually, follows."
+  },
+  {
+    "id": "pat_eventual_completion",
+    "type": "pattern",
+    "name": "eventual_completion",
+    "template": "A<> final_state",
+    "when_to_use": "For liveness properties where something must eventually happen.",
+    "text": "Pattern: eventual_completion. Task must eventually complete. Template: A<> final_state. Use for liveness properties where something must eventually happen. Keywords: eventually, will, must complete, finish."
+  },
+  {
+    "id": "pat_existential_reachability",
+    "type": "pattern",
+    "name": "existential_reachability",
+    "template": "E<> target_state",
+    "when_to_use": "To verify that something CAN happen or is POSSIBLE. Checks if at least one execution path exists.",
+    "text": "Pattern: existential_reachability. Check if state is possible to reach. Template: E<> target_state. Use to verify that something CAN happen or is POSSIBLE. Keywords: possible, can, might, able to, feasible."
+  },
+  {
+    "id": "pat_universal_reachability",
+    "type": "pattern",
+    "name": "universal_reachability",
+    "template": "A<> target_state",
+    "when_to_use": "To verify that from ANY state, it's always POSSIBLE to eventually reach target.",
+    "text": "Pattern: universal_reachability. State guaranteed reachable from any path. Template: A<> target_state. Use to verify from ANY state it is always possible to eventually reach the target. Keywords: all paths, guaranteed, always possible."
+  },
+  {
+    "id": "pat_forbidden_state",
+    "type": "pattern",
+    "name": "forbidden_state",
+    "template": "A[] not (bad_state)",
+    "when_to_use": "To prevent dangerous or invalid states from ever happening.",
+    "text": "Pattern: forbidden_state. State must never occur. Template: A[] not (bad_state). Use to prevent dangerous or invalid states. Keywords: never, cannot, must not, prohibited."
+  },
+  {
+    "id": "pat_conditional_response",
+    "type": "pattern",
+    "name": "conditional_response",
+    "template": "condition --> response",
+    "when_to_use": "For triggered behaviors where a condition leads to eventual action.",
+    "text": "Pattern: conditional_response. If condition then eventual response. Template: condition --> response. Use for triggered behaviors where condition leads to eventual action. Keywords: if, when, causes, triggers, leads to."
+  },
+  {
+    "id": "pat_time_bounded_constraint",
+    "type": "pattern",
+    "name": "time_bounded_constraint",
+    "template": "A[] (state imply clock <= T)",
+    "when_to_use": "When there is a maximum time allowed in a state or for a response.",
+    "text": "Pattern: time_bounded_constraint. Action must occur within specific time duration. Template: A[] (state imply clock <= T). Use when there is a maximum time allowed. Keywords: within, before, timeout, deadline, seconds, minutes."
+  },
+  {
+    "id": "op_always",
+    "type": "operator",
+    "name": "A[]",
+    "when_to_use": "For safety properties. Things that must ALWAYS be true or NEVER happen. Use with imply for immediate responses.",
+    "when_not_to_use": "Don't use for eventual actions or when delay is acceptable.",
+    "text": "Operator: A[] (Always). Property holds in ALL reachable states at ALL times. Use for safety properties, invariants, forbidden states. Use with imply for immediate responses. Do not use for eventual actions."
+  },
+  {
+    "id": "op_possibly",
+    "type": "operator",
+    "name": "E<>",
+    "when_to_use": "To check if something CAN happen or is POSSIBLE.",
+    "when_not_to_use": "Don't use when something MUST happen (use A<> instead).",
+    "text": "Operator: E<> (Possibly). There exists at least one path where property eventually holds. Use to check if something CAN happen. Keywords: possible, can, might. Do not use when something MUST happen."
+  },
+  {
+    "id": "op_eventually",
+    "type": "operator",
+    "name": "A<>",
+    "when_to_use": "For liveness properties. Things that MUST eventually happen.",
+    "when_not_to_use": "Don't use for conditional responses (use --> instead).",
+    "text": "Operator: A<> (Eventually). Property eventually holds on ALL execution paths. Use for liveness - things that MUST eventually happen. Do not use for conditional responses."
+  },
+  {
+    "id": "op_leads_to",
+    "type": "operator",
+    "name": "-->",
+    "when_to_use": "For sequential workflows and conditional eventual responses.",
+    "when_not_to_use": "Don't use for immediate responses (use A[] imply instead).",
+    "text": "Operator: --> (Leads-to). If left becomes true, right will eventually become true. Use for sequential workflows and conditional eventual responses. Do not use for immediate responses, use A[] imply instead."
+  },
+  {
+    "id": "op_imply",
+    "type": "operator",
+    "name": "imply",
+    "when_to_use": "For immediate responses. If condition is true, consequence must be true RIGHT NOW. Always used inside A[].",
+    "when_not_to_use": "Don't use for eventual responses (use --> instead).",
+    "text": "Operator: imply (immediate logical implication). Condition and consequence must hold in the SAME state. Always used inside A[]. Use for immediate safety responses. Do not use for eventual responses."
+  },
+  {
+    "id": "c001",
+    "type": "example",
+    "nl": "Drone must return to base when battery is below 10%",
+    "uppaal": "A[] (Drone.battery < 10 imply Drone.returning_to_base)",
+    "pattern": "safety_immediate_response",
+    "text": "Example: Drone must return to base when battery is below 10%. UPPAAL: A[] (Drone.battery < 10 imply Drone.returning_to_base). Pattern: safety_immediate_response. Uses A[] with imply for immediate safety response."
+  },
+  {
+    "id": "c002",
+    "type": "example",
+    "nl": "Robot must stop immediately when obstacle is detected",
+    "uppaal": "A[] (Robot.obstacle_detected imply Robot.stopped)",
+    "pattern": "safety_immediate_response",
+    "text": "Example: Robot must stop immediately when obstacle is detected. UPPAAL: A[] (Robot.obstacle_detected imply Robot.stopped). Pattern: safety_immediate_response."
+  },
+  {
+    "id": "c003",
+    "type": "example",
+    "nl": "Once scanning is done, UGV will eventually collect the container",
+    "uppaal": "Drone.scanning_done --> UGV.collecting",
+    "pattern": "sequential_workflow",
+    "text": "Example: Once scanning is done, UGV will eventually collect the container. UPPAAL: Drone.scanning_done --> UGV.collecting. Pattern: sequential_workflow. Uses --> for sequential trigger."
+  },
+  {
+    "id": "c004",
+    "type": "example",
+    "nl": "Both drones will eventually complete their missions",
+    "uppaal": "A<> (DroneA.mission_complete && DroneB.mission_complete)",
+    "pattern": "eventual_completion",
+    "text": "Example: Both drones will eventually complete their missions. UPPAAL: A<> (DroneA.mission_complete && DroneB.mission_complete). Pattern: eventual_completion. Uses A<> for liveness."
+  },
+  {
+    "id": "c005",
+    "type": "example",
+    "nl": "It's possible for both robots to reach the charging station",
+    "uppaal": "E<> (RobotA.at_charging_station && RobotB.at_charging_station)",
+    "pattern": "existential_reachability",
+    "text": "Example: It is possible for both robots to reach the charging station. UPPAAL: E<> (RobotA.at_charging_station && RobotB.at_charging_station). Pattern: existential_reachability."
+  },
+  {
+    "id": "c006",
+    "type": "example",
+    "nl": "System never allows operation with high vibration",
+    "uppaal": "A[] not (vibration > 5.0 && System.operating)",
+    "pattern": "forbidden_state",
+    "text": "Example: System never allows operation with high vibration. UPPAAL: A[] not (vibration > 5.0 && System.operating). Pattern: forbidden_state. Uses A[] not to forbid dangerous state."
+  },
+  {
+    "id": "c007",
+    "type": "example",
+    "nl": "Visibility below 30% causes both drones to surface",
+    "uppaal": "(visibility < 30) --> (DroneA.at_surface && DroneB.at_surface)",
+    "pattern": "conditional_response",
+    "text": "Example: Visibility below 30% causes both drones to surface. UPPAAL: (visibility < 30) --> (DroneA.at_surface && DroneB.at_surface). Pattern: conditional_response."
+  },
+  {
+    "id": "c008",
+    "type": "example",
+    "nl": "PickerBot aborts picking when load exceeds limit",
+    "uppaal": "A[] (PickerBot.load > limit imply not PickerBot.picking)",
+    "pattern": "safety_immediate_response",
+    "text": "Example: PickerBot aborts picking when load exceeds limit. UPPAAL: A[] (PickerBot.load > limit imply not PickerBot.picking). Pattern: safety_immediate_response."
+  },
+  {
+    "id": "c009",
+    "type": "example",
+    "nl": "After inspection finishes, welder starts welding",
+    "uppaal": "InspectorDrone.inspection_complete --> Welder.welding",
+    "pattern": "sequential_workflow",
+    "text": "Example: After inspection finishes, welder starts welding. UPPAAL: InspectorDrone.inspection_complete --> Welder.welding. Pattern: sequential_workflow."
+  },
+  {
+    "id": "c010",
+    "type": "example",
+    "nl": "Robot cannot move while charging",
+    "uppaal": "A[] not (Robot.charging && Robot.moving)",
+    "pattern": "forbidden_state",
+    "text": "Example: Robot cannot move while charging. UPPAAL: A[] not (Robot.charging && Robot.moving). Pattern: forbidden_state."
+  },
+  {
+    "id": "c011",
+    "type": "example",
+    "nl": "System eventually reaches stable state",
+    "uppaal": "A<> System.stable",
+    "pattern": "eventual_completion",
+    "text": "Example: System eventually reaches stable state. UPPAAL: A<> System.stable. Pattern: eventual_completion."
+  },
+  {
+    "id": "c012",
+    "type": "example",
+    "nl": "When battery is low, robot goes to charging station",
+    "uppaal": "(Robot.battery < 20) --> Robot.at_charging_station",
+    "pattern": "conditional_response",
+    "text": "Example: When battery is low, robot goes to charging station. UPPAAL: (Robot.battery < 20) --> Robot.at_charging_station. Pattern: conditional_response."
+  },
+  {
+    "id": "c013",
+    "type": "example",
+    "nl": "Welder pauses when temperature exceeds 100 degrees",
+    "uppaal": "A[] (Welder.temperature > 100 imply Welder.paused)",
+    "pattern": "safety_immediate_response",
+    "text": "Example: Welder pauses when temperature exceeds 100 degrees. UPPAAL: A[] (Welder.temperature > 100 imply Welder.paused). Pattern: safety_immediate_response."
+  },
+  {
+    "id": "c014",
+    "type": "example",
+    "nl": "Can the drone reach the target location",
+    "uppaal": "E<> Drone.at_target",
+    "pattern": "existential_reachability",
+    "text": "Example: Can the drone reach the target location. UPPAAL: E<> Drone.at_target. Pattern: existential_reachability."
+  },
+  {
+    "id": "c015",
+    "type": "example",
+    "nl": "System never deadlocks",
+    "uppaal": "A[] not deadlock",
+    "pattern": "forbidden_state",
+    "text": "Example: System never deadlocks. UPPAAL: A[] not deadlock. Pattern: forbidden_state."
+  },
+  {
+    "id": "c016",
+    "type": "example",
+    "nl": "All inspection tasks will eventually be completed",
+    "uppaal": "A<> InspectionBot.all_tasks_done",
+    "pattern": "eventual_completion",
+    "text": "Example: All inspection tasks will eventually be completed. UPPAAL: A<> InspectionBot.all_tasks_done. Pattern: eventual_completion."
+  },
+  {
+    "id": "c017",
+    "type": "example",
+    "nl": "Robot will eventually return to base",
+    "uppaal": "A<> Robot.at_base",
+    "pattern": "eventual_completion",
+    "text": "Example: Robot will eventually return to base. UPPAAL: A<> Robot.at_base. Pattern: eventual_completion."
+  },
+  {
+    "id": "c018",
+    "type": "example",
+    "nl": "Two robots cannot occupy same position simultaneously",
+    "uppaal": "A[] not (RobotA.position == RobotB.position)",
+    "pattern": "forbidden_state",
+    "text": "Example: Two robots cannot occupy same position simultaneously. UPPAAL: A[] not (RobotA.position == RobotB.position). Pattern: forbidden_state."
+  },
+  {
+    "id": "c019",
+    "type": "example",
+    "nl": "If error detected, system enters recovery mode",
+    "uppaal": "System.error_detected --> System.recovery_mode",
+    "pattern": "conditional_response",
+    "text": "Example: If error detected, system enters recovery mode. UPPAAL: System.error_detected --> System.recovery_mode. Pattern: conditional_response."
+  },
+  {
+    "id": "c020",
+    "type": "example",
+    "nl": "Charging completes then robot resumes operation",
+    "uppaal": "Robot.charging_complete --> Robot.operating",
+    "pattern": "sequential_workflow",
+    "text": "Example: Charging completes then robot resumes operation. UPPAAL: Robot.charging_complete --> Robot.operating. Pattern: sequential_workflow."
+  },
+  {
+    "id": "c021",
+    "type": "example",
+    "nl": "Drone must stop after 10 minutes of flying",
+    "uppaal": "A[] (Drone.flying imply clock <= 10)",
+    "pattern": "time_bounded_constraint",
+    "text": "Example: Drone must stop after 10 minutes of flying. UPPAAL: A[] (Drone.flying imply clock <= 10). Pattern: time_bounded_constraint. Clock enforces upper time bound."
+  },
+  {
+    "id": "c022",
+    "type": "example",
+    "nl": "Robot must reach base within 20 seconds when battery is low",
+    "uppaal": "A[] (Robot.battery < 10 && not Robot.at_base imply clock <= 20)",
+    "pattern": "time_bounded_constraint",
+    "text": "Example: Robot must reach base within 20 seconds when battery is low. UPPAAL: A[] (Robot.battery < 10 && not Robot.at_base imply clock <= 20). Pattern: time_bounded_constraint."
+  },
+  {
+    "id": "c023",
+    "type": "example",
+    "nl": "System must respond to alarm within 5 seconds",
+    "uppaal": "A[] (System.alarm_active && not System.responded imply clock <= 5)",
+    "pattern": "time_bounded_constraint",
+    "text": "Example: System must respond to alarm within 5 seconds. UPPAAL: A[] (System.alarm_active && not System.responded imply clock <= 5). Pattern: time_bounded_constraint."
+  },
+  {
+    "id": "c024",
+    "type": "example",
+    "nl": "Charging must complete within 30 minutes",
+    "uppaal": "A[] (Robot.charging imply clock <= 30)",
+    "pattern": "time_bounded_constraint",
+    "text": "Example: Charging must complete within 30 minutes. UPPAAL: A[] (Robot.charging imply clock <= 30). Pattern: time_bounded_constraint."
+  },
+  {
+    "id": "c025",
+    "type": "example",
+    "nl": "Emergency stop must occur within 2 seconds of collision detection",
+    "uppaal": "A[] (collision_detected && not emergency_stopped imply clock <= 2)",
+    "pattern": "time_bounded_constraint",
+    "text": "Example: Emergency stop must occur within 2 seconds of collision detection. UPPAAL: A[] (collision_detected && not emergency_stopped imply clock <= 2). Pattern: time_bounded_constraint."
+  },
+  {
+    "id": "c026",
+    "type": "example",
+    "nl": "All paths guarantee the robot can reach the safe zone",
+    "uppaal": "A<> Robot.at_safe_zone",
+    "pattern": "universal_reachability",
+    "text": "Example: All paths guarantee the robot can reach the safe zone. UPPAAL: A<> Robot.at_safe_zone. Pattern: universal_reachability."
+  },
+  {
+    "id": "c027",
+    "type": "example",
+    "nl": "Every execution path allows the drone to return home",
+    "uppaal": "A<> Drone.at_home",
+    "pattern": "universal_reachability",
+    "text": "Example: Every execution path allows the drone to return home. UPPAAL: A<> Drone.at_home. Pattern: universal_reachability."
+  },
+  {
+    "id": "c028",
+    "type": "example",
+    "nl": "System is guaranteed to be able to reach idle state",
+    "uppaal": "A<> System.idle",
+    "pattern": "universal_reachability",
+    "text": "Example: System is guaranteed to be able to reach idle state. UPPAAL: A<> System.idle. Pattern: universal_reachability."
+  },
+  {
+    "id": "c029",
+    "type": "example",
+    "nl": "Whenever battery drops below 10%, robot will start returning to base",
+    "uppaal": "(Robot.battery < 10) --> Robot.at_base",
+    "pattern": "conditional_response",
+    "text": "Example: Whenever battery drops below 10%, robot will start returning to base. UPPAAL: (Robot.battery < 10) --> Robot.at_base. Pattern: conditional_response. Similar wording to safety requirement but encoded as eventual response."
+  },
+  {
+    "id": "c030",
+    "type": "example",
+    "nl": "Robot must reach base within 15 seconds once battery is below 10%",
+    "uppaal": "A[] (Robot.battery < 10 && not Robot.at_base imply clock <= 15)",
+    "pattern": "time_bounded_constraint",
+    "text": "Example: Robot must reach base within 15 seconds once battery is below 10%. UPPAAL: A[] (Robot.battery < 10 && not Robot.at_base imply clock <= 15). Pattern: time_bounded_constraint. Uses deadline semantics rather than immediate safety implication."
+  }
+]

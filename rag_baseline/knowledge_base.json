@@ -390,6 +390,24 @@
       "pattern": "universal_reachability",
       "keywords": ["system", "guaranteed", "able", "reach", "idle", "state"],
       "text": "Example: System is guaranteed to be able to reach idle state. UPPAAL: A<> System.idle. Pattern: universal_reachability."
+    },
+    {
+      "id": "c029",
+      "type": "example",
+      "nl": "Whenever battery drops below 10%, robot will start returning to base",
+      "uppaal": "(Robot.battery < 10) --> Robot.at_base",
+      "pattern": "conditional_response",
+      "keywords": ["whenever", "battery", "below", "10", "robot", "will", "start", "returning", "base"],
+      "text": "Example: Whenever battery drops below 10%, robot will start returning to base. UPPAAL: (Robot.battery < 10) --> Robot.at_base. Pattern: conditional_response. Similar wording to safety requirement but encoded as eventual response."
+    },
+    {
+      "id": "c030",
+      "type": "example",
+      "nl": "Robot must reach base within 15 seconds once battery is below 10%",
+      "uppaal": "A[] (Robot.battery < 10 && not Robot.at_base imply clock <= 15)",
+      "pattern": "time_bounded_constraint",
+      "keywords": ["robot", "must", "reach", "base", "within", "15", "seconds", "battery", "below", "10"],
+      "text": "Example: Robot must reach base within 15 seconds once battery is below 10%. UPPAAL: A[] (Robot.battery < 10 && not Robot.at_base imply clock <= 15). Pattern: time_bounded_constraint. Uses deadline semantics rather than immediate safety implication."
     }
   ]
 }
